@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xooml:fragment xsi:schemaLocation="http://kftf.ischool.washington.edu/xmlns/xooml http://kftf.ischool.washington.edu/XMLschema/0.41/XooML.xsd" schemaVersion="0.41" defaultApplication="" relatedItem="\\students.ischool.washington.edu\home\zaryaf\Projects\859dab04-ac93-4ccc-a3fb-a226a2ac4d93\" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xooml="http://kftf.ischool.washington.edu/xmlns/xooml">
+  <xooml:fragmentToolAttributes xmlns="http://kftf.ischool.washington.edu/xmlns/planz" toolVersion="1.0.7" toolName="Planz" startDate="1/1/0001 12:00 AM" dueDate="1/1/0001 12:00 AM" showAssociationMarkedDone="False" showAssociationMarkedDefer="False" />
+  <xooml:association ID="910e3b6c-3155-48c5-8e19-092707b41934" associatedItem="" associatedIcon="" associatedXooMLFragment="" levelOfSynchronization="0" displayText="sdfsdfsdf" openWithDefault="" createdBy="planz" createdOn="3/29/2012 5:06 PM" modifiedBy="" modifiedOn="3/29/2012 5:09 PM">
+    <xooml:associationToolAttributes xmlns="http://kftf.ischool.washington.edu/xmlns/planz" type="Note" associatedItemType="None" isVisible="True" isCollapsed="True" status="Normal" powerDStatus="None" powerDTimeStamp="3/29/2012 5:06 PM" fontColor="Black" flagStatus="Normal" />
+  </xooml:association>
+</xooml:fragment>

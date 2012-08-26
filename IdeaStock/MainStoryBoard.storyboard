@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11E53" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="C4k-Gx-gPL">
+    <dependencies>
+        <deployment defaultVersion="1296" identifier="iOS"/>
+        <development defaultVersion="4200" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
+    </dependencies>
+    <scenes>
+        <!--Main Screen Dropbox View Controller-->
+        <scene sceneID="cXb-B5-PaF">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jc8-vf-MPm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="C4k-Gx-gPL" customClass="MainScreenDropboxViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleAspectFit" id="Jx3-sE-JAL">
+                        <rect key="frame" x="0.0" y="20" width="1024" height="748"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="light grey.png" id="2ZB-NG-Blw">
+                                <rect key="frame" x="0.0" y="22" width="1024" height="726"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" barStyle="blackOpaque" id="1Wk-zS-ESI">
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="ok3-Um-hEz"/>
+                                    <barButtonItem title="Boards" style="plain" id="SvH-0t-LUt"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="OPE-pZ-Jrg">
+                                        <connections>
+                                            <segue destination="9HL-37-GHp" kind="modal" identifier="bulletinBoardSegue" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="eq8-da-VHb"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="refresh" id="fbB-rF-pm9">
+                                        <connections>
+                                            <action selector="refreshPressed:" destination="C4k-Gx-gPL" id="VKj-MQ-8qa"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="add" id="eTp-YV-1ie">
+                                        <connections>
+                                            <action selector="AddPressed:" destination="C4k-Gx-gPL" id="xV9-YA-tBA"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottomLeft" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsVerticalScrollIndicator="NO" id="1TM-Gl-tht">
+                                <rect key="frame" x="0.0" y="44" width="1024" height="704"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="0.96406502660000004" green="0.98895901009999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <outlet property="mainView" destination="1TM-Gl-tht" id="1FM-f8-fYU"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="-655" y="-268"/>
+        </scene>
+        <!--Bulletin Board View Controller-->
+        <scene sceneID="Ziq-OW-pgx">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V18-oK-TF6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="9HL-37-GHp" customClass="BulletinBoardViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4HH-7a-1rX">
+                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="felt-red-ipad-background.jpg" id="jKz-DT-mXB">
+                                <rect key="frame" x="0.0" y="27" width="768" height="983"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" minimumZoomScale="0.20000000000000001" maximumZoomScale="2" id="QXW-F8-5QD">
+                                <rect key="frame" x="0.0" y="44" width="768" height="948"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="whiteLarge" id="zuS-Ma-FGe">
+                                        <rect key="frame" x="366" y="455" width="37" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <color key="color" cocoaTouchSystemColor="darkTextColor"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.96406502660000004" green="0.98895901009999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </scrollView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" barStyle="blackOpaque" id="CU7-1N-ESK">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <barButtonItem systemItem="done" id="W7q-Bd-jzc">
+                                        <connections>
+                                            <action selector="backPressed:" destination="9HL-37-GHp" id="41O-w1-YXX"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="refresh" id="wCc-Zs-s0c">
+                                        <connections>
+                                            <action selector="refreshPressed:" destination="9HL-37-GHp" id="1Av-Qn-P72"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="camera" id="Rwb-Kb-IkV">
+                                        <connections>
+                                            <action selector="cameraPressed:" destination="9HL-37-GHp" id="HTK-FH-5iZ"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="TR9-zr-hXe"/>
+                                    <barButtonItem title="w" style="plain" id="50z-Y5-eEZ"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="yKh-N0-ML3"/>
+                                    <barButtonItem title="Expand" id="3Cp-b8-UFf">
+                                        <connections>
+                                            <action selector="expandPressed:" destination="9HL-37-GHp" id="H7n-CG-mWp"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="trash" id="x4X-3T-v6V">
+                                        <color key="tintColor" red="0.77096619897959184" green="0.0085596043072421971" blue="0.025293316020285592" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="deletePressed:" destination="9HL-37-GHp" id="xZZ-fC-Lev"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="zuS-Ma-FGe" id="QgH-8g-G9l"/>
+                        <outlet property="bulletinboardView" destination="QXW-F8-5QD" id="UDZ-ZE-qFi"/>
+                        <outlet property="label" destination="50z-Y5-eEZ" id="LfV-mz-eKi"/>
+                        <outlet property="toolbar" destination="CU7-1N-ESK" id="BfB-Yf-6q1"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="597" y="-1397"/>
+        </scene>
+        <!--Stack View Controller-->
+        <scene sceneID="bwM-MX-fXe">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FMP-3d-JA3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="StackView" modalPresentationStyle="formSheet" id="roQ-DY-ZM6" customClass="StackViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Y8o-xz-LjN">
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Background_Blue.jpg" id="lJa-BH-sdI">
+                                <rect key="frame" x="0.0" y="21" width="540" height="619"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" id="zTy-aI-wC0">
+                                <rect key="frame" x="0.0" y="0.0" width="540" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem systemItem="done" id="Nkp-pn-qUR">
+                                        <connections>
+                                            <action selector="backPressed:" destination="roQ-DY-ZM6" id="Zk0-xD-RIM"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="1nr-ws-QbI"/>
+                                    <barButtonItem title="Unstack" id="YGo-ca-dtz">
+                                        <connections>
+                                            <action selector="unstackPressed:" destination="roQ-DY-ZM6" id="3Mc-ZV-cTV"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="trash" id="TKt-9e-sZG">
+                                        <color key="tintColor" red="0.77096619899999996" green="0.0085596043070000002" blue="0.025293316020000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="deletePressed:" destination="roQ-DY-ZM6" id="yCh-gs-flT"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" id="jWv-aN-rSC">
+                                <rect key="frame" x="0.0" y="42" width="549" height="578"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96406502660000004" green="0.98895901009999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <value key="contentSizeForViewInPopover" type="size" width="900" height="540"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <modalFormSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="stackView" destination="jWv-aN-rSC" id="e30-Gj-JFp"/>
+                        <outlet property="toolbar" destination="zTy-aI-wC0" id="GNj-II-bV7"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1872" y="-1065"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Background_Blue.jpg" width="1920" height="1200"/>
+        <image name="felt-red-ipad-background.jpg" width="1024" height="1024"/>
+        <image name="light grey.png" width="1024" height="768"/>
+    </resources>
+    <classes>
+        <class className="BulletinBoardViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BulletinBoardViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="bulletinboardView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="label" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="MainScreenDropboxViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MainScreenDropboxViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mainView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="prototypeView" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="StackViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StackViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="stackView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+    </classes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>

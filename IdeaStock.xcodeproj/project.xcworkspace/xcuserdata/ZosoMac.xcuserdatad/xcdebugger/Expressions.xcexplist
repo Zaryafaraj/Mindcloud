@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[DropboxDataModel restClient]:DropboxDataModel.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[AssociativeBulletinBoard initiateNoteContent:forNoteID:andName:andProperties:]:AssociativeBulletinBoard.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.noteContents">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[AssociativeBulletinBoard saveBulletinBoard]:AssociativeBulletinBoard.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.noteContents">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[DropboxTests setUp]:DropboxTests.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[dataModel isKindOfClass:[DropboxDataModel class]]">
+            </PersistentString>
+            <PersistentString
+               value = "[NSString class]">
+            </PersistentString>
+            <PersistentString
+               value = "[DropboxDataModel class]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[DropBoxAssociativeBulletinBoard initBulletinBoardFromXoomlWithDatamodel:andName:]:DropBoxAssociativeBulletinBoard.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "(DropboxDataModel *) self.dataModel">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "+[XoomlNoteParser XoomlNoteFromXML:]:XoomlNoteParser.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[document root]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[DropboxDataModel getBulletinBoardAsynch:]:DropboxDataModel.m">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

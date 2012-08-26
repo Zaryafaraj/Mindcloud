@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xooml:fragment
+    xsi:schemaLocation="http://kftf.ischool.washington.edu/xmlns/xooml http://kftf.ischool.washington.edu/XMLschema/0.41/XooML.xsd"
+    schemaVersion="0.41" defaultApplication=""
+    relatedItem="\\students.ischool.washington.edu\home\zaryaf\Projects\57b4075e-1eef-431a-90e5-b460ec05d19d\"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xooml="http://kftf.ischool.washington.edu/xmlns/xooml"
+    xmlns:is="http://ischool.uw.edu/xmlns/ideastock">
+    <xooml:association ID="d391c321-4f25-4128-8a82-13dd5f268034" associatedItem="Note1"
+        associatedIcon="" associatedXooMLFragment="" levelOfSynchronization="1" displayText="Note1"
+        openWithDefault="" createdBy="IdeaStock" createdOn="3/29/2012 5:05 PM" modifiedBy=""
+        modifiedOn="3/29/2012 5:06 PM">
+        <xooml:associationToolAttributes xmlns="http://ischool.uw.edu/xmlns/ideastock"
+            ID="d391c321-4f25-4128-8a82-13dd5f268134" type="position" toolName="IdeaStock"
+            toolVersion="0.1">
+            <is:position positionX="200" positionY="200" isVisible="true"/>
+        </xooml:associationToolAttributes>
+        <xooml:associationToolAttributes xmlns="http://ischool.uw.edu/xmlns/ideastock"
+            ID="d391c321-4f25-4128-8a82-13dd5f268035" type="linkage" name="link1" toolName="IdeaStock"
+            toolVersion="0.1">
+            <is:note refID="859dab04-ac93-4ccc-a3fb-a226a2ac4d93"/>
+        </xooml:associationToolAttributes>
+    </xooml:association>
+    <xooml:association ID="859dab04-ac93-4ccc-a3fb-a226a2ac4d93" associatedItem="Note2"
+        associatedIcon="" associatedXooMLFragment="" levelOfSynchronization="1" displayText="Note2"
+        openWithDefault="" createdBy="IdeaStock" createdOn="3/29/2012 5:05 PM" modifiedBy=""
+        modifiedOn="3/29/2012 5:07 PM">
+        <xooml:associationToolAttributes xmlns="http://ischool.uw.edu/xmlns/ideastock"
+            id="d391c321-4f25-4128-8a82-13dd5f263134" type="position" toolName="IdeaStock"
+            toolVersion="0.1">
+            <is:position positionX="300" positionY="400" isVisible="true"/>
+        </xooml:associationToolAttributes>
+        <xooml:associationToolAttributes xmlns="http://ischool.uw.edu/xmlns/ideastock"
+            ID="d391c321-4f25-4128-8a82-13dd5f269035" type="linkage" name="link1" toolName="IdeaStock"
+            toolVersion="0.1">
+            <is:note refID="d391c321-4f25-4128-8a82-13dd5f268034"/>
+        </xooml:associationToolAttributes>
+    </xooml:association>
+    <xooml:fragmentToolAttributes xmlns="http://ischool.uw.edu/xmlns/IdeaStuck"
+        id="859ccc04-ac93-4ccc-a3fb-a226a2ac4d93" type="stacking" name="Stacking1" toolName="IdeaStock"
+        toolVersion="0.1">
+        <is:note refID="d391c321-4f25-4128-8a82-13dd5f268034"/>
+        <is:note refID="859dab04-ac93-4ccc-a3fb-a226a2ac4d93"/>
+    </xooml:fragmentToolAttributes>
+    <xooml:fragmentToolAttributes xmlns="http://ischool.uw.edu/xmlns/IdeaStuck"
+        id="859ccc04-ac93-4ccc-a3fb-a226a2a33d93" type="stacking" name="Stacking2" toolName="IdeaStock"
+        toolVersion="0.1">
+        <is:note refID="d391c321-4f25-4128-8a82-13dd5f268034"/>
+        <is:note refID="859dab04-ac93-4ccc-a3fb-a226a2ac4d93"/>
+    </xooml:fragmentToolAttributes>
+    <xooml:fragmentToolAttributes xmlns="http://ischool.uw.edu/xmlns/IdeaStuck"
+        id="859ccc04-ac93-4ccc-a3fb-a226a2ag4d94" type="grouping" name="Grouping1" toolName="IdeaStock"
+        toolVersion="0.1">
+        <is:note refID="d391c321-4f25-4128-8a82-13dd5f268034"/>
+        <is:note refID="859dab04-ac93-4ccc-a3fb-a226a2ac4d93"/>
+    </xooml:fragmentToolAttributes>
+    <xooml:fragmentToolAttributes xmlns="http://ischool.uw.edu/xmlns/IdeaStuck"
+        id="859ccc04-ac93-4ccc-a3fb-a226a2aa4d95" type="grouping" name="Grouping2" toolName="IdeaStock"
+        toolVersion="0.1">
+        <is:note refID="d391c321-4f25-4128-8a82-13dd5f268034"/>
+        <is:note refID="859dab04-ac93-4ccc-a3fb-a226a2ac4d93"/>
+    </xooml:fragmentToolAttributes>
+</xooml:fragment>
