@@ -40,6 +40,7 @@
         return YES;
     }
     // Add whatever other url handling code your app requires here
+    //TODO remove : Checking the new branch from xcode
     return NO;
 }
 							
