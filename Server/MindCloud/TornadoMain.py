@@ -6,13 +6,16 @@ import tornado.httpclient
 
 from CollectionHandler import CollectionHandler
 from AccountHandler import AccountHandler
+from AuthorizationHandler import AuthorizationHandler
 
 class Application(tornado.web.Application):
 
     def __init__(self):
         handlers = [
             (r"/Collections/(\w+)", CollectionHandler),
-            (r"/Collections/", AccountHandler)
+            (r"/Collections/", AccountHandler),
+            #FIXME is this restful ?
+            (r"/Authorize/", AuthorizationHandler)
         ]
         tornado.web.Application.__init__(self, handlers)
 

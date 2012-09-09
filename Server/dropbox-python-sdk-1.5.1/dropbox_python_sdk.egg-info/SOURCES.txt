@@ -1,6 +1,7 @@
 CHANGELOG
 MANIFEST.in
 README
+setup.cfg
 setup.py
 dropbox/__init__.py
 dropbox/client.py
