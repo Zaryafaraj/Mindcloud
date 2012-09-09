@@ -4,15 +4,23 @@ import tornado.options
 import tornado.web
 import tornado.httpclient
 
-from tornado.options import define, options
 from CollectionHandler import CollectionHandler
+from AccountHandler import AccountHandler
 
-define("port",default = 8000, help ="Run on the given port", type=int)
+class Application(tornado.web.Application):
+
+    def __init__(self):
+        handlers = [
+            (r"/Collections/(\w+)", CollectionHandler),
+            (r"/Collections/", AccountHandler)
+        ]
+        tornado.web.Application.__init__(self, handlers)
 
 if __name__ == "__main__":
     tornado.options.parse_command_line()
-    app = tornado.web.Application(handlers=[(r"/Collections/(\w+)", CollectionHandler)])
-    http_server = tornado.httpserver.HTTPServer(app)
-    http_server.listen(options.port)
+
+    app = Application()
+    server = tornado.httpserver.HTTPServer(app)
+    server.listen(8000)
     tornado.ioloop.IOLoop.instance().start()
 
