@@ -20,3 +20,17 @@ Server/.idea/vcs.xml
 Server/.idea/scopes/scope_settings.xml
 
 Server/.idea/modules.xml
+
+.DS_Store
+
+Client/IdeaStock.xcodeproj/project.xcworkspace/xcuserdata/afathali.xcuserdatad/UserInterfaceState.xcuserstate
+
+Server/.DS_Store
+
+*.pyc
+
+*.pyc
+
+Server/dropbox-python-sdk-1.5.1/.DS_Store
+
+Server/dropbox-python-sdk-1.5.1/dropbox/.DS_Store
