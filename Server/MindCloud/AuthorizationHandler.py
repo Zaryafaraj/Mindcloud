@@ -6,9 +6,11 @@ from DropboxHelper import DropboxHelper
 class AuthorizationHandler(tornado.web.RequestHandler):
 
     def get(self):
-        #FIXME what is the cost of making this object ? Is it better to use a static function
+
+        #FIXME what is the cost of making this object ?
+        #Is it better to use a static function
         dropbox_helper = DropboxHelper()
-        url = dropbox_helper.getAuthorizationURL()
+        url = dropbox_helper.getAccessToken()
         self.write(url)
         print "get"
 
