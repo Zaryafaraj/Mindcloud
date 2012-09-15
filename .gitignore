@@ -40,3 +40,7 @@ Server/dropbox-python-sdk-1.5.1/dropbox/.DS_Store
 Server/MindCloud/AuthorizationHandler.pyc
 
 Server/MindCloud/DropboxHelper.pyc
+
+Mongodb/.DS_Store
+
+Client/.DS_Store
