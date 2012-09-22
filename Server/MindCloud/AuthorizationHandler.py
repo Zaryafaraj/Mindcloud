@@ -1,11 +1,15 @@
-import json
+"""
+The class for handling authentication requests.
+"""
+
 from threading import Timer
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
 from dropbox import session
-import Accounts
+from Accounts import Accounts
+import json
 
 class AuthorizationHandler(tornado.web.RequestHandler):
 
@@ -20,7 +24,6 @@ class AuthorizationHandler(tornado.web.RequestHandler):
     #Sweep candidates
     sweep_candidates = []
 
-    account_store = Accounts.Accounts()
     timer = None
 
     def sweep(self):
@@ -40,22 +43,35 @@ class AuthorizationHandler(tornado.web.RequestHandler):
         #clone the remaining active requests to delete in the next sweep
         self.sweep_candidates = list(self.active_requests.keys())
 
-        #The timer stops after this function is finished. Create a new one if there are items still remaining
-        #TODO there should be a better way to have a timer automatically call this function periodically
+        #The timer stops after this function is finished.
+        #Create a new one if there are items still remaining
+        #TODO there should be a better way to have a timer
+        #automatically call this function periodically
         if len(self.active_requests) > 0:
-            self.timer = Timer(10,self.sweep)
+            self.timer = Timer(10, self.sweep)
             self.timer.start()
         #No need for timer when there are no pending requests
         else:
             self.timer = None
 
     def get(self, account_id):
+        """
+        Authorize a single user.
+        If user has been authorized before return authorized .
+        Otherwise return unauthorized.
+        When unauthorized is issued the user is added to a pending list.
+        The user is removed from the pending list when he indicates
+        that he has authorized mindcloud by issuing a post on this class
+        After some period of time the users who have not answered the
+        unauthorized call will be removed from the pending list
+        """
 
         #FIXME what is the cost of making this object ?
         #Is it better to use a static function
         sess = session.DropboxSession(self.__APP_KEY,
                 self.__APP_SECRET, self.__ACCESS_TYPE)
-        if self.account_store.doesAccountExist():
+
+        if Accounts.does_account_exist(account_id):
             json_str = json.dumps({'account_status':'authorized'})
             self.write(json_str)
         else:
@@ -65,11 +81,9 @@ class AuthorizationHandler(tornado.web.RequestHandler):
 
             #lazily initialize sweep timer
             if not self.timer:
-                self.timer = Timer(self.__SWEEP_PERIOD,self.sweep)
+                self.timer = Timer(self.__SWEEP_PERIOD, self.sweep)
                 self.timer.start()
 
-            print "pending authorizations: "
-            print self.active_requests
             url = sess.build_authorize_url(request_token)
             json_str = json.dumps({'account_status':'unauthorized', 'url':url})
             self._generate_headers()
@@ -81,7 +95,7 @@ class AuthorizationHandler(tornado.web.RequestHandler):
                 self.__APP_SECRET, self.__ACCESS_TYPE)
             request_token = self.active_requests[account_id]
             access_token = sess.obtain_access_token(request_token)
-            self.account_store.addAccount(account_id, access_token)
+            Accounts.add_account(account_id, access_token)
             #remove the pending request from the dictionary
             del self.active_requests[account_id]
 
