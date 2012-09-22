@@ -533,9 +533,9 @@
                                                object:nil];
     [self.mainView setBackgroundColor: [UIColor clearColor]];
     
-    if (![[DBSession sharedSession] isLinked]) {
+   /* if (![[DBSession sharedSession] isLinked]) {
         [[DBSession sharedSession] link];
-    } 
+    }*/ 
     
     
     [self.mainView setContentSize:self.mainView.bounds.size];

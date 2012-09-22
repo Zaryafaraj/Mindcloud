@@ -58,9 +58,9 @@ loadMetadataFailedWithError:(NSError *)error {
 {
     [super viewDidLoad];
     //setup dropbox
-    if (![[DBSession sharedSession] isLinked]) {
+  /*  if (![[DBSession sharedSession] isLinked]) {
         [[DBSession sharedSession] link];
-    }
+    }*/
     
     
     

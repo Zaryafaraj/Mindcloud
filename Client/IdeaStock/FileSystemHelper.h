@@ -19,4 +19,7 @@
 +(NSString *) getPathForImageWithName: (NSString *) imgName
                           forNoteName: (NSString *) noteName
                       inBulletinBoard: (NSString *) bulletinBoardName;
+
++(BOOL) doesFileExist: (NSString *) path;
+
 @end

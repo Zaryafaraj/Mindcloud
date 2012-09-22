@@ -44,3 +44,5 @@ Server/MindCloud/DropboxHelper.pyc
 Mongodb/.DS_Store
 
 Client/.DS_Store
+
+*.xcbkptlist

@@ -8,7 +8,7 @@
 
 #import "IdeaStockAppDelegate.h"
 #import <DropboxSDK/DropboxSDK.h>
-
+#import "UserPropertiesHelper.h"
 @implementation IdeaStockAppDelegate
 
 @synthesize window = _window;
@@ -18,19 +18,12 @@
 {
     // Override point for customization after application launch.
     
-
-    //setup Dropbox
-    DBSession* dbSession =
-    [[DBSession alloc]
-      initWithAppKey:@"h7f38af0ewivq6s"
-      appSecret:@"iiq8oz2lae46mwp"
-      root:kDBRootAppFolder]; // either kDBRootAppFolder or kDBRootDropbox
-    
-    [DBSession setSharedSession:dbSession];
-
+    NSString * userID = [UserPropertiesHelper userID];
+    NSLog(@"userID: %@",userID);
     return YES;
 }
 
+/*
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     if ([[DBSession sharedSession] handleOpenURL:url]) {
         if ([[DBSession sharedSession] isLinked]) {
@@ -42,7 +35,7 @@
     // Add whatever other url handling code your app requires here
     //TODO remove : Checking the new branch from xcode
     return NO;
-}
+}*/
 							
 - (void)applicationWillResignActive:(UIApplication *)application
 {

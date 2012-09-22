@@ -89,4 +89,9 @@
     
 }
 
++(BOOL) doesFileExist:(NSString *)path
+{
+    return [[NSFileManager defaultManager] fileExistsAtPath:path];
+}
+
 @end
