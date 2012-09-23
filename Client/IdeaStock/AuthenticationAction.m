@@ -11,14 +11,16 @@
 @interface AuthenticationAction()
 
 @property (atomic,strong) NSMutableURLRequest * request;
+@property (nonatomic,strong) authentication_callback callback;
 
 @end
 
 @implementation AuthenticationAction
 
 @synthesize request = _request;
+@synthesize callback = _callback;
 
--(id) initWithUserId: (NSString *) userID
+-(id) initWithUserId: (NSString *) userID andCallback: (authentication_callback) callback
 {
     self = [super init];
     
@@ -29,6 +31,7 @@
                                               cachePolicy:NSURLRequestUseProtocolCachePolicy
                                           timeoutInterval:60.0];
     self.request = theRequest;
+    self.callback = callback;
     return self;
 }
 
@@ -41,6 +44,17 @@
     {
         NSLog(@"Failed to connect to %@", self.request.URL);
     }
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    [super connectionDidFinishLoading:connection];
+    NSDictionary * result =  self.getDataAsDictionary;
+    if (result)
+    {
+        self.callback(result);
+    }
+    
 }
 
 

@@ -22,9 +22,26 @@ static Mindcloud * instance;
     return instance;
 }
 
+#define ACCOUNT_STATUS_KEY @"account_status"
+#define UNAUTHORIZED_STATUS @"unauthorized"
+#define AUTHORIZED_STATUS @"authorized"
+
 -(void) authorize: (NSString *) userId
 {
-    MindcloudBaseAction * action = [[AuthenticationAction alloc] initWithUserId:userId];
+    MindcloudBaseAction * action = [[AuthenticationAction alloc] initWithUserId:userId
+                                                                    andCallback:^(NSDictionary * results)
+                                    {
+                                        NSString * accountStatus = [results objectForKey:ACCOUNT_STATUS_KEY];
+                                        if ([accountStatus isEqualToString:UNAUTHORIZED_STATUS])
+                                        {
+                                            
+                                        }
+                                        else
+                                        {
+                                            NSLog(@"Account Auhtorized and ready to use");
+                                        }
+                                    }];
+                                    
     [action execute];
 }
 @end

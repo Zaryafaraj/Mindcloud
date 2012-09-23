@@ -11,6 +11,7 @@
 @interface MindcloudBaseAction()
 
 @property (nonatomic,strong) NSMutableData* receivedData;
+
 @end
 
 @implementation MindcloudBaseAction
@@ -25,6 +26,23 @@
         _receivedData = [NSMutableData data];
     }
     return _receivedData;
+}
+
+-(NSDictionary *) getDataAsDictionary
+{
+    NSError * err;
+    NSDictionary * result = [NSJSONSerialization JSONObjectWithData:self.receivedData
+                                                            options:NSJSONReadingAllowFragments
+                                                              error:&err];
+    if (!result)
+    {
+        NSLog(@"Failed to parse JSON %@",err);
+        return nil;
+    }
+    else
+    {
+        return result;
+    }
 }
 
 #define MINDCLOUD_BASE_URL @"http://localhost:8000/"

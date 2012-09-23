@@ -12,10 +12,13 @@
 
 @property (nonatomic,readonly) NSString * baseURL;
 
+//TODO find a way to make this protected
 /**
  Subclasses should implement the execute method
  */
 - (void) execute;
+
+-(NSDictionary *) getDataAsDictionary;
 
 /* ----------------
  Delegate Methods
