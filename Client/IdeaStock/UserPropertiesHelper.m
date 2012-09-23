@@ -23,6 +23,7 @@ static NSString * user_id;
                                                               NSUserDomainMask, YES) objectAtIndex:0];
     NSString * plistPath = [rootPath stringByAppendingPathComponent:PROPERTIES_LIST_PATH];
     return plistPath;
+    
 }
 +(NSString *) userID{
     

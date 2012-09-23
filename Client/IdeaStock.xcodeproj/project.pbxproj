@@ -81,6 +81,9 @@
 		DB99FFBF160E66870042ED2A /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFBE160E66870042ED2A /* StringUtils.m */; };
 		DB99FFC1160E72D40042ED2A /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC0160E72D40042ED2A /* DropboxSDK.framework */; };
 		DB99FFC3160E73230042ED2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC2160E73230042ED2A /* QuartzCore.framework */; };
+		DB99FFCC160E8ABB0042ED2A /* MindcloudBaseAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFCB160E8ABB0042ED2A /* MindcloudBaseAction.m */; };
+		DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */; };
+		DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF25C160EA1D800C81C25 /* Mindcloud.m */; };
 		DBDD1ABE15CF215A00F55223 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DBDD1ABD15CF215A00F55223 /* libxml2.dylib */; };
 /* End PBXBuildFile section */
 
@@ -212,6 +215,12 @@
 		DB99FFBE160E66870042ED2A /* StringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringUtils.m; sourceTree = "<group>"; };
 		DB99FFC0160E72D40042ED2A /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		DB99FFC2160E73230042ED2A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		DB99FFCA160E8ABB0042ED2A /* MindcloudBaseAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudBaseAction.h; sourceTree = "<group>"; };
+		DB99FFCB160E8ABB0042ED2A /* MindcloudBaseAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudBaseAction.m; sourceTree = "<group>"; };
+		DBBAF257160E9E5000C81C25 /* AuthenticationAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthenticationAction.h; sourceTree = "<group>"; };
+		DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthenticationAction.m; sourceTree = "<group>"; };
+		DBBAF25B160EA1D800C81C25 /* Mindcloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mindcloud.h; sourceTree = "<group>"; };
+		DBBAF25C160EA1D800C81C25 /* Mindcloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mindcloud.m; sourceTree = "<group>"; };
 		DBDD1ABD15CF215A00F55223 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -468,6 +477,8 @@
 				DB99FFB6160E5D3C0042ED2A /* Actions */,
 				DB99FFB3160E5C5D0042ED2A /* UserPropertiesHelper.h */,
 				DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */,
+				DBBAF25B160EA1D800C81C25 /* Mindcloud.h */,
+				DBBAF25C160EA1D800C81C25 /* Mindcloud.m */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -475,6 +486,10 @@
 		DB99FFB6160E5D3C0042ED2A /* Actions */ = {
 			isa = PBXGroup;
 			children = (
+				DB99FFCA160E8ABB0042ED2A /* MindcloudBaseAction.h */,
+				DB99FFCB160E8ABB0042ED2A /* MindcloudBaseAction.m */,
+				DBBAF257160E9E5000C81C25 /* AuthenticationAction.h */,
+				DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -654,6 +669,9 @@
 				D7440ECC157541A500C53F4A /* DropboxAction.m in Sources */,
 				DB99FFB5160E5C5D0042ED2A /* UserPropertiesHelper.m in Sources */,
 				DB99FFBF160E66870042ED2A /* StringUtils.m in Sources */,
+				DB99FFCC160E8ABB0042ED2A /* MindcloudBaseAction.m in Sources */,
+				DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */,
+				DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

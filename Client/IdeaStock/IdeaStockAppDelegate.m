@@ -9,6 +9,8 @@
 #import "IdeaStockAppDelegate.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "UserPropertiesHelper.h"
+#import "Mindcloud.h"
+
 @implementation IdeaStockAppDelegate
 
 @synthesize window = _window;
@@ -19,7 +21,10 @@
     // Override point for customization after application launch.
     
     NSString * userID = [UserPropertiesHelper userID];
-    NSLog(@"userID: %@",userID);
+    //FIXME is it okey to call mindcloud class directly from here
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    [mindcloud authorize:userID];
+    
     return YES;
 }
 

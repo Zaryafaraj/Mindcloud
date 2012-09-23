@@ -22,7 +22,7 @@ class Application(tornado.web.Application):
             (r"/Collections/(\w+)", CollectionHandler),
             (r"/Collections/", AccountHandler),
             #FIXME is this restful ?
-            (r"/Authorize/(\w+)", AuthorizationHandler)
+            (r"/Authorize/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})", AuthorizationHandler)
         ]
         tornado.web.Application.__init__(self, handlers)
 
