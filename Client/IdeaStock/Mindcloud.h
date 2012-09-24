@@ -17,4 +17,6 @@
 
 -(void) authorize:(NSString *) userId;
 
+-(void) authorizationDone:(NSString *) userId;
+
 @end

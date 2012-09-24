@@ -46,3 +46,5 @@ Mongodb/.DS_Store
 Client/.DS_Store
 
 *.xcbkptlist
+
+*.xcexplist

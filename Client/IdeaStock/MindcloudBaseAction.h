@@ -16,7 +16,8 @@
 /**
  Subclasses should implement the execute method
  */
-- (void) execute;
+- (void) executeGET;
+- (void) executePOST;
 
 -(NSDictionary *) getDataAsDictionary;
 

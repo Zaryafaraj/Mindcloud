@@ -35,10 +35,22 @@
     return self;
 }
 
--(void) execute
+-(void) executeGET
 {
     // create the connection with the request
     // and start loading the data
+    //The default method for the request is GET
+    //we expect to recieve JSON
+    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:self.request delegate:self];
+    if (!theConnection)
+    {
+        NSLog(@"Failed to connect to %@", self.request.URL);
+    }
+}
+
+-(void) executePOST
+{
+    [self.request setHTTPMethod:@"POST"];
     NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:self.request delegate:self];
     if (!theConnection)
     {

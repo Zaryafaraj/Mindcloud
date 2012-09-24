@@ -35,8 +35,10 @@ class Accounts:
 
     @staticmethod
     def add_account(account_id, accountInfo):
+        #we store an accountInfo as a pair of key and secret
+        accountTuple = (accountInfo.key,accountInfo.secret)
         account = {Accounts.account_key: account_id,
-                   Accounts.ticket_key:  accountInfo}
+                   Accounts.ticket_key: accountTuple}
         collection = Accounts.get_collection()
         collection.insert(account)
 

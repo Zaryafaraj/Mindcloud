@@ -25,7 +25,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>db-h7f38af0ewivq6s</string>
+				<string>mindcloud</string>
 			</array>
 		</dict>
 	</array>

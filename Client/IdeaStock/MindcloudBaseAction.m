@@ -11,7 +11,7 @@
 @interface MindcloudBaseAction()
 
 @property (nonatomic,strong) NSMutableData* receivedData;
-
+//should be set if the response is not JSON
 @end
 
 @implementation MindcloudBaseAction
@@ -30,22 +30,29 @@
 
 -(NSDictionary *) getDataAsDictionary
 {
-    NSError * err;
-    NSDictionary * result = [NSJSONSerialization JSONObjectWithData:self.receivedData
-                                                            options:NSJSONReadingAllowFragments
-                                                              error:&err];
-    if (!result)
+    if ([self.receivedData length] > 0)
     {
-        NSLog(@"Failed to parse JSON %@",err);
-        return nil;
+        NSError * err;
+        NSDictionary * result = [NSJSONSerialization JSONObjectWithData:self.receivedData
+                                                                options:NSJSONReadingAllowFragments
+                                                                  error:&err];
+        if (!result)
+        {
+            NSLog(@"Failed to parse JSON %@",err);
+            return nil;
+        }
+        else
+        {
+            return result;
+        }
     }
     else
     {
-        return result;
+        return [NSDictionary dictionary];
     }
 }
 
-#define MINDCLOUD_BASE_URL @"http://localhost:8000/"
+#define MINDCLOUD_BASE_URL @"http://192.168.1.11:8000/"
 -(NSString *) baseURL
 {
     return MINDCLOUD_BASE_URL;
@@ -63,7 +70,12 @@
     [self.receivedData setLength:0];
 }
 
--(void) execute
+-(void) executeGET
+{
+    return;
+}
+
+-(void) executePOST
 {
     return;
 }
@@ -87,7 +99,10 @@
     // do something with the data
     // receivedData is declared as a method instance elsewhere
     NSLog(@"Succeeded! Received %d bytes of data",[self.receivedData length]);
-    NSString *dataStr = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", dataStr);
+    if ([self.receivedData length] > 0)
+    {
+        NSString *dataStr = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
+        NSLog(@"%@", dataStr);
+    }
 }
 @end

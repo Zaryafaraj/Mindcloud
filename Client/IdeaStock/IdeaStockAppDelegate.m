@@ -18,30 +18,25 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    
     NSString * userID = [UserPropertiesHelper userID];
     //FIXME is it okey to call mindcloud class directly from here
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     [mindcloud authorize:userID];
-    
+   
     return YES;
 }
 
-/*
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    if ([[DBSession sharedSession] handleOpenURL:url]) {
-        if ([[DBSession sharedSession] isLinked]) {
-            NSLog(@"App linked successfully!");
-            // At this point you can start making API calls
-        }
-        return YES;
-    }
-    // Add whatever other url handling code your app requires here
-    //TODO remove : Checking the new branch from xcode
-    return NO;
-}*/
-							
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    //This is called when the user comes back to the app from signing into the dropbox
+    [[Mindcloud getMindCloud] authorizationDone:[UserPropertiesHelper userID]];
+    return YES;
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

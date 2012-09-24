@@ -13,6 +13,5 @@
 typedef void (^authentication_callback)(NSDictionary * authenticationParams);
 
 -(id) initWithUserId: (NSString *) userID andCallback: (authentication_callback) callback;
--(void) execute;
 
 @end

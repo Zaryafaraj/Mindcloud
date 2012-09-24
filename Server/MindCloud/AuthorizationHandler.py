@@ -94,6 +94,12 @@ class AuthorizationHandler(tornado.web.RequestHandler):
             sess = session.DropboxSession(self.__APP_KEY,
                 self.__APP_SECRET, self.__ACCESS_TYPE)
             request_token = self.active_requests[account_id]
+
+            #If the request token has been expired send
+            # Not Authorized. The user should start again
+            if request_token is None:
+                self.write_error(401)
+
             access_token = sess.obtain_access_token(request_token)
             Accounts.add_account(account_id, access_token)
             #remove the pending request from the dictionary
