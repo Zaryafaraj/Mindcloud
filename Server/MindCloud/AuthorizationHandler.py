@@ -7,15 +7,12 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
-from dropbox import session
 from Accounts import Accounts
+from DropboxHelper import DropboxHelper
 import json
 
 class AuthorizationHandler(tornado.web.RequestHandler):
 
-    __APP_KEY =  'h7f38af0ewivq6s'
-    __APP_SECRET = 'iiq8oz2lae46mwp'
-    __ACCESS_TYPE = 'app_folder'
     #duration before which a sweep gets performed
     __SWEEP_PERIOD = 30
 
@@ -68,9 +65,8 @@ class AuthorizationHandler(tornado.web.RequestHandler):
 
         #FIXME what is the cost of making this object ?
         #Is it better to use a static function
-        sess = session.DropboxSession(self.__APP_KEY,
-                self.__APP_SECRET, self.__ACCESS_TYPE)
 
+        sess = DropboxHelper.create_session()
         if Accounts.does_account_exist(account_id):
             json_str = json.dumps({'account_status':'authorized'})
             self.write(json_str)
@@ -91,8 +87,7 @@ class AuthorizationHandler(tornado.web.RequestHandler):
 
     def post(self, account_id):
         if self.active_requests.has_key(account_id):
-            sess = session.DropboxSession(self.__APP_KEY,
-                self.__APP_SECRET, self.__ACCESS_TYPE)
+            sess = DropboxHelper.create_session()
             request_token = self.active_requests[account_id]
 
             #If the request token has been expired send
