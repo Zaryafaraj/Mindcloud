@@ -48,3 +48,5 @@ Client/.DS_Store
 *.xcbkptlist
 
 *.xcexplist
+
+*.pyc
