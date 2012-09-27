@@ -51,7 +51,11 @@ class AccountHandler(tornado.web.RequestHandler):
             try:
                 db_client.file_create_folder("/" + collection_name)
             except rest.ErrorResponse as exception:
-                print exception.status + ": " + exception.error_msg
+                #if the folder already exists notify the user
+                if exception.status == 403:
+                    self.set_status(403)
+                else:
+                    print exception.status + ": " + exception.error_msg
 
 if __name__ == "__main__":
     print 'hi'
