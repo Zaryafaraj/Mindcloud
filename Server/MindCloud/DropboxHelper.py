@@ -1,6 +1,6 @@
 __author__ = 'afathali'
 
-from dropbox import session
+from dropbox import session, client
 
 class DropboxHelper:
 
@@ -14,5 +14,12 @@ class DropboxHelper:
             DropboxHelper.__APP_SECRET, DropboxHelper.__ACCESS_TYPE)
         return sess
 
+    @staticmethod
+    def create_client(key, secret):
+
+        sess = DropboxHelper.create_session()
+        sess.set_token(key, secret)
+        db_client = client.DropboxClient(sess)
+        return db_client
 
 

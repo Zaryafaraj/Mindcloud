@@ -13,15 +13,22 @@ class AccountHandler(tornado.web.RequestHandler):
     PATH_KEY = 'path'
     IS_DIR = 'is_dir'
 
-    def get(self, user_id):
+    def _get_client(self, user_id):
 
         account_info = Accounts.get_account(user_id)
         if account_info is not None:
             key = account_info['ticket'][0]
             secret = account_info['ticket'][1]
-            sess = DropboxHelper.create_session()
-            sess.set_token(key, secret)
-            db_client = client.DropboxClient(sess)
+            db_client = DropboxHelper.create_client(key, secret)
+            return db_client
+
+        else:
+            return None
+
+    def get(self, user_id):
+
+        db_client = self._get_client(user_id)
+        if db_client is not  None:
             try:
                 metadata = db_client.metadata("/")
                 contents = metadata[self.CONTENT_KEY]
@@ -33,9 +40,18 @@ class AccountHandler(tornado.web.RequestHandler):
                 self.write(json_str)
 
             except rest.ErrorResponse as exception:
+                print "user: " + user_id + ": " + exception.status + ": " + exception.error_msg
+
+
+    def post(self, user_id):
+
+        collection_name = self.get_argument('collectionName')
+        db_client = self._get_client(user_id)
+        if db_client is not None:
+            try:
+                db_client.file_create_folder("/" + collection_name)
+            except rest.ErrorResponse as exception:
                 print exception.status + ": " + exception.error_msg
-
-
 
 if __name__ == "__main__":
     print 'hi'
