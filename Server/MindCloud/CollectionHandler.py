@@ -5,6 +5,7 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
+from MindCloud.StorageServer import StorageServer
 
 
 class CollectionHandler(tornado.web.RequestHandler):
@@ -18,13 +19,14 @@ class CollectionHandler(tornado.web.RequestHandler):
         print "POST"
         print word
 
-    def put(self, word):
-        print "PUT"
-        print word
+    def put(self, user_id, collection_name):
+        new_collection_name = self.get_argument('collection_name')
+        result_code = StorageServer.rename_collection(user_id, collection_name, new_collection_name)
+        self.set_status(result_code)
 
-    def delete(self, word):
-        print "DELETE"
-        print word
+    def delete(self, user_id, collection_name):
+        result_code = StorageServer.remove_collection(user_id, collection_name)
+        self.set_status(result_code)
 
 if __name__ == "__main__":
     print 'hi'
