@@ -65,7 +65,7 @@ class DropboxHelper:
             return result
 
         except rest.ErrorResponse as exception:
-            print "user: " + user_id + ": " + exception.status + ": " + exception.error_msg
+            print "user: " + str(user_id) + ": " + str(exception.status) + ": " + exception.error_msg
             return []
 
     @staticmethod
@@ -93,7 +93,7 @@ class DropboxHelper:
             if exception.status == 403:
                 return StorageResponse.DUPLICATED
             else:
-                print exception.status + ": " + exception.error_msg
+                print str(exception.status) + ": " + exception.error_msg
                 return StorageResponse.SERVER_EXCEPTION
 
     @staticmethod
@@ -119,7 +119,7 @@ class DropboxHelper:
             if exception.status == 404:
                 return StorageResponse.NOT_FOUND
             else:
-                print exception.status + ": " + exception.error_msg
+                print str(exception.status) + ": " + exception.error_msg
                 return StorageResponse.SERVER_EXCEPTION
 
     @staticmethod
@@ -148,7 +148,9 @@ class DropboxHelper:
         except rest.ErrorResponse as exception:
             if exception.status == 404:
                 return StorageResponse.NOT_FOUND
+            elif exception.status == 403:
+                return StorageResponse.DUPLICATED
             else:
-                print exception.status + ": " + exception.error_msg
+                print str(exception.status) + ": " + exception.error_msg
                 return StorageResponse.SERVER_EXCEPTION
 
