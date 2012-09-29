@@ -98,9 +98,52 @@ class DropboxHelper:
 
     @staticmethod
     def delete_folder(db_client, folder_name, parent_folder ='/'):
+        """
+        Removes the folder with folder_name which is a sub folder of parent_folder
+
+        Args:
+            -``db_client``: A dropbox client object created from create_client method
+            -``folder_name``: Name of the folder to be removed
+            -``parent_folder``: The parent folder under which the folder will be
+            deleted.
+
+        Returns:
+            - A MindCloud Storage response (HTTP Response) corresponding with the results
+            of the operation
+        """
 
         try:
             db_client.file_delete("/".join([parent_folder,folder_name]))
+            return StorageResponse.OK
+        except rest.ErrorResponse as exception:
+            if exception.status == 404:
+                return StorageResponse.NOT_FOUND
+            else:
+                print exception.status + ": " + exception.error_msg
+                return StorageResponse.SERVER_EXCEPTION
+
+    @staticmethod
+    def move_collection(db_client, old_path, new_path):
+        """
+        Moves a collection from old_path to new_path
+        This can be used both for files and folders.
+
+        Args:
+            -``db_client``: A dropbox client object created from create_client method
+            -``old_path``: The current path of the folder to be moved. Note that this
+            should be an absolute path starting from the root : /foo/baar
+            -``new_path``: Where to move the folder.
+             Note that this should be an absolute path starting from the root : /foo/baar
+             if there already is a collection with new_path. This functions new path will be
+             modified to keep both files
+
+        Returns:
+            - A MindCloud Storage response (HTTP Response) corresponding with the results
+            of the operation
+        """
+
+        try:
+            db_client.file_move(old_path, new_path)
             return StorageResponse.OK
         except rest.ErrorResponse as exception:
             if exception.status == 404:

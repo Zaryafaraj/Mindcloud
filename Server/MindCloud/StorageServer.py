@@ -71,10 +71,56 @@ class StorageServer:
 
     @staticmethod
     def remove_collection(user_id, collection_name):
+        """
+        Removes a collection from the user collections.
+
+        Args:
+        - ``user_id``: user id corresponding to the user
+        - ``collection_name``: The name of the collection to be removed.
+        It is assumed that this name has been validated prior to calling
+        this function
+
+        Returns:
+        - A StorageResponse status code that represents the status of the operation
+        """
 
         storage = StorageServer.__get_storage(user_id)
         if storage is not None:
             result_code = DropboxHelper.delete_folder(storage, collection_name)
+            return result_code
+        else:
+            return StorageResponse.SERVER_EXCEPTION
+
+    @staticmethod
+    def rename_collection(user_id, old_collection_name, new_collection_name):
+        """
+        Renames a collection with old_collection_name to new_collection_name
+        Both the old_collection and new_collection should and will be under
+        root. However no need to specify a path for old_collection_name and
+        new_collection_name
+
+        Args:
+        - ``user_id``: user id corresponding to the user
+        - ``old_collection_name``: The name of the collection to be renamed.
+        It is assumed that this name has been validated prior to calling
+        this function. This is just a name. Example : collection1 and not /collection1
+        - ``new_collection_name``: The new name for old_collection collection to be renamed.
+        It is assumed that this name has been validated prior to calling
+        this function. This is just a name. Example : collection2 and not /collection2
+
+        Returns:
+        - A StorageResponse status code that represents the status of the operation
+        -``
+
+        """
+
+        #Make sure that the paths are absolute and from root
+        old_collection_name = '/' + old_collection_name
+        new_collection_name = '/' + new_collection_name
+
+        storage = StorageServer.__get_storage(user_id)
+        if storage is not None:
+            result_code = DropboxHelper.move_collection(storage,old_collection_name,new_collection_name)
             return result_code
         else:
             return StorageResponse.SERVER_EXCEPTION

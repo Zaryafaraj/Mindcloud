@@ -51,3 +51,17 @@ class TestStorageServer(TestCase):
         response_code = StorageServer.remove_collection(self.user_id, 'dummy')
         self.assertEqual(StorageResponse.NOT_FOUND, response_code)
 
+    def test_rename_collection(self):
+
+        old_collection_name = str(uuid.uuid1())
+        StorageServer.add_collection(self.user_id, old_collection_name)
+        new_collection_name = str(uuid.uuid1())
+        StorageServer.rename_collection(self.user_id, old_collection_name, new_collection_name)
+        all_collections = StorageServer.list_collections(self.user_id)
+        self.assertTrue(new_collection_name in all_collections)
+        self.assertFalse(old_collection_name in all_collections)
+        #clean up
+        StorageServer.remove_collection(self.user_id, new_collection_name)
+
+
+
