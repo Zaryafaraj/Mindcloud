@@ -49,14 +49,16 @@ class StorageServer:
             return []
 
     @staticmethod
-    def add_collection(user_id, collection_name):
+    def add_collection(user_id, collection_name, file=None):
         """
-        Adds a collection to the user collections
+        Adds a collection to the user collections.
+        If a file is specified that single file will be stored in the newly created collection.
 
         Args:
             - ``user_id``: user id corresponding to the user
             -``collection_name``: The name of the collection. It is assumed that this name
              has been validated prior to calling this function
+            - ``file`` an optional file object that will be placed in the new collection
 
         Returns:
             - A StorageResponse status code that represent the status of the server
@@ -65,6 +67,9 @@ class StorageServer:
         storage = StorageServer.__get_storage(user_id)
         if storage is not None:
             result_code = DropboxHelper.create_folder(storage, collection_name)
+            if result_code == StorageResponse.OK and file is not None:
+                parent_path = '/' + collection_name
+                DropboxHelper.add_file(storage, parent_path, file)
             return result_code
         else:
             return StorageResponse.SERVER_EXCEPTION
@@ -120,8 +125,7 @@ class StorageServer:
 
         storage = StorageServer.__get_storage(user_id)
         if storage is not None:
-            result_code = DropboxHelper.move_collection(storage,old_collection_name,new_collection_name)
+            result_code = DropboxHelper.move_folder(storage,old_collection_name,new_collection_name)
             return result_code
         else:
             return StorageResponse.SERVER_EXCEPTION
-

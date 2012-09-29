@@ -1,12 +1,15 @@
 """
 Developed for mindcloud
 """
+import os
+
 __author__ = 'afathali'
 
 from dropbox import session, client, rest
 from StorageResponse import StorageResponse
 
 class DropboxHelper:
+    #TODO for loggign purposes pass the userID to each method
     """
     Handles all the interactions with dropbox.
     """
@@ -123,7 +126,7 @@ class DropboxHelper:
                 return StorageResponse.SERVER_EXCEPTION
 
     @staticmethod
-    def move_collection(db_client, old_path, new_path):
+    def move_folder(db_client, old_path, new_path):
         """
         Moves a collection from old_path to new_path
         This can be used both for files and folders.
@@ -154,3 +157,29 @@ class DropboxHelper:
                 print str(exception.status) + ": " + exception.error_msg
                 return StorageResponse.SERVER_EXCEPTION
 
+    @staticmethod
+    def add_file(db_client, parent, file):
+        """
+        Adds a file to the parent folder.
+        The file will have the same name as the file object and will be located in the parent path.
+
+        @Args:
+            -``db_client``: A dropbox client object created from create_client method
+            -``parent``: The parent folder in which the new file will be located (does not include the file itself)
+             example: /foo/bar
+             -``file``: A file or a file like object that will be uploaded to the dropbox
+
+        Returns:
+            - A MindCloud Storage response (HTTP Response) corresponding with the results
+            of the operation
+        """
+
+        #create the path in dropbox
+        file_name = os.path.basename(file.name)
+        file_path = parent + "/" + file_name
+        try:
+            db_client.put_file(file_path, file)
+            return StorageResponse.OK
+        except rest.ErrorResponse as exception:
+            print str(exception.status) + ": " + exception.error_msg
+            return StorageResponse.SERVER_EXCEPTION

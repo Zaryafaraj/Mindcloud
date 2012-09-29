@@ -29,6 +29,16 @@ class TestStorageServer(TestCase):
         #clean up
         StorageServer.remove_collection(self.user_id, collection_name)
 
+    def test_add_collection_with_file(self):
+        collection_name = str(uuid.uuid1())
+        file = open('test_resources/XooML.xml')
+        StorageServer.add_collection(self.user_id, collection_name, file)
+        all_collections = StorageServer.list_collections(self.user_id)
+        self.assertTrue(collection_name in all_collections)
+        #TODO when get file is written test that the actual file is saved
+        #clean up
+        StorageServer.remove_collection(self.user_id, collection_name)
+
     def test_add_collection_duplicated(self):
 
         collection_name = str(uuid.uuid1())
