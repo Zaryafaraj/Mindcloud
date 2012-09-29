@@ -1,5 +1,6 @@
 from unittest import TestCase
 import uuid
+from MindCloud.StorageResponse import StorageResponse
 from MindCloud.StorageServer import StorageServer
 
 __author__ = 'afathali'
@@ -28,6 +29,15 @@ class TestStorageServer(TestCase):
         #clean up
         StorageServer.remove_collection(self.user_id, collection_name)
 
+    def test_add_collection_duplicated(self):
+
+        collection_name = str(uuid.uuid1())
+        StorageServer.add_collection(self.user_id, collection_name)
+        response_code = StorageServer.add_collection(self.user_id, collection_name)
+        self.assertEqual(StorageResponse.DUPLICATED, response_code)
+        #clean up
+        StorageServer.remove_collection(self.user_id, collection_name)
+
     def test_remove_collection(self):
 
         collection_name = str(uuid.uuid1())
@@ -35,4 +45,9 @@ class TestStorageServer(TestCase):
         StorageServer.remove_collection(self.user_id, collection_name)
         all_collections = StorageServer.list_collections(self.user_id)
         self.assertFalse(collection_name in all_collections)
+
+    def test_remove_collection_non_existing(self):
+
+        response_code = StorageServer.remove_collection(self.user_id, 'dummy')
+        self.assertEqual(StorageResponse.NOT_FOUND, response_code)
 
