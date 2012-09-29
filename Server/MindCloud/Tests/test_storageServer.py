@@ -8,6 +8,7 @@ __author__ = 'afathali'
 class TestStorageServer(TestCase):
 
     user_id = 'EC77E567-2924-4C9E-BECA-36D25EA76431'
+
     def test_list_collections(self):
         all_collections = StorageServer.list_collections(self.user_id)
         self.assertGreater(len(all_collections),0)

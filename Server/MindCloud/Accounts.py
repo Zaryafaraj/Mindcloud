@@ -27,7 +27,7 @@ class Accounts:
     conn = pymongo.Connection(host, port)
 
     @staticmethod
-    def get_collection():
+    def __get_collection():
         """
         Retrive the accounts collection from mongo
 
@@ -47,10 +47,11 @@ class Accounts:
             -``account_id``: The unique GUID that the client sends with his calls
 
         Returns:
-            - A boolean indicating whether the user has authenticated in the server
-
+            - A collection if the account exists and None if it doesn't.
+             We don't return true or false to minimize calls to Mongo
+             in cases where we need to have a does exist / get
         """
-        collection = Accounts.get_collection()
+        collection = Accounts.__get_collection()
         account = {Accounts.account_key: account_id}
         did_find = collection.find_one(account)
         return did_find
@@ -90,7 +91,7 @@ class Accounts:
         account_tuple = (account_info.key, account_info.secret)
         account = {Accounts.account_key: account_id,
                    Accounts.ticket_key: account_tuple}
-        collection = Accounts.get_collection()
+        collection = Accounts.__get_collection()
         collection.insert(account)
 
     @staticmethod
@@ -101,7 +102,7 @@ class Accounts:
         Args:
             -``account_id``: The unique GUID that the client sends with his calls
         """
-        collection = Accounts.get_collection()
+        collection = Accounts.__get_collection()
         account = {Accounts.account_key: account_id}
         collection.remove(account)
 
