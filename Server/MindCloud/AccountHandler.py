@@ -27,5 +27,12 @@ class AccountHandler(tornado.web.RequestHandler):
         result_code = StorageServer.add_collection(user_id, collection_name)
         self.set_status(result_code)
 
+    def delete(self, user_id):
+        collection_name = self.get_argument('collectionName')
+        result_code = StorageServer.remove_collection(user_id, collection_name)
+        self.set_status(result_code)
+
+
+
 if __name__ == "__main__":
     print 'hi'

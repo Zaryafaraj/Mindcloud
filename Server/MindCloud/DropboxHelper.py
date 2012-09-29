@@ -96,3 +96,16 @@ class DropboxHelper:
                 print exception.status + ": " + exception.error_msg
                 return StorageResponse.SERVER_EXCEPTION
 
+    @staticmethod
+    def delete_folder(db_client, folder_name, parent_folder ='/'):
+
+        try:
+            db_client.file_delete("/".join([parent_folder,folder_name]))
+            return StorageResponse.OK
+        except rest.ErrorResponse as exception:
+            if exception.status == 404:
+                return StorageResponse.NOT_FOUND
+            else:
+                print exception.status + ": " + exception.error_msg
+                return StorageResponse.SERVER_EXCEPTION
+

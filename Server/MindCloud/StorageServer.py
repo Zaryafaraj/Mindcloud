@@ -69,3 +69,13 @@ class StorageServer:
         else:
             return StorageResponse.SERVER_EXCEPTION
 
+    @staticmethod
+    def remove_collection(user_id, collection_name):
+
+        storage = StorageServer.__get_storage(user_id)
+        if storage is not None:
+            result_code = DropboxHelper.delete_folder(storage, collection_name)
+            return result_code
+        else:
+            return StorageResponse.SERVER_EXCEPTION
+
