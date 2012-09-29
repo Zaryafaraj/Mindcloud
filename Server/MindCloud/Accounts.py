@@ -1,11 +1,22 @@
 """
-handles consistent storage for accounts
+Developed for Mindcloud
 """
 __author__ = 'afathali'
+
 import pymongo
 
 class Accounts:
+    """
+    Handles the persistent storage for accounts metadata that is stored in mindclouds mongoDB
+    Right now we don't require sign ins . Anybody with a unique GUID can use the system.
+    If its the first time that the user with that GUID is contacting the server he is asked
+    to authenticate.
+    After authnetication, the user and his authentication credentials are stored in the DB
+    for later use.
+    """
+
     #TODO replace these with properties file
+    #MongoDB configs
     host = 'localhost'
     port = 27017
     database_name = 'mindcloud'
@@ -17,11 +28,28 @@ class Accounts:
 
     @staticmethod
     def get_collection():
+        """
+        Retrive the accounts collection from mongo
+
+        Returns:
+            - A mongoDB collection corellating with the accounts
+        """
+
         db = Accounts.conn[Accounts.database_name]
         return db[Accounts.collection_name]
 
     @staticmethod
     def does_account_exist(account_id):
+        """
+        Has a user has previsouly used mindcloud
+
+        Args:
+            -``account_id``: The unique GUID that the client sends with his calls
+
+        Returns:
+            - A boolean indicating whether the user has authenticated in the server
+
+        """
         collection = Accounts.get_collection()
         account = {Accounts.account_key: account_id}
         did_find = collection.find_one(account)
@@ -29,38 +57,66 @@ class Accounts:
 
     @staticmethod
     def get_account(account_id):
-        account_info = Accounts.does_account_exist(account_id)
-        del account_info['_id']
-        return account_info
+        """
+        Retrieves the user account credentials associated with account_id
+
+        Args:
+            -``account_id``: The unique GUID that the client sends with his calls
+
+        Returns:
+            - A tuple containing (key, secret). This key and secret pair has been
+            authorized by the user in an Oauth manner and mindcloud has access
+            to the account of the user associated with these
+
+        """
+
+        accountInfo = Accounts.does_account_exist(account_id)
+        del accountInfo['_id']
+        return accountInfo
 
     @staticmethod
-    def add_account(account_id, accountInfo):
+    def add_account(account_id, account_info):
+        """
+        Stores the user and its credentials in the DB
+
+        Args:
+            -``account_id``: The unique GUID that the client sends with his calls
+            -``account_info``: An object containing to fields: account key and account secret.
+            Any object will do.
+        """
+
         #we store an accountInfo as a pair of key and secret
-        accountTuple = (accountInfo.key,accountInfo.secret)
+        account_tuple = (account_info.key, account_info.secret)
         account = {Accounts.account_key: account_id,
-                   Accounts.ticket_key: accountTuple}
+                   Accounts.ticket_key: account_tuple}
         collection = Accounts.get_collection()
         collection.insert(account)
 
     @staticmethod
     def delete_account(account_id):
+        """
+        Remove the account associated with account_id from mongo
+
+        Args:
+            -``account_id``: The unique GUID that the client sends with his calls
+        """
         collection = Accounts.get_collection()
         account = {Accounts.account_key: account_id}
         collection.remove(account)
 
 if __name__ == '__main__':
 
-    account_id = 'dummy_id'
-    print 'Testing for ' + account_id
-    does_exist = Accounts.does_account_exist(account_id) is not None
+    accountId = 'dummy_id'
+    print 'Testing for ' + accountId
+    does_exist = Accounts.does_account_exist(accountId) is not None
     print "does exist ? " + str(does_exist)
     dummy_account_info = ('token', 'secret')
     print 'adding'
-    Accounts.add_account(account_id, dummy_account_info)
-    does_exist = Accounts.does_account_exist(account_id) is not None
+    Accounts.add_account(accountId, dummy_account_info)
+    does_exist = Accounts.does_account_exist(accountId) is not None
     print 'does exist ? ' + str(does_exist)
-    account_info = Accounts.get_account(account_id)
+    account_info = Accounts.get_account(accountId)
     print account_info
     print 'deleting'
-    Accounts.delete_account(account_id)
+    Accounts.delete_account(accountId)
     print 'done'
