@@ -71,7 +71,8 @@ class Accounts:
         """
 
         accountInfo = Accounts.does_account_exist(account_id)
-        del accountInfo['_id']
+        if accountInfo is not None:
+            del accountInfo['_id']
         return accountInfo
 
     @staticmethod
