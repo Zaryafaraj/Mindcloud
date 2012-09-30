@@ -161,7 +161,7 @@ class DropboxHelper:
                 return StorageResponse.SERVER_EXCEPTION
 
     @staticmethod
-    def add_file(db_client, parent, file, overwrite = True):
+    def add_file(db_client, parent, file, overwrite = True, file_name = None):
         """
         Adds a file to the parent folder.
         The file will have the same name as the file object and will be located in the parent path.
@@ -171,6 +171,9 @@ class DropboxHelper:
             -``parent``: The parent folder in which the new file will be located (does not include the file itself)
              example: /foo/bar
              -``file``: A file or a file like object that will be uploaded to the dropbox
+             -``overwrite``: Optional parameter if true will overwrite the file
+             -``fileName``: Optional parameter if set the name of the uploaded filename
+             will be set to that. If not the file name will be derived from the file itself
 
         Returns:
             - A MindCloud Storage response (HTTP Response) corresponding with the results
@@ -184,14 +187,16 @@ class DropboxHelper:
 
             if isinstance(file, HTTPFile):
                 #create the path in dropbox
-                file_name = file.filename
+                if file_name is None:
+                    file_name = file.filename
                 file_path = parent + "/" + file_name
                 file_obj = cStringIO.StringIO(file.body)
                 db_client.put_file(file_path, file_obj, overwrite=overwrite)
                 return StorageResponse.OK
             else:
                 #Its a normal file
-                file_name = file.name
+                if file_name is None:
+                    file_name = file.name
                 file_path = parent + "/" + file_name
                 db_client.put_file(file_path, file, overwrite=overwrite)
                 return StorageResponse.OK

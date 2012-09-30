@@ -152,3 +152,13 @@ class StorageServer:
         else:
             return None
 
+    @staticmethod
+    def add_thumbnail(user_id, collection_name, file):
+
+        thumbnail_path = "/%s",collection_name
+        storage = StorageServer.__get_storage(user_id)
+        if storage is not None:
+            return DropboxHelper.add_file(storage, thumbnail_path, file)
+        else:
+            return None
+
