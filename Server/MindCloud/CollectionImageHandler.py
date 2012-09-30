@@ -17,5 +17,10 @@ class CollectionImageHandler(tornado.web.RequestHandler):
         pass
 
     def post(self, user_id, collection_name):
-        pass
+
+        #if there is an actual file
+        if len(self.request.files) > 0:
+            file = self.request.files['file'][0]
+            result_code = StorageServer.add_thumbnail(user_id, collection_name, file)
+            self.set_status(result_code)
 
