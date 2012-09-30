@@ -104,3 +104,20 @@ class TestStorageServer(TestCase):
         StorageServer.remove_collection(self.user_id, old_collection_name)
         StorageServer.remove_collection(self.user_id, new_collection_name)
 
+    def test_add_thumbnail_to_collection(self):
+
+        collection_name = str(uuid.uuid1())
+        file = open('test_resources/thumbnail.jpg')
+        StorageServer.add_collection(self.user_id, collection_name)
+        response_code = StorageServer.add_thumbnail(self.user_id, collection_name, file)
+        self.assertEqual(StorageResponse.OK, response_code)
+        #clean up
+        StorageServer.remove_collection(self.user_id, collection_name)
+
+    def test_add_thumbnail_to_invalid_collection(self):
+        #TODO incorrect Behavior. The operation is successfull.
+        # should be fixed later
+        file = open('test_resources/thumbnail.jpg')
+        response_code = StorageServer.add_thumbnail(self.user_id, 'dummy', file)
+        self.assertEqual(StorageResponse.OK, response_code)
+

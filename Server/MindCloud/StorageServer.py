@@ -139,7 +139,7 @@ class StorageServer:
 
         Args:
             - ``user_id``: user id corresponding to the user
-            - ``old_collection_name``: The name of the collection for which the
+            - ``collection_name``: The name of the collection for which the
             thumbnails will be retrieved .
 
         Returns:
@@ -147,7 +147,7 @@ class StorageServer:
             image does not exist or there was a problem retrieving it
         """
 
-        thumbnail_path = "/%s/%s",collection_name, StorageServer.__THUMBNAIL_FILENAME
+        thumbnail_path = "/%s/%s" % collection_name, StorageServer.__THUMBNAIL_FILENAME
         storage = StorageServer.__get_storage(user_id)
         if storage is not None:
            return DropboxHelper.get_file(storage, thumbnail_path)
@@ -156,8 +156,20 @@ class StorageServer:
 
     @staticmethod
     def add_thumbnail(user_id, collection_name, file):
+        """
+        Adds a thumbnail image to the collection
 
-        thumbnail_path = "/%s",collection_name
+        Args:
+            - ``user_id``: user id corresponding to the user
+            - ``collection_name``: The name of the collection for which the
+            thumbnails will be added
+
+        Returns:
+
+            -An StorageResponse indicating the result of the operation
+        """
+
+        thumbnail_path = "/%s" % collection_name
         storage = StorageServer.__get_storage(user_id)
         if storage is not None:
             return DropboxHelper.add_file(storage, thumbnail_path, file,
