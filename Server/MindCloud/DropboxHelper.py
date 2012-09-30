@@ -1,8 +1,10 @@
 """
 Developed for mindcloud
 """
+import httplib
 import os
 import cStringIO
+from tornado.httputil import HTTPFile
 
 __author__ = 'afathali'
 
@@ -164,7 +166,7 @@ class DropboxHelper:
         Adds a file to the parent folder.
         The file will have the same name as the file object and will be located in the parent path.
 
-        @Args:
+        Args:
             -``db_client``: A dropbox client object created from create_client method
             -``parent``: The parent folder in which the new file will be located (does not include the file itself)
              example: /foo/bar
@@ -175,19 +177,56 @@ class DropboxHelper:
             of the operation
         """
 
-        #create the path in dropbox
-        file_name = file.filename
-        file_path = parent + "/" + file_name
         try:
             #The file input is not hashable and won't save on Dropbox
             #It should be converted to a file like object
             #We use the fast StringIO cStringIO for performance reason
-            file_obj = cStringIO.StringIO(file.body)
-            db_client.put_file(file_path, file_obj, overwrite=overwrite)
-            return StorageResponse.OK
+
+            if isinstance(file, HTTPFile):
+                #create the path in dropbox
+                file_name = file.filename
+                file_path = parent + "/" + file_name
+                file_obj = cStringIO.StringIO(file.body)
+                db_client.put_file(file_path, file_obj, overwrite=overwrite)
+                return StorageResponse.OK
+            else:
+                #Its a normal file
+                file_name = file.name
+                file_path = parent + "/" + file_name
+                db_client.put_file(file_path, file, overwrite=overwrite)
+                return StorageResponse.OK
         except rest.ErrorResponse as exception:
             print str(exception.status) + ": " + exception.error_msg
             return StorageResponse.SERVER_EXCEPTION
         except Exception as exception:
             print exception.message
+
+    @staticmethod
+    def get_file(db_client, path, rev=None):
+        """
+        Retrieves the file specified by the path.
+
+        Args:
+            -``db_client``: A dropbox client object created from create_client method
+            -``path``: The absolute path to the file
+            -``rev``: Optional parameter determining the revision of the file to retrieve
+            If not specified the latest revision is retrieved
+
+        Returns:
+        - A file containing the thumbnail img or None if no thumbnail exists
+        """
+        try:
+            httpResponse = db_client.get_file(path,rev)
+            thumbnail_data = httpResponse.read()
+            httpResponse.close()
+            #Do something
+            return None
+        except  rest.ErrorResponse as exception:
+            if exception.status == 404:
+                return StorageResponse.NOT_FOUND
+            else:
+                print str(exception.status) + ": " + exception.error_msg
+                return None
+
+
 

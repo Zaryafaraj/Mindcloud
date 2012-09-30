@@ -80,14 +80,14 @@ class StorageServer:
         Removes a collection from the user collections.
 
         Args:
-        - ``user_id``: user id corresponding to the user
-        - ``collection_name``: The name of the collection to be removed.
-        It is assumed that this name has been validated prior to calling
-        this function
+            - ``user_id``: user id corresponding to the user
+            - ``collection_name``: The name of the collection to be removed.
+            It is assumed that this name has been validated prior to calling
+            this function
 
         Returns:
-        - A StorageResponse status code that represents the status of the operation
-        """
+            - A StorageResponse status code that represents the status of the operation
+            """
 
         storage = StorageServer.__get_storage(user_id)
         if storage is not None:
@@ -105,17 +105,16 @@ class StorageServer:
         new_collection_name
 
         Args:
-        - ``user_id``: user id corresponding to the user
-        - ``old_collection_name``: The name of the collection to be renamed.
-        It is assumed that this name has been validated prior to calling
-        this function. This is just a name. Example : collection1 and not /collection1
-        - ``new_collection_name``: The new name for old_collection collection to be renamed.
-        It is assumed that this name has been validated prior to calling
-        this function. This is just a name. Example : collection2 and not /collection2
+            - ``user_id``: user id corresponding to the user
+            - ``old_collection_name``: The name of the collection to be renamed.
+            It is assumed that this name has been validated prior to calling
+            this function. This is just a name. Example : collection1 and not /collection1
+            - ``new_collection_name``: The new name for old_collection collection to be renamed.
+            It is assumed that this name has been validated prior to calling
+            this function. This is just a name. Example : collection2 and not /collection2
 
         Returns:
-        - A StorageResponse status code that represents the status of the operation
-        -``
+            - A StorageResponse status code that represents the status of the operation
 
         """
 
@@ -129,3 +128,27 @@ class StorageServer:
             return result_code
         else:
             return StorageResponse.SERVER_EXCEPTION
+
+    @staticmethod
+    def get_thumbnail(user_id, collection_name):
+        """
+        Retrurns an image thumbnail file for the collection.
+        If the collection does not have any thumbnails returns None
+
+        Args:
+            - ``user_id``: user id corresponding to the user
+            - ``old_collection_name``: The name of the collection for which the
+            thumbnails will be retrieved .
+
+        Returns:
+            - A file or a file like object containing the image or None if the
+            image does not exist or there was a problem retrieving it
+        """
+
+        thumbnail_path = "/%s/thumbnail.jpg",collection_name
+        storage = StorageServer.__get_storage(user_id)
+        if storage is not None:
+           return DropboxHelper.get_file(storage, thumbnail_path)
+        else:
+            return None
+

@@ -10,7 +10,7 @@ import tornado.httpclient
 from CollectionHandler import CollectionHandler
 from AccountHandler import AccountHandler
 from AuthorizationHandler import AuthorizationHandler
-
+from CollectionImageHandler import  CollectionImageHandler
 class Application(tornado.web.Application):
     """
     The Webserver instance
