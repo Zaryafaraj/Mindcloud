@@ -159,7 +159,7 @@ class DropboxHelper:
                 return StorageResponse.SERVER_EXCEPTION
 
     @staticmethod
-    def add_file(db_client, parent, file):
+    def add_file(db_client, parent, file, overwrite = True):
         """
         Adds a file to the parent folder.
         The file will have the same name as the file object and will be located in the parent path.
@@ -183,7 +183,7 @@ class DropboxHelper:
             #It should be converted to a file like object
             #We use the fast StringIO cStringIO for performance reason
             file_obj = cStringIO.StringIO(file.body)
-            db_client.put_file(file_path, file_obj)
+            db_client.put_file(file_path, file_obj, overwrite=overwrite)
             return StorageResponse.OK
         except rest.ErrorResponse as exception:
             print str(exception.status) + ": " + exception.error_msg
