@@ -2,6 +2,7 @@
 Developed for mindcloud
 """
 import os
+import cStringIO
 
 __author__ = 'afathali'
 
@@ -175,11 +176,18 @@ class DropboxHelper:
         """
 
         #create the path in dropbox
-        file_name = os.path.basename(file.name)
+        file_name = file.filename
         file_path = parent + "/" + file_name
         try:
-            db_client.put_file(file_path, file)
+            #The file input is not hashable and won't save on Dropbox
+            #It should be converted to a file like object
+            #We use the fast StringIO cStringIO for performance reason
+            file_obj = cStringIO.StringIO(file.body)
+            db_client.put_file(file_path, file_obj)
             return StorageResponse.OK
         except rest.ErrorResponse as exception:
             print str(exception.status) + ": " + exception.error_msg
             return StorageResponse.SERVER_EXCEPTION
+        except Exception as exception:
+            print exception.message
+

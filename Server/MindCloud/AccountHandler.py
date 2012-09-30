@@ -23,13 +23,13 @@ class AccountHandler(tornado.web.RequestHandler):
 
     def post(self, user_id):
 
-        collection_name = self.get_argument('collectionName')
-        result_code = StorageServer.add_collection(user_id, collection_name)
-        self.set_status(result_code)
+        #if we have a file
+        file = None
+        if len(self.request.files) > 0 :
+            file = self.request.files['file'][0]
 
-    def delete(self, user_id):
         collection_name = self.get_argument('collectionName')
-        result_code = StorageServer.remove_collection(user_id, collection_name)
+        result_code = StorageServer.add_collection(user_id, collection_name, file)
         self.set_status(result_code)
 
 
