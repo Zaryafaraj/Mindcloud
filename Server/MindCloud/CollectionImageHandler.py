@@ -14,7 +14,9 @@ class CollectionImageHandler(tornado.web.RequestHandler):
     Handles actions relating a collections thumbnail
     """
     def get(self, user_id, collection_name):
-        pass
+        thumbnail = StorageServer.get_thumbnail(user_id, collection_name)
+        self.write(thumbnail.read())
+        self.set_header('Content-Type', 'image/jpeg')
 
     def post(self, user_id, collection_name):
 
