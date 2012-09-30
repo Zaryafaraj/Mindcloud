@@ -38,6 +38,7 @@ class TestStorageServer(TestCase):
         #TODO when get file is written test that the actual file is saved
         #clean up
         StorageServer.remove_collection(self.user_id, collection_name)
+        file.close()
 
     def test_add_collection_duplicated(self):
 
@@ -131,8 +132,16 @@ class TestStorageServer(TestCase):
         StorageServer.add_collection(self.user_id, collection_name)
         StorageServer.add_thumbnail(self.user_id, collection_name, file)
         thumbnail = StorageServer.get_thumbnail(self.user_id, collection_name)
+        output = open('test_resources/out.jpg', 'w')
+        output.write(thumbnail.read())
         self.assertTrue(thumbnail is not None)
         #clean up
         thumbnail.close()
         StorageServer.remove_collection(self.user_id, collection_name)
+
+    def test_get_thumbnail_for_invalid_collection(self):
+
+        thumbnail = StorageServer.get_thumbnail(self.user_id, 'dummy')
+        self.assertTrue(thumbnail is None)
+
 

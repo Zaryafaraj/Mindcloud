@@ -230,7 +230,7 @@ class DropboxHelper:
 
         except  rest.ErrorResponse as exception:
             if exception.status == 404:
-                return StorageResponse.NOT_FOUND
+                return None
             else:
                 print str(exception.status) + ": " + exception.error_msg
                 return None
