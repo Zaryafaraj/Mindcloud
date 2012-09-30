@@ -12,6 +12,8 @@ class StorageServer:
     A static class handling all the interactions with *all* the storage services.
     """
 
+    __THUMBNAIL_FILENAME = 'thumbnail.jpg'
+
     @staticmethod
     def __get_storage(user_id):
         """
@@ -145,7 +147,7 @@ class StorageServer:
             image does not exist or there was a problem retrieving it
         """
 
-        thumbnail_path = "/%s/thumbnail.jpg",collection_name
+        thumbnail_path = "/%s/%s",collection_name, StorageServer.__THUMBNAIL_FILENAME
         storage = StorageServer.__get_storage(user_id)
         if storage is not None:
            return DropboxHelper.get_file(storage, thumbnail_path)
@@ -158,7 +160,8 @@ class StorageServer:
         thumbnail_path = "/%s",collection_name
         storage = StorageServer.__get_storage(user_id)
         if storage is not None:
-            return DropboxHelper.add_file(storage, thumbnail_path, file)
+            return DropboxHelper.add_file(storage, thumbnail_path, file,
+                file_name=StorageServer.__THUMBNAIL_FILENAME)
         else:
             return None
 
