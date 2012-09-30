@@ -223,9 +223,11 @@ class DropboxHelper:
         try:
             httpResponse = db_client.get_file(path,rev)
             thumbnail_data = httpResponse.read()
+            #create a file like object from thumbnail_data
+            thumbnail_file = cStringIO.StringIO(thumbnail_data)
             httpResponse.close()
-            #Do something
-            return None
+            return thumbnail_file
+
         except  rest.ErrorResponse as exception:
             if exception.status == 404:
                 return StorageResponse.NOT_FOUND

@@ -147,7 +147,7 @@ class StorageServer:
             image does not exist or there was a problem retrieving it
         """
 
-        thumbnail_path = "/%s/%s" % collection_name, StorageServer.__THUMBNAIL_FILENAME
+        thumbnail_path = "/%s/%s" % (collection_name, StorageServer.__THUMBNAIL_FILENAME)
         storage = StorageServer.__get_storage(user_id)
         if storage is not None:
            return DropboxHelper.get_file(storage, thumbnail_path)
