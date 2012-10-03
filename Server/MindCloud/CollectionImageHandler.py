@@ -13,6 +13,7 @@ class CollectionImageHandler(tornado.web.RequestHandler):
     """
     Handles actions relating a collections thumbnail
     """
+    @tornado.web.asynchronous
     def get(self, user_id, collection_name):
         thumbnail = StorageServer.get_thumbnail(user_id, collection_name)
         self.write(thumbnail.read())
