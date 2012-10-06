@@ -1,9 +1,11 @@
 """
 Developed for Mindcloud
 """
+from tornado import gen
+
 __author__ = 'afathali'
 
-import pymongo
+import asyncmongo
 
 class Accounts:
     """
@@ -24,7 +26,12 @@ class Accounts:
     account_key = 'account_id'
     ticket_key = 'ticket'
 
-    conn = pymongo.Connection(host, port)
+    @staticmethod
+    def get_db():
+        if not hasattr(Accounts, '_db'):
+            Accounts._db=asyncmongo.Client(pool_id='accounts_pool', host=Accounts.host, port= Accounts.port,
+            maxcached=10, maxconnections=100, dbname=Accounts.database_name)
+        return Accounts._db
 
     @staticmethod
     def __get_collection():
@@ -34,30 +41,13 @@ class Accounts:
         Returns:
             - A mongoDB collection corellating with the accounts
         """
-
-        db = Accounts.conn[Accounts.database_name]
-        return db[Accounts.collection_name]
-
-    @staticmethod
-    def does_account_exist(account_id):
-        """
-        Has a user has previsouly used mindcloud
-
-        Args:
-            -``account_id``: The unique GUID that the client sends with his calls
-
-        Returns:
-            - A collection if the account exists and None if it doesn't.
-             We don't return true or false to minimize calls to Mongo
-             in cases where we need to have a does exist / get
-        """
-        collection = Accounts.__get_collection()
-        account = {Accounts.account_key: account_id}
-        did_find = collection.find_one(account)
-        return did_find
+        db = Accounts.get_db()
+        collection_connection = db.connection(collectionname=Accounts.collection_name)
+        return collection_connection
 
     @staticmethod
-    def get_account(account_id):
+    @gen.engine
+    def get_account(account_id, callback):
         """
         Retrieves the user account credentials associated with account_id
 
@@ -65,16 +55,29 @@ class Accounts:
             -``account_id``: The unique GUID that the client sends with his calls
 
         Returns:
-            - A tuple containing (key, secret). This key and secret pair has been
-            authorized by the user in an Oauth manner and mindcloud has access
-            to the account of the user associated with these
+            - If account_id exists:
+            A dictionary containing:
+             {ticket: (key, secret), account_id: account_id}.
+            The key and secret pair has been authorized by the user in an Oauth manner
+            and mindcloud has access to the account  of the user associated with these.
+
+            None if the account does not exist
 
         """
 
-        accountInfo = Accounts.does_account_exist(account_id)
-        if accountInfo is not None:
-            del accountInfo['_id']
-        return accountInfo
+        collection = Accounts.__get_collection()
+        account = {Accounts.account_key: account_id}
+        account = yield gen.Task(collection.find_one,account)
+        #Weird return type from the asyncMongo lib
+        if not len(account[0][0]):
+            account_info = None
+            #TODO log something here later
+        else:
+            account_info = account[0][0]
+            #remove the mongoID from the answer
+            del(account_info['_id'])
+
+        callback(account_info)
 
     @staticmethod
     def add_account(account_id, account_info):

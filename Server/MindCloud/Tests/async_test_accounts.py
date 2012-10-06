@@ -3,10 +3,11 @@ from tornado.testing import AsyncTestCase
 from MindCloud.AsynchDropbox.session import AsyncDropboxSession
 __author__ = 'afathali'
 
-class accountTestCase(AsyncTestCase):
+class AccountTestCase(AsyncTestCase):
     __APP_KEY =  'h7f38af0ewivq6s'
     __APP_SECRET = 'iiq8oz2lae46mwp'
     __ACCESS_TYPE = 'app_folder'
+
     def get_new_ioloop(self):
         return IOLoop.instance()
 
