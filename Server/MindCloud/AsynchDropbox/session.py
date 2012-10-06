@@ -2,13 +2,7 @@
 For use in mindcloud
 Under MIT License
 
-dropbox.session.DropboxSession is responsible for holding OAuth authentication info
-(app key/secret, request key/secret,  access key/secret) as well as configuration information for your app
-('app_folder' or 'dropbox' access type, optional locale preference). It knows how to
-use all of this information to craft properly constructed requests to Dropbox.
-
-A DropboxSession object must be passed to a dropbox.client.DropboxClient object upon
-initialization.
+An Asynchronous implementation of the dropboxapi
 """
 
 from __future__ import absolute_import
@@ -16,6 +10,7 @@ import random
 import sys
 import time
 import urllib
+from tornado import gen
 from tornado.httpclient import AsyncHTTPClient
 
 try:
@@ -146,19 +141,12 @@ class AsyncDropboxSession(object):
 
         return self.build_url(self.WEB_HOST, '/oauth/authorize', params)
 
+    @gen.engine
     def obtain_request_token(self, callback):
         """
-        ASYNCH
         Obtain a request token from the Dropbox API.
 
-        This is your first step in the OAuth process.  You call this to get a
-        request_token from the Dropbox server that you can then use with
-        DropboxSession.build_authorize_url() to get the user to authorize it.
-        After it's authorized you use this token with
-        DropboxSession.obtain_access_token() to get an access token.
-
-        NOTE:  You should only need to do this once for each user, and then you
-        can store the access token for that user for later operations.
+        See dropbox documentation for more details.
 
         Returns:
             - An dropbox.session.OAuthToken representing the request token Dropbox assigned
@@ -168,16 +156,12 @@ class AsyncDropboxSession(object):
         url = self.build_url(self.API_HOST, '/oauth/request_token')
         headers, params = self.build_access_headers('POST', url)
 
-        #Bind the dropbox callback to the passed in callback
-        #use the passed in one as a closure
-        def drop_box_callback(response):
-            self.request_token = self._parse_token(response.body)
-            url = self.build_authorize_url(self.request_token)
-            callback(url)
-
         http = AsyncHTTPClient()
-        http.fetch(url, method='POST', headers=headers, body=urllib.urlencode(params),
-            callback = drop_box_callback)
+        response = yield gen.Task(http.fetch, url, method = 'POST',
+            headers=headers, body=urllib.urlencode(params))
+        self.request_token = self._parse_token(response.body)
+        url = self.build_authorize_url(self.request_token)
+        callback(url)
 
 
     def obtain_access_token(self, request_token=None):
