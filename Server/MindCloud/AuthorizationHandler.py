@@ -3,6 +3,7 @@ The class for handling authentication requests.
 """
 
 from threading import Timer
+from tornado import gen
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
@@ -51,6 +52,8 @@ class AuthorizationHandler(tornado.web.RequestHandler):
         else:
             self.timer = None
 
+    @tornado.web.asynchronous
+    @gen.engine
     def get(self, account_id):
         """
         Authorize a single user.
@@ -67,11 +70,13 @@ class AuthorizationHandler(tornado.web.RequestHandler):
         #Is it better to use a static function
 
         sess = DropboxHelper.create_session()
-        if Accounts.does_account_exist(account_id):
+        account_info = yield gen.Task(Accounts.get_account, account_id)
+        if account_info:
             json_str = json.dumps({'account_status':'authorized'})
             self.write(json_str)
+            self.finish()
         else:
-            request_token = sess.obtain_request_token()
+            request_token = yield gen.Task(sess.obtain_request_token)
             #store the request_token until the user approves
             self.active_requests[account_id] = request_token
 
@@ -84,6 +89,7 @@ class AuthorizationHandler(tornado.web.RequestHandler):
             json_str = json.dumps({'account_status':'unauthorized', 'url':url})
             self._generate_headers()
             self.write(json_str)
+            self.finish()
 
     def post(self, account_id):
         if self.active_requests.has_key(account_id):

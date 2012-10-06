@@ -63,7 +63,6 @@ class Accounts:
 
             None if the account does not exist
         """
-
         collection = Accounts.__get_collection()
         account = {Accounts.account_key: account_id}
         account = yield gen.Task(collection.find_one,account)
@@ -90,7 +89,6 @@ class Accounts:
             Any object will do.
             -``callback``: callback function to call when account is added
         """
-
         collection = Accounts.__get_collection()
         #we store an accountInfo as a pair of key and secret
         account_tuple = (account_info.key, account_info.secret)
@@ -112,20 +110,3 @@ class Accounts:
         account = {Accounts.account_key: account_id}
         yield gen.Task(collection.remove, account)
         callback()
-
-if __name__ == '__main__':
-
-    accountId = 'dummy_id'
-    print 'Testing for ' + accountId
-    does_exist = Accounts.does_account_exist(accountId) is not None
-    print "does exist ? " + str(does_exist)
-    dummy_account_info = ('token', 'secret')
-    print 'adding'
-    Accounts.add_account(accountId, dummy_account_info)
-    does_exist = Accounts.does_account_exist(accountId) is not None
-    print 'does exist ? ' + str(does_exist)
-    account_info = Accounts.get_account(accountId)
-    print account_info
-    print 'deleting'
-    Accounts.delete_account(accountId)
-    print 'done'

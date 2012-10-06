@@ -160,8 +160,7 @@ class AsyncDropboxSession(object):
         response = yield gen.Task(http.fetch, url, method = 'POST',
             headers=headers, body=urllib.urlencode(params))
         self.request_token = self._parse_token(response.body)
-        url = self.build_authorize_url(self.request_token)
-        callback(url)
+        callback(self.request_token)
 
 
     def obtain_access_token(self, request_token=None):
