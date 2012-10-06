@@ -62,7 +62,6 @@ class Accounts:
             and mindcloud has access to the account  of the user associated with these.
 
             None if the account does not exist
-
         """
 
         collection = Accounts.__get_collection()
@@ -80,22 +79,25 @@ class Accounts:
         callback(account_info)
 
     @staticmethod
-    def add_account(account_id, account_info):
+    @gen.engine
+    def add_account(account_id, account_info, callback):
         """
         Stores the user and its credentials in the DB
 
         Args:
             -``account_id``: The unique GUID that the client sends with his calls
-            -``account_info``: An object containing to fields: account key and account secret.
+            -``account_info``: An object containing two fields: account key and account secret.
             Any object will do.
+            -``callback``: callback function to call when account is added
         """
 
+        collection = Accounts.__get_collection()
         #we store an accountInfo as a pair of key and secret
         account_tuple = (account_info.key, account_info.secret)
         account = {Accounts.account_key: account_id,
                    Accounts.ticket_key: account_tuple}
-        collection = Accounts.__get_collection()
-        collection.insert(account)
+        did_insert = yield gen.Task(collection.insert, account)
+        callback(did_insert)
 
     @staticmethod
     def delete_account(account_id):
