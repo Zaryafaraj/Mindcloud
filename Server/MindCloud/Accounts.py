@@ -96,11 +96,12 @@ class Accounts:
         account_tuple = (account_info.key, account_info.secret)
         account = {Accounts.account_key: account_id,
                    Accounts.ticket_key: account_tuple}
-        did_insert = yield gen.Task(collection.insert, account)
-        callback(did_insert)
+        yield gen.Task(collection.insert, account)
+        callback()
 
     @staticmethod
-    def delete_account(account_id):
+    @gen.engine
+    def delete_account(account_id, callback):
         """
         Remove the account associated with account_id from mongo
 
@@ -109,7 +110,8 @@ class Accounts:
         """
         collection = Accounts.__get_collection()
         account = {Accounts.account_key: account_id}
-        collection.remove(account)
+        yield gen.Task(collection.remove, account)
+        callback()
 
 if __name__ == '__main__':
 
