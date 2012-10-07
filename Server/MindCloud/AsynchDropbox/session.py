@@ -157,13 +157,14 @@ class AsyncDropboxSession(object):
         headers, params = self.build_access_headers('POST', url)
 
         http = AsyncHTTPClient()
-        response = yield gen.Task(http.fetch, url, method = 'POST',
+        response = yield gen.Task(http.fetch, url, method='POST',
             headers=headers, body=urllib.urlencode(params))
         self.request_token = self._parse_token(response.body)
         callback(self.request_token)
 
 
-    def obtain_access_token(self, request_token=None):
+    @gen.engine
+    def obtain_access_token(self, callback, request_token=None ):
         """Obtain an access token for a user.
 
         After you get a request token, and then send the user to the authorize
@@ -188,9 +189,11 @@ class AsyncDropboxSession(object):
         url = self.build_url(self.API_HOST, '/oauth/access_token')
         headers, params = self.build_access_headers('POST', url, request_token=request_token)
 
-        response = self.rest_client.POST(url, headers=headers, params=params, raw_response=True)
-        self.token = self._parse_token(response.read())
-        return self.token
+        http = AsyncHTTPClient()
+        response = yield gen.Task(http.fetch, url, method='POST',
+            headers=headers, body=urllib.urlencode(params))
+        self.token = self._parse_token(response.body)
+        callback(self.token)
 
     def build_access_headers(self, method, resource_url, params=None, request_token=None):
         """Build OAuth access headers for a future request.

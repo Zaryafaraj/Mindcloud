@@ -91,6 +91,8 @@ class AuthorizationHandler(tornado.web.RequestHandler):
             self.write(json_str)
             self.finish()
 
+    @tornado.web.asynchronous
+    @gen.engine
     def post(self, account_id):
         if self.active_requests.has_key(account_id):
             sess = DropboxHelper.create_session()
@@ -101,10 +103,16 @@ class AuthorizationHandler(tornado.web.RequestHandler):
             if request_token is None:
                 self.write_error(401)
 
-            access_token = sess.obtain_access_token(request_token)
-            Accounts.add_account(account_id, access_token)
+            #Get the access token from dropbox
+            access_token = yield gen.Task(sess.obtain_access_token,request_token=request_token)
+            #Store it for future use in the mongo
+            yield gen.Task(Accounts.add_account, account_id,access_token)
             #remove the pending request from the dictionary
             del self.active_requests[account_id]
+            #TODO log
+            print "account added"
+            self.set_status(200)
+            self.finish()
 
 if __name__ == "__main__":
     print 'hi'
