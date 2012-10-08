@@ -4,7 +4,9 @@ Developed for mindcloud
 import httplib
 import os
 import cStringIO
+from tornado import gen
 from tornado.httputil import HTTPFile
+from AsynchDropbox import client
 
 __author__ = 'afathali'
 
@@ -49,7 +51,8 @@ class DropboxHelper:
         return db_client
 
     @staticmethod
-    def get_folders(db_client, parent_name, user_id = 'unknown'):
+    @gen.engine
+    def get_folders(db_client, parent_name, callback, user_id = 'unknown'):
         """
         Get all the folder that are sub folders of a given folder
 
@@ -62,18 +65,14 @@ class DropboxHelper:
         Returns:
             - A list of the subfolder names
         """
-        try:
-            metadata = db_client.metadata(parent_name)
-            contents = metadata[DropboxHelper.CONTENT_KEY]
-            #Pythonic Zen master \m/
-            #Filter the name of the folders from the root metadata
-            result = [content[DropboxHelper.PATH_KEY].replace("/","")
-                      for content in contents if content[DropboxHelper.IS_DIR] == True]
-            return result
-
-        except rest.ErrorResponse as exception:
-            print "user: " + str(user_id) + ": " + str(exception.status) + ": " + exception.error_msg
-            return []
+        metadata = yield gen.Task(db_client.metadata,parent_name)
+        contents = metadata[DropboxHelper.CONTENT_KEY]
+        #TODO add error catching
+        #Pythonic Zen master \m/
+        #Filter the name of the folders from the root metadata
+        result = [content[DropboxHelper.PATH_KEY].replace("/","")
+                  for content in contents if content[DropboxHelper.IS_DIR] == True]
+        callback(result)
 
     @staticmethod
     def create_folder(db_client, folder_name, parent_folder = '/'):

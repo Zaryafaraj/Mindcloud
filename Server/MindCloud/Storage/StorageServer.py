@@ -1,8 +1,9 @@
 """
 Handles all the interaction with the storage mechanism
 """
-from Helpers import DropboxHelper
-from Storage import StorageResponse
+from tornado import gen
+from Helpers.DropboxHelper import DropboxHelper
+from Storage.StorageResponse import StorageResponse
 
 __author__ = 'afathali'
 
@@ -16,24 +17,26 @@ class StorageServer:
     __THUMBNAIL_FILENAME = 'thumbnail.jpg'
 
     @staticmethod
-    def __get_storage(user_id):
+    @gen.engine
+    def __get_storage(user_id, callback):
         """
         Retrieve an instance of the current valid storage system for the user with user_id
         In future` if we add different storage mechanism it should be placed here
         """
 
-        account_info = Accounts.get_account(user_id)
+        account_info = yield gen.Task(Accounts.get_account,user_id)
         if account_info is not None:
             key = account_info['ticket'][0]
             secret = account_info['ticket'][1]
             storage = DropboxHelper.create_client(key, secret)
-            return storage
+            callback(storage)
 
         else:
-            return None
+            callback(None)
 
     @staticmethod
-    def list_collections(user_id):
+    @gen.engine
+    def list_collections(user_id, callback):
         """
         List all the collections that the user with user_id has access to
 
@@ -44,12 +47,13 @@ class StorageServer:
             - A list containing the name of all the collections available to the user
 
         """
-        storage = StorageServer.__get_storage(user_id)
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not  None:
-            result = DropboxHelper.get_folders(storage, "/", user_id)
-            return  result
+            result = yield gen.Task(DropboxHelper.get_folders, db_client=storage,parent_name="/",
+                user_id=user_id)
+            callback(result)
         else:
-            return []
+            callback([])
 
     @staticmethod
     def add_collection(user_id, collection_name, file=None):

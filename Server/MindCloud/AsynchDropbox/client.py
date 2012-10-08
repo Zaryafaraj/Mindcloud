@@ -3,6 +3,10 @@ from __future__ import absolute_import
 import re
 import os
 from StringIO import StringIO
+import urllib
+from tornado import gen
+from tornado.httpclient import AsyncHTTPClient
+
 try:
     import json
 except ImportError:
@@ -526,7 +530,8 @@ class DropboxClient(object):
         return self.rest_client.POST(url, params, headers)
 
 
-    def metadata(self, path, list=True, file_limit=25000, hash=None, rev=None, include_deleted=False):
+    @gen.engine
+    def metadata(self, path, callback, list=True, file_limit=25000, hash=None, rev=None, include_deleted=False):
         """Retrieve metadata for a file or folder.
 
         A typical use would be:
@@ -629,7 +634,10 @@ class DropboxClient(object):
 
         url, params, headers = self.request(path, params, method='GET')
 
-        return self.rest_client.GET(url, headers)
+        http = AsyncHTTPClient()
+        response = yield gen.Task(http.fetch, url, method ='GET', headers=headers)
+        response_json = json.loads(response.body)
+        callback(response_json)
 
 
     def search(self, path, query, file_limit=1000, include_deleted=False):
