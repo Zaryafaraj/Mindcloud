@@ -101,7 +101,7 @@ class AuthorizationHandler(tornado.web.RequestHandler):
             #If the request token has been expired send
             # Not Authorized. The user should start again
             if request_token is None:
-                self.write_error(401)
+                self.set_status(401)
 
             #Get the access token from dropbox
             access_token = yield gen.Task(sess.obtain_access_token,request_token=request_token)
@@ -112,7 +112,20 @@ class AuthorizationHandler(tornado.web.RequestHandler):
             #TODO log
             print "account added"
             self.set_status(200)
+            self.write('OK')
             self.finish()
+        else:
+            self.set_status(401)
+
+    @tornado.web.asynchronous
+    @gen.engine
+    def delete(self, account_id):
+        yield gen.Task(Accounts.delete_account, account_id)
+        if self.active_requests.has_key(account_id):
+            del self.active_requests[account_id]
+        self.set_status(200)
+        self.write('OK')
+        self.finish()
 
 if __name__ == "__main__":
     print 'hi'
