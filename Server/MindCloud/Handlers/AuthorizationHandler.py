@@ -8,9 +8,9 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
-from MindCloud.Storage.Accounts import Accounts
+from Storage.Accounts import Accounts
 import json
-from MindCloud.Helpers.DropboxHelper import DropboxHelper
+from Helpers.DropboxHelper import DropboxHelper
 
 class AuthorizationHandler(tornado.web.RequestHandler):
 

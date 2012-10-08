@@ -5,7 +5,7 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
-from MindCloud.Storage.StorageServer import StorageServer
+from Storage.StorageServer import StorageServer
 
 
 class CollectionHandler(tornado.web.RequestHandler):

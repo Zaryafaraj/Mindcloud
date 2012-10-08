@@ -1,8 +1,8 @@
 """
 Handles all the interaction with the storage mechanism
 """
-from MindCloud.Helpers import DropboxHelper
-from MindCloud.Storage import StorageResponse
+from Helpers import DropboxHelper
+from Storage import StorageResponse
 
 __author__ = 'afathali'
 
