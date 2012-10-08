@@ -1,7 +1,6 @@
 from unittest import TestCase
 import uuid
-from MindCloud.StorageResponse import StorageResponse
-from MindCloud.StorageServer import StorageServer
+from MindCloud.Storage import StorageResponse, StorageServer
 
 __author__ = 'afathali'
 

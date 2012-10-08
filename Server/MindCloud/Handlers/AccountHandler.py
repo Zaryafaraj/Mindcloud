@@ -8,7 +8,7 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
-from StorageServer import StorageServer
+from MindCloud.Storage.StorageServer import StorageServer
 
 class AccountHandler(tornado.web.RequestHandler):
     """

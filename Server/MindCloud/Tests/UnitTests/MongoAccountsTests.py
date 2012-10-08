@@ -1,7 +1,7 @@
 import uuid
 from tornado.ioloop import IOLoop
 from tornado.testing import AsyncTestCase
-from MindCloud.Accounts import Accounts
+from MindCloud.Storage.Accounts import Accounts
 
 __author__ = 'afathali'
 

@@ -7,12 +7,10 @@ import tornado.options
 import tornado.web
 import tornado.httpclient
 
-from CollectionHandler import CollectionHandler
-from AccountHandler import AccountHandler
-from AuthorizationHandler import AuthorizationHandler
-from CollectionImageHandler import  CollectionImageHandler
-from DummyHandler import DummyHandler
-from DummyHandlerSynch import DummyHandlerSynch
+from Handlers.CollectionHandler import CollectionHandler
+from Handlers.CollectionImageHandler import CollectionImageHandler
+from Handlers.AccountHandler import AccountHandler
+from Handlers.AuthorizationHandler import AuthorizationHandler
 
 class Application(tornado.web.Application):
     """

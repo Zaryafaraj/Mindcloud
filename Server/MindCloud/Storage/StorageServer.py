@@ -1,11 +1,12 @@
 """
 Handles all the interaction with the storage mechanism
 """
+from MindCloud.Helpers import DropboxHelper
+from MindCloud.Storage import StorageResponse
+
 __author__ = 'afathali'
 
 from Accounts import Accounts
-from DropboxHelper import DropboxHelper
-from StorageResponse import StorageResponse
 
 class StorageServer:
     """

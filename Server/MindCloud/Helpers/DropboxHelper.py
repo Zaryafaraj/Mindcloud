@@ -8,8 +8,8 @@ from tornado.httputil import HTTPFile
 
 __author__ = 'afathali'
 
-from StorageResponse import StorageResponse
-from AsynchDropbox.session import AsyncDropboxSession
+from MindCloud.Storage.StorageResponse import StorageResponse
+from MindCloud.AsynchDropbox.session import AsyncDropboxSession
 class DropboxHelper:
     #TODO for loggign purposes pass the userID to each method
     """
