@@ -45,6 +45,7 @@ class StorageServer:
 
         Returns:
             - A list containing the name of all the collections available to the user
+            will be passed to the callback method
 
         """
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
@@ -56,7 +57,8 @@ class StorageServer:
             callback([])
 
     @staticmethod
-    def add_collection(user_id, collection_name, file=None):
+    @gen.engine
+    def add_collection(user_id, collection_name, callback, file=None):
         """
         Adds a collection to the user collections.
         If a file is specified that single file will be stored in the newly created collection.
@@ -69,17 +71,21 @@ class StorageServer:
 
         Returns:
             - A StorageResponse status code that represent the status of the server
+            will be passed to the callback
              """
 
-        storage = StorageServer.__get_storage(user_id)
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
-            result_code = DropboxHelper.create_folder(storage, collection_name)
-            if result_code == StorageResponse.OK and file is not None:
+            result_code = yield gen.Task(DropboxHelper.create_folder,storage, collection_name)
+            #Make the file a closure so that it will be enclosed in the callback
+            file_closure = file
+            if result_code == StorageResponse.OK and file_closure is not None :
                 parent_path = '/' + collection_name
-                DropboxHelper.add_file(storage, parent_path, file)
-            return result_code
+                result_code = yield gen.Task(DropboxHelper.add_file, storage, parent_path,
+                file)
+            callback(result_code)
         else:
-            return StorageResponse.SERVER_EXCEPTION
+            callback(StorageResponse.SERVER_EXCEPTION)
 
     @staticmethod
     def remove_collection(user_id, collection_name):

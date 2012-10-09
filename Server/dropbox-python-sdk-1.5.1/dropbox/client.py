@@ -563,7 +563,7 @@ class DropboxClient(object):
         return self.rest_client.POST(url, params, headers)
 
 
-    def ile_create_folder(self, path):
+    def file_create_folder(self, path):
         """Create a folder.
 
         Args:

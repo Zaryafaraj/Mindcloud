@@ -44,7 +44,6 @@ class DropboxHelper:
         from the session.
         Key and secret are the oAuth params that the user authenticated with
         """
-
         sess = DropboxHelper.create_session()
         sess.set_token(key, secret)
         db_client = client.DropboxClient(sess)
@@ -61,9 +60,10 @@ class DropboxHelper:
             -``parent_name``: Name of the parent folder for which the subfolders are
             retrieved
             -``user_id``: The id of the user making the call
+            -``callback``: The callback function to call
 
         Returns:
-            - A list of the subfolder names
+            - A list of the subfolder names will be passed to the call back
         """
         metadata = yield gen.Task(db_client.metadata,parent_name)
         contents = metadata[DropboxHelper.CONTENT_KEY]
@@ -75,7 +75,8 @@ class DropboxHelper:
         callback(result)
 
     @staticmethod
-    def create_folder(db_client, folder_name, parent_folder = '/'):
+    @gen.engine
+    def create_folder(db_client, folder_name, callback, parent_folder = '/'):
         """
         Create a folder inside the parent folder for a user
 
@@ -84,23 +85,16 @@ class DropboxHelper:
             -``folder_name``: Name of the folder to be created
             -``parent_folder``: The parent folder under which the new folder will be
             created.
+            -``callback``: The function to call with the response code of the operation
 
         Returns:
-            - A MindCloud Storage response (HTTP Response) corresponding with the results
+            -When the operation is done callback is called with the response code
             of the operation
         """
 
-        try:
-            db_client.file_create_folder("/".join([parent_folder,folder_name]))
-            return StorageResponse.OK
-
-        except rest.ErrorResponse as exception:
-        #if the folder already exists notify the user
-            if exception.status == 403:
-                return StorageResponse.DUPLICATED
-            else:
-                print str(exception.status) + ": " + exception.error_msg
-                return StorageResponse.SERVER_EXCEPTION
+        response = yield gen.Task(db_client.file_create_folder,
+            "/".join([parent_folder,folder_name]))
+        callback(response.code)
 
     @staticmethod
     def delete_folder(db_client, folder_name, parent_folder ='/'):
@@ -161,7 +155,8 @@ class DropboxHelper:
                 return StorageResponse.SERVER_EXCEPTION
 
     @staticmethod
-    def add_file(db_client, parent, file, overwrite = True, file_name = None):
+    @gen.engine
+    def add_file(db_client, parent, file, callback, overwrite = True, file_name = None):
         """
         Adds a file to the parent folder.
         The file will have the same name as the file object and will be located in the parent path.
@@ -177,34 +172,33 @@ class DropboxHelper:
 
         Returns:
             - A MindCloud Storage response (HTTP Response) corresponding with the results
-            of the operation
+            will be passed to the callback
         """
 
-        try:
+        if isinstance(file, HTTPFile):
             #The file input is not hashable and won't save on Dropbox
             #It should be converted to a file like object
             #We use the fast StringIO cStringIO for performance reason
-
-            if isinstance(file, HTTPFile):
-                #create the path in dropbox
-                if file_name is None:
-                    file_name = file.filename
-                file_path = parent + "/" + file_name
-                file_obj = cStringIO.StringIO(file.body)
-                db_client.put_file(file_path, file_obj, overwrite=overwrite)
-                return StorageResponse.OK
-            else:
-                #Its a normal file
-                if file_name is None:
-                    file_name = file.name
-                file_path = parent + "/" + file_name
-                db_client.put_file(file_path, file, overwrite=overwrite)
-                return StorageResponse.OK
-        except rest.ErrorResponse as exception:
-            print str(exception.status) + ": " + exception.error_msg
-            return StorageResponse.SERVER_EXCEPTION
-        except Exception as exception:
-            print exception.message
+            #create the path in dropbox
+            #TODO should refactor this
+            if file_name is None:
+                file_name = file.filename
+            file_obj = cStringIO.StringIO(file.body)
+            file_path = parent + "/" + file_name
+            yield gen.Task(db_client.put_file, file_path, file_obj, callback=callback,
+            overwrite=overwrite)
+            callback(StorageResponse.OK)
+        else:
+            #Its a normal file
+            if file_name is None:
+                file_name = file.name
+                #If the file is an os file (for testing purposes)
+                if '/' in file_name or '\\' in file_name:
+                    file_name = os.path.basename(file_name)
+            file_path = parent + "/" + file_name
+            yield gen.Task(db_client.put_file, file_path, file,
+                overwrite=overwrite)
+            callback(StorageResponse.OK)
 
     @staticmethod
     def get_file(db_client, path, rev=None):

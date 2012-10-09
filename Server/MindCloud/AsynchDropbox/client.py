@@ -217,8 +217,8 @@ class DropboxClient(object):
         except ErrorResponse, e:
             raise e
 
-
-    def put_file(self, full_path, file_obj, overwrite=False, parent_rev=None):
+    @gen.engine
+    def put_file(self, full_path, file_obj, callback, overwrite=False, parent_rev=None):
         """Upload a file.
 
         A typical use case would be as follows:
@@ -293,7 +293,9 @@ class DropboxClient(object):
 
         url, params, headers = self.request(path, params, method='PUT', content_server=True)
 
-        return self.rest_client.PUT(url, file_obj, headers)
+        http = AsyncHTTPClient()
+        response = yield gen.Task(http.fetch, url, method='PUT', headers=headers, body=file_obj.read())
+        callback(response)
 
     def get_file(self, from_path, rev=None):
         """Download a file.
@@ -450,7 +452,8 @@ class DropboxClient(object):
         return self.rest_client.POST(url, params, headers)
 
 
-    def file_create_folder(self, path):
+    @gen.engine
+    def file_create_folder(self, path, callback):
         """Create a folder.
 
         Args:
@@ -471,7 +474,10 @@ class DropboxClient(object):
 
         url, params, headers = self.request("/fileops/create_folder", params)
 
-        return self.rest_client.POST(url, params, headers)
+        http = AsyncHTTPClient()
+        response = yield gen.Task(http.fetch, url, method='POST', headers=headers,
+        body=urllib.urlencode(params))
+        callback(response)
 
 
     def file_delete(self, path):
