@@ -111,7 +111,8 @@ class StorageServer:
             callback(StorageResponse.SERVER_EXCEPTION)
 
     @staticmethod
-    def rename_collection(user_id, old_collection_name, new_collection_name):
+    @gen.engine
+    def rename_collection(user_id, old_collection_name, new_collection_name, callback):
         """
         Renames a collection with old_collection_name to new_collection_name
         Both the old_collection and new_collection should and will be under
@@ -129,6 +130,7 @@ class StorageServer:
 
         Returns:
             - A StorageResponse status code that represents the status of the operation
+            will be passed to the callback
 
         """
 
@@ -136,12 +138,13 @@ class StorageServer:
         old_collection_name = '/' + old_collection_name
         new_collection_name = '/' + new_collection_name
 
-        storage = StorageServer.__get_storage(user_id)
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
-            result_code = DropboxHelper.move_folder(storage,old_collection_name,new_collection_name)
-            return result_code
+            result_code = yield gen.Task(DropboxHelper.move_folder, storage,
+                old_collection_name, new_collection_name)
+            callback(result_code)
         else:
-            return StorageResponse.SERVER_EXCEPTION
+            callback(StorageResponse.SERVER_EXCEPTION)
 
     @staticmethod
     def get_thumbnail(user_id, collection_name):

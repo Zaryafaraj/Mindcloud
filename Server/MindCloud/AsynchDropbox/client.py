@@ -506,7 +506,8 @@ class DropboxClient(object):
         callback(response)
 
 
-    def file_move(self, from_path, to_path):
+    @gen.engine
+    def file_move(self, from_path, to_path, callback):
         """Move a file or folder to a new location.
 
         Args:
@@ -534,7 +535,10 @@ class DropboxClient(object):
 
         url, params, headers = self.request("/fileops/move", params)
 
-        return self.rest_client.POST(url, params, headers)
+        http = AsyncHTTPClient()
+        response = yield gen.Task(http.fetch, url, method='POST', headers=headers,
+            body=urllib.urlencode(params))
+        callback(response)
 
 
     @gen.engine

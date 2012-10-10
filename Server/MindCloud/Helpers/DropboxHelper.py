@@ -118,7 +118,8 @@ class DropboxHelper:
         callback(response.code)
 
     @staticmethod
-    def move_folder(db_client, old_path, new_path):
+    @gen.engine
+    def move_folder(db_client, old_path, new_path, callback):
         """
         Moves a collection from old_path to new_path
         This can be used both for files and folders.
@@ -137,17 +138,8 @@ class DropboxHelper:
             of the operation
         """
 
-        try:
-            db_client.file_move(old_path, new_path)
-            return StorageResponse.OK
-        except rest.ErrorResponse as exception:
-            if exception.status == 404:
-                return StorageResponse.NOT_FOUND
-            elif exception.status == 403:
-                return StorageResponse.DUPLICATED
-            else:
-                print str(exception.status) + ": " + exception.error_msg
-                return StorageResponse.SERVER_EXCEPTION
+        response = yield gen.Task(db_client.file_move, old_path, new_path)
+        callback(response.code)
 
     @staticmethod
     @gen.engine
