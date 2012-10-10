@@ -16,7 +16,6 @@ class StorageServerTests(AsyncTestCase):
     def test_list_collections_valid_account(self):
         StorageServer.list_collections(self.__account_id, callback=self.stop)
         collections = self.wait()
-        print collections
         self.assertTrue(len(collections) > 0)
 
     def test_list_collection_invalid_account(self):
@@ -65,7 +64,6 @@ class StorageServerTests(AsyncTestCase):
             collection_name=collection_name, callback=self.stop, file= file)
         response = self.wait()
         self.assertEqual(StorageResponse.OK, response)
-        #cleanup
         StorageServer.remove_collection(self.__account_id,
             collection_name, callback=self.stop)
         response = self.wait()
@@ -79,12 +77,61 @@ class StorageServerTests(AsyncTestCase):
 
     def test_rename_collection_with_no_file(self):
         collection_name = str(uuid.uuid1())
+        new_collection_name = str(uuid.uuid1())
         StorageServer.add_collection(self.__account_id, collection_name,
             callback=self.stop)
         response = self.wait()
         self.assertEqual(StorageResponse.OK, response)
         StorageServer.rename_collection(self.__account_id,collection_name,
-            'new name', callback=self.stop)
+            new_collection_name, callback=self.stop)
         response = self.wait()
         self.assertEqual(StorageResponse.OK, response)
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, new_collection_name,
+            callback=self.stop)
+        self.wait()
+
+    def test_rename_collection_with_file(self):
+        collection_name = str(uuid.uuid1())
+        new_collection_name = str(uuid.uuid1())
+        file = open('../test_resources/XooML.xml')
+        StorageServer.add_collection(user_id=self.__account_id,
+            collection_name=collection_name, callback=self.stop, file= file)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+        StorageServer.rename_collection(self.__account_id,collection_name,
+            new_collection_name, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+        #cleanup
+        StorageServer.remove_collection(self.__account_id,
+         new_collection_name, callback=self.stop)
+        self.wait()
+
+    def test_retrieve_renamed_collection(self):
+        collection_name = str(uuid.uuid1())
+        new_collection_name = str(uuid.uuid1())
+        StorageServer.add_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+        StorageServer.rename_collection(self.__account_id,collection_name,
+            new_collection_name, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+        StorageServer.list_collections(self.__account_id, callback=self.stop)
+        collections = self.wait()
+        self.assertTrue(collection_name not in collections)
+        self.assertTrue(new_collection_name in collections)
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, new_collection_name,
+            callback=self.stop)
+        self.wait()
+
+    def test_rename_invalid_collection(self):
+        StorageServer.rename_collection(self.__account_id,'dummy',
+            'dummy2', callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.NOT_FOUND, response)
+
 
