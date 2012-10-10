@@ -88,7 +88,8 @@ class StorageServer:
             callback(StorageResponse.SERVER_EXCEPTION)
 
     @staticmethod
-    def remove_collection(user_id, collection_name):
+    @gen.engine
+    def remove_collection(user_id, collection_name, callback):
         """
         Removes a collection from the user collections.
 
@@ -102,12 +103,12 @@ class StorageServer:
             - A StorageResponse status code that represents the status of the operation
             """
 
-        storage = StorageServer.__get_storage(user_id)
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
-            result_code = DropboxHelper.delete_folder(storage, collection_name)
-            return result_code
+            result_code = yield gen.Task(DropboxHelper.delete_folder, storage, collection_name)
+            callback(result_code)
         else:
-            return StorageResponse.SERVER_EXCEPTION
+            callback(StorageResponse.SERVER_EXCEPTION)
 
     @staticmethod
     def rename_collection(user_id, old_collection_name, new_collection_name):

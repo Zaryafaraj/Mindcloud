@@ -97,7 +97,8 @@ class DropboxHelper:
         callback(response.code)
 
     @staticmethod
-    def delete_folder(db_client, folder_name, parent_folder ='/'):
+    @gen.engine
+    def delete_folder(db_client, folder_name, callback, parent_folder ='/'):
         """
         Removes the folder with folder_name which is a sub folder of parent_folder
 
@@ -109,18 +110,12 @@ class DropboxHelper:
 
         Returns:
             - A MindCloud Storage response (HTTP Response) corresponding with the results
-            of the operation
+            of the operation will be passed to the callback
         """
 
-        try:
-            db_client.file_delete("/".join([parent_folder,folder_name]))
-            return StorageResponse.OK
-        except rest.ErrorResponse as exception:
-            if exception.status == 404:
-                return StorageResponse.NOT_FOUND
-            else:
-                print str(exception.status) + ": " + exception.error_msg
-                return StorageResponse.SERVER_EXCEPTION
+        file_path = "/".join([parent_folder,folder_name])
+        response = yield gen.Task(db_client.file_delete, file_path)
+        callback(response.code)
 
     @staticmethod
     def move_folder(db_client, old_path, new_path):

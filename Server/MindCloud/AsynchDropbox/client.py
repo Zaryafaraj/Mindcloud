@@ -479,8 +479,8 @@ class DropboxClient(object):
         body=urllib.urlencode(params))
         callback(response)
 
-
-    def file_delete(self, path):
+    @gen.engine
+    def file_delete(self, path, callback):
         """Delete a file or folder.
 
         Args:
@@ -493,16 +493,17 @@ class DropboxClient(object):
               https://www.dropbox.com/developers/reference/api#fileops-delete
 
         Raises:
-            - A dropbox.rest.ErrorResponse with an HTTP status of
-
-              - 400: Bad request (may be due to many things; check e.error for details)
-              - 404: No file was found at the given path.
+          - 400: Bad request (may be due to many things; check e.error for details)
+          - 404: No file was found at the given path.
         """
         params = {'root': self.session.root, 'path': format_path(path)}
 
         url, params, headers = self.request("/fileops/delete", params)
 
-        return self.rest_client.POST(url, params, headers)
+        http = AsyncHTTPClient()
+        response = yield gen.Task(http.fetch, url, method='POST', headers=headers,
+            body=urllib.urlencode(params))
+        callback(response)
 
 
     def file_move(self, from_path, to_path):
