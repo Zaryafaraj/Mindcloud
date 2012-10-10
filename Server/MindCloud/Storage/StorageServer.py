@@ -170,7 +170,8 @@ class StorageServer:
             return None
 
     @staticmethod
-    def add_thumbnail(user_id, collection_name, file):
+    @gen.engine
+    def add_thumbnail(user_id, collection_name, file, callback):
         """
         Adds a thumbnail image to the collection
 
@@ -185,10 +186,12 @@ class StorageServer:
         """
 
         thumbnail_path = "/%s" % collection_name
-        storage = StorageServer.__get_storage(user_id)
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
-            return DropboxHelper.add_file(storage, thumbnail_path, file,
-                file_name=StorageServer.__THUMBNAIL_FILENAME)
+            file_closure = file
+            response = yield gen.Task(DropboxHelper.add_file, storage, thumbnail_path,
+            file_closure, file_name=StorageServer.__THUMBNAIL_FILENAME)
+            callback(response)
         else:
-            return None
+            callback(StorageResponse.SERVER_EXCEPTION)
 

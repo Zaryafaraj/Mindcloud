@@ -135,3 +135,16 @@ class StorageServerTests(AsyncTestCase):
         self.assertEqual(StorageResponse.NOT_FOUND, response)
 
 
+    def test_add_thumbnail(self):
+        collection_name = str(uuid.uuid1())
+        StorageServer.add_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+        thumbnail = open('../test_resources/thumbnail.jpg')
+        StorageServer.add_thumbnail(self.__account_id, collection_name, thumbnail,
+        callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+
