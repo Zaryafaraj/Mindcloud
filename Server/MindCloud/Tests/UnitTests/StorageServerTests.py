@@ -30,6 +30,9 @@ class StorageServerTests(AsyncTestCase):
             callback=self.stop)
         response = self.wait()
         self.assertEqual(StorageResponse.OK, response)
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
 
     def test_add_collection_with_file(self):
         collection_name = str(uuid.uuid1())
@@ -38,6 +41,9 @@ class StorageServerTests(AsyncTestCase):
             collection_name=collection_name, callback=self.stop, file= file)
         response = self.wait()
         self.assertEqual(StorageResponse.OK, response)
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
 
     def test_remove_collection_with_no_file(self):
         collection_name = str(uuid.uuid1())
