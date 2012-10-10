@@ -147,6 +147,7 @@ class DropboxHelper:
         """
         Adds a file to the parent folder.
         The file will have the same name as the file object and will be located in the parent path.
+        If the parent does not exist it gets created
 
         Args:
             -``db_client``: A dropbox client object created from create_client method

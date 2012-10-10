@@ -76,13 +76,18 @@ class StorageServer:
 
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
-            result_code = yield gen.Task(DropboxHelper.create_folder,storage, collection_name)
+
             #Make the file a closure so that it will be enclosed in the callback
             file_closure = file
-            if result_code == StorageResponse.OK and file_closure is not None :
+            if file_closure is not None:
+                #If the collection does not exist the add_file call
+                #automatically creates
                 parent_path = '/' + collection_name
                 result_code = yield gen.Task(DropboxHelper.add_file, storage, parent_path,
-                file)
+                    file)
+            else:
+                result_code = yield gen.Task(DropboxHelper.create_folder,storage, collection_name)
+
             callback(result_code)
         else:
             callback(StorageResponse.SERVER_EXCEPTION)
@@ -174,6 +179,7 @@ class StorageServer:
     def add_thumbnail(user_id, collection_name, file, callback):
         """
         Adds a thumbnail image to the collection
+        If the collection name does not exists it gets created
 
         Args:
             - ``user_id``: user id corresponding to the user
