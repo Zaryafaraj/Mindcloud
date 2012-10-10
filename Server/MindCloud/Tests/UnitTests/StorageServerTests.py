@@ -55,3 +55,20 @@ class StorageServerTests(AsyncTestCase):
         response = self.wait()
         self.assertEqual(StorageResponse.OK, response)
 
+    def test_remove_collection_with_file(self):
+        collection_name = str(uuid.uuid1())
+        file = open('../test_resources/XooML.xml')
+        StorageServer.add_collection(user_id=self.__account_id,
+            collection_name=collection_name, callback=self.stop, file= file)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+    def test_remove_invalid_collection(self):
+        StorageServer.remove_collection(self.__account_id, 'dummy_collection', callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.NOT_FOUND, response)
+
