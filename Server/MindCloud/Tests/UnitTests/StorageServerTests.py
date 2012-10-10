@@ -162,4 +162,24 @@ class StorageServerTests(AsyncTestCase):
             callback=self.stop)
         self.wait()
 
+    def test_get_thumbnail(self):
+        collection_name = str(uuid.uuid1())
+        StorageServer.add_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+        thumbnail = open('../test_resources/thumbnail.jpg')
+        StorageServer.add_thumbnail(self.__account_id, collection_name, thumbnail,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+        StorageServer.get_thumbnail(self.__account_id, collection_name, callback=self.stop)
+        response = self.wait()
+        result_file = open('../test_resources/workfile.jpg', 'wr+')
+        result_file.write(response.getvalue())
+        response.close()
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        self.wait()
 

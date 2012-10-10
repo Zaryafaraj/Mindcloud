@@ -297,7 +297,8 @@ class DropboxClient(object):
         response = yield gen.Task(http.fetch, url, method='PUT', headers=headers, body=file_obj.read())
         callback(response)
 
-    def get_file(self, from_path, rev=None):
+    @gen.engine
+    def get_file(self, from_path, callback, rev=None):
         """Download a file.
 
         Unlike most other calls, get_file returns a raw HTTPResponse with the connection open.
@@ -334,7 +335,9 @@ class DropboxClient(object):
             params['rev'] = rev
 
         url, params, headers = self.request(path, params, method='GET', content_server=True)
-        return self.rest_client.request("GET", url, headers=headers, raw_response=True)
+        http = AsyncHTTPClient()
+        response = yield gen.Task(http.fetch, url, method='GET', headers=headers)
+        callback(response)
 
     def get_file_and_metadata(self, from_path, rev=None):
         """Download a file alongwith its metadata.

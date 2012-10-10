@@ -152,7 +152,8 @@ class StorageServer:
             callback(StorageResponse.SERVER_EXCEPTION)
 
     @staticmethod
-    def get_thumbnail(user_id, collection_name):
+    @gen.engine
+    def get_thumbnail(user_id, collection_name, callback):
         """
         Retrurns an image thumbnail file for the collection.
         If the collection does not have any thumbnails returns None
@@ -168,11 +169,12 @@ class StorageServer:
         """
 
         thumbnail_path = "/%s/%s" % (collection_name, StorageServer.__THUMBNAIL_FILENAME)
-        storage = StorageServer.__get_storage(user_id)
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
-           return DropboxHelper.get_file(storage, thumbnail_path)
+            response = yield gen.Task(DropboxHelper.get_file, storage, thumbnail_path)
+            callback(response)
         else:
-            return None
+            callback(StorageResponse.SERVER_EXCEPTION)
 
     @staticmethod
     @gen.engine

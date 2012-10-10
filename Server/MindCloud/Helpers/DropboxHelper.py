@@ -189,7 +189,8 @@ class DropboxHelper:
             callback(StorageResponse.OK)
 
     @staticmethod
-    def get_file(db_client, path, rev=None):
+    @gen.engine
+    def get_file(db_client, path, callback, rev=None):
         """
         Retrieves the file specified by the path.
 
@@ -200,22 +201,16 @@ class DropboxHelper:
             If not specified the latest revision is retrieved
 
         Returns:
-        - A file containing the thumbnail img or None if no thumbnail exists
+        - A file containing the thumbnail img or None if no thumbnail exists will be passed
+        to the callback
         """
-        try:
-            httpResponse = db_client.get_file(path,rev)
-            thumbnail_data = httpResponse.read()
-            #create a file like object from thumbnail_data
-            thumbnail_file = cStringIO.StringIO(thumbnail_data)
-            httpResponse.close()
-            return thumbnail_file
 
-        except  rest.ErrorResponse as exception:
-            if exception.status == 404:
-                return None
-            else:
-                print str(exception.status) + ": " + exception.error_msg
-                return None
+        httpResponse = yield gen.Task(db_client.get_file,path, rev=rev)
+        thumbnail_data = httpResponse.body
+        #create a file like object from thumbnail_data
+        thumbnail_file = cStringIO.StringIO(thumbnail_data)
+        #should we close this ?
+        callback(thumbnail_file)
 
 
 
