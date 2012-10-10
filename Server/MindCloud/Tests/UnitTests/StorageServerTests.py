@@ -175,8 +175,8 @@ class StorageServerTests(AsyncTestCase):
         self.assertEqual(StorageResponse.OK, response)
         StorageServer.get_thumbnail(self.__account_id, collection_name, callback=self.stop)
         response = self.wait()
-        result_file = open('../test_resources/workfile.jpg', 'wr+')
-        result_file.write(response.getvalue())
+        result_file = open('../test_resources/thumbnail2.jpg', 'w')
+        result_file.write(response.read())
         response.close()
         #cleanup
         StorageServer.remove_collection(self.__account_id, collection_name,
