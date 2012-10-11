@@ -36,7 +36,8 @@ class AccountHandler(tornado.web.RequestHandler):
             file = self.request.files['file'][0]
 
         collection_name = self.get_argument('collectionName')
-        result_code = yield gen.Task(StorageServer.add_collection, user_id, collection_name, file)
+        result_code = yield gen.Task(StorageServer.add_collection, user_id = user_id,
+            collection_name = collection_name, file=file)
         self.set_status(result_code)
         self.finish()
 

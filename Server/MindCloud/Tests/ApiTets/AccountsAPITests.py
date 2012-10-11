@@ -1,4 +1,5 @@
 import json
+import urllib
 import uuid
 from tornado.testing import AsyncHTTPTestCase
 from tornado.ioloop import IOLoop
@@ -25,4 +26,7 @@ class AccountsTests(AsyncHTTPTestCase):
 
     def test_add_collection_no_file(self):
         collection_name = str(uuid.uuid1())
-        params = {'collectionName':}
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections/'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
