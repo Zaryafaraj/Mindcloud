@@ -26,6 +26,8 @@ class AccountHandler(tornado.web.RequestHandler):
         self.write(json_str)
         self.finish()
 
+    @tornado.web.asynchronous
+    @gen.engine
     def post(self, user_id):
 
         #if we have a file
@@ -34,10 +36,9 @@ class AccountHandler(tornado.web.RequestHandler):
             file = self.request.files['file'][0]
 
         collection_name = self.get_argument('collectionName')
-        result_code = StorageServer.add_collection(user_id, collection_name, file)
+        result_code = yield gen.Task(StorageServer.add_collection, user_id, collection_name, file)
         self.set_status(result_code)
-
-
+        self.finish()
 
 if __name__ == "__main__":
     print 'hi'
