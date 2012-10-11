@@ -1,4 +1,5 @@
 import json
+import uuid
 from tornado.testing import AsyncHTTPTestCase
 from tornado.ioloop import IOLoop
 from TornadoMain import Application
@@ -16,9 +17,12 @@ class AccountsTests(AsyncHTTPTestCase):
         application = Application()
         return application
 
-    def test_list_collections(self):
+    def test_get_collections(self):
         response = self.fetch('/'+self.account_id + '/Collections/')
-        print response.body
         response_json = json.loads(response.body)
         self.assertEqual(200,response.code)
         self.assertTrue(len(response_json) > 0)
+
+    def test_add_collection_no_file(self):
+        collection_name = str(uuid.uuid1())
+        params = {'collectionName':}
