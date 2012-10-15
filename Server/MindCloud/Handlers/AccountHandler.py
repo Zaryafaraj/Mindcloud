@@ -32,6 +32,7 @@ class AccountHandler(tornado.web.RequestHandler):
 
         #if we have a file
         file = None
+        print self.request.body
         if len(self.request.files) > 0 :
             file = self.request.files['file'][0]
 

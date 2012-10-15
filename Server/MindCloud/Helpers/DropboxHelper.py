@@ -173,8 +173,8 @@ class DropboxHelper:
                 file_name = file.filename
             file_obj = cStringIO.StringIO(file.body)
             file_path = parent + "/" + file_name
-            yield gen.Task(db_client.put_file, file_path, file_obj, callback=callback,
-            overwrite=overwrite)
+            yield gen.Task(db_client.put_file, file_path, file_obj, overwrite=overwrite)
+            file_obj.close()
             callback(StorageResponse.OK)
         else:
             #Its a normal file
