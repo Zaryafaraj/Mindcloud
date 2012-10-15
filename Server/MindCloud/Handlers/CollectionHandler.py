@@ -23,7 +23,7 @@ class CollectionHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @gen.engine
     def put(self, user_id, collection_name):
-        new_collection_name = self.get_argument('collection_name')
+        new_collection_name = self.get_argument('collectionName')
         result_code = yield gen.Task(StorageServer.rename_collection, user_id, collection_name, new_collection_name)
         self.set_status(result_code)
         self.finish()
