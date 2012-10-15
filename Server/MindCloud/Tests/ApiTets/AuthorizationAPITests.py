@@ -18,7 +18,6 @@ class AuthorizationTests(AsyncHTTPTestCase):
 
     def test_first_request(self):
         response = self.fetch('/Authorize/' + self.account_id)
-        print response.body
         self.assertEqual(200, response.code)
         #clean up
 

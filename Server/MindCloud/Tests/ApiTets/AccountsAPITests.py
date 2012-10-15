@@ -26,7 +26,7 @@ class AccountsTests(AsyncHTTPTestCase):
         self.assertTrue(len(response_json) > 0)
 
     def test_add_collection_no_file(self):
-        collection_name = str(uuid.uuid1())
+        collection_name = 'colName'
         params = {'collectionName':collection_name}
         url = '/'+self.account_id + '/Collections'
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
@@ -46,11 +46,13 @@ class AccountsTests(AsyncHTTPTestCase):
         return headers, postData
 
     def test_add_collections_with_file(self):
-        collection_name = str(uuid.uuid1())
+        collection_name = 'colName'
         file = open('../test_resources/XooML.xml')
         headers, postData = self._create_multipart_request(collection_name, file)
         url = '/'+self.account_id + '/Collections'
         file.close()
         response = self.fetch(path=url, headers=headers, method='POST', body=postData)
         self.assertEqual(200, response.code)
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
 
