@@ -53,6 +53,7 @@ class AccountsTests(AsyncHTTPTestCase):
         file.close()
         response = self.fetch(path=url, headers=headers, method='POST', body=postData)
         self.assertEqual(200, response.code)
+        #cleanup
         url = '/'.join(['',self.account_id, 'Collections', collection_name])
         self.fetch(path=url, method='DELETE')
 
