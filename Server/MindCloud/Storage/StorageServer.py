@@ -207,7 +207,7 @@ class StorageServer:
 
     @staticmethod
     @gen.engine
-    def get_categories(user_id):
+    def get_categories(user_id, callback):
         """
         Retrieves the categories XML file for the user that categorizes the collections
         If no such file exists we create an empty categories file and save it then
@@ -216,7 +216,22 @@ class StorageServer:
         Returns:
             -An file like object containing the contents of the categories file
         """
-        print 'not implemented'
+        categories_path = '/' + StorageServer.__CATEGORIES_FILENAME
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
+        if storage is not None:
+            response = yield gen.Task(DropboxHelper.get_file, storage, categories_path)
+            #If file is not found create it
+            if response == StorageResponse.NOT_FOUND:
+                categories_template_file = open('../templates/categories.xml')
+                response = yield gen.Task(StorageServer.save_categories, user_id,
+                    categories_template_file)
+                #If file got created successfully include it in the response
+                if response == StorageResponse.OK:
+                   response.body = categories_template_file.read()
+
+            callback(response)
+        else:
+            callback(StorageResponse.SERVER_EXCEPTION)
 
     @staticmethod
     @gen.engine
