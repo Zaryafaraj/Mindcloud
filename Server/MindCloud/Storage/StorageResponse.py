@@ -12,4 +12,5 @@ class StorageResponse:
     DUPLICATED = 403
     SERVER_EXCEPTION = 500
     NOT_FOUND = 404
+    BAD_REQUEST = 400
 

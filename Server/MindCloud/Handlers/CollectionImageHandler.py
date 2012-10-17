@@ -2,6 +2,7 @@
 Created for Mindcloud
 """
 from tornado import gen
+from Storage.StorageResponse import StorageResponse
 
 __author__ = 'afathali'
 import json
@@ -33,4 +34,5 @@ class CollectionImageHandler(tornado.web.RequestHandler):
             result_code = yield gen.Task(StorageServer.add_thumbnail, user_id, collection_name, file)
             self.set_status(result_code)
             self.finish()
-
+        else:
+            self.set_status(StorageResponse.BAD_REQUEST)
