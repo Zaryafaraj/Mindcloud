@@ -18,20 +18,7 @@ class ThumbnailsTests(AsyncHTTPTestCase):
         application = Application()
         return application
 
-    def _create_multipart_request(self, collection_name, file):
-        boundary = '----------------------------62ae4a76207c'
-        content_type = 'multipart/form-data; boundary=' + boundary
-        headers = HTTPHeaders({'content-type':content_type})
-        postData = "--" + boundary +\
-                   "\r\nContent-Disposition: form-data; name=\"file\"; filename=\"Xooml.xml\"\r\nContent-Type: application/xml\r\n\r\n"
-        postData += file.read()
-        postData += "\r\n--" + boundary +\
-                    "\r\nContent-Disposition: form-data; name=\"collectionName\"\r\n\r\n"
-        postData += collection_name
-        postData += "\r\n--" + boundary + "--"
-        return headers, postData
-
-    def __create_multipart_request(self, file):
+    def _create_multipart_request(self, file):
         boundary = '----------------------------62ae4a76207c'
         content_type = 'multipart/form-data; boundary=' + boundary
         headers = HTTPHeaders({'content-type':content_type})
@@ -49,7 +36,7 @@ class ThumbnailsTests(AsyncHTTPTestCase):
         self.assertEqual(200, response.code)
         thumbnail = open('../test_resources/thumbnail.jpg')
         url += '/' + collection_name + '/Thumbnail'
-        headers, post_data = self._create_multipart_request('ali',thumbnail)
+        headers, post_data = self._create_multipart_request(thumbnail)
         response = self.fetch(path=url, headers=headers, method='POST',
             body=post_data)
         self.assertEqual(200, response.code)
@@ -65,7 +52,7 @@ class ThumbnailsTests(AsyncHTTPTestCase):
         self.assertEqual(200, response.code)
         thumbnail = open('../test_resources/thumbnail.jpg')
         url += '/' + collection_name + '/Thumbnail'
-        headers, post_data = self._create_multipart_request('ali',thumbnail)
+        headers, post_data = self._create_multipart_request(thumbnail)
         response = self.fetch(path=url, headers=headers, method='POST',
             body=post_data)
         self.assertEqual(200, response.code)
