@@ -34,3 +34,11 @@ class CategoriesTests(AsyncHTTPTestCase):
             body=post_data)
         self.assertEqual(200, response.code)
 
+    def test_get_categories(self):
+        #whether the category exists or it doesn't in which case we create it
+        #since we are testing only the path from the handler to the storageServer
+        #this assumption doesn't ruin the test
+        url = '/' + self.account_id + '/Categories'
+        response = self.fetch(path=url, method='GET')
+        self.assertTrue(response is not None)
+

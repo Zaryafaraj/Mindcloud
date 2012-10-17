@@ -36,3 +36,5 @@ class CollectionImageHandler(tornado.web.RequestHandler):
             self.finish()
         else:
             self.set_status(StorageResponse.BAD_REQUEST)
+            self.finish()
+

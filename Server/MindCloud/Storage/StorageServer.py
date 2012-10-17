@@ -231,7 +231,7 @@ class StorageServer:
                     categories_template_file)
                 #If file got created successfully include it in the response
                 if response_code == StorageResponse.OK:
-                   response = StorageServer.__EMPTY_CATEGORIES
+                   response =  categories_template_file
 
         callback(response)
 

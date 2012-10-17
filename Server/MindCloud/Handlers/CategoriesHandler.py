@@ -13,6 +13,14 @@ class CategoriesHandler(tornado.web.RequestHandler):
 
     @tornado.web.asynchronous
     @gen.engine
+    def get(self, user_id):
+        categories = yield gen.Task(StorageServer.get_categories, user_id)
+        self.write(categories.read())
+        self.set_header('Content-Type', 'text/xml')
+        self.finish()
+
+    @tornado.web.asynchronous
+    @gen.engine
     def post(self, user_id):
 
         if len(self.request.files) > 0:
@@ -23,4 +31,5 @@ class CategoriesHandler(tornado.web.RequestHandler):
             self.finish()
         else:
             self.set_status(StorageResponse.BAD_REQUEST)
+            self.finish()
 
