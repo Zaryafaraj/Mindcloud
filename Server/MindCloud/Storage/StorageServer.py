@@ -15,6 +15,7 @@ class StorageServer:
     """
 
     __THUMBNAIL_FILENAME = 'thumbnail.jpg'
+    __CATEGORIES_FILENAME = 'collections.xml'
 
     @staticmethod
     @gen.engine
@@ -200,6 +201,55 @@ class StorageServer:
             response = yield gen.Task(DropboxHelper.add_file, storage, thumbnail_path,
             file_closure, file_name=StorageServer.__THUMBNAIL_FILENAME)
             callback(response)
+        else:
+            callback(StorageResponse.SERVER_EXCEPTION)
+
+    @staticmethod
+    @gen.engine
+    def get_categories(user_id):
+        """
+        Retrieves the categories XML file for the user that categorizes the collections
+        If no such file exists we create an empty categories file and save it then
+        send it back to the user
+
+        Returns:
+            -An file like object containing the contents of the categories file
+        """
+        print 'not implemented'
+
+    @staticmethod
+    @gen.engine
+    def save_categories(user_id, categories_file, callback):
+        """
+        Save a category file for the user with user_id
+
+        Returns:
+            - An StorageResponse code indicating the result of the operation
+        """
+        collections_path = '/'
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
+        if storage is not None:
+            file_closure = categories_file
+            response = yield gen.Task(DropboxHelper.add_file, storage, collections_path,
+                file_closure, file_name=StorageServer.__CATEGORIES_FILENAME)
+            callback(response)
+        else:
+            callback(StorageResponse.SERVER_EXCEPTION)
+
+
+    @staticmethod
+    @gen.engine
+    def remove_categories(user_id, callback):
+        """
+        Removes a category file.
+        Theoretically this won't get used in production. Its only here to allow for
+        clean up of tests
+        """
+        categories_path = '/' + StorageServer.__CATEGORIES_FILENAME
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
+        if storage is not None:
+            result_code = yield gen.Task(DropboxHelper.delete_folder, storage, categories_path)
+            callback(result_code)
         else:
             callback(StorageResponse.SERVER_EXCEPTION)
 

@@ -183,3 +183,13 @@ class StorageServerTests(AsyncTestCase):
             callback=self.stop)
         self.wait()
 
+    def test_save_categories(self):
+        collection_file = open('../test_resources/categories.xml')
+        StorageServer.save_categories(self.__account_id, collection_file,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+        #clean up
+        #StorageServer.remove_categories(self.__account_id, callback=self.stop)
+        #self.wait()
+
