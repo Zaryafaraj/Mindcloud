@@ -206,11 +206,13 @@ class DropboxHelper:
         """
 
         httpResponse = yield gen.Task(db_client.get_file,path, rev=rev)
-        thumbnail_data = httpResponse.body
+        if httpResponse.code != 200:
+            callback(None)
+        file_data = httpResponse.body
         #create a file like object from thumbnail_data
-        thumbnail_file = cStringIO.StringIO(thumbnail_data)
+        file = cStringIO.StringIO(file_data)
         #should we close this ?
-        callback(thumbnail_file)
+        callback(file)
 
 
 

@@ -200,4 +200,32 @@ class StorageServerTests(AsyncTestCase):
                 callback=self.stop)
             response = self.wait()
             self.assertEqual(StorageResponse.OK, response)
+        #clean up
+        StorageServer.remove_categories(self.__account_id, callback=self.stop)
+        self.wait()
+
+    def test_get_categories_with_existing_categories(self):
+
+        collection_file = open('../test_resources/categories.xml')
+        StorageServer.save_categories(self.__account_id, collection_file,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        StorageServer.get_categories(self.__account_id, callback=self.stop)
+        response = self.wait()
+        self.assertTrue(response is not None)
+
+        #clean up
+        StorageServer.remove_categories(self.__account_id, callback=self.stop)
+        self.wait()
+
+    def test_get_categories_without_existing_categories(self):
+        StorageServer.get_categories(self.__account_id, callback=self.stop)
+        response = self.wait()
+        self.assertTrue(response is not None)
+
+        #clean up
+        StorageServer.remove_categories(self.__account_id, callback=self.stop)
+        self.wait()
 

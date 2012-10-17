@@ -1,6 +1,7 @@
 """
 Handles all the interaction with the storage mechanism
 """
+import cStringIO
 from tornado import gen
 from Helpers.DropboxHelper import DropboxHelper
 from Storage.StorageResponse import StorageResponse
@@ -17,6 +18,8 @@ class StorageServer:
     __THUMBNAIL_FILENAME = 'thumbnail.jpg'
     __CATEGORIES_FILENAME = 'categories.xml'
     __COLLECTION_FILE_NAME = 'xooml.xml'
+
+    __EMPTY_CATEGORIES = '<?xml version="1.0" encoding="UTF-8"?><root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xooml="http://kftf.ischool.washington.edu/xmlns/xooml" xsi:schemaLocation="http://kftf.ischool.washington.edu/xmlns/xooml http://kftf.ischool.washington.edu/XMLschema/0.41/XooML.xsd"></root>'
 
     @staticmethod
     @gen.engine
@@ -176,7 +179,7 @@ class StorageServer:
             response = yield gen.Task(DropboxHelper.get_file, storage, thumbnail_path)
             callback(response)
         else:
-            callback(StorageResponse.SERVER_EXCEPTION)
+            callback(None)
 
     @staticmethod
     @gen.engine
@@ -218,20 +221,19 @@ class StorageServer:
         """
         categories_path = '/' + StorageServer.__CATEGORIES_FILENAME
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
+        response = None
         if storage is not None:
             response = yield gen.Task(DropboxHelper.get_file, storage, categories_path)
             #If file is not found create it
-            if response == StorageResponse.NOT_FOUND:
-                categories_template_file = open('../templates/categories.xml')
-                response = yield gen.Task(StorageServer.save_categories, user_id,
+            if response is None:
+                categories_template_file = cStringIO.StringIO(StorageServer.__EMPTY_CATEGORIES)
+                response_code = yield gen.Task(StorageServer.save_categories, user_id,
                     categories_template_file)
                 #If file got created successfully include it in the response
-                if response == StorageResponse.OK:
-                   response.body = categories_template_file.read()
+                if response_code == StorageResponse.OK:
+                   response = StorageServer.__EMPTY_CATEGORIES
 
-            callback(response)
-        else:
-            callback(StorageResponse.SERVER_EXCEPTION)
+        callback(response)
 
     @staticmethod
     @gen.engine
