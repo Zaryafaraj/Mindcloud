@@ -16,6 +16,7 @@ class StorageServer:
 
     __THUMBNAIL_FILENAME = 'thumbnail.jpg'
     __CATEGORIES_FILENAME = 'categories.xml'
+    __COLLECTION_FILE_NAME = 'xooml.xml'
 
     @staticmethod
     @gen.engine
@@ -85,7 +86,7 @@ class StorageServer:
                 #automatically creates
                 parent_path = '/' + collection_name
                 result_code = yield gen.Task(DropboxHelper.add_file, storage, parent_path,
-                    file)
+                    file, file_name = StorageServer.__COLLECTION_FILE_NAME)
             else:
                 result_code = yield gen.Task(DropboxHelper.create_folder,storage, collection_name)
 
