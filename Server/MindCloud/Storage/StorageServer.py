@@ -15,7 +15,7 @@ class StorageServer:
     """
 
     __THUMBNAIL_FILENAME = 'thumbnail.jpg'
-    __CATEGORIES_FILENAME = 'collections.xml'
+    __CATEGORIES_FILENAME = 'categories.xml'
 
     @staticmethod
     @gen.engine
