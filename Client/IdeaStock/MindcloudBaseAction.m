@@ -18,6 +18,9 @@
 
 @synthesize baseURL = _baseURL;
 @synthesize receivedData = _receivedData;
+@synthesize request = _request;
+
+#define MINDCLOUD_BASE_URL @"http://localhost:8000/"
 
 -(NSMutableData *)receivedData
 {
@@ -52,7 +55,6 @@
     }
 }
 
-#define MINDCLOUD_BASE_URL @"http://localhost:8000/"
 -(NSString *) baseURL
 {
     return MINDCLOUD_BASE_URL;
@@ -70,15 +72,29 @@
     [self.receivedData setLength:0];
 }
 
+/*
+ Since objective c doesn't have abstract classes
+ Subclasses should implement these
+ */
 -(void) executeGET
 {
-    return;
+    // create the connection with the request
+    // and start loading the data
+    //The default method for the request is GET
+    //we expect to recieve JSON
+    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:self.request delegate:self];
+    if (!theConnection)
+    {
+        NSLog(@"Failed to connect to %@", self.request.URL);
+    }
 }
 
 -(void) executePOST
 {
     return;
 }
+
+
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     // Append the new data to receivedData.

@@ -71,4 +71,13 @@ static Mindcloud * instance;
     [action executePOST];
 
 }
+
+-(void) getAllBulletinBoardsFor:(NSString *)userId
+                   WithCallback:(get_collections_callback)callback
+{
+    
+    MindcloudBaseAction * action = [[AccountsAction alloc] initWithUserID:userId
+                                                              andCallback:callback];
+    [action executeGET];
+}
 @end

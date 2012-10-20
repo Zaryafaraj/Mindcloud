@@ -11,6 +11,7 @@
 @interface MindcloudBaseAction : NSObject <NSURLConnectionDelegate>
 
 @property (nonatomic,readonly) NSString * baseURL;
+@property (atomic,strong) NSMutableURLRequest * request;
 
 //TODO find a way to make this protected
 /**

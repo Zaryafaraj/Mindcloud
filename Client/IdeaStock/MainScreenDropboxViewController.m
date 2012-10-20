@@ -10,6 +10,8 @@
 #import "XoomlBulletinBoardController.h"
 #import "BulletinBoardViewController.h"
 #import "DropBoxAssociativeBulletinBoard.h"
+#import "Mindcloud.h"
+#import "UserPropertiesHelper.h"
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
 
@@ -540,12 +542,15 @@
     
     [self.mainView setContentSize:self.mainView.bounds.size];
     
-    //This call is asynch and the initialization of the bulletinBoardNames happen
-    //in the callback here. 
-    //TODO make delegate a property so you can access it by dropbox.delegate
-    
-    [self.dropBox setActionController:self];
-    [self.dropBox getAllBulletinBoardsAsynch];
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userId = [UserPropertiesHelper userID];
+    [mindcloud getAllBulletinBoardsFor:userId
+                          WithCallback:^(NSArray * collection)
+                 {
+                     self.bulletinBoardNames = [collection mutableCopy];
+                     [self layoutBulletinBoards];
+                     
+                 }];
     
     
 }

@@ -84,6 +84,7 @@
 		DB99FFCC160E8ABB0042ED2A /* MindcloudBaseAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFCB160E8ABB0042ED2A /* MindcloudBaseAction.m */; };
 		DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */; };
 		DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF25C160EA1D800C81C25 /* Mindcloud.m */; };
+		DBC7C4C316327F1900BF3F2D /* AccountsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC7C4C216327F1900BF3F2D /* AccountsAction.m */; };
 		DBDD1ABE15CF215A00F55223 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DBDD1ABD15CF215A00F55223 /* libxml2.dylib */; };
 /* End PBXBuildFile section */
 
@@ -221,6 +222,8 @@
 		DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthenticationAction.m; sourceTree = "<group>"; };
 		DBBAF25B160EA1D800C81C25 /* Mindcloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mindcloud.h; sourceTree = "<group>"; };
 		DBBAF25C160EA1D800C81C25 /* Mindcloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mindcloud.m; sourceTree = "<group>"; };
+		DBC7C4C116327F1900BF3F2D /* AccountsAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountsAction.h; sourceTree = "<group>"; };
+		DBC7C4C216327F1900BF3F2D /* AccountsAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountsAction.m; sourceTree = "<group>"; };
 		DBDD1ABD15CF215A00F55223 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -490,6 +493,8 @@
 				DB99FFCB160E8ABB0042ED2A /* MindcloudBaseAction.m */,
 				DBBAF257160E9E5000C81C25 /* AuthenticationAction.h */,
 				DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */,
+				DBC7C4C116327F1900BF3F2D /* AccountsAction.h */,
+				DBC7C4C216327F1900BF3F2D /* AccountsAction.m */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -672,6 +677,7 @@
 				DB99FFCC160E8ABB0042ED2A /* MindcloudBaseAction.m in Sources */,
 				DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */,
 				DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */,
+				DBC7C4C316327F1900BF3F2D /* AccountsAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
