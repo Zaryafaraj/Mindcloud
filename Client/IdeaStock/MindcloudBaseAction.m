@@ -21,6 +21,7 @@
 @synthesize request = _request;
 
 #define MINDCLOUD_BASE_URL @"http://localhost:8000/"
+#define STATUS_KEY @"status"
 
 -(NSMutableData *)receivedData
 {
@@ -41,13 +42,12 @@
                                                                   error:&err];
         if (!result)
         {
-            NSLog(@"Failed to parse JSON %@",err);
-            return nil;
+            //result is not a dictionary read it as a string and put it as status
+            NSString *dataStr = [[NSString alloc] initWithData:self.receivedData
+                                                      encoding:NSUTF8StringEncoding];
+            result = @{STATUS_KEY:dataStr};
         }
-        else
-        {
-            return result;
-        }
+        return result;
     }
     else
     {
@@ -118,7 +118,7 @@
     if ([self.receivedData length] > 0)
     {
         NSString *dataStr = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
-        NSLog(@"%@", dataStr);
+        NSLog(@"loooloo %@", dataStr);
     }
 }
 @end

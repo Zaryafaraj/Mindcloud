@@ -18,11 +18,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    NSString * userID = [UserPropertiesHelper userID];
-    //FIXME is it okey to call mindcloud class directly from here
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    [mindcloud authorize:userID];
-   
     return YES;
 }
 

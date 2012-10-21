@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AccountsAction.h"
+#import "AuthorizationDelegate.h"
 
 @interface Mindcloud : NSObject
 
@@ -16,7 +17,8 @@
  */
 +(Mindcloud *) getMindCloud;
 
--(void) authorize:(NSString *) userId;
+-(void) authorize:(NSString *) userId
+     withDelegate: (id<AuthorizationDelegate>) delegate;
 
 -(void) authorizationDone:(NSString *) userId;
 

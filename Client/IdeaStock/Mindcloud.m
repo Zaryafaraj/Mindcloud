@@ -9,6 +9,15 @@
 #import "Mindcloud.h"
 #import "AuthenticationAction.h"
 
+@interface Mindcloud()
+
+//This needs to be weak since we want the delegate to get deallocated whenver
+//it wants
+//TODO maybe this is not the best way to do this. Maybe this is bad design
+@property (weak, nonatomic) id<AuthorizationDelegate> authenticationDelegate;
+
+@end
+
 @implementation Mindcloud
 
 static Mindcloud * instance;
@@ -35,7 +44,11 @@ static Mindcloud * instance;
  */
 
 -(void) authorize: (NSString *) userId
+     withDelegate:(id<AuthorizationDelegate>)delegate
 {
+    //set the delegate
+    self.authenticationDelegate = delegate;
+    //prepare the action
     MindcloudBaseAction * action = [[AuthenticationAction alloc] initWithUserId:userId
                                                                     andCallback:^(NSDictionary * results)
                                 {
@@ -44,16 +57,17 @@ static Mindcloud * instance;
                                     {
                                         NSString * urlStr = [results objectForKey:AUTH_URL];
                                         urlStr = [urlStr stringByAppendingFormat:@"&oauth_callback=%@",MINDCLOUD_CALLBACK];
+                                        [self.authenticationDelegate didFinishAuthorizing:userId andNeedsAuthenting:YES withURL:urlStr];
                                         //add a call back URL to switch back to app
                                         
-                                        //open safari with the link to dropbox signin page
-                                        //The call back after user signs in is in the appDelegate.m class
-                                        NSURL * url = [NSURL URLWithString:urlStr];
-                                        [[UIApplication sharedApplication] openURL:url];
                                     }
                                     else
                                     {
                                         NSLog(@"Account Already Auhtorized and ready to use");
+                                        //no authentication step remains
+                                        [delegate didFinishAuthorizing:userId andNeedsAuthenting:NO
+                                                               withURL:nil];
+                                        
                                     }
                                 }];
                                     
@@ -65,6 +79,13 @@ static Mindcloud * instance;
     MindcloudBaseAction * action = [[AuthenticationAction alloc] initWithUserId:userId
                                                                     andCallback:^(NSDictionary * results)
                                     {
+                                        //if someone has registered to recieve notification
+                                        //call them
+                                        if (self.authenticationDelegate)
+                                        {
+                                        //we are done, no more steps needed
+                                        [self.authenticationDelegate didFinishAuthorizing:userId andNeedsAuthenting:NO withURL:nil];
+                                        }
                                         NSLog(@"Account Authorized and Saved in Mindcloud");
                                     }];
     

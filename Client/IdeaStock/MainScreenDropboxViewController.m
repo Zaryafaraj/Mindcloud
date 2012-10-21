@@ -432,15 +432,6 @@
 
 
 /*------------------------------------------------
- Notifications
- -------------------------------------------------*/
-
--(void) bulletinBoardsRead: (NSNotification *) notification{
-    
-    self.bulletinBoardNames = (NSMutableArray*) notification.object;
-    [self layoutBulletinBoards];
-}
-/*------------------------------------------------
  UI Event helpers
  -------------------------------------------------*/
 
@@ -517,30 +508,21 @@
 
 -(void) viewWillAppear:(BOOL)animated{
     
-    /*UIImage * image = [UIImage imageNamed:@"skybacground.jpg"];
-     UIColor * color = [UIColor colorWithPatternImage:image];
-     [self.mainView setBackgroundColor:color];*/
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 }
 
 -(void) viewDidLoad{
     
-    
-    
     [super viewDidLoad];
     
+    [self.mainView setBackgroundColor: [UIColor clearColor]];
+    [self.mainView setContentSize:self.mainView.bounds.size];
+    
+    //TODO what does this do ?
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(bulletinBoardsRead:)
                                                  name:@"BulletinboardsLoaded" 
                                                object:nil];
-    [self.mainView setBackgroundColor: [UIColor clearColor]];
-    
-   /* if (![[DBSession sharedSession] isLinked]) {
-        [[DBSession sharedSession] link];
-    }*/ 
-    
-    
-    [self.mainView setContentSize:self.mainView.bounds.size];
     
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
@@ -551,8 +533,6 @@
                      [self layoutBulletinBoards];
                      
                  }];
-    
-    
 }
 
 -(void) viewDidUnload{
@@ -573,7 +553,6 @@
 -(BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     return YES;
 }
-
 
 
 /*------------------------------------------------

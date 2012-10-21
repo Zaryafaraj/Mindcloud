@@ -35,8 +35,6 @@
 		D7A53CFB1522F39500183CB6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D7A53CF91522F39500183CB6 /* InfoPlist.strings */; };
 		D7A53CFD1522F39500183CB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A53CFC1522F39500183CB6 /* main.m */; };
 		D7A53D011522F39500183CB6 /* IdeaStockAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A53D001522F39500183CB6 /* IdeaStockAppDelegate.m */; };
-		D7A53D041522F39500183CB6 /* dataModelTestBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7A53D021522F39500183CB6 /* dataModelTestBoard.storyboard */; };
-		D7A53D071522F39500183CB6 /* IdeaStockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A53D061522F39500183CB6 /* IdeaStockViewController.m */; };
 		D7A53D0F1522F39500183CB6 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53D0E1522F39500183CB6 /* SenTestingKit.framework */; };
 		D7A53D101522F39500183CB6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53CF01522F39500183CB6 /* UIKit.framework */; };
 		D7A53D111522F39500183CB6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53CF21522F39500183CB6 /* Foundation.framework */; };
@@ -77,6 +75,10 @@
 		D7F1FF2C154D1A3300D07B58 /* NoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F1FF2B154D1A3300D07B58 /* NoteView.m */; };
 		D7F85EB41528D80300F16D25 /* XoomlBulletinBoardController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F85EB31528D80300F16D25 /* XoomlBulletinBoardController.m */; };
 		D7FAD4301534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D7FAD42F1534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.m */; };
+		DB3174F716336A44001229FE /* bg.001.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3174F616336A44001229FE /* bg.001.png */; };
+		DB3174F916336DEB001229FE /* cJOfLC.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DB3174F816336DEA001229FE /* cJOfLC.jpeg */; };
+		DB3174FB1633744F001229FE /* dropbox_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3174FA1633744F001229FE /* dropbox_icon.png */; };
+		DB3174FE16337636001229FE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3174FD16337636001229FE /* SignInViewController.m */; };
 		DB99FFB5160E5C5D0042ED2A /* UserPropertiesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */; };
 		DB99FFBF160E66870042ED2A /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFBE160E66870042ED2A /* StringUtils.m */; };
 		DB99FFC1160E72D40042ED2A /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC0160E72D40042ED2A /* DropboxSDK.framework */; };
@@ -153,9 +155,6 @@
 		D7A53CFE1522F39500183CB6 /* IdeaStock-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IdeaStock-Prefix.pch"; sourceTree = "<group>"; };
 		D7A53CFF1522F39500183CB6 /* IdeaStockAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IdeaStockAppDelegate.h; sourceTree = "<group>"; };
 		D7A53D001522F39500183CB6 /* IdeaStockAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IdeaStockAppDelegate.m; sourceTree = "<group>"; };
-		D7A53D031522F39500183CB6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/dataModelTestBoard.storyboard; sourceTree = "<group>"; };
-		D7A53D051522F39500183CB6 /* IdeaStockViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IdeaStockViewController.h; sourceTree = "<group>"; };
-		D7A53D061522F39500183CB6 /* IdeaStockViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IdeaStockViewController.m; sourceTree = "<group>"; };
 		D7A53D0D1522F39500183CB6 /* IdeaStockTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IdeaStockTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7A53D0E1522F39500183CB6 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		D7A53D161522F39500183CB6 /* IdeaStockTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IdeaStockTests-Info.plist"; sourceTree = "<group>"; };
@@ -210,6 +209,12 @@
 		D7F85EB31528D80300F16D25 /* XoomlBulletinBoardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XoomlBulletinBoardController.m; path = ../XoomlBulletinBoardController.m; sourceTree = "<group>"; };
 		D7FAD42E1534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxAssociativeBulletinBoardTests.h; sourceTree = "<group>"; };
 		D7FAD42F1534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxAssociativeBulletinBoardTests.m; sourceTree = "<group>"; };
+		DB3174F616336A44001229FE /* bg.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.001.png; sourceTree = "<group>"; };
+		DB3174F816336DEA001229FE /* cJOfLC.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cJOfLC.jpeg; sourceTree = "<group>"; };
+		DB3174FA1633744F001229FE /* dropbox_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropbox_icon.png; sourceTree = "<group>"; };
+		DB3174FC16337636001229FE /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
+		DB3174FD16337636001229FE /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
+		DB31750216337ED7001229FE /* AuthorizationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthorizationDelegate.h; sourceTree = "<group>"; };
 		DB99FFB3160E5C5D0042ED2A /* UserPropertiesHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPropertiesHelper.h; sourceTree = "<group>"; };
 		DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPropertiesHelper.m; sourceTree = "<group>"; };
 		DB99FFBD160E66870042ED2A /* StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtils.h; sourceTree = "<group>"; };
@@ -390,6 +395,9 @@
 		D7A53CF71522F39500183CB6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DB3174FA1633744F001229FE /* dropbox_icon.png */,
+				DB3174F816336DEA001229FE /* cJOfLC.jpeg */,
+				DB3174F616336A44001229FE /* bg.001.png */,
 				D7DD09DD1571CE2700918BDF /* notelight.png */,
 				D7DD09D91571CBE200918BDF /* light grey.png */,
 				D7DD09D11571B47000918BDF /* stacknoshadow.png */,
@@ -452,34 +460,64 @@
 		D7BF466315472E0D00F06412 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				D7E44C01156573800080EF71 /* StackViewController.h */,
-				D7E44C02156573800080EF71 /* StackViewController.m */,
+				DB31750116337E70001229FE /* Controllers */,
+				DB31750016337E53001229FE /* Views */,
+				DB3174FF16337E3E001229FE /* Delegates */,
+				D7BF465C154728DD00F06412 /* MainStoryBoard.storyboard */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		DB3174FF16337E3E001229FE /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				D78970D41569E376002EC56F /* NoteViewDelegate.h */,
+			);
+			name = Delegates;
+			sourceTree = "<group>";
+		};
+		DB31750016337E53001229FE /* Views */ = {
+			isa = PBXGroup;
+			children = (
 				D7E44BF7156476360080EF71 /* BulletinBoardObject.h */,
 				D7F1FF2A154D1A3300D07B58 /* NoteView.h */,
 				D7F1FF2B154D1A3300D07B58 /* NoteView.m */,
 				D7DD09E11572190C00918BDF /* ImageView.h */,
 				D7DD09E21572190C00918BDF /* ImageView.m */,
-				D7A53D021522F39500183CB6 /* dataModelTestBoard.storyboard */,
-				D7BF465C154728DD00F06412 /* MainStoryBoard.storyboard */,
-				D7A53D051522F39500183CB6 /* IdeaStockViewController.h */,
-				D71EA183154CD3FB00496663 /* BulletinBoardViewController.h */,
-				D71EA184154CD3FB00496663 /* BulletinBoardViewController.m */,
-				D7A53D061522F39500183CB6 /* IdeaStockViewController.m */,
-				D7BF46641547303700F06412 /* MainScreenDropboxViewController.h */,
-				D7BF46651547303700F06412 /* MainScreenDropboxViewController.m */,
 				D7E44BEC15643AA90080EF71 /* StackView.h */,
 				D7E44BED15643AA90080EF71 /* StackView.m */,
-				D78970D41569E376002EC56F /* NoteViewDelegate.h */,
 			);
-			name = UI;
+			name = Views;
+			sourceTree = "<group>";
+		};
+		DB31750116337E70001229FE /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D7E44C01156573800080EF71 /* StackViewController.h */,
+				D7E44C02156573800080EF71 /* StackViewController.m */,
+				D71EA183154CD3FB00496663 /* BulletinBoardViewController.h */,
+				D71EA184154CD3FB00496663 /* BulletinBoardViewController.m */,
+				D7BF46641547303700F06412 /* MainScreenDropboxViewController.h */,
+				D7BF46651547303700F06412 /* MainScreenDropboxViewController.m */,
+				DB3174FC16337636001229FE /* SignInViewController.h */,
+				DB3174FD16337636001229FE /* SignInViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		DB31750316338213001229FE /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				DB31750216337ED7001229FE /* AuthorizationDelegate.h */,
+			);
+			name = Delegates;
 			sourceTree = "<group>";
 		};
 		DB99FFB1160E5C2D0042ED2A /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				DB31750316338213001229FE /* Delegates */,
 				DB99FFB6160E5D3C0042ED2A /* Actions */,
-				DB99FFB3160E5C5D0042ED2A /* UserPropertiesHelper.h */,
-				DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */,
 				DBBAF25B160EA1D800C81C25 /* Mindcloud.h */,
 				DBBAF25C160EA1D800C81C25 /* Mindcloud.m */,
 			);
@@ -502,6 +540,8 @@
 		DB99FFBB160E66690042ED2A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				DB99FFB3160E5C5D0042ED2A /* UserPropertiesHelper.h */,
+				DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */,
 				D7DEF2C21530D37800D13CF4 /* FileSystemHelper.h */,
 				D7DEF2C31530D37800D13CF4 /* FileSystemHelper.m */,
 				DB99FFBD160E66870042ED2A /* StringUtils.h */,
@@ -583,7 +623,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7A53CFB1522F39500183CB6 /* InfoPlist.strings in Resources */,
-				D7A53D041522F39500183CB6 /* dataModelTestBoard.storyboard in Resources */,
 				D74CF0C415266DD900DDEF0F /* BulletinboardXoomlTemplate.xml in Resources */,
 				D7B1431C152680B600DC7556 /* IdeaStockSchema.xsd in Resources */,
 				D7947AB7152E35B10054CB23 /* NoteXooMLTemplate.xml in Resources */,
@@ -614,6 +653,9 @@
 				D7DD09D41571B47100918BDF /* notenoshadow.png in Resources */,
 				D7DD09DA1571CBE300918BDF /* light grey.png in Resources */,
 				D7DD09DE1571CE2800918BDF /* notelight.png in Resources */,
+				DB3174F716336A44001229FE /* bg.001.png in Resources */,
+				DB3174F916336DEB001229FE /* cJOfLC.jpeg in Resources */,
+				DB3174FB1633744F001229FE /* dropbox_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,7 +692,6 @@
 			files = (
 				D7A53CFD1522F39500183CB6 /* main.m in Sources */,
 				D7A53D011522F39500183CB6 /* IdeaStockAppDelegate.m in Sources */,
-				D7A53D071522F39500183CB6 /* IdeaStockViewController.m in Sources */,
 				D71D934E15230A930043E573 /* DropboxDataModel.m in Sources */,
 				D709470B1523BDFE008E4AD9 /* BulletinBoardNote.m in Sources */,
 				D70947231523DC27008E4AD9 /* DDXMLElementAdditions.m in Sources */,
@@ -678,6 +719,7 @@
 				DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */,
 				DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */,
 				DBC7C4C316327F1900BF3F2D /* AccountsAction.m in Sources */,
+				DB3174FE16337636001229FE /* SignInViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -709,14 +751,6 @@
 				D7A53CFA1522F39500183CB6 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		D7A53D021522F39500183CB6 /* dataModelTestBoard.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D7A53D031522F39500183CB6 /* en */,
-			);
-			name = dataModelTestBoard.storyboard;
 			sourceTree = "<group>";
 		};
 		D7A53D171522F39500183CB6 /* InfoPlist.strings */ = {
