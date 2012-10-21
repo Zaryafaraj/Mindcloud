@@ -72,7 +72,7 @@
     }
     else
     {
-        NSLog(@"HELLOooooooooo");
+      [self performSegueWithIdentifier:@"MainScreenSegue" sender:self];
     }
 }
 
