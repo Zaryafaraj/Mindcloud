@@ -421,7 +421,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 		return nil;
 	}
 	
-	NSString *name = [NSString stringWithUTF8String:(const char *)xmlName];
+	NSString *name = @((const char *)xmlName);
 	
 	if (IsXmlNodePtr(genericPtr))
 	{
@@ -483,7 +483,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	{
 		xmlChar *content = xmlNodeGetContent((xmlNodePtr)genericPtr);
 		
-		NSString *result = [NSString stringWithUTF8String:(const char *)content];
+		NSString *result = @((const char *)content);
 		
 		xmlFree(content);
 		return result;
@@ -1018,7 +1018,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 		xmlNodePtr node = (xmlNodePtr)genericPtr;
 		if (node->ns != NULL)
 		{
-			return [NSString stringWithUTF8String:((const char *)node->ns->href)];
+			return @((const char *)node->ns->href);
 		}
 	}
 	
@@ -1173,7 +1173,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	if ([self kind] == DDXMLTextKind)
 	{
-		NSString *result = [NSString stringWithUTF8String:(const char *)bufferPtr->content];
+		NSString *result = @((const char *)bufferPtr->content);
 		
 		xmlBufferFree(bufferPtr);
 		
@@ -1259,7 +1259,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 		
 		if(count == 0)
 		{
-			result = [NSArray array];
+			result = @[];
 		}
 		else
 		{
@@ -1944,7 +1944,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 **/
 + (NSError *)lastError
 {
-	NSValue *lastErrorValue = [[[NSThread currentThread] threadDictionary] objectForKey:DDLastErrorKey];
+	NSValue *lastErrorValue = [[NSThread currentThread] threadDictionary][DDLastErrorKey];
 	if(lastErrorValue)
 	{
 		xmlError lastError;
@@ -1953,7 +1953,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 		int errCode = lastError.code;
 		NSString *errMsg = [[NSString stringWithFormat:@"%s", lastError.message] stringByTrimming];
 		
-		NSDictionary *info = [NSDictionary dictionaryWithObject:errMsg forKey:NSLocalizedDescriptionKey];
+		NSDictionary *info = @{NSLocalizedDescriptionKey: errMsg};
 			
 		return [NSError errorWithDomain:@"DDXMLErrorDomain" code:errCode userInfo:info];
 	}
@@ -1979,7 +1979,7 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 	{
 		NSValue *errorValue = [NSValue valueWithBytes:error objCType:@encode(xmlError)];
 		
-		[[[NSThread currentThread] threadDictionary] setObject:errorValue forKey:DDLastErrorKey];
+		[[NSThread currentThread] threadDictionary][DDLastErrorKey] = errorValue;
 	}
 }
 
@@ -2239,7 +2239,7 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 	
 	xmlNsPtr ns = (xmlNsPtr)genericPtr;
 	if (ns->prefix != NULL)
-		return [NSString stringWithUTF8String:((const char*)ns->prefix)];
+		return @((const char*)ns->prefix);
 	else
 		return @"";
 }
@@ -2262,7 +2262,7 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 	DDXMLNotZombieAssert();
 #endif
 	
-	return [NSString stringWithUTF8String:((const char *)((xmlNsPtr)genericPtr)->href)];
+	return @((const char *)((xmlNsPtr)genericPtr)->href);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2449,7 +2449,7 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 	// Strangely enough, the localName of a namespace is the prefix, and the prefix is an empty string
 	xmlNsPtr ns = (xmlNsPtr)genericPtr;
 	if (ns->prefix != NULL)
-		return [NSString stringWithUTF8String:((const char *)ns->prefix)];
+		return @((const char *)ns->prefix);
 	else
 		return @"";
 }
@@ -2565,7 +2565,7 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 		return nil;
 	}
 	
-	NSString *name = [NSString stringWithUTF8String:(const char *)xmlName];
+	NSString *name = @((const char *)xmlName);
 	
 	NSRange range = [name rangeOfString:@":"];
 	if (range.length == 0)
@@ -2610,7 +2610,7 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 	
 	if (attr->children != NULL)
 	{
-		return [NSString stringWithUTF8String:(const char *)attr->children->content];
+		return @((const char *)attr->children->content);
 	}
 	
 	return nil;
@@ -2760,7 +2760,7 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 	{
 		if (attr->ns->href != NULL)
 		{
-			return [NSString stringWithUTF8String:((const char *)attr->ns->href)];
+			return @((const char *)attr->ns->href);
 		}
 	}
 	
@@ -2775,7 +2775,7 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 		xmlNsPtr ns = xmlSearchNs(attr->doc, attr->parent, [prefix xmlChar]);
 		if (ns && ns->href)
 		{
-			return [NSString stringWithUTF8String:((const char *)ns->href)];
+			return @((const char *)ns->href);
 		}
 	}
 	
@@ -2833,7 +2833,7 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 	return 0;
 }
 - (NSArray *)children {
-	return [NSArray array];
+	return @[];
 }
 - (DDXMLNode *)childAtIndex:(NSUInteger)index {
 	return nil;
@@ -2891,14 +2891,14 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 // #pragma mark XPath/XQuery
 
 - (NSArray *)nodesForXPath:(NSString *)xpath error:(NSError **)error {
-	return [NSArray array];
+	return @[];
 }
 
 - (NSArray *)objectsForXQuery:(NSString *)xquery constants:(NSDictionary *)constants error:(NSError **)error {
-	return [NSArray array];
+	return @[];
 }
 - (NSArray *)objectsForXQuery:(NSString *)xquery error:(NSError **)error {
-	return [NSArray array];
+	return @[];
 }
 
 @end

@@ -107,7 +107,7 @@ DropBoxAssociativeBulletinBoard * board;
         STAssertEquals(1, linkageSize,@"linkages didn't instantiate correctly");
         
         NSDictionary *noteName = [self.board getAllNoteAttributeNamesOfType:NOTE_NAME_TYPE forNote:noteID];
-        NSString * name = [[noteName objectForKey:[[noteName allKeys] lastObject]] lastObject];
+        NSString * name = [noteName[[[noteName allKeys] lastObject]] lastObject];
         if (![name isEqualToString:@"Note1"] && ![name isEqualToString:@"Note2"]){
             STFail(@"Note NAmes didn't get instantiated correctly");
         }

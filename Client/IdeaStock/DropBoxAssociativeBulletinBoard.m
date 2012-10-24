@@ -224,7 +224,7 @@ _needSynchronization;
         
         //for each note create a note Object by reading its separate xooml files
         //from the data model
-        NSString * noteName = [[noteInfo objectForKey:noteID] objectForKey:NOTE_NAME];
+        NSString * noteName = noteInfo[noteID][NOTE_NAME];
         NSData * noteData = [self getNoteDataForNote:noteName];
         
         [self initiateNoteContent:noteData
@@ -507,10 +507,10 @@ fromBulletinBoardAttribute:attributeName
     NSMutableDictionary * images = [[NSMutableDictionary alloc] init];
     for (NSString * noteID in self.noteImages){
         
-        NSString * imgPath = [self.noteImages objectForKey:noteID];
+        NSString * imgPath = (self.noteImages)[noteID];
         NSData * imgData = [self getImageDataForPath:imgPath];
         if (imgData != nil){
-            [images setObject:imgData forKey:noteID];
+            images[noteID] = imgData;
         }
     }
     return images;
@@ -544,7 +544,7 @@ fromBulletinBoardAttribute:attributeName
     
     NSData * content;
     for (NSString * noteID in self.noteContents){
-        content = [XoomlParser convertNoteToXooml:[self.noteContents objectForKey:noteID]];
+        content = [XoomlParser convertNoteToXooml:(self.noteContents)[noteID]];
         break;
     }
     NSString * bulletinBoardName = self.demoBulletinBoardName ? self.demoBulletinBoardName : self.bulletinBoardName;

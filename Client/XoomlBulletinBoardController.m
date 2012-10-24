@@ -202,7 +202,7 @@
                 ;
             }
             
-            [result setObject:[refNotesArray copy] forKey:name];
+            result[name] = [refNotesArray copy];
             
         }
         
@@ -260,7 +260,7 @@
             NSString * refID = [[refIDElem attributeForName:REF_ID] stringValue];
             [refNotesArray addObject:refID];
         }
-        [result setObject:[refNotesArray copy] forKey:name];
+        result[name] = [refNotesArray copy];
     }
     
     return [result copy];
@@ -309,7 +309,7 @@
             NSString * refID = [[refIDElem attributeForName:REF_ID] stringValue];
             [refNotesArray addObject:refID];
         }
-        [result setObject:[refNotesArray copy] forKey:name];
+        result[name] = [refNotesArray copy];
     }
     
     return [result copy];
@@ -352,13 +352,13 @@
         }
         //for every note create a sub answer with all that notes properties
         NSMutableDictionary * subAnswer = [NSMutableDictionary dictionary];
-        [subAnswer setObject:noteName forKey:NOTE_NAME_KEY];
-        if (notePositionX) [subAnswer setObject:notePositionX forKey:NOTE_POSITION_X_KEY];
-        if (notePositionY) [subAnswer setObject:notePositionY forKey:NOTE_POSITION_Y_KEY];
-        if (noteVisibility) [subAnswer setObject:noteVisibility forKey:NOTE_IS_VISIBLE];
+        subAnswer[NOTE_NAME_KEY] = noteName;
+        if (notePositionX) subAnswer[NOTE_POSITION_X_KEY] = notePositionX;
+        if (notePositionY) subAnswer[NOTE_POSITION_Y_KEY] = notePositionY;
+        if (noteVisibility) subAnswer[NOTE_IS_VISIBLE] = noteVisibility;
         //set the answer object for the note with noteID as that subAnswer dictionary
         //which now contains all key value pairs of properties. 
-        [answer setObject:[subAnswer copy] forKey:noteID];
+        answer[noteID] = [subAnswer copy];
     }
     
     return [answer copy];
@@ -590,10 +590,10 @@ WithReferenceToNote: (NSString *) refNoteID{
     
     //get the required attributes from the properties dictionary
     //if they are missing return
-    NSString * noteName = [properties objectForKey:NOTE_NAME_KEY];
-    NSString * positionX = [properties objectForKey:NOTE_POSITION_X_KEY];
-    NSString * positionY = [properties objectForKey:NOTE_POSITION_Y_KEY];
-    NSString * isVisible = [properties objectForKey:NOTE_IS_VISIBLE];
+    NSString * noteName = properties[NOTE_NAME_KEY];
+    NSString * positionX = properties[NOTE_POSITION_X_KEY];
+    NSString * positionY = properties[NOTE_POSITION_Y_KEY];
+    NSString * isVisible = properties[NOTE_IS_VISIBLE];
     if (!noteName || !positionX || !positionY || !isVisible) return;
     
     //create the note node
@@ -611,10 +611,10 @@ WithReferenceToNote: (NSString *) refNoteID{
     DDXMLElement * root = [self.document rootElement];
     [root addChild:noteNode];
     //add the linkage information if there are any
-    NSDictionary * linkageRefs = [properties objectForKey:LINKAGE_TYPE];
+    NSDictionary * linkageRefs = properties[LINKAGE_TYPE];
     if (!linkageRefs) return;
     for (NSString * linkageName in linkageRefs){
-        NSArray * refIDs = [linkageRefs objectForKey:linkageName];
+        NSArray * refIDs = linkageRefs[linkageName];
         for (NSString * refID in refIDs){
             [self addLinkage:linkageName ToNote:noteId WithReferenceToNote:refID];
         }
@@ -642,9 +642,9 @@ WithReferenceToNote: (NSString *) refNoteID{
         if ( [values count] < 3) return;
         
         //get the position attributes
-        NSString * positionX = [values objectAtIndex:0];
-        NSString * positionY = [values objectAtIndex:1];
-        NSString * isVisible = [values objectAtIndex:2];
+        NSString * positionX = values[0];
+        NSString * positionY = values[1];
+        NSString * isVisible = values[2];
         
         //get the note to add the position to
         DDXMLElement * note = [self getNoteElementFor:noteID];
@@ -1093,10 +1093,10 @@ attributeName ofType:(NSString *) attributeType{
     DDXMLElement * note = [self getNoteElementFor:noteID];
     if (!note) return;
     
-    NSString * newName = [[newProperties objectForKey:NOTE_NAME_KEY] lastObject];
-    NSString * newPositionX = [[newProperties objectForKey:NOTE_POSITION_X_KEY] lastObject];
-    NSString * newPositionY = [[newProperties objectForKey:NOTE_POSITION_Y_KEY]lastObject];
-    NSString * newIsVisible = [[newProperties objectForKey:NOTE_IS_VISIBLE] lastObject];
+    NSString * newName = [newProperties[NOTE_NAME_KEY] lastObject];
+    NSString * newPositionX = [newProperties[NOTE_POSITION_X_KEY] lastObject];
+    NSString * newPositionY = [newProperties[NOTE_POSITION_Y_KEY]lastObject];
+    NSString * newIsVisible = [newProperties[NOTE_IS_VISIBLE] lastObject];
     //if its the name of the note that we want to change change it on the 
     //note itself
     if (newName){

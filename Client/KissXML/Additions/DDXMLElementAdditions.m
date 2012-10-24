@@ -21,7 +21,7 @@
 	NSArray *elements = [self elementsForName:name];
 	if([elements count] > 0)
 	{
-		return [elements objectAtIndex:0];
+		return elements[0];
 	}
 	else
 	{
@@ -59,7 +59,7 @@
 	NSArray *elements = [self elementsForLocalName:name URI:xmlns];
 	if([elements count] > 0)
 	{
-		return [elements objectAtIndex:0];
+		return elements[0];
 	}
 	else
 	{
@@ -121,9 +121,9 @@
 	uint i;
 	for(i = 0; i < [attributes count]; i++)
 	{
-		DDXMLNode *node = [attributes objectAtIndex:i];
+		DDXMLNode *node = attributes[i];
 		
-		[result setObject:[node stringValue] forKey:[node name]];
+		result[[node name]] = [node stringValue];
 	}
 	return result;
 }

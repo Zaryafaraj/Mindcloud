@@ -47,7 +47,7 @@
     self.attributes = [NSMutableDictionary dictionary];
     for (NSString * attributeType in attributeTypes){
         NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
-        [self.attributes setObject:attributes forKey:attributeType];
+        (self.attributes)[attributeType] = attributes;
     }
     return self;
 }
@@ -56,20 +56,20 @@
                 forAttributeType:(NSString *) attributeType
                        andValues: (NSArray *)values{
     
-    [[self.attributes objectForKey:attributeType] setObject:[values mutableCopy] forKey:attributeName];
+    (self.attributes)[attributeType][attributeName] = [values mutableCopy];
 }
 
 -(void) createAttributeWithName:(NSString *)attributeName
                forAttributeType:(NSString *)attributeType{
     [self createAttributeWithName:attributeName
                  forAttributeType:attributeType
-                        andValues:[NSArray array]];
+                        andValues:@[]];
 }
 
 -(void) addValues:(NSArray *)values
       ToAttribute:(NSString *)attributeName
  forAttributeType:(NSString *)attributeType{
-    NSMutableArray * oldValues = [[self.attributes objectForKey:attributeType] objectForKey:attributeName];
+    NSMutableArray * oldValues = (self.attributes)[attributeType][attributeName];
     if (!oldValues){
         [self createAttributeWithName:attributeName forAttributeType:attributeType andValues:values];
         return;
@@ -88,13 +88,13 @@
  -------------------------------------------------*/
 
 -(NSDictionary *) getAllAttributeNamesForAttributeType: (NSString *) attributeType{
-    NSDictionary * result = [[self.attributes objectForKey:attributeType] copy];
+    NSDictionary * result = [(self.attributes)[attributeType] copy];
     return result;
 }
 
 -(NSArray *) getAttributeWithName: (NSString *) attributeName
                   forAttributeType: (NSString *) attributeType{
-    return [[[self.attributes objectForKey:attributeType] objectForKey:attributeName] copy];
+    return [(self.attributes)[attributeType][attributeName] copy];
     
 }
 
@@ -111,21 +111,21 @@
 -(void) removeValues: (NSArray *) values
         fromAttribute: (NSString *) attributeName
      forAttributeType: (NSString *) attributeType{
-    [[[self.attributes objectForKey:attributeType] objectForKey:attributeName] removeObjectsInArray:values];
+    [(self.attributes)[attributeType][attributeName] removeObjectsInArray:values];
 }
 
 -(void) removeAttribute: (NSString *) attributeName
         forAttributeType: (NSString *)AttributeType{
     
-    [[self.attributes objectForKey:AttributeType] removeObjectForKey:attributeName];
+    [(self.attributes)[AttributeType] removeObjectForKey:attributeName];
 }
 
 -(void) removeAllOccurancesOfValue:(NSString *) delValue{
     for (NSString * attributeType in self.attributes){
-        for (NSString * attributeName in [self.attributes objectForKey:attributeType]){
-            for (NSString * value in [[self.attributes objectForKey:attributeType] objectForKey:attributeName]){
+        for (NSString * attributeName in (self.attributes)[attributeType]){
+            for (NSString * value in (self.attributes)[attributeType][attributeName]){
                 if ([value isEqualToString:delValue]){
-                    [[[self.attributes objectForKey:attributeType] objectForKey:attributeName] removeObject:value];
+                    [(self.attributes)[attributeType][attributeName] removeObject:value];
                 }
             }
             
@@ -153,8 +153,8 @@
           ofAttribue: (NSString *) attributeName 
               ofType: (NSString *) attributeType 
         withNewValue: (NSString *) newValue{
-    [self removeValues:[NSArray arrayWithObject:value] fromAttribute:attributeName forAttributeType:attributeType];
-    [self addValues:[NSArray arrayWithObject:newValue] ToAttribute: attributeName forAttributeType:attributeType];
+    [self removeValues:@[value] fromAttribute:attributeName forAttributeType:attributeType];
+    [self addValues:@[newValue] ToAttribute: attributeName forAttributeType:attributeType];
     
 }
 
@@ -163,10 +163,10 @@
             withNewValue: (NSArray *) newValues{
 
     //remove all objects for the attribute name
-    [[[self.attributes objectForKey:attributeType] objectForKey:attributeName] removeAllObjects];
+    [(self.attributes)[attributeType][attributeName] removeAllObjects];
     
     //replace the new objects
-    [[[self.attributes objectForKey:attributeType] objectForKey:attributeName] addObjectsFromArray:newValues];
+    [(self.attributes)[attributeType][attributeName] addObjectsFromArray:newValues];
     
 }
 

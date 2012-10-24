@@ -42,7 +42,7 @@
 {
     [super connectionDidFinishLoading:connection];
     NSDictionary * result = self.getDataAsDictionary;
-    NSArray * resultArray = [result objectForKey:COLLECTION_KEY];
+    NSArray * resultArray = result[COLLECTION_KEY];
     self.getCallback(resultArray);
 }
 

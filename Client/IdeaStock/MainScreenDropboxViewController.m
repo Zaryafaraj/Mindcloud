@@ -406,7 +406,7 @@
                      animations:^{
                          
                          
-                         UILabel * viewLabel = (UILabel *)[[self.lastView subviews] objectAtIndex:0];
+                         UILabel * viewLabel = (UILabel *)[self.lastView subviews][0];
                          
                          viewLabel.alpha = 1;
                          // viewLabel.transform = CGAffineTransformIdentity;
@@ -438,7 +438,7 @@
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"bulletinBoardSegue"]){
         
-        NSString * name = ((UILabel *)[[((UIView *) sender) subviews] objectAtIndex:0]).text;
+        NSString * name = ((UILabel *)[((UIView *) sender) subviews][0]).text;
         DropBoxAssociativeBulletinBoard * board = [[DropBoxAssociativeBulletinBoard alloc] initBulletinBoardFromXoomlWithName:name];
         ((BulletinBoardViewController *) segue.destinationViewController).bulletinBoardName = name; 
         ((BulletinBoardViewController *) segue.destinationViewController).parent = self;

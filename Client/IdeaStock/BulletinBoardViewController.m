@@ -288,7 +288,7 @@
     NSString * positionX = [NSString stringWithFormat:@"%f", note.frame.origin.x];
     NSStream * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
     
-    NSDictionary * noteProperties =[[NSDictionary alloc] initWithObjectsAndKeys:noteName,@"name",noteID,@"ID",positionX,@"positionX",positionY, @"positionY",@"true", @"isVisible",nil];
+    NSDictionary * noteProperties =@{@"name": noteName,@"ID": noteID,@"positionX": positionX,@"positionY": positionY,@"isVisible": @"true"};
     BulletinBoardNote * noteItem = [[BulletinBoardNote alloc] initEmptyNoteWithID:noteTextID andDate:creationDate];
     noteItem.noteText = note.text;
     
@@ -311,7 +311,7 @@
     NSString * positionX = [NSString stringWithFormat:@"%f", note.frame.origin.x];
     NSStream * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
     
-    NSDictionary * noteProperties =[[NSDictionary alloc] initWithObjectsAndKeys:noteName,@"name",noteID,@"ID",positionX,@"positionX",positionY, @"positionY",@"true", @"isVisible",nil];
+    NSDictionary * noteProperties =@{@"name": noteName,@"ID": noteID,@"positionX": positionX,@"positionY": positionY,@"isVisible": @"true"};
     BulletinBoardNote * noteItem = [[BulletinBoardNote alloc] initEmptyNoteWithID:noteTextID andDate:creationDate];
     noteItem.noteText = note.text;
     NSData * imgData = UIImageJPEGRepresentation(note.image, IMG_COMPRESSION_QUALITY);
@@ -330,13 +330,12 @@
     positionFloat = view.frame.origin.y;
     NSString * positionY = [NSString stringWithFormat:@"%f",positionFloat];
     
-    NSArray * positionXArr = [NSArray arrayWithObject:positionX];
-    NSArray * positionYArr = [NSArray arrayWithObject:positionY];
-    NSDictionary * position = [[NSDictionary alloc] initWithObjectsAndKeys:
-                               positionXArr, POSITION_X_TYPE,
-                               positionYArr, POSITION_Y_TYPE, nil];
+    NSArray * positionXArr = @[positionX];
+    NSArray * positionYArr = @[positionY];
+    NSDictionary * position = @{POSITION_X_TYPE: positionXArr,
+                               POSITION_Y_TYPE: positionYArr};
     
-    NSDictionary * newProperties = [[NSDictionary alloc] initWithObjectsAndKeys:position,POSITION_TYPE, nil];
+    NSDictionary * newProperties = @{POSITION_TYPE: position};
     
     [self.board updateNoteProperties:noteID withProperties:newProperties]; 
 }
@@ -409,11 +408,11 @@
     
     
     for(NSString* noteID in [allNotes allKeys]){
-        BulletinBoardNote * noteObj = [allNotes objectForKey:noteID];
+        BulletinBoardNote * noteObj = allNotes[noteID];
         NSDictionary * noteAttributes = [self.board getAllNoteAttributesForNote:noteID];
-        NSDictionary * position = [noteAttributes objectForKey:@"position"];
-        float positionX = [[[position objectForKey:@"positionX"] lastObject] floatValue];
-        float positionY = [[[position objectForKey:@"positionY"] lastObject] floatValue];
+        NSDictionary * position = noteAttributes[@"position"];
+        float positionX = [[position[@"positionX"] lastObject] floatValue];
+        float positionY = [[position[@"positionY"] lastObject] floatValue];
         
         if ( positionX + NOTE_WIDTH > self.bulletinboardView.frame.origin.x + self.bulletinboardView.frame.size.width ){
             positionX = self.bulletinboardView.frame.origin.x + self.bulletinboardView.frame.size.width - NOTE_WIDTH;
@@ -432,8 +431,8 @@
         CGRect noteFrame = CGRectMake(positionX, positionY, NOTE_WIDTH, NOTE_HEIGHT);
         NoteView * note ;
         
-        if ([allImgs objectForKey:noteID]){
-            UIImage * img = [[UIImage alloc] initWithData:[allImgs objectForKey:noteID]];
+        if (allImgs[noteID]){
+            UIImage * img = [[UIImage alloc] initWithData:allImgs[noteID]];
             note = [[ImageView alloc] initWithFrame:noteFrame 
                                                     andImage:img];
         }
@@ -483,7 +482,7 @@
         NSLog(@"%d",count);
         count++;
         NSMutableArray * views = [[NSMutableArray alloc] init];
-        NSArray * noteRefIDs = [stackings objectForKey:stackingID];
+        NSArray * noteRefIDs = stackings[stackingID];
         NSSet * noteRefs = [[NSSet alloc] initWithArray:noteRefIDs];
         UIView * mainView;
         for (UIView * view in self.bulletinboardView.subviews){
@@ -491,7 +490,7 @@
                 NSString * noteID = ((NoteView *) view).ID;
                 if ([noteRefs containsObject:noteID]){
                     [views addObject:view];
-                    if ([noteID isEqualToString:[noteRefIDs objectAtIndex:0]]){
+                    if ([noteID isEqualToString:noteRefIDs[0]]){
                         mainView = view;
                     }
                 }
@@ -1047,7 +1046,7 @@
     UIImagePickerController * imagePicker = [[UIImagePickerController alloc] init];
     imagePicker.delegate = self;
     imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    imagePicker.mediaTypes = [NSArray arrayWithObject:(NSString *) kUTTypeImage];
+    imagePicker.mediaTypes = @[(NSString *) kUTTypeImage];
     imagePicker.allowsEditing = YES;
     
     [self presentModalViewController:imagePicker animated:YES];
@@ -1061,13 +1060,13 @@
 {
     
     int len = [[self.toolbar items] count];
-    self.deleteButton = [[self.toolbar items] objectAtIndex:len - 1];
-    self.expandButton = [[self.toolbar items] objectAtIndex:len - 2];
+    self.deleteButton = [self.toolbar items][len - 1];
+    self.expandButton = [self.toolbar items][len - 2];
     NSMutableArray * toolBarItems = [[NSMutableArray alloc] init];
     
     int remainingCount = [[self.toolbar items] count] -2; 
     for ( int i = 0 ; i < remainingCount ; i++){
-        [toolBarItems addObject:[[self.toolbar items] objectAtIndex:i]];
+        [toolBarItems addObject:[self.toolbar items][i]];
     }
     self.toolbar.items = [toolBarItems copy];
     

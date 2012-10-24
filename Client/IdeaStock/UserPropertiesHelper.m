@@ -19,8 +19,8 @@ static NSString * user_id;
 
 +(NSString *) getUserPropertiesListPath
 {
-    NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-                                                              NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *rootPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                              NSUserDomainMask, YES)[0];
     NSString * plistPath = [rootPath stringByAppendingPathComponent:PROPERTIES_LIST_PATH];
     return plistPath;
     
@@ -36,13 +36,13 @@ static NSString * user_id;
     {
         //first lunch of the app
         userInfo = [NSDictionary dictionaryWithContentsOfFile: propertiesListPath];
-        user_id = [userInfo objectForKey:USER_ID_KEY];
+        user_id = userInfo[USER_ID_KEY];
         return user_id;
     }
     else
     {
         user_id = [StringUtils generateUUID];
-        NSDictionary * userInfo = [NSDictionary dictionaryWithObject:user_id forKey:USER_ID_KEY];
+        NSDictionary * userInfo = @{USER_ID_KEY: user_id};
         BOOL didWrite = [userInfo writeToFile:propertiesListPath atomically:YES];
         if(didWrite) NSLog(@"Wrote the plist");
         return user_id;

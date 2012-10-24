@@ -18,7 +18,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Mindcloud" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lGQ-gS-ktC">
-                                <rect key="frame" x="132" y="142" width="504" height="104"/>
+                                <rect key="frame" x="132" y="147" width="504" height="104"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="90"/>
                                 <nil key="highlightedColor"/>
@@ -254,11 +254,6 @@
         <class className="BulletinBoardViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/BulletinBoardViewController.h"/>
             <relationships>
-                <relationship kind="action" name="backPressed:"/>
-                <relationship kind="action" name="cameraPressed:"/>
-                <relationship kind="action" name="deletePressed:"/>
-                <relationship kind="action" name="expandPressed:"/>
-                <relationship kind="action" name="refreshPressed:"/>
                 <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="bulletinboardView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="label" candidateClass="UIBarButtonItem"/>
@@ -274,16 +269,10 @@
         </class>
         <class className="SignInViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SignInViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="signInPressed:"/>
-            </relationships>
         </class>
         <class className="StackViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StackViewController.h"/>
             <relationships>
-                <relationship kind="action" name="backPressed:"/>
-                <relationship kind="action" name="deletePressed:"/>
-                <relationship kind="action" name="unstackPressed:"/>
                 <relationship kind="outlet" name="stackView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
             </relationships>

@@ -122,8 +122,8 @@
     
     //set the action
     
-    if (![self.actions objectForKey:ACTION_TYPE_CREATE_FOLDER]){
-        [self.actions setObject:[[NSMutableDictionary alloc] init] forKey:ACTION_TYPE_CREATE_FOLDER];
+    if (!(self.actions)[ACTION_TYPE_CREATE_FOLDER]){
+        (self.actions)[ACTION_TYPE_CREATE_FOLDER] = [[NSMutableDictionary alloc] init];
     }
     
     DropboxAction * action = [[DropboxAction alloc] init];
@@ -132,7 +132,7 @@
     action.actionBulletinBoardName = bulletinBoardName;
     
     NSString * folderName = [@"/" stringByAppendingString: bulletinBoardName];
-    [[self.actions objectForKey:ACTION_TYPE_CREATE_FOLDER] setObject:action forKey:folderName];
+    (self.actions)[ACTION_TYPE_CREATE_FOLDER][folderName] = action;
     
     //now create a folder in dropbox the rest is done by the foldercreated delegate method
     [self.restClient createFolder:folderName];
@@ -160,8 +160,8 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
     NSString * destination = [NSString stringWithFormat: @"/%@/%@", bulletinBoardName, noteName];
     
     
-    if (![self.actions objectForKey:ACTION_TYPE_CREATE_FOLDER]){
-        [self.actions setObject:[[NSMutableDictionary alloc] init] forKey:ACTION_TYPE_CREATE_FOLDER];
+    if (!(self.actions)[ACTION_TYPE_CREATE_FOLDER]){
+        (self.actions)[ACTION_TYPE_CREATE_FOLDER] = [[NSMutableDictionary alloc] init];
     }
     
     DropboxAction * action = [[DropboxAction alloc] init];
@@ -171,7 +171,7 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
     action.actionNoteName = noteName;
     
     NSString * folderName = destination;
-    [[self.actions objectForKey:ACTION_TYPE_CREATE_FOLDER] setObject:action forKey:folderName];
+    (self.actions)[ACTION_TYPE_CREATE_FOLDER][folderName] = action;
     
     //the rest is done for loadedMetadata method
     [self.restClient createFolder: destination];
@@ -189,8 +189,8 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
     NSError * err;
     NSString * notePath = [FileSystemHelper getPathForNoteWithName:noteName inBulletinBoardWithName:bulletinBoardName];
     
-    if (![self.actions objectForKey:ACTION_TYPE_CREATE_FOLDER]){
-        [self.actions setObject:[[NSMutableDictionary alloc] init] forKey:ACTION_TYPE_CREATE_FOLDER];
+    if (!(self.actions)[ACTION_TYPE_CREATE_FOLDER]){
+        (self.actions)[ACTION_TYPE_CREATE_FOLDER] = [[NSMutableDictionary alloc] init];
     }
     
     
@@ -222,7 +222,7 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
     action.actionFileName =imgName;
     
     NSString * folderName = [NSString stringWithFormat: @"/%@/%@", bulletinBoardName, noteName];
-    [[self.actions objectForKey:ACTION_TYPE_CREATE_FOLDER] setObject:action forKey:folderName];
+    (self.actions)[ACTION_TYPE_CREATE_FOLDER][folderName] = action;
     //the rest is done for loadedMetadata method
     [self.restClient createFolder: folderName];
 }
@@ -247,8 +247,8 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
         return;
     }
     
-    if (![self.actions objectForKey:ACTION_TYPE_GET_METADATA]){
-        [self.actions setObject:[[NSMutableDictionary alloc] init] forKey:ACTION_TYPE_GET_METADATA];
+    if (!(self.actions)[ACTION_TYPE_GET_METADATA]){
+        (self.actions)[ACTION_TYPE_GET_METADATA] = [[NSMutableDictionary alloc] init];
     }
     
     //set the action
@@ -262,7 +262,7 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
     //To update we need to know the latest revision number by calling metadata
     NSString * folder = [NSString stringWithFormat:@"/%@/%@",bulletinBoardName,BULLETINBOARD_XOOML_FILE_NAME];
     
-    [[self.actions objectForKey:ACTION_TYPE_GET_METADATA] setObject:action forKey:folder];
+    (self.actions)[ACTION_TYPE_GET_METADATA][folder] = action;
     
     [self.restClient loadMetadata:folder];
     
@@ -284,8 +284,8 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
         return;
     }
     
-    if (![self.actions objectForKey:ACTION_TYPE_GET_METADATA]){
-        [self.actions setObject:[[NSMutableDictionary alloc] init] forKey:ACTION_TYPE_GET_METADATA];
+    if (!(self.actions)[ACTION_TYPE_GET_METADATA]){
+        (self.actions)[ACTION_TYPE_GET_METADATA] = [[NSMutableDictionary alloc] init];
     }
     
     DropboxAction * action = [[DropboxAction alloc] init];
@@ -300,7 +300,7 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
     
     NSString * folder = [NSString stringWithFormat:@"/%@/%@/%@",bulletinBoardName,noteName, NOTE_XOOML_FILE_NAME];
     
-    [[self.actions objectForKey:ACTION_TYPE_GET_METADATA] setObject:action forKey:folder];
+    (self.actions)[ACTION_TYPE_GET_METADATA][folder] = action;
     [self.restClient loadMetadata:folder];
     
 }
@@ -371,29 +371,29 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
 
 -(void) getAllBulletinBoardsAsynch{
     
-    if (![self.actions objectForKey:ACTION_TYPE_GET_METADATA]){
-        [self.actions setObject:[[NSMutableDictionary alloc] init] forKey:ACTION_TYPE_GET_METADATA];
+    if (!(self.actions)[ACTION_TYPE_GET_METADATA]){
+        (self.actions)[ACTION_TYPE_GET_METADATA] = [[NSMutableDictionary alloc] init];
     }
     
     DropboxAction * action = [[DropboxAction alloc] init];
     action.action = GET_ALL_BULLETINBOARDS_ACTION;
     
     NSString * folder = @"/";;
-    [[self.actions objectForKey:ACTION_TYPE_GET_METADATA] setObject:action forKey:folder];
+    (self.actions)[ACTION_TYPE_GET_METADATA][folder] = action;
     [self.restClient loadMetadata:folder];
 }
 
 -(void) getBulletinBoardAsynch: (NSString *) bulletinBoardName{
     
-    if (![self.actions objectForKey:ACTION_TYPE_GET_METADATA]){
-        [self.actions setObject:[[NSMutableDictionary alloc] init] forKey:ACTION_TYPE_GET_METADATA];
+    if (!(self.actions)[ACTION_TYPE_GET_METADATA]){
+        (self.actions)[ACTION_TYPE_GET_METADATA] = [[NSMutableDictionary alloc] init];
     }
     
     DropboxAction * action = [[DropboxAction alloc] init];
     action.action = GET_BULLETINBOARD_ACTION;
     
     NSString * folder =[NSString stringWithFormat: @"/%@", bulletinBoardName];
-    [[self.actions objectForKey:ACTION_TYPE_GET_METADATA] setObject:action forKey:folder];
+    (self.actions)[ACTION_TYPE_GET_METADATA][folder] = action;
     [[self restClient] loadMetadata:folder];
     
 }
@@ -410,19 +410,19 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
     NSString * path = [metadata path];
     
     DropboxAction * actionItem;
-    if ([self.actions objectForKey:ACTION_TYPE_GET_METADATA]){
+    if ((self.actions)[ACTION_TYPE_GET_METADATA]){
         NSString * folderName = path;
         //NSString * folderName = [path lastPathComponent];
 
-        if ([[self.actions objectForKey:ACTION_TYPE_GET_METADATA] objectForKey:folderName] || 
-            [[self.actions objectForKey:ACTION_TYPE_GET_METADATA] objectForKey:[@"/" stringByAppendingString:folderName]]){
+        if ((self.actions)[ACTION_TYPE_GET_METADATA][folderName] || 
+            (self.actions)[ACTION_TYPE_GET_METADATA][[@"/" stringByAppendingString:folderName]]){
             
-            actionItem = [[self.actions objectForKey:ACTION_TYPE_GET_METADATA] objectForKey:folderName];
+            actionItem = (self.actions)[ACTION_TYPE_GET_METADATA][folderName];
             if (actionItem == nil){
-                actionItem = actionItem = [[self.actions objectForKey:ACTION_TYPE_GET_METADATA] objectForKey:[@"/" stringByAppendingString:folderName]];
+                actionItem = actionItem = (self.actions)[ACTION_TYPE_GET_METADATA][[@"/" stringByAppendingString:folderName]];
             }
             
-            [[self.actions objectForKey:ACTION_TYPE_GET_METADATA] removeObjectForKey:folderName];
+            [(self.actions)[ACTION_TYPE_GET_METADATA] removeObjectForKey:folderName];
         }
     }
     
@@ -445,11 +445,11 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
         newAction.actionFileName = sourcePath;
         newAction.actionBulletinBoardName = actionItem.actionBulletinBoardName;
         
-        if (![self.actions objectForKey:ACTION_TYPE_UPLOAD_FILE]){
-            [self.actions setObject:[[NSMutableDictionary alloc] init] forKey:ACTION_TYPE_UPLOAD_FILE];
+        if (!(self.actions)[ACTION_TYPE_UPLOAD_FILE]){
+            (self.actions)[ACTION_TYPE_UPLOAD_FILE] = [[NSMutableDictionary alloc] init];
         }
         
-        [[self.actions objectForKey:ACTION_TYPE_UPLOAD_FILE] setObject:newAction forKey:path];
+        (self.actions)[ACTION_TYPE_UPLOAD_FILE][path] = newAction;
         
         [self.restClient uploadFile:BULLETINBOARD_XOOML_FILE_NAME toPath:path withParentRev:parentRev fromPath:sourcePath];
         
@@ -471,7 +471,7 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
         newAction.actionFileName = sourcePath;
         newAction.actionBulletinBoardName = actionItem.actionBulletinBoardName;
 
-        [[self.actions objectForKey:ACTION_TYPE_UPLOAD_FILE] setObject:newAction forKey:path];
+        (self.actions)[ACTION_TYPE_UPLOAD_FILE][path] = newAction;
         [self.restClient uploadFile:NOTE_XOOML_FILE_NAME toPath:path withParentRev:parentRev fromPath:sourcePath];
         
         return;
@@ -510,7 +510,7 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
                 
                 DropboxAction * action = [[DropboxAction alloc] init];
                 action.action = GET_BULLETINBOARD_ACTION;
-                [[self.actions objectForKey:ACTION_TYPE_GET_METADATA] setObject:action forKey:child.path];
+                (self.actions)[ACTION_TYPE_GET_METADATA][child.path] = action;
                 [client loadMetadata:child.path];
                 
                 NSString * dir = [tempDir stringByAppendingString:path];
@@ -534,15 +534,15 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
                 
                 DropboxAction * action = [[DropboxAction alloc] init];
                 action.action = GET_BULLETINBOARD_ACTION;
-                if (![self.actions objectForKey:ACTION_TYPE_LOAD_FILE]){
-                    [self.actions setObject:[[NSMutableDictionary alloc] init] forKey:ACTION_TYPE_LOAD_FILE];
+                if (!(self.actions)[ACTION_TYPE_LOAD_FILE]){
+                    (self.actions)[ACTION_TYPE_LOAD_FILE] = [[NSMutableDictionary alloc] init];
                 }
                 
                 NSString * folder = destination;
-                if (![self.actions objectForKey:ACTION_TYPE_LOAD_FILE]){
-                    [self.actions setObject:[[NSMutableDictionary alloc] init] forKey:ACTION_TYPE_LOAD_FILE];
+                if (!(self.actions)[ACTION_TYPE_LOAD_FILE]){
+                    (self.actions)[ACTION_TYPE_LOAD_FILE] = [[NSMutableDictionary alloc] init];
                 }
-                [[self.actions objectForKey:ACTION_TYPE_LOAD_FILE] setObject:action forKey:folder];
+                (self.actions)[ACTION_TYPE_LOAD_FILE][folder] = action;
                 [client loadFile:child.path intoPath:folder];
             }
         }
@@ -559,10 +559,10 @@ loadMetadataFailedWithError:(NSError *)error {
 -(void) restClient:(DBRestClient *)client uploadedFile:(NSString *)destPath from:(NSString *)srcPath{
     
     NSString * destPathOrg = [destPath stringByDeletingLastPathComponent];
-    if ([self.actions objectForKey:ACTION_TYPE_UPLOAD_FILE]){
-        if ([[self.actions objectForKey:ACTION_TYPE_UPLOAD_FILE] objectForKey:destPathOrg]){
+    if ((self.actions)[ACTION_TYPE_UPLOAD_FILE]){
+        if ((self.actions)[ACTION_TYPE_UPLOAD_FILE][destPathOrg]){
             NSLog(@"Successfully Uploaded File from %@ to %@", srcPath,destPath);
-            [[self.actions objectForKey:ACTION_TYPE_UPLOAD_FILE] removeObjectForKey:destPathOrg];
+            [(self.actions)[ACTION_TYPE_UPLOAD_FILE] removeObjectForKey:destPathOrg];
             NSLog(@"Remaining Actions: %@",self.actions);
             self.actionController.actionInProgress = NO;
             
@@ -575,13 +575,13 @@ loadMetadataFailedWithError:(NSError *)error {
     
     DropboxAction * actionItem;
     
-    if ([self.actions objectForKey:ACTION_TYPE_CREATE_FOLDER]){
+    if ((self.actions)[ACTION_TYPE_CREATE_FOLDER]){
         
         NSString *folderName = [folder path];
 //        NSString * folderName = [[folder path] lastPathComponent];
-        if ([[self.actions objectForKey:ACTION_TYPE_CREATE_FOLDER] objectForKey:folderName]){
-            actionItem = [[self.actions objectForKey:ACTION_TYPE_CREATE_FOLDER] objectForKey:folderName];
-            [[self.actions objectForKey:ACTION_TYPE_CREATE_FOLDER] removeObjectForKey:folderName];
+        if ((self.actions)[ACTION_TYPE_CREATE_FOLDER][folderName]){
+            actionItem = (self.actions)[ACTION_TYPE_CREATE_FOLDER][folderName];
+            [(self.actions)[ACTION_TYPE_CREATE_FOLDER] removeObjectForKey:folderName];
         }
     }
     
@@ -600,11 +600,11 @@ loadMetadataFailedWithError:(NSError *)error {
         newAction.actionFileName = BULLETINBOARD_XOOML_FILE_NAME;
         newAction.actionBulletinBoardName = actionItem.actionBulletinBoardName;
         
-        if (![self.actions objectForKey:ACTION_TYPE_UPLOAD_FILE]){
-            [self.actions setObject:[[NSMutableDictionary alloc] init] forKey:ACTION_TYPE_UPLOAD_FILE];
+        if (!(self.actions)[ACTION_TYPE_UPLOAD_FILE]){
+            (self.actions)[ACTION_TYPE_UPLOAD_FILE] = [[NSMutableDictionary alloc] init];
         }
         
-        [[self.actions objectForKey:ACTION_TYPE_UPLOAD_FILE] setObject:newAction forKey:path];
+        (self.actions)[ACTION_TYPE_UPLOAD_FILE][path] = newAction;
         
         [self.restClient uploadFile:BULLETINBOARD_XOOML_FILE_NAME toPath:path withParentRev:nil fromPath:sourcePath];
         
@@ -633,10 +633,10 @@ loadMetadataFailedWithError:(NSError *)error {
         newAction.actionFileName = sourcePath;
         newAction.actionBulletinBoardName = actionItem.actionBulletinBoardName;
         
-        if (![self.actions objectForKey:ACTION_TYPE_UPLOAD_FILE]){
-            [self.actions setObject:[[NSMutableDictionary alloc] init] forKey:ACTION_TYPE_UPLOAD_FILE];
+        if (!(self.actions)[ACTION_TYPE_UPLOAD_FILE]){
+            (self.actions)[ACTION_TYPE_UPLOAD_FILE] = [[NSMutableDictionary alloc] init];
         }
-        [[self.actions objectForKey:ACTION_TYPE_UPLOAD_FILE] setObject:newAction forKey:path];
+        (self.actions)[ACTION_TYPE_UPLOAD_FILE][path] = newAction;
         
         [self.restClient uploadFile:NOTE_XOOML_FILE_NAME toPath:path withParentRev:nil fromPath:sourcePath];
         
@@ -655,7 +655,7 @@ loadMetadataFailedWithError:(NSError *)error {
             imageAction.actionBulletinBoardName = actionItem.actionBulletinBoardName;
             
             
-            [[self.actions objectForKey:ACTION_TYPE_UPLOAD_FILE] setObject:imageAction forKey:path];
+            (self.actions)[ACTION_TYPE_UPLOAD_FILE][path] = imageAction;
             [self.actionController setActionInProgress:YES];
             [self.restClient uploadFile:actionItem.actionFileName toPath:path withParentRev:nil fromPath:imgPath];
         } 
@@ -666,15 +666,15 @@ loadMetadataFailedWithError:(NSError *)error {
     
     DropboxAction * actionItem;
     
-    if ([self.actions objectForKey:ACTION_TYPE_LOAD_FILE]){
+    if ((self.actions)[ACTION_TYPE_LOAD_FILE]){
         
         NSString * folderName = destPath;
         //NSString * folderName = [destPath lastPathComponent];
-        if ([[self.actions objectForKey:ACTION_TYPE_LOAD_FILE] objectForKey:folderName]){
-            actionItem = [[self.actions objectForKey:ACTION_TYPE_LOAD_FILE] objectForKey:folderName];
-            [[self.actions objectForKey:ACTION_TYPE_LOAD_FILE] removeObjectForKey:folderName];
+        if ((self.actions)[ACTION_TYPE_LOAD_FILE][folderName]){
+            actionItem = (self.actions)[ACTION_TYPE_LOAD_FILE][folderName];
+            [(self.actions)[ACTION_TYPE_LOAD_FILE] removeObjectForKey:folderName];
         }
-        [[self.actions objectForKey:ACTION_TYPE_LOAD_FILE] removeObjectForKey:folderName];
+        [(self.actions)[ACTION_TYPE_LOAD_FILE] removeObjectForKey:folderName];
     }
     
     if ([actionItem.action isEqualToString:GET_BULLETINBOARD_ACTION]){

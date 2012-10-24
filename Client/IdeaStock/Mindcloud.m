@@ -52,10 +52,10 @@ static Mindcloud * instance;
     MindcloudBaseAction * action = [[AuthenticationAction alloc] initWithUserId:userId
                                                                     andCallback:^(NSDictionary * results)
                                 {
-                                    NSString * accountStatus = [results objectForKey:ACCOUNT_STATUS_KEY];
+                                    NSString * accountStatus = results[ACCOUNT_STATUS_KEY];
                                     if ([accountStatus isEqualToString:UNAUTHORIZED_STATUS])
                                     {
-                                        NSString * urlStr = [results objectForKey:AUTH_URL];
+                                        NSString * urlStr = results[AUTH_URL];
                                         urlStr = [urlStr stringByAppendingFormat:@"&oauth_callback=%@",MINDCLOUD_CALLBACK];
                                         [self.authenticationDelegate didFinishAuthorizing:userId andNeedsAuthenting:YES withURL:urlStr];
                                         //add a call back URL to switch back to app

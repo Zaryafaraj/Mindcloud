@@ -104,7 +104,7 @@
         return nil;
     }
 
-    DDXMLElement * noteXML = (DDXMLElement *)[notes objectAtIndex:0];
+    DDXMLElement * noteXML = (DDXMLElement *)notes[0];
 
     //TODO handle tool specific note properties by looking up the child nodes of the noteXML here
     

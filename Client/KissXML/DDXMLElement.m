@@ -197,7 +197,7 @@
 	DDXMLNotZombieAssert();
 #endif
 	
-	if (name == nil) return [NSArray array];
+	if (name == nil) return @[];
 	
 	// We need to check to see if name has a prefix.
 	// If it does have a prefix, we need to figure out what the corresponding URI is for that prefix,
@@ -219,7 +219,7 @@
 		xmlNsPtr ns = xmlSearchNs(node->doc, node, [prefix xmlChar]);
 		if (ns)
 		{
-			NSString *uri = [NSString stringWithUTF8String:((const char *)ns->href)];
+			NSString *uri = @((const char *)ns->href);
 			return [self _elementsForName:name localName:localName prefix:prefix uri:uri];
 		}
 	}
@@ -233,7 +233,7 @@
 	DDXMLNotZombieAssert();
 #endif
 	
-	if (localName == nil) return [NSArray array];
+	if (localName == nil) return @[];
 	
 	// We need to figure out what the prefix is for this URI.
 	// Then we search for elements that are named prefix:localName OR (named localName AND have the given URI).
@@ -409,7 +409,7 @@
 	NSUInteger i;
 	for (i = 0; i < [attributes count]; i++)
 	{
-		DDXMLNode *attribute = [attributes objectAtIndex:i];
+		DDXMLNode *attribute = attributes[i];
 		[self addAttribute:attribute];
 		
 		// Note: The addAttributes method properly sets the freeOnDealloc ivar.
@@ -577,7 +577,7 @@
 	NSUInteger i;
 	for (i = 0; i < [namespaces count]; i++)
 	{
-		DDXMLNode *namespace = [namespaces objectAtIndex:i];
+		DDXMLNode *namespace = namespaces[i];
 		[self _addNamespace:namespace];
 		
 		// Note: The addNamespace method properly sets the freeOnDealloc ivar.
@@ -660,7 +660,7 @@
 			{
 				if (ns->prefix != NULL)
 				{
-					return [NSString stringWithUTF8String:((const char *)ns->prefix)];
+					return @((const char *)ns->prefix);
 				}
 			}
 			ns = ns->next;
@@ -791,7 +791,7 @@
 	NSUInteger i;
 	for (i = 0; i < [children count]; i++)
 	{
-		DDXMLNode *child = [children objectAtIndex:i];
+		DDXMLNode *child = children[i];
 		[self addChild:child];
 		
 		// Note: The addChild method properly sets the freeOnDealloc ivar.

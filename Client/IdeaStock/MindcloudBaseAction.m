@@ -51,7 +51,7 @@
     }
     else
     {
-        return [NSDictionary dictionary];
+        return @{};
     }
 }
 
@@ -107,18 +107,20 @@
     // inform the user
     NSLog(@"Connection failed! Error - %@ %@",
           [error localizedDescription],
-          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+          [error userInfo][NSURLErrorFailingURLStringErrorKey]);
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     // do something with the data
     // receivedData is declared as a method instance elsewhere
-    NSLog(@"Succeeded! Received %d bytes of data",[self.receivedData length]);
+    //enable for debug
+    //NSLog(@"Succeeded! Received %d bytes of data",[self.receivedData length]);
     if ([self.receivedData length] > 0)
     {
         NSString *dataStr = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
-        NSLog(@"loooloo %@", dataStr);
+        //enable for debug
+        //NSLog(@"loooloo %@", dataStr);
     }
 }
 @end

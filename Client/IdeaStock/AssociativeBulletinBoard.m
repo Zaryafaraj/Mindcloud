@@ -113,14 +113,14 @@
  Factory method for the bulletin board attributes
  */
 -(BulletinBoardAttributes *) createBulletinBoardAttributeForBulletinBoard{
-    return [[BulletinBoardAttributes alloc] initWithAttributes:[NSArray arrayWithObjects:STACKING_TYPE,GROUPING_TYPE, nil]];
+    return [[BulletinBoardAttributes alloc] initWithAttributes:@[STACKING_TYPE,GROUPING_TYPE]];
 }
 
 /*
  Factory method for the note bulletin board attributes
  */
 -(BulletinBoardAttributes *) createBulletinBoardAttributeForNotes{
-    return [[BulletinBoardAttributes alloc] initWithAttributes:[NSArray arrayWithObjects:NOTE_NAME_TYPE,LINKAGE_TYPE,POSITION_TYPE, VISIBILITY_TYPE, nil]];
+    return [[BulletinBoardAttributes alloc] initWithAttributes:@[NOTE_NAME_TYPE,LINKAGE_TYPE,POSITION_TYPE, VISIBILITY_TYPE]];
 }
 
 -(id)initEmptyBulletinBoardWithDataModel: (id <DataModel>) dataModel 
@@ -174,34 +174,34 @@
         if (imgName != nil){
             NSString * imgPath = [FileSystemHelper getPathForImageWithName:imgName forNoteName:noteName inBulletinBoard:self.bulletinBoardName];
             if (imgPath != nil && ![imgPath isEqualToString:@""]){
-                [self.noteImages setObject:imgPath forKey:noteID];
+                (self.noteImages)[noteID] = imgPath;
             }
         }
     }
     //now set the note object as a noteContent keyed on its id
-    [self.noteContents setObject:noteObj forKey:noteID];
+    (self.noteContents)[noteID] = noteObj;
     
     //now initialize the bulletinBoard attributes to hold all the 
     //note specific attributes for that note
     BulletinBoardAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
     //get the note specific info from the note basic info
-    NSDictionary * noteInfo = [noteInfos objectForKey:noteID];
+    NSDictionary * noteInfo = noteInfos[noteID];
     
-    NSString * positionX = [noteInfo objectForKey: POSITION_X];
+    NSString * positionX = noteInfo[POSITION_X];
     if (!positionX ) positionX = DEFAULT_X_POSITION;
-    NSString * positionY = [noteInfo objectForKey: POSITION_Y];
+    NSString * positionY = noteInfo[POSITION_Y];
     if (!positionY) positionY = DEFAULT_Y_POSITION;
-    NSString * isVisible = [noteInfo objectForKey:IS_VISIBLE];
+    NSString * isVisible = noteInfo[IS_VISIBLE];
     if (! isVisible) isVisible = DEFAULT_VISIBILITY;
     
     //Fill out the note specific attributes for that note in the bulletin
     //board
-    [noteAttribute createAttributeWithName:POSITION_X forAttributeType: POSITION_TYPE andValues:[NSArray arrayWithObject: positionX ]];
-    [noteAttribute createAttributeWithName:POSITION_Y forAttributeType:POSITION_TYPE andValues:[NSArray arrayWithObject:positionY]];
-    [noteAttribute createAttributeWithName:IS_VISIBLE forAttributeType:VISIBILITY_TYPE andValues:[NSArray arrayWithObject:isVisible]];
-    [noteAttribute createAttributeWithName:NOTE_NAME forAttributeType: NOTE_NAME_TYPE andValues:[NSArray arrayWithObject: noteName ]];
+    [noteAttribute createAttributeWithName:POSITION_X forAttributeType: POSITION_TYPE andValues:@[positionX]];
+    [noteAttribute createAttributeWithName:POSITION_Y forAttributeType:POSITION_TYPE andValues:@[positionY]];
+    [noteAttribute createAttributeWithName:IS_VISIBLE forAttributeType:VISIBILITY_TYPE andValues:@[isVisible]];
+    [noteAttribute createAttributeWithName:NOTE_NAME forAttributeType: NOTE_NAME_TYPE andValues:@[noteName]];
     
-    [self.noteAttributes setObject:noteAttribute forKey:noteID];
+    (self.noteAttributes)[noteID] = noteAttribute;
     
 }
 
@@ -213,10 +213,10 @@
     for (NSString * noteID in self.noteContents){
         NSDictionary *linkageInfo = [self.delegate getNoteAttributeInfo:LINKAGE_TYPE forNote:noteID];
         for(NSString *linkageName in linkageInfo){
-            NSArray * refIDs = [linkageInfo objectForKey:linkageName];
+            NSArray * refIDs = linkageInfo[linkageName];
             for (NSString * refID in refIDs){
-                if ([self.noteContents objectForKey:refID]){
-                    [[self.noteAttributes objectForKey:noteID] addValues:[NSArray arrayWithObject:refID] ToAttribute:linkageName forAttributeType:LINKAGE_TYPE];
+                if ((self.noteContents)[refID]){
+                    [(self.noteAttributes)[noteID] addValues:@[refID] ToAttribute:linkageName forAttributeType:LINKAGE_TYPE];
                 }
             }
             
@@ -232,10 +232,10 @@
     //get the stacking information and fill out the stacking attributes
     NSDictionary *stackingInfo = [self.delegate getBulletinBoardAttributeInfo:STACKING_TYPE];
     for (NSString * stackingName in stackingInfo){
-        NSArray * refIDs = [stackingInfo objectForKey:stackingName];
+        NSArray * refIDs = stackingInfo[stackingName];
         for (NSString * refID in refIDs){
-            if(![self.noteContents objectForKey:refIDs]){
-                [self.bulletinBoardAttributes addValues:[NSArray arrayWithObject:refID] ToAttribute:stackingName forAttributeType:STACKING_TYPE];
+            if(!(self.noteContents)[refIDs]){
+                [self.bulletinBoardAttributes addValues:@[refID] ToAttribute:stackingName forAttributeType:STACKING_TYPE];
             }
         }
     }
@@ -247,10 +247,10 @@
     //get the grouping information and fill out the grouping info
     NSDictionary *groupingInfo = [self.delegate getBulletinBoardAttributeInfo:GROUPING_TYPE];
     for (NSString * groupingName in groupingInfo){
-        NSArray * refIDs = [groupingInfo objectForKey:groupingName];
+        NSArray * refIDs = groupingInfo[groupingName];
         for (NSString * refID in refIDs){
-            if(![self.noteContents objectForKey:refIDs]){
-                [self.bulletinBoardAttributes addValues:[NSArray arrayWithObject:refID] ToAttribute:groupingName forAttributeType:GROUPING_TYPE];
+            if(!(self.noteContents)[refIDs]){
+                [self.bulletinBoardAttributes addValues:@[refID] ToAttribute:groupingName forAttributeType:GROUPING_TYPE];
             }
         }
     }
@@ -303,7 +303,7 @@
     for (NSString * noteID in noteInfo){
         //for each note create a note Object by reading its separate xooml files
         //from the data model
-        NSString * noteName = [[noteInfo objectForKey:noteID] objectForKey:NOTE_NAME];
+        NSString * noteName = noteInfo[noteID][NOTE_NAME];
         NSData * noteData = [self.dataModel getNoteForTheBulletinBoard:bulletinBoardName WithName:noteName];
         
         if (!noteData) return self;
@@ -339,30 +339,29 @@
           andProperties: (NSDictionary *) properties{
     
     //get note Name and note ID if they are not present throw an exception
-    NSString * noteID = [properties objectForKey:NOTE_ID];
-    NSString * noteName = [properties  objectForKey:NOTE_NAME];
+    NSString * noteID = properties[NOTE_ID];
+    NSString * noteName = properties[NOTE_NAME];
     if (!noteID || !noteName) [NSException raise:NSInvalidArgumentException
                                           format:@"A Values is missing from the required properties dictionary"];
     
     //set the note content for the noteID
-    [self.noteContents setObject:note forKey:noteID];
+    (self.noteContents)[noteID] = note;
     
     //get other optional properties for the note. 
     //If they are not present use default values
-    NSString * positionX = [properties objectForKey:POSITION_X];
+    NSString * positionX = properties[POSITION_X];
     if (!positionX) positionX = DEFAULT_X_POSITION;
-    NSString * positionY = [properties objectForKey:POSITION_Y];
+    NSString * positionY = properties[POSITION_Y];
     if (!positionY) positionY = DEFAULT_Y_POSITION;
-    NSString * isVisible = [properties objectForKey:IS_VISIBLE];
+    NSString * isVisible = properties[IS_VISIBLE];
     if(!isVisible) isVisible = DEFAULT_VISIBILITY;
     
     //create a dictionary of note properties
-    NSDictionary *noteProperties = [NSDictionary dictionaryWithObjectsAndKeys:noteName,NOTE_NAME,
-                                    noteID,NOTE_ID,
-                                    positionX,POSITION_X,
-                                    positionY, POSITION_Y,
-                                    isVisible,IS_VISIBLE,
-                                    nil];
+    NSDictionary *noteProperties = @{NOTE_NAME: noteName,
+                                    NOTE_ID: noteID,
+                                    POSITION_X: positionX,
+                                    POSITION_Y: positionY,
+                                    IS_VISIBLE: isVisible};
     
     //have the delegate hold the structural information about the note
     [self.delegate addNoteWithID:noteID andProperties:noteProperties];
@@ -370,12 +369,12 @@
     //have the notes bulletin board attribute list for the note hold the note
     //properties
     BulletinBoardAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
-    [noteAttribute createAttributeWithName:NOTE_NAME forAttributeType: NOTE_NAME_TYPE andValues:[NSArray arrayWithObject: noteName ]];
-    [noteAttribute createAttributeWithName:POSITION_X forAttributeType: POSITION_TYPE andValues:[NSArray arrayWithObject: positionX ]];
-    [noteAttribute createAttributeWithName:POSITION_Y forAttributeType:POSITION_TYPE andValues:[NSArray arrayWithObject:positionY]];
-    [noteAttribute createAttributeWithName:IS_VISIBLE forAttributeType:VISIBILITY_TYPE andValues:[NSArray arrayWithObject:isVisible]];
+    [noteAttribute createAttributeWithName:NOTE_NAME forAttributeType: NOTE_NAME_TYPE andValues:@[noteName]];
+    [noteAttribute createAttributeWithName:POSITION_X forAttributeType: POSITION_TYPE andValues:@[positionX]];
+    [noteAttribute createAttributeWithName:POSITION_Y forAttributeType:POSITION_TYPE andValues:@[positionY]];
+    [noteAttribute createAttributeWithName:IS_VISIBLE forAttributeType:VISIBILITY_TYPE andValues:@[isVisible]];
     
-    [self.noteAttributes setObject:noteAttribute forKey:noteID];
+    (self.noteAttributes)[noteID] = noteAttribute;
     
     //update the datamodel
     NSData * noteData = [XoomlParser convertNoteToXooml:note];
@@ -387,30 +386,29 @@
                andProperties:properties
                     andImage: (NSData *) img{
     //get note Name and note ID if they are not present throw an exception
-    NSString * noteID = [properties objectForKey:NOTE_ID];
-    NSString * noteName = [properties  objectForKey:NOTE_NAME];
+    NSString * noteID = properties[NOTE_ID];
+    NSString * noteName = properties[NOTE_NAME];
     if (!noteID || !noteName) [NSException raise:NSInvalidArgumentException
                                           format:@"A Values is missing from the required properties dictionary"];
     
     //set the note content for the noteID
-    [self.noteContents setObject:note forKey:noteID];
+    (self.noteContents)[noteID] = note;
     
     //get other optional properties for the note. 
     //If they are not present use default values
-    NSString * positionX = [properties objectForKey:POSITION_X];
+    NSString * positionX = properties[POSITION_X];
     if (!positionX) positionX = DEFAULT_X_POSITION;
-    NSString * positionY = [properties objectForKey:POSITION_Y];
+    NSString * positionY = properties[POSITION_Y];
     if (!positionY) positionY = DEFAULT_Y_POSITION;
-    NSString * isVisible = [properties objectForKey:IS_VISIBLE];
+    NSString * isVisible = properties[IS_VISIBLE];
     if(!isVisible) isVisible = DEFAULT_VISIBILITY;
     
     //create a dictionary of note properties
-    NSDictionary *noteProperties = [NSDictionary dictionaryWithObjectsAndKeys:noteName,NOTE_NAME,
-                                    noteID,NOTE_ID,
-                                    positionX,POSITION_X,
-                                    positionY, POSITION_Y,
-                                    isVisible,IS_VISIBLE,
-                                    nil];
+    NSDictionary *noteProperties = @{NOTE_NAME: noteName,
+                                    NOTE_ID: noteID,
+                                    POSITION_X: positionX,
+                                    POSITION_Y: positionY,
+                                    IS_VISIBLE: isVisible};
     
     //have the delegate hold the structural information about the note
     [self.delegate addNoteWithID:noteID andProperties:noteProperties];
@@ -418,12 +416,12 @@
     //have the notes bulletin board attribute list for the note hold the note
     //properties
     BulletinBoardAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
-    [noteAttribute createAttributeWithName:NOTE_NAME forAttributeType: NOTE_NAME_TYPE andValues:[NSArray arrayWithObject: noteName ]];
-    [noteAttribute createAttributeWithName:POSITION_X forAttributeType: POSITION_TYPE andValues:[NSArray arrayWithObject: positionX ]];
-    [noteAttribute createAttributeWithName:POSITION_Y forAttributeType:POSITION_TYPE andValues:[NSArray arrayWithObject:positionY]];
-    [noteAttribute createAttributeWithName:IS_VISIBLE forAttributeType:VISIBILITY_TYPE andValues:[NSArray arrayWithObject:isVisible]];
+    [noteAttribute createAttributeWithName:NOTE_NAME forAttributeType: NOTE_NAME_TYPE andValues:@[noteName]];
+    [noteAttribute createAttributeWithName:POSITION_X forAttributeType: POSITION_TYPE andValues:@[positionX]];
+    [noteAttribute createAttributeWithName:POSITION_Y forAttributeType:POSITION_TYPE andValues:@[positionY]];
+    [noteAttribute createAttributeWithName:IS_VISIBLE forAttributeType:VISIBILITY_TYPE andValues:@[isVisible]];
     
-    [self.noteAttributes setObject:noteAttribute forKey:noteID];
+    (self.noteAttributes)[noteID] = noteAttribute;
     
     //just save the noteID that has images not the image itself. This is
     //for performance reasons, anytime that an image is needed we will load
@@ -435,7 +433,7 @@
     
     NSString * imgPath = [FileSystemHelper getPathForImageWithName:imgName forNoteName:noteName inBulletinBoard:self.bulletinBoardName];
     
-    [self.noteImages setObject:imgPath forKey:noteID];
+    (self.noteImages)[noteID] = imgPath;
     //just save the noteID that has images not the image itself. This is
     //for performance reasons, anytime that an image is needed we will load
     //it from the disk. The dictionary holds noteID and imageFileName
@@ -457,11 +455,11 @@
                 andValues: (NSArray *) values{
     
     //if the noteID is invalid return
-    if(![self.noteContents objectForKey:noteID]) return;
+    if(!(self.noteContents)[noteID]) return;
     
     //get the noteattributes for the specified note. If there are no attributes for that
     //note create a new bulletinboard attribute list.
-    BulletinBoardAttributes * noteAttributes = [self.noteAttributes objectForKey:noteID];
+    BulletinBoardAttributes * noteAttributes = (self.noteAttributes)[noteID];
     if(!noteAttributes) noteAttributes = [self createBulletinBoardAttributeForNotes];
     
     //add the note attribute to the attribute list of the notes
@@ -479,13 +477,13 @@ forAttributeType: (NSString *) attributeType
           ofNote: (NSString *) sourceNoteId{
     
     //if the targetNoteID and sourceNoteID are invalid return
-    if (![self.noteContents objectForKey:targetNoteID] || ![self.noteContents objectForKey:sourceNoteId]) return;
+    if (!(self.noteContents)[targetNoteID] || !(self.noteContents)[sourceNoteId]) return;
     
     // add the target noteValue to the source notes attribute list
-    [[self.noteAttributes objectForKey:sourceNoteId] addValues:[NSArray arrayWithObject:targetNoteID] ToAttribute:attributeName forAttributeType:attributeType];
+    [(self.noteAttributes)[sourceNoteId] addValues:@[targetNoteID] ToAttribute:attributeName forAttributeType:attributeType];
     
     //have the delegate reflect the changes in its struture
-    [self.delegate addNoteAttribute:attributeName forType:attributeType forNote:sourceNoteId withValues:[NSArray arrayWithObject:targetNoteID]];
+    [self.delegate addNoteAttribute:attributeName forType:attributeType forNote:sourceNoteId withValues:@[targetNoteID]];
 }
 
 -(void) addBulletinBoardAttribute: (NSString *) attributeName
@@ -494,7 +492,7 @@ forAttributeType: (NSString *) attributeType
     [self.bulletinBoardAttributes createAttributeWithName:attributeName forAttributeType:attributeType];
     
     //have the delegate reflect the change in its structure
-    [self.delegate addBulletinBoardAttribute:attributeName forType:attributeType withValues:[NSArray array]];
+    [self.delegate addBulletinBoardAttribute:attributeName forType:attributeType withValues:@[]];
 }
 
 -(void) addNoteWithID:(NSString *)noteID 
@@ -502,13 +500,13 @@ toBulletinBoardAttribute:(NSString *)attributeName
       forAttributeType:(NSString *)attributeType{
     
     //if the noteID is invalid return
-    if (![self.noteContents objectForKey:noteID]) return;
+    if (!(self.noteContents)[noteID]) return;
     
     //add the noteID to the bulletinboard attribute
-    [self.bulletinBoardAttributes addValues:[NSArray arrayWithObject:noteID] ToAttribute:attributeName forAttributeType:attributeType];
+    [self.bulletinBoardAttributes addValues:@[noteID] ToAttribute:attributeName forAttributeType:attributeType];
     
     //have the delegate reflect the change in its structure
-    [self.delegate addBulletinBoardAttribute:attributeName forType:attributeType withValues:[NSArray arrayWithObject:noteID]];
+    [self.delegate addBulletinBoardAttribute:attributeName forType:attributeType withValues:@[noteID]];
 }
 
 /*--------------------------------------------------
@@ -519,19 +517,19 @@ toBulletinBoardAttribute:(NSString *)attributeName
 
 -(void) removeNoteWithID:(NSString *)delNoteID{
     
-    id <Note> note = [self.noteContents objectForKey:delNoteID];
+    id <Note> note = (self.noteContents)[delNoteID];
     //if the note does not exist return
     if (!note) return;
     
     //get Note Name
     //TODO this smells
-    NSString *noteName = [[[self.noteAttributes objectForKey:delNoteID] getAttributeWithName:NOTE_NAME forAttributeType:NOTE_NAME_TYPE] lastObject];
+    NSString *noteName = [[(self.noteAttributes)[delNoteID] getAttributeWithName:NOTE_NAME forAttributeType:NOTE_NAME_TYPE] lastObject];
     //remove the note content
     [self.noteContents removeObjectForKey:delNoteID];
     
     //remove All the references in the note attributes
     for (NSString * noteID in self.noteAttributes){
-        [[self.noteAttributes objectForKey:noteID] removeAllOccurancesOfValue:delNoteID];
+        [(self.noteAttributes)[noteID] removeAllOccurancesOfValue:delNoteID];
     }
     
     //remove all the references in the bulletinboard attributes
@@ -550,10 +548,10 @@ toBulletinBoardAttribute:(NSString *)attributeName
    fromAttributesOf: (NSString *) sourceNoteID{
     
     //if the targetNoteID and sourceNoteID do not exist return
-    if (![self.noteContents objectForKey:targetNoteID] || ![self.noteContents objectForKey:sourceNoteID]) return;
+    if (!(self.noteContents)[targetNoteID] || !(self.noteContents)[sourceNoteID]) return;
     
     //remove the note from note attributes
-    [[self.noteAttributes objectForKey:sourceNoteID] removeNote:targetNoteID fromAttribute:attributeName ofType:attributeType fromAttributesOf:sourceNoteID];
+    [(self.noteAttributes)[sourceNoteID] removeNote:targetNoteID fromAttribute:attributeName ofType:attributeType fromAttributesOf:sourceNoteID];
     
     //reflect the changes in the xooml structure
     [self.delegate deleteNote:targetNoteID fromNoteAttribute:attributeName ofType:attributeType forNote:sourceNoteID];
@@ -563,10 +561,10 @@ toBulletinBoardAttribute:(NSString *)attributeName
                       ofType: (NSString *) attributeType
                     FromNote: (NSString *) noteID{
     //if the noteID is not valid return
-    if (![self.noteContents objectForKey:noteID]) return;
+    if (!(self.noteContents)[noteID]) return;
     
     //remove the note attribute from the note attribute list
-    [[self.noteAttributes objectForKey:noteID] removeAttribute:attributeName forAttributeType:attributeType];
+    [(self.noteAttributes)[noteID] removeAttribute:attributeName forAttributeType:attributeType];
     
     //reflect the change in the xooml structure
     [self.delegate deleteNoteAttribute:attributeName ofType:attributeType fromNote:noteID];
@@ -577,10 +575,10 @@ fromBulletinBoardAttribute: (NSString *) attributeName
              ofType: (NSString *) attributeType{
     
     //if the noteId is not valid return
-    if (![self.noteContents objectForKey:noteID]) return;
+    if (!(self.noteContents)[noteID]) return;
     
     //remove the note reference from the bulletin board attribute
-    [self.bulletinBoardAttributes removeValues: [NSArray arrayWithObject:noteID]
+    [self.bulletinBoardAttributes removeValues: @[noteID]
                                  fromAttribute: attributeName
                               forAttributeType: attributeType];
     
@@ -610,7 +608,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
               withContentsOf:(id<Note>)newNote{
     
     //if noteID is inavlid return
-    id <Note> oldNote = [self.noteContents objectForKey:noteID];
+    id <Note> oldNote = (self.noteContents)[noteID];
     if (!oldNote) return;
     
     //for attributes in newNote that a value is specified
@@ -620,8 +618,8 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     if (newNote.creationDate) oldNote.creationDate = newNote.creationDate;
     if (newNote.modificationDate) oldNote.modificationDate = newNote.modificationDate;
     
-    NSData * noteData = [XoomlParser convertNoteToXooml:[self.noteContents objectForKey:noteID]];
-    BulletinBoardAttributes * noteAttributes = [self.noteAttributes objectForKey:noteID];
+    NSData * noteData = [XoomlParser convertNoteToXooml:(self.noteContents)[noteID]];
+    BulletinBoardAttributes * noteAttributes = (self.noteAttributes)[noteID];
     NSString * noteName = [[noteAttributes getAttributeWithName:NOTE_NAME forAttributeType:NOTE_NAME_TYPE] lastObject];
     
     [self.dataModel updateNote:noteName 
@@ -635,10 +633,10 @@ fromBulletinBoardAttribute: (NSString *) attributeName
                      forNote: (NSString *) noteID 
                     withName: (NSString *) newAttributeName{
     //if the note does not exist return
-    if (![self.noteContents objectForKey:noteID]) return;
+    if (!(self.noteContents)[noteID]) return;
     
     //update the note bulletin board
-    [[self.noteAttributes objectForKey:noteID] updateAttributeName:oldAttributeName ofType:attributeType withNewName:newAttributeName];
+    [(self.noteAttributes)[noteID] updateAttributeName:oldAttributeName ofType:attributeType withNewName:newAttributeName];
     
     //reflect the changes in the xooml data model
     [self.delegate updateNoteAttribute:oldAttributeName ofType:attributeType forNote:noteID withNewName:newAttributeName];
@@ -649,14 +647,14 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 -(void) updateNoteProperties:(NSString *)noteID 
               withProperties:(NSDictionary *)newProperties{
     
-    if (![self.noteContents objectForKey:noteID]) return;
+    if (!(self.noteContents)[noteID]) return;
     
-    BulletinBoardAttributes * noteAttribute = [self.noteAttributes objectForKey:noteID];
+    BulletinBoardAttributes * noteAttribute = (self.noteAttributes)[noteID];
     
-    if([newProperties objectForKey:POSITION_TYPE]){
-        NSDictionary * positionProp = [newProperties objectForKey:POSITION_TYPE];
-        [noteAttribute updateAttribute:POSITION_X ofType:POSITION_TYPE withNewValue:[positionProp objectForKey:POSITION_X]];
-        [noteAttribute updateAttribute:POSITION_Y ofType:POSITION_TYPE withNewValue:[positionProp objectForKey:POSITION_Y]];
+    if(newProperties[POSITION_TYPE]){
+        NSDictionary * positionProp = newProperties[POSITION_TYPE];
+        [noteAttribute updateAttribute:POSITION_X ofType:POSITION_TYPE withNewValue:positionProp[POSITION_X]];
+        [noteAttribute updateAttribute:POSITION_Y ofType:POSITION_TYPE withNewValue:positionProp[POSITION_Y]];
         [self.delegate updateNote:noteID withProperties:positionProp];
     }
     
@@ -669,10 +667,10 @@ fromBulletinBoardAttribute: (NSString *) attributeName
               withNewValues: (NSArray *) newValues{
     
     //iif the noteID is not valid return
-    if (![self.noteContents objectForKey:noteID]) return;
+    if (!(self.noteContents)[noteID]) return;
     
     //update the note attribute values
-    [[self.noteAttributes objectForKey:noteID] updateAttribute:attributeName ofType:attributeType withNewValue:newValues];
+    [(self.noteAttributes)[noteID] updateAttribute:attributeName ofType:attributeType withNewValue:newValues];
     
     //reflect the changes in the xooml data model
     [self.delegate updateNoteAttribute:attributeName ofType:attributeType forNote: noteID withValues:newValues];
@@ -700,7 +698,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 }
 - (NSDictionary *) getAllNoteAttributesForNote: (NSString *) noteID{
     
-    BulletinBoardAttributes * noteAttributes = [self.noteAttributes objectForKey:noteID];
+    BulletinBoardAttributes * noteAttributes = (self.noteAttributes)[noteID];
     return [noteAttributes getAllAttributes];
 }
 
@@ -712,13 +710,13 @@ fromBulletinBoardAttribute: (NSString *) attributeName
                                      forNote: (NSString *) noteID{
     
     //if the noteID is invalid return
-    if (![self.noteContents objectForKey:noteID]) return nil;
+    if (!(self.noteContents)[noteID]) return nil;
     
-    return [[self.noteAttributes objectForKey:noteID] getAllAttributeNamesForAttributeType:attributeType];
+    return [(self.noteAttributes)[noteID] getAllAttributeNamesForAttributeType:attributeType];
 }
 
 - (id <Note>) getNoteContent: (NSString *) noteID{
-    return [self.noteContents objectForKey:noteID];
+    return (self.noteContents)[noteID];
 }
 
 - (NSArray *) getAllNotesBelongingToBulletinBoardAttribute: (NSString *) attributeName 
@@ -731,9 +729,9 @@ fromBulletinBoardAttribute: (NSString *) attributeName
                                            forNote: (NSString *) noteID{
     
     //if the noteID is invalid return 
-    if (![self.noteContents objectForKey:noteID]) return nil;
+    if (!(self.noteContents)[noteID]) return nil;
     
-    return [[self.noteAttributes objectForKey:noteID] getAttributeWithName:attributeName forAttributeType:attributeType];
+    return [(self.noteAttributes)[noteID] getAttributeWithName:attributeName forAttributeType:attributeType];
     
 }
 
