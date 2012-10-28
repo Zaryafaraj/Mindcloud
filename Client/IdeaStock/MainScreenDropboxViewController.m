@@ -484,7 +484,7 @@
 
 -(IBAction) AddPressed:(id)sender {
     
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Create New Bulletinboard" message: @"Enter the name of the the BulletinBoard" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add", nil];
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Collection" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add", nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alert show];
 }

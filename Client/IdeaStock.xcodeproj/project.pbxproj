@@ -79,6 +79,7 @@
 		DB3174F916336DEB001229FE /* cJOfLC.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DB3174F816336DEA001229FE /* cJOfLC.jpeg */; };
 		DB3174FB1633744F001229FE /* dropbox_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3174FA1633744F001229FE /* dropbox_icon.png */; };
 		DB3174FE16337636001229FE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3174FD16337636001229FE /* SignInViewController.m */; };
+		DB4E0AC9163DCD3D00AB82E6 /* CollectionsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4E0AC8163DCD3D00AB82E6 /* CollectionsModel.m */; };
 		DB99FFB5160E5C5D0042ED2A /* UserPropertiesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */; };
 		DB99FFBF160E66870042ED2A /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFBE160E66870042ED2A /* StringUtils.m */; };
 		DB99FFC1160E72D40042ED2A /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC0160E72D40042ED2A /* DropboxSDK.framework */; };
@@ -215,6 +216,8 @@
 		DB3174FC16337636001229FE /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		DB3174FD16337636001229FE /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		DB31750216337ED7001229FE /* AuthorizationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthorizationDelegate.h; sourceTree = "<group>"; };
+		DB4E0AC7163DCD3D00AB82E6 /* CollectionsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionsModel.h; sourceTree = "<group>"; };
+		DB4E0AC8163DCD3D00AB82E6 /* CollectionsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionsModel.m; sourceTree = "<group>"; };
 		DB99FFB3160E5C5D0042ED2A /* UserPropertiesHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPropertiesHelper.h; sourceTree = "<group>"; };
 		DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPropertiesHelper.m; sourceTree = "<group>"; };
 		DB99FFBD160E66870042ED2A /* StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtils.h; sourceTree = "<group>"; };
@@ -460,6 +463,7 @@
 		D7BF466315472E0D00F06412 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				DB4E0AC5163DCD1E00AB82E6 /* Models */,
 				DB31750116337E70001229FE /* Controllers */,
 				DB31750016337E53001229FE /* Views */,
 				DB3174FF16337E3E001229FE /* Delegates */,
@@ -511,6 +515,15 @@
 				DB31750216337ED7001229FE /* AuthorizationDelegate.h */,
 			);
 			name = Delegates;
+			sourceTree = "<group>";
+		};
+		DB4E0AC5163DCD1E00AB82E6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DB4E0AC7163DCD3D00AB82E6 /* CollectionsModel.h */,
+				DB4E0AC8163DCD3D00AB82E6 /* CollectionsModel.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		DB99FFB1160E5C2D0042ED2A /* Services */ = {
@@ -720,6 +733,7 @@
 				DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */,
 				DBC7C4C316327F1900BF3F2D /* AccountsAction.m in Sources */,
 				DB3174FE16337636001229FE /* SignInViewController.m in Sources */,
+				DB4E0AC9163DCD3D00AB82E6 /* CollectionsModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
