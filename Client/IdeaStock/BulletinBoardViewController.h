@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MainScreenDropboxViewController.h"
+#import "MainScreenViewController.h"
 #import "StackViewController.h"
 #import "NoteViewDelegate.h"
 #import "DropBoxAssociativeBulletinBoard.h"
@@ -18,7 +18,7 @@
 
 @property (strong, nonatomic) DropBoxAssociativeBulletinBoard * board;
 
-@property (weak,nonatomic) MainScreenDropboxViewController * parent;
+@property (weak,nonatomic) MainScreenViewController * parent;
 
 
 

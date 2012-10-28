@@ -59,10 +59,10 @@
             </objects>
             <point key="canvasLocation" x="-1681" y="-279"/>
         </scene>
-        <!--Main Screen Dropbox View Controller-->
+        <!--Main Screen View Controller-->
         <scene sceneID="cXb-B5-PaF">
             <objects>
-                <viewController id="C4k-Gx-gPL" customClass="MainScreenDropboxViewController" sceneMemberID="viewController">
+                <viewController id="C4k-Gx-gPL" customClass="MainScreenViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleAspectFit" id="Jx3-sE-JAL">
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

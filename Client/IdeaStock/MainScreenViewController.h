@@ -11,12 +11,7 @@
 #import "QueueProducer.h"
 #import "DropboxActionController.h"
 
-@interface MainScreenDropboxViewController : UIViewController <DropboxActionController>
-
-//Maybe at some point I should make the dropbox datamodel follow 
-//the singleton pattern but as for now I imagine there is one instance of 
-//this for the main page and one instance per bulletinboard. This should make stuff easier. 
-@property (strong, readonly) DropboxDataModel * dropBox;
+@interface MainScreenViewController : UIViewController <DropboxActionController>
 
 @property (atomic) BOOL actionInProgress;
 //maybe better to make this private

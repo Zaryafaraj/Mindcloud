@@ -46,7 +46,7 @@
 		D7B1432115268B4C00DC7556 /* BulletinBoardAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B1432015268B4C00DC7556 /* BulletinBoardAttributes.m */; };
 		D7B1432D1526A50400DC7556 /* AssociativeBulletinBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B1432C1526A50400DC7556 /* AssociativeBulletinBoard.m */; };
 		D7BF465D154728DD00F06412 /* MainStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7BF465C154728DD00F06412 /* MainStoryBoard.storyboard */; };
-		D7BF46661547303700F06412 /* MainScreenDropboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BF46651547303700F06412 /* MainScreenDropboxViewController.m */; };
+		D7BF46661547303700F06412 /* MainScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BF46651547303700F06412 /* MainScreenViewController.m */; };
 		D7D86C741570A95400FE2E21 /* note.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D86C731570A95400FE2E21 /* note.png */; };
 		D7D86C761570AE7100FE2E21 /* stack.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D86C751570AE7100FE2E21 /* stack.png */; };
 		D7D86C7C1570B80300FE2E21 /* bg3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D7D86C791570B80300FE2E21 /* bg3.jpg */; };
@@ -170,8 +170,8 @@
 		D7B1432B1526A50400DC7556 /* AssociativeBulletinBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssociativeBulletinBoard.h; sourceTree = "<group>"; };
 		D7B1432C1526A50400DC7556 /* AssociativeBulletinBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssociativeBulletinBoard.m; sourceTree = "<group>"; };
 		D7BF465C154728DD00F06412 /* MainStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryBoard.storyboard; sourceTree = "<group>"; };
-		D7BF46641547303700F06412 /* MainScreenDropboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenDropboxViewController.h; sourceTree = "<group>"; };
-		D7BF46651547303700F06412 /* MainScreenDropboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenDropboxViewController.m; sourceTree = "<group>"; };
+		D7BF46641547303700F06412 /* MainScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenViewController.h; sourceTree = "<group>"; };
+		D7BF46651547303700F06412 /* MainScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenViewController.m; sourceTree = "<group>"; };
 		D7D86C731570A95400FE2E21 /* note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = note.png; sourceTree = "<group>"; };
 		D7D86C751570AE7100FE2E21 /* stack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stack.png; sourceTree = "<group>"; };
 		D7D86C791570B80300FE2E21 /* bg3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg3.jpg; sourceTree = "<group>"; };
@@ -501,8 +501,8 @@
 				D7E44C02156573800080EF71 /* StackViewController.m */,
 				D71EA183154CD3FB00496663 /* BulletinBoardViewController.h */,
 				D71EA184154CD3FB00496663 /* BulletinBoardViewController.m */,
-				D7BF46641547303700F06412 /* MainScreenDropboxViewController.h */,
-				D7BF46651547303700F06412 /* MainScreenDropboxViewController.m */,
+				D7BF46641547303700F06412 /* MainScreenViewController.h */,
+				D7BF46651547303700F06412 /* MainScreenViewController.m */,
 				DB3174FC16337636001229FE /* SignInViewController.h */,
 				DB3174FD16337636001229FE /* SignInViewController.m */,
 			);
@@ -719,7 +719,7 @@
 				D7F85EB41528D80300F16D25 /* XoomlBulletinBoardController.m in Sources */,
 				D7AB7DEA152F760400FC6BC0 /* DropBoxAssociativeBulletinBoard.m in Sources */,
 				D7DEF2C41530D37800D13CF4 /* FileSystemHelper.m in Sources */,
-				D7BF46661547303700F06412 /* MainScreenDropboxViewController.m in Sources */,
+				D7BF46661547303700F06412 /* MainScreenViewController.m in Sources */,
 				D71EA185154CD3FB00496663 /* BulletinBoardViewController.m in Sources */,
 				D7F1FF2C154D1A3300D07B58 /* NoteView.m in Sources */,
 				D7E44BEE15643AA90080EF71 /* StackView.m in Sources */,
