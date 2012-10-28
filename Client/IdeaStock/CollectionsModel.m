@@ -114,13 +114,13 @@ belonging to that category*/
     }
 }
 
--(id) applyCategories:(NSDictionary *)categories
+-(void) applyCategories:(NSDictionary *)categories
         toCollections: (NSArray *) collections
 {
     NSMutableDictionary * uncategorized = [NSMutableDictionary dictionary];
     for (NSString * collection in collections)
     {
-        uncategorized[collection] = YES;
+        uncategorized[collection] = @YES;
     }
     
     for (NSString * key in categories)
@@ -128,7 +128,7 @@ belonging to that category*/
         self.collections[key] = categories[key];
         for (NSString * categorizedCollection in categories[key])
         {
-            uncategorized[collections] = NO;
+            uncategorized[collections] = @NO;
         }
     }
     

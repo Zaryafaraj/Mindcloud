@@ -22,7 +22,7 @@
 
 -(void) authorizationDone:(NSString *) userId;
 
--(void) getAllBulletinBoardsFor:(NSString *) userId
+-(void) getAllCollectionsFor:(NSString *) userId
                    WithCallback:(get_collections_callback)callback;
 
 @end

@@ -11,7 +11,7 @@
 #import "QueueProducer.h"
 #import "DropboxActionController.h"
 
-@interface MainScreenViewController : UIViewController <DropboxActionController>
+@interface MainScreenViewController : UIViewController
 
 @property (atomic) BOOL actionInProgress;
 //maybe better to make this private

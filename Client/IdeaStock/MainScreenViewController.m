@@ -6,12 +6,11 @@
 //  Copyright (c) 2012 University of Washington. All rights reserved.
 //
 
-#import "MainScreenDropboxViewController.h"
-#import "XoomlBulletinBoardController.h"
+#import "MainScreenViewController.h"
 #import "BulletinBoardViewController.h"
-#import "DropBoxAssociativeBulletinBoard.h"
 #import "Mindcloud.h"
 #import "UserPropertiesHelper.h"
+
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
 
@@ -101,7 +100,7 @@
     
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
-    [mindcloud getAllBulletinBoardsFor:userId
+    [mindcloud getAllCollectionsFor:userId
                           WithCallback:^(NSArray * collection)
                  {
                      NSLog(@"Collections Retrieved");

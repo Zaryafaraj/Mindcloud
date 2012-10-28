@@ -146,19 +146,19 @@
 		D75820EF1532C8EC00F2617E /* QueueProducer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueueProducer.h; sourceTree = "<group>"; };
 		D78970D41569E376002EC56F /* NoteViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteViewDelegate.h; sourceTree = "<group>"; };
 		D7947AB6152E35B10054CB23 /* NoteXooMLTemplate.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = NoteXooMLTemplate.xml; sourceTree = "<group>"; };
-		D7A53CEC1522F39500183CB6 /* IdeaStock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IdeaStock.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7A53CEC1522F39500183CB6 /* Mindcloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mindcloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7A53CF01522F39500183CB6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D7A53CF21522F39500183CB6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D7A53CF41522F39500183CB6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		D7A53CF81522F39500183CB6 /* IdeaStock-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IdeaStock-Info.plist"; sourceTree = "<group>"; };
+		D7A53CF81522F39500183CB6 /* Mindcloud-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Mindcloud-Info.plist"; sourceTree = "<group>"; };
 		D7A53CFA1522F39500183CB6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D7A53CFC1522F39500183CB6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D7A53CFE1522F39500183CB6 /* IdeaStock-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IdeaStock-Prefix.pch"; sourceTree = "<group>"; };
+		D7A53CFE1522F39500183CB6 /* Mindcloud-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mindcloud-Prefix.pch"; sourceTree = "<group>"; };
 		D7A53CFF1522F39500183CB6 /* IdeaStockAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IdeaStockAppDelegate.h; sourceTree = "<group>"; };
 		D7A53D001522F39500183CB6 /* IdeaStockAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IdeaStockAppDelegate.m; sourceTree = "<group>"; };
-		D7A53D0D1522F39500183CB6 /* IdeaStockTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IdeaStockTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7A53D0D1522F39500183CB6 /* MindcloudTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MindcloudTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7A53D0E1522F39500183CB6 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		D7A53D161522F39500183CB6 /* IdeaStockTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IdeaStockTests-Info.plist"; sourceTree = "<group>"; };
+		D7A53D161522F39500183CB6 /* MindcloudTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MindcloudTests-Info.plist"; sourceTree = "<group>"; };
 		D7A53D181522F39500183CB6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D7A53D271522F4E100183CB6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D7AB7DE6152F6DB200FC6BC0 /* CallBackDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallBackDataModel.h; sourceTree = "<group>"; };
@@ -353,8 +353,8 @@
 				D7B1431B152680B500DC7556 /* IdeaStockSchema.xsd */,
 				D74CF0C315266DD900DDEF0F /* BulletinboardXoomlTemplate.xml */,
 				D7A53D271522F4E100183CB6 /* Security.framework */,
-				D7A53CF61522F39500183CB6 /* IdeaStock */,
-				D7A53D141522F39500183CB6 /* IdeaStockTests */,
+				D7A53CF61522F39500183CB6 /* Mindcloud */,
+				D7A53D141522F39500183CB6 /* MindcloudTests */,
 				D7A53CEF1522F39500183CB6 /* Frameworks */,
 				D7A53CED1522F39500183CB6 /* Products */,
 			);
@@ -363,8 +363,8 @@
 		D7A53CED1522F39500183CB6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D7A53CEC1522F39500183CB6 /* IdeaStock.app */,
-				D7A53D0D1522F39500183CB6 /* IdeaStockTests.octest */,
+				D7A53CEC1522F39500183CB6 /* Mindcloud.app */,
+				D7A53D0D1522F39500183CB6 /* MindcloudTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -380,7 +380,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		D7A53CF61522F39500183CB6 /* IdeaStock */ = {
+		D7A53CF61522F39500183CB6 /* Mindcloud */ = {
 			isa = PBXGroup;
 			children = (
 				DB99FFBB160E66690042ED2A /* Helpers */,
@@ -392,6 +392,7 @@
 				D7A53D001522F39500183CB6 /* IdeaStockAppDelegate.m */,
 				D7A53CF71522F39500183CB6 /* Supporting Files */,
 			);
+			name = Mindcloud;
 			path = IdeaStock;
 			sourceTree = "<group>";
 		};
@@ -427,15 +428,15 @@
 				D7E88AD0154B9A7B003C773F /* yellow board.png */,
 				D7E88ACA154B8FFA003C773F /* blue board.png */,
 				D7EC3C64154B7BD300230C0C /* green board.png */,
-				D7A53CF81522F39500183CB6 /* IdeaStock-Info.plist */,
+				D7A53CF81522F39500183CB6 /* Mindcloud-Info.plist */,
 				D7A53CF91522F39500183CB6 /* InfoPlist.strings */,
 				D7A53CFC1522F39500183CB6 /* main.m */,
-				D7A53CFE1522F39500183CB6 /* IdeaStock-Prefix.pch */,
+				D7A53CFE1522F39500183CB6 /* Mindcloud-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		D7A53D141522F39500183CB6 /* IdeaStockTests */ = {
+		D7A53D141522F39500183CB6 /* MindcloudTests */ = {
 			isa = PBXGroup;
 			children = (
 				D731B4BF1535F17B0015C325 /* MockDropBoxDatamodel.h */,
@@ -448,13 +449,14 @@
 				D709473515245416008E4AD9 /* XoomlTests.h */,
 				D709473615245416008E4AD9 /* XoomlTests.m */,
 			);
+			name = MindcloudTests;
 			path = IdeaStockTests;
 			sourceTree = "<group>";
 		};
 		D7A53D151522F39500183CB6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D7A53D161522F39500183CB6 /* IdeaStockTests-Info.plist */,
+				D7A53D161522F39500183CB6 /* MindcloudTests-Info.plist */,
 				D7A53D171522F39500183CB6 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -566,9 +568,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D7A53CEB1522F39500183CB6 /* IdeaStock */ = {
+		D7A53CEB1522F39500183CB6 /* Mindcloud */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D7A53D1F1522F39500183CB6 /* Build configuration list for PBXNativeTarget "IdeaStock" */;
+			buildConfigurationList = D7A53D1F1522F39500183CB6 /* Build configuration list for PBXNativeTarget "Mindcloud" */;
 			buildPhases = (
 				D7A53CE81522F39500183CB6 /* Sources */,
 				D7A53CE91522F39500183CB6 /* Frameworks */,
@@ -578,14 +580,14 @@
 			);
 			dependencies = (
 			);
-			name = IdeaStock;
+			name = Mindcloud;
 			productName = IdeaStock;
-			productReference = D7A53CEC1522F39500183CB6 /* IdeaStock.app */;
+			productReference = D7A53CEC1522F39500183CB6 /* Mindcloud.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D7A53D0C1522F39500183CB6 /* IdeaStockTests */ = {
+		D7A53D0C1522F39500183CB6 /* MindcloudTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D7A53D221522F39500183CB6 /* Build configuration list for PBXNativeTarget "IdeaStockTests" */;
+			buildConfigurationList = D7A53D221522F39500183CB6 /* Build configuration list for PBXNativeTarget "MindcloudTests" */;
 			buildPhases = (
 				D7A53D081522F39500183CB6 /* Sources */,
 				D7A53D091522F39500183CB6 /* Frameworks */,
@@ -597,9 +599,9 @@
 			dependencies = (
 				D7A53D131522F39500183CB6 /* PBXTargetDependency */,
 			);
-			name = IdeaStockTests;
+			name = MindcloudTests;
 			productName = IdeaStockTests;
-			productReference = D7A53D0D1522F39500183CB6 /* IdeaStockTests.octest */;
+			productReference = D7A53D0D1522F39500183CB6 /* MindcloudTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -612,7 +614,7 @@
 				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "University of Washington";
 			};
-			buildConfigurationList = D7A53CE61522F39400183CB6 /* Build configuration list for PBXProject "IdeaStock" */;
+			buildConfigurationList = D7A53CE61522F39400183CB6 /* Build configuration list for PBXProject "Mindcloud" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -624,8 +626,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D7A53CEB1522F39500183CB6 /* IdeaStock */,
-				D7A53D0C1522F39500183CB6 /* IdeaStockTests */,
+				D7A53CEB1522F39500183CB6 /* Mindcloud */,
+				D7A53D0C1522F39500183CB6 /* MindcloudTests */,
 			);
 		};
 /* End PBXProject section */
@@ -753,7 +755,7 @@
 /* Begin PBXTargetDependency section */
 		D7A53D131522F39500183CB6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D7A53CEB1522F39500183CB6 /* IdeaStock */;
+			target = D7A53CEB1522F39500183CB6 /* Mindcloud */;
 			targetProxy = D7A53D121522F39500183CB6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -837,10 +839,10 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "IdeaStock/IdeaStock-Prefix.pch";
-				INFOPLIST_FILE = "IdeaStock/IdeaStock-Info.plist";
+				GCC_PREFIX_HEADER = "IdeaStock/Mindcloud-Prefix.pch";
+				INFOPLIST_FILE = "IdeaStock/Mindcloud-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Mindcloud;
 				REZ_SEARCH_PATHS = /usr/include/libxml2;
 				"REZ_SEARCH_PATHS[sdk=*]" = "$(SDKROOT)/usr/include/libxml2";
 				USER_HEADER_SEARCH_PATHS = /usr/include/libxml2;
@@ -857,10 +859,10 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "IdeaStock/IdeaStock-Prefix.pch";
-				INFOPLIST_FILE = "IdeaStock/IdeaStock-Info.plist";
+				GCC_PREFIX_HEADER = "IdeaStock/Mindcloud-Prefix.pch";
+				INFOPLIST_FILE = "IdeaStock/Mindcloud-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Mindcloud;
 				REZ_SEARCH_PATHS = /usr/include/libxml2;
 				"REZ_SEARCH_PATHS[sdk=*]" = "$(SDKROOT)/usr/include/libxml2";
 				USER_HEADER_SEARCH_PATHS = /usr/include/libxml2;
@@ -880,8 +882,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IdeaStock/IdeaStock-Prefix.pch";
-				INFOPLIST_FILE = "IdeaStockTests/IdeaStockTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "IdeaStockTests/MindcloudTests-Info.plist";
+				PRODUCT_NAME = MindcloudTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -898,8 +900,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IdeaStock/IdeaStock-Prefix.pch";
-				INFOPLIST_FILE = "IdeaStockTests/IdeaStockTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "IdeaStockTests/MindcloudTests-Info.plist";
+				PRODUCT_NAME = MindcloudTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -908,7 +910,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D7A53CE61522F39400183CB6 /* Build configuration list for PBXProject "IdeaStock" */ = {
+		D7A53CE61522F39400183CB6 /* Build configuration list for PBXProject "Mindcloud" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D7A53D1D1522F39500183CB6 /* Debug */,
@@ -917,7 +919,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D7A53D1F1522F39500183CB6 /* Build configuration list for PBXNativeTarget "IdeaStock" */ = {
+		D7A53D1F1522F39500183CB6 /* Build configuration list for PBXNativeTarget "Mindcloud" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D7A53D201522F39500183CB6 /* Debug */,
@@ -926,7 +928,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D7A53D221522F39500183CB6 /* Build configuration list for PBXNativeTarget "IdeaStockTests" */ = {
+		D7A53D221522F39500183CB6 /* Build configuration list for PBXNativeTarget "MindcloudTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D7A53D231522F39500183CB6 /* Debug */,

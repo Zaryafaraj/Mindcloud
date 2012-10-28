@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D7A53CEB1522F39500183CB6"
                BuildableName = "IdeaStock.app"
-               BlueprintName = "IdeaStock"
-               ReferencedContainer = "container:IdeaStock.xcodeproj">
+               BlueprintName = "Mindcloud"
+               ReferencedContainer = "container:Mindcloud.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D7A53D0C1522F39500183CB6"
                BuildableName = "IdeaStockTests.octest"
-               BlueprintName = "IdeaStockTests"
-               ReferencedContainer = "container:IdeaStock.xcodeproj">
+               BlueprintName = "MindcloudTests"
+               ReferencedContainer = "container:Mindcloud.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,8 +44,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D7A53CEB1522F39500183CB6"
             BuildableName = "IdeaStock.app"
-            BlueprintName = "IdeaStock"
-            ReferencedContainer = "container:IdeaStock.xcodeproj">
+            BlueprintName = "Mindcloud"
+            ReferencedContainer = "container:Mindcloud.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D7A53CEB1522F39500183CB6"
             BuildableName = "IdeaStock.app"
-            BlueprintName = "IdeaStock"
-            ReferencedContainer = "container:IdeaStock.xcodeproj">
+            BlueprintName = "Mindcloud"
+            ReferencedContainer = "container:Mindcloud.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D7A53CEB1522F39500183CB6"
             BuildableName = "IdeaStock.app"
-            BlueprintName = "IdeaStock"
-            ReferencedContainer = "container:IdeaStock.xcodeproj">
+            BlueprintName = "Mindcloud"
+            ReferencedContainer = "container:Mindcloud.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
