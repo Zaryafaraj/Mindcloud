@@ -19,9 +19,12 @@
 /*------------------------------------------------
  UI properties
  -------------------------------------------------*/
-@property (weak, nonatomic) IBOutlet UIScrollView *mainView;
 @property (weak, nonatomic) UIView * lastView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (strong, nonatomic) NSArray * editToolbar;
+@property (strong, nonatomic) NSArray * navigateToolbar;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+@property BOOL isEditing;
 
 /*------------------------------------------------
  Model
@@ -58,9 +61,35 @@
     }
 }
 
+#define DELETE_BUTTON @"Delete"
+#define CANCEL_BUTTON @"Cancel"
+#define RENAME_BUTTON @"Rename"
+#define EDIT_BUTTON @"Edit"
 /*------------------------------------------------
  UI Events
  -------------------------------------------------*/
+- (IBAction)cancelPressed:(id)sender {
+    self.isEditing = NO;
+    self.toolbar.items = self.navigateToolbar;
+    NSArray * selectedItem = [self.collectionView indexPathsForSelectedItems];
+    for (NSIndexPath * selIndex in selectedItem)
+    {
+        [self.collectionView deselectItemAtIndexPath:selIndex animated:YES];
+    }
+    //make sure Delete and Rename buttons are in disabled state
+    for(UIBarButtonItem * button in self.editToolbar)
+    {
+        if ([button.title isEqual:DELETE_BUTTON] ||
+            [button.title isEqual:RENAME_BUTTON])
+        {
+            button.enabled = NO;
+        }
+    }
+}
+- (IBAction)editPressed:(id)sender {
+    self.isEditing = YES;
+    self.toolbar.items = self.editToolbar;
+}
 
 -(IBAction) AddPressed:(id)sender {
     
@@ -89,9 +118,9 @@
 -(void) viewDidLoad{
     
     [super viewDidLoad];
-    
-    [self.mainView setBackgroundColor: [UIColor clearColor]];
-    [self.mainView setContentSize:self.mainView.bounds.size];
+    [self.collectionView setAllowsMultipleSelection:NO];
+    [self manageToolbars];
+    self.toolbar.items = self.navigateToolbar;
     
     //TODO what does this do ?
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -109,10 +138,35 @@
                  }];
 }
 
+-(void) manageToolbars
+{
+    NSMutableArray *  editbar = [NSMutableArray array];
+    NSMutableArray *  navbar = [NSMutableArray array];
+    for (UIBarButtonItem * barButton in self.toolbar.items)
+    {
+        if ([barButton.title isEqual: RENAME_BUTTON] ||
+            [barButton.title isEqual: DELETE_BUTTON] ||
+            [barButton.title isEqual: CANCEL_BUTTON])
+        {
+            [editbar addObject:barButton];
+        }
+        else if ([barButton.title isEqual:EDIT_BUTTON])
+        {
+            [navbar addObject:barButton];
+        }
+        else
+        {
+            [editbar addObject:barButton];
+            [navbar  addObject:barButton];
+        }
+    }
+    self.editToolbar = [editbar copy];
+    self.navigateToolbar = [navbar copy];
+
+}
 -(void) viewDidUnload{
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self setMainView:nil];
     [super viewDidUnload];
 }
 
@@ -134,7 +188,7 @@
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 10000;
+    return 11;
 }
 
 -(NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -151,16 +205,17 @@
 
 -(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Selected");
+    //enable the edit bar buttons
+    for (UIBarButtonItem * button in self.toolbar.items)
+    {
+        button.enabled = YES;
+    }
+    
 }
 
 -(BOOL) collectionView:(UICollectionView *) collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
-}
--(void) collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"Deselcted");
+    return self.isEditing;
 }
 
 -(CGSize) collectionView:(UICollectionView *)collectionView

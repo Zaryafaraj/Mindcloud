@@ -98,7 +98,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="cJOfLC.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="hOC-nl-6FF">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="pile boardBig.png" translatesAutoresizingMaskIntoConstraints="NO" id="hOC-nl-6FF">
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="163" id="HpN-eH-PyB"/>
@@ -138,6 +138,15 @@
                             </collectionView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" barStyle="blackOpaque" translatesAutoresizingMaskIntoConstraints="NO" id="1Wk-zS-ESI">
                                 <items>
+                                    <barButtonItem width="44" systemItem="refresh" id="fbB-rF-pm9">
+                                        <connections>
+                                            <action selector="refreshPressed:" destination="C4k-Gx-gPL" id="VKj-MQ-8qa"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem enabled="NO" title="Rename" id="0Q9-ix-kI4"/>
+                                    <barButtonItem enabled="NO" title="Delete" id="vdd-fp-afS">
+                                        <color key="tintColor" red="0.65082739980000004" green="0.0" blue="0.02685869955" alpha="1" colorSpace="calibratedRGB"/>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="ok3-Um-hEz"/>
                                     <barButtonItem title="Boards" style="plain" id="SvH-0t-LUt"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="OPE-pZ-Jrg">
@@ -145,9 +154,15 @@
                                             <segue destination="9HL-37-GHp" kind="modal" identifier="bulletinBoardSegue" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="eq8-da-VHb"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem width="44" systemItem="refresh" id="fbB-rF-pm9">
+                                    <barButtonItem title="Cancel" id="zGk-Ze-iMT">
+                                        <color key="tintColor" red="0.24374802549510532" green="0.22944459002314144" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
-                                            <action selector="refreshPressed:" destination="C4k-Gx-gPL" id="VKj-MQ-8qa"/>
+                                            <action selector="cancelPressed:" destination="C4k-Gx-gPL" id="ca9-GR-NLv"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Edit" id="04P-dP-H7k">
+                                        <connections>
+                                            <action selector="editPressed:" destination="C4k-Gx-gPL" id="cz5-sY-Em3"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem width="44" systemItem="add" id="eTp-YV-1ie">
@@ -182,6 +197,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="BzD-cR-F4A" id="MeN-iG-daM"/>
+                        <outlet property="toolbar" destination="1Wk-zS-ESI" id="VrZ-Rg-ENb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jc8-vf-MPm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -343,15 +359,18 @@
     </scenes>
     <resources>
         <image name="Background_Blue.jpg" width="1920" height="1200"/>
-        <image name="cJOfLC.jpeg" width="1024" height="1024"/>
         <image name="dropbox_icon.png" width="460" height="415"/>
         <image name="felt-red-ipad-background.jpg" width="1024" height="1024"/>
+        <image name="pile boardBig.png" width="1372" height="1040"/>
         <image name="skybacground.jpg" width="1024" height="1024"/>
     </resources>
     <classes>
         <class className="BulletinBoardViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/BulletinBoardViewController.h"/>
             <relationships>
+                <relationship kind="action" name="backPressed:"/>
+                <relationship kind="action" name="deletePressed:"/>
+                <relationship kind="action" name="refreshPressed:"/>
                 <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="bulletinboardView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="label" candidateClass="UIBarButtonItem"/>
@@ -369,9 +388,11 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainScreenViewController.h"/>
             <relationships>
                 <relationship kind="action" name="AddPressed:"/>
+                <relationship kind="action" name="cancelPressed:"/>
+                <relationship kind="action" name="editPressed:"/>
                 <relationship kind="action" name="refreshPressed:"/>
                 <relationship kind="outlet" name="collectionView" candidateClass="UICollectionView"/>
-                <relationship kind="outlet" name="mainView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
             </relationships>
         </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">
@@ -386,6 +407,9 @@
         <class className="StackViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StackViewController.h"/>
             <relationships>
+                <relationship kind="action" name="backPressed:"/>
+                <relationship kind="action" name="deletePressed:"/>
+                <relationship kind="action" name="unstackPressed:"/>
                 <relationship kind="outlet" name="stackView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
             </relationships>

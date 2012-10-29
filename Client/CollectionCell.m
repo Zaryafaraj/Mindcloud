@@ -7,7 +7,7 @@
 //
 
 #import "CollectionCell.h"
-
+#import <QuartzCore/QuartzCore.h>
 @interface CollectionCell()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *picImage;
@@ -15,15 +15,19 @@
 @end
 @implementation CollectionCell
 
-- (id)initWithFrame:(CGRect)frame
+-(id) initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        UIView *bgView = [[UIView alloc] initWithFrame:self.backgroundView.frame];
+        bgView.backgroundColor = [UIColor clearColor];
+        bgView.layer.borderColor = [[UIColor grayColor] CGColor];
+        bgView.layer.borderWidth = 2;
+        self.selectedBackgroundView = bgView;
     }
     return self;
 }
-
 -(void) setText:(NSString *)text
 {
     self.text = text;
