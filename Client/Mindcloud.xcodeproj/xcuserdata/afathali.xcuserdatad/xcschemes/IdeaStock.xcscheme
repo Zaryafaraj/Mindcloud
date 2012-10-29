@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D7A53CEB1522F39500183CB6"
-               BuildableName = "IdeaStock.app"
+               BuildableName = "Mindcloud.app"
                BlueprintName = "Mindcloud"
                ReferencedContainer = "container:Mindcloud.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D7A53D0C1522F39500183CB6"
-               BuildableName = "IdeaStockTests.octest"
+               BuildableName = "MindcloudTests.octest"
                BlueprintName = "MindcloudTests"
                ReferencedContainer = "container:Mindcloud.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D7A53CEB1522F39500183CB6"
-            BuildableName = "IdeaStock.app"
+            BuildableName = "Mindcloud.app"
             BlueprintName = "Mindcloud"
             ReferencedContainer = "container:Mindcloud.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D7A53CEB1522F39500183CB6"
-            BuildableName = "IdeaStock.app"
+            BuildableName = "Mindcloud.app"
             BlueprintName = "Mindcloud"
             ReferencedContainer = "container:Mindcloud.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D7A53CEB1522F39500183CB6"
-            BuildableName = "IdeaStock.app"
+            BuildableName = "Mindcloud.app"
             BlueprintName = "Mindcloud"
             ReferencedContainer = "container:Mindcloud.xcodeproj">
          </BuildableReference>

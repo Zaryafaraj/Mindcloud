@@ -21,6 +21,7 @@
  -------------------------------------------------*/
 @property (weak, nonatomic) IBOutlet UIScrollView *mainView;
 @property (weak, nonatomic) UIView * lastView;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 /*------------------------------------------------
  Model
@@ -104,7 +105,11 @@
                           WithCallback:^(NSArray * collection)
                  {
                      NSLog(@"Collections Retrieved");
+                     //[self.collectionView reloadData];
                  }];
+    
+
+    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"DummyCell"];
 }
 
 -(void) viewDidUnload{
@@ -126,4 +131,35 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
+/*-------------------------------------------------
+ Collectionview Delegate methods
+ --------------------------------------------------*/
+
+-(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return 10000;
+}
+
+-(NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
+-(UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"DummyCell" forIndexPath:indexPath];
+    cell.backgroundColor = [UIColor greenColor];
+    return cell;
+}
+
+
+-(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"Selected");
+}
+
+-(void) collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"Deselcted");
+}
 @end
