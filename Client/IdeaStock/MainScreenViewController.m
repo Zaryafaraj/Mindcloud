@@ -10,6 +10,7 @@
 #import "BulletinBoardViewController.h"
 #import "Mindcloud.h"
 #import "UserPropertiesHelper.h"
+#import "CollectionsModel.h"
 
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
@@ -29,7 +30,7 @@
 /*------------------------------------------------
  Model
  -------------------------------------------------*/
-
+@property CollectionsModel * model;
 @end
 
 @implementation MainScreenViewController
@@ -130,11 +131,14 @@
     
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
+    self.model = [[CollectionsModel alloc] initWithCollections:[NSArray arrayWithObject:@"Tutorial"]];
     [mindcloud getAllCollectionsFor:userId
                           WithCallback:^(NSArray * collection)
                  {
                      NSLog(@"Collections Retrieved");
-                     //[self.collectionView reloadData];
+                     NSLog(@"%@", collection);
+                     self.model = [[CollectionsModel alloc] initWithCollections:collection];
+                     [self.collectionView reloadData];
                  }];
 }
 
@@ -188,7 +192,7 @@
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 11;
+    return [[self.model getCollectionsForCategory:UNCATEGORIZED_KEY] count];
 }
 
 -(NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView

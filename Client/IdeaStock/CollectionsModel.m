@@ -8,7 +8,6 @@
 
 #import "CollectionsModel.h"
 
-#define UNCATEGORIZED_KEY @"uncategorized"
 
 @interface CollectionsModel()
 
@@ -80,6 +79,8 @@ belonging to that category*/
 
 -(NSArray *) getCollectionsForCategory: (NSString *) category
 {
+    if (!category) category = UNCATEGORIZED_KEY;
+    
     return [self.collections[category] copy];
 }
 
