@@ -107,9 +107,6 @@
                      NSLog(@"Collections Retrieved");
                      //[self.collectionView reloadData];
                  }];
-    
-
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"DummyCell"];
 }
 
 -(void) viewDidUnload{
@@ -147,8 +144,7 @@
 
 -(UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"DummyCell" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor greenColor];
+    UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionCell" forIndexPath:indexPath];
     return cell;
 }
 
@@ -158,8 +154,26 @@
     NSLog(@"Selected");
 }
 
+-(BOOL) collectionView:(UICollectionView *) collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
 -(void) collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Deselcted");
+}
+
+-(CGSize) collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(250, 250);
+}
+
+-(UIEdgeInsets) collectionView:(UICollectionView *)collectionView
+                        layout:(UICollectionViewLayout *)collectionViewLayout
+        insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(20, 20, 30, 20);
 }
 @end
