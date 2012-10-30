@@ -31,4 +31,5 @@
 -(void) moveCollection: (NSString *) collectionName
           fromCategory: (NSString *) oldCategory
          toNewCategory: (NSString *) newCategory;
+-(NSString *) getCollectionAt: (int) index forCategory: (NSString *) cat;
 @end

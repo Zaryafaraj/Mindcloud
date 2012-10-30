@@ -11,6 +11,7 @@
 #import "Mindcloud.h"
 #import "UserPropertiesHelper.h"
 #import "CollectionsModel.h"
+#import "CollectionCell.h"
 
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
@@ -26,7 +27,7 @@
 @property (strong, nonatomic) NSArray * navigateToolbar;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property BOOL isEditing;
-
+@property (strong, nonatomic) NSString * currentCategory;
 /*------------------------------------------------
  Model
  -------------------------------------------------*/
@@ -34,6 +35,13 @@
 @end
 
 @implementation MainScreenViewController
+
+-(NSString *) currentCategory
+{
+    if (!_currentCategory) _currentCategory = UNCATEGORIZED_KEY;
+    return _currentCategory;
+}
+
 /*------------------------------------------------
  Initializers
  -------------------------------------------------*/
@@ -106,7 +114,13 @@
     
     if (buttonIndex == 1){
         NSString * name = [[alertView textFieldAtIndex:0] text];
-        //create new view
+        //TODO: do error checking here
+        [self.model addCollection:name toCategory:self.currentCategory];
+        [self.collectionView performBatchUpdates:^{
+            NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+            [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
+        }completion:nil];
+        
     }
     
 }
@@ -192,7 +206,7 @@
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [[self.model getCollectionsForCategory:UNCATEGORIZED_KEY] count];
+    return [[self.model getCollectionsForCategory:self.currentCategory] count];
 }
 
 -(NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -203,6 +217,13 @@
 -(UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionCell" forIndexPath:indexPath];
+    NSString * text = [self.model getCollectionAt:indexPath.item forCategory:self.currentCategory];
+    if ([cell isKindOfClass:[CollectionCell class]])
+    {
+        CollectionCell * colCell = (CollectionCell *)cell;
+        colCell.text = text;
+    }
+    
     return cell;
 }
 

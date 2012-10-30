@@ -29,7 +29,7 @@ belonging to that category*/
 -(id) initWithCollections:(NSArray *)collections
 {
     self = [self init];
-    self.collections[UNCATEGORIZED_KEY] = collections;
+    self.collections[UNCATEGORIZED_KEY] = [collections mutableCopy];
     return self;
 }
 
@@ -47,7 +47,7 @@ belonging to that category*/
 
 -(void) addCollection: (NSString *) collection toCategory: (NSString *) category
 {
-    if (self.collections[category]) [self.collections[category] addObject:collection];
+    if (self.collections[category]) [self.collections[category] insertObject:collection atIndex:0];
     else self.collections[category] = [NSMutableArray arrayWithObject:collection];
 }
 
@@ -82,6 +82,10 @@ belonging to that category*/
     if (!category) category = UNCATEGORIZED_KEY;
     
     return [self.collections[category] copy];
+}
+-(NSString *) getCollectionAt:(int)index forCategory:(NSString *)cat
+{
+    return self.collections[cat][index];
 }
 
 -(void) renameCategory:(NSString *)category toNewCategory:(NSString *)newCategory
@@ -144,5 +148,6 @@ belonging to that category*/
     
     self.collections[UNCATEGORIZED_KEY] = uncategorized;
 }
+
 
 @end

@@ -30,14 +30,14 @@
 }
 -(void) setText:(NSString *)text
 {
-    self.text = text;
-    self.titleLabel.text = text;
+    _text = text;
+    _titleLabel.text = text;
 }
 
 -(void) setImg:(UIImage *)img
 {
-    self.img = img;
-    self.picImage.image = img;
+    _img = img;
+    _picImage.image = img;
 }
 /*
 // Only override drawRect: if you perform custom drawing.
