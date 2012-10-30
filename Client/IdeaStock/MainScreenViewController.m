@@ -107,6 +107,15 @@
     [alert show];
 }
 
+- (IBAction)deletePressed:(id)sender {
+    NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
+    CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItems[0]];
+    [self.collectionView performBatchUpdates:^{
+        [self.model removeCollection:selectedCell.text fromCategory:self.currentCategory];
+        [self.collectionView deleteItemsAtIndexPaths:selectedItems];
+    }completion:nil];
+}
+
 - (IBAction)refreshPressed:(id)sender {
 }
 
