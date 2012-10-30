@@ -28,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property BOOL isEditing;
 @property (strong, nonatomic) NSString * currentCategory;
+@property (weak, nonatomic) UIActionSheet * activeSheet;
 /*------------------------------------------------
  Model
  -------------------------------------------------*/
@@ -116,8 +117,20 @@
 }
 
 - (IBAction)deletePressed:(id)sender {
-    UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete" otherButtonTitles:nil, nil];
-    [action showInView:self.collectionView];
+    UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil
+                                                         delegate:self
+                                                cancelButtonTitle:nil
+                                           destructiveButtonTitle:@"Delete Collection"
+                                                otherButtonTitles:nil,
+                              nil];
+    //make sure an actionsheet is not presented on top of another not dismissed one
+    if (self.activeSheet)
+    {
+        [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
+        self.activeSheet = nil;
+    }
+    [action showFromBarButtonItem:sender animated:NO];
+    self.activeSheet = action;
 }
 
 - (IBAction)refreshPressed:(id)sender {
@@ -277,7 +290,6 @@
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex != 0) return;
-    NSLog(@"%d", buttonIndex);
     NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
     CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItems[0]];
     [self.collectionView performBatchUpdates:^{
