@@ -12,7 +12,10 @@
 #import "DropboxActionController.h"
 
 @interface MainScreenViewController : UIViewController
-<UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, UICollectionViewDelegate>
+<UICollectionViewDataSource,
+UICollectionViewDelegateFlowLayout,
+UICollectionViewDelegate,
+UIActionSheetDelegate>
 
 @property (atomic) BOOL actionInProgress;
 //maybe better to make this private

@@ -74,6 +74,20 @@
 #define CANCEL_BUTTON @"Cancel"
 #define RENAME_BUTTON @"Rename"
 #define EDIT_BUTTON @"Edit"
+
+-(void) disableDeleteAndRename
+{
+    
+    for(UIBarButtonItem * button in self.editToolbar)
+    {
+        if ([button.title isEqual:DELETE_BUTTON] ||
+            [button.title isEqual:RENAME_BUTTON])
+        {
+            button.enabled = NO;
+        }
+    }
+}
+
 /*------------------------------------------------
  UI Events
  -------------------------------------------------*/
@@ -86,15 +100,9 @@
         [self.collectionView deselectItemAtIndexPath:selIndex animated:YES];
     }
     //make sure Delete and Rename buttons are in disabled state
-    for(UIBarButtonItem * button in self.editToolbar)
-    {
-        if ([button.title isEqual:DELETE_BUTTON] ||
-            [button.title isEqual:RENAME_BUTTON])
-        {
-            button.enabled = NO;
-        }
-    }
+    [self disableDeleteAndRename];
 }
+
 - (IBAction)editPressed:(id)sender {
     self.isEditing = YES;
     self.toolbar.items = self.editToolbar;
@@ -108,12 +116,8 @@
 }
 
 - (IBAction)deletePressed:(id)sender {
-    NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
-    CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItems[0]];
-    [self.collectionView performBatchUpdates:^{
-        [self.model removeCollection:selectedCell.text fromCategory:self.currentCategory];
-        [self.collectionView deleteItemsAtIndexPaths:selectedItems];
-    }completion:nil];
+    UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete" otherButtonTitles:nil, nil];
+    [action showInView:self.collectionView];
 }
 
 - (IBAction)refreshPressed:(id)sender {
@@ -264,5 +268,25 @@
         insetForSectionAtIndex:(NSInteger)section
 {
     return UIEdgeInsetsMake(20, 20, 30, 20);
+}
+
+/*-------------------------------------------------
+ Actionsheet delegates
+ --------------------------------------------------*/
+
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex != 0) return;
+    NSLog(@"%d", buttonIndex);
+    NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
+    CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItems[0]];
+    [self.collectionView performBatchUpdates:^{
+        [self.model removeCollection:selectedCell.text fromCategory:self.currentCategory];
+        [self.collectionView deleteItemsAtIndexPaths:selectedItems];
+    }completion:nil];
+    
+    //make sure after deletion DELETE and RENAME buttons are disabled
+    [self disableDeleteAndRename];
+    
 }
 @end
