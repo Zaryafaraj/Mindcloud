@@ -109,11 +109,34 @@
     self.toolbar.items = self.editToolbar;
 }
 
--(IBAction) AddPressed:(id)sender {
+-(IBAction) addPressed:(id)sender {
     
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Collection" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add", nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alert show];
+}
+
+-(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    //perform add collection
+    if (buttonIndex == 1){
+        NSString * name = [[alertView textFieldAtIndex:0] text];
+        [self addCollection:name];
+    }
+}
+
+-(void) addCollection: (NSString *) name
+{
+    [self.model addCollection:name toCategory:self.currentCategory];
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userId = [UserPropertiesHelper userID];
+    [mindcloud addCollectionFor:userId withName:name withCallback:^{
+        NSLog(@"Collection %@ added", name);
+    }];
+    [self.collectionView performBatchUpdates:^{
+        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+        [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
+    }completion:nil];
 }
 
 - (IBAction)deletePressed:(id)sender {
@@ -133,23 +156,24 @@
     self.activeSheet = action;
 }
 
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex != 0) return;
+    NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
+    CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItems[0]];
+    [self.collectionView performBatchUpdates:^{
+        [self.model removeCollection:selectedCell.text fromCategory:self.currentCategory];
+        [self.collectionView deleteItemsAtIndexPaths:selectedItems];
+    }completion:nil];
+    
+    //make sure after deletion DELETE and RENAME buttons are disabled
+    [self disableDeleteAndRename];
+    
+}
+
 - (IBAction)refreshPressed:(id)sender {
 }
 
--(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    
-    if (buttonIndex == 1){
-        NSString * name = [[alertView textFieldAtIndex:0] text];
-        //TODO: do error checking here
-        [self.model addCollection:name toCategory:self.currentCategory];
-        [self.collectionView performBatchUpdates:^{
-            NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
-            [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
-        }completion:nil];
-        
-    }
-    
-}
 
 -(void) viewWillAppear:(BOOL)animated{
     
@@ -171,7 +195,7 @@
     
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
-    self.model = [[CollectionsModel alloc] initWithCollections:[NSArray arrayWithObject:@"Tutorial"]];
+    self.model = [[CollectionsModel alloc] init];
     [mindcloud getAllCollectionsFor:userId
                           WithCallback:^(NSArray * collection)
                  {
@@ -283,22 +307,4 @@
     return UIEdgeInsetsMake(20, 20, 30, 20);
 }
 
-/*-------------------------------------------------
- Actionsheet delegates
- --------------------------------------------------*/
-
--(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex != 0) return;
-    NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
-    CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItems[0]];
-    [self.collectionView performBatchUpdates:^{
-        [self.model removeCollection:selectedCell.text fromCategory:self.currentCategory];
-        [self.collectionView deleteItemsAtIndexPaths:selectedItems];
-    }completion:nil];
-    
-    //make sure after deletion DELETE and RENAME buttons are disabled
-    [self disableDeleteAndRename];
-    
-}
 @end

@@ -90,6 +90,7 @@
 		DBC7C4C316327F1900BF3F2D /* AccountsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC7C4C216327F1900BF3F2D /* AccountsAction.m */; };
 		DBDD1ABE15CF215A00F55223 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DBDD1ABD15CF215A00F55223 /* libxml2.dylib */; };
 		DBE13375163E13AE00EF0AF7 /* CollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE13374163E13AE00EF0AF7 /* CollectionCell.m */; };
+		DBEE54B61640F16300BD9F93 /* HTTPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEE54B51640F16300BD9F93 /* HTTPHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -236,6 +237,8 @@
 		DBDD1ABD15CF215A00F55223 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		DBE13373163E13AE00EF0AF7 /* CollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionCell.h; path = ../CollectionCell.h; sourceTree = "<group>"; };
 		DBE13374163E13AE00EF0AF7 /* CollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionCell.m; path = ../CollectionCell.m; sourceTree = "<group>"; };
+		DBEE54B41640F16300BD9F93 /* HTTPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPHelper.h; sourceTree = "<group>"; };
+		DBEE54B51640F16300BD9F93 /* HTTPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -566,6 +569,8 @@
 				D7DEF2C31530D37800D13CF4 /* FileSystemHelper.m */,
 				DB99FFBD160E66870042ED2A /* StringUtils.h */,
 				DB99FFBE160E66870042ED2A /* StringUtils.m */,
+				DBEE54B41640F16300BD9F93 /* HTTPHelper.h */,
+				DBEE54B51640F16300BD9F93 /* HTTPHelper.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -742,6 +747,7 @@
 				DB3174FE16337636001229FE /* SignInViewController.m in Sources */,
 				DB4E0AC9163DCD3D00AB82E6 /* CollectionsModel.m in Sources */,
 				DBE13375163E13AE00EF0AF7 /* CollectionCell.m in Sources */,
+				DBEE54B61640F16300BD9F93 /* HTTPHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#define MINDCLOUD_BASE_URL @"http://localhost:8000/"
+#define STATUS_KEY @"status"
+
 @interface MindcloudBaseAction : NSObject <NSURLConnectionDelegate>
 
 @property (nonatomic,readonly) NSString * baseURL;

@@ -25,4 +25,8 @@
 -(void) getAllCollectionsFor:(NSString *) userId
                    WithCallback:(get_collections_callback)callback;
 
+-(void) addCollectionFor: (NSString *) userID
+                withName: (NSString *) collectionName
+            withCallback: (add_collection_callback)callback;
+
 @end

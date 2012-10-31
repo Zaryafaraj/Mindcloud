@@ -11,8 +11,12 @@
 @interface AccountsAction : MindcloudBaseAction
 
 typedef void (^get_collections_callback)(NSArray * collections);
+typedef void (^add_collection_callback)(void);
 
--(id) initWithUserID:(NSString *) userID
-         andCallback:(get_collections_callback)callback;
+@property (nonatomic, strong) get_collections_callback getCallback;
+@property (nonatomic, strong) add_collection_callback postCallback;
+@property (nonatomic, strong) NSDictionary * postArguments;
+
+-(id) initWithUserID:(NSString *) userID;
 
 @end

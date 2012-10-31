@@ -46,7 +46,7 @@ class AccountsTests(AsyncHTTPTestCase):
         return headers, postData
 
     def test_add_collections_with_file(self):
-        collection_name = 'colName'
+        collection_name = 'a'
         file = open('../test_resources/XooML.xml')
         headers, postData = self._create_multipart_request(collection_name, file)
         url = '/'+self.account_id + '/Collections'

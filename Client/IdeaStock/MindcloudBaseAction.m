@@ -20,8 +20,6 @@
 @synthesize receivedData = _receivedData;
 @synthesize request = _request;
 
-#define MINDCLOUD_BASE_URL @"http://localhost:8000/"
-#define STATUS_KEY @"status"
 
 -(NSMutableData *)receivedData
 {

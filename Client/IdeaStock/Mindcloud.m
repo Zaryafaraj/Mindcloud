@@ -97,8 +97,18 @@ static Mindcloud * instance;
                    WithCallback:(get_collections_callback)callback
 {
     
-    MindcloudBaseAction * action = [[AccountsAction alloc] initWithUserID:userId
-                                                              andCallback:callback];
+    AccountsAction * action = [[AccountsAction alloc] initWithUserID: userId];
+    action.getCallback = callback;
     [action executeGET];
+}
+
+-(void) addCollectionFor:(NSString *)userId
+                withName:(NSString *)collectionName
+            withCallback:(add_collection_callback)callback
+{
+    AccountsAction * action = [[AccountsAction alloc] initWithUserID:userId];
+    action.postCallback = callback;
+    action.postArguments = @{@"collectionName" : collectionName};
+    [action executePOST];
 }
 @end

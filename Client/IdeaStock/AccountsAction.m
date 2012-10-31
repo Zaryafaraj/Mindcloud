@@ -7,23 +7,21 @@
 //
 
 #import "AccountsAction.h"
+#import "HTTPHelper.h"
+#import "XoomlParser.h"
+#import "MindcloudBaseAction.h"
 
 @interface AccountsAction()
 
 //I wish objective C was a better language so that I could treat callbacks
 //as first class
 @property (atomic, strong) NSMutableURLRequest * request;
-@property (nonatomic, strong) get_collections_callback getCallback;
 
 @end
 
 @implementation AccountsAction
 
-@synthesize request = _request;
-@synthesize getCallback = _getCallback;
-
 -(id) initWithUserID:(NSString *)userID
-         andCallback:(get_collections_callback)callback
 {
     self = [super init];
     NSString * resourcePath = [NSString stringWithFormat:@"%@/Collections", userID];
@@ -33,7 +31,6 @@
                                         cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                            timeoutInterval:60.0];
     self.request = theRequest;
-    self.getCallback = callback;
     return self;
 }
 
@@ -42,8 +39,37 @@
 {
     [super connectionDidFinishLoading:connection];
     NSDictionary * result = self.getDataAsDictionary;
-    NSArray * resultArray = result[COLLECTION_KEY];
-    self.getCallback(resultArray);
+    
+    if ([self.request.HTTPMethod isEqualToString:@"GET"])
+    {
+        NSArray * resultArray = result[COLLECTION_KEY];
+        self.getCallback(resultArray);
+    }
+    else if ([self.request.HTTPMethod isEqualToString:@"POST"])
+    {
+        if ([result[STATUS_KEY] isEqualToString:@"200"])
+        {
+            self.postCallback();
+        }
+    }
 }
+
+-(void) executePOST
+{
+    [self.request setHTTPMethod:@"POST"];
+    NSData * postFile = [XoomlParser getEmptyBulletinBoardXooml];
+    self.request = [HTTPHelper addPostFile:postFile
+                                  withName:@"xooml.xml"
+                                 andParams: self.postArguments
+                                        to:self.request];
+    
+    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:self.request delegate:self];
+    if (!theConnection)
+    {
+        NSLog(@"Failed to connect to %@", self.request.URL);
+    }
+}
+
+
 
 @end
