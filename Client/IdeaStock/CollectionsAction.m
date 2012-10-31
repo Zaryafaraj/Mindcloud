@@ -6,12 +6,12 @@
 //  Copyright (c) 2012 University of Washington. All rights reserved.
 //
 
-#import "AccountsAction.h"
+#import "CollectionsAction.h"
 #import "HTTPHelper.h"
 #import "XoomlParser.h"
 #import "MindcloudBaseAction.h"
 
-@interface AccountsAction()
+@interface CollectionsAction()
 
 //I wish objective C was a better language so that I could treat callbacks
 //as first class
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation AccountsAction
+@implementation CollectionsAction
 
 -(id) initWithUserID:(NSString *)userID
 {
@@ -52,6 +52,13 @@
             self.postCallback();
         }
     }
+    else if ([self.request.HTTPMethod isEqualToString:@"DELETE"])
+    {
+        if ([result[STATUS_KEY] isEqualToString:@"200"])
+        {
+            self.deleteCallback();
+        }
+    }
 }
 
 -(void) executePOST
@@ -68,6 +75,14 @@
     {
         NSLog(@"Failed to connect to %@", self.request.URL);
     }
+}
+
+-(void) executeDELETE
+{
+    NSString * url = [self.request.URL absoluteString];
+    url = [url stringByAppendingFormat:@"/%@",self.deleteResource];
+    self.request.URL = [NSURL URLWithString:url];
+    [super executeDELETE];
 }
 
 

@@ -92,6 +92,16 @@
     return;
 }
 
+-(void) executeDELETE
+{
+    [self.request setHTTPMethod:@"DELETE"];
+    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:self.request delegate:self];
+    if (!theConnection)
+    {
+        NSLog(@"Failed to connect to %@", self.request.URL);
+    }
+}
+
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
@@ -116,7 +126,7 @@
     //NSLog(@"Succeeded! Received %d bytes of data",[self.receivedData length]);
     if ([self.receivedData length] > 0)
     {
-        NSString *dataStr = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
+//        NSString *dataStr = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
         //enable for debug
         //NSLog(@"loooloo %@", dataStr);
     }

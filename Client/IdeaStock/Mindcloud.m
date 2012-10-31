@@ -97,7 +97,7 @@ static Mindcloud * instance;
                    WithCallback:(get_collections_callback)callback
 {
     
-    AccountsAction * action = [[AccountsAction alloc] initWithUserID: userId];
+    CollectionsAction * action = [[CollectionsAction alloc] initWithUserID: userId];
     action.getCallback = callback;
     [action executeGET];
 }
@@ -106,9 +106,19 @@ static Mindcloud * instance;
                 withName:(NSString *)collectionName
             withCallback:(add_collection_callback)callback
 {
-    AccountsAction * action = [[AccountsAction alloc] initWithUserID:userId];
+    CollectionsAction * action = [[CollectionsAction alloc] initWithUserID:userId];
     action.postCallback = callback;
     action.postArguments = @{@"collectionName" : collectionName};
     [action executePOST];
+}
+
+-(void) deleteCollectionFor: (NSString *)userId
+                   withName:(NSString *)collectionName
+               withCallback:(delete_collection_callback) callback
+{
+    CollectionsAction * action = [[CollectionsAction alloc] initWithUserID:userId];
+    action.deleteCallback = callback;
+    action.deleteResource = collectionName;
+    [action executeDELETE];
 }
 @end

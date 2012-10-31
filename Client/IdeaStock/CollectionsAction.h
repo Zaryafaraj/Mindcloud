@@ -8,14 +8,18 @@
 
 #import "MindcloudBaseAction.h"
 
-@interface AccountsAction : MindcloudBaseAction
+@interface CollectionsAction : MindcloudBaseAction
 
 typedef void (^get_collections_callback)(NSArray * collections);
 typedef void (^add_collection_callback)(void);
+typedef void (^delete_collection_callback)(void);
 
 @property (nonatomic, strong) get_collections_callback getCallback;
 @property (nonatomic, strong) add_collection_callback postCallback;
+@property (nonatomic, strong) delete_collection_callback deleteCallback;
+
 @property (nonatomic, strong) NSDictionary * postArguments;
+@property (nonatomic, strong) NSString * deleteResource;
 
 -(id) initWithUserID:(NSString *) userID;
 

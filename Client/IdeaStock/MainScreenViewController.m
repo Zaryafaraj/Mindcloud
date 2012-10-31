@@ -159,16 +159,29 @@
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex != 0) return;
-    NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
-    CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItems[0]];
-    [self.collectionView performBatchUpdates:^{
-        [self.model removeCollection:selectedCell.text fromCategory:self.currentCategory];
-        [self.collectionView deleteItemsAtIndexPaths:selectedItems];
-    }completion:nil];
-    
+    [self deleteCollection];
     //make sure after deletion DELETE and RENAME buttons are disabled
     [self disableDeleteAndRename];
     
+}
+
+-(void) deleteCollection
+{
+    NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
+    CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItems[0]];
+    NSString * collectionName = selectedCell.text;
+    [self.model removeCollection:collectionName fromCategory:self.currentCategory];
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userId = [UserPropertiesHelper userID];
+    [mindcloud deleteCollectionFor:userId
+                          withName:collectionName
+                      withCallback:^{
+        NSLog(@"Collection %@ Deleted", collectionName);
+    }];
+    
+    [self.collectionView performBatchUpdates:^{
+        [self.collectionView deleteItemsAtIndexPaths:selectedItems];
+    }completion:nil];
 }
 
 - (IBAction)refreshPressed:(id)sender {

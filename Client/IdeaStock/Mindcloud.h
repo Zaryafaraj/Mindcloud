@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AccountsAction.h"
+#import "CollectionsAction.h"
 #import "AuthorizationDelegate.h"
 
 @interface Mindcloud : NSObject
@@ -29,4 +29,7 @@
                 withName: (NSString *) collectionName
             withCallback: (add_collection_callback)callback;
 
+-(void) deleteCollectionFor: (NSString *)userID
+                   withName:(NSString *)collectionName
+               withCallback:(delete_collection_callback) callback;
 @end
