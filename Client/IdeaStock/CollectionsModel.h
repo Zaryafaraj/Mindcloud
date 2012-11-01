@@ -32,4 +32,7 @@
           fromCategory: (NSString *) oldCategory
          toNewCategory: (NSString *) newCategory;
 -(NSString *) getCollectionAt: (int) index forCategory: (NSString *) cat;
+
+-(BOOL) doesNameExist: (NSString *) name;
+
 @end

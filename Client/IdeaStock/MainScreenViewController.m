@@ -127,6 +127,7 @@
 
 -(void) addCollection: (NSString *) name
 {
+    name = [self validateName: name];
     [self.model addCollection:name toCategory:self.currentCategory];
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
@@ -137,6 +138,22 @@
         NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
         [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
     }completion:nil];
+}
+
+/*
+ Perform some simple error checking on a collection name
+ Return the suggested name
+ */
+-(NSString *) validateName: (NSString *) name
+{
+    int counter = 1;
+    NSString * finalName = name;
+    while ([self.model doesNameExist:finalName])
+    {
+        finalName = [NSString stringWithFormat:@"%@%d",name,counter];
+        counter++;
+    }
+    return finalName;
 }
 
 - (IBAction)deletePressed:(id)sender {

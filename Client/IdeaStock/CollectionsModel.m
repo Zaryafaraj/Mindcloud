@@ -150,4 +150,19 @@ belonging to that category*/
 }
 
 
+-(BOOL) doesNameExist:(NSString *)name
+{
+    for (NSString * category in self.collections)
+    {
+       for (NSString * collection in self.collections[category])
+       {
+           if ([name isEqualToString:collection])
+           {
+               return true;
+           }
+       }
+    }
+    return false;
+}
+
 @end
