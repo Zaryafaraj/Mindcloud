@@ -167,12 +167,12 @@
 
 -(void) renameCollection: (NSString *) newName
 {
-    newName = [self validateName:newName];
-    
     NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
     CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItems[0]];
     NSString * currentName = selectedCell.text;
     
+    if ([newName isEqualToString:currentName]) return;
+    newName = [self validateName:newName];
     
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
