@@ -153,6 +153,11 @@
         finalName = [NSString stringWithFormat:@"%@%d",name,counter];
         counter++;
     }
+    
+    //so that no one can hack folder hierarchy
+    finalName = [finalName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+    //protect escape characters
+    finalName = [finalName stringByReplacingOccurrencesOfString:@"\\" withString:@"_"];
     return finalName;
 }
 
