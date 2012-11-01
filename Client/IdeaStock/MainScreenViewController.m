@@ -255,6 +255,17 @@
 }
 
 - (IBAction)refreshPressed:(id)sender {
+    
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userId = [UserPropertiesHelper userID];
+    [mindcloud getAllCollectionsFor:userId
+                          WithCallback:^(NSArray * collection)
+                 {
+                     NSLog(@"Collections Refreshed");
+                     NSLog(@"%@", collection);
+                     self.model = [[CollectionsModel alloc] initWithCollections:collection];
+                     [self.collectionView reloadData];
+                 }];
 }
 
 
