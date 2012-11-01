@@ -14,4 +14,7 @@
                             withName: (NSString *) fileName
                            andParams:(NSDictionary *) params
                                   to: (NSMutableURLRequest *) request;
+
++(NSMutableURLRequest *) addPutParams:(NSDictionary *)params
+                                   to:(NSMutableURLRequest *)request;
 @end

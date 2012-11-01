@@ -59,6 +59,13 @@
             self.deleteCallback();
         }
     }
+    else if ([self.request.HTTPMethod isEqualToString:@"PUT"])
+    {
+        if ([result[STATUS_KEY] isEqualToString:@"200"])
+        {
+            self.putCallback();
+        }
+    }
 }
 
 -(void) executePOST
@@ -85,6 +92,20 @@
     [super executeDELETE];
 }
 
+-(void) executePUT
+{
+    [self.request setHTTPMethod:@"PUT"];
+    NSString * url = [self.request.URL absoluteString];
+    url = [url stringByAppendingFormat:@"/%@",self.deleteResource];
+    self.request.URL = [NSURL URLWithString:url];
+    self.request = [HTTPHelper addPutParams:self.putArguments to:self.request];
+    
+    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:self.request delegate:self];
+    if (!theConnection)
+    {
+        NSLog(@"Failed to connect to %@", self.request.URL);
+    }
+}
 
 
 @end

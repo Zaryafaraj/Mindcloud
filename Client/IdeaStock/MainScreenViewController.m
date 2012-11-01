@@ -109,9 +109,24 @@
     self.toolbar.items = self.editToolbar;
 }
 
+#define ADD_BUTTON_TITLE @"Add"
 -(IBAction) addPressed:(id)sender {
     
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Collection" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add", nil];
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Collection"
+                                                     message:nil
+                                                    delegate:self
+                                           cancelButtonTitle:@"Cancel"
+                                           otherButtonTitles:ADD_BUTTON_TITLE, nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+}
+#define RENAME_BUTTON_TITLE @"Rename"
+- (IBAction)renamePressed:(id)sender {
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The New Name of The Collection"
+                                                     message:nil
+                                                    delegate:self
+                                           cancelButtonTitle:@"Cancel"
+                                           otherButtonTitles:RENAME_BUTTON_TITLE,nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alert show];
 }
@@ -120,8 +135,18 @@
     
     //perform add collection
     if (buttonIndex == 1){
-        NSString * name = [[alertView textFieldAtIndex:0] text];
-        [self addCollection:name];
+        if ([[alertView buttonTitleAtIndex:buttonIndex]
+             isEqualToString:ADD_BUTTON_TITLE])
+        {
+            NSString * name = [[alertView textFieldAtIndex:0] text];
+            [self addCollection:name];
+        }
+        else if ([[alertView buttonTitleAtIndex:buttonIndex]
+             isEqualToString:RENAME_BUTTON_TITLE])
+        {
+            NSString * newName = [[alertView textFieldAtIndex:0] text];
+            [self renameCollection:newName];
+        }
     }
 }
 
@@ -140,6 +165,29 @@
     }completion:nil];
 }
 
+-(void) renameCollection: (NSString *) newName
+{
+    newName = [self validateName:newName];
+    
+    NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
+    CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItems[0]];
+    NSString * currentName = selectedCell.text;
+    
+    
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userId = [UserPropertiesHelper userID];
+    [mindcloud renameCollectionFor:userId
+                          withName:currentName
+                       withNewName:newName
+                      withCallback:^{
+        NSLog(@"collection %@ renamed to %@", currentName, newName);
+    }];
+    [self.model renameCollection:currentName
+                      inCategory:self.currentCategory
+                 toNewCollection:newName];
+    
+    selectedCell.text = newName;
+}
 /*
  Perform some simple error checking on a collection name
  Return the suggested name

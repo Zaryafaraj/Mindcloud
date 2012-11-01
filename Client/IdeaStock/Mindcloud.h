@@ -32,4 +32,9 @@
 -(void) deleteCollectionFor: (NSString *)userID
                    withName:(NSString *)collectionName
                withCallback:(delete_collection_callback) callback;
+
+-(void) renameCollectionFor:(NSString *)userId
+                   withName: (NSString *)collectionName
+                withNewName: (NSString *) newCollectionName
+               withCallback: (rename_collection_callback) callback;
 @end

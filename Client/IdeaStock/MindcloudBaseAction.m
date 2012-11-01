@@ -92,6 +92,11 @@
     return;
 }
 
+-(void) executePUT
+{
+    return;
+}
+
 -(void) executeDELETE
 {
     [self.request setHTTPMethod:@"DELETE"];

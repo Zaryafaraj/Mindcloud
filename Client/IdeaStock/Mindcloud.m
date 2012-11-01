@@ -112,6 +112,18 @@ static Mindcloud * instance;
     [action executePOST];
 }
 
+-(void) renameCollectionFor:(NSString *)userId
+                   withName: (NSString *)collectionName
+                withNewName: (NSString *) newCollectionName
+               withCallback: (rename_collection_callback) callback
+{
+    CollectionsAction * action = [[CollectionsAction alloc] initWithUserID:userId];
+    action.putCallback = callback;
+    action.deleteResource = collectionName;
+    action.putArguments = @{@"collectionName" : newCollectionName};
+    [action executePUT];
+}
+
 -(void) deleteCollectionFor: (NSString *)userId
                    withName:(NSString *)collectionName
                withCallback:(delete_collection_callback) callback

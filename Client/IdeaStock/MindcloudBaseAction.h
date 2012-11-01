@@ -23,6 +23,7 @@
 - (void) executeGET;
 - (void) executePOST;
 - (void) executeDELETE;
+- (void) executePUT;
 
 -(NSDictionary *) getDataAsDictionary;
 

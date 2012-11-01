@@ -142,7 +142,11 @@
                                             <action selector="refreshPressed:" destination="C4k-Gx-gPL" id="VKj-MQ-8qa"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem enabled="NO" title="Rename" id="0Q9-ix-kI4"/>
+                                    <barButtonItem enabled="NO" title="Rename" id="0Q9-ix-kI4">
+                                        <connections>
+                                            <action selector="renamePressed:" destination="C4k-Gx-gPL" id="m7I-Ql-kIC"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem enabled="NO" title="Delete" id="vdd-fp-afS">
                                         <color key="tintColor" red="0.65082739980000004" green="0.0" blue="0.02685869955" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
@@ -386,11 +390,8 @@
         <class className="MainScreenViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainScreenViewController.h"/>
             <relationships>
-                <relationship kind="action" name="addPressed:"/>
-                <relationship kind="action" name="cancelPressed:"/>
-                <relationship kind="action" name="deletePressed:"/>
-                <relationship kind="action" name="editPressed:"/>
                 <relationship kind="action" name="refreshPressed:"/>
+                <relationship kind="action" name="renamePressed:"/>
                 <relationship kind="outlet" name="collectionView" candidateClass="UICollectionView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
             </relationships>
