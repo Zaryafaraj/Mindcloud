@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="rXM-GQ-Qri">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="rXM-GQ-Qri">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1929"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
     <scenes>
         <!--Sign In View Controller-->
@@ -66,17 +66,54 @@
                         </constraints>
                     </view>
                     <connections>
-                        <segue destination="C4k-Gx-gPL" kind="modal" identifier="MainScreenSegue" animates="NO" id="WGv-ra-K3r"/>
+                        <segue destination="Dza-ZL-mu1" kind="modal" identifier="MainScreenSegue" id="yiN-W9-XlF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="koz-us-uQq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1681" y="-279"/>
+            <point key="canvasLocation" x="-2106" y="-1775"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="aFs-pi-RdA">
+            <objects>
+                <viewController storyboardIdentifier="CategoriesViewController" id="Qqu-fd-gph" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="BTw-mN-iRM">
+                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Background_Blue.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="oD3-SK-WFm"/>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="oD3-SK-WFm" firstAttribute="top" secondItem="BTw-mN-iRM" secondAttribute="top" type="default" id="Hbk-YG-EG8"/>
+                            <constraint firstItem="oD3-SK-WFm" firstAttribute="leading" secondItem="BTw-mN-iRM" secondAttribute="leading" type="default" id="QOW-j4-QAL"/>
+                            <constraint firstItem="oD3-SK-WFm" firstAttribute="bottom" secondItem="BTw-mN-iRM" secondAttribute="bottom" type="default" id="awm-76-80r"/>
+                            <constraint firstItem="oD3-SK-WFm" firstAttribute="trailing" secondItem="BTw-mN-iRM" secondAttribute="trailing" type="default" id="fZf-Da-vva"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ejb-3r-xXi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="66" y="-509"/>
+        </scene>
+        <!--Collections View Controller-->
+        <scene sceneID="8nM-dN-INH">
+            <objects>
+                <viewController id="Dza-ZL-mu1" customClass="CollectionsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2dQ-FW-A6k">
+                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wyh-vw-Gic" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-860" y="-1761"/>
         </scene>
         <!--Main Screen View Controller-->
         <scene sceneID="cXb-B5-PaF">
             <objects>
-                <viewController id="C4k-Gx-gPL" customClass="MainScreenViewController" sceneMemberID="viewController">
+                <viewController restorationIdentifier="MainScreenViewController" storyboardIdentifier="MainScreenViewController" id="C4k-Gx-gPL" customClass="MainScreenViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleAspectFit" id="Jx3-sE-JAL">
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -137,7 +174,7 @@
                             </collectionView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" barStyle="blackOpaque" translatesAutoresizingMaskIntoConstraints="NO" id="1Wk-zS-ESI">
                                 <items>
-                                    <barButtonItem width="44" systemItem="refresh" id="fbB-rF-pm9">
+                                    <barButtonItem systemItem="refresh" id="fbB-rF-pm9">
                                         <connections>
                                             <action selector="refreshPressed:" destination="C4k-Gx-gPL" id="VKj-MQ-8qa"/>
                                         </connections>
@@ -208,7 +245,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jc8-vf-MPm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-655" y="-268"/>
+            <point key="canvasLocation" x="88" y="-1751"/>
         </scene>
         <!--Bulletin Board View Controller-->
         <scene sceneID="Ziq-OW-pgx">
@@ -295,7 +332,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V18-oK-TF6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="597" y="-1397"/>
+            <point key="canvasLocation" x="1370" y="-1745"/>
         </scene>
         <!--Stack View Controller-->
         <scene sceneID="bwM-MX-fXe">
@@ -360,7 +397,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FMP-3d-JA3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1872" y="-1065"/>
+            <point key="canvasLocation" x="2294" y="-1745"/>
         </scene>
     </scenes>
     <resources>
@@ -374,6 +411,11 @@
         <class className="BulletinBoardViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/BulletinBoardViewController.h"/>
             <relationships>
+                <relationship kind="action" name="backPressed:"/>
+                <relationship kind="action" name="cameraPressed:"/>
+                <relationship kind="action" name="deletePressed:"/>
+                <relationship kind="action" name="expandPressed:"/>
+                <relationship kind="action" name="refreshPressed:"/>
                 <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="bulletinboardView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="label" candidateClass="UIBarButtonItem"/>
@@ -387,9 +429,19 @@
                 <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
+        <class className="CollectionsViewController" superclassName="IIViewDeckController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CollectionsViewController.h"/>
+        </class>
+        <class className="IIViewDeckController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/IIViewDeckController.h"/>
+        </class>
         <class className="MainScreenViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainScreenViewController.h"/>
             <relationships>
+                <relationship kind="action" name="addPressed:"/>
+                <relationship kind="action" name="cancelPressed:"/>
+                <relationship kind="action" name="deletePressed:"/>
+                <relationship kind="action" name="editPressed:"/>
                 <relationship kind="action" name="refreshPressed:"/>
                 <relationship kind="action" name="renamePressed:"/>
                 <relationship kind="outlet" name="collectionView" candidateClass="UICollectionView"/>
@@ -401,10 +453,16 @@
         </class>
         <class className="SignInViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SignInViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="signInPressed:"/>
+            </relationships>
         </class>
         <class className="StackViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StackViewController.h"/>
             <relationships>
+                <relationship kind="action" name="backPressed:"/>
+                <relationship kind="action" name="deletePressed:"/>
+                <relationship kind="action" name="unstackPressed:"/>
                 <relationship kind="outlet" name="stackView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
             </relationships>
@@ -417,6 +475,9 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

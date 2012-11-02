@@ -10,6 +10,7 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "UserPropertiesHelper.h"
 #import "Mindcloud.h"
+#import "CollectionsViewController.h"
 
 @implementation IdeaStockAppDelegate
 
@@ -29,6 +30,7 @@
 {
     //This is called when the user comes back to the app from signing into the dropbox
     [[Mindcloud getMindCloud] authorizationDone:[UserPropertiesHelper userID]];
+    [CollectionsViewController class];
     return YES;
 }
 
