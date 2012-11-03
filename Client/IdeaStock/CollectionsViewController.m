@@ -16,11 +16,21 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryBoard" bundle:nil];
-    self = [super initWithCenterViewController:[storyboard instantiateViewControllerWithIdentifier:@"MainScreenViewController"]
-                            leftViewController:[storyboard instantiateViewControllerWithIdentifier:@"CategoriesViewController"]];
     if (self) {
-        // Add any extra init code here
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryBoard" bundle:nil];
+        self = [super initWithCenterViewController:[storyboard instantiateViewControllerWithIdentifier:@"MainScreenViewController"]
+                                leftViewController:[storyboard instantiateViewControllerWithIdentifier:@"CategoriesViewController"]];
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+        {
+            CGFloat screenHeight = screenRect.size.height;
+            self.leftLedge = 2 * screenHeight / 3 ;
+        }
+        else
+        {
+            CGFloat screenWidth = screenRect.size.width;
+            self.leftLedge = 1.75 * screenWidth / 3 ;
+        }
     }
     return self;
 }

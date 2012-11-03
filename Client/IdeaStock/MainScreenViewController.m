@@ -12,6 +12,7 @@
 #import "UserPropertiesHelper.h"
 #import "CollectionsModel.h"
 #import "CollectionCell.h"
+#import "IIViewDeckController.h"
 
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
@@ -334,6 +335,25 @@
 
 -(BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     return YES;
+}
+
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    //make sure that viewDecks ledges are correct
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    if (UIInterfaceOrientationIsPortrait(fromInterfaceOrientation))
+    {
+        CGFloat screenHeight = screenRect.size.height;
+        self.viewDeckController.leftLedge = 2 * screenHeight / 3 ;
+    }
+    else
+    {
+        CGFloat screenWidth = screenRect.size.width;
+        self.viewDeckController.leftLedge = 1.75 * screenWidth / 3 ;
+    }
+    
+    if (self.viewDeckController.leftControllerIsOpen)
+        [self.viewDeckController openLeftView];
 }
 
 /*------------------------------------------------
