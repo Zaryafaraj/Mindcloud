@@ -40,6 +40,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+<<<<<<< HEAD
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -116,5 +117,7 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
 }
+=======
+>>>>>>> Added delegation and datasource duties to the mainscreen controller
 
 @end

@@ -15,7 +15,9 @@
 <UICollectionViewDataSource,
 UICollectionViewDelegateFlowLayout,
 UICollectionViewDelegate,
-UIActionSheetDelegate>
+UIActionSheetDelegate,
+UITableViewDataSource,
+UITableViewDelegate>
 
 @property (atomic) BOOL actionInProgress;
 //maybe better to make this private
