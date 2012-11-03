@@ -387,6 +387,9 @@
     return self.isEditing;
 }
 
+/*
+ Zarya
+ */
 -(CGSize) collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -394,6 +397,9 @@
     return CGSizeMake(250, 250);
 }
 
+/*
+ Zarya
+ */
 -(UIEdgeInsets) collectionView:(UICollectionView *)collectionView
                         layout:(UICollectionViewLayout *)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section
