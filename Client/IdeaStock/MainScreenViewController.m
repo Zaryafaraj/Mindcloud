@@ -269,6 +269,10 @@
                  }];
 }
 
+- (IBAction)showCategoriesPressed:(id)sender {
+    
+    [self.viewDeckController toggleLeftViewAnimated:YES];
+}
 
 -(void) viewWillAppear:(BOOL)animated{
     
