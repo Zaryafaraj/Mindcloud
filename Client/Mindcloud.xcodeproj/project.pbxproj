@@ -94,6 +94,7 @@
 		DBDD1ABE15CF215A00F55223 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DBDD1ABD15CF215A00F55223 /* libxml2.dylib */; };
 		DBE13375163E13AE00EF0AF7 /* CollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE13374163E13AE00EF0AF7 /* CollectionCell.m */; };
 		DBEE54B61640F16300BD9F93 /* HTTPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEE54B51640F16300BD9F93 /* HTTPHelper.m */; };
+		DBFB7AE21644D5C2004049A9 /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFB7AE11644D5C2004049A9 /* CategoriesViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -248,6 +249,8 @@
 		DBE13374163E13AE00EF0AF7 /* CollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionCell.m; path = ../CollectionCell.m; sourceTree = "<group>"; };
 		DBEE54B41640F16300BD9F93 /* HTTPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPHelper.h; sourceTree = "<group>"; };
 		DBEE54B51640F16300BD9F93 /* HTTPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPHelper.m; sourceTree = "<group>"; };
+		DBFB7AE01644D5C2004049A9 /* CategoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesViewController.h; sourceTree = "<group>"; };
+		DBFB7AE11644D5C2004049A9 /* CategoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -527,6 +530,8 @@
 				DB3174FD16337636001229FE /* SignInViewController.m */,
 				DB7AC5D81643A52A007756E6 /* CollectionsViewController.h */,
 				DB7AC5D91643A52A007756E6 /* CollectionsViewController.m */,
+				DBFB7AE01644D5C2004049A9 /* CategoriesViewController.h */,
+				DBFB7AE11644D5C2004049A9 /* CategoriesViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -774,6 +779,7 @@
 				DB7AC5DA1643A52A007756E6 /* CollectionsViewController.m in Sources */,
 				DB7AC5E31643A9AF007756E6 /* IIViewDeckController.m in Sources */,
 				DB7AC5E41643A9AF007756E6 /* WrapController.m in Sources */,
+				DBFB7AE21644D5C2004049A9 /* CategoriesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
