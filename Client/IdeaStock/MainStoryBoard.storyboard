@@ -455,10 +455,6 @@
         <class className="MainScreenViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainScreenViewController.h"/>
             <relationships>
-                <relationship kind="action" name="addPressed:"/>
-                <relationship kind="action" name="deletePressed:"/>
-                <relationship kind="action" name="renamePressed:"/>
-                <relationship kind="action" name="showCategoriesPressed:"/>
                 <relationship kind="outlet" name="collectionView" candidateClass="UICollectionView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
             </relationships>
@@ -475,6 +471,9 @@
         <class className="StackViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StackViewController.h"/>
             <relationships>
+                <relationship kind="action" name="backPressed:"/>
+                <relationship kind="action" name="deletePressed:"/>
+                <relationship kind="action" name="unstackPressed:"/>
                 <relationship kind="outlet" name="stackView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
             </relationships>
