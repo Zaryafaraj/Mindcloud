@@ -185,6 +185,9 @@
                             </collectionView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" barStyle="blackOpaque" translatesAutoresizingMaskIntoConstraints="NO" id="1Wk-zS-ESI">
                                 <items>
+                                    <barButtonItem image="ButtonMenu@2x.png" width="40" id="GqV-ir-aqR">
+                                        <inset key="imageInsets" minX="9" minY="6" maxX="9" maxY="6"/>
+                                    </barButtonItem>
                                     <barButtonItem systemItem="refresh" id="fbB-rF-pm9">
                                         <connections>
                                             <action selector="refreshPressed:" destination="C4k-Gx-gPL" id="VKj-MQ-8qa"/>
@@ -412,6 +415,7 @@
     </scenes>
     <resources>
         <image name="Background_Blue.jpg" width="1920" height="1200"/>
+        <image name="ButtonMenu@2x.png" width="44" height="34"/>
         <image name="dropbox_icon.png" width="460" height="415"/>
         <image name="felt-red-ipad-background.jpg" width="1024" height="1024"/>
         <image name="pile boardBig.png" width="1372" height="1040"/>
@@ -446,12 +450,6 @@
         <class className="MainScreenViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainScreenViewController.h"/>
             <relationships>
-                <relationship kind="action" name="addPressed:"/>
-                <relationship kind="action" name="cancelPressed:"/>
-                <relationship kind="action" name="deletePressed:"/>
-                <relationship kind="action" name="editPressed:"/>
-                <relationship kind="action" name="refreshPressed:"/>
-                <relationship kind="action" name="renamePressed:"/>
                 <relationship kind="outlet" name="collectionView" candidateClass="UICollectionView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
             </relationships>
