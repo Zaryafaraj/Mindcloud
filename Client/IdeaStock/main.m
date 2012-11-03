@@ -16,5 +16,3 @@ int main(int argc, char *argv[])
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([IdeaStockAppDelegate class]));
     }
 }
-
-//425-444-6845
