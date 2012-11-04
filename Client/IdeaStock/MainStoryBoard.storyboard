@@ -82,23 +82,27 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Background_Blue.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Xjx-N5-hFI"/>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bN0-Hu-7hX">
-                                <color key="backgroundColor" red="0.65082739980000004" green="0.0" blue="0.02685869955" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="1009" id="lg8-17-CRA"/>
-                                </constraints>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" translatesAutoresizingMaskIntoConstraints="NO" id="F1S-Wy-gGz">
+                                <items>
+                                    <barButtonItem systemItem="add" id="DGJ-d8-OJF"/>
+                                </items>
+                            </toolbar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="84" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bN0-Hu-7hX">
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryCell" textLabel="iVa-3y-SI9" style="IBUITableViewCellStyleDefault" id="O9H-GH-NY7">
-                                        <rect key="frame" x="0.0" y="22" width="768" height="44"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryCell" textLabel="iVa-3y-SI9" rowHeight="84" style="IBUITableViewCellStyleDefault" id="O9H-GH-NY7">
+                                        <rect key="frame" x="0.0" y="22" width="768" height="84"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="768" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="768" height="83"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iVa-3y-SI9">
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iVa-3y-SI9">
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="33"/>
+                                                    <color key="textColor" red="0.97095000385845087" green="0.96649538645566824" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <size key="shadowOffset" width="0.0" height="0.0"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -109,13 +113,17 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="bN0-Hu-7hX" firstAttribute="leading" secondItem="O3b-6T-0DY" secondAttribute="leading" type="default" id="IUa-sj-llz"/>
-                            <constraint firstItem="bN0-Hu-7hX" firstAttribute="trailing" secondItem="O3b-6T-0DY" secondAttribute="trailing" type="default" id="XbK-DU-3TV"/>
+                            <constraint firstItem="bN0-Hu-7hX" firstAttribute="leading" secondItem="O3b-6T-0DY" secondAttribute="leading" type="default" id="20h-I0-DJo"/>
+                            <constraint firstItem="F1S-Wy-gGz" firstAttribute="leading" secondItem="O3b-6T-0DY" secondAttribute="leading" type="default" id="DBm-hp-dmo"/>
+                            <constraint firstItem="bN0-Hu-7hX" firstAttribute="bottom" secondItem="O3b-6T-0DY" secondAttribute="bottom" type="default" id="OwQ-oO-jrj"/>
+                            <constraint firstItem="F1S-Wy-gGz" firstAttribute="top" secondItem="O3b-6T-0DY" secondAttribute="top" type="default" id="QeO-Ye-xWc"/>
                             <constraint firstItem="Xjx-N5-hFI" firstAttribute="top" secondItem="O3b-6T-0DY" secondAttribute="top" type="default" id="YAa-Qw-ZUT"/>
+                            <constraint firstItem="F1S-Wy-gGz" firstAttribute="trailing" secondItem="O3b-6T-0DY" secondAttribute="trailing" type="default" id="aoC-fg-50C"/>
                             <constraint firstItem="Xjx-N5-hFI" firstAttribute="trailing" secondItem="O3b-6T-0DY" secondAttribute="trailing" type="default" id="doy-Dw-XFV"/>
+                            <constraint firstItem="bN0-Hu-7hX" firstAttribute="top" secondItem="F1S-Wy-gGz" secondAttribute="bottom" type="default" id="fBg-RB-nC8"/>
+                            <constraint firstItem="bN0-Hu-7hX" firstAttribute="trailing" secondItem="O3b-6T-0DY" secondAttribute="trailing" type="default" id="g6B-cN-Nd1"/>
                             <constraint firstItem="Xjx-N5-hFI" firstAttribute="bottom" secondItem="O3b-6T-0DY" secondAttribute="bottom" type="default" id="joi-Sf-6Rq"/>
                             <constraint firstItem="Xjx-N5-hFI" firstAttribute="leading" secondItem="O3b-6T-0DY" secondAttribute="leading" type="default" id="tvb-r1-s4T"/>
-                            <constraint firstItem="bN0-Hu-7hX" firstAttribute="bottom" secondItem="O3b-6T-0DY" secondAttribute="bottom" type="default" id="v3X-ci-6zQ"/>
                         </constraints>
                     </view>
                     <connections>
@@ -507,9 +515,6 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
