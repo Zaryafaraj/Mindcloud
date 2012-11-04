@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) NSArray * editToolbar;
 @property (strong, nonatomic) NSArray * navigateToolbar;
+@property (weak, nonatomic) IBOutlet UILabel *pageTitle;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property BOOL isEditing;
 @property (strong, nonatomic) NSString * currentCategory;
@@ -38,11 +39,21 @@
 
 @implementation MainScreenViewController
 
+@synthesize currentCategory = _currentCategory;
 -(NSString *) currentCategory
 {
     if (!_currentCategory)
-        _currentCategory = UNCATEGORIZED_KEY;
+    {
+        _currentCategory = ALL;
+        self.pageTitle.text = _currentCategory;
+    }
     return _currentCategory;
+}
+
+-(void) setCurrentCategory:(NSString *)currentCategory
+{
+    _currentCategory = currentCategory;
+    self.pageTitle.text = _currentCategory;
 }
 
 /*------------------------------------------------
@@ -448,16 +459,15 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 5;
+    return [[self.model getAllCategories] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"CategoryCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+    NSString * categoryName = [self.model getAllCategories][indexPath.item];
+    cell.textLabel.text = categoryName;
     return cell;
 }
 

@@ -29,8 +29,8 @@ belonging to that category*/
 -(id) initWithCollections:(NSArray *)collections
 {
     self = [self init];
-    self.collections[UNCATEGORIZED_KEY] = [collections mutableCopy];
     self.collections[ALL] = [collections mutableCopy];
+    self.collections[UNCATEGORIZED_KEY] = [collections mutableCopy];
     return self;
 }
 
@@ -153,8 +153,8 @@ belonging to that category*/
         }
     }
     
-    self.collections[UNCATEGORIZED_KEY] = uncategorized;
     self.collections[ALL] = [collections copy];
+    self.collections[UNCATEGORIZED_KEY] = uncategorized;
 }
 
 
