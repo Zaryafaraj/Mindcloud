@@ -40,7 +40,8 @@
 
 -(NSString *) currentCategory
 {
-    if (!_currentCategory) _currentCategory = UNCATEGORIZED_KEY;
+    if (!_currentCategory)
+        _currentCategory = UNCATEGORIZED_KEY;
     return _currentCategory;
 }
 
