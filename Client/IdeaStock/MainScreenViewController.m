@@ -278,6 +278,7 @@
                      NSLog(@"%@", collection);
                      self.model = [[CollectionsModel alloc] initWithCollections:collection];
                      [self.collectionView reloadData];
+                     [self.categoriesController.table reloadData];
                  }];
 }
 
@@ -294,11 +295,11 @@
 -(void) viewDidLoad{
     
     [super viewDidLoad];
-    [self.collectionView setAllowsMultipleSelection:NO];
+    [self.collectionView setAllowsMultipleSelection:YES];
     [self manageToolbars];
     self.toolbar.items = self.navigateToolbar;
+    [self configureCategoriesPanel];
     
-    //TODO what does this do ?
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(bulletinBoardsRead:)
                                                  name:@"BulletinboardsLoaded" 
@@ -315,9 +316,40 @@
                      self.model = [[CollectionsModel alloc] initWithCollections:collection];
                      [self.collectionView reloadData];
                      [self.categoriesController.table reloadData];
+                     [self configureCategoriesPanel];
                  }];
+    
 }
 
+-(void) configureCategoriesPanel
+{
+    //make sure that viewDecks ledges are correct
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+    {
+        CGFloat screenHeight = screenRect.size.height;
+        self.viewDeckController.leftLedge = 2 * screenHeight / 3 ;
+        CGRect newFrame = CGRectMake(self.categoriesController.view.frame.origin.x,
+                                     self.categoriesController.view.frame.origin.y,
+                                     screenHeight - self.viewDeckController.leftLedge,
+                                     self.categoriesController.view.frame.size.height);
+        self.categoriesController.table.frame = newFrame;
+    }
+    else
+    {
+        CGFloat screenWidth = screenRect.size.width;
+        self.viewDeckController.leftLedge = 1.75 * screenWidth / 3 ;
+        CGRect newFrame = CGRectMake(self.categoriesController.view.frame.origin.x,
+                                     self.categoriesController.view.frame.origin.y,
+                                     screenWidth - self.viewDeckController.leftLedge,
+                                     self.categoriesController.view.frame.size.height);
+        self.categoriesController.table.frame = newFrame;
+    }
+    
+    if (self.viewDeckController.leftControllerIsOpen)
+        [self.viewDeckController openLeftView];
+    
+}
 -(void) manageToolbars
 {
     NSMutableArray *  editbar = [NSMutableArray array];
@@ -356,21 +388,7 @@
 
 -(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    //make sure that viewDecks ledges are correct
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    if (UIInterfaceOrientationIsPortrait(fromInterfaceOrientation))
-    {
-        CGFloat screenHeight = screenRect.size.height;
-        self.viewDeckController.leftLedge = 2 * screenHeight / 3 ;
-    }
-    else
-    {
-        CGFloat screenWidth = screenRect.size.width;
-        self.viewDeckController.leftLedge = 1.75 * screenWidth / 3 ;
-    }
-    
-    if (self.viewDeckController.leftControllerIsOpen)
-        [self.viewDeckController openLeftView];
+    [self configureCategoriesPanel];
 }
 
 /*------------------------------------------------
