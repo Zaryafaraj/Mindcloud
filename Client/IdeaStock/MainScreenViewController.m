@@ -251,16 +251,19 @@
 -(void) deleteCollection
 {
     NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
-    CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItems[0]];
-    NSString * collectionName = selectedCell.text;
-    [self.model removeCollection:collectionName fromCategory:self.currentCategory];
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    NSString * userId = [UserPropertiesHelper userID];
-    [mindcloud deleteCollectionFor:userId
-                          withName:collectionName
-                      withCallback:^{
-        NSLog(@"Collection %@ Deleted", collectionName);
-    }];
+    for (NSIndexPath * selectedItem in selectedItems)
+    {
+        CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItem];
+        NSString * collectionName = selectedCell.text;
+        [self.model removeCollection:collectionName fromCategory:self.currentCategory];
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userId = [UserPropertiesHelper userID];
+        [mindcloud deleteCollectionFor:userId
+                              withName:collectionName
+                          withCallback:^{
+            NSLog(@"Collection %@ Deleted", collectionName);
+        }];
+    }
     
     [self.collectionView performBatchUpdates:^{
         [self.collectionView deleteItemsAtIndexPaths:selectedItems];
