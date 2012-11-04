@@ -126,13 +126,13 @@
             <objects>
                 <viewController restorationIdentifier="MainScreenViewController" storyboardIdentifier="MainScreenViewController" id="C4k-Gx-gPL" customClass="MainScreenViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleAspectFit" id="Jx3-sE-JAL">
-                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <rect key="frame" x="0.0" y="20" width="1024" height="748"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BzD-cR-F4A">
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="822" type="user" id="dMK-Kz-8K2"/>
+                                    <constraint firstAttribute="height" priority="1" constant="822" type="user" id="0es-8v-HIE"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="z7C-mu-znQ">
                                     <size key="itemSize" width="203" height="149"/>
@@ -237,7 +237,7 @@
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="31" translatesAutoresizingMaskIntoConstraints="NO" id="UVa-22-wVa">
                                 <constraints>
                                     <constraint firstAttribute="width" constant="642" id="3ag-HK-oRQ"/>
-                                    <constraint firstAttribute="height" constant="64" id="9yQ-GC-wzi"/>
+                                    <constraint firstAttribute="height" constant="64" type="user" id="KMQ-d1-xzo"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="61"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -248,14 +248,17 @@
                         <constraints>
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="trailing" secondItem="Jx3-sE-JAL" secondAttribute="trailing" type="default" id="Af3-dA-6SY"/>
                             <constraint firstItem="BzD-cR-F4A" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" type="default" id="E5x-ce-9MD"/>
+                            <constraint firstItem="BzD-cR-F4A" firstAttribute="top" secondItem="Jx3-sE-JAL" secondAttribute="top" constant="182" type="user" id="Iqq-X4-yM6"/>
+                            <constraint firstItem="BzD-cR-F4A" firstAttribute="bottom" secondItem="Jx3-sE-JAL" secondAttribute="bottom" type="user" id="K8h-v5-SwU"/>
                             <constraint firstItem="BzD-cR-F4A" firstAttribute="trailing" secondItem="Jx3-sE-JAL" secondAttribute="trailing" type="default" id="TOi-oA-fRg"/>
-                            <constraint firstItem="BzD-cR-F4A" firstAttribute="bottom" secondItem="Jx3-sE-JAL" secondAttribute="bottom" type="default" id="Wpe-72-e89"/>
-                            <constraint firstItem="1Wk-zS-ESI" firstAttribute="top" secondItem="Jx3-sE-JAL" secondAttribute="top" type="default" id="Xhg-7S-1vU"/>
-                            <constraint firstItem="UVa-22-wVa" firstAttribute="top" secondItem="Jx3-sE-JAL" secondAttribute="top" constant="95" id="f4H-jq-u7h"/>
+                            <constraint firstItem="1Wk-zS-ESI" firstAttribute="top" secondItem="Jx3-sE-JAL" secondAttribute="top" type="user" id="Xhg-7S-1vU"/>
+                            <constraint firstItem="UVa-22-wVa" firstAttribute="top" secondItem="Jx3-sE-JAL" secondAttribute="top" constant="95" id="Ydt-zX-VQi"/>
                             <constraint firstItem="UVa-22-wVa" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" constant="90" id="hJV-x0-c9W"/>
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" type="default" id="hnv-tX-Grl"/>
                         </constraints>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="collectionView" destination="BzD-cR-F4A" id="MeN-iG-daM"/>
                         <outlet property="pageTitle" destination="UVa-22-wVa" id="ne1-TR-HBP"/>
@@ -459,7 +462,6 @@
                 <relationship kind="action" name="addPressed:"/>
                 <relationship kind="action" name="cancelPressed:"/>
                 <relationship kind="action" name="deletePressed:"/>
-                <relationship kind="action" name="editPressed:"/>
                 <relationship kind="action" name="refreshPressed:"/>
                 <relationship kind="action" name="renamePressed:"/>
                 <relationship kind="action" name="showCategoriesPressed:"/>
