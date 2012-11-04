@@ -314,7 +314,7 @@
                      NSLog(@"%@", collection);
                      self.model = [[CollectionsModel alloc] initWithCollections:collection];
                      [self.collectionView reloadData];
-                     [self.categoriesController.tableView reloadData];
+                     [self.categoriesController.table reloadData];
                  }];
 }
 
@@ -517,6 +517,7 @@
 {
     UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
     self.currentCategory = cell.textLabel.text;
+    [self.collectionView reloadData];
 }
 
 @end

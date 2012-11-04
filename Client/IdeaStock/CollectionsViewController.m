@@ -22,8 +22,8 @@
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryBoard" bundle:nil];
         MainScreenViewController * mainScreen = [storyboard instantiateViewControllerWithIdentifier:@"MainScreenViewController"];
         CategoriesViewController * categoriesScreen = [storyboard instantiateViewControllerWithIdentifier:@"CategoriesViewController"];
-        categoriesScreen.tableView.dataSource = mainScreen;
-        categoriesScreen.tableView.delegate = mainScreen;
+        categoriesScreen.dataSource = mainScreen;
+        categoriesScreen.delegate = mainScreen;
         mainScreen.categoriesController = categoriesScreen;
         self = [super initWithCenterViewController: mainScreen
                                 leftViewController: categoriesScreen];

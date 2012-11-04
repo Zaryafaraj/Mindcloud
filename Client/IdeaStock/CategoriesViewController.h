@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CategoriesViewController : UITableViewController
+@interface CategoriesViewController: UIViewController
+
+@property (weak,nonatomic) id<UITableViewDataSource> dataSource;
+@property (weak, nonatomic) id<UITableViewDelegate> delegate;
+@property (weak, nonatomic) IBOutlet UITableView *table;
 
 @end
