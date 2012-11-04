@@ -387,7 +387,7 @@
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [[self.model getCollectionsForCategory:self.currentCategory] count];
+    return [self.model numberOfCollectionsInCategory:self.currentCategory];
 }
 
 -(NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -459,16 +459,24 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return [[self.model getAllCategories] count];
+    // Return the number of rows in the section + 1 for add place holder
+    return [self.model numberOfCategories] + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"CategoryCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    NSString * categoryName = [self.model getAllCategories][indexPath.item];
-    cell.textLabel.text = categoryName;
+    if (indexPath.item != [self.model numberOfCategories] )
+    {
+        //if its not the placeholder
+        NSString * categoryName = [self.model getAllCategories][indexPath.item];
+        cell.textLabel.text = categoryName;
+    }
+    else
+    {
+        cell.textLabel.text = @"";
+    }
     return cell;
 }
 
@@ -481,7 +489,7 @@
 }
 */
 
-/*
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -493,23 +501,18 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+-(UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.item == [self.model numberOfCategories])
+    {
+        //its the edit place holder
+        return UITableViewCellEditingStyleInsert;
+        
+    }
+    else
+        return UITableViewCellEditingStyleDelete;
 }
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 

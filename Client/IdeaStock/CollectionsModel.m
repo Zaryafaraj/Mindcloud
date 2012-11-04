@@ -173,4 +173,13 @@ belonging to that category*/
     return false;
 }
 
+-(int) numberOfCollectionsInCategory: (NSString *) category
+{
+    return [self.collections[category] count];
+}
+
+-(int) numberOfCategories
+{
+    return [self.collections count];
+}
 @end

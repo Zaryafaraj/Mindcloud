@@ -35,4 +35,8 @@
 
 -(BOOL) doesNameExist: (NSString *) name;
 
+-(int) numberOfCollectionsInCategory: (NSString *) category;
+
+-(int) numberOfCategories;
+
 @end
