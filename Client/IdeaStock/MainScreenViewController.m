@@ -314,6 +314,7 @@
                      NSLog(@"%@", collection);
                      self.model = [[CollectionsModel alloc] initWithCollections:collection];
                      [self.collectionView reloadData];
+                     [self.categoriesController.tableView reloadData];
                  }];
 }
 

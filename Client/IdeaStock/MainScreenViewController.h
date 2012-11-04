@@ -7,9 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DropboxDataModel.h"
-#import "QueueProducer.h"
-#import "DropboxActionController.h"
+#import "CategoriesViewController.h"
 
 @interface MainScreenViewController : UIViewController
 <UICollectionViewDataSource,
@@ -20,6 +18,7 @@ UITableViewDataSource,
 UITableViewDelegate>
 
 @property (atomic) BOOL actionInProgress;
+@property (weak, nonatomic) CategoriesViewController * categoriesController;
 //maybe better to make this private
 -(void) finishedWorkingWithBulletinBoard;
 

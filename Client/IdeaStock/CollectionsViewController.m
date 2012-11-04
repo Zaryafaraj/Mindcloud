@@ -24,6 +24,7 @@
         CategoriesViewController * categoriesScreen = [storyboard instantiateViewControllerWithIdentifier:@"CategoriesViewController"];
         categoriesScreen.tableView.dataSource = mainScreen;
         categoriesScreen.tableView.delegate = mainScreen;
+        mainScreen.categoriesController = categoriesScreen;
         self = [super initWithCenterViewController: mainScreen
                                 leftViewController: categoriesScreen];
         CGRect screenRect = [[UIScreen mainScreen] bounds];
