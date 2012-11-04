@@ -51,7 +51,10 @@ belonging to that category*/
     if (self.collections[category]) [self.collections[category] insertObject:collection atIndex:0];
     else self.collections[category] = [NSMutableArray arrayWithObject:collection];
     
-    [self.collections[ALL] addObject:collection];
+    if (![category isEqualToString:ALL])
+    {
+        [self.collections[ALL] addObject:collection];
+    }
 }
 
 -(void) addCategory: (NSString *) category

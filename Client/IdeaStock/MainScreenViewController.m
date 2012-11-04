@@ -166,16 +166,14 @@
 -(void) addCollection: (NSString *) name
 {
     name = [self validateName: name];
-    [self.model addCollection:name toCategory:self.currentCategory];
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
     [mindcloud addCollectionFor:userId withName:name withCallback:^{
         NSLog(@"Collection %@ added", name);
     }];
-    [self.collectionView performBatchUpdates:^{
-        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
-        [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
-    }completion:nil];
+    NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+    [self.model addCollection:name toCategory:self.currentCategory];
+    [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
 }
 
 -(void) renameCollection: (NSString *) newName
@@ -408,7 +406,7 @@
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.model numberOfCollectionsInCategory:self.currentCategory];
+    return [self.model numberOfCollectionsInCategory:self.currentCategory] ;
 }
 
 -(NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView
