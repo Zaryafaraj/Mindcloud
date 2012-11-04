@@ -7,6 +7,8 @@
 //
 
 #import "CollectionsViewController.h"
+#import "MainScreenViewController.h"
+#import "CategoriesViewController.h"
 
 @interface CollectionsViewController ()
 
@@ -18,8 +20,12 @@
 {
     if (self) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryBoard" bundle:nil];
-        self = [super initWithCenterViewController:[storyboard instantiateViewControllerWithIdentifier:@"MainScreenViewController"]
-                                leftViewController:[storyboard instantiateViewControllerWithIdentifier:@"CategoriesViewController"]];
+        MainScreenViewController * mainScreen = [storyboard instantiateViewControllerWithIdentifier:@"MainScreenViewController"];
+        CategoriesViewController * categoriesScreen = [storyboard instantiateViewControllerWithIdentifier:@"CategoriesViewController"];
+        categoriesScreen.tableView.dataSource = mainScreen;
+        categoriesScreen.tableView.delegate = mainScreen;
+        self = [super initWithCenterViewController: mainScreen
+                                leftViewController: categoriesScreen];
         CGRect screenRect = [[UIScreen mainScreen] bounds];
         if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
         {

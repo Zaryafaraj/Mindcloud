@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define MINDCLOUD_BASE_URL @"http://192.168.1.7:8000/"
+#define MINDCLOUD_BASE_URL @"http://192.168.1.5:8000/"
 #define STATUS_KEY @"status"
 
 @interface MindcloudBaseAction : NSObject <NSURLConnectionDelegate>

@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#define UNCATEGORIZED_KEY @"uncategorized"
-
+#define UNCATEGORIZED_KEY @"Uncategorized Collections"
+#define ALL @"All Collections"
 @interface CollectionsModel : NSObject
 
 -(id) init;
