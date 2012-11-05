@@ -72,11 +72,27 @@ belonging to that category*/
         }
     }
     
-    [self.collections[ALL] removeObject:collection];
+    if (![cateogry isEqualToString:ALL])
+    {
+        [self.collections[ALL] removeObject:collection];
+    }
 }
 
 -(void) removeCategory: (NSString *) category
 {
+    //you can't remove the default categories
+    if ([category isEqualToString:UNCATEGORIZED_KEY] ||
+        [category isEqualToString:ALL])
+    {
+        return;
+    }
+    
+    //move all the collections to uncategorized category
+    for(NSString * collection in self.collections[category])
+    {
+        [self.collections[UNCATEGORIZED_KEY] addObject:collection];
+    }
+    
     [self.collections removeObjectForKey:category];
 }
 
@@ -98,6 +114,12 @@ belonging to that category*/
 
 -(void) renameCategory:(NSString *)category toNewCategory:(NSString *)newCategory
 {
+    //you can't rename the default categories
+    if ([category isEqualToString:UNCATEGORIZED_KEY] ||
+        [category isEqualToString:ALL])
+    {
+        return;
+    }
     if (self.collections[category])
     {
         self.collections[newCategory] = [self.collections[category] mutableCopy];
@@ -122,6 +144,9 @@ belonging to that category*/
           fromCategory:(NSString *)oldCategory
          toNewCategory:(NSString *)newCategory
 {
+    //you can't move stuff from all categories
+    if ([oldCategory isEqualToString:ALL]) return;
+    
     if (self.collections[oldCategory] && self.collections[newCategory])
     {
         [self.collections[newCategory] addObject:collectionName];

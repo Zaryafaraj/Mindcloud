@@ -179,25 +179,32 @@
 -(void) renameCollection: (NSString *) newName
 {
     NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
-    CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItems[0]];
-    NSString * currentName = selectedCell.text;
-    
-    if ([newName isEqualToString:currentName]) return;
-    newName = [self validateName:newName];
-    
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    NSString * userId = [UserPropertiesHelper userID];
-    [mindcloud renameCollectionFor:userId
-                          withName:currentName
-                       withNewName:newName
-                      withCallback:^{
-        NSLog(@"collection %@ renamed to %@", currentName, newName);
-    }];
-    [self.model renameCollection:currentName
-                      inCategory:self.currentCategory
-                 toNewCollection:newName];
-    
-    selectedCell.text = newName;
+    NSLog(@"before rename%@", [self.model getCollectionsForCategory:self.currentCategory]);
+    for(NSIndexPath * selectedItem in selectedItems)
+    {
+        CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItem];
+        NSString * currentName = selectedCell.text;
+        
+        if ([newName isEqualToString:currentName]) continue;
+        
+        NSString * actualNewName = [self validateName:newName];
+        
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userId = [UserPropertiesHelper userID];
+        [mindcloud renameCollectionFor:userId
+                              withName:currentName
+                           withNewName:actualNewName
+                          withCallback:^{
+            NSLog(@"collection %@ renamed to %@", currentName, newName);
+        }];
+        [self.model renameCollection:currentName
+                          inCategory:self.currentCategory
+                     toNewCollection:actualNewName];
+        
+        selectedCell.text = actualNewName;
+        
+    }
+    NSLog(@"after rename%@", [self.model getCollectionsForCategory:self.currentCategory]);
 }
 /*
  Perform some simple error checking on a collection name
@@ -217,6 +224,12 @@
     finalName = [finalName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
     //protect escape characters
     finalName = [finalName stringByReplacingOccurrencesOfString:@"\\" withString:@"_"];
+    finalName = [finalName stringByReplacingOccurrencesOfString:@"~" withString:@"_"];
+    NSString * withoutSpaces = [finalName stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if (withoutSpaces.length == 0)
+    {
+        finalName = [finalName stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    }
     return finalName;
 }
 
@@ -249,6 +262,7 @@
 -(void) deleteCollection
 {
     NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
+    NSLog(@"before delete%@", [self.model getCollectionsForCategory:self.currentCategory]);
     for (NSIndexPath * selectedItem in selectedItems)
     {
         CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItem];
@@ -262,7 +276,6 @@
             NSLog(@"Collection %@ Deleted", collectionName);
         }];
     }
-    
     [self.collectionView performBatchUpdates:^{
         [self.collectionView deleteItemsAtIndexPaths:selectedItems];
     }completion:nil];
