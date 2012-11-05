@@ -135,8 +135,11 @@ belonging to that category*/
     {
         [self.collections[category] addObject:newCollection];
         [self.collections[category] removeObject:collection];
-        [self.collections[ALL] removeObject:collection];
-        [self.collections[ALL] addObject:newCollection];
+        if (![category isEqualToString:ALL])
+        {
+            [self.collections[ALL] removeObject:collection];
+            [self.collections[ALL] addObject:newCollection];
+        }
     }
 }
 
