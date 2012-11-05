@@ -51,7 +51,13 @@ belonging to that category*/
     if (self.collections[category]) [self.collections[category] insertObject:collection atIndex:0];
     else self.collections[category] = [NSMutableArray arrayWithObject:collection];
     
-    if (![category isEqualToString:ALL])
+    //if we added to all then it should be in uncategoriez category automatically
+    if ([category isEqualToString:ALL])
+    {
+        [self.collections[UNCATEGORIZED_KEY] addObject:collection];
+    }
+    //if we add to a category it should be in all automatically
+    else
     {
         [self.collections[ALL] addObject:collection];
     }
@@ -72,7 +78,16 @@ belonging to that category*/
         }
     }
     
-    if (![cateogry isEqualToString:ALL])
+    //if the deleted from all we need to delete it from the corresponding category
+    if ([cateogry isEqualToString:ALL])
+    {
+        for (NSString * category in self.collections)
+        {
+            [self.collections[category] removeObject:collection];
+        }
+    }
+    //if we deleted from something other than all we need to delete it from all
+    else
     {
         [self.collections[ALL] removeObject:collection];
     }
@@ -135,10 +150,24 @@ belonging to that category*/
     {
         [self.collections[category] addObject:newCollection];
         [self.collections[category] removeObject:collection];
+        //if we are renaming in anything other than all, all should be updated too
         if (![category isEqualToString:ALL])
         {
             [self.collections[ALL] removeObject:collection];
             [self.collections[ALL] addObject:newCollection];
+        }
+        //if we update in all the actual category should be updated too
+        else
+        {
+            for(NSString * category in self.collections)
+            {
+                if ([self.collections[category] containsObject:collection])
+                {
+                [self.collections[category] removeObject:collection];
+                [self.collections[category] addObject:newCollection];
+                    
+                }
+            }
         }
     }
 }
