@@ -86,10 +86,6 @@
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="84" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bN0-Hu-7hX">
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="962" type="user" id="GDd-zB-NHV"/>
-                                            <constraint firstAttribute="height" constant="949" id="icK-Fb-8mf"/>
-                                        </constraints>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryCell" textLabel="iVa-3y-SI9" rowHeight="84" style="IBUITableViewCellStyleDefault" id="O9H-GH-NY7">
                                                 <rect key="frame" x="0.0" y="22" width="768" height="84"/>
@@ -117,6 +113,7 @@
                                 <constraints>
                                     <constraint firstItem="bN0-Hu-7hX" firstAttribute="top" secondItem="dp8-tL-pbL" secondAttribute="top" type="default" id="0C8-5I-mUX"/>
                                     <constraint firstItem="bN0-Hu-7hX" firstAttribute="trailing" secondItem="dp8-tL-pbL" secondAttribute="trailing" type="default" id="I9V-jo-vni"/>
+                                    <constraint firstItem="bN0-Hu-7hX" firstAttribute="bottom" secondItem="dp8-tL-pbL" secondAttribute="bottom" type="default" id="LrV-8U-8cK"/>
                                     <constraint firstItem="bN0-Hu-7hX" firstAttribute="leading" secondItem="dp8-tL-pbL" secondAttribute="leading" type="default" id="t4z-cE-ggp"/>
                                 </constraints>
                             </view>
@@ -133,10 +130,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Xjx-N5-hFI" firstAttribute="leading" secondItem="O3b-6T-0DY" secondAttribute="leading" type="default" id="Pps-sM-fLC"/>
-                            <constraint firstItem="dp8-tL-pbL" firstAttribute="bottom" secondItem="O3b-6T-0DY" secondAttribute="bottom" type="default" id="YQn-qj-Xdv"/>
-                            <constraint firstItem="dp8-tL-pbL" firstAttribute="top" secondItem="F1S-Wy-gGz" secondAttribute="bottom" type="default" id="bfv-jL-fsp"/>
+                            <constraint firstItem="dp8-tL-pbL" firstAttribute="bottom" secondItem="O3b-6T-0DY" secondAttribute="bottom" type="user" id="YQn-qj-Xdv"/>
+                            <constraint firstItem="dp8-tL-pbL" firstAttribute="top" secondItem="F1S-Wy-gGz" secondAttribute="bottom" type="user" id="bfv-jL-fsp"/>
                             <constraint firstItem="F1S-Wy-gGz" firstAttribute="trailing" secondItem="O3b-6T-0DY" secondAttribute="trailing" type="user" id="bvY-Nu-WNc"/>
-                            <constraint firstItem="F1S-Wy-gGz" firstAttribute="top" secondItem="O3b-6T-0DY" secondAttribute="top" type="default" id="cxf-9e-ZKu"/>
+                            <constraint firstItem="F1S-Wy-gGz" firstAttribute="top" secondItem="O3b-6T-0DY" secondAttribute="top" type="user" id="cxf-9e-ZKu"/>
                             <constraint firstItem="Xjx-N5-hFI" firstAttribute="top" secondItem="O3b-6T-0DY" secondAttribute="top" type="default" id="gAR-nC-Rz1"/>
                             <constraint firstItem="dp8-tL-pbL" firstAttribute="trailing" secondItem="O3b-6T-0DY" secondAttribute="trailing" type="default" id="hC6-S8-sxx"/>
                             <constraint firstItem="Xjx-N5-hFI" firstAttribute="trailing" secondItem="O3b-6T-0DY" secondAttribute="trailing" type="default" id="iIj-PL-CfG"/>
@@ -489,7 +486,6 @@
         <class className="CategoriesViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CategoriesViewController.h"/>
             <relationships>
-                <relationship kind="action" name="addPressed:"/>
                 <relationship kind="outlet" name="table" candidateClass="UITableView"/>
             </relationships>
         </class>
@@ -509,9 +505,13 @@
         <class className="MainScreenViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainScreenViewController.h"/>
             <relationships>
+                <relationship kind="action" name="addPressed:"/>
                 <relationship kind="action" name="cancelPressed:"/>
                 <relationship kind="action" name="deletePressed:"/>
+                <relationship kind="action" name="editPressed:"/>
+                <relationship kind="action" name="refreshPressed:"/>
                 <relationship kind="action" name="renamePressed:"/>
+                <relationship kind="action" name="showCategoriesPressed:"/>
                 <relationship kind="outlet" name="collectionView" candidateClass="UICollectionView"/>
                 <relationship kind="outlet" name="pageTitle" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>

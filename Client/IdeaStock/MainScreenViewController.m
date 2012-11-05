@@ -501,14 +501,15 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section + 1 for add place holder
-    return [self.model numberOfCategories] + 1;
+    //FIXME: a hack to add an empty cell below everything else so that the last cel won't get cut off
+    return [self.model numberOfCategories] + 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"CategoryCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    if (indexPath.item != [self.model numberOfCategories] )
+    if (indexPath.item < [self.model numberOfCategories])
     {
         //if its not the placeholder
         NSString * categoryName = [self.model getAllCategories][indexPath.item];
@@ -551,18 +552,36 @@
 
 -(UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.item == [self.model numberOfCategories])
+    if (indexPath.item < [self.model numberOfCategories])
     {
         //its the edit place holder
-        return UITableViewCellEditingStyleInsert;
+        return UITableViewCellEditingStyleDelete;
         
     }
+    else if (indexPath.item ==[self.model numberOfCategories] )
+        return UITableViewCellEditingStyleInsert;
     else
-        return UITableViewCellEditingStyleDelete;
+    {
+        return UITableViewCellEditingStyleNone;
+    }
 }
 
 #pragma mark - Table view delegate
 
+//don't show filler cells
+-(NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.item < [self.model numberOfCategories])
+    {
+        return indexPath;
+        
+    }
+    else
+    {
+        return nil;
+    }
+    
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
