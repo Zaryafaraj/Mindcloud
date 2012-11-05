@@ -134,7 +134,7 @@ belonging to that category*/
         }
         else
         {
-            return (int)[first compare:second];
+            return (int)[[first lowercaseString] compare:[second lowercaseString]];
         }
     }];
     return answer;

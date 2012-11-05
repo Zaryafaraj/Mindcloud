@@ -309,13 +309,11 @@
 -(void) addNewCategory: (NSString *) categoryName
 {
     //validate the name
-    NSLog(@"Before : %@", [self.model getAllCategories]);
     [self.model addCategory:categoryName];
-    //add it to one below the empty add button
+    //find the right place for the item in the sorted order
     int indexInt = [[self.model getAllCategories] indexOfObject:categoryName];
     NSIndexPath * index =  [NSIndexPath indexPathForItem:indexInt inSection:0];
     [self.categoriesController.table insertRowsAtIndexPaths:@[index] withRowAnimation: UITableViewRowAnimationAutomatic];
-    NSLog(@"Before : %@", [self.model getAllCategories]);
     
 }
 -(void) viewWillAppear:(BOOL)animated{
@@ -473,9 +471,6 @@
     return self.isEditing;
 }
 
-/*
- Zarya
- */
 -(CGSize) collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -483,9 +478,6 @@
     return CGSizeMake(250, 250);
 }
 
-/*
- Zarya
- */
 -(UIEdgeInsets) collectionView:(UICollectionView *)collectionView
                         layout:(UICollectionViewLayout *)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section

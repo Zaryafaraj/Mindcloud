@@ -84,7 +84,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Background_Blue.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Xjx-N5-hFI"/>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dp8-tL-pbL">
                                 <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelectionDuringEditing="YES" rowHeight="84" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bN0-Hu-7hX">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="84" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bN0-Hu-7hX">
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="962" type="user" id="GDd-zB-NHV"/>
@@ -480,11 +480,6 @@
         <class className="BulletinBoardViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/BulletinBoardViewController.h"/>
             <relationships>
-                <relationship kind="action" name="backPressed:"/>
-                <relationship kind="action" name="cameraPressed:"/>
-                <relationship kind="action" name="deletePressed:"/>
-                <relationship kind="action" name="expandPressed:"/>
-                <relationship kind="action" name="refreshPressed:"/>
                 <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="bulletinboardView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="label" candidateClass="UIBarButtonItem"/>
@@ -514,13 +509,9 @@
         <class className="MainScreenViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainScreenViewController.h"/>
             <relationships>
-                <relationship kind="action" name="addPressed:"/>
                 <relationship kind="action" name="cancelPressed:"/>
                 <relationship kind="action" name="deletePressed:"/>
-                <relationship kind="action" name="editPressed:"/>
-                <relationship kind="action" name="refreshPressed:"/>
                 <relationship kind="action" name="renamePressed:"/>
-                <relationship kind="action" name="showCategoriesPressed:"/>
                 <relationship kind="outlet" name="collectionView" candidateClass="UICollectionView"/>
                 <relationship kind="outlet" name="pageTitle" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
@@ -531,9 +522,6 @@
         </class>
         <class className="SignInViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SignInViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="signInPressed:"/>
-            </relationships>
         </class>
         <class className="StackViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StackViewController.h"/>
@@ -553,9 +541,6 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
