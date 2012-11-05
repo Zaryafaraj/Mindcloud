@@ -309,11 +309,13 @@
 -(void) addNewCategory: (NSString *) categoryName
 {
     //validate the name
+    NSLog(@"Before : %@", [self.model getAllCategories]);
     [self.model addCategory:categoryName];
     //add it to one below the empty add button
-    NSIndexPath * index =  [NSIndexPath indexPathForItem:[self.model numberOfCategories] -1 inSection:0];
+    int indexInt = [[self.model getAllCategories] indexOfObject:categoryName];
+    NSIndexPath * index =  [NSIndexPath indexPathForItem:indexInt inSection:0];
     [self.categoriesController.table insertRowsAtIndexPaths:@[index] withRowAnimation: UITableViewRowAnimationAutomatic];
-    [self.categoriesController.table reloadData];
+    NSLog(@"Before : %@", [self.model getAllCategories]);
     
 }
 -(void) viewWillAppear:(BOOL)animated{
