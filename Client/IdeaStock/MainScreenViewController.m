@@ -309,6 +309,7 @@
 -(void) addNewCategory: (NSString *) categoryName
 {
     //validate the name
+    categoryName = [self validateCategoryName:categoryName];
     [self.model addCategory:categoryName];
     //find the right place for the item in the sorted order
     int indexInt = [[self.model getAllCategories] indexOfObject:categoryName];
@@ -316,6 +317,21 @@
     [self.categoriesController.table insertRowsAtIndexPaths:@[index] withRowAnimation: UITableViewRowAnimationAutomatic];
     
 }
+
+-(NSString *) validateCategoryName: (NSString *) candidateName
+{
+    //fix duplicates
+    NSArray * categoryNames = [self.model getAllCategories];
+    NSString * tempName = candidateName;
+    int counter = 1;
+    while ([categoryNames containsObject:tempName])
+    {
+        tempName = [candidateName stringByAppendingFormat:@"%d",counter];
+        counter++;
+    }
+    return tempName;
+}
+
 -(void) viewWillAppear:(BOOL)animated{
     
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
