@@ -41,26 +41,5 @@
         self.lastButtonColor = button.tintColor;
         button.tintColor = [UIColor colorWithRed:0.12 green:0.23 blue:1 alpha:1];
     }
-    
-//    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Category"
-//                                                     message:nil
-//                                                    delegate:self
-//                                           cancelButtonTitle:@"Cancel"
-//                                           otherButtonTitles:CREATE_BUTTON_TITILE, nil];
-//    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-//    [alert show];
-}
-
--(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    
-    //perform add collection
-    if (buttonIndex == 1)
-    {
-        if ([[alertView buttonTitleAtIndex:buttonIndex]
-             isEqualToString:CREATE_BUTTON_TITILE])
-        {
-            NSString * name = [[alertView textFieldAtIndex:0] text];
-        }
-    }
 }
 @end

@@ -113,7 +113,31 @@ belonging to that category*/
 
 -(NSArray *) getAllCategories
 {
-    return [[self.collections allKeys] copy];
+    
+    NSArray * answer = [[self.collections allKeys] sortedArrayUsingComparator:^(NSString * first, NSString * second){
+        //{All, Uncategorized,..., the rest}
+        if ([first isEqual:ALL])
+        {
+            return NSOrderedAscending;
+        }
+        if ([second isEqual:ALL])
+        {
+            return NSOrderedDescending;
+        }
+        if ([first isEqual:UNCATEGORIZED_KEY])
+        {
+            return NSOrderedAscending;
+        }
+        if ([second isEqual:UNCATEGORIZED_KEY])
+        {
+            return NSOrderedDescending;
+        }
+        else
+        {
+            return (int)[first compare:second];
+        }
+    }];
+    return answer;
 }
 
 -(NSArray *) getCollectionsForCategory: (NSString *) category

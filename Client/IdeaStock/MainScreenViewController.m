@@ -134,6 +134,8 @@
     [alert show];
 }
 #define RENAME_BUTTON_TITLE @"Rename"
+#define CREATE_CATEGORY_BUTTON @"Create"
+
 - (IBAction)renamePressed:(id)sender {
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The New Name of The Collection"
                                                      message:nil
@@ -159,6 +161,12 @@
         {
             NSString * newName = [[alertView textFieldAtIndex:0] text];
             [self renameCollection:newName];
+        }
+        else if ([[alertView buttonTitleAtIndex:buttonIndex]
+                  isEqualToString:CREATE_CATEGORY_BUTTON])
+        {
+            NSString * newName = [[alertView textFieldAtIndex:0] text];
+            [self addNewCategory:newName];
         }
     }
 }
@@ -298,6 +306,16 @@
     [self.viewDeckController toggleLeftViewAnimated:YES];
 }
 
+-(void) addNewCategory: (NSString *) categoryName
+{
+    //validate the name
+    [self.model addCategory:categoryName];
+    //add it to one below the empty add button
+    NSIndexPath * index =  [NSIndexPath indexPathForItem:[self.model numberOfCategories] -1 inSection:0];
+    [self.categoriesController.table insertRowsAtIndexPaths:@[index] withRowAnimation: UITableViewRowAnimationAutomatic];
+    [self.categoriesController.table reloadData];
+    
+}
 -(void) viewWillAppear:(BOOL)animated{
     
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -527,8 +545,14 @@
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Category"
+                                                         message:nil
+                                                        delegate:self
+                                               cancelButtonTitle:@"Cancel"
+                                               otherButtonTitles:CREATE_CATEGORY_BUTTON, nil];
+        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [alert show];
+    }
 }
 
 -(UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
