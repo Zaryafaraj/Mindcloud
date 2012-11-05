@@ -266,4 +266,18 @@ belonging to that category*/
 {
     return [self.collections count];
 }
+
+-(BOOL) canRemoveCategory: (NSString *) category
+{
+    if ([category isEqualToString:UNCATEGORIZED_KEY] ||
+        [category isEqualToString:ALL])
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+    
+}
 @end

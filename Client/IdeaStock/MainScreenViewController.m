@@ -537,8 +537,14 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
+        UITableViewCell * cell = [self.categoriesController.table cellForRowAtIndexPath:indexPath];
+        NSString * categoryName = cell.textLabel.text;
+        [self.model removeCategory:categoryName];
+        if ([self.model canRemoveCategory: categoryName])
+        {
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }
+    }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Category"
                                                          message:nil

@@ -39,4 +39,6 @@
 
 -(int) numberOfCategories;
 
+-(BOOL) canRemoveCategory: (NSString *) category;
+
 @end
