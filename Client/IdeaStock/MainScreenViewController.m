@@ -179,7 +179,6 @@
 -(void) renameCollection: (NSString *) newName
 {
     NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
-    NSLog(@"before rename%@", [self.model getCollectionsForCategory:self.currentCategory]);
     for(NSIndexPath * selectedItem in selectedItems)
     {
         CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItem];
@@ -204,7 +203,6 @@
         selectedCell.text = actualNewName;
         
     }
-    NSLog(@"after rename%@", [self.model getCollectionsForCategory:self.currentCategory]);
 }
 /*
  Perform some simple error checking on a collection name
@@ -262,7 +260,6 @@
 -(void) deleteCollection
 {
     NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
-    NSLog(@"before delete%@", [self.model getCollectionsForCategory:self.currentCategory]);
     for (NSIndexPath * selectedItem in selectedItems)
     {
         CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItem];
