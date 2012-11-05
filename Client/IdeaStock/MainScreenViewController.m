@@ -561,6 +561,13 @@
     if (indexPath.item < [self.model numberOfCategories])
     {
         //its the edit place holder
+        NSString * selectedCellText = [self.categoriesController.table cellForRowAtIndexPath:indexPath].textLabel.text;
+        //ALL and Uncategorized cateogires are uneditable
+        if ([selectedCellText isEqual:ALL] ||
+            [selectedCellText isEqual:UNCATEGORIZED_KEY])
+        {
+            return UITableViewCellAccessoryNone;
+        }
         return UITableViewCellEditingStyleDelete;
         
     }
