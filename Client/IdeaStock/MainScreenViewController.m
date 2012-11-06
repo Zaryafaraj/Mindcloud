@@ -617,7 +617,11 @@
     UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
     self.currentCategory = cell.textLabel.text;
     [self.collectionView reloadData];
-    self.categoriesController.renameMode = YES;
+    if (![self.currentCategory isEqualToString:ALL] &&
+        ![self.currentCategory isEqualToString:UNCATEGORIZED_KEY])
+    {
+        self.categoriesController.renameMode = YES;
+    }
 }
 
 - (void) tableView: (UITableView *) tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
