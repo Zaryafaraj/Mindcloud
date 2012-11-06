@@ -247,7 +247,11 @@
                                             <action selector="renamePressed:" destination="C4k-Gx-gPL" id="m7I-Ql-kIC"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem enabled="NO" title="Categorize" id="eOo-p7-RNb"/>
+                                    <barButtonItem enabled="NO" title="Categorize" id="eOo-p7-RNb">
+                                        <connections>
+                                            <action selector="categorizedPressed:" destination="C4k-Gx-gPL" id="TxH-zD-qIF"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem enabled="NO" title="Delete" id="vdd-fp-afS">
                                         <color key="tintColor" red="0.65082739980000004" green="0.0" blue="0.02685869955" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
@@ -310,6 +314,8 @@
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="cancelButton" destination="zGk-Ze-iMT" id="nFK-Uy-uXG"/>
+                        <outlet property="categorizeButton" destination="eOo-p7-RNb" id="Rhc-tu-pfP"/>
                         <outlet property="collectionView" destination="BzD-cR-F4A" id="MeN-iG-daM"/>
                         <outlet property="pageTitle" destination="UVa-22-wVa" id="ne1-TR-HBP"/>
                         <outlet property="toolbar" destination="1Wk-zS-ESI" id="VrZ-Rg-ENb"/>

@@ -29,7 +29,11 @@
 @property (strong, nonatomic) NSString * currentCategory;
 @property (weak, nonatomic) UIActionSheet * activeSheet;
 @property BOOL didCategoriesPresentAlertView;
+@property BOOL isInCategorizeMode;
 @property CollectionsModel * model;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *categorizeButton;
+@property (strong, nonatomic) UIColor * lastCategorizeButtonColor;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
 
 @end
 
@@ -335,6 +339,25 @@
                      [self.collectionView reloadData];
                      [self.categoriesController.table reloadData];
                  }];
+}
+
+#define DONE_BUTTON @"Done"
+- (IBAction)categorizedPressed:(id)sender {
+    
+    [self.viewDeckController toggleLeftViewAnimated:YES];
+    if (self.isInCategorizeMode)
+    {
+        self.isInCategorizeMode = NO;
+        self.categorizeButton.title = CATEGORIZE_BUTTON;
+        self.categorizeButton.tintColor = self.lastCategorizeButtonColor;
+    }
+    else
+    {
+        self.isInCategorizeMode = YES;
+        self.categorizeButton.title = DONE_BUTTON;
+        self.lastCategorizeButtonColor = self.categorizeButton.tintColor;
+        self.categorizeButton.tintColor = self.cancelButton.tintColor;
+    }
 }
 
 - (IBAction)showCategoriesPressed:(id)sender {
