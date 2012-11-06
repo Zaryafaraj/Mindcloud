@@ -22,6 +22,24 @@
 #define CREATE_BUTTON_TITILE @"Create"
 #define RENAME_BUTTON_TITLE @"Rename"
 
+@synthesize renameMode = _renameMode;
+
+- (void) setRenameMode:(BOOL)renameMode
+{
+    for(UIBarButtonItem * button in self.editToolbarItems)
+    {
+        if ([button.title isEqualToString:RENAME_BUTTON_TITLE])
+        {
+            button.enabled = renameMode;
+        }
+    }
+}
+
+-(BOOL)renameMode
+{
+    return _renameMode;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -65,11 +83,11 @@
 
 -(void) enableRenaming
 {
-    
 }
 
-- (IBAction)renamePressed:(id)sender {
-    
+- (IBAction)renamePressed:(id)sender
+{
+    [self.delegate tableView:self.table renamePressedForItemAt:[self.table indexPathForSelectedRow]];
 }
 
 @end

@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "UIEditableTableViewDelegate.h"
 @interface CategoriesViewController: UIViewController
 
 @property (weak,nonatomic) id<UITableViewDataSource> dataSource;
-@property (weak, nonatomic) id<UITableViewDelegate> delegate;
+@property (weak, nonatomic) id<UIEditableTableViewDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UITableView *table;
+@property BOOL renameMode;
 
--(void) enableRenaming;
 
 @end
