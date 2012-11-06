@@ -13,4 +13,7 @@
 @property (weak,nonatomic) id<UITableViewDataSource> dataSource;
 @property (weak, nonatomic) id<UITableViewDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UITableView *table;
+
+-(void) enableRenaming;
+
 @end

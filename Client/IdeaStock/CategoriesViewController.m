@@ -11,19 +11,37 @@
 @interface CategoriesViewController ()
 
 @property UIColor * lastButtonColor;
+@property (weak, nonatomic) IBOutlet UIToolbar *viewToolbar;
+@property (strong, nonatomic) NSArray * editToolbarItems;
+@property (strong, nonatomic) NSArray * navigateToolbarItems;
 
 @end
 
 @implementation CategoriesViewController
 
+#define CREATE_BUTTON_TITILE @"Create"
+#define RENAME_BUTTON_TITLE @"Rename"
+
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
     self.table.dataSource = self.dataSource;
     self.table.delegate = self.delegate;
+    
+    self.editToolbarItems = [self.viewToolbar.items copy];
+    NSMutableArray * tempToolbar = [self.viewToolbar.items mutableCopy];
+    for(UIBarButtonItem * button in tempToolbar)
+    {
+        if ([button.title isEqual:RENAME_BUTTON_TITLE])
+        {
+            [tempToolbar removeObject:button];
+        }
+    }
+    self.navigateToolbarItems = [tempToolbar copy];
+    self.viewToolbar.items = self.navigateToolbarItems;
 }
 
-#define CREATE_BUTTON_TITILE @"Create"
-- (IBAction)addPressed:(id)sender {
+- (IBAction)editPressed:(id)sender {
     if (self.table.editing)
     {
         [self.table setEditing:NO animated:YES];
@@ -31,6 +49,7 @@
         button.style = UIBarButtonItemStyleBordered;
         button.title = @"Edit";
         button.tintColor = self.lastButtonColor;
+        self.viewToolbar.items = self.navigateToolbarItems;
     }
     else
     {
@@ -40,6 +59,17 @@
         button.style = UIBarButtonItemStyleBordered;
         self.lastButtonColor = button.tintColor;
         button.tintColor = [UIColor colorWithRed:0.12 green:0.23 blue:1 alpha:1];
+        self.viewToolbar.items = self.editToolbarItems;
     }
 }
+
+-(void) enableRenaming
+{
+    
+}
+
+- (IBAction)renamePressed:(id)sender {
+    
+}
+
 @end

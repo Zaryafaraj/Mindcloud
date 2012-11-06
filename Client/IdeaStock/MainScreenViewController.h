@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CategoriesViewController.h"
+#import "UIEditableTableViewDelegate.h"
 
 @interface MainScreenViewController : UIViewController
 <UICollectionViewDataSource,
@@ -15,7 +16,7 @@ UICollectionViewDelegateFlowLayout,
 UICollectionViewDelegate,
 UIActionSheetDelegate,
 UITableViewDataSource,
-UITableViewDelegate>
+UIEditableTableViewDelegate>
 
 @property (atomic) BOOL actionInProgress;
 @property (weak, nonatomic) CategoriesViewController * categoriesController;

@@ -582,7 +582,7 @@
         if ([selectedCellText isEqual:ALL] ||
             [selectedCellText isEqual:UNCATEGORIZED_KEY])
         {
-            return UITableViewCellAccessoryNone;
+            return UITableViewCellEditingStyleNone;
         }
         return UITableViewCellEditingStyleDelete;
         
@@ -611,6 +611,7 @@
     }
     
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -618,4 +619,16 @@
     [self.collectionView reloadData];
 }
 
+
+-(void) tableView:(UITableView *)tableView renamePressedForItemAt: (NSIndexPath *) index
+{
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The New Name of The Category"
+                                                     message:nil
+                                                    delegate:self
+                                           cancelButtonTitle:@"Cancel"
+                                           otherButtonTitles:RENAME_BUTTON_TITLE, nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+    
+}
 @end
