@@ -80,7 +80,7 @@
 #define CANCEL_BUTTON @"Cancel"
 #define RENAME_BUTTON @"Rename"
 #define EDIT_BUTTON @"Edit"
-
+#define CATEGORIZE_BUTTON @"Categorize"
 -(void) disableDeleteAndRename
 {
     
@@ -412,7 +412,8 @@
     {
         if ([barButton.title isEqual: RENAME_BUTTON] ||
             [barButton.title isEqual: DELETE_BUTTON] ||
-            [barButton.title isEqual: CANCEL_BUTTON])
+            [barButton.title isEqual: CANCEL_BUTTON] ||
+            [barButton.title isEqual: CATEGORIZE_BUTTON])
         {
             [editbar addObject:barButton];
         }

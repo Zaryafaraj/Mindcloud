@@ -242,16 +242,12 @@
                                             <action selector="showCategoriesPressed:" destination="C4k-Gx-gPL" id="gYf-9z-idz"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem systemItem="refresh" id="fbB-rF-pm9">
-                                        <connections>
-                                            <action selector="refreshPressed:" destination="C4k-Gx-gPL" id="VKj-MQ-8qa"/>
-                                        </connections>
-                                    </barButtonItem>
                                     <barButtonItem enabled="NO" title="Rename" id="0Q9-ix-kI4">
                                         <connections>
                                             <action selector="renamePressed:" destination="C4k-Gx-gPL" id="m7I-Ql-kIC"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem enabled="NO" title="Categorize" id="eOo-p7-RNb"/>
                                     <barButtonItem enabled="NO" title="Delete" id="vdd-fp-afS">
                                         <color key="tintColor" red="0.65082739980000004" green="0.0" blue="0.02685869955" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
@@ -274,6 +270,11 @@
                                     <barButtonItem title="Edit" id="04P-dP-H7k">
                                         <connections>
                                             <action selector="editPressed:" destination="C4k-Gx-gPL" id="cz5-sY-Em3"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="refresh" id="fbB-rF-pm9">
+                                        <connections>
+                                            <action selector="refreshPressed:" destination="C4k-Gx-gPL" id="VKj-MQ-8qa"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem systemItem="add" id="eTp-YV-1ie">
