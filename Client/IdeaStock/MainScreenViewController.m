@@ -19,9 +19,6 @@
 
 @interface MainScreenViewController()
 
-/*------------------------------------------------
- UI properties
- -------------------------------------------------*/
 @property (weak, nonatomic) UIView * lastView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) NSArray * editToolbar;
@@ -31,10 +28,9 @@
 @property BOOL isEditing;
 @property (strong, nonatomic) NSString * currentCategory;
 @property (weak, nonatomic) UIActionSheet * activeSheet;
-/*------------------------------------------------
- Model
- -------------------------------------------------*/
+@property BOOL didCategoriesPresentAlertView;
 @property CollectionsModel * model;
+
 @end
 
 @implementation MainScreenViewController
@@ -56,9 +52,7 @@
     self.pageTitle.text = _currentCategory;
 }
 
-/*------------------------------------------------
- Initializers
- -------------------------------------------------*/
+#pragma mark - Initilizers
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     
@@ -69,9 +63,7 @@
     return self;
 }
 
-/*------------------------------------------------
- UI Event helpers
- -------------------------------------------------*/
+#pragma mark - UI Events Helpers
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"bulletinBoardSegue"]){
@@ -98,75 +90,6 @@
             [button.title isEqual:RENAME_BUTTON])
         {
             button.enabled = NO;
-        }
-    }
-}
-
-/*------------------------------------------------
- UI Events
- -------------------------------------------------*/
-- (IBAction)cancelPressed:(id)sender {
-    self.isEditing = NO;
-    self.toolbar.items = self.navigateToolbar;
-    NSArray * selectedItem = [self.collectionView indexPathsForSelectedItems];
-    for (NSIndexPath * selIndex in selectedItem)
-    {
-        [self.collectionView deselectItemAtIndexPath:selIndex animated:YES];
-    }
-    //make sure Delete and Rename buttons are in disabled state
-    [self disableDeleteAndRename];
-}
-
-- (IBAction)editPressed:(id)sender {
-    self.isEditing = YES;
-    self.toolbar.items = self.editToolbar;
-}
-
-#define ADD_BUTTON_TITLE @"Add"
--(IBAction) addPressed:(id)sender {
-    
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Collection"
-                                                     message:nil
-                                                    delegate:self
-                                           cancelButtonTitle:@"Cancel"
-                                           otherButtonTitles:ADD_BUTTON_TITLE, nil];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alert show];
-}
-#define RENAME_BUTTON_TITLE @"Rename"
-#define CREATE_CATEGORY_BUTTON @"Create"
-
-- (IBAction)renamePressed:(id)sender {
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The New Name of The Collection"
-                                                     message:nil
-                                                    delegate:self
-                                           cancelButtonTitle:@"Cancel"
-                                           otherButtonTitles:RENAME_BUTTON_TITLE,nil];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alert show];
-}
-
--(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    
-    //perform add collection
-    if (buttonIndex == 1){
-        if ([[alertView buttonTitleAtIndex:buttonIndex]
-             isEqualToString:ADD_BUTTON_TITLE])
-        {
-            NSString * name = [[alertView textFieldAtIndex:0] text];
-            [self addCollection:name];
-        }
-        else if ([[alertView buttonTitleAtIndex:buttonIndex]
-             isEqualToString:RENAME_BUTTON_TITLE])
-        {
-            NSString * newName = [[alertView textFieldAtIndex:0] text];
-            [self renameCollection:newName];
-        }
-        else if ([[alertView buttonTitleAtIndex:buttonIndex]
-                  isEqualToString:CREATE_CATEGORY_BUTTON])
-        {
-            NSString * newName = [[alertView textFieldAtIndex:0] text];
-            [self addNewCategory:newName];
         }
     }
 }
@@ -212,6 +135,7 @@
         
     }
 }
+
 /*
  Perform some simple error checking on a collection name
  Return the suggested name
@@ -239,32 +163,6 @@
     return finalName;
 }
 
-- (IBAction)deletePressed:(id)sender {
-    UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil
-                                                         delegate:self
-                                                cancelButtonTitle:nil
-                                           destructiveButtonTitle:@"Delete Collection"
-                                                otherButtonTitles:nil,
-                              nil];
-    //make sure an actionsheet is not presented on top of another not dismissed one
-    if (self.activeSheet)
-    {
-        [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
-        self.activeSheet = nil;
-    }
-    [action showFromBarButtonItem:sender animated:NO];
-    self.activeSheet = action;
-}
-
--(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex != 0) return;
-    [self deleteCollection];
-    //make sure after deletion DELETE and RENAME buttons are disabled
-    [self disableDeleteAndRename];
-    
-}
-
 -(void) deleteCollection
 {
     NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
@@ -284,26 +182,6 @@
     [self.collectionView performBatchUpdates:^{
         [self.collectionView deleteItemsAtIndexPaths:selectedItems];
     }completion:nil];
-}
-
-- (IBAction)refreshPressed:(id)sender {
-    
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    NSString * userId = [UserPropertiesHelper userID];
-    [mindcloud getAllCollectionsFor:userId
-                          WithCallback:^(NSArray * collection)
-                 {
-                     NSLog(@"Collections Refreshed");
-                     NSLog(@"%@", collection);
-                     self.model = [[CollectionsModel alloc] initWithCollections:collection];
-                     [self.collectionView reloadData];
-                     [self.categoriesController.table reloadData];
-                 }];
-}
-
-- (IBAction)showCategoriesPressed:(id)sender {
-    
-    [self.viewDeckController toggleLeftViewAnimated:YES];
 }
 
 -(void) addNewCategory: (NSString *) categoryName
@@ -330,6 +208,137 @@
         counter++;
     }
     return tempName;
+}
+
+#pragma mark - UI Events
+
+- (IBAction)cancelPressed:(id)sender {
+    self.isEditing = NO;
+    self.toolbar.items = self.navigateToolbar;
+    NSArray * selectedItem = [self.collectionView indexPathsForSelectedItems];
+    for (NSIndexPath * selIndex in selectedItem)
+    {
+        [self.collectionView deselectItemAtIndexPath:selIndex animated:YES];
+    }
+    //make sure Delete and Rename buttons are in disabled state
+    [self disableDeleteAndRename];
+}
+
+- (IBAction)editPressed:(id)sender {
+    self.isEditing = YES;
+    self.toolbar.items = self.editToolbar;
+}
+
+#define ADD_BUTTON_TITLE @"Add"
+-(IBAction) addPressed:(id)sender {
+    
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Collection"
+                                                     message:nil
+                                                    delegate:self
+                                           cancelButtonTitle:@"Cancel"
+                                           otherButtonTitles:ADD_BUTTON_TITLE, nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+}
+#define RENAME_BUTTON_TITLE @"Rename"
+#define CREATE_CATEGORY_BUTTON @"Create"
+
+- (IBAction)renamePressed:(id)sender {
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The New Name of The Collection"
+                                                     message:nil
+                                                    delegate:self
+                                           cancelButtonTitle:@"Cancel"
+                                           otherButtonTitles:RENAME_BUTTON_TITLE,nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+}
+
+-(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    //perform add collection
+    if (buttonIndex == 1){
+        if (self.didCategoriesPresentAlertView)
+        {
+            if ([[alertView buttonTitleAtIndex:buttonIndex]
+                 isEqualToString:RENAME_BUTTON_TITLE])
+            {
+                NSIndexPath * indexPath = [self.categoriesController.table indexPathForSelectedRow];
+                UITableViewCell * selectedCell= [self.categoriesController.table cellForRowAtIndexPath:indexPath];
+                NSString * categoryName = selectedCell.textLabel.text;
+                NSString * newCategoryName = [[alertView textFieldAtIndex:0] text];
+                [self.model renameCategory:categoryName toNewCategory:newCategoryName];
+                selectedCell.textLabel.text = newCategoryName;
+            }
+        }
+        else
+        {
+            if ([[alertView buttonTitleAtIndex:buttonIndex]
+                 isEqualToString:ADD_BUTTON_TITLE])
+            {
+                NSString * name = [[alertView textFieldAtIndex:0] text];
+                [self addCollection:name];
+            }
+            else if ([[alertView buttonTitleAtIndex:buttonIndex]
+                 isEqualToString:RENAME_BUTTON_TITLE])
+            {
+                NSString * newName = [[alertView textFieldAtIndex:0] text];
+                [self renameCollection:newName];
+            }
+            else if ([[alertView buttonTitleAtIndex:buttonIndex]
+                      isEqualToString:CREATE_CATEGORY_BUTTON])
+            {
+                NSString * newName = [[alertView textFieldAtIndex:0] text];
+                [self addNewCategory:newName];
+            }
+        }
+    }
+}
+
+
+- (IBAction)deletePressed:(id)sender {
+    UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil
+                                                         delegate:self
+                                                cancelButtonTitle:nil
+                                           destructiveButtonTitle:@"Delete Collection"
+                                                otherButtonTitles:nil,
+                              nil];
+    //make sure an actionsheet is not presented on top of another not dismissed one
+    if (self.activeSheet)
+    {
+        [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
+        self.activeSheet = nil;
+    }
+    [action showFromBarButtonItem:sender animated:NO];
+    self.activeSheet = action;
+}
+
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex != 0) return;
+    [self deleteCollection];
+    //make sure after deletion DELETE and RENAME buttons are disabled
+    [self disableDeleteAndRename];
+    
+}
+
+- (IBAction)refreshPressed:(id)sender {
+    
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userId = [UserPropertiesHelper userID];
+    [mindcloud getAllCollectionsFor:userId
+                          WithCallback:^(NSArray * collection)
+                 {
+                     NSLog(@"Collections Refreshed");
+                     NSLog(@"%@", collection);
+                     self.model = [[CollectionsModel alloc] initWithCollections:collection];
+                     [self.collectionView reloadData];
+                     [self.categoriesController.table reloadData];
+                 }];
+}
+
+- (IBAction)showCategoriesPressed:(id)sender {
+    
+    [self.viewDeckController toggleLeftViewAnimated:YES];
 }
 
 -(void) viewWillAppear:(BOOL)animated{
@@ -436,17 +445,12 @@
     [self configureCategoriesPanel];
 }
 
-/*------------------------------------------------
- Bulletinboard Delegate Protocol
- -------------------------------------------------*/
-
+#pragma mark - Bulletinboard Delegates
 -(void) finishedWorkingWithBulletinBoard{
     [self dismissModalViewControllerAnimated:YES];
 }
 
-/*-------------------------------------------------
- Collectionview Delegate methods
- --------------------------------------------------*/
+#pragma mark - CollectionView Delegates
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -501,10 +505,6 @@
     return UIEdgeInsetsMake(20, 20, 30, 20);
 }
 
-
-/*-------------------------------------------------
- TableView Delegate and Datasource methods for categories view
- --------------------------------------------------*/
 
 #pragma mark - Table view data source
 
@@ -638,6 +638,7 @@
                                            cancelButtonTitle:@"Cancel"
                                            otherButtonTitles:RENAME_BUTTON_TITLE, nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    self.didCategoriesPresentAlertView = YES;
     [alert show];
     
 }
