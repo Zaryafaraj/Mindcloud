@@ -81,13 +81,14 @@
 #define RENAME_BUTTON @"Rename"
 #define EDIT_BUTTON @"Edit"
 #define CATEGORIZE_BUTTON @"Categorize"
--(void) disableDeleteAndRename
+-(void) disableEditButtons
 {
     
     for(UIBarButtonItem * button in self.editToolbar)
     {
         if ([button.title isEqual:DELETE_BUTTON] ||
-            [button.title isEqual:RENAME_BUTTON])
+            [button.title isEqual:RENAME_BUTTON] ||
+            [button.title isEqual:CATEGORIZE_BUTTON])
         {
             button.enabled = NO;
         }
@@ -221,7 +222,7 @@
         [self.collectionView deselectItemAtIndexPath:selIndex animated:YES];
     }
     //make sure Delete and Rename buttons are in disabled state
-    [self disableDeleteAndRename];
+    [self disableEditButtons];
 }
 
 - (IBAction)editPressed:(id)sender {
@@ -317,7 +318,7 @@
     if (buttonIndex != 0) return;
     [self deleteCollection];
     //make sure after deletion DELETE and RENAME buttons are disabled
-    [self disableDeleteAndRename];
+    [self disableEditButtons];
     
 }
 
@@ -485,6 +486,15 @@
         button.enabled = YES;
     }
     
+}
+
+-(void) collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    //if nothing is selected disable edit buttons
+    if ([[self.collectionView indexPathsForSelectedItems] count] == 0)
+    {
+        [self disableEditButtons];
+    }
 }
 
 -(BOOL) collectionView:(UICollectionView *) collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
