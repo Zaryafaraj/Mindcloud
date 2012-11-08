@@ -240,7 +240,7 @@
     self.isEditing = NO;
     [self disableEditButtons];
     self.toolbar.items = self.navigateToolbar;
-    [self.categoriesController.table setEditing:NO];
+    [self.categoriesController exitEditMode];
 }
 -(NSString *) validateCategoryName: (NSString *) candidateName
 {

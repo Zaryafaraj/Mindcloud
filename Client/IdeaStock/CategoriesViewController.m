@@ -59,13 +59,15 @@
     self.viewToolbar.items = self.navigateToolbarItems;
 }
 
+#define EDIT_BUTTON_TITLE @"Edit"
+#define CANCEL_BUTTON_TITLE @"Cancel"
 - (IBAction)editPressed:(id)sender {
     if (self.table.editing)
     {
         [self.table setEditing:NO animated:YES];
         UIBarButtonItem * button = (UIBarButtonItem *) sender;
         button.style = UIBarButtonItemStyleBordered;
-        button.title = @"Edit";
+        button.title = EDIT_BUTTON_TITLE;
         button.tintColor = self.lastButtonColor;
         self.viewToolbar.items = self.navigateToolbarItems;
     }
@@ -73,7 +75,7 @@
     {
         [self.table setEditing:YES animated:YES];
         UIBarButtonItem * button = (UIBarButtonItem *) sender;
-        button.title = @"Cancel";
+        button.title = CANCEL_BUTTON_TITLE;
         button.style = UIBarButtonItemStyleBordered;
         self.lastButtonColor = button.tintColor;
         button.tintColor = [UIColor colorWithRed:0.12 green:0.23 blue:1 alpha:1];
@@ -81,13 +83,23 @@
     }
 }
 
--(void) enableRenaming
-{
-}
-
 - (IBAction)renamePressed:(id)sender
 {
     [self.delegate tableView:self.table renamePressedForItemAt:[self.table indexPathForSelectedRow]];
+}
+
+-(void) exitEditMode{
+    for(UIBarButtonItem * button in self.viewToolbar.items)
+    {
+        if ([button.title isEqualToString:CANCEL_BUTTON_TITLE])
+        {
+            button.style = UIBarButtonItemStyleBordered;
+            button.title = EDIT_BUTTON_TITLE;
+            button.tintColor = self.lastButtonColor;
+        }
+    }
+    self.viewToolbar.items = self.navigateToolbarItems;
+    [self.table setEditing:NO];
 }
 
 @end
