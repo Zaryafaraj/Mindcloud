@@ -203,6 +203,8 @@ belonging to that category*/
     
     if (self.collections[oldCategory] && self.collections[newCategory])
     {
+        if ([self.collections[newCategory] containsObject:collectionName]) return;
+        
         [self.collections[newCategory] addObject:collectionName];
         //you can't move stuff from all categories
         if (![oldCategory isEqualToString:ALL])

@@ -34,12 +34,44 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *categorizeButton;
 @property (strong, nonatomic) UIColor * lastCategorizeButtonColor;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
 
 @end
 
 @implementation MainScreenViewController
 
 @synthesize currentCategory = _currentCategory;
+@synthesize isInCategorizeMode = _isInCategorizeMode;
+
+#define DONE_BUTTON @"Done"
+#define DELETE_BUTTON @"Delete"
+#define CANCEL_BUTTON @"Cancel"
+#define RENAME_BUTTON @"Rename"
+#define EDIT_BUTTON @"Edit"
+#define CATEGORIZE_BUTTON @"Categorize"
+
+-(BOOL) isInCategorizeMode
+{
+    return _isInCategorizeMode;
+}
+
+-(void) setIsInCategorizeMode:(BOOL)isInCategorizeMode
+{
+    _isInCategorizeMode = isInCategorizeMode;
+    if (_isInCategorizeMode)
+    {
+        self.categorizeButton.title = DONE_BUTTON;
+        self.lastCategorizeButtonColor = self.categorizeButton.tintColor;
+        self.categorizeButton.tintColor = self.cancelButton.tintColor;
+        [self.viewDeckController openLeftViewAnimated:YES];
+    }
+    else
+    {
+        self.categorizeButton.title = CATEGORIZE_BUTTON;
+        self.categorizeButton.tintColor = self.lastCategorizeButtonColor;
+        [self.viewDeckController closeLeftViewAnimated:YES];
+    }
+}
 -(NSString *) currentCategory
 {
     if (!_currentCategory)
@@ -80,11 +112,6 @@
     }
 }
 
-#define DELETE_BUTTON @"Delete"
-#define CANCEL_BUTTON @"Cancel"
-#define RENAME_BUTTON @"Rename"
-#define EDIT_BUTTON @"Edit"
-#define CATEGORIZE_BUTTON @"Categorize"
 -(void) disableEditButtons
 {
     
@@ -201,6 +228,19 @@
     
 }
 
+-(void) updateCollectionView:(NSString *) categoryName
+{
+    self.currentCategory = categoryName;
+    [self.collectionView reloadData];
+}
+
+-(void) exitCategorizeMode
+{
+    self.isInCategorizeMode = NO;
+    self.isEditing = NO;
+    self.toolbar.items = self.navigateToolbar;
+    [self.categoriesController.table setEditing:NO];
+}
 -(NSString *) validateCategoryName: (NSString *) candidateName
 {
     //fix duplicates
@@ -227,6 +267,8 @@
     }
     //make sure Delete and Rename buttons are in disabled state
     [self disableEditButtons];
+    if (self.isInCategorizeMode)
+        self.isInCategorizeMode = NO;
 }
 
 - (IBAction)editPressed:(id)sender {
@@ -341,24 +383,9 @@
                  }];
 }
 
-#define DONE_BUTTON @"Done"
 - (IBAction)categorizedPressed:(id)sender {
     
-    if (self.isInCategorizeMode)
-    {
-        self.isInCategorizeMode = NO;
-        self.categorizeButton.title = CATEGORIZE_BUTTON;
-        self.categorizeButton.tintColor = self.lastCategorizeButtonColor;
-        [self.viewDeckController closeLeftViewAnimated:YES];
-    }
-    else
-    {
-        self.isInCategorizeMode = YES;
-        self.categorizeButton.title = DONE_BUTTON;
-        self.lastCategorizeButtonColor = self.categorizeButton.tintColor;
-        self.categorizeButton.tintColor = self.cancelButton.tintColor;
-        [self.viewDeckController openLeftViewAnimated:YES];
-    }
+    self.isInCategorizeMode = !self.isInCategorizeMode;
 }
 
 - (IBAction)showCategoriesPressed:(id)sender {
@@ -376,6 +403,7 @@
     [super viewDidLoad];
     [self.collectionView setAllowsMultipleSelection:YES];
     [self manageToolbars];
+    self.isEditing = NO;
     self.toolbar.items = self.navigateToolbar;
     [self configureCategoriesPanel];
     
@@ -573,15 +601,6 @@
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
 
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -669,14 +688,23 @@
         {
             [self.collectionView performBatchUpdates:^{
                 [self.collectionView deleteItemsAtIndexPaths:[self.collectionView indexPathsForSelectedItems]];
-            }completion:nil];
+            }completion:^(BOOL finished){
+                //give user some fraction of second to see what is happening
+                [self performSelector:@selector(updateCollectionView:) withObject:categoryName afterDelay:0.35];
+                [self exitCategorizeMode];
+                
+            }];
+        }
+        else
+        {
+            [self updateCollectionView:categoryName];
+            [self exitCategorizeMode];
         }
     }
     else
     {
         [self disableEditButtons];
-        self.currentCategory = cell.textLabel.text;
-        [self.collectionView reloadData];
+        [self updateCollectionView:cell.textLabel.text];
         if (![self.currentCategory isEqualToString:ALL] &&
             ![self.currentCategory isEqualToString:UNCATEGORIZED_KEY])
         {
