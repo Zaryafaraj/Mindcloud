@@ -200,13 +200,20 @@ belonging to that category*/
           fromCategory:(NSString *)oldCategory
          toNewCategory:(NSString *)newCategory
 {
-    //you can't move stuff from all categories
-    if ([oldCategory isEqualToString:ALL]) return;
     
     if (self.collections[oldCategory] && self.collections[newCategory])
     {
         [self.collections[newCategory] addObject:collectionName];
-        [self.collections[oldCategory] removeObject:collectionName];
+        //you can't move stuff from all categories
+        if (![oldCategory isEqualToString:ALL])
+        {
+            [self.collections[oldCategory] removeObject:collectionName];
+        }
+        else
+        {
+            //remove it from uncategorized in case it is there
+            [self.collections[UNCATEGORIZED_KEY] removeObject:collectionName];
+        }
     }
 }
 

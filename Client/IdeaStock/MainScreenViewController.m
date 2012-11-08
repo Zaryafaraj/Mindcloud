@@ -344,12 +344,12 @@
 #define DONE_BUTTON @"Done"
 - (IBAction)categorizedPressed:(id)sender {
     
-    [self.viewDeckController toggleLeftViewAnimated:YES];
     if (self.isInCategorizeMode)
     {
         self.isInCategorizeMode = NO;
         self.categorizeButton.title = CATEGORIZE_BUTTON;
         self.categorizeButton.tintColor = self.lastCategorizeButtonColor;
+        [self.viewDeckController closeLeftViewAnimated:YES];
     }
     else
     {
@@ -357,6 +357,7 @@
         self.categorizeButton.title = DONE_BUTTON;
         self.lastCategorizeButtonColor = self.categorizeButton.tintColor;
         self.categorizeButton.tintColor = self.cancelButton.tintColor;
+        [self.viewDeckController openLeftViewAnimated:YES];
     }
 }
 
@@ -504,6 +505,7 @@
 -(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     //enable the edit bar buttons
+    NSLog(@"%d", [[self.collectionView indexPathsForSelectedItems] count]);
     for (UIBarButtonItem * button in self.toolbar.items)
     {
         button.enabled = YES;
@@ -634,27 +636,54 @@
 //don't show filler cells
 -(NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.item < [self.model numberOfCategories])
+    if (self.isInCategorizeMode)
     {
         return indexPath;
-        
     }
     else
     {
-        return nil;
+        if (indexPath.item < [self.model numberOfCategories])
+        {
+            return indexPath;
+            
+        }
+        else
+        {
+            return nil;
+        }
     }
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-    self.currentCategory = cell.textLabel.text;
-    [self.collectionView reloadData];
-    if (![self.currentCategory isEqualToString:ALL] &&
-        ![self.currentCategory isEqualToString:UNCATEGORIZED_KEY])
+    if (self.isInCategorizeMode)
     {
-        self.categoriesController.renameMode = YES;
+        NSLog(@"%d", [[self.collectionView indexPathsForSelectedItems] count]);
+        NSString * categoryName = cell.textLabel.text;
+        for(NSIndexPath * index in [self.collectionView indexPathsForSelectedItems])
+        {
+            CollectionCell * collectionCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:index];
+            NSString * collectionName = collectionCell.text;
+            [self.model moveCollection:collectionName fromCategory:self.currentCategory toNewCategory:categoryName];
+        }
+        if (![self.currentCategory isEqual:ALL])
+        {
+            [self disableEditButtons];
+            [self.collectionView performBatchUpdates:^{
+                [self.collectionView deleteItemsAtIndexPaths:[self.collectionView indexPathsForSelectedItems]];
+            }completion:nil];
+        }
+    }
+    else
+    {
+        self.currentCategory = cell.textLabel.text;
+        [self.collectionView reloadData];
+        if (![self.currentCategory isEqualToString:ALL] &&
+            ![self.currentCategory isEqualToString:UNCATEGORIZED_KEY])
+        {
+            self.categoriesController.renameMode = YES;
+        }
     }
 }
 

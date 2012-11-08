@@ -242,6 +242,17 @@
                                             <action selector="showCategoriesPressed:" destination="C4k-Gx-gPL" id="gYf-9z-idz"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem title="Cancel" id="zGk-Ze-iMT">
+                                        <color key="tintColor" red="0.24374802549510532" green="0.22944459002314144" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="cancelPressed:" destination="C4k-Gx-gPL" id="ca9-GR-NLv"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Edit" id="04P-dP-H7k">
+                                        <connections>
+                                            <action selector="editPressed:" destination="C4k-Gx-gPL" id="cz5-sY-Em3"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem enabled="NO" title="Rename" id="0Q9-ix-kI4">
                                         <connections>
                                             <action selector="renamePressed:" destination="C4k-Gx-gPL" id="m7I-Ql-kIC"/>
@@ -259,23 +270,6 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="ok3-Um-hEz"/>
-                                    <barButtonItem title="Boards" style="plain" id="SvH-0t-LUt"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="OPE-pZ-Jrg">
-                                        <connections>
-                                            <segue destination="9HL-37-GHp" kind="modal" identifier="bulletinBoardSegue" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="eq8-da-VHb"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem title="Cancel" id="zGk-Ze-iMT">
-                                        <color key="tintColor" red="0.24374802549510532" green="0.22944459002314144" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="cancelPressed:" destination="C4k-Gx-gPL" id="ca9-GR-NLv"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem title="Edit" id="04P-dP-H7k">
-                                        <connections>
-                                            <action selector="editPressed:" destination="C4k-Gx-gPL" id="cz5-sY-Em3"/>
-                                        </connections>
-                                    </barButtonItem>
                                     <barButtonItem systemItem="refresh" id="fbB-rF-pm9">
                                         <connections>
                                             <action selector="refreshPressed:" destination="C4k-Gx-gPL" id="VKj-MQ-8qa"/>
@@ -486,6 +480,90 @@
         <image name="pile boardBig.png" width="1372" height="1040"/>
         <image name="skybacground.jpg" width="1024" height="1024"/>
     </resources>
+    <classes>
+        <class className="BulletinBoardViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BulletinBoardViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="backPressed:"/>
+                <relationship kind="action" name="cameraPressed:"/>
+                <relationship kind="action" name="deletePressed:"/>
+                <relationship kind="action" name="expandPressed:"/>
+                <relationship kind="action" name="refreshPressed:"/>
+                <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="bulletinboardView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="label" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="CategoriesViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CategoriesViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="editPressed:"/>
+                <relationship kind="action" name="renamePressed:"/>
+                <relationship kind="outlet" name="table" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="viewToolbar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="CollectionCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CollectionCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="picImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="CollectionsViewController" superclassName="IIViewDeckController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CollectionsViewController.h"/>
+        </class>
+        <class className="IIViewDeckController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/IIViewDeckController.h"/>
+        </class>
+        <class className="MainScreenViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MainScreenViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addPressed:"/>
+                <relationship kind="action" name="cancelPressed:"/>
+                <relationship kind="action" name="categorizedPressed:"/>
+                <relationship kind="action" name="deletePressed:"/>
+                <relationship kind="action" name="editPressed:"/>
+                <relationship kind="action" name="refreshPressed:"/>
+                <relationship kind="action" name="renamePressed:"/>
+                <relationship kind="action" name="showCategoriesPressed:"/>
+                <relationship kind="outlet" name="cancelButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="categorizeButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="collectionView" candidateClass="UICollectionView"/>
+                <relationship kind="outlet" name="pageTitle" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="SignInViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SignInViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="signInPressed:"/>
+            </relationships>
+        </class>
+        <class className="StackViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StackViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="backPressed:"/>
+                <relationship kind="action" name="deletePressed:"/>
+                <relationship kind="action" name="unstackPressed:"/>
+                <relationship kind="outlet" name="stackView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="UICollectionReusableView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
+        </class>
+        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
+        </class>
+        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
