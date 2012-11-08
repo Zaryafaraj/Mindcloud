@@ -60,9 +60,9 @@
     _isInCategorizeMode = isInCategorizeMode;
     if (_isInCategorizeMode)
     {
-        self.categorizeButton.title = DONE_BUTTON;
-        self.lastCategorizeButtonColor = self.categorizeButton.tintColor;
-        self.categorizeButton.tintColor = self.cancelButton.tintColor;
+//        self.categorizeButton.title = DONE_BUTTON;
+//        self.lastCategorizeButtonColor = self.categorizeButton.tintColor;
+//        self.categorizeButton.tintColor = self.cancelButton.tintColor;
         [self.viewDeckController openLeftViewAnimated:YES];
     }
     else
@@ -238,6 +238,7 @@
 {
     self.isInCategorizeMode = NO;
     self.isEditing = NO;
+    [self disableEditButtons];
     self.toolbar.items = self.navigateToolbar;
     [self.categoriesController.table setEditing:NO];
 }
@@ -678,6 +679,9 @@
     if (self.isInCategorizeMode)
     {
         NSString * categoryName = cell.textLabel.text;
+        
+        if ([categoryName isEqualToString:ALL]) return;
+        
         for(NSIndexPath * index in [self.collectionView indexPathsForSelectedItems])
         {
             CollectionCell * collectionCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:index];
