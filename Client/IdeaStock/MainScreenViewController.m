@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) NSArray * editToolbar;
 @property (strong, nonatomic) NSArray * navigateToolbar;
+@property (strong, nonatomic) NSArray * cancelToolbar;
 @property (weak, nonatomic) IBOutlet UILabel *pageTitle;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property BOOL isEditing;
@@ -64,12 +65,14 @@
 //        self.lastCategorizeButtonColor = self.categorizeButton.tintColor;
 //        self.categorizeButton.tintColor = self.cancelButton.tintColor;
         [self.viewDeckController openLeftViewAnimated:YES];
+        self.toolbar.items = self.cancelToolbar;
     }
     else
     {
         self.categorizeButton.title = CATEGORIZE_BUTTON;
         self.categorizeButton.tintColor = self.lastCategorizeButtonColor;
         [self.viewDeckController closeLeftViewAnimated:YES];
+        self.toolbar.items = self.navigateToolbar;
     }
 }
 -(NSString *) currentCategory
@@ -462,11 +465,16 @@
 {
     NSMutableArray *  editbar = [NSMutableArray array];
     NSMutableArray *  navbar = [NSMutableArray array];
+    NSMutableArray *  cancelbar = [NSMutableArray array];
     for (UIBarButtonItem * barButton in self.toolbar.items)
     {
-        if ([barButton.title isEqual: RENAME_BUTTON] ||
+        if ([barButton.title isEqualToString:CANCEL_BUTTON])
+        {
+            [cancelbar addObject:barButton];
+            [editbar addObject:barButton];
+        }
+        else if ([barButton.title isEqual: RENAME_BUTTON] ||
             [barButton.title isEqual: DELETE_BUTTON] ||
-            [barButton.title isEqual: CANCEL_BUTTON] ||
             [barButton.title isEqual: CATEGORIZE_BUTTON])
         {
             [editbar addObject:barButton];
@@ -479,10 +487,12 @@
         {
             [editbar addObject:barButton];
             [navbar  addObject:barButton];
+            [cancelbar addObject:barButton];
         }
     }
     self.editToolbar = [editbar copy];
     self.navigateToolbar = [navbar copy];
+    self.cancelToolbar = [cancelbar copy];
 
 }
 -(void) viewDidUnload{
