@@ -505,7 +505,6 @@
 -(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     //enable the edit bar buttons
-    NSLog(@"%d", [[self.collectionView indexPathsForSelectedItems] count]);
     for (UIBarButtonItem * button in self.toolbar.items)
     {
         button.enabled = YES;
@@ -659,7 +658,6 @@
     UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
     if (self.isInCategorizeMode)
     {
-        NSLog(@"%d", [[self.collectionView indexPathsForSelectedItems] count]);
         NSString * categoryName = cell.textLabel.text;
         for(NSIndexPath * index in [self.collectionView indexPathsForSelectedItems])
         {
@@ -669,7 +667,6 @@
         }
         if (![self.currentCategory isEqual:ALL])
         {
-            [self disableEditButtons];
             [self.collectionView performBatchUpdates:^{
                 [self.collectionView deleteItemsAtIndexPaths:[self.collectionView indexPathsForSelectedItems]];
             }completion:nil];
@@ -677,6 +674,7 @@
     }
     else
     {
+        [self disableEditButtons];
         self.currentCategory = cell.textLabel.text;
         [self.collectionView reloadData];
         if (![self.currentCategory isEqualToString:ALL] &&
