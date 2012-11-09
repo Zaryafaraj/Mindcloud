@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CategoryModelProtocol.h"
 #define UNCATEGORIZED_KEY @"Uncategorized"
 #define ALL @"All Collections"
-@interface CollectionsModel : NSObject
+@interface CollectionsModel : NSObject <CategoryModelProtocol>
 
 -(id) init;
 -(id) initWithCollections:(NSArray *) collections;
@@ -21,8 +22,6 @@
 -(void) addCategory: (NSString *) category;
 -(void) removeCollection:(NSString *) collection fromCategory: (NSString *) cateogry;
 -(void) removeCategory: (NSString *) category;
--(NSArray *) getAllCategories;
--(NSArray *) getCollectionsForCategory: (NSString *) category;
 -(void) renameCategory: (NSString *) category
               toNewCategory: (NSString *) newCategory;
 -(void) renameCollection:(NSString *) collection
@@ -31,13 +30,8 @@
 -(void) moveCollection: (NSString *) collectionName
           fromCategory: (NSString *) oldCategory
          toNewCategory: (NSString *) newCategory;
--(NSString *) getCollectionAt: (int) index forCategory: (NSString *) cat;
 
 -(BOOL) doesNameExist: (NSString *) name;
-
--(int) numberOfCollectionsInCategory: (NSString *) category;
-
--(int) numberOfCategories;
 
 -(BOOL) canRemoveCategory: (NSString *) category;
 

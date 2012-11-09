@@ -75,6 +75,7 @@
 		D7F1FF2C154D1A3300D07B58 /* NoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F1FF2B154D1A3300D07B58 /* NoteView.m */; };
 		D7F85EB41528D80300F16D25 /* XoomlBulletinBoardController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F85EB31528D80300F16D25 /* XoomlBulletinBoardController.m */; };
 		D7FAD4301534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D7FAD42F1534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.m */; };
+		DB225AC1164CD5D90094BFC9 /* XoomlCategoryParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DB225AC0164CD5D90094BFC9 /* XoomlCategoryParser.m */; };
 		DB3174F716336A44001229FE /* bg.001.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3174F616336A44001229FE /* bg.001.png */; };
 		DB3174F916336DEB001229FE /* cJOfLC.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DB3174F816336DEA001229FE /* cJOfLC.jpeg */; };
 		DB3174FB1633744F001229FE /* dropbox_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3174FA1633744F001229FE /* dropbox_icon.png */; };
@@ -222,6 +223,9 @@
 		D7F85EB31528D80300F16D25 /* XoomlBulletinBoardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XoomlBulletinBoardController.m; path = ../XoomlBulletinBoardController.m; sourceTree = "<group>"; };
 		D7FAD42E1534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxAssociativeBulletinBoardTests.h; sourceTree = "<group>"; };
 		D7FAD42F1534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxAssociativeBulletinBoardTests.m; sourceTree = "<group>"; };
+		DB225ABF164CD5D90094BFC9 /* XoomlCategoryParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlCategoryParser.h; sourceTree = "<group>"; };
+		DB225AC0164CD5D90094BFC9 /* XoomlCategoryParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlCategoryParser.m; sourceTree = "<group>"; };
+		DB225AC2164CD67B0094BFC9 /* CategoryModelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CategoryModelProtocol.h; sourceTree = "<group>"; };
 		DB3174F616336A44001229FE /* bg.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.001.png; sourceTree = "<group>"; };
 		DB3174F816336DEA001229FE /* cJOfLC.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cJOfLC.jpeg; sourceTree = "<group>"; };
 		DB3174FA1633744F001229FE /* dropbox_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropbox_icon.png; sourceTree = "<group>"; };
@@ -343,6 +347,7 @@
 		D709472B15242BA4008E4AD9 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				DB225ABD164CD5B70094BFC9 /* Parsers */,
 				D75820EF1532C8EC00F2617E /* QueueProducer.h */,
 				D7F85EB21528D80300F16D25 /* XoomlBulletinBoardController.h */,
 				D7F85EB31528D80300F16D25 /* XoomlBulletinBoardController.m */,
@@ -512,6 +517,15 @@
 			name = UI;
 			sourceTree = "<group>";
 		};
+		DB225ABD164CD5B70094BFC9 /* Parsers */ = {
+			isa = PBXGroup;
+			children = (
+				DB225ABF164CD5D90094BFC9 /* XoomlCategoryParser.h */,
+				DB225AC0164CD5D90094BFC9 /* XoomlCategoryParser.m */,
+			);
+			name = Parsers;
+			sourceTree = "<group>";
+		};
 		DB3174FF16337E3E001229FE /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
@@ -569,6 +583,7 @@
 			children = (
 				DB4E0AC7163DCD3D00AB82E6 /* CollectionsModel.h */,
 				DB4E0AC8163DCD3D00AB82E6 /* CollectionsModel.m */,
+				DB225AC2164CD67B0094BFC9 /* CategoryModelProtocol.h */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -806,6 +821,7 @@
 				DB7AC5E31643A9AF007756E6 /* IIViewDeckController.m in Sources */,
 				DB7AC5E41643A9AF007756E6 /* WrapController.m in Sources */,
 				DBFB7AE21644D5C2004049A9 /* CategoriesViewController.m in Sources */,
+				DB225AC1164CD5D90094BFC9 /* XoomlCategoryParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
