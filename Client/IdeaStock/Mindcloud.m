@@ -133,4 +133,22 @@ static Mindcloud * instance;
     action.deleteResource = collectionName;
     [action executeDELETE];
 }
+
+-(void) getCategories: (NSString *) userId
+         withCallback: (get_categories_callback) callback
+{
+    CategoriesAction * action = [[CategoriesAction alloc] initWithUserID:userId];
+    action.getCallback = callback;
+    [action executeGET];
+}
+
+-(void) saveCategories: (NSString *) userId
+              withData:(NSData *)categoriesData
+           andCallback: (save_categories_callback) callback
+{
+    CategoriesAction * action = [[CategoriesAction alloc] initWithUserID:userId];
+    action.postCallback = callback;
+    action.categoriesData = categoriesData;
+    [action executePOST];
+}
 @end

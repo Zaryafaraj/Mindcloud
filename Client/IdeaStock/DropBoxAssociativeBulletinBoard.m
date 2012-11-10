@@ -114,7 +114,6 @@ _needSynchronization;
                                     repeats:YES];
 }
 
-//TODO who calls you ? 
 -(void) stopTimer{
     [self.timer invalidate];
 }

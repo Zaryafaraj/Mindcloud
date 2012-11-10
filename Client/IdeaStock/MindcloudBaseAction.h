@@ -15,6 +15,7 @@
 
 @property (nonatomic,readonly) NSString * baseURL;
 @property (atomic,strong) NSMutableURLRequest * request;
+@property (nonatomic,strong) NSMutableData* receivedData;
 
 //TODO find a way to make this protected
 /**

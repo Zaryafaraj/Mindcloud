@@ -13,6 +13,7 @@
 #import "CollectionsModel.h"
 #import "CollectionCell.h"
 #import "IIViewDeckController.h"
+#import "XoomlCategoryParser.h"
 
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
@@ -36,7 +37,8 @@
 @property (strong, nonatomic) UIColor * lastCategorizeButtonColor;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
-
+@property BOOL shouldSaveCategories;
+@property (atomic,strong) NSTimer * timer;
 @end
 
 @implementation MainScreenViewController
@@ -89,6 +91,20 @@
 {
     _currentCategory = currentCategory;
     self.pageTitle.text = _currentCategory;
+}
+
+#pragma mark - Timer
+#define SYNCHRONIZATION_PERIOD 2
+-(void) startTimer{
+    self.timer = [NSTimer scheduledTimerWithTimeInterval: SYNCHRONIZATION_PERIOD
+                                     target:self
+                                   selector:@selector(saveCategories:)
+                                   userInfo:nil
+                                    repeats:YES];
+}
+
+-(void) stopTimer{
+    [self.timer invalidate];
 }
 
 #pragma mark - Initilizers
@@ -319,6 +335,7 @@
                 NSString * newCategoryName = [[alertView textFieldAtIndex:0] text];
                 [self.model renameCategory:categoryName toNewCategory:newCategoryName];
                 selectedCell.textLabel.text = newCategoryName;
+                self.shouldSaveCategories = YES;
             }
         }
         else
@@ -328,18 +345,21 @@
             {
                 NSString * name = [[alertView textFieldAtIndex:0] text];
                 [self addCollection:name];
+                self.shouldSaveCategories = YES;
             }
             else if ([[alertView buttonTitleAtIndex:buttonIndex]
                  isEqualToString:RENAME_BUTTON_TITLE])
             {
                 NSString * newName = [[alertView textFieldAtIndex:0] text];
                 [self renameCollection:newName];
+                self.shouldSaveCategories = YES;
             }
             else if ([[alertView buttonTitleAtIndex:buttonIndex]
                       isEqualToString:CREATE_CATEGORY_BUTTON])
             {
                 NSString * newName = [[alertView textFieldAtIndex:0] text];
                 [self addNewCategory:newName];
+                self.shouldSaveCategories = YES;
             }
         }
     }
@@ -367,6 +387,7 @@
 {
     if (buttonIndex != 0) return;
     [self deleteCollection];
+    self.shouldSaveCategories = YES;
     //make sure after deletion DELETE and RENAME buttons are disabled
     [self disableEditButtons];
     
@@ -429,7 +450,15 @@
                      [self.categoriesController.table reloadData];
                      [self configureCategoriesPanel];
                  }];
-    
+    [mindcloud getCategories:userId withCallback:^(NSData * categories)
+                 {
+                     NSLog(@"Categories Retrieved");
+                     NSDictionary * dict = [XoomlCategoryParser deserializeXooml:categories];
+                     [self.model applyCategories:dict];
+                     [self.collectionView reloadData];
+                     [self.categoriesController.table reloadData];
+                 }];
+    [self startTimer];
 }
 
 -(void) configureCategoriesPanel
@@ -498,6 +527,8 @@
 -(void) viewDidUnload{
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self saveCategories];
+    [self stopTimer];
     [super viewDidUnload];
 }
 
@@ -635,6 +666,7 @@
         alert.alertViewStyle = UIAlertViewStylePlainTextInput;
         [alert show];
     }
+    self.shouldSaveCategories = YES;
 }
 
 -(UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -714,6 +746,7 @@
             [self updateCollectionView:categoryName];
             [self exitCategorizeMode];
         }
+        self.shouldSaveCategories = YES;
     }
     else
     {
@@ -744,5 +777,24 @@
     self.didCategoriesPresentAlertView = YES;
     [alert show];
     
+}
+
+-(void) saveCategories:(NSTimer *) timer
+{
+    [self saveCategories];
+}
+
+-(void) saveCategories
+{
+   if (self.shouldSaveCategories)
+   {
+       NSData * categoriesData = [XoomlCategoryParser serializeToXooml:self.model];
+       Mindcloud * mindcloud = [Mindcloud getMindCloud];
+       NSString * userId = [UserPropertiesHelper userID];
+       [mindcloud saveCategories:userId withData:categoriesData andCallback:^{
+           NSLog(@"Categories Saved");
+       }];
+       self.shouldSaveCategories = NO;
+   }
 }
 @end

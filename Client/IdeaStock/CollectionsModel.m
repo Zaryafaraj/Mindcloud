@@ -222,32 +222,39 @@ belonging to that category*/
 -(void) applyCategories:(NSDictionary *)categories
         toCollections: (NSArray *) collections
 {
-    NSMutableDictionary * uncategorized = [NSMutableDictionary dictionary];
+    NSMutableDictionary * uncategorizedCollections = [NSMutableDictionary dictionary];
+    //initially all the collections are uncategorized
     for (NSString * collection in collections)
     {
-        uncategorized[collection] = @YES;
+        uncategorizedCollections[collection] = @YES;
     }
     
-    for (NSString * key in categories)
+    for (NSString * categoryName in categories)
     {
-        self.collections[key] = categories[key];
-        for (NSString * categorizedCollection in categories[key])
+        //for each category in the applied categories, create an empty category
+        self.collections[categoryName] = [NSMutableArray array];
+        //populate the empty category only what it contains are in the list of collectiosn
+        for (NSString * collectionForCategorization in categories[categoryName])
         {
-            uncategorized[collections] = @NO;
+            if (uncategorizedCollections[collectionForCategorization] != nil)
+            {
+                uncategorizedCollections[collectionForCategorization] = @NO;
+                [self.collections[categoryName] addObject:collectionForCategorization];
+            }
         }
     }
     
     NSMutableArray * uncategorizedArray = [NSMutableArray array];
-    for (NSString * collection in uncategorized)
+    for (NSString * collection in uncategorizedCollections)
     {
-        if (uncategorized[collection])
+        if (uncategorizedCollections[collection] == @YES)
         {
             [uncategorizedArray addObject:collection];
         }
     }
     
-    self.collections[ALL] = [collections copy];
-    self.collections[UNCATEGORIZED_KEY] = uncategorized;
+    self.collections[ALL] = [collections mutableCopy];
+    self.collections[UNCATEGORIZED_KEY] = [uncategorizedArray mutableCopy];
 }
 
 
