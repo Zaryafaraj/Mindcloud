@@ -63,9 +63,9 @@
     _isInCategorizeMode = isInCategorizeMode;
     if (_isInCategorizeMode)
     {
-//        self.categorizeButton.title = DONE_BUTTON;
-//        self.lastCategorizeButtonColor = self.categorizeButton.tintColor;
-//        self.categorizeButton.tintColor = self.cancelButton.tintColor;
+        //        self.categorizeButton.title = DONE_BUTTON;
+        //        self.lastCategorizeButtonColor = self.categorizeButton.tintColor;
+        //        self.categorizeButton.tintColor = self.cancelButton.tintColor;
         [self.viewDeckController openLeftViewAnimated:YES];
         self.toolbar.items = self.cancelToolbar;
     }
@@ -97,10 +97,10 @@
 #define SYNCHRONIZATION_PERIOD 10
 -(void) startTimer{
     self.timer = [NSTimer scheduledTimerWithTimeInterval: SYNCHRONIZATION_PERIOD
-                                     target:self
-                                   selector:@selector(saveCategories:)
-                                   userInfo:nil
-                                    repeats:YES];
+                                                  target:self
+                                                selector:@selector(saveCategories:)
+                                                userInfo:nil
+                                                 repeats:YES];
 }
 
 -(void) stopTimer{
@@ -125,7 +125,7 @@
         
         NSString * name = ((UILabel *)[((UIView *) sender) subviews][0]).text;
         DropBoxAssociativeBulletinBoard * board = [[DropBoxAssociativeBulletinBoard alloc] initBulletinBoardFromXoomlWithName:name];
-        ((BulletinBoardViewController *) segue.destinationViewController).bulletinBoardName = name; 
+        ((BulletinBoardViewController *) segue.destinationViewController).bulletinBoardName = name;
         ((BulletinBoardViewController *) segue.destinationViewController).parent = self;
         ((BulletinBoardViewController *) segue.destinationViewController).board = board;
     }
@@ -176,8 +176,8 @@
                               withName:currentName
                            withNewName:actualNewName
                           withCallback:^{
-            NSLog(@"collection %@ renamed to %@", currentName, newName);
-        }];
+                              NSLog(@"collection %@ renamed to %@", currentName, newName);
+                          }];
         [self.model renameCollection:currentName
                           inCategory:self.currentCategory
                      toNewCollection:actualNewName];
@@ -227,8 +227,8 @@
         [mindcloud deleteCollectionFor:userId
                               withName:collectionName
                           withCallback:^{
-            NSLog(@"Collection %@ Deleted", collectionName);
-        }];
+                              NSLog(@"Collection %@ Deleted", collectionName);
+                          }];
     }
     [self.collectionView performBatchUpdates:^{
         [self.collectionView deleteItemsAtIndexPaths:selectedItems];
@@ -348,7 +348,7 @@
                 self.shouldSaveCategories = YES;
             }
             else if ([[alertView buttonTitleAtIndex:buttonIndex]
-                 isEqualToString:RENAME_BUTTON_TITLE])
+                      isEqualToString:RENAME_BUTTON_TITLE])
             {
                 NSString * newName = [[alertView textFieldAtIndex:0] text];
                 [self renameCollection:newName];
@@ -398,14 +398,14 @@
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
     [mindcloud getAllCollectionsFor:userId
-                          WithCallback:^(NSArray * collection)
-                 {
-                     NSLog(@"Collections Refreshed");
-                     NSLog(@"%@", collection);
-                     self.model = [[CollectionsModel alloc] initWithCollections:collection];
-                     [self.collectionView reloadData];
-                     [self.categoriesController.table reloadData];
-                 }];
+                       WithCallback:^(NSArray * collection)
+     {
+         NSLog(@"Collections Refreshed");
+         NSLog(@"%@", collection);
+         self.model = [[CollectionsModel alloc] initWithCollections:collection];
+         [self.collectionView reloadData];
+         [self.categoriesController.table reloadData];
+     }];
 }
 
 - (IBAction)categorizedPressed:(id)sender {
@@ -439,26 +439,26 @@
     NSString * userId = [UserPropertiesHelper userID];
     self.model = [[CollectionsModel alloc] init];
     [mindcloud getAllCollectionsFor:userId
-                          WithCallback:^(NSArray * collection)
-                 {
-                     NSLog(@"Collections Retrieved");
-                     NSLog(@"%@", collection);
-                     self.model = [[CollectionsModel alloc] initWithCollections:collection];
-                     [self.collectionView reloadData];
-                     [self.categoriesController.table reloadData];
-                     [self configureCategoriesPanel];
-                 }];
+                       WithCallback:^(NSArray * collection)
+     {
+         NSLog(@"Collections Retrieved");
+         NSLog(@"%@", collection);
+         self.model = [[CollectionsModel alloc] initWithCollections:collection];
+         [self.collectionView reloadData];
+         [self.categoriesController.table reloadData];
+         [self configureCategoriesPanel];
+     }];
     [mindcloud getCategories:userId withCallback:^(NSData * categories)
-                 {
-                     NSLog(@"Categories Retrieved");
-                     NSDictionary * dict = [XoomlCategoryParser deserializeXooml:categories];
-                     [self.model applyCategories:dict];
-                     [self.collectionView reloadData];
-                     [self.categoriesController.table reloadData];
-                     //to synchronize the categories with reality
-                     self.shouldSaveCategories = YES;
-                     [self saveCategories];
-                 }];
+     {
+         NSLog(@"Categories Retrieved");
+         NSDictionary * dict = [XoomlCategoryParser deserializeXooml:categories];
+         [self.model applyCategories:dict];
+         [self.collectionView reloadData];
+         [self.categoriesController.table reloadData];
+         //to synchronize the categories with reality
+         self.shouldSaveCategories = YES;
+         [self saveCategories];
+     }];
     [self startTimer];
 }
 
@@ -504,8 +504,8 @@
             [editbar addObject:barButton];
         }
         else if ([barButton.title isEqual: RENAME_BUTTON] ||
-            [barButton.title isEqual: DELETE_BUTTON] ||
-            [barButton.title isEqual: CATEGORIZE_BUTTON])
+                 [barButton.title isEqual: DELETE_BUTTON] ||
+                 [barButton.title isEqual: CATEGORIZE_BUTTON])
         {
             [editbar addObject:barButton];
         }
@@ -523,7 +523,7 @@
     self.editToolbar = [editbar copy];
     self.navigateToolbar = [navbar copy];
     self.cancelToolbar = [cancelbar copy];
-
+    
 }
 
 
@@ -570,21 +570,34 @@
 -(UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionCell" forIndexPath:indexPath];
-    NSString * text = [self.model getCollectionAt:indexPath.item forCategory:self.currentCategory];
+    NSString * collectionName = [self.model getCollectionAt:indexPath.item forCategory:self.currentCategory];
     if ([cell isKindOfClass:[CollectionCell class]])
     {
         CollectionCell * colCell = (CollectionCell *)cell;
-        colCell.text = text;
+        colCell.text = collectionName;
+        
         //we lazily load images and make sure we cache them
         //so any time that a cell is asked for we retrieve and cache the imag
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
-        [mindcloud getPreviewImageForUser:userID
-                            forCollection:text
-                             withCallback:^(NSData * imgData)
-         {
-             colCell.img = [UIImage imageWithData:imgData];
-         }];
+        NSData * previewImageData = [self.model getImageDataForCollection: collectionName];
+        if (previewImageData == nil)
+        {
+            [mindcloud getPreviewImageForUser:userID
+                                forCollection:collectionName
+                                 withCallback:^(NSData * imgData)
+             {
+                 [self.model setImageData: imgData forCollection: collectionName];
+                 if ([colCell.text isEqualToString:collectionName])
+                 {
+                     colCell.img = [UIImage imageWithData:imgData];
+                 }
+             }];
+        }
+        else
+        {
+            colCell.img = [UIImage imageWithData:previewImageData];
+        }
     }
     
     return cell;
@@ -807,15 +820,15 @@
 
 -(void) saveCategories
 {
-   if (self.shouldSaveCategories)
-   {
-       NSData * categoriesData = [XoomlCategoryParser serializeToXooml:self.model];
-       Mindcloud * mindcloud = [Mindcloud getMindCloud];
-       NSString * userId = [UserPropertiesHelper userID];
-       [mindcloud saveCategories:userId withData:categoriesData andCallback:^{
-           NSLog(@"Categories Synchronized");
-       }];
-       self.shouldSaveCategories = NO;
-   }
+    if (self.shouldSaveCategories)
+    {
+        NSData * categoriesData = [XoomlCategoryParser serializeToXooml:self.model];
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userId = [UserPropertiesHelper userID];
+        [mindcloud saveCategories:userId withData:categoriesData andCallback:^{
+            NSLog(@"Categories Synchronized");
+        }];
+        self.shouldSaveCategories = NO;
+    }
 }
 @end

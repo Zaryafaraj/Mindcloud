@@ -14,10 +14,28 @@
 /*Dictionary of arrays keyed on the category name. Each array contains all the collections
  belonging to that category*/
 @property (nonatomic, strong) NSMutableDictionary * collections;
+@property (atomic, strong) NSMutableDictionary * collectionImages;
 
 @end
 
 @implementation CollectionsModel
+
+
+@synthesize collectionImages = _collectionImages;
+
+-(NSMutableDictionary *) collectionImages
+{
+    if (_collectionImages == nil)
+    {
+        _collectionImages = [NSMutableDictionary dictionary];
+    }
+    return _collectionImages;
+}
+
+-(void) setCollectionImages:(NSMutableDictionary *)collectionImages
+{
+    self.collectionImages = collectionImages;
+}
 
 -(id) init
 {
@@ -297,6 +315,17 @@
         return YES;
     }
     
+}
+
+-(void) setImageData:(NSData *)imgData
+       forCollection:(NSString *)collectionName
+{
+    self.collectionImages[collectionName] = imgData;
+}
+
+-(NSData *)getImageDataForCollection:(NSString *)collectionName
+{
+    return self.collectionImages[collectionName];
 }
 
 #pragma mark CategoryModelProtocol

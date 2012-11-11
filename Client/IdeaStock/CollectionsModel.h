@@ -44,4 +44,9 @@
 
 -(NSString *) getCollectionAt:(int)index
                   forCategory:(NSString *)cat;
+
+-(void) setImageData: (NSData *) imgData
+       forCollection: (NSString *) collectionName;
+
+-(NSData *) getImageDataForCollection: (NSString *) collectionName;
 @end
