@@ -1,6 +1,7 @@
 """
 Created for Mindcloud
 """
+import urllib2
 from tornado import gen
 from Storage.StorageResponse import StorageResponse
 
@@ -19,6 +20,8 @@ class CollectionImageHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @gen.engine
     def get(self, user_id, collection_name):
+        collection_name = urllib2.unquote(collection_name)
+        print collection_name
         thumbnail = yield gen.Task(StorageServer.get_thumbnail, user_id, collection_name)
         if thumbnail is None:
             self.set_status(StorageResponse.NOT_FOUND)

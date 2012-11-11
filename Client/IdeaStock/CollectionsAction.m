@@ -88,6 +88,7 @@
 {
     NSString * url = [self.request.URL absoluteString];
     url = [url stringByAppendingFormat:@"/%@",self.deleteResource];
+    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     self.request.URL = [NSURL URLWithString:url];
     [super executeDELETE];
 }
@@ -97,6 +98,7 @@
     [self.request setHTTPMethod:@"PUT"];
     NSString * url = [self.request.URL absoluteString];
     url = [url stringByAppendingFormat:@"/%@",self.deleteResource];
+    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     self.request.URL = [NSURL URLWithString:url];
     self.request = [HTTPHelper addPutParams:self.putArguments to:self.request];
     
