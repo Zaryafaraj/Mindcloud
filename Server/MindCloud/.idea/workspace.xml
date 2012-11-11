@@ -22,19 +22,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TornadoMain.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="TornadoMain.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TornadoMain.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="118" selection-start="851" selection-end="851" vertical-scroll-proportion="0.4562607">
+            <state line="24" column="135" selection-start="868" selection-end="868" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CollectionImageHandler.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="CollectionImageHandler.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Handlers/CollectionImageHandler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="0" selection-start="515" selection-end="515" vertical-scroll-proportion="0.0">
+            <state line="23" column="0" selection-start="574" selection-end="574" vertical-scroll-proportion="0.6694631">
               <folding>
                 <element signature="e#30#44#0" expanded="true" />
               </folding>
@@ -81,14 +81,14 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/Handlers/CollectionImageHandler.py" />
         <option value="$PROJECT_DIR$/TornadoMain.py" />
+        <option value="$PROJECT_DIR$/Handlers/CollectionImageHandler.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-21" />
-    <option name="y" value="39" />
+    <option name="x" value="269" />
+    <option name="y" value="142" />
     <option name="width" value="1680" />
     <option name="height" value="1050" />
   </component>
@@ -255,7 +255,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-21" y="39" width="1680" height="1050" extended-state="6" />
+    <frame x="269" y="142" width="1680" height="1050" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -266,7 +266,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32938644" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32938644" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -362,19 +362,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Handlers/CollectionImageHandler.py">
+    <entry file="file://$PROJECT_DIR$/TornadoMain.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="515" selection-end="515" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#30#44#0" expanded="true" />
-          </folding>
+        <state line="24" column="135" selection-start="868" selection-end="868" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TornadoMain.py">
+    <entry file="file://$PROJECT_DIR$/Handlers/CollectionImageHandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="118" selection-start="851" selection-end="851" vertical-scroll-proportion="0.4562607">
-          <folding />
+        <state line="23" column="0" selection-start="574" selection-end="574" vertical-scroll-proportion="0.6694631">
+          <folding>
+            <element signature="e#30#44#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
