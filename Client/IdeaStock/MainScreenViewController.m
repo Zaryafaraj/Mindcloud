@@ -94,7 +94,7 @@
 }
 
 #pragma mark - Timer
-#define SYNCHRONIZATION_PERIOD 2
+#define SYNCHRONIZATION_PERIOD 10
 -(void) startTimer{
     self.timer = [NSTimer scheduledTimerWithTimeInterval: SYNCHRONIZATION_PERIOD
                                      target:self
@@ -433,9 +433,7 @@
     [self configureCategoriesPanel];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(bulletinBoardsRead:)
-                                                 name:@"BulletinboardsLoaded" 
-                                               object:nil];
+                                             selector:@selector(ApplicationHasGoneInBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
@@ -523,6 +521,14 @@
     self.navigateToolbar = [navbar copy];
     self.cancelToolbar = [cancelbar copy];
 
+}
+
+
+-(void) ApplicationHasGoneInBackground:(NSNotification *) notification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self saveCategories];
+    [self stopTimer];
 }
 -(void) viewDidUnload{
     
@@ -722,6 +728,8 @@
     {
         NSString * categoryName = cell.textLabel.text;
         
+        if ([self.currentCategory isEqualToString:categoryName]) return;
+        
         if ([categoryName isEqualToString:ALL]) return;
         
         for(NSIndexPath * index in [self.collectionView indexPathsForSelectedItems])
@@ -792,7 +800,7 @@
        Mindcloud * mindcloud = [Mindcloud getMindCloud];
        NSString * userId = [UserPropertiesHelper userID];
        [mindcloud saveCategories:userId withData:categoriesData andCallback:^{
-           NSLog(@"Categories Saved");
+           ;
        }];
        self.shouldSaveCategories = NO;
    }

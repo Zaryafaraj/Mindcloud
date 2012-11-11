@@ -255,7 +255,8 @@
     
     if (collections == nil) self.collections = [NSMutableArray array];
     else self.collections[ALL] = [collections mutableCopy];
-    self.collections[UNCATEGORIZED_KEY] = [uncategorizedArray mutableCopy];
+    if (uncategorizedArray == nil) self.collections[UNCATEGORIZED_KEY] = [NSMutableArray array];
+    else self.collections[UNCATEGORIZED_KEY] = [uncategorizedArray mutableCopy];
 }
 
 
