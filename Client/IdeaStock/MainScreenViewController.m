@@ -455,6 +455,9 @@
                      [self.model applyCategories:dict];
                      [self.collectionView reloadData];
                      [self.categoriesController.table reloadData];
+                     //to synchronize the categories with reality
+                     self.shouldSaveCategories = YES;
+                     [self saveCategories];
                  }];
     [self startTimer];
 }
@@ -800,7 +803,7 @@
        Mindcloud * mindcloud = [Mindcloud getMindCloud];
        NSString * userId = [UserPropertiesHelper userID];
        [mindcloud saveCategories:userId withData:categoriesData andCallback:^{
-           ;
+           NSLog(@"Categories Synchronized");
        }];
        self.shouldSaveCategories = NO;
    }

@@ -88,6 +88,7 @@
 		DB57E4CA16450594005C54CD /* ButtonMenu.png in Resources */ = {isa = PBXBuildFile; fileRef = DB57E4C916450594005C54CD /* ButtonMenu.png */; };
 		DB57E4CC16450B86005C54CD /* menubars.png in Resources */ = {isa = PBXBuildFile; fileRef = DB57E4CB16450B86005C54CD /* menubars.png */; };
 		DB712C87164EF678008E68C6 /* CategoriesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB712C86164EF678008E68C6 /* CategoriesAction.m */; };
+		DB712C8B164F42D1008E68C6 /* PreviewImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB712C8A164F42D1008E68C6 /* PreviewImageAction.m */; };
 		DB7AC5DA1643A52A007756E6 /* CollectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5D91643A52A007756E6 /* CollectionsViewController.m */; };
 		DB7AC5E31643A9AF007756E6 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5E01643A9AE007756E6 /* IIViewDeckController.m */; };
 		DB7AC5E41643A9AF007756E6 /* WrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5E21643A9AF007756E6 /* WrapController.m */; };
@@ -243,6 +244,8 @@
 		DB57E4CB16450B86005C54CD /* menubars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menubars.png; sourceTree = "<group>"; };
 		DB712C85164EF678008E68C6 /* CategoriesAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesAction.h; sourceTree = "<group>"; };
 		DB712C86164EF678008E68C6 /* CategoriesAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesAction.m; sourceTree = "<group>"; };
+		DB712C89164F42D0008E68C6 /* PreviewImageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewImageAction.h; sourceTree = "<group>"; };
+		DB712C8A164F42D1008E68C6 /* PreviewImageAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviewImageAction.m; sourceTree = "<group>"; };
 		DB7AC5D81643A52A007756E6 /* CollectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionsViewController.h; sourceTree = "<group>"; };
 		DB7AC5D91643A52A007756E6 /* CollectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionsViewController.m; sourceTree = "<group>"; };
 		DB7AC5DF1643A9AE007756E6 /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IIViewDeckController.h; path = ../IIViewDeckController.h; sourceTree = "<group>"; };
@@ -624,6 +627,8 @@
 				DBC7C4C216327F1900BF3F2D /* CollectionsAction.m */,
 				DB712C85164EF678008E68C6 /* CategoriesAction.h */,
 				DB712C86164EF678008E68C6 /* CategoriesAction.m */,
+				DB712C89164F42D0008E68C6 /* PreviewImageAction.h */,
+				DB712C8A164F42D1008E68C6 /* PreviewImageAction.m */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -828,6 +833,7 @@
 				DBFB7AE21644D5C2004049A9 /* CategoriesViewController.m in Sources */,
 				DB225AC1164CD5D90094BFC9 /* XoomlCategoryParser.m in Sources */,
 				DB712C87164EF678008E68C6 /* CategoriesAction.m in Sources */,
+				DB712C8B164F42D1008E68C6 /* PreviewImageAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
