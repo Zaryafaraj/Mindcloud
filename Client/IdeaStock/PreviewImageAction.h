@@ -10,7 +10,7 @@
 
 @interface PreviewImageAction : MindcloudBaseAction
 
-typedef void (^get_preview_callback)(NSData * category);
+typedef void (^get_preview_callback)(NSData * imgData);
 typedef void (^save_preview_callback)(void);
 
 @property (nonatomic, strong) get_preview_callback getCallback;

@@ -575,6 +575,16 @@
     {
         CollectionCell * colCell = (CollectionCell *)cell;
         colCell.text = text;
+        //we lazily load images and make sure we cache them
+        //so any time that a cell is asked for we retrieve and cache the imag
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userID = [UserPropertiesHelper userID];
+        [mindcloud getPreviewImageForUser:userID
+                            forCollection:text
+                             withCallback:^(NSData * imgData)
+         {
+             colCell.img = [UIImage imageWithData:imgData];
+         }];
     }
     
     return cell;
