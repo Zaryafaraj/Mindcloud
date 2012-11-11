@@ -31,20 +31,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CollectionImageHandler.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="CollectionImageHandler.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Handlers/CollectionImageHandler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="57" selection-start="979" selection-end="979" vertical-scroll-proportion="0.0">
+            <state line="26" column="11" selection-start="741" selection-end="741" vertical-scroll-proportion="0.5266075">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StorageServer.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="StorageServer.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Storage/StorageServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="4" selection-start="385" selection-end="385" vertical-scroll-proportion="0.2992126">
+            <state line="179" column="12" selection-start="7112" selection-end="7112" vertical-scroll-proportion="0.0">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="client.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AsynchDropbox/client.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="340" column="0" selection-start="14213" selection-end="14213" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#38#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -65,8 +76,16 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/Handlers/CollectionImageHandler.py" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1680" />
+    <option name="x" value="-21" />
+    <option name="y" value="39" />
     <option name="width" value="1680" />
     <option name="height" value="1050" />
   </component>
@@ -125,6 +144,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Handlers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MindCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MindCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AsynchDropbox" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -219,7 +252,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1680" y="0" width="1680" height="1050" extended-state="6" />
+    <frame x="-21" y="39" width="1680" height="1050" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -310,16 +343,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Handlers/CollectionImageHandler.py">
+    <entry file="file://$PROJECT_DIR$/Storage/StorageServer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="57" selection-start="979" selection-end="979" vertical-scroll-proportion="0.0">
+        <state line="179" column="12" selection-start="7112" selection-end="7112" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Storage/StorageServer.py">
+    <entry file="file://$PROJECT_DIR$/AsynchDropbox/client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="4" selection-start="385" selection-end="385" vertical-scroll-proportion="0.2992126">
+        <state line="340" column="0" selection-start="14213" selection-end="14213" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Handlers/CollectionImageHandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="11" selection-start="741" selection-end="741" vertical-scroll-proportion="0.5266075">
           <folding />
         </state>
       </provider>

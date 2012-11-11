@@ -20,8 +20,11 @@ class CollectionImageHandler(tornado.web.RequestHandler):
     @gen.engine
     def get(self, user_id, collection_name):
         thumbnail = yield gen.Task(StorageServer.get_thumbnail, user_id, collection_name)
-        self.write(thumbnail.read())
-        self.set_header('Content-Type', 'image/jpeg')
+        if thumbnail is None:
+            self.set_status(StorageResponse.NOT_FOUND)
+        else:
+            self.write(thumbnail.read())
+            self.set_header('Content-Type', 'image/jpeg')
         self.finish()
 
     @tornado.web.asynchronous
