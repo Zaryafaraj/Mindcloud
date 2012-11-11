@@ -10,6 +10,7 @@
 #import "CollectionsAction.h"
 #import "AuthorizationDelegate.h"
 #import "CategoriesAction.h"
+#import "PreviewImageAction.h"
 
 @interface Mindcloud : NSObject
 
@@ -45,4 +46,13 @@
 -(void) saveCategories: (NSString *) userId
               withData:(NSData *)categoriesData
            andCallback: (save_categories_callback) callback;
+
+-(void) getPreviewImageForUser: (NSString *) userName
+                 forCollection: (NSString *) collectionName
+                  withCallback:(get_preview_callback) callback;
+
+-(void) setPreviewImageForUser: (NSString *) userName
+                 forCollection: (NSString *) collectionName
+                  andImageData: (NSData *) imgData
+                  withCallback: (save_preview_callback) callback;
 @end

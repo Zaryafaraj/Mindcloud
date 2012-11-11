@@ -151,4 +151,26 @@ static Mindcloud * instance;
     action.categoriesData = categoriesData;
     [action executePOST];
 }
+
+-(void) getPreviewImageForUser: (NSString *) userName
+                 forCollection: (NSString *) collectionName
+                  withCallback:(get_preview_callback) callback
+{
+    PreviewImageAction * action = [[PreviewImageAction alloc] initWithUserID:userName
+                                                               andCollection:collectionName];
+    action.getCallback = callback;
+    [action executeGET];
+}
+
+-(void) setPreviewImageForUser: (NSString *) userName
+                 forCollection: (NSString *) collectionName
+                  andImageData: (NSData *) imgData
+                  withCallback: (save_preview_callback) callback
+{
+    PreviewImageAction * action = [[PreviewImageAction alloc] initWithUserID:userName
+                                                               andCollection:collectionName];
+    action.postCallback = callback;
+    action.previewData = imgData;
+    [action executePOST];
+}
 @end
