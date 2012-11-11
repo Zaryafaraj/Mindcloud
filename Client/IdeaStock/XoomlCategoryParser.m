@@ -33,7 +33,7 @@
     [root addNamespace: [DDXMLNode namespaceWithName:@"xooml" stringValue: XOOML_NAMESPACE]];
     [root addAttribute: [DDXMLNode attributeWithName:@"xsi:schemaLocation" stringValue: XOOML_SCHEMA_LOCATION]];
     
-    NSArray * categories = [model getAllCategories];
+    NSArray * categories = [model getAllSerializableCategories];
     for (NSString * categoryName in categories)
     {
         DDXMLElement * category = [[DDXMLElement alloc] initWithName:XOOML_FRAGMENT];
@@ -41,7 +41,7 @@
                                        stringValue:@"2"]];
         [category addAttribute:[DDXMLNode attributeWithName:ITEM_DESCRIBED
                                                 stringValue:categoryName]];
-        for(NSString * collectionName in [model getCollectionsForCategory:categoryName])
+        for(NSString * collectionName in [model getSerializableCollectionsForCategory:categoryName])
         {
             DDXMLElement * collection = [[DDXMLElement alloc] initWithName:XOOML_ASSOCIATION];
             [collection addAttribute:[DDXMLNode attributeWithName:@"ID"

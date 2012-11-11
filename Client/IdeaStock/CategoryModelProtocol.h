@@ -10,13 +10,7 @@
 
 @protocol CategoryModelProtocol <NSObject>
 
--(NSArray *) getAllCategories;
--(NSArray *) getCollectionsForCategory: (NSString *) category;
--(int) numberOfCollectionsInCategory: (NSString *) category;
--(int) numberOfCategories;
-
-@optional
-
--(NSString *) getCollectionAt: (int) index forCategory: (NSString *) cat;
+-(NSArray *) getAllSerializableCategories;
+-(NSArray *) getSerializableCollectionsForCategory: (NSString *) category;
 
 @end

@@ -18,6 +18,9 @@
 
 -(void) applyCategories:(NSDictionary *) categories;
 
+-(NSArray *) getAllCategories;
+-(NSArray *) getCollectionsForCategory: (NSString *) category;
+
 -(void) addCollection: (NSString *) collection toCategory: (NSString *) category;
 -(void) addCategory: (NSString *) category;
 -(void) removeCollection:(NSString *) collection fromCategory: (NSString *) cateogry;
@@ -35,4 +38,10 @@
 
 -(BOOL) canRemoveCategory: (NSString *) category;
 
+-(int) numberOfCollectionsInCategory: (NSString *) category;
+
+-(int) numberOfCategories;
+
+-(NSString *) getCollectionAt:(int)index
+                  forCategory:(NSString *)cat;
 @end

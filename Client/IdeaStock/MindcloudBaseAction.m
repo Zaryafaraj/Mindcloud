@@ -127,12 +127,12 @@
     // do something with the data
     // receivedData is declared as a method instance elsewhere
     //enable for debug
-    NSLog(@"Succeeded! Received %d bytes of data",[self.receivedData length]);
-    if ([self.receivedData length] > 0)
-    {
-        NSString *dataStr = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
-        //enable for debug
-        NSLog(@"%@", dataStr);
-    }
+//    NSLog(@"Succeeded! Received %d bytes of data",[self.receivedData length]);
+//    if ([self.receivedData length] > 0)
+//    {
+//        NSString *dataStr = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
+//        //enable for debug
+//        NSLog(@"%@", dataStr);
+//    }
 }
 @end

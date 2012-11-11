@@ -12,7 +12,7 @@
 @interface CollectionsModel()
 
 /*Dictionary of arrays keyed on the category name. Each array contains all the collections
-belonging to that category*/
+ belonging to that category*/
 @property (nonatomic, strong) NSMutableDictionary * collections;
 
 @end
@@ -187,8 +187,8 @@ belonging to that category*/
             {
                 if ([self.collections[category] containsObject:collection])
                 {
-                [self.collections[category] removeObject:collection];
-                [self.collections[category] addObject:newCollection];
+                    [self.collections[category] removeObject:collection];
+                    [self.collections[category] addObject:newCollection];
                     
                 }
             }
@@ -220,7 +220,7 @@ belonging to that category*/
 }
 
 -(void) applyCategories:(NSDictionary *)categories
-        toCollections: (NSArray *) collections
+          toCollections: (NSArray *) collections
 {
     NSMutableDictionary * uncategorizedCollections = [NSMutableDictionary dictionary];
     //initially all the collections are uncategorized
@@ -253,7 +253,8 @@ belonging to that category*/
         }
     }
     
-    self.collections[ALL] = [collections mutableCopy];
+    if (collections == nil) self.collections = [NSMutableArray array];
+    else self.collections[ALL] = [collections mutableCopy];
     self.collections[UNCATEGORIZED_KEY] = [uncategorizedArray mutableCopy];
 }
 
@@ -262,13 +263,13 @@ belonging to that category*/
 {
     for (NSString * category in self.collections)
     {
-       for (NSString * collection in self.collections[category])
-       {
-           if ([name isEqualToString:collection])
-           {
-               return true;
-           }
-       }
+        for (NSString * collection in self.collections[category])
+        {
+            if ([name isEqualToString:collection])
+            {
+                return true;
+            }
+        }
     }
     return false;
 }
@@ -295,5 +296,26 @@ belonging to that category*/
         return YES;
     }
     
+}
+
+#pragma mark CategoryModelProtocol
+-(NSArray *)getAllSerializableCategories
+{
+    NSMutableArray * serializableCategories = [[self.collections allKeys] mutableCopy];
+    [serializableCategories removeObject:ALL];
+    [serializableCategories removeObject:UNCATEGORIZED_KEY];
+    return [serializableCategories copy];
+}
+
+-(NSArray *) getSerializableCollectionsForCategory:(NSString *)category
+{
+    if (self.collections[category] == nil)
+    {
+        return [NSArray array];
+    }
+    else
+    {
+        return [self getCollectionsForCategory:category];
+    }
 }
 @end
