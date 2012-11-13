@@ -113,6 +113,11 @@ class CollectnTests(AsyncHTTPTestCase):
 
         print url
         #cleanup
-        #url = '/'.join(['',self.account_id, 'Collections', collection_name])
-        #self.fetch(path=url, method='DELETE')
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+
+    def test_get_manifest_non_existing(self):
+        url = '/'.join(['', self.account_id, 'Collections', 'dummy'])
+        response = self.fetch(path=url, method= 'GET')
+        self.assertEquals(404, response.code)
 
