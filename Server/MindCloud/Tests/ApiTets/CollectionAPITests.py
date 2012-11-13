@@ -81,3 +81,17 @@ class CollectnTests(AsyncHTTPTestCase):
         url = '/'.join(['',self.account_id, 'Collections', collection_name])
         self.fetch(path=url, method='DELETE')
 
+    def test_save_manifest_no_file(self):
+        collection_name = 'collName1'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+        url = '/'.join(['', self.account_id, 'Collections', collection_name])
+        response = self.fetch(path=url, method='POST', body='')
+        self.assertEquals(400, response.code)
+
+        #cleanup
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+
