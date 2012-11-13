@@ -229,3 +229,21 @@ class StorageServerTests(AsyncTestCase):
         StorageServer.remove_categories(self.__account_id, callback=self.stop)
         self.wait()
 
+    def test_save_collection_manifest(self):
+        collection_name = "dummy"
+        StorageServer.add_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+        collection_file = open('../test_resources/collection.xml')
+        StorageServer.save_collection_manifest(self.__account_id,
+            collection_name, collection_file, callback=self.stop)
+        self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #clean up
+       # StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+       # self.wait()
+
+    def test_save_collection_manifest_invalid_collection(self):
+        pass

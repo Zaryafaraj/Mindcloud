@@ -94,7 +94,7 @@
 }
 
 #pragma mark - Timer
-#define SYNCHRONIZATION_PERIOD 10
+#define SYNCHRONIZATION_PERIOD 3
 -(void) startTimer{
     self.timer = [NSTimer scheduledTimerWithTimeInterval: SYNCHRONIZATION_PERIOD
                                                   target:self

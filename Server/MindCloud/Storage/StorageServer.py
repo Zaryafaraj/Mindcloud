@@ -17,7 +17,7 @@ class StorageServer:
 
     __THUMBNAIL_FILENAME = 'thumbnail.jpg'
     __CATEGORIES_FILENAME = 'categories.xml'
-    __COLLECTION_FILE_NAME = 'xooml.xml'
+    __COLLECTION_FILE_NAME = 'collection.xml'
 
     __EMPTY_CATEGORIES = '<?xml version="1.0" encoding="UTF-8"?><root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xooml="http://kftf.ischool.washington.edu/xmlns/xooml" xsi:schemaLocation="http://kftf.ischool.washington.edu/xmlns/xooml http://kftf.ischool.washington.edu/XMLschema/0.41/XooML.xsd"></root>'
 
@@ -94,6 +94,35 @@ class StorageServer:
                 result_code = yield gen.Task(DropboxHelper.create_folder,storage, collection_name)
 
             callback(result_code)
+        else:
+            callback(StorageResponse.SERVER_EXCEPTION)
+
+    @staticmethod
+    @gen.engine
+    def save_collection_manifest(user_id, collection_name, manifest_file, callback):
+        """
+        Saves a collection manifest containing the description of the collection
+
+        Args:
+            - ``user_id``: user id corresponding to the user
+            - ``collection_name``: The name of the collection to save the manifest.
+            We assume that this name has been validate prior to calling
+            - `manifest_file`: The file to save as manifest
+
+        Returns:
+            -A storageResponse status code that represents the status of the
+            server will be passed to the callback
+        """
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
+        if storage is not None:
+            file_closure = manifest_file
+            if file_closure is not None:
+                parent_path = '/' + collection_name
+                result_code = yield gen.Task(DropboxHelper.add_file, storage, parent_path,
+                    file_closure, file_name = StorageServer.__COLLECTION_FILE_NAME)
+                callback(result_code)
+            else:
+                callback(StorageResponse.SERVER_EXCEPTION)
         else:
             callback(StorageResponse.SERVER_EXCEPTION)
 
@@ -270,4 +299,5 @@ class StorageServer:
             callback(result_code)
         else:
             callback(StorageResponse.SERVER_EXCEPTION)
+
 
