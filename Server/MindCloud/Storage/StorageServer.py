@@ -128,6 +128,30 @@ class StorageServer:
 
     @staticmethod
     @gen.engine
+    def get_collection_manifest(user_id, collection_name, callback):
+
+        """
+        Returns the manifest for the collection
+
+        Args:
+            - ``user_id``: user id corresponding to the user
+            - ``collection_name``: The name of the collection for which the
+            manifest will be retrieved .
+
+        Returns:
+            - A file or a file like object containing the manifest or None if the
+            image does not exist or there was a problem retrieving it
+        """
+        manifest_path = "/%s/%s" % (collection_name, StorageServer.__COLLECTION_FILE_NAME)
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
+        if storage is not None:
+            response = yield gen.Task(DropboxHelper.get_file, storage, manifest_path)
+            callback(response)
+        else:
+            callback(None)
+
+    @staticmethod
+    @gen.engine
     def remove_collection(user_id, collection_name, callback):
         """
         Removes a collection from the user collections.

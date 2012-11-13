@@ -257,3 +257,30 @@ class StorageServerTests(AsyncTestCase):
         StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
         self.wait()
 
+    def test_get_collection_manifest(self):
+        collection_name = "dummy"
+        StorageServer.add_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+        collection_file = open('../test_resources/collection.xml')
+        StorageServer.save_collection_manifest(self.__account_id,
+            collection_name, collection_file, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        StorageServer.get_collection_manifest(self.__account_id,
+            collection_name, callback=self.stop)
+        response = self.wait()
+        self.assertTrue(response is not None)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
+    def test_get_collection_manifest_non_existing(self):
+        StorageServer.get_collection_manifest(self.__account_id,
+            'dummy', callback=self.stop)
+        response = self.wait()
+        self.assertTrue(response is None)
+

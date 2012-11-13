@@ -95,3 +95,24 @@ class CollectnTests(AsyncHTTPTestCase):
         url = '/'.join(['',self.account_id, 'Collections', collection_name])
         self.fetch(path=url, method='DELETE')
 
+    def test_get_manifest(self):
+        collection_name = 'collName1'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+        url = '/'.join(['', self.account_id, 'Collections', collection_name])
+        collection_file = open('../test_resources/collection.xml')
+        headers, postData = self._create_multipart_request(collection_file)
+        response = self.fetch(path=url, headers=headers, method='POST',
+            body=postData)
+        self.assertEquals(200, response.code)
+
+        response = self.fetch(path=url, method= 'GET')
+        self.assertEquals(200, response.code)
+
+        print url
+        #cleanup
+        #url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        #self.fetch(path=url, method='DELETE')
+

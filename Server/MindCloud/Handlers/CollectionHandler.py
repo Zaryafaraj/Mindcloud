@@ -12,14 +12,19 @@ from Storage.StorageServer import StorageServer
 
 class CollectionHandler(tornado.web.RequestHandler):
 
-    def get(self, word):
-        self.write('all the collections')
-        print "GET"
-        print word
 
-    def post(self, word):
-        print "POST"
-        print word
+    @tornado.web.asynchronous
+    @gen.engine
+    def get(self, user_id, collection_name):
+        result = yield gen.Task(StorageServer.get_collection_manifest, user_id, collection_name)
+        if result is not None:
+            self.set_status(StorageResponse.OK)
+            self.set_header('Content-Type', 'application/xml')
+            self.write(result.read())
+        else:
+            self.set_status(StorageResponse.NOT_FOUND)
+
+        self.finish()
 
     @tornado.web.asynchronous
     @gen.engine
