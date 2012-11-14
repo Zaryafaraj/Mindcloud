@@ -18,6 +18,7 @@ class StorageServer:
     __THUMBNAIL_FILENAME = 'thumbnail.jpg'
     __CATEGORIES_FILENAME = 'categories.xml'
     __COLLECTION_FILE_NAME = 'collection.xml'
+    __NOTE_FILE_NAME = 'note.xml'
 
     __EMPTY_CATEGORIES = '<?xml version="1.0" encoding="UTF-8"?><root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xooml="http://kftf.ischool.washington.edu/xmlns/xooml" xsi:schemaLocation="http://kftf.ischool.washington.edu/xmlns/xooml http://kftf.ischool.washington.edu/XMLschema/0.41/XooML.xsd"></root>'
 
@@ -324,4 +325,22 @@ class StorageServer:
         else:
             callback(StorageResponse.SERVER_EXCEPTION)
 
+    @staticmethod
+    @gen.engine
+    def add_note_to_collection(user_id, collection_name, note_name,
+                               note_file, callback):
+
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
+        if storage is not None:
+            file_closure = note_file
+            if file_closure is not None:
+                parent_path = '/'.join(['', collection_name, note_name])
+                result_code = yield gen.Task(DropboxHelper.add_file, storage, parent_path,
+                    note_file, file_name = StorageServer.__NOTE_FILE_NAME)
+            else:
+                result_code = yield gen.Task(DropboxHelper.create_folder,storage, collection_name)
+
+            callback(result_code)
+        else:
+            callback(StorageResponse.SERVER_EXCEPTION)
 

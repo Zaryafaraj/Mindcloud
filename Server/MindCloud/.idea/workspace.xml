@@ -21,35 +21,31 @@
     <favorites_list name="MindCloud" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
+    <splitter split-orientation="horizontal" split-proportion="0.47703612">
       <split-first>
         <leaf>
           <file leaf-file-name="StorageServer.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Storage/StorageServer.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="9" column="0" selection-start="229" selection-end="229" vertical-scroll-proportion="0.0">
-                  <folding>
-                    <element signature="e#63#79#0" expanded="true" />
-                  </folding>
+                <state line="31" column="0" selection-start="1146" selection-end="1146" vertical-scroll-proportion="0.0">
+                  <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="StorageServerTests.py" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="StorageServerTests.py" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="280" column="8" selection-start="11685" selection-end="11685" vertical-scroll-proportion="0.0">
-                  <folding>
-                    <element signature="e#0#11#0" expanded="true" />
-                  </folding>
+                <state line="300" column="8" selection-start="12613" selection-end="12613" vertical-scroll-proportion="0.6527546">
+                  <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="CollectionAPITests.py" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="CollectionAPITests.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Tests/ApiTets/CollectionAPITests.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="118" column="8" selection-start="5164" selection-end="5164" vertical-scroll-proportion="0.78130215">
+                <state line="27" column="8" selection-start="852" selection-end="852" vertical-scroll-proportion="0.0">
                   <folding>
                     <element signature="e#0#13#0" expanded="true" />
                   </folding>
@@ -61,9 +57,7 @@
             <entry file="file://$PROJECT_DIR$/Tests/ApiTets/AccountsAPITests.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state line="41" column="28" selection-start="1519" selection-end="1519" vertical-scroll-proportion="0.0">
-                  <folding>
-                    <element signature="e#0#11#0" expanded="true" />
-                  </folding>
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -90,22 +84,20 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="StorageServer.py" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="StorageServer.py" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Storage/StorageServer.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="4" column="23" selection-start="103" selection-end="103" vertical-scroll-proportion="0.0">
+                <state line="331" column="0" selection-start="13018" selection-end="13018" vertical-scroll-proportion="0.6457327">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="CollectionImageHandler.py" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="CollectionImageHandler.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Handlers/CollectionImageHandler.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="22" column="0" selection-start="515" selection-end="515" vertical-scroll-proportion="0.30756843">
-                  <folding>
-                    <element signature="e#30#44#0" expanded="true" />
-                  </folding>
+                <state line="22" column="0" selection-start="515" selection-end="515" vertical-scroll-proportion="0.0">
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -124,10 +116,10 @@
       <list>
         <option value="$PROJECT_DIR$/TornadoMain.py" />
         <option value="$PROJECT_DIR$/Handlers/CollectionImageHandler.py" />
-        <option value="$PROJECT_DIR$/Storage/StorageServer.py" />
-        <option value="$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py" />
         <option value="$PROJECT_DIR$/Handlers/CollectionHandler.py" />
         <option value="$PROJECT_DIR$/Tests/ApiTets/CollectionAPITests.py" />
+        <option value="$PROJECT_DIR$/Storage/StorageServer.py" />
+        <option value="$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py" />
       </list>
     </option>
   </component>
@@ -293,11 +285,11 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.Font" />
+    <property name="recentsLimit" value="5" />
     <property name="FullScreen" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -307,28 +299,7 @@
       <PyConsoleSettings />
     </option>
   </component>
-  <component name="RunManager" selected="Python's test.Unittests in CollectnTests.test_get_manifest_non_existing">
-    <configuration default="false" name="Unittests in StorageServerTests.test_get_collection_manifest" type="tests" factoryName="Unittests" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Tests/UnitTests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <module name="MindCloud" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py" />
-      <option name="CLASS_NAME" value="StorageServerTests" />
-      <option name="METHOD_NAME" value="test_get_collection_manifest" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_METHOD" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python's test.Unittests in StorageServerTests.test_add_note_to_collection">
     <configuration default="false" name="Unittests in StorageServerTests.test_get_collection_manifest_non_existing" type="tests" factoryName="Unittests" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -412,6 +383,27 @@
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
+    <configuration default="false" name="Unittests in StorageServerTests.test_add_note_to_collection" type="tests" factoryName="Unittests" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Tests/UnitTests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="MindCloud" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py" />
+      <option name="CLASS_NAME" value="StorageServerTests" />
+      <option name="METHOD_NAME" value="test_add_note_to_collection" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_METHOD" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -466,11 +458,11 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python's test.Unittests in StorageServerTests.test_get_collection_manifest" />
-      <item index="1" class="java.lang.String" itemvalue="Python's test.Unittests in StorageServerTests.test_get_collection_manifest_non_existing" />
-      <item index="2" class="java.lang.String" itemvalue="Python's test.Unittests in CollectnTests.test_get_manifest" />
-      <item index="3" class="java.lang.String" itemvalue="Python.TornadoMain" />
-      <item index="4" class="java.lang.String" itemvalue="Python's test.Unittests in CollectnTests.test_get_manifest_non_existing" />
+      <item index="0" class="java.lang.String" itemvalue="Python's test.Unittests in StorageServerTests.test_get_collection_manifest_non_existing" />
+      <item index="1" class="java.lang.String" itemvalue="Python's test.Unittests in CollectnTests.test_get_manifest" />
+      <item index="2" class="java.lang.String" itemvalue="Python.TornadoMain" />
+      <item index="3" class="java.lang.String" itemvalue="Python's test.Unittests in CollectnTests.test_get_manifest_non_existing" />
+      <item index="4" class="java.lang.String" itemvalue="Python's test.Unittests in StorageServerTests.test_add_note_to_collection" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -502,18 +494,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1920" height="1106" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12753469" sideWeight="0.21928935" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12753469" sideWeight="0.44467005" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12860192" sideWeight="0.3715736" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12860192" sideWeight="0.2923858" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.328934" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.328934" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -579,7 +571,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/Storage/StorageServer.py</url>
-          <line>117</line>
+          <line>118</line>
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/Handlers/CollectionHandler.py</url>
@@ -595,66 +587,36 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/AsynchDropbox/client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="288" column="0" selection-start="12189" selection-end="12189" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
+        <state line="288" column="0" selection-start="12189" selection-end="12189" vertical-scroll-proportion="0.33333334" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Tests/ApiTets/CategoriesAPITests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="0" selection-start="183" selection-end="183" vertical-scroll-proportion="0.30383974">
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="7" column="0" selection-start="183" selection-end="183" vertical-scroll-proportion="0.30383974" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Handlers/CategoriesHandler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="536" selection-end="536" vertical-scroll-proportion="0.49211356">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Storage/StorageServer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="229" selection-end="229" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#63#79#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="280" column="8" selection-start="11685" selection-end="11685" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TornadoMain.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="130" selection-start="721" selection-end="721" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Handlers/CollectionImageHandler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="515" selection-end="515" vertical-scroll-proportion="0.30756843">
-          <folding>
-            <element signature="e#30#44#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="18" column="0" selection-start="536" selection-end="536" vertical-scroll-proportion="0.49211356" />
       </provider>
     </entry>
     <entry file="file:///Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/ioloop.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="582" column="0" selection-start="21706" selection-end="21706" vertical-scroll-proportion="0.33722872">
-          <folding />
+        <state line="582" column="0" selection-start="21706" selection-end="21706" vertical-scroll-proportion="0.33722872" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/ApiTets/CollectionAPITests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="8" selection-start="852" selection-end="852" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/ApiTets/AccountsAPITests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="28" selection-start="1519" selection-end="1519" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Handlers/CollectionHandler.py">
@@ -664,21 +626,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/ApiTets/AccountsAPITests.py">
+    <entry file="file://$PROJECT_DIR$/TornadoMain.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="28" selection-start="1519" selection-end="1519" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
+        <state line="23" column="130" selection-start="721" selection-end="721" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Handlers/CollectionImageHandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="0" selection-start="515" selection-end="515" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/ApiTets/CollectionAPITests.py">
+    <entry file="file://$PROJECT_DIR$/Storage/StorageServer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="118" column="8" selection-start="5164" selection-end="5164" vertical-scroll-proportion="0.78130215">
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+        <state line="31" column="0" selection-start="1146" selection-end="1146" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="300" column="8" selection-start="12613" selection-end="12613" vertical-scroll-proportion="0.6527546">
+          <folding />
         </state>
       </provider>
     </entry>
