@@ -285,6 +285,7 @@ class StorageServerTests(AsyncTestCase):
         self.assertTrue(response is None)
 
     def test_add_note_to_collection(self):
+
         collection_name = "dummy"
         StorageServer.add_collection(self.__account_id, collection_name,
             callback=self.stop)
@@ -294,6 +295,32 @@ class StorageServerTests(AsyncTestCase):
         note_file = open('../test_resources/note.xml')
         StorageServer.add_note_to_collection(self.__account_id,
             collection_name, note_name, note_file, callback = self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
+    def test_add_note_to_non_existing_collection(self):
+
+        collection_name = 'col_name'
+        note_name = 'noteName'
+        note_file = open('../test_resources/note.xml')
+        StorageServer.add_note_to_collection(self.__account_id,
+            collection_name, note_name, note_file, callback = self.stop)
+        response = self.wait()
+        #Accepted
+        self.assertEqual(StorageResponse.OK, response)
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
+    def test_add_note_to_collection_no_file(self):
+
+        collection_name = 'col_name'
+        note_name = 'noteName'
+        StorageServer.add_note_to_collection(self.__account_id,
+            collection_name, note_name, note_file=None, callback = self.stop)
         response = self.wait()
         self.assertEqual(StorageResponse.OK, response)
         #clean up

@@ -27,16 +27,18 @@
           <file leaf-file-name="StorageServer.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Storage/StorageServer.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="31" column="0" selection-start="1146" selection-end="1146" vertical-scroll-proportion="0.0">
-                  <folding />
+                <state line="344" column="8" selection-start="13611" selection-end="13611" vertical-scroll-proportion="0.0">
+                  <folding>
+                    <marker date="1352877998000" expanded="true" signature="13022:14349" placeholder="..." />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="StorageServerTests.py" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="StorageServerTests.py" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="300" column="8" selection-start="12613" selection-end="12613" vertical-scroll-proportion="0.6527546">
+                <state line="323" column="29" selection-start="13474" selection-end="13474" vertical-scroll-proportion="0.47913188">
                   <folding />
                 </state>
               </provider>
@@ -84,10 +86,10 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="StorageServer.py" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="StorageServer.py" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Storage/StorageServer.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="331" column="0" selection-start="13018" selection-end="13018" vertical-scroll-proportion="0.6457327">
+                <state line="347" column="7" selection-start="13715" selection-end="13715" vertical-scroll-proportion="0.62801933">
                   <folding />
                 </state>
               </provider>
@@ -118,8 +120,8 @@
         <option value="$PROJECT_DIR$/Handlers/CollectionImageHandler.py" />
         <option value="$PROJECT_DIR$/Handlers/CollectionHandler.py" />
         <option value="$PROJECT_DIR$/Tests/ApiTets/CollectionAPITests.py" />
-        <option value="$PROJECT_DIR$/Storage/StorageServer.py" />
         <option value="$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py" />
+        <option value="$PROJECT_DIR$/Storage/StorageServer.py" />
       </list>
     </option>
   </component>
@@ -299,49 +301,7 @@
       <PyConsoleSettings />
     </option>
   </component>
-  <component name="RunManager" selected="Python's test.Unittests in StorageServerTests.test_add_note_to_collection">
-    <configuration default="false" name="Unittests in StorageServerTests.test_get_collection_manifest_non_existing" type="tests" factoryName="Unittests" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Tests/UnitTests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <module name="MindCloud" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py" />
-      <option name="CLASS_NAME" value="StorageServerTests" />
-      <option name="METHOD_NAME" value="test_get_collection_manifest_non_existing" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_METHOD" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Unittests in CollectnTests.test_get_manifest" type="tests" factoryName="Unittests" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Tests/ApiTets" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <module name="MindCloud" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Tests/ApiTets/CollectionAPITests.py" />
-      <option name="CLASS_NAME" value="CollectnTests" />
-      <option name="METHOD_NAME" value="test_get_manifest" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_METHOD" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python's test.Unittests in StorageServerTests.test_add_note_to_collection_no_file">
     <configuration default="false" name="TornadoMain" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -395,6 +355,48 @@
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py" />
       <option name="CLASS_NAME" value="StorageServerTests" />
       <option name="METHOD_NAME" value="test_add_note_to_collection" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_METHOD" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Unittests in StorageServerTests.test_add_note_to_non_existing_collection" type="tests" factoryName="Unittests" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Tests/UnitTests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="MindCloud" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py" />
+      <option name="CLASS_NAME" value="StorageServerTests" />
+      <option name="METHOD_NAME" value="test_add_note_to_non_existing_collection" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_METHOD" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Unittests in StorageServerTests.test_add_note_to_collection_no_file" type="tests" factoryName="Unittests" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Tests/UnitTests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="MindCloud" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py" />
+      <option name="CLASS_NAME" value="StorageServerTests" />
+      <option name="METHOD_NAME" value="test_add_note_to_collection_no_file" />
       <option name="FOLDER_NAME" value="" />
       <option name="TEST_TYPE" value="TEST_METHOD" />
       <option name="PATTERN" value="" />
@@ -458,11 +460,11 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python's test.Unittests in StorageServerTests.test_get_collection_manifest_non_existing" />
-      <item index="1" class="java.lang.String" itemvalue="Python's test.Unittests in CollectnTests.test_get_manifest" />
-      <item index="2" class="java.lang.String" itemvalue="Python.TornadoMain" />
-      <item index="3" class="java.lang.String" itemvalue="Python's test.Unittests in CollectnTests.test_get_manifest_non_existing" />
-      <item index="4" class="java.lang.String" itemvalue="Python's test.Unittests in StorageServerTests.test_add_note_to_collection" />
+      <item index="0" class="java.lang.String" itemvalue="Python.TornadoMain" />
+      <item index="1" class="java.lang.String" itemvalue="Python's test.Unittests in CollectnTests.test_get_manifest_non_existing" />
+      <item index="2" class="java.lang.String" itemvalue="Python's test.Unittests in StorageServerTests.test_add_note_to_collection" />
+      <item index="3" class="java.lang.String" itemvalue="Python's test.Unittests in StorageServerTests.test_add_note_to_non_existing_collection" />
+      <item index="4" class="java.lang.String" itemvalue="Python's test.Unittests in StorageServerTests.test_add_note_to_collection_no_file" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -638,16 +640,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Storage/StorageServer.py">
+    <entry file="file://$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="1146" selection-end="1146" vertical-scroll-proportion="0.0">
+        <state line="323" column="29" selection-start="13474" selection-end="13474" vertical-scroll-proportion="0.47913188">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py">
+    <entry file="file://$PROJECT_DIR$/Storage/StorageServer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="300" column="8" selection-start="12613" selection-end="12613" vertical-scroll-proportion="0.6527546">
+        <state line="347" column="7" selection-start="13715" selection-end="13715" vertical-scroll-proportion="0.62801933">
           <folding />
         </state>
       </provider>

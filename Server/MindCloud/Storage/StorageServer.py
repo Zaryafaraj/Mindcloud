@@ -328,17 +328,33 @@ class StorageServer:
     @staticmethod
     @gen.engine
     def add_note_to_collection(user_id, collection_name, note_name,
-                               note_file, callback):
+                               callback, note_file=None):
+        """
+        Adds a note with note_name to the collection.
+        If note_file is presented it will put the note_file in the folder
+        with the name note_name
 
+        Args:
+            -``user_id``: Id of the user making the request
+            -``collection_name``: Name of the collection that the note
+            will be placed inside of
+            -``note_name``: Name of the note to be put in the collection
+            -``note_file``: Optional, the file to be place under note.xml
+             inside the note. If it is None the note directory will be empty
+
+        Returns:
+            -The status code of the response will be passed to the callback
+        """
+        
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
             file_closure = note_file
+            parent_path = '/'.join(['', collection_name, note_name])
             if file_closure is not None:
-                parent_path = '/'.join(['', collection_name, note_name])
                 result_code = yield gen.Task(DropboxHelper.add_file, storage, parent_path,
                     note_file, file_name = StorageServer.__NOTE_FILE_NAME)
             else:
-                result_code = yield gen.Task(DropboxHelper.create_folder,storage, collection_name)
+                result_code = yield gen.Task(DropboxHelper.create_folder,storage, parent_path)
 
             callback(result_code)
         else:
