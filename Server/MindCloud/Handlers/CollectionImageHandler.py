@@ -4,9 +4,6 @@ Created for Mindcloud
 import urllib2
 from tornado import gen
 from Storage.StorageResponse import StorageResponse
-
-__author__ = 'afathali'
-import json
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options

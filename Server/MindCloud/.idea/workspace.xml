@@ -27,18 +27,18 @@
           <file leaf-file-name="StorageServer.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Storage/StorageServer.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="344" column="8" selection-start="13611" selection-end="13611" vertical-scroll-proportion="0.0">
+                <state line="344" column="8" selection-start="13606" selection-end="13606" vertical-scroll-proportion="0.0">
                   <folding>
-                    <marker date="1352877998000" expanded="true" signature="13022:14349" placeholder="..." />
+                    <marker date="1352879254000" expanded="true" signature="13017:14336" placeholder="..." />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="StorageServerTests.py" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="StorageServerTests.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="323" column="29" selection-start="13474" selection-end="13474" vertical-scroll-proportion="0.47913188">
+                <state line="266" column="49" selection-start="11180" selection-end="11180" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -67,7 +67,16 @@
           <file leaf-file-name="CollectionHandler.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Handlers/CollectionHandler.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="16" column="4" selection-start="330" selection-end="330" vertical-scroll-proportion="0.0">
+                <state line="37" column="14" selection-start="1135" selection-end="1135" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="AccountHandler.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Handlers/AccountHandler.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="36" column="36" selection-start="942" selection-end="942" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -76,8 +85,19 @@
           <file leaf-file-name="TornadoMain.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/TornadoMain.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="23" column="130" selection-start="721" selection-end="721" vertical-scroll-proportion="0.0">
+                <state line="24" column="69" selection-start="802" selection-end="802" vertical-scroll-proportion="0.0">
                   <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="NotesHandler.py" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Handlers/NotesHandler.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="29" column="46" selection-start="810" selection-end="810" vertical-scroll-proportion="0.7139588">
+                  <folding>
+                    <element signature="e#0#14#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -86,20 +106,22 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="StorageServer.py" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="StorageServer.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Storage/StorageServer.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="347" column="7" selection-start="13715" selection-end="13715" vertical-scroll-proportion="0.62801933">
+                <state line="339" column="35" selection-start="13371" selection-end="13371" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="CollectionImageHandler.py" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="CollectionImageHandler.py" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Handlers/CollectionImageHandler.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="22" column="0" selection-start="515" selection-end="515" vertical-scroll-proportion="0.0">
-                  <folding />
+                <state line="32" column="14" selection-start="955" selection-end="955" vertical-scroll-proportion="0.609375">
+                  <folding>
+                    <element signature="e#30#44#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -116,12 +138,13 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/TornadoMain.py" />
-        <option value="$PROJECT_DIR$/Handlers/CollectionImageHandler.py" />
         <option value="$PROJECT_DIR$/Handlers/CollectionHandler.py" />
         <option value="$PROJECT_DIR$/Tests/ApiTets/CollectionAPITests.py" />
         <option value="$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py" />
+        <option value="$PROJECT_DIR$/TornadoMain.py" />
+        <option value="$PROJECT_DIR$/Handlers/CollectionImageHandler.py" />
         <option value="$PROJECT_DIR$/Storage/StorageServer.py" />
+        <option value="$PROJECT_DIR$/Handlers/NotesHandler.py" />
       </list>
     </option>
   </component>
@@ -501,12 +524,12 @@
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12860192" sideWeight="0.3715736" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12860192" sideWeight="0.2923858" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12860192" sideWeight="0.06802031" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12860192" sideWeight="0.8751269" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.328934" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.049746193" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -621,36 +644,58 @@
         <state line="41" column="28" selection-start="1519" selection-end="1519" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Handlers/CollectionHandler.py">
+    <entry file="file://$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="4" selection-start="330" selection-end="330" vertical-scroll-proportion="0.0">
+        <state line="266" column="49" selection-start="11180" selection-end="11180" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/TornadoMain.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="130" selection-start="721" selection-end="721" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Handlers/CollectionImageHandler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="515" selection-end="515" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/UnitTests/StorageServerTests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="323" column="29" selection-start="13474" selection-end="13474" vertical-scroll-proportion="0.47913188">
+        <state line="24" column="69" selection-start="802" selection-end="802" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Storage/StorageServer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="347" column="7" selection-start="13715" selection-end="13715" vertical-scroll-proportion="0.62801933">
+        <state line="344" column="8" selection-start="13606" selection-end="13606" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1352879254000" expanded="true" signature="13017:14336" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Handlers/CollectionImageHandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="14" selection-start="955" selection-end="955" vertical-scroll-proportion="0.609375">
+          <folding>
+            <element signature="e#30#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Handlers/CollectionHandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="14" selection-start="1135" selection-end="1135" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Handlers/AccountHandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="36" selection-start="942" selection-end="942" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Handlers/NotesHandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="46" selection-start="810" selection-end="810" vertical-scroll-proportion="0.7139588">
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

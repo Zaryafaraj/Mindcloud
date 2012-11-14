@@ -328,7 +328,7 @@ class StorageServer:
     @staticmethod
     @gen.engine
     def add_note_to_collection(user_id, collection_name, note_name,
-                               callback, note_file=None):
+                               note_file, callback):
         """
         Adds a note with note_name to the collection.
         If note_file is presented it will put the note_file in the folder
@@ -345,7 +345,7 @@ class StorageServer:
         Returns:
             -The status code of the response will be passed to the callback
         """
-        
+
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
             file_closure = note_file
