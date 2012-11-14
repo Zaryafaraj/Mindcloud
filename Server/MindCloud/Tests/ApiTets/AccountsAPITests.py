@@ -4,6 +4,7 @@ import uuid
 from tornado.httputil import HTTPHeaders
 from tornado.testing import AsyncHTTPTestCase
 from tornado.ioloop import IOLoop
+from Tests.ApiTets.HTTPHelper import HTTPHelper
 from TornadoMain import Application
 
 __author__ = 'afathali'
@@ -32,23 +33,16 @@ class AccountsTests(AsyncHTTPTestCase):
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
         self.assertEqual(200, response.code)
 
-    def _create_multipart_request(self, collection_name, file):
-        boundary = '----------------------------62ae4a76207c'
-        content_type = 'multipart/form-data; boundary=' + boundary
-        headers = HTTPHeaders({'content-type':content_type})
-        postData = "--" + boundary +\
-                   "\r\nContent-Disposition: form-data; name=\"file\"; filename=\"Xooml.xml\"\r\nContent-Type: application/xml\r\n\r\n"
-        postData += file.read()
-        postData += "\r\n--" + boundary +\
-                    "\r\nContent-Disposition: form-data; name=\"collectionName\"\r\n\r\n"
-        postData += collection_name
-        postData += "\r\n--" + boundary + "--"
-        return headers, postData
+        #cleanup
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
 
     def test_add_collections_with_file(self):
         collection_name = 'a'
         file = open('../test_resources/XooML.xml')
-        headers, postData = self._create_multipart_request(collection_name, file)
+        params = {'collectionName' : collection_name}
+        headers, postData = HTTPHelper.create_multipart_request_with_file_and_params\
+            (params, 'file', file)
         url = '/'+self.account_id + '/Collections'
         file.close()
         response = self.fetch(path=url, headers=headers, method='POST', body=postData)

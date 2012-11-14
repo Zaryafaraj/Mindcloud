@@ -12,6 +12,7 @@ from Handlers.CollectionHandler import CollectionHandler
 from Handlers.CollectionImageHandler import CollectionImageHandler
 from Handlers.AccountHandler import AccountHandler
 from Handlers.AuthorizationHandler import AuthorizationHandler
+from Handlers.NotesHandler import NotesHandler
 
 class Application(tornado.web.Application):
     """
