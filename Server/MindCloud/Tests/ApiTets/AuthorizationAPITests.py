@@ -1,5 +1,5 @@
 from tornado.testing import AsyncHTTPTestCase
-from MindCloud.TornadoMain import Application
+from TornadoMain import Application
 from tornado.ioloop import IOLoop
 
 __author__ = 'afathali'

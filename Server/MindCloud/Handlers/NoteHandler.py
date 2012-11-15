@@ -18,6 +18,8 @@ class NoteHandler(tornado.web.RequestHandler):
     def get(self, user_id, collection_name, note_name):
 
         collection_name = urllib2.unquote(collection_name)
+        note_name = urllib2.unquote(note_name)
+
         note_file = yield gen.Task(StorageServer.get_note_from_collection, user_id, collection_name, note_name)
         if note_file is None:
             self.set_status(StorageResponse.NOT_FOUND)
@@ -25,4 +27,15 @@ class NoteHandler(tornado.web.RequestHandler):
             self.write(note_file.read())
             self.set_header('Content-Type', 'application/xml')
         self.finish()
+
+    @tornado.web.asynchronous
+    @gen.engine
+    def delete(self, user_id, collection_name, note_name):
+
+        collection_name = urllib2.unquote(collection_name)
+        note_name = urllib2.unquote(note_name)
+        result_code = yield gen.Task(StorageServer.remove_note, user_id, collection_name, note_name)
+        self.set_status(result_code)
+        self.finish()
+
 
