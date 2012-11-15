@@ -30,6 +30,7 @@ class CollectionImageHandler(tornado.web.RequestHandler):
     @gen.engine
     def post(self, user_id, collection_name):
 
+        collection_name = urllib2.unquote(collection_name)
         #if there is an actual file
         if len(self.request.files) > 0:
             file = self.request.files['file'][0]
