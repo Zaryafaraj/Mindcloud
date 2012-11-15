@@ -439,7 +439,7 @@ class StorageServerTests(AsyncTestCase):
         self.wait()
 
     def test_remove_note(self):
-        
+
         collection_name = 'col_name'
         note_name = 'noteName'
         note_file = open('../test_resources/note.xml')
@@ -462,4 +462,13 @@ class StorageServerTests(AsyncTestCase):
         #clean up
         StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
         self.wait()
+
+    def test_remove_non_existing_note(self):
+
+        collection_name = 'dummy'
+        note_name = 'dummy'
+        StorageServer.remove_note(self.__account_id, collection_name,
+            note_name, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.NOT_FOUND, response)
 
