@@ -18,7 +18,12 @@ class CollectionNotesHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @gen.engine
     def get(self, user_id, collection_name):
-       pass
+
+        collection_name = urllib2.unquote(collection_name)
+        results = yield gen.Task(StorageServer.get_all_notes_names_in_collection, user_id, collection_name)
+        json_str = json.dumps({'Notes': results})
+        self.write(json_str)
+        self.finish()
 
     @tornado.web.asynchronous
     @gen.engine

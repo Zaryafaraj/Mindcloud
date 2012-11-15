@@ -21,10 +21,21 @@ class AccountsTests(AsyncHTTPTestCase):
         return application
 
     def test_get_collections(self):
+
+        collection_name = 'colName'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+
         response = self.fetch('/'+self.account_id + '/Collections')
         response_json = json.loads(response.body)
         self.assertEqual(200,response.code)
         self.assertTrue(len(response_json) > 0)
+
+        #cleanup
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
 
     def test_add_collection_no_file(self):
         collection_name = 'colName'

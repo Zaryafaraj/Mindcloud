@@ -1,3 +1,5 @@
+import json
+
 __author__ = 'afathali'
 import urllib
 from tornado.ioloop import IOLoop
@@ -17,6 +19,31 @@ class NotesTests(AsyncHTTPTestCase):
     def get_app(self):
         application = Application()
         return application
+
+    def test_get_all_notes(self):
+        collection_name = 'collName'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+        note_file = open('../test_resources/note.xml')
+        url += '/' + collection_name + '/Notes'
+        params = {'noteName' : 'NoteName'}
+        headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
+            (params, 'file', note_file)
+        response = self.fetch(path=url, headers=headers, method='POST',
+            body=post_data)
+        self.assertEqual(200, response.code)
+
+        url = '/'.join(['', self.account_id, 'Collections', collection_name, 'Notes'])
+        response = self.fetch(path=url, method='GET')
+        self.assertEqual(200, response.code)
+        response_json = json.loads(response.body)
+        self.assertTrue(len(response_json) == 1)
+
+        #cleanup
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
 
     def test_save_note_with_file(self):
 

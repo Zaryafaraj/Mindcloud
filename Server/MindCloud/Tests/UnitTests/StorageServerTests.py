@@ -375,3 +375,26 @@ class StorageServerTests(AsyncTestCase):
         StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
         self.wait()
 
+    def test_list_all_notes_invalid_collection(self):
+        StorageServer.get_all_notes_names_in_collection(self.__account_id,
+            'dummy', callback=self.stop)
+        response = self.wait()
+        self.assertEqual(0, len(response))
+
+    def test_list_all_notes_empty_collection(self):
+
+        collection_name = "dummy"
+        StorageServer.add_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        StorageServer.get_all_notes_names_in_collection(self.__account_id,
+            collection_name, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(0, len(response))
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
