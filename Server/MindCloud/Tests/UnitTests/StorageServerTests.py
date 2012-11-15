@@ -406,7 +406,7 @@ class StorageServerTests(AsyncTestCase):
             response = self.wait()
             self.assertEqual(StorageResponse.OK, response)
 
-        StorageServer.get_all_notes_names_in_collection(self.__account_id,
+        StorageServer.list_all_notes(self.__account_id,
             collection_name, callback=self.stop)
         response = self.wait()
         self.assertEqual(4, len(response))
@@ -416,7 +416,7 @@ class StorageServerTests(AsyncTestCase):
         self.wait()
 
     def test_list_all_notes_invalid_collection(self):
-        StorageServer.get_all_notes_names_in_collection(self.__account_id,
+        StorageServer.list_all_notes(self.__account_id,
             'dummy', callback=self.stop)
         response = self.wait()
         self.assertEqual(0, len(response))
@@ -429,11 +429,36 @@ class StorageServerTests(AsyncTestCase):
         response = self.wait()
         self.assertEqual(StorageResponse.OK, response)
 
-        StorageServer.get_all_notes_names_in_collection(self.__account_id,
+        StorageServer.list_all_notes(self.__account_id,
             collection_name, callback=self.stop)
         response = self.wait()
         self.assertEqual(0, len(response))
 
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
+    def test_remove_note(self):
+        
+        collection_name = 'col_name'
+        note_name = 'noteName'
+        note_file = open('../test_resources/note.xml')
+        StorageServer.add_note_to_collection(self.__account_id,
+            collection_name, note_name, note_file, callback = self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #remove
+        StorageServer.remove_note(self.__account_id, collection_name,
+            note_name, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #verify the delete
+        StorageServer.list_all_notes(self.__account_id,
+            collection_name, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(0, len(response))
         #clean up
         StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
         self.wait()

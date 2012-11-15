@@ -386,7 +386,32 @@ class StorageServer:
 
     @staticmethod
     @gen.engine
-    def get_all_notes_names_in_collection(user_id, collection_name, callback):
+    def remove_note(user_id, collection_name, note_name, callback):
+        """
+        Removes a note from a collection
+
+        Args:
+            - ``user_id``: user id corresponding to the user
+            - ``collection_name``: The name of the collection
+            It is assumed that this name has been validated prior to calling
+            this function
+            -``note_name``: The name of the note to be deleted
+
+        Returns:
+            - A StorageResponse status code that represents the status of the operation
+            """
+
+        path = '/' + collection_name + '/' + note_name
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
+        if storage is not None:
+            result_code = yield gen.Task(DropboxHelper.delete_folder, storage, path)
+            callback(result_code)
+        else:
+            callback(StorageResponse.SERVER_EXCEPTION)
+
+    @staticmethod
+    @gen.engine
+    def list_all_notes(user_id, collection_name, callback):
         """
         List all the notes in the given collection
 

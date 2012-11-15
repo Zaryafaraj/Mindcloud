@@ -20,7 +20,7 @@ class CollectionNotesHandler(tornado.web.RequestHandler):
     def get(self, user_id, collection_name):
 
         collection_name = urllib2.unquote(collection_name)
-        results = yield gen.Task(StorageServer.get_all_notes_names_in_collection, user_id, collection_name)
+        results = yield gen.Task(StorageServer.list_all_notes, user_id, collection_name)
         json_str = json.dumps({'Notes': results})
         self.write(json_str)
         self.finish()
