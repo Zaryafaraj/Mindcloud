@@ -65,6 +65,7 @@ class NotesTests(AsyncHTTPTestCase):
         self.fetch(path=url, method='DELETE')
 
     def test_get_note(self):
+
         collection_name = 'collName'
         note_name = 'note_name'
         params = {'collectionName':collection_name}
@@ -92,4 +93,32 @@ class NotesTests(AsyncHTTPTestCase):
         response = self.fetch(path=url,method='GET')
         self.assertEqual(404, response.code)
 
+    def test_update_note(self):
+
+        collection_name = 'collName'
+        note_name = 'note_name'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+        note_file = open('../test_resources/note.xml')
+        url += '/' + collection_name + '/Notes'
+        params = {'noteName' : note_name}
+        headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
+            (params, 'file', note_file)
+        response = self.fetch(path=url, headers=headers, method='POST',
+            body=post_data)
+        self.assertEqual(200, response.code)
+
+        #update
+        note_file = open('../test_resources/note2.xml')
+        headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
+            (params, 'file', note_file)
+        response = self.fetch(path=url, headers=headers, method='POST',
+            body=post_data)
+        self.assertEqual(200, response.code)
+
+        #cleanup
+        #url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        #self.fetch(path=url, method='DELETE')
 
