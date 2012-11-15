@@ -360,3 +360,26 @@ class StorageServer:
         else:
             callback(StorageResponse.SERVER_EXCEPTION)
 
+    @staticmethod
+    @gen.engine
+    def get_note_from_collection(user_id, collection_name, note_name, callback):
+        """
+        Retrurns the note Xooml for the specified note in the specified collection
+
+        Args:
+            -``user_id``: The Id of the user for which the note is retrieved
+            -``collection_name``: The name of the collection inside which the note is
+            -``note_name``: The name of the note for which to retrieve the xooml
+
+        Returns:
+            - A file or a file like object containing the image or None if the
+            image does not exists; is passed to the callback.
+        """
+
+        note_path = '/'.join(['',collection_name, note_name, StorageServer.__NOTE_FILE_NAME])
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
+        if storage is not None:
+            response = yield gen.Task(DropboxHelper.get_file, storage, note_path)
+            callback(response)
+        else:
+            callback(None)
