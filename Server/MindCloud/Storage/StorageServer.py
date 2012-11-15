@@ -383,3 +383,27 @@ class StorageServer:
             callback(response)
         else:
             callback(None)
+
+    @staticmethod
+    @gen.engine
+    def get_all_notes_names_in_collection(user_id, collection_name, callback):
+        """
+        List all the notes in the given collection
+
+        Args:
+            -``user_id``: the id of the user for which the notes will be listed
+            -``collection_name``: The name of the collection which contains the notes
+
+        Returns:
+            - A list containing the name of all the notes available in the
+            collection will be passed to the callback method
+        """
+
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
+        path = '/' +  collection_name + '/'
+        if storage is not  None:
+            result = yield gen.Task(DropboxHelper.get_folders,
+                db_client=storage, parent_name=path , user_id=user_id)
+            callback(result)
+        else:
+            callback([])

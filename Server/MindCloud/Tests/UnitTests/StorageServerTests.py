@@ -354,3 +354,24 @@ class StorageServerTests(AsyncTestCase):
         response = self.wait()
         self.assertTrue(response is None)
 
+    def test_list_all_notes(self):
+
+        collection_name = 'col_name'
+        note_name = 'noteName'
+        note_file = open('../test_resources/note.xml')
+        for i in range(1,5):
+            new_note_name = note_name + str(i)
+            StorageServer.add_note_to_collection(self.__account_id,
+                collection_name, new_note_name, note_file, callback = self.stop)
+            response = self.wait()
+            self.assertEqual(StorageResponse.OK, response)
+
+        StorageServer.get_all_notes_names_in_collection(self.__account_id,
+            collection_name, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(4, len(response))
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
