@@ -11,7 +11,7 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 
-class NotesHandler(tornado.web.RequestHandler):
+class CollectionNotesHandler(tornado.web.RequestHandler):
     """
     Handles actions relating to the notes in a collection collectively
     """
@@ -23,6 +23,8 @@ class NotesHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @gen.engine
     def post(self, user_id, collection_name):
+
+        collection_name = urllib2.unquote(collection_name)
         note_file = None
         note_name = self.get_argument('noteName')
         #if there is an actual file
