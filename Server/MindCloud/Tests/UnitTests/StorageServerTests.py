@@ -246,6 +246,7 @@ class StorageServerTests(AsyncTestCase):
         self.wait()
 
     def test_save_collection_manifest_invalid_collection(self):
+
         collection_name = 'non_existing'
         collection_file = open('../test_resources/collection.xml')
         StorageServer.save_collection_manifest(self.__account_id,
@@ -253,6 +254,26 @@ class StorageServerTests(AsyncTestCase):
         response = self.wait()
         #Accepted
         self.assertEqual(StorageResponse.OK, response)
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
+    def test_update_collection_manifest(self):
+
+        collection_name = 'non_existing'
+        collection_file = open('../test_resources/collection.xml')
+        StorageServer.save_collection_manifest(self.__account_id,
+            collection_name, collection_file, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #update
+        collection_file = open('../test_resources/collection2.xml')
+        StorageServer.save_collection_manifest(self.__account_id,
+            collection_name, collection_file, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
         #clean up
         StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
         self.wait()
