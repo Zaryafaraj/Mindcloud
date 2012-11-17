@@ -16,14 +16,36 @@ class SharingControllerTestCase(AsyncTestCase):
         SharingController.create_sharing_record(self.__account_id, 'test_collection', callback = self.stop)
         sharing_secret = self.wait()
         self.assertTrue(sharing_secret is not None)
+        #cleanup
+        SharingController.remove_sharing_record(sharing_secret, callback =self.stop)
+        self.wait()
 
     def test_get_sharing_record(self):
         SharingController.create_sharing_record(self.__account_id, 'test_collection', callback = self.stop)
         sharing_secret = self.wait()
         self.assertTrue(sharing_secret is not None)
-        SharingController.get_sharing_info(sharing_secret, callback = self.stop)
+        SharingController.get_sharing_record(sharing_secret, callback = self.stop)
         sharing_record = self.wait()
-        print sharing_record.toDictionary()
         actual_sharing_secret = sharing_record.toDictionary()[SharingRecord.SECRET_KEY]
         self.assertEqual(sharing_secret, actual_sharing_secret)
+        #cleanup
+        SharingController.remove_sharing_record(sharing_secret, callback =self.stop)
+        self.wait()
+
+    def test_get_non_existing_sharing_record(self):
+        SharingController.get_sharing_record('invalidsecret', callback = self.stop)
+        sharing_record = self.wait()
+        self.assertTrue(sharing_record is None)
+
+    def test_remove_sharing_record(self):
+        SharingController.create_sharing_record(self.__account_id, 'test_collection', callback = self.stop)
+        sharing_secret = self.wait()
+        self.assertTrue(sharing_secret is not None)
+        SharingController.remove_sharing_record(sharing_secret, callback =self.stop)
+        self.wait()
+        SharingController.get_sharing_record(sharing_secret, callback = self.stop)
+        sharing_record = self.wait()
+        self.assertTrue(sharing_record is None)
+
+
 
