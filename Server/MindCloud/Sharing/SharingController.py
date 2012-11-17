@@ -3,6 +3,7 @@ import string
 from tornado import gen
 from Sharing.SharingRecord import SharingRecord
 from Storage.DatabaseFactory import DatabaseFactory
+from Storage.StorageUtils import StorageUtils
 
 __author__ = 'afathali'
 
@@ -70,6 +71,23 @@ class SharingController:
         query = {SharingRecord.SECRET_KEY : sharing_secret}
         yield gen.Task(sharing_collection.remove, query)
         callback()
+
+    @staticmethod
+    @gen.engine
+    def subscribe_to_sharing_space(user_id, sharing_secret, callback):
+
+        #Get the sharing space
+        sharing_record = yield gen.Task(SharingController.get_sharing_record,
+                                        sharing_secret)
+        #Get the sharedCollection and figure out the name
+        original_collection_name = sharing_record.getOwnerCollectionName()
+        final_collection_name = yield gen.Task(
+            StorageUtils.find_best_collection_name_for_user,
+            original_collection_name,
+            user_id)
+        #Copy sharing content
+
+        #Update Mongo
 
 
 

@@ -27,7 +27,10 @@ class SharingRecord:
     def toDictionary(self):
          return {SharingRecord.SECRET_KEY : self.sharing_secret,
                           SharingRecord.OWNER_KEY : self.owner_id,
-                          SharingRecord.COLLECTION_NAME_KEY : self.owner_id,
+                          SharingRecord.COLLECTION_NAME_KEY : self.collection_name,
                           SharingRecord.SUBSCIRBERS_KEY : self.subscribers}
 
 
+
+    def getOwnerCollectionName(self):
+        return self.collection_name
