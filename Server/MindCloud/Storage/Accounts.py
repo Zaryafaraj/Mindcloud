@@ -2,10 +2,9 @@
 Developed for Mindcloud
 """
 from tornado import gen
+from Storage.DatabaseFactory import DatabaseFactory
 
 __author__ = 'afathali'
-
-import asyncmongo
 
 class Accounts:
     """
@@ -17,33 +16,12 @@ class Accounts:
     for later use.
     """
 
-    #TODO replace these with properties file
-    #MongoDB configs
-    host = 'localhost'
-    port = 27017
-    database_name = 'mindcloud'
-    collection_name = 'accounts'
     account_key = 'account_id'
     ticket_key = 'ticket'
 
     @staticmethod
-    def get_db():
-        if not hasattr(Accounts, '_db'):
-            Accounts._db=asyncmongo.Client(pool_id='accounts_pool', host=Accounts.host, port= Accounts.port,
-            maxcached=10, maxconnections=100, dbname=Accounts.database_name)
-        return Accounts._db
-
-    @staticmethod
     def __get_collection():
-        """
-        Retrive the accounts collection from mongo
-
-        Returns:
-            - A mongoDB collection corellating with the accounts
-        """
-        db = Accounts.get_db()
-        collection_connection = db.connection(collectionname=Accounts.collection_name)
-        return collection_connection
+        return DatabaseFactory.get_accounts_collection()
 
     @staticmethod
     @gen.engine
