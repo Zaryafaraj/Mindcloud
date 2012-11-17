@@ -432,3 +432,19 @@ class StorageServer:
             callback(result)
         else:
             callback([])
+
+    @staticmethod
+    @gen.engine
+    def copy_collection_between_accounts(src_user_id,
+                                         dest_user_id,
+                                         src_collection_name,
+                                         dest_collection_name,
+                                         callback):
+
+        src_storage = yield gen.Task(StorageServer.__get_storage,
+            src_user_id)
+        dest_storage = yield gen.Task(StorageServer.__get_storage,
+            dest_user_id)
+        if src_storage is not None and dest_storage is not None:
+            copy_ref = yield gen.Task(DropboxHelper.)
+

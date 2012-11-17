@@ -25,6 +25,7 @@ class DropboxHelper:
     __ACCESS_TYPE = 'app_folder'
 
     CONTENT_KEY = 'contents'
+    COPY_REF_KEY = 'copy_ref'
     PATH_KEY = 'path'
     IS_DIR = 'is_dir'
 
@@ -213,6 +214,25 @@ class DropboxHelper:
         file = cStringIO.StringIO(file_data)
         #should we close this ?
         callback(file)
+
+    @staticmethod
+    @gen.engine
+    def copy_folder_between_accounts(src_db_client,
+                                     dest_db_client,
+                                     src_path,
+                                     dest_path,
+                                     callback):
+        httpResponse = yield gen.Task(src_db_client.create_copy_ref, src_path)
+        if httpResponse.code != StorageResponse.OK:
+            callback(httpResponse)
+        copy_ref = httpResponse[DropboxHelper.COPY_REF_KEY]
+        if copy_ref is None:
+            callback(StorageResponse.SERVER_EXCEPTION)
+
+        httpResponse = yield gen.Task(dest_db_client.add_copy_ref, copy_ref, dest_path)
+        callback(httpResponse.code)
+
+
 
 
 
