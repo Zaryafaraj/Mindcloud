@@ -381,7 +381,8 @@ class DropboxClient(object):
         return metadata
 
 
-    def create_copy_ref(self, from_path):
+    @gen.engine
+    def create_copy_ref(self, from_path, callback):
         """Creates and returns a copy ref for a specific file.  The copy ref can be
         used to instantly copy that file to the Dropbox of another account.
 
@@ -397,10 +398,12 @@ class DropboxClient(object):
         path = "/copy_ref/%s%s" % (self.session.root, format_path(from_path))
 
         url, params, headers = self.request(path, {}, method='GET')
+        http = AsyncHTTPClient()
+        response = yield gen.Task(http.fetch, url, method='GET', headers=headers)
+        callback(response)
 
-        return self.rest_client.GET(url, headers)
-
-    def add_copy_ref(self, copy_ref, to_path):
+    @gen.engine
+    def add_copy_ref(self, copy_ref, to_path, callback):
         """Adds the file referenced by the copy ref to the specified path
 
         Args:
@@ -418,8 +421,10 @@ class DropboxClient(object):
                   'root': self.session.root}
 
         url, params, headers = self.request(path, params)
-
-        return self.rest_client.POST(url, params, headers)
+        http = AsyncHTTPClient()
+        response = yield gen.Task(http.fetch, url,
+            method='POST', headers=headers, body=urllib.urlencode(params))
+        callback(response)
 
     def file_copy(self, from_path, to_path):
         """Copy a file or folder to a new location.
