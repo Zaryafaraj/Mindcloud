@@ -9,6 +9,7 @@ __author__ = 'afathali'
 class StorageServerTests(AsyncTestCase):
 
     __account_id = '04B08CB7-17D5-493A-8ED1-E086FDC1327E'
+    __second_account_id = 'E82FD595-AD5E-4D91-B73D-3A7C3A3FEDCE'
 
     def get_new_ioloop(self):
         return IOLoop.instance()
@@ -471,4 +472,32 @@ class StorageServerTests(AsyncTestCase):
             note_name, callback=self.stop)
         response = self.wait()
         self.assertEqual(StorageResponse.NOT_FOUND, response)
+
+    def test_copy_collection_between_accounts(self):
+        collection_name = str(uuid.uuid1())
+        file = open('../test_resources/XooML.xml')
+        StorageServer.add_collection(user_id=self.__account_id,
+            collection_name=collection_name, callback=self.stop, file= file)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        StorageServer.copy_collection_between_accounts(self.__account_id,
+                                                        self.__second_account_id,
+                                                        collection_name,
+                                                        collection_name,
+                                                        callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        StorageServer.list_collections(self.__second_account_id,
+                                        callback=self.stop)
+        col_list = self.wait()
+        self.assertTrue(collection_name in col_list)
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        self.wait()
+        StorageServer.remove_collection(self.__second_account_id, collection_name,
+            callback=self.stop)
+        self.wait()
 

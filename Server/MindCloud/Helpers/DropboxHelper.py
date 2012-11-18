@@ -2,6 +2,7 @@
 Developed for mindcloud
 """
 import httplib
+import json
 import os
 import cStringIO
 from tornado import gen
@@ -222,10 +223,12 @@ class DropboxHelper:
                                      src_path,
                                      dest_path,
                                      callback):
-        httpResponse = yield gen.Task(src_db_client.create_copy_ref, src_path)
-        if httpResponse.code != StorageResponse.OK:
-            callback(httpResponse)
-        copy_ref = httpResponse[DropboxHelper.COPY_REF_KEY]
+        response = yield gen.Task(src_db_client.create_copy_ref, src_path)
+        if response.code != StorageResponse.OK:
+            callback(response.code)
+        response_json = json.loads(response.body)
+        copy_ref = response_json[DropboxHelper.COPY_REF_KEY]
+
         if copy_ref is None:
             callback(StorageResponse.SERVER_EXCEPTION)
 
