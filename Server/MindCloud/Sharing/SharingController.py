@@ -108,7 +108,8 @@ class SharingController:
             sharing space
 
         -Returns:
-            -The status code of the operation
+            - The name of the shared collection in the subscribers account.
+            None if the operation wasn't successful
         """
 
         #Get the sharing space
@@ -117,7 +118,7 @@ class SharingController:
 
 
         #Get the sharedCollection and figure out the name
-        original_collection_name = sharing_record.get_owner_collection_name
+        original_collection_name = sharing_record.get_owner_collection_name()
         dest_collection_name = yield gen.Task(
             StorageUtils.find_best_collection_name_for_user,
             original_collection_name,
@@ -133,9 +134,14 @@ class SharingController:
 
         #if error happens just return it
         if response != StorageResponse.OK:
-            callback(response)
+            callback(None)
 
         #Update Mongo
+        else:
+            sharing_record.add_subscriber(user_id, dest_collection_name)
+            yield gen.Task(SharingController.update_sharing_record, sharing_record)
+            callback(dest_collection_name)
+
 
 
 

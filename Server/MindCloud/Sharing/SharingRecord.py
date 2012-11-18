@@ -42,3 +42,11 @@ class SharingRecord:
 
     def set_collection_name(self, new_name):
         self.collection_name = new_name
+
+    def add_subscriber(self, subscriber_id, subscriber_collection_name):
+        subscriber_record = (subscriber_id, subscriber_collection_name)
+        self.subscribers.append(subscriber_record)
+
+    def get_subscribers(self):
+        #create a copy of the subscribers so that the user can't modify it
+        return list(self.subscribers)
