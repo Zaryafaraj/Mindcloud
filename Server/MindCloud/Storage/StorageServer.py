@@ -440,11 +440,35 @@ class StorageServer:
                                          src_collection_name,
                                          dest_collection_name,
                                          callback):
+        """
+        Copies src collection from the src account to the dest collection in
+        dest user accout. This assumes that input has been sanitised before,
+        src collection exists in the src user and dest collection does not
+        exist in the dest user account.
+
+        Args:
+            -``src_user_id``: The id for the user that hold the src collection
+            -``dest_user_id``: The id for the user that will receive the src collection
+            -``src_collection_name``: The name of the collection to be copied
+            from src user account
+            -``dest_collection_name``: The name of the collection that the src
+            collection will be copied as
+
+        Returns:
+            - The response code of the operation will be passed to the callback
+        """
 
         src_storage = yield gen.Task(StorageServer.__get_storage,
             src_user_id)
         dest_storage = yield gen.Task(StorageServer.__get_storage,
             dest_user_id)
         if src_storage is not None and dest_storage is not None:
-            copy_ref = yield gen.Task(DropboxHelper.)
+            response_code = yield gen.Task(DropboxHelper.copy_folder_between_accounts,
+                                      src_storage,
+                                      dest_storage,
+                                      '/' + src_collection_name,
+                                      '/' + dest_collection_name)
+            callback(response_code)
+        else:
+            callback(StorageResponse.SERVER_EXCEPTION)
 
