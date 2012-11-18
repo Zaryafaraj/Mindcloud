@@ -474,6 +474,7 @@ class StorageServerTests(AsyncTestCase):
         self.assertEqual(StorageResponse.NOT_FOUND, response)
 
     def test_copy_collection_between_accounts(self):
+
         collection_name = str(uuid.uuid1())
         file = open('../test_resources/XooML.xml')
         StorageServer.add_collection(user_id=self.__account_id,
@@ -498,6 +499,78 @@ class StorageServerTests(AsyncTestCase):
             callback=self.stop)
         self.wait()
         StorageServer.remove_collection(self.__second_account_id, collection_name,
+            callback=self.stop)
+        self.wait()
+
+    def test_copy_collections_between_accounts_different_name(self):
+
+        first_collection_name = str(uuid.uuid1())
+        file = open('../test_resources/XooML.xml')
+        StorageServer.add_collection(user_id=self.__account_id,
+            collection_name=first_collection_name, callback=self.stop, file= file)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        second_collection_name = str(uuid.uuid1())
+        StorageServer.copy_collection_between_accounts(self.__account_id,
+            self.__second_account_id,
+            first_collection_name,
+            second_collection_name,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        StorageServer.list_collections(self.__second_account_id,
+            callback=self.stop)
+        col_list = self.wait()
+        self.assertTrue(second_collection_name in col_list)
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, first_collection_name,
+            callback=self.stop)
+        self.wait()
+        StorageServer.remove_collection(self.__second_account_id, second_collection_name,
+            callback=self.stop)
+        self.wait()
+
+    def test_copy_collection_with_notes_between_accounts(self):
+        first_collection_name = str(uuid.uuid1())
+        file = open('../test_resources/XooML.xml')
+        StorageServer.add_collection(user_id=self.__account_id,
+            collection_name=first_collection_name, callback=self.stop, file= file)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+        note_name = "noteName"
+        note_file = open('../test_resources/note.xml')
+        StorageServer.add_note_to_collection(self.__account_id,
+            first_collection_name, note_name, note_file, callback = self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        second_collection_name = first_collection_name
+        StorageServer.copy_collection_between_accounts(self.__account_id,
+            self.__second_account_id,
+            first_collection_name,
+            second_collection_name,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        StorageServer.list_collections(self.__second_account_id,
+            callback=self.stop)
+        col_list = self.wait()
+        self.assertTrue(second_collection_name in col_list)
+
+        StorageServer.list_all_notes(self.__second_account_id,
+                                    second_collection_name,
+                                    callback = self.stop)
+        note_list = self.wait()
+        self.assertTrue(note_name in note_list)
+
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, first_collection_name,
+            callback=self.stop)
+        self.wait()
+        StorageServer.remove_collection(self.__second_account_id, second_collection_name,
             callback=self.stop)
         self.wait()
 

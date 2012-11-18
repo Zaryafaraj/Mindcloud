@@ -72,7 +72,8 @@ class DropboxHelper:
         #TODO add error catching
         #Pythonic Zen master \m/
         #Filter the name of the folders from the root metadata
-        result = [content[DropboxHelper.PATH_KEY].replace("/","")
+        result = \
+        [content[DropboxHelper.PATH_KEY][content[DropboxHelper.PATH_KEY].rfind('/')+1:]
                   for content in contents if content[DropboxHelper.IS_DIR] == True]
         callback(result)
 
