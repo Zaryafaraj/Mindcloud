@@ -1,6 +1,3 @@
-"""
-Mocking handlers
-"""
 import urllib2
 from tornado import gen
 import tornado.httpserver
