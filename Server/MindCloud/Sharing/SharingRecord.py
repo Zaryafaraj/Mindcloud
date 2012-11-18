@@ -31,6 +31,14 @@ class SharingRecord:
                           SharingRecord.SUBSCIRBERS_KEY : self.subscribers}
 
 
+    def get_sharing_secret(self):
+        return self.sharing_secret
 
-    def getOwnerCollectionName(self):
+    def get_owner_collection_name(self):
         return self.collection_name
+
+    def get_owner_user_id(self):
+        return self.owner_id
+
+    def set_collection_name(self, new_name):
+        self.collection_name = new_name
