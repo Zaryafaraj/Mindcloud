@@ -574,3 +574,13 @@ class StorageServerTests(AsyncTestCase):
             callback=self.stop)
         self.wait()
 
+    def test_copy_non_existing_collection_to_another_account(self):
+        collection_name = str(uuid.uuid1())
+        StorageServer.copy_collection_between_accounts(self.__account_id,
+            self.__second_account_id,
+            collection_name,
+            collection_name,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.NOT_FOUND, response)
+

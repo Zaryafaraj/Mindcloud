@@ -227,14 +227,15 @@ class DropboxHelper:
         response = yield gen.Task(src_db_client.create_copy_ref, src_path)
         if response.code != StorageResponse.OK:
             callback(response.code)
-        response_json = json.loads(response.body)
-        copy_ref = response_json[DropboxHelper.COPY_REF_KEY]
+        else:
+            response_json = json.loads(response.body)
+            copy_ref = response_json[DropboxHelper.COPY_REF_KEY]
 
-        if copy_ref is None:
-            callback(StorageResponse.SERVER_EXCEPTION)
+            if copy_ref is None:
+                callback(StorageResponse.SERVER_EXCEPTION)
 
-        httpResponse = yield gen.Task(dest_db_client.add_copy_ref, copy_ref, dest_path)
-        callback(httpResponse.code)
+            httpResponse = yield gen.Task(dest_db_client.add_copy_ref, copy_ref, dest_path)
+            callback(httpResponse.code)
 
 
 
