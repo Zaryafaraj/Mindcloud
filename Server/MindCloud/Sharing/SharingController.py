@@ -12,11 +12,55 @@ __author__ = 'afathali'
 class SharingController:
 
     __SECRET_LENGTH = 8
+    __SUBSCRIBER_ID_KEY = 'subscriber_id'
+    __SUBSCRIBER_COLLECTION_NAME_KEY = 'shared_collection_name'
+    __SHARING_SPACE_SECRET_KEY = 'sharing_secret'
 
     @staticmethod
     def generate_sharing_secret():
         chars = string.ascii_uppercase + string.digits
         return ''.join(random.choice(chars) for x in range(SharingController.__SECRET_LENGTH))
+
+    @staticmethod
+    @gen.engine
+    def add_subscriber(user_id, collection_name, sharing_secret, callback):
+        """
+        Adds a subscriber with user id and collection and sharing secret
+        to the subscribers db. user_id and collection_name uniquely identify
+        the subscriber and maps it to the sharing_secret of the sharing space
+        """
+
+        subscriber_collection = DatabaseFactory.get_subscribers_collection()
+        subscriber_record = {SharingController.__SUBSCRIBER_ID_KEY : user_id,
+                             SharingController.__SUBSCRIBER_COLLECTION_NAME_KEY : collection_name,
+                             SharingController.__SHARING_SPACE_SECRET_KEY : sharing_secret}
+        yield gen.Task(subscriber_collection.insert, subscriber_record)
+        callback()
+
+    @staticmethod
+    @gen.engine
+    def remove_subscriber(user_id, collection_name, callback):
+        """
+        Removes the subscriber from the subscribers collection.
+        user_id and collection_name identify a sharing space uniquely.
+        """
+        subscriber_collection = DatabaseFactory.get_subscribers_collection()
+        query = {SharingController.__SUBSCRIBER_ID_KEY : user_id,
+                 SharingController.__SUBSCRIBER_COLLECTION_NAME_KEY : collection_name}
+        yield gen.Task(subscriber_collection.remove, query)
+        callback()
+
+    @staticmethod
+    @gen.engine
+    def remove_all_subscribers(sharing_secret, callback):
+        """
+        Removes all the subscribers to a sharing space identified by
+        a sharing_secret
+        """
+        subscriber_collection = DatabaseFactory.get_subscribers_collection()
+        query = {SharingController.__SHARING_SPACE_SECRET_KEY: sharing_secret}
+        yield gen.Task(subscriber_collection.remove, query)
+        callback()
 
     @staticmethod
     @gen.engine
@@ -32,6 +76,8 @@ class SharingController:
                           SharingRecord.COLLECTION_NAME_KEY : collection_name,
                           SharingRecord.SUBSCIRBERS_KEY : [(user_id,collection_name)]}
         yield gen.Task(sharing_collection.insert, sharing_record)
+        yield gen.Task(SharingController.add_subscriber, user_id, collection_name,
+            sharing_secret)
         callback(sharing_secret)
 
     @staticmethod
@@ -99,6 +145,7 @@ class SharingController:
                 sharing_record_bson[SharingRecord.SUBSCIRBERS_KEY])
             callback(sharing_record)
 
+
     @staticmethod
     @gen.engine
     def remove_sharing_record_by_secret(sharing_secret, callback):
@@ -111,6 +158,7 @@ class SharingController:
         sharing_collection = DatabaseFactory.get_sharing_collection()
         query = {SharingRecord.SECRET_KEY : sharing_secret}
         yield gen.Task(sharing_collection.remove, query)
+        yield gen.Task(SharingController.remove_all_subscribers, sharing_secret)
         callback()
 
     @staticmethod
@@ -125,16 +173,26 @@ class SharingController:
         sharing_collection = DatabaseFactory.get_sharing_collection()
         query = {SharingRecord.OWNER_KEY : owner_id,
                  SharingRecord.COLLECTION_NAME_KEY: collection_name}
-        yield gen.Task(sharing_collection.remove, query)
-        callback()
+        sharing_record = yield gen.Task(SharingController.get_sharing_record_by_owner_info,
+        owner_id, collection_name)
+        if sharing_record is None:
+            callback()
+        else:
+            sharing_secret = sharing_record.get_sharing_secret()
+            yield gen.Task(sharing_collection.remove, query)
+            yield gen.Task(SharingController.remove_all_subscribers, sharing_secret)
+            callback()
 
     @staticmethod
     @gen.engine
-    def update_sharing_record(sharing_record, callback):
+    def __update_sharing_record(sharing_record, callback):
         """
         updates the sharing recrod in the mongoDB database.
         The passed in sharing record will replace the one
         in the db
+
+        This method is very dangerous as the user must make sure that
+        they also update the subscribers collection in mongo
         """
         sharing_collection = DatabaseFactory.get_sharing_collection()
         doc_key = {SharingRecord.SECRET_KEY: sharing_record.get_sharing_secret()}
@@ -162,7 +220,7 @@ class SharingController:
         """
 
         #Get the sharing space
-        sharing_record = yield gen.Task(SharingController.get_sharing_record,
+        sharing_record = yield gen.Task(SharingController.get_sharing_record_by_secret,
                                         sharing_secret)
 
 
@@ -187,13 +245,32 @@ class SharingController:
 
         #Update Mongo
         else:
+            #Update sharing collection
             sharing_record.add_subscriber(user_id, dest_collection_name)
-            yield gen.Task(SharingController.update_sharing_record, sharing_record)
+            yield gen.Task(SharingController.__update_sharing_record, sharing_record)
+            #Update subscribers collection
+            yield gen.Task(SharingController.add_subscriber, user_id, dest_collection_name,
+                sharing_secret)
             callback(dest_collection_name)
 
+    @staticmethod
+    @gen.engine
+    def unsubscribe_from_sharing_space(user_id, collection_name):
+        """
+        Unsubscribes the user with user_id from the sharing space.
+        The sharing space is uniquely identified by having (user_id, collection_name)
+        in the list of the subscribers.
+        If the user is both the subscriber and the owner of the collection
+        the sharing record for the collection is removed. In that sense the
+        collection is unshared.
 
+        -Args
+            -``user_id``: The id of the subscriber who wants to unsubscribe
+            -``collection_name``: The name of the collection in the
+            subscribers account that is shared
 
-
-
+        -Returns:
+            -The status of the operation
+        """
 
 

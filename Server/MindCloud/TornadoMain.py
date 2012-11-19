@@ -16,6 +16,7 @@ from Handlers.AuthorizationHandler import AuthorizationHandler
 from Handlers.CollectionNotesHandler import CollectionNotesHandler
 from Handlers.NoteHandler import NoteHandler
 from Handlers.SharingHandler import SharingHandler
+from Handlers.SubscriptionHandler import SubscriptionHandler
 
 class Application(tornado.web.Application):
     """
@@ -27,6 +28,7 @@ class Application(tornado.web.Application):
         handlers = [
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+%*\d*]+)", CollectionHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+%*\d*]+)/Share", SharingHandler),
+            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/ShareSpaces/Subscribe", SubscriptionHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+%*\d*]+)/Notes", CollectionNotesHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+%*\d*]+)/Notes/([\w+%*\d*]+)", NoteHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+%*\d*]+)/Thumbnail", CollectionImageHandler),

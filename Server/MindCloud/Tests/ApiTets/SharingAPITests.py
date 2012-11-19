@@ -136,4 +136,6 @@ class SharingTests(AsyncHTTPTestCase):
         #I am accepting this faulty behavior in favor of
         #better performance
         self.assertEqual(200, response.code)
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
 

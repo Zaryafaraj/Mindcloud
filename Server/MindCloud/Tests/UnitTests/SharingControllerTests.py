@@ -86,37 +86,6 @@ class SharingControllerTestCase(AsyncTestCase):
         sharing_record = self.wait()
         self.assertTrue(sharing_record is None)
 
-    def test_update_sharing_record(self):
-
-        #create
-        SharingController.create_sharing_record(self.__account_id, 'test_collection', callback = self.stop)
-        sharing_secret = self.wait()
-        self.assertTrue(sharing_secret is not None)
-
-        #retrieve sharing record
-        SharingController.get_sharing_record_by_secret(sharing_secret, callback = self.stop)
-        sharing_record = self.wait()
-        actual_sharing_secret = sharing_record.get_sharing_secret()
-        self.assertEqual(sharing_secret, actual_sharing_secret)
-
-        #update the sharing record
-        new_collection_name = 'new_name'
-        sharing_record.set_collection_name(new_collection_name)
-        SharingController.update_sharing_record(sharing_record, callback=self.stop)
-        self.wait()
-
-        #verify
-        SharingController.get_sharing_record_by_secret(sharing_secret, callback = self.stop)
-        sharing_record = self.wait()
-        actual_sharing_secret = sharing_record.get_sharing_secret()
-        self.assertEqual(sharing_secret, actual_sharing_secret)
-        actual_collection_name = sharing_record.get_owner_collection_name()
-        self.assertEqual(new_collection_name, actual_collection_name)
-
-        #cleanup
-        SharingController.remove_sharing_record_by_secret(sharing_secret, callback =self.stop)
-        self.wait()
-
     def test_add_subscriber(self):
 
         #create collection
