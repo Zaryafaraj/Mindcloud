@@ -72,7 +72,7 @@ class SharingController:
          the subscribed collection_name in his own account.
 
          -Returns:
-            -The sharing record object or None 
+            -The sharing record object or None
         """
         sharing_secret = yield gen.Task(SharingController.get_sharing_secret_from_subscriber_info,
                                         user_id,
