@@ -23,6 +23,21 @@ class SharingControllerTestCase(AsyncTestCase):
         SharingController.remove_sharing_record_by_secret(sharing_secret, callback =self.stop)
         self.wait()
 
+    def test_add_subscriber_to_subscriber_collection(self):
+        pass
+
+    def test_remove_subscriber_to_subscriber_collection(self):
+        pass
+
+    def test_remove_all_subscribers(self):
+        pass
+
+    def test_get_sharing_record_from_subscriber_info(self):
+        pass
+
+    def test_get_sharing_record_from_subscriber_info_non_existing_subscriber(self):
+        pass
+
     def test_get_sharing_record_by_sharing_secret(self):
         SharingController.create_sharing_record(self.__account_id, 'test_collection', callback = self.stop)
         sharing_secret = self.wait()

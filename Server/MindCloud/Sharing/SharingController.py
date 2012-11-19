@@ -39,6 +39,53 @@ class SharingController:
 
     @staticmethod
     @gen.engine
+    def get_sharing_secret_from_subscriber_info(user_id, collection_name, callback):
+        """
+        Retrieves the sharing secret of a sharing space, uniquely identified
+        by the user_id and collection name.
+
+        -Returns:
+            - The secret is passed to the callback. If there is no such
+            subscriber then None is passed
+        """
+        subscriber_collection = DatabaseFactory.get_subscribers_collection()
+        query = {SharingController.__SUBSCRIBER_ID_KEY : user_id,
+                 SharingController.__SUBSCRIBER_COLLECTION_NAME_KEY : collection_name}
+        subscriber_record_cursor = yield gen.Task(subscriber_collection.find, query)
+        result_count = len(subscriber_record_cursor[0][0])
+        #if user_id and collection_name are not uniquely identifying the
+        #share space then we are in trouble
+        assert result_count < 2
+
+        if not result_count:
+            callback(None)
+
+        else:
+            subscriber_record_bson = subscriber_record_cursor[0][0][0]
+            callback(subscriber_record_bson[SharingController.__SHARING_SPACE_SECRET_KEY])
+
+    @staticmethod
+    @gen.engine
+    def get_sharing_record_from_subscriber_info(user_id, collection_name, callback):
+        """
+        Provides the sharing record from a subscribers user_id and
+         the subscribed collection_name in his own account.
+
+         -Returns:
+            -The sharing record object or None 
+        """
+        sharing_secret = yield gen.Task(SharingController.get_sharing_secret_from_subscriber_info,
+                                        user_id,
+                                        collection_name)
+        if sharing_secret is None:
+            callback(None)
+        else:
+            sharing_info = yield gen.Task(SharingController.get_sharing_record_by_secret,
+                sharing_secret)
+            callback(sharing_info)
+
+    @staticmethod
+    @gen.engine
     def remove_subscriber(user_id, collection_name, callback):
         """
         Removes the subscriber from the subscribers collection.
