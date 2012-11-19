@@ -40,12 +40,26 @@ class SharingControllerTestCase(AsyncTestCase):
         sharing_record = self.wait()
         self.assertTrue(sharing_record is None)
 
-    def test_remove_sharing_record(self):
+    def test_remove_sharing_record_by_sharing_secret(self):
         SharingController.create_sharing_record(self.__account_id, 'test_collection', callback = self.stop)
         sharing_secret = self.wait()
         self.assertTrue(sharing_secret is not None)
         SharingController.remove_sharing_record(sharing_secret, callback =self.stop)
         self.wait()
+        SharingController.get_sharing_record(sharing_secret, callback = self.stop)
+        sharing_record = self.wait()
+        self.assertTrue(sharing_record is None)
+
+    def test_remove_sharing_record_by_owner_info(self):
+        collection_name = 'test_collection_name'
+        SharingController.create_sharing_record(self.__account_id,
+            collection_name, callback = self.stop)
+        sharing_secret = self.wait()
+        self.assertTrue(sharing_secret is not None)
+        SharingController.remove_sharing_record(self.__account_id,
+            collection_name, callback=self.stop)
+        self.wait()
+        #verify
         SharingController.get_sharing_record(sharing_secret, callback = self.stop)
         sharing_record = self.wait()
         self.assertTrue(sharing_record is None)

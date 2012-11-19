@@ -82,6 +82,21 @@ class SharingController:
 
     @staticmethod
     @gen.engine
+    def remove_sharing_record(owner_id, collection_name, callback):
+        """
+        Overload of remove sharing collection
+
+        Returns:
+            -void. The callback will be called
+        """
+        sharing_collection = DatabaseFactory.get_sharing_collection()
+        query = {SharingRecord.OWNER_KEY : owner_id,
+                 SharingRecord.COLLECTION_NAME_KEY: collection_name}
+        yield gen.Task(sharing_collection.remove, query)
+        callback()
+
+    @staticmethod
+    @gen.engine
     def update_sharing_record(sharing_record, callback):
         """
         updates the sharing recrod in the mongoDB database.
@@ -93,6 +108,7 @@ class SharingController:
         doc_content = sharing_record.toDictionary()
         yield gen.Task(sharing_collection.update, doc_key, doc_content)
         callback()
+
 
     @staticmethod
     @gen.engine
@@ -141,6 +157,7 @@ class SharingController:
             sharing_record.add_subscriber(user_id, dest_collection_name)
             yield gen.Task(SharingController.update_sharing_record, sharing_record)
             callback(dest_collection_name)
+
 
 
 

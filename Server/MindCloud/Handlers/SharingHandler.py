@@ -30,6 +30,11 @@ class SharingHandler(tornado.web.RequestHandler):
     def delete(self, user_id, collection_name):
 
         collection_name = urllib2.unquote(collection_name)
-            
+        yield gen.Task(SharingController.remove_sharing_record,
+                        user_id,
+                        collection_name)
+        self.set_status(StorageResponse.OK)
+        self.finish()
+
 
 
