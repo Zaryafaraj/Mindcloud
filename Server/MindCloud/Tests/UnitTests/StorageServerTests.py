@@ -15,14 +15,48 @@ class StorageServerTests(AsyncTestCase):
         return IOLoop.instance()
 
     def test_list_collections_valid_account(self):
+        collection_name = str(uuid.uuid1())
+        StorageServer.add_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
         StorageServer.list_collections(self.__account_id, callback=self.stop)
         collections = self.wait()
         self.assertTrue(len(collections) > 0)
+
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        self.wait()
 
     def test_list_collection_invalid_account(self):
         StorageServer.list_collections('dummy_user', callback=self.stop)
         collections = self.wait()
         self.assertTrue(len(collections) == 0)
+
+    def test_does_collection_exist(self):
+        collection_name = str(uuid.uuid1())
+        StorageServer.add_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        StorageServer.does_collection_exist(self.__account_id, collection_name,
+            callback= self.stop)
+        response = self.wait()
+        self.assertTrue(response)
+
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        self.wait()
+
+    def test_does_collection_exist_invalid_collection(self):
+
+        StorageServer.does_collection_exist(self.__account_id, 'dummy',
+            callback= self.stop)
+        response = self.wait()
+        self.assertTrue(not response)
 
     def test_add_collection_with_no_file(self):
         collection_name = str(uuid.uuid1())
