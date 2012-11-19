@@ -68,6 +68,39 @@ class SharingController:
 
     @staticmethod
     @gen.engine
+    def get_sharing_record(user_id, collection_name, callback):
+        """
+        An overload of the above funtion.
+
+        -Args:
+            -``user_id``: The id of the owner of the collection
+            -``collection_name``: The name of the owners collection
+        """
+        sharing_collection = DatabaseFactory.get_sharing_collection()
+        query = {SharingRecord.OWNER_KEY : user_id ,
+                 SharingRecord.COLLECTION_NAME_KEY : collection_name}
+        sharing_records_cursor = yield gen.Task(sharing_collection.find, query)
+        result_count = len(sharing_records_cursor[0][0])
+        #if we have more sharing spaces with this sharing secret
+        #something is horribly wrong
+        assert result_count < 2
+
+        if not result_count:
+            callback(None)
+
+        else:
+            #FIXME: is there a better way to these in asyncMongo other
+            #than these ugly indicies
+            sharing_record_bson = sharing_records_cursor[0][0][0]
+            sharing_record = SharingRecord(
+                sharing_record_bson[SharingRecord.SECRET_KEY],
+                sharing_record_bson[SharingRecord.OWNER_KEY],
+                sharing_record_bson[SharingRecord.COLLECTION_NAME_KEY],
+                sharing_record_bson[SharingRecord.SUBSCIRBERS_KEY])
+            callback(sharing_record)
+
+    @staticmethod
+    @gen.engine
     def remove_sharing_record(sharing_secret, callback):
         """
         Removes a sharing record identified by the sharing_secret

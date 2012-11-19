@@ -48,6 +48,22 @@ class SharingHandler(tornado.web.RequestHandler):
             self.finish()
         else:
             self.set_status(StorageResponse.NOT_FOUND)
+            self.finish()
 
+    @tornado.web.asynchronous
+    @gen.engine
+    def get(self, user_id, collection_name):
+
+        collection_name = urllib2.unquote(collection_name)
+
+        does_exist = yield gen.Task(StorageServer.does_collection_exist,
+            user_id, collection_name)
+        if does_exist:
+            yield gen.Task(SharingController.get_sharing_record )
+            self.set_status(StorageResponse.OK)
+            self.finish()
+        else:
+            self.set_status(StorageResponse.NOT_FOUND)
+            self.finish()
 
 
