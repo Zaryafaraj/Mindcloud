@@ -20,23 +20,45 @@ class SharingControllerTestCase(AsyncTestCase):
         sharing_secret = self.wait()
         self.assertTrue(sharing_secret is not None)
         #cleanup
-        SharingController.remove_sharing_record(sharing_secret, callback =self.stop)
+        SharingController.remove_sharing_record_by_secret(sharing_secret, callback =self.stop)
         self.wait()
 
-    def test_get_sharing_record(self):
+    def test_get_sharing_record_by_sharing_secret(self):
         SharingController.create_sharing_record(self.__account_id, 'test_collection', callback = self.stop)
         sharing_secret = self.wait()
         self.assertTrue(sharing_secret is not None)
-        SharingController.get_sharing_record(sharing_secret, callback = self.stop)
+        SharingController.get_sharing_record_by_secret(sharing_secret, callback = self.stop)
         sharing_record = self.wait()
         actual_sharing_secret = sharing_record.toDictionary()[SharingRecord.SECRET_KEY]
         self.assertEqual(sharing_secret, actual_sharing_secret)
         #cleanup
-        SharingController.remove_sharing_record(sharing_secret, callback =self.stop)
+        SharingController.remove_sharing_record_by_secret(sharing_secret, callback =self.stop)
         self.wait()
 
+    def test_get_sharing_record_by_owner_info(self):
+        collection_name = "col_name"
+        SharingController.create_sharing_record(self.__account_id, collection_name,
+            callback = self.stop)
+        sharing_secret = self.wait()
+        self.assertTrue(sharing_secret is not None)
+
+        SharingController.get_sharing_record_by_owner_info(self.__account_id,
+            collection_name, callback = self.stop)
+        sharing_record = self.wait()
+        actual_sharing_secret = sharing_record.get_sharing_secret()
+        self.assertEqual(sharing_secret, actual_sharing_secret)
+        #cleanup
+        SharingController.remove_sharing_record_by_secret(sharing_secret, callback =self.stop)
+        self.wait()
+
+    def test_get_invalid_sharing_record_by_owner_info(self):
+        SharingController.get_sharing_record_by_owner_info(self.__account_id,
+            'dummy', callback = self.stop)
+        sharing_record = self.wait()
+        self.assertTrue(sharing_record is None)
+
     def test_get_non_existing_sharing_record(self):
-        SharingController.get_sharing_record('invalidsecret', callback = self.stop)
+        SharingController.get_sharing_record_by_secret('invalidsecret', callback = self.stop)
         sharing_record = self.wait()
         self.assertTrue(sharing_record is None)
 
@@ -44,9 +66,9 @@ class SharingControllerTestCase(AsyncTestCase):
         SharingController.create_sharing_record(self.__account_id, 'test_collection', callback = self.stop)
         sharing_secret = self.wait()
         self.assertTrue(sharing_secret is not None)
-        SharingController.remove_sharing_record(sharing_secret, callback =self.stop)
+        SharingController.remove_sharing_record_by_secret(sharing_secret, callback =self.stop)
         self.wait()
-        SharingController.get_sharing_record(sharing_secret, callback = self.stop)
+        SharingController.get_sharing_record_by_secret(sharing_secret, callback = self.stop)
         sharing_record = self.wait()
         self.assertTrue(sharing_record is None)
 
@@ -56,11 +78,11 @@ class SharingControllerTestCase(AsyncTestCase):
             collection_name, callback = self.stop)
         sharing_secret = self.wait()
         self.assertTrue(sharing_secret is not None)
-        SharingController.remove_sharing_record(self.__account_id,
+        SharingController.remove_sharing_record_by_owner_info(self.__account_id,
             collection_name, callback=self.stop)
         self.wait()
         #verify
-        SharingController.get_sharing_record(sharing_secret, callback = self.stop)
+        SharingController.get_sharing_record_by_secret(sharing_secret, callback = self.stop)
         sharing_record = self.wait()
         self.assertTrue(sharing_record is None)
 
@@ -72,7 +94,7 @@ class SharingControllerTestCase(AsyncTestCase):
         self.assertTrue(sharing_secret is not None)
 
         #retrieve sharing record
-        SharingController.get_sharing_record(sharing_secret, callback = self.stop)
+        SharingController.get_sharing_record_by_secret(sharing_secret, callback = self.stop)
         sharing_record = self.wait()
         actual_sharing_secret = sharing_record.get_sharing_secret()
         self.assertEqual(sharing_secret, actual_sharing_secret)
@@ -84,7 +106,7 @@ class SharingControllerTestCase(AsyncTestCase):
         self.wait()
 
         #verify
-        SharingController.get_sharing_record(sharing_secret, callback = self.stop)
+        SharingController.get_sharing_record_by_secret(sharing_secret, callback = self.stop)
         sharing_record = self.wait()
         actual_sharing_secret = sharing_record.get_sharing_secret()
         self.assertEqual(sharing_secret, actual_sharing_secret)
@@ -92,7 +114,7 @@ class SharingControllerTestCase(AsyncTestCase):
         self.assertEqual(new_collection_name, actual_collection_name)
 
         #cleanup
-        SharingController.remove_sharing_record(sharing_secret, callback =self.stop)
+        SharingController.remove_sharing_record_by_secret(sharing_secret, callback =self.stop)
         self.wait()
 
     def test_add_subscriber(self):
@@ -118,13 +140,13 @@ class SharingControllerTestCase(AsyncTestCase):
         self.assertTrue(subscribers_collection_name is not None)
 
         #verify
-        SharingController.get_sharing_record(sharing_secret, callback = self.stop)
+        SharingController.get_sharing_record_by_secret(sharing_secret, callback = self.stop)
         sharing_record = self.wait()
         subscribers_list = sharing_record.get_subscribers()
         self.assertTrue([self.__subscriber_id, subscribers_collection_name] in
                         subscribers_list)
         #cleanup
-        SharingController.remove_sharing_record(sharing_secret, callback =self.stop)
+        SharingController.remove_sharing_record_by_secret(sharing_secret, callback =self.stop)
         self.wait()
         StorageServer.remove_collection(self.__account_id, first_collection_name,
             callback=self.stop)

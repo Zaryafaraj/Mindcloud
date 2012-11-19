@@ -36,7 +36,7 @@ class SharingController:
 
     @staticmethod
     @gen.engine
-    def get_sharing_record(sharing_secret, callback):
+    def get_sharing_record_by_secret(sharing_secret, callback):
         """
         Returns:
             -A Sharing record object containing information of the
@@ -68,7 +68,7 @@ class SharingController:
 
     @staticmethod
     @gen.engine
-    def get_sharing_record(user_id, collection_name, callback):
+    def get_sharing_record_by_owner_info(user_id, collection_name, callback):
         """
         An overload of the above funtion.
 
@@ -101,7 +101,7 @@ class SharingController:
 
     @staticmethod
     @gen.engine
-    def remove_sharing_record(sharing_secret, callback):
+    def remove_sharing_record_by_secret(sharing_secret, callback):
         """
         Removes a sharing record identified by the sharing_secret
 
@@ -115,7 +115,7 @@ class SharingController:
 
     @staticmethod
     @gen.engine
-    def remove_sharing_record(owner_id, collection_name, callback):
+    def remove_sharing_record_by_owner_info(owner_id, collection_name, callback):
         """
         Overload of remove sharing collection
 
