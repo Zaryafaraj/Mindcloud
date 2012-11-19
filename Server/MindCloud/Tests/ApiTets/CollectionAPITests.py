@@ -8,7 +8,7 @@ from TornadoMain import Application
 
 __author__ = 'afathali'
 
-class CollectnTests(AsyncHTTPTestCase):
+class CollectionTests(AsyncHTTPTestCase):
 
     account_id = '04B08CB7-17D5-493A-8ED1-E086FDC1327E'
 

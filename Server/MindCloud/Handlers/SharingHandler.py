@@ -38,17 +38,11 @@ class SharingHandler(tornado.web.RequestHandler):
 
         collection_name = urllib2.unquote(collection_name)
 
-        does_exist = yield gen.Task(StorageServer.does_collection_exist,
-            user_id, collection_name)
-        if does_exist:
-            yield gen.Task(SharingController.remove_sharing_record_by_owner_info,
-                            user_id,
-                            collection_name)
-            self.set_status(StorageResponse.OK)
-            self.finish()
-        else:
-            self.set_status(StorageResponse.NOT_FOUND)
-            self.finish()
+        yield gen.Task(SharingController.remove_sharing_record_by_owner_info,
+                        user_id,
+                        collection_name)
+        self.set_status(StorageResponse.OK)
+        self.finish()
 
     @tornado.web.asynchronous
     @gen.engine
@@ -62,9 +56,13 @@ class SharingHandler(tornado.web.RequestHandler):
             sharing_record = yield gen.Task(SharingController.get_sharing_record_by_owner_info,
                             user_id, collection_name)
             self.set_status(StorageResponse.OK)
-            json_str = json.dumps(sharing_record.toDictionary())
-            self.write(json_str)
-            self.finish()
+            if sharing_record is not None:
+                json_str = json.dumps(sharing_record.toDictionary())
+                self.write(json_str)
+                self.finish()
+            else:
+                self.set_status(StorageResponse.NOT_FOUND)
+                self.finish()
         else:
             self.set_status(StorageResponse.NOT_FOUND)
             self.finish()
