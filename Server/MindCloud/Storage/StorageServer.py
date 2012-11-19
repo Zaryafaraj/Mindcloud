@@ -64,6 +64,19 @@ class StorageServer:
 
     @staticmethod
     @gen.engine
+    def does_collection_exist(user_id, collection_name, callback):
+        """
+        determines whether collection_name exists in the user with user_id
+        account
+
+        Returns:
+            - A boolean
+        """
+        col_list = yield gen.Task(StorageServer.list_collections, user_id)
+        callback(collection_name in col_list)
+
+    @staticmethod
+    @gen.engine
     def add_collection(user_id, collection_name, callback, file=None):
         """
         Adds a collection to the user collections.
