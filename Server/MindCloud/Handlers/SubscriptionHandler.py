@@ -1,4 +1,5 @@
 import json
+import urllib2
 from tornado import gen
 import tornado.web
 from Sharing.SharingController import SharingController
@@ -10,24 +11,11 @@ class SubscriptionHandler(tornado.web.RequestHandler):
 
     @tornado.web.asynchronous
     @gen.engine
-    def post(self, user_id):
-
-        sharing_secret = self.get_argument('sharingSecret')
-        shared_collection = yield gen.Task\
-            (SharingController.subscribe_to_sharing_space,
-            user_id,
-            sharing_secret)
-        #TODO: maybe we could send back the response code
-        if shared_collection is None:
-            self.set_status(StorageResponse.SERVER_EXCEPTION)
-            self.finish()
-        else:
-            json_str = json.dumps({'collection_name' : shared_collection})
-            self.write(json_str)
-            self.finish()
-
-    @tornado.web.asynchronous
-    @gen.engine
-    def delete(self, user_id):
-        collection_name = self.get_argument('collectionName')
+    def delete(self,user_id, collection_name):
+        collection_name = urllib2.unquote(collection_name)
+        response = \
+        yield gen.Task(SharingController.unsubscribe_from_sharing_space,
+           user_id, collection_name)
+        self.set_status(response)
+        self.finish()
 

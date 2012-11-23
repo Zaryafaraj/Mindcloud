@@ -275,47 +275,50 @@ class SharingController:
 
         -Returns:
             - The name of the shared collection in the subscribers account.
-            None if the operation wasn't successful
+            None otherwise
         """
 
         #Get the sharing space
         sharing_record = yield gen.Task(SharingController.get_sharing_record_by_secret,
                                         sharing_secret)
 
-        #if we are already subscribed return
-        existing_collection_name = \
-            sharing_record.get_collection_name_for_subscriber(user_id)
-        if existing_collection_name is not None:
-            callback(existing_collection_name)
+        if sharing_record is None:
+            callback(None)
         else:
-            #Get the sharedCollection and figure out the name
-            original_collection_name = sharing_record.get_owner_collection_name()
-            dest_collection_name = yield gen.Task(
-                StorageUtils.find_best_collection_name_for_user,
-                original_collection_name,
-                user_id)
-
-            #Copy sharing content
-            src_user_id = sharing_record.get_owner_user_id()
-            response = yield gen.Task(StorageServer.copy_collection_between_accounts,
-                                        src_user_id,
-                                        user_id,
-                                        original_collection_name,
-                                        dest_collection_name)
-
-            #if error happens just return it
-            if response != StorageResponse.OK:
-                callback(None)
-
-            #Update Mongo
+            #if we are already subscribed return
+            existing_collection_name = \
+                sharing_record.get_collection_name_for_subscriber(user_id)
+            if existing_collection_name is not None:
+                callback(existing_collection_name)
             else:
-                #Update sharing collection
-                sharing_record.add_subscriber(user_id, dest_collection_name)
-                yield gen.Task(SharingController.__update_sharing_record, sharing_record)
-                #Update subscribers collection
-                yield gen.Task(SharingController.add_subscriber, user_id, dest_collection_name,
-                    sharing_secret)
-                callback(dest_collection_name)
+                #Get the sharedCollection and figure out the name
+                original_collection_name = sharing_record.get_owner_collection_name()
+                dest_collection_name = yield gen.Task(
+                    StorageUtils.find_best_collection_name_for_user,
+                    original_collection_name,
+                    user_id)
+
+                #Copy sharing content
+                src_user_id = sharing_record.get_owner_user_id()
+                response = yield gen.Task(StorageServer.copy_collection_between_accounts,
+                                            src_user_id,
+                                            user_id,
+                                            original_collection_name,
+                                            dest_collection_name)
+
+                #if error happens just return it
+                if response != StorageResponse.OK:
+                    callback(None)
+
+                #Update Mongo
+                else:
+                    #Update sharing collection
+                    sharing_record.add_subscriber(user_id, dest_collection_name)
+                    yield gen.Task(SharingController.__update_sharing_record, sharing_record)
+                    #Update subscribers collection
+                    yield gen.Task(SharingController.add_subscriber, user_id, dest_collection_name,
+                        sharing_secret)
+                    callback(dest_collection_name)
 
     @staticmethod
     @gen.engine
