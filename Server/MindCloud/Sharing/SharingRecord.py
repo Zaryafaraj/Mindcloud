@@ -45,7 +45,8 @@ class SharingRecord:
 
     def add_subscriber(self, subscriber_id, subscriber_collection_name):
         subscriber_record = (subscriber_id, subscriber_collection_name)
-        self.subscribers.append(subscriber_record)
+        if [subscriber_id, subscriber_collection_name] not in self.subscribers:
+            self.subscribers.append(subscriber_record)
 
     def remove_subscriber(self, subscriber_id, collection_name):
         if [subscriber_id,collection_name] in self.subscribers:
@@ -54,3 +55,11 @@ class SharingRecord:
     def get_subscribers(self):
         #create a copy of the subscribers so that the user can't modify it
         return list(self.subscribers)
+
+    def get_collection_name_for_subscriber(self, user_id):
+
+        result_list = [ x[1] for x in self.subscribers if x[0] == user_id ]
+        if len(result_list) > 0 :
+            return result_list[0]
+        else:
+            return None

@@ -276,6 +276,93 @@ class SharingControllerTestCase(AsyncTestCase):
             callback=self.stop)
         self.wait()
 
+    def test_reshare_already_shared_collection(self):
+
+        #create collection
+        first_collection_name = 'shareable_collection'
+        file = open('../test_resources/XooML.xml')
+        StorageServer.add_collection(user_id=self.__account_id,
+            collection_name=first_collection_name, callback=self.stop, file= file)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #create sharing record
+        SharingController.create_sharing_record(self.__account_id,
+            first_collection_name, callback = self.stop)
+        sharing_secret = self.wait()
+        self.assertTrue(sharing_secret is not None)
+
+        #duplicate create sharing record
+        SharingController.create_sharing_record(self.__account_id,
+            first_collection_name, callback = self.stop)
+        new_sharing_secret = self.wait()
+        self.assertEqual(sharing_secret, new_sharing_secret)
+
+        #verify that only one sharing record was added
+        SharingController.get_sharing_record_by_owner_info(self.__account_id,
+            first_collection_name, callback=self.stop)
+        sharing_record = self.wait()
+        subscribers_list = sharing_record.get_subscribers()
+        self.assertEqual(1, len(subscribers_list))
+
+        #cleanup
+        SharingController.remove_sharing_record_by_secret(sharing_secret, callback =self.stop)
+        self.wait()
+        StorageServer.remove_collection(self.__account_id, first_collection_name,
+            callback=self.stop)
+        self.wait()
+
+    def test_subscribing_to_an_already_subscribed_collectoin(self):
+
+        #create collection
+        first_collection_name = 'shareable_collection'
+        file = open('../test_resources/XooML.xml')
+        StorageServer.add_collection(user_id=self.__account_id,
+            collection_name=first_collection_name, callback=self.stop, file= file)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #create sharing record
+        SharingController.create_sharing_record(self.__account_id,
+            first_collection_name, callback = self.stop)
+        sharing_secret = self.wait()
+        self.assertTrue(sharing_secret is not None)
+
+        #subscribe
+        SharingController.subscribe_to_sharing_space(self.__subscriber_id,
+            sharing_secret, callback = self.stop)
+        subscribers_collection_name  = self.wait()
+        self.assertTrue(subscribers_collection_name is not None)
+
+        SharingController.subscribe_to_sharing_space(self.__subscriber_id,
+            sharing_secret, callback = self.stop)
+        duplicate_subscribers_collection_name  = self.wait()
+        self.assertTrue(subscribers_collection_name is not None)
+        self.assertEqual(subscribers_collection_name, duplicate_subscribers_collection_name)
+
+        #verify
+        SharingController.get_sharing_record_by_secret(sharing_secret, callback = self.stop)
+        sharing_record = self.wait()
+        subscribers_list = sharing_record.get_subscribers()
+        self.assertEqual(2, len(subscribers_list))
+
+        #verify subscriber collection
+        SharingController.get_sharing_secret_from_subscriber_info(self.__subscriber_id,
+            subscribers_collection_name,
+            callback=self.stop)
+        actual_sharing_secret = self.wait()
+        self.assertEqual(sharing_secret, actual_sharing_secret)
+
+        #cleanup
+        SharingController.remove_sharing_record_by_secret(sharing_secret, callback =self.stop)
+        self.wait()
+        StorageServer.remove_collection(self.__account_id, first_collection_name,
+            callback=self.stop)
+        self.wait()
+        StorageServer.remove_collection(self.__subscriber_id, subscribers_collection_name,
+            callback=self.stop)
+        self.wait()
+
     def test_subscriber_unsubscribing(self):
 
         #create collection
@@ -326,13 +413,96 @@ class SharingControllerTestCase(AsyncTestCase):
             callback=self.stop)
 
     def test_owner_unsubscribing(self):
-        pass
+
+        #create collection
+        first_collection_name = 'shareable_collection'
+        file = open('../test_resources/XooML.xml')
+        StorageServer.add_collection(user_id=self.__account_id,
+            collection_name=first_collection_name, callback=self.stop, file= file)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #create sharing record
+        SharingController.create_sharing_record(self.__account_id,
+            first_collection_name, callback = self.stop)
+        sharing_secret = self.wait()
+        self.assertTrue(sharing_secret is not None)
+
+        #subscribe
+        SharingController.subscribe_to_sharing_space(self.__subscriber_id,
+            sharing_secret, callback = self.stop)
+        subscribers_collection_name  = self.wait()
+        self.assertTrue(subscribers_collection_name is not None)
+
+        #owner unsubscribe
+        SharingController.unsubscribe_from_sharing_space(self.__account_id,
+            first_collection_name, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #verify unsubscribe
+        SharingController.get_sharing_record_by_secret(sharing_secret,
+            callback = self.stop)
+        sharing_record = self.wait()
+        self.assertTrue(sharing_record is None)
+
+        SharingController.get_sharing_record_from_subscriber_info(self.__subscriber_id,
+            subscribers_collection_name, callback=self.stop)
+        sharing_record = self.wait()
+        self.assertTrue(sharing_record is None)
+
+        #cleanup
+        SharingController.remove_sharing_record_by_secret(sharing_secret, callback =self.stop)
+        self.wait()
+        StorageServer.remove_collection(self.__account_id, first_collection_name,
+            callback=self.stop)
+        self.wait()
+        StorageServer.remove_collection(self.__subscriber_id, subscribers_collection_name,
+            callback=self.stop)
+
     def test_invalid_user_unsubscribing(self):
-        pass
-    def reshare_already_shared_collection(self):
-        pass
-    def subscribing_to_an_already_subscribed_collectoin(self):
-        pass
+
+        #create collection
+        first_collection_name = 'shareable_collection'
+        file = open('../test_resources/XooML.xml')
+        StorageServer.add_collection(user_id=self.__account_id,
+            collection_name=first_collection_name, callback=self.stop, file= file)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #create sharing record
+        SharingController.create_sharing_record(self.__account_id,
+            first_collection_name, callback = self.stop)
+        sharing_secret = self.wait()
+        self.assertTrue(sharing_secret is not None)
+
+        #subscribe
+        SharingController.subscribe_to_sharing_space(self.__subscriber_id,
+            sharing_secret, callback = self.stop)
+        subscribers_collection_name  = self.wait()
+        self.assertTrue(subscribers_collection_name is not None)
+
+        #invalid unsubscribe
+        SharingController.unsubscribe_from_sharing_space('dummy',
+            first_collection_name, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.NOT_FOUND, response)
+
+        #verify unsubscribe
+        SharingController.get_sharing_record_from_subscriber_info('dummy',
+            subscribers_collection_name, callback=self.stop)
+        sharing_record = self.wait()
+        self.assertTrue(sharing_record is None)
+
+        #cleanup
+        SharingController.remove_sharing_record_by_secret(sharing_secret, callback =self.stop)
+        self.wait()
+        StorageServer.remove_collection(self.__account_id, first_collection_name,
+            callback=self.stop)
+        self.wait()
+        StorageServer.remove_collection(self.__subscriber_id, subscribers_collection_name,
+            callback=self.stop)
+
 
     def test_remove_all_subscribers_detailed(self):
 
