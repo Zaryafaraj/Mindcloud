@@ -48,7 +48,8 @@ class SharingRecord:
         self.subscribers.append(subscriber_record)
 
     def remove_subscriber(self, subscriber_id, collection_name):
-        self.subscribers.remove((subscriber_id, collection_name))
+        if [subscriber_id,collection_name] in self.subscribers:
+            self.subscribers.remove([subscriber_id, collection_name])
 
     def get_subscribers(self):
         #create a copy of the subscribers so that the user can't modify it

@@ -334,7 +334,7 @@ class SharingController:
             else:
             #remove the subscription info and update the sharing space for the user
                 yield gen.Task(SharingController.remove_subscriber, user_id, collection_name)
-                sharing_record.remove_subscriber(user_id)
+                sharing_record.remove_subscriber(user_id, collection_name)
                 yield gen.Task(SharingController.__update_sharing_record, sharing_record)
 
             callback(StorageResponse.OK)
