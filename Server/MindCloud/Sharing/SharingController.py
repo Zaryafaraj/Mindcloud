@@ -174,6 +174,7 @@ class SharingController:
                  SharingRecord.COLLECTION_NAME_KEY : collection_name}
         sharing_records_cursor = yield gen.Task(sharing_collection.find, query)
         result_count = len(sharing_records_cursor[0][0])
+
         #if we have more sharing spaces with this sharing secret
         #something is horribly wrong
         assert result_count < 2
@@ -302,7 +303,7 @@ class SharingController:
 
     @staticmethod
     @gen.engine
-    def unsubscribe_from_sharing_space(user_id, collection_name):
+    def unsubscribe_from_sharing_space(user_id, collection_name, callback):
         """
         Unsubscribes the user with user_id from the sharing space.
         The sharing space is uniquely identified by having (user_id, collection_name)
@@ -319,5 +320,27 @@ class SharingController:
         -Returns:
             -The status of the operation
         """
+
+        sharing_record = yield gen.Task(SharingController.get_sharing_record_from_subscriber_info,
+            user_id, collection_name)
+        if sharing_record is not None:
+            # if the unsubscriber is the owner
+            # Remove the sharing info and remove the subscription info for everyone
+            if sharing_record.get_owner_user_id() == user_id:
+                yield gen.Task(SharingController.remove_all_subscribers,
+                    sharing_record.get_sharing_secret)
+                yield gen.Task(SharingController.remove_sharing_record_by_secret,
+                    sharing_record.get_sharing_secret)
+            else:
+            #remove the subscription info and update the sharing space for the user
+                yield gen.Task(SharingController.remove_subscriber, user_id, collection_name)
+                sharing_record.remove_subscriber(user_id)
+                yield gen.Task(SharingController.__update_sharing_record, sharing_record)
+
+            callback(StorageResponse.OK)
+        else:
+            callback(StorageResponse.SERVER_EXCEPTION)
+
+
 
 
