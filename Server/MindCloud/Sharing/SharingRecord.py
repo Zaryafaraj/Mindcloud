@@ -37,11 +37,18 @@ class SharingRecord:
     def get_owner_collection_name(self):
         return self.collection_name
 
+    def set_owner_collection_name(self, new_collection_name):
+        self.collection_name = new_collection_name
+
     def get_owner_user_id(self):
         return self.owner_id
 
     def set_collection_name(self, new_name):
         self.collection_name = new_name
+
+    def rename_subscriber_collection_name(self, subscriber_id, old_name, new_name):
+        self.remove_subscriber(subscriber_id, old_name)
+        self.add_subscriber(subscriber_id, new_name)
 
     def add_subscriber(self, subscriber_id, subscriber_collection_name):
         subscriber_record = (subscriber_id, subscriber_collection_name)
