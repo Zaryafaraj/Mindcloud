@@ -4,6 +4,7 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
+from Sharing.SharingController import SharingController
 from Storage.StorageResponse import StorageResponse
 from Storage.StorageServer import StorageServer
 
@@ -42,6 +43,9 @@ class CollectionHandler(tornado.web.RequestHandler):
 
         collection_name = urllib2.unquote(collection_name)
         result_code = yield gen.Task(StorageServer.remove_collection, user_id, collection_name)
+        #in case this was shared unsubscribe from the collection. The check for the existance of
+        #the sharing record is done in the sharing controller
+        yield gen.Task(SharingController.unsubscribe_from_sharing_space, user_id, collection_name)
         self.set_status(result_code)
         self.finish()
 

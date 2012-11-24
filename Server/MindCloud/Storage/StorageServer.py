@@ -183,6 +183,7 @@ class StorageServer:
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
             result_code = yield gen.Task(DropboxHelper.delete_folder, storage, collection_name)
+            #
             callback(result_code)
         else:
             callback(StorageResponse.SERVER_EXCEPTION)

@@ -1,3 +1,4 @@
+import json
 import urllib
 import uuid
 from tornado.httputil import HTTPHeaders
@@ -11,6 +12,8 @@ __author__ = 'afathali'
 class CollectionTests(AsyncHTTPTestCase):
 
     account_id = '04B08CB7-17D5-493A-8ED1-E086FDC1327E'
+    subscriber_id = 'E82FD595-AD5E-4D91-B73D-3A7C3A3FEDCE'
+
 
     def get_new_ioloop(self):
         return IOLoop.instance()
@@ -20,6 +23,7 @@ class CollectionTests(AsyncHTTPTestCase):
         return application
 
     def test_delete_collection(self):
+
         collection_name = 'collName'
         params = {'collectionName':collection_name}
         url = '/'+self.account_id + '/Collections'
@@ -29,6 +33,82 @@ class CollectionTests(AsyncHTTPTestCase):
         response = self.fetch(path=url, method='DELETE')
         self.assertEquals(200, response.code)
 
+    def test_delete_shared_collection_by_subscriber(self):
+
+        #initialize
+        collection_name = 'colName'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+        url += "/" + collection_name + '/Share'
+        response = self.fetch(path=url, method='POST', body="")
+        json_obj = json.loads(response.body)
+        sharing_secret = json_obj['sharing_secret']
+        self.assertEqual(200, response.code)
+
+        subscription_url = '/'.join(['', self.subscriber_id,
+                                     'Collections','ShareSpaces', 'Subscribe'])
+        headers, postData =\
+        HTTPHelper.create_multipart_request_with_parameters\
+            ({'sharing_secret': sharing_secret})
+        response = self.fetch(path=subscription_url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+        json_obj = json.loads(response.body)
+        subscriber_collection_name = json_obj['collection_name']
+
+        #delete
+        del_url = '/'.join(['',self.subscriber_id, 'Collections', subscriber_collection_name])
+        response = self.fetch(path=del_url, method='DELETE')
+        self.assertEquals(200, response.code)
+
+        #verify
+        response = self.fetch(path=url, method='GET')
+        self.assertEqual(200, response.code)
+        json_obj = json.loads(response.body)
+        actual_collection_name = json_obj['collection_name']
+        self.assertEqual(collection_name, actual_collection_name)
+        subscribers_list = json_obj['subscribers']
+        self.assertTrue([self.subscriber_id, subscriber_collection_name]
+        not in subscribers_list)
+
+        #cleanup
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+
+
+    def test_delete_shared_collection_by_owner(self):
+
+        #initialize
+        collection_name = 'colName'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+        url += "/" + collection_name + '/Share'
+        response = self.fetch(path=url, method='POST', body="")
+        json_obj = json.loads(response.body)
+        sharing_secret = json_obj['sharing_secret']
+        self.assertEqual(200, response.code)
+
+        subscription_url = '/'.join(['', self.subscriber_id,
+                                     'Collections','ShareSpaces', 'Subscribe'])
+        headers, postData =\
+        HTTPHelper.create_multipart_request_with_parameters\
+            ({'sharing_secret': sharing_secret})
+        response = self.fetch(path=subscription_url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+
+        #delete
+        del_url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        response = self.fetch(path=del_url, method='DELETE')
+        self.assertEquals(200, response.code)
+
+        #verify
+        response = self.fetch(path=url, method='GET')
+        self.assertEqual(404, response.code)
 
     def test_rename_collection(self):
         collection_name = 'collName1'
