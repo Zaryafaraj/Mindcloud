@@ -33,9 +33,14 @@ class CollectionHandler(tornado.web.RequestHandler):
 
         collection_name = urllib2.unquote(collection_name)
         new_collection_name = self.get_argument('collectionName')
-        result_code = yield gen.Task(StorageServer.rename_collection, user_id, collection_name, new_collection_name)
+        result_code = yield gen.Task(StorageServer.rename_collection, user_id,
+            collection_name, new_collection_name)
+
         if result_code == StorageResponse.OK:
-            yeild gen.Task(SharingController.)
+            #try to update sharing records
+            yield gen.Task(SharingController.rename_shared_collection, user_id,
+                collection_name, new_collection_name)
+
         self.set_status(result_code)
         self.finish()
 

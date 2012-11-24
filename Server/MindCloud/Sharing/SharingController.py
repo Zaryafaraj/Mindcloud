@@ -259,6 +259,23 @@ class SharingController:
         yield gen.Task(sharing_collection.update, doc_key, doc_content)
         callback()
 
+    @staticmethod
+    @gen.engine
+    def __rename_subscriber_collection_name(user_id, old_collection_name,
+                                            new_collection_name, callback):
+        """
+        Updates the subscriber table for the user with user_id with the new name
+        for its collection
+        """
+
+        sharing_collection = DatabaseFactory.get_sharing_collection()
+        key = {SharingController.__SUBSCRIBER_ID_KEY : user_id,
+                 SharingController.__SUBSCRIBER_COLLECTION_NAME_KEY : old_collection_name}
+        new_content = {SharingController.__SUBSCRIBER_ID_KEY : user_id,
+                       SharingController.__SUBSCRIBER_COLLECTION_NAME_KEY : new_collection_name}
+        yield gen.Task(sharing_collection.update, key, new_content)
+        callback()
+
 
     @staticmethod
     @gen.engine
@@ -366,13 +383,19 @@ class SharingController:
 
        sharing_record = yield gen.Task(SharingController.__get_sharing_record_from_subscriber_info,
            user_id, old_collection_name)
+
        if sharing_record is not None:
            if sharing_record.get_owner_user_id() == user_id:
                sharing_record.set_owner_collection_name(new_collection_name)
-           else:
-               sharing_record.rename_subsciber_collection_name(user_id,
-                   old_collection_name, new_collection_name)
+
+           #since owner is also a subscriber this rename should be done in each case
+           sharing_record.rename_subsciber_collection_name(user_id,
+               old_collection_name, new_collection_name)
+
+           #update sharing related tables
            yield gen.Task(SharingController.__update_sharing_record, sharing_record)
+           yield gen.Task(SharingController.__rename_subscriber_collection_name, user_id,
+               old_collection_name, new_collection_name)
 
        else:
            callback(None)
