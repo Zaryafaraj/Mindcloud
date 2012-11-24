@@ -1,4 +1,5 @@
 import json
+from tornado.httputil import HTTPHeaders
 
 __author__ = 'afathali'
 import urllib
@@ -89,14 +90,15 @@ class NotesTests(AsyncHTTPTestCase):
         self.fetch(path=url, method='DELETE')
 
     def test_get_invalid_note(self):
-        url = '/'.join(['', self.account_id, 'Collections', 'dummy','Notes', 'dummyNote'])
-        response = self.fetch(path=url,method='GET')
+        url = '/'.join(['', self.account_id, 'Collections', 'dummyyy','Notes', 'dummy'])
+        headers = HTTPHeaders()
+        response = self.fetch(path=url,method='GET', headers=headers)
         self.assertEqual(404, response.code)
 
     def test_update_note(self):
 
         collection_name = 'collName'
-        note_name = 'note_name'
+        note_name = 'notename'
         params = {'collectionName':collection_name}
         url = '/'+self.account_id + '/Collections'
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
@@ -140,8 +142,8 @@ class NotesTests(AsyncHTTPTestCase):
         self.assertEqual(200, response.code)
 
         #Delete
-        url += '/' + note_name
-        self.fetch(path=url, method='DELETE')
+        del_url = '/'.join(['', self.account_id, 'Collections', collection_name, 'Notes', note_name])
+        self.fetch(path=del_url, method='GET')
         self.assertEqual(200, response.code)
 
         #cleanup
