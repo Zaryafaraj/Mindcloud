@@ -20,7 +20,8 @@ class NoteHandler(tornado.web.RequestHandler):
         collection_name = urllib2.unquote(collection_name)
         note_name = urllib2.unquote(note_name)
 
-        note_file = yield gen.Task(StorageServer.get_note_from_collection, user_id, collection_name, note_name)
+        note_file = yield gen.Task(StorageServer.get_note_from_collection,
+            user_id, collection_name, note_name)
         if note_file is None:
             self.set_status(StorageResponse.NOT_FOUND)
         else:
