@@ -1,4 +1,5 @@
 import json
+import random
 import urllib
 import uuid
 from tornado.httputil import HTTPHeaders
@@ -122,6 +123,94 @@ class CollectionTests(AsyncHTTPTestCase):
         headers, postData = HTTPHelper.create_multipart_request_with_parameters(params)
         response = self.fetch(path=url, headers=headers, method='PUT', body=postData)
         self.assertEquals(200, response.code)
+        #cleanup
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+
+    def test_rename_shared_collection_by_owner(self):
+
+        #initialize
+        collection_name = 'fcolName'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+        url += "/" + collection_name + '/Share'
+        response = self.fetch(path=url, method='POST', body="")
+        json_obj = json.loads(response.body)
+        sharing_secret = json_obj['sharing_secret']
+        self.assertEqual(200, response.code)
+
+        subscription_url = '/'.join(['', self.subscriber_id,
+                                     'Collections','ShareSpaces', 'Subscribe'])
+        headers, postData =\
+        HTTPHelper.create_multipart_request_with_parameters\
+            ({'sharing_secret': sharing_secret})
+        response = self.fetch(path=subscription_url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+
+        #rename
+        rename_collection_name = 'new_name'
+        rename_url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        params = {'collectionName':rename_collection_name}
+        headers, postData = HTTPHelper.create_multipart_request_with_parameters(params)
+        response = self.fetch(path=rename_url, headers=headers, method='PUT', body=postData)
+        self.assertEquals(200, response.code)
+
+        response = self.fetch(path=url, method='GET')
+        self.assertEqual(404, response.code)
+        url = '/'.join(['', self.account_id, 'Collections', rename_collection_name, 'Share'])
+        response = self.fetch(path=url, method='GET')
+        self.assertEqual(200, response.code)
+        json_obj = json.loads(response.body)
+        actual_collection_name = json_obj['collection_name']
+        self.assertEqual(rename_collection_name, actual_collection_name)
+
+        #cleanup
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+
+    def test_rename_shared_collection_by_subscriber(self):
+
+        #initialize
+        collection_name = 'fcolName'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+        url += "/" + collection_name + '/Share'
+        response = self.fetch(path=url, method='POST', body="")
+        json_obj = json.loads(response.body)
+        sharing_secret = json_obj['sharing_secret']
+        self.assertEqual(200, response.code)
+
+        subscription_url = '/'.join(['', self.subscriber_id,
+                                     'Collections','ShareSpaces', 'Subscribe'])
+        headers, postData =\
+        HTTPHelper.create_multipart_request_with_parameters\
+            ({'sharing_secret': sharing_secret})
+        response = self.fetch(path=subscription_url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+        json_obj = json.loads(response.body)
+        subscriber_collection_name = json_obj['collection_name']
+
+        #rename
+        rename_collection_name = 'new_name'
+        rename_url = '/'.join(['',self.subscriber_id, 'Collections', subscriber_collection_name])
+        params = {'collectionName':rename_collection_name}
+        headers, postData = HTTPHelper.create_multipart_request_with_parameters(params)
+        response = self.fetch(path=rename_url, headers=headers, method='PUT', body=postData)
+        self.assertEquals(200, response.code)
+
+        response = self.fetch(path=url, method='GET')
+        self.assertEqual(200, response.code)
+        json_obj = json.loads(response.body)
+        subscribers = json_obj['subscribers']
+        self.assertTrue([self.subscriber_id, rename_collection_name] in
+            subscribers)
+
         #cleanup
         url = '/'.join(['',self.account_id, 'Collections', collection_name])
         self.fetch(path=url, method='DELETE')
