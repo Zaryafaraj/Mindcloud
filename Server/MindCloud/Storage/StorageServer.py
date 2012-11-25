@@ -19,7 +19,7 @@ class StorageServer:
     __CATEGORIES_FILENAME = 'categories.xml'
     __COLLECTION_FILE_NAME = 'collection.xml'
     __NOTE_FILE_NAME = 'note.xml'
-
+    __NOTE_IMG_FILE_NAME = 'img.jpg'
     __EMPTY_CATEGORIES = '<?xml version="1.0" encoding="UTF-8"?><root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xooml="http://kftf.ischool.washington.edu/xmlns/xooml" xsi:schemaLocation="http://kftf.ischool.washington.edu/xmlns/xooml http://kftf.ischool.washington.edu/XMLschema/0.41/XooML.xsd"></root>'
 
     @staticmethod
@@ -391,6 +391,65 @@ class StorageServer:
         """
 
         note_path = '/'.join(['',collection_name, note_name, StorageServer.__NOTE_FILE_NAME])
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
+        if storage is not None:
+            response = yield gen.Task(DropboxHelper.get_file, storage, note_path)
+            callback(response)
+        else:
+            callback(None)
+
+    @staticmethod
+    @gen.engine
+    def add_image_to_note(user_id, collection_name, note_name, img_file, callback):
+        """
+        adds an image to a note. Every note can have at most one image.
+        If an image already exists it will be replaced
+
+            Args:
+                -``user_id``: The user id of the user who is adding the image
+                -``collection_name``: The name of the collection under which
+                the note is located
+                -``note_name``: The name of the note that should contain the image
+                -``img_file``: A file or a file like structure that contains the image bytes
+
+            Returns:
+                - The status of the operation will be passed to the callback
+        """
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
+        if storage is not None:
+            file_closure = img_file
+            parent_path = '/'.join(['', collection_name, note_name])
+            if file_closure is None:
+                callback(StorageResponse.BAD_REQUEST)
+            else:
+
+                #because the format of the image is not known we use jpg but
+                #the consumer should decide what format it is from it img view
+                #hopefully this decision is made by an image viewer and not the
+                #client itself
+                result_code = yield gen.Task(DropboxHelper.add_file, storage, parent_path,
+                    file_closure, file_name=StorageServer.__NOTE_IMG_FILE_NAME)
+                callback(result_code)
+        else:
+            callback(StorageResponse.SERVER_EXCEPTION)
+
+    @staticmethod
+    @gen.engine
+    def get_note_image(user_id, collection_name, note_name, callback):
+        """
+        Gets the image of the note for specified note
+
+            Args:
+                -``user_id``: The id of the user for which the note image is retrieved
+                -``collection_name``: The name of the collection in which the note is situated
+                -``Note_name``: The name of the note in which the image is placed
+
+            Returns:
+                - A file like object that contains the bytes of the img or None
+                in case no img exists for that note
+        """
+
+        note_path = '/'.join(['',collection_name, note_name, StorageServer.__NOTE_IMG_FILE_NAME])
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
             response = yield gen.Task(DropboxHelper.get_file, storage, note_path)
