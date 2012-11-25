@@ -12,7 +12,7 @@ __author__ = 'afathali'
 
 class NotesTests(AsyncHTTPTestCase):
 
-    account_id = '04B08CB7-17D5-493A-8ED1-E086FDC1327E'
+    account_id = '1118029F-473A-4053-B85C-1CF9F061D98A'
 
     def get_new_ioloop(self):
         return IOLoop.instance()
@@ -149,4 +149,161 @@ class NotesTests(AsyncHTTPTestCase):
         #cleanup
         url = '/'.join(['',self.account_id, 'Collections', collection_name])
         self.fetch(path=url, method='DELETE')
+
+    def test_add_image_to_note(self):
+
+        collection_name = 'collName'
+        note_name = 'note_name'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+
+        note_file = open('../test_resources/note.xml')
+        url += '/' + collection_name + '/Notes'
+        params = {'noteName' : note_name}
+        headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
+            (params, 'file', note_file)
+        response = self.fetch(path=url, headers=headers, method='POST',
+            body=post_data)
+        self.assertEqual(200, response.code)
+
+        img_file = open('../test_resources/note_img.jpg')
+        url += '/' + note_name + '/Image'
+        headers, post_data = HTTPHelper.\
+            create_multipart_request_with_single_file('file', img_file)
+        response = self.fetch(path=url, headers=headers, method='POST',
+            body=post_data)
+        self.assertEqual(200, response.code)
+
+        #cleanup
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+
+    def test_add_image_to_non_existing_note(self):
+
+        collection_name = 'collName'
+        note_name = 'note_name'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+        url += '/' + collection_name + '/Notes'
+
+        img_file = open('../test_resources/note_img.jpg')
+        url += '/' + note_name + '/Image'
+
+        headers, post_data = HTTPHelper.\
+        create_multipart_request_with_single_file('file', img_file)
+        response = self.fetch(path=url, headers=headers, method='POST',
+            body=post_data)
+        self.assertEqual(200, response.code)
+
+        #cleanup
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+
+    def test_add_image_with_no_file_to_note(self):
+
+        collection_name = 'collName'
+        note_name = 'note_name'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+
+        note_file = open('../test_resources/note.xml')
+        url += '/' + collection_name + '/Notes'
+        params = {'noteName' : note_name}
+        headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
+            (params, 'file', note_file)
+        response = self.fetch(path=url, headers=headers, method='POST',
+            body=post_data)
+        self.assertEqual(200, response.code)
+
+        img_file = open('../test_resources/note_img.jpg')
+        url += '/' + note_name + '/Image'
+        headers, post_data = HTTPHelper.\
+        create_multipart_request_with_single_file('file', img_file)
+        response = self.fetch(path=url, headers=headers, method='POST',
+            body=' ')
+        self.assertEqual(400, response.code)
+
+        #cleanup
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+
+    def test_get_note_image(self):
+
+        collection_name = 'collName'
+        note_name = 'note_name'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+
+        note_file = open('../test_resources/note.xml')
+        url += '/' + collection_name + '/Notes'
+        params = {'noteName' : note_name}
+        headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
+            (params, 'file', note_file)
+        response = self.fetch(path=url, headers=headers, method='POST',
+            body=post_data)
+        self.assertEqual(200, response.code)
+
+        img_file = open('../test_resources/note_img.jpg')
+        url += '/' + note_name + '/Image'
+        headers, post_data = HTTPHelper.\
+        create_multipart_request_with_single_file('file', img_file)
+        response = self.fetch(path=url, headers=headers, method='POST',
+            body=post_data)
+        self.assertEqual(200, response.code)
+
+        #get note
+        response = self.fetch(path=url, method='GET')
+        self.assertEqual(200, response.code)
+        self.assertTrue(response.body is not None)
+
+        #cleanup
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+
+    def test_get_note_image_from_non_existing_note(self):
+
+        collection_name = 'dummy'
+        note_name = 'dummy_note'
+        url = '/'.join(['', self.account_id, 'Collections',
+                        collection_name, 'Notes', note_name, 'Image'])
+
+        response = self.fetch(path=url, method='GET')
+        self.assertEqual(404, response.code)
+
+    def test_get_note_image_from_note_with_no_image(self):
+
+        collection_name = 'collName'
+        note_name = 'note_name'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+
+        note_file = open('../test_resources/note.xml')
+        url += '/' + collection_name + '/Notes'
+        params = {'noteName' : note_name}
+        headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
+            (params, 'file', note_file)
+        response = self.fetch(path=url, headers=headers, method='POST',
+            body=post_data)
+        self.assertEqual(200, response.code)
+
+        url = '/'.join(['', self.account_id, 'Collections',
+                        collection_name, 'Notes', note_name, 'Image'])
+
+        response = self.fetch(path=url, method='GET')
+        self.assertEqual(404, response.code)
+
+        #cleanup
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+
 

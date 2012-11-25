@@ -26,6 +26,8 @@ class NoteImageHandler(tornado.web.RequestHandler):
             self.set_header('Content-Type', 'image/jpeg')
         self.finish()
 
+    @tornado.web.asynchronous
+    @gen.engine
     def post(self, user_id, collection_name, note_name):
 
         collection_name = urllib2.unquote(collection_name)
