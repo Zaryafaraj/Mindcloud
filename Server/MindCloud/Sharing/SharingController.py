@@ -23,7 +23,7 @@ class SharingController:
 
     @staticmethod
     @gen.engine
-    def __add_subscriber(user_id, collection_name, sharing_secret, callback):
+    def add_subscriber(user_id, collection_name, sharing_secret, callback):
         """
         Adds a subscriber with user id and collection and sharing secret
         to the subscribers db. user_id and collection_name uniquely identify
@@ -39,7 +39,7 @@ class SharingController:
 
     @staticmethod
     @gen.engine
-    def __get_sharing_secret_from_subscriber_info(user_id, collection_name, callback):
+    def get_sharing_secret_from_subscriber_info(user_id, collection_name, callback):
         """
         Retrieves the sharing secret of a sharing space, uniquely identified
         by the user_id and collection name.
@@ -68,7 +68,7 @@ class SharingController:
 
     @staticmethod
     @gen.engine
-    def __get_sharing_record_from_subscriber_info(user_id, collection_name, callback):
+    def get_sharing_record_from_subscriber_info(user_id, collection_name, callback):
         """
         Provides the sharing record from a subscribers user_id and
          the subscribed collection_name in his own account.
@@ -76,19 +76,19 @@ class SharingController:
          -Returns:
             -The sharing record object or None
         """
-        sharing_secret = yield gen.Task(SharingController.__get_sharing_secret_from_subscriber_info,
+        sharing_secret = yield gen.Task(SharingController.get_sharing_secret_from_subscriber_info,
                                         user_id,
                                         collection_name)
         if sharing_secret is None:
             callback(None)
         else:
-            sharing_info = yield gen.Task(SharingController.__get_sharing_record_by_secret,
+            sharing_info = yield gen.Task(SharingController.get_sharing_record_by_secret,
                 sharing_secret)
             callback(sharing_info)
 
     @staticmethod
     @gen.engine
-    def __remove_subscriber(user_id, collection_name, callback):
+    def remove_subscriber(user_id, collection_name, callback):
         """
         Removes the subscriber from the subscribers collection.
         user_id and collection_name identify a sharing space uniquely.
@@ -101,7 +101,7 @@ class SharingController:
 
     @staticmethod
     @gen.engine
-    def __remove_all_subscribers(sharing_secret, callback):
+    def remove_all_subscribers(sharing_secret, callback):
         """
         Removes all the subscribers to a sharing space identified by
         a sharing_secret
@@ -134,13 +134,13 @@ class SharingController:
                               SharingRecord.COLLECTION_NAME_KEY : collection_name,
                               SharingRecord.SUBSCIRBERS_KEY : [(user_id,collection_name)]}
             yield gen.Task(sharing_collection.insert, sharing_record)
-            yield gen.Task(SharingController.__add_subscriber, user_id, collection_name,
+            yield gen.Task(SharingController.add_subscriber, user_id, collection_name,
                 sharing_secret)
             callback(sharing_secret)
 
     @staticmethod
     @gen.engine
-    def __get_sharing_record_by_secret(sharing_secret, callback):
+    def get_sharing_record_by_secret(sharing_secret, callback):
         """
         Returns:
             -A Sharing record object containing information of the
@@ -207,7 +207,7 @@ class SharingController:
 
     @staticmethod
     @gen.engine
-    def __remove_sharing_record_by_secret(sharing_secret, callback):
+    def remove_sharing_record_by_secret(sharing_secret, callback):
         """
         Removes a sharing record identified by the sharing_secret
 
@@ -217,7 +217,7 @@ class SharingController:
         sharing_collection = DatabaseFactory.get_sharing_collection()
         query = {SharingRecord.SECRET_KEY : sharing_secret}
         yield gen.Task(sharing_collection.remove, query)
-        yield gen.Task(SharingController.__remove_all_subscribers, sharing_secret)
+        yield gen.Task(SharingController.remove_all_subscribers, sharing_secret)
         callback()
 
     @staticmethod
@@ -239,7 +239,7 @@ class SharingController:
         else:
             sharing_secret = sharing_record.get_sharing_secret()
             yield gen.Task(sharing_collection.remove, query)
-            yield gen.Task(SharingController.__remove_all_subscribers, sharing_secret)
+            yield gen.Task(SharingController.remove_all_subscribers, sharing_secret)
             callback()
 
     @staticmethod
@@ -296,7 +296,7 @@ class SharingController:
         """
 
         #Get the sharing space
-        sharing_record = yield gen.Task(SharingController.__get_sharing_record_by_secret,
+        sharing_record = yield gen.Task(SharingController.get_sharing_record_by_secret,
                                         sharing_secret)
 
         if sharing_record is None:
@@ -330,10 +330,10 @@ class SharingController:
                 #Update Mongo
                 else:
                     #Update sharing collection
-                    sharing_record.__add_subscriber(user_id, dest_collection_name)
+                    sharing_record.add_subscriber(user_id, dest_collection_name)
                     yield gen.Task(SharingController.__update_sharing_record, sharing_record)
                     #Update subscribers collection
-                    yield gen.Task(SharingController.__add_subscriber, user_id, dest_collection_name,
+                    yield gen.Task(SharingController.add_subscriber, user_id, dest_collection_name,
                         sharing_secret)
                     callback(dest_collection_name)
 
@@ -357,20 +357,20 @@ class SharingController:
             -The status of the operation
         """
 
-        sharing_record = yield gen.Task(SharingController.__get_sharing_record_from_subscriber_info,
+        sharing_record = yield gen.Task(SharingController.get_sharing_record_from_subscriber_info,
             user_id, collection_name)
         if sharing_record is not None:
             # if the unsubscriber is the owner
             # Remove the sharing info and remove the subscription info for everyone
             if sharing_record.get_owner_user_id() == user_id:
-                yield gen.Task(SharingController.__remove_all_subscribers,
+                yield gen.Task(SharingController.remove_all_subscribers,
                     sharing_record.get_sharing_secret())
-                yield gen.Task(SharingController.__remove_sharing_record_by_secret,
+                yield gen.Task(SharingController.remove_sharing_record_by_secret,
                     sharing_record.get_sharing_secret())
             else:
             #remove the subscription info and update the sharing space for the user
-                yield gen.Task(SharingController.__remove_subscriber, user_id, collection_name)
-                sharing_record.__remove_subscriber(user_id, collection_name)
+                yield gen.Task(SharingController.remove_subscriber, user_id, collection_name)
+                sharing_record.remove_subscriber(user_id, collection_name)
                 yield gen.Task(SharingController.__update_sharing_record, sharing_record)
 
             callback(StorageResponse.OK)
@@ -381,7 +381,7 @@ class SharingController:
     @gen.engine
     def rename_shared_collection(user_id, old_collection_name, new_collection_name, callback):
 
-       sharing_record = yield gen.Task(SharingController.__get_sharing_record_from_subscriber_info,
+       sharing_record = yield gen.Task(SharingController.get_sharing_record_from_subscriber_info,
            user_id, old_collection_name)
 
        if sharing_record is not None:
