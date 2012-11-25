@@ -11,15 +11,15 @@ __author__ = 'afathali'
 
 class SharingController:
 
-    __SECRET_LENGTH = 8
-    __SUBSCRIBER_ID_KEY = 'subscriber_id'
-    __SUBSCRIBER_COLLECTION_NAME_KEY = 'shared_collection_name'
-    __SHARING_SPACE_SECRET_KEY = 'sharing_secret'
+    SECRET_LENGTH = 8
+    SUBSCRIBER_ID_KEY = 'subscriber_id'
+    SUBSCRIBER_COLLECTION_NAME_KEY = 'shared_collection_name'
+    SHARING_SPACE_SECRET_KEY = 'sharing_secret'
 
     @staticmethod
     def __generate_sharing_secret():
         chars = string.ascii_uppercase + string.digits
-        return ''.join(random.choice(chars) for x in range(SharingController.__SECRET_LENGTH))
+        return ''.join(random.choice(chars) for x in range(SharingController.SECRET_LENGTH))
 
     @staticmethod
     @gen.engine
@@ -31,9 +31,9 @@ class SharingController:
         """
 
         subscriber_collection = DatabaseFactory.get_subscribers_collection()
-        subscriber_record = {SharingController.__SUBSCRIBER_ID_KEY : user_id,
-                             SharingController.__SUBSCRIBER_COLLECTION_NAME_KEY : collection_name,
-                             SharingController.__SHARING_SPACE_SECRET_KEY : sharing_secret}
+        subscriber_record = {SharingController.SUBSCRIBER_ID_KEY : user_id,
+                             SharingController.SUBSCRIBER_COLLECTION_NAME_KEY : collection_name,
+                             SharingController.SHARING_SPACE_SECRET_KEY : sharing_secret}
         yield gen.Task(subscriber_collection.insert, subscriber_record)
         callback()
 
@@ -49,8 +49,8 @@ class SharingController:
             subscriber then None is passed
         """
         subscriber_collection = DatabaseFactory.get_subscribers_collection()
-        query = {SharingController.__SUBSCRIBER_ID_KEY : user_id,
-                 SharingController.__SUBSCRIBER_COLLECTION_NAME_KEY : collection_name}
+        query = {SharingController.SUBSCRIBER_ID_KEY : user_id,
+                 SharingController.SUBSCRIBER_COLLECTION_NAME_KEY : collection_name}
         subscriber_record_cursor = yield gen.Task(subscriber_collection.find, query)
         result_count = len(subscriber_record_cursor[0][0])
         #if user_id and collection_name are not uniquely identifying the
@@ -64,7 +64,8 @@ class SharingController:
 
         else:
             subscriber_record_bson = subscriber_record_cursor[0][0][0]
-            callback(subscriber_record_bson[SharingController.__SHARING_SPACE_SECRET_KEY])
+            sharing_secret = subscriber_record_bson[SharingController.SHARING_SPACE_SECRET_KEY]
+            callback(sharing_secret)
 
     @staticmethod
     @gen.engine
@@ -94,8 +95,8 @@ class SharingController:
         user_id and collection_name identify a sharing space uniquely.
         """
         subscriber_collection = DatabaseFactory.get_subscribers_collection()
-        query = {SharingController.__SUBSCRIBER_ID_KEY : user_id,
-                 SharingController.__SUBSCRIBER_COLLECTION_NAME_KEY : collection_name}
+        query = {SharingController.SUBSCRIBER_ID_KEY : user_id,
+                 SharingController.SUBSCRIBER_COLLECTION_NAME_KEY : collection_name}
         yield gen.Task(subscriber_collection.remove, query)
         callback()
 
@@ -107,7 +108,7 @@ class SharingController:
         a sharing_secret
         """
         subscriber_collection = DatabaseFactory.get_subscribers_collection()
-        query = {SharingController.__SHARING_SPACE_SECRET_KEY: sharing_secret}
+        query = {SharingController.SHARING_SPACE_SECRET_KEY: sharing_secret}
         yield gen.Task(subscriber_collection.remove, query)
         callback()
 
@@ -262,17 +263,19 @@ class SharingController:
     @staticmethod
     @gen.engine
     def __rename_subscriber_collection_name(user_id, old_collection_name,
-                                            new_collection_name, callback):
+                                            new_collection_name, sharing_secret,
+                                            callback):
         """
         Updates the subscriber table for the user with user_id with the new name
         for its collection
         """
 
-        sharing_collection = DatabaseFactory.get_sharing_collection()
-        key = {SharingController.__SUBSCRIBER_ID_KEY : user_id,
-                 SharingController.__SUBSCRIBER_COLLECTION_NAME_KEY : old_collection_name}
-        new_content = {SharingController.__SUBSCRIBER_ID_KEY : user_id,
-                       SharingController.__SUBSCRIBER_COLLECTION_NAME_KEY : new_collection_name}
+        sharing_collection = DatabaseFactory.get_subscribers_collection()
+        key = {SharingController.SUBSCRIBER_ID_KEY : user_id,
+                 SharingController.SUBSCRIBER_COLLECTION_NAME_KEY : old_collection_name}
+        new_content = {SharingController.SUBSCRIBER_ID_KEY : user_id,
+                       SharingController.SUBSCRIBER_COLLECTION_NAME_KEY : new_collection_name,
+                       SharingController.SHARING_SPACE_SECRET_KEY : sharing_secret}
         yield gen.Task(sharing_collection.update, key, new_content)
         callback()
 
@@ -380,25 +383,35 @@ class SharingController:
     @staticmethod
     @gen.engine
     def rename_shared_collection(user_id, old_collection_name, new_collection_name, callback):
+        """
+        Renames a shared collection .
 
-       sharing_record = yield gen.Task(SharingController.get_sharing_record_from_subscriber_info,
-           user_id, old_collection_name)
+            -Args:
+                -``user_id``: The id of the user for which the shared collection will be renamed.
+                the user could be the owner of the shared space or just a subscriber
+                -``old_collection_name``: The name to change
+                -``new_collection_name``: The name to change into
 
-       if sharing_record is not None:
-           if sharing_record.get_owner_user_id() == user_id:
-               sharing_record.set_owner_collection_name(new_collection_name)
+            -Returns:
+                -Appropriate response code for the operation
+        """
 
-           #since owner is also a subscriber this rename should be done in each case
-           sharing_record.rename_subsciber_collection_name(user_id,
+        sharing_record = yield gen.Task(SharingController.get_sharing_record_from_subscriber_info,
+        user_id, old_collection_name)
+
+        if sharing_record is not None:
+            if sharing_record.get_owner_user_id() == user_id:
+                sharing_record.set_owner_collection_name(new_collection_name)
+
+            #since owner is also a subscriber this rename should be done in each case
+            sharing_record.rename_subscriber_collection_name(user_id,
                old_collection_name, new_collection_name)
 
-           #update sharing related tables
-           yield gen.Task(SharingController.__update_sharing_record, sharing_record)
-           yield gen.Task(SharingController.__rename_subscriber_collection_name, user_id,
-               old_collection_name, new_collection_name)
-
-       else:
-           callback(None)
-
-
+            #update sharing related tables
+            yield gen.Task(SharingController.__update_sharing_record, sharing_record)
+            yield gen.Task(SharingController.__rename_subscriber_collection_name, user_id,
+               old_collection_name, new_collection_name, sharing_record.get_sharing_secret())
+            callback(StorageResponse.OK)
+        else:
+            callback(StorageResponse.NOT_FOUND)
 
