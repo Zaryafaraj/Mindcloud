@@ -429,6 +429,159 @@ class StorageServerTests(AsyncTestCase):
         response = self.wait()
         self.assertTrue(response is None)
 
+    def test_add_note_img_to_collection(self):
+
+        #create note
+        collection_name = 'col_name'
+        note_name = 'noteName'
+        note_file = open('../test_resources/note.xml')
+        StorageServer.add_note_to_collection(self.__account_id,
+            collection_name, note_name, note_file, callback = self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #add image
+        img_file = open('../test_resources/note_img.jpg')
+        StorageServer.add_image_to_note(self.__account_id, collection_name,
+            note_name, img_file, callback= self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
+
+    def test_add_note_img_to_invalid_collection(self):
+
+        #add image
+        img_file = open('../test_resources/note_img.jpg')
+        StorageServer.add_image_to_note(self.__account_id, 'dummy',
+            'dummy', img_file, callback= self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, 'dummy', callback=self.stop)
+        self.wait()
+
+    def test_add_note_img_to_invalid_note(self):
+
+        #create note
+        collection_name = 'col_name'
+        StorageServer.add_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+
+        #add image
+        img_file = open('../test_resources/note_img.jpg')
+        StorageServer.add_image_to_note(self.__account_id, collection_name,
+            'dummy', img_file, callback= self.stop)
+        response = self.wait()
+        #expected
+        self.assertEqual(StorageResponse.OK, response)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
+    def test_add_note_img_to_note_with_existing_img(self):
+
+        #create note
+        collection_name = 'col_name'
+        StorageServer.add_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #add image
+        note_name = 'dummy'
+        img_file = open('../test_resources/note_img.jpg')
+        StorageServer.add_image_to_note(self.__account_id, collection_name,
+            note_name, img_file, callback= self.stop)
+        response = self.wait()
+        #expected
+        self.assertEqual(StorageResponse.OK, response)
+
+        img_file = open('../test_resources/note_img2.jpg')
+        StorageServer.add_image_to_note(self.__account_id, collection_name,
+            note_name, img_file, callback= self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
+    def test_get_note_img(self):
+
+        #add image
+        img_file = open('../test_resources/note_img.jpg')
+        collection_name = 'dummyCol'
+        note_name = 'dummyNote'
+        StorageServer.add_image_to_note(self.__account_id, collection_name,
+            note_name, img_file, callback= self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #get image
+
+        StorageServer.get_note_image(self.__account_id, collection_name,
+            note_name, callback=self.stop)
+        response = self.wait()
+        self.assertTrue(response is not None)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
+    def test_get_note_img_invalid_collection(self):
+
+        StorageServer.get_note_image(self.__account_id, 'dummy',
+            'dummy', callback=self.stop)
+        response = self.wait()
+        self.assertTrue(response is None)
+
+    def test_get_note_img_invalid_note(self):
+
+        #create note
+        collection_name = 'col_name'
+        StorageServer.add_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        StorageServer.get_note_image(self.__account_id, collection_name,
+            'dummy', callback=self.stop)
+        response = self.wait()
+        self.assertTrue(response is None)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
+    def test_get_note_img_a_note_with_no_img(self):
+
+        collection_name = 'col_name'
+        note_name = 'noteName'
+        note_file = open('../test_resources/note.xml')
+        StorageServer.add_note_to_collection(self.__account_id,
+            collection_name, note_name, note_file, callback = self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+
+        StorageServer.get_note_image(self.__account_id, collection_name,
+            note_name, callback=self.stop)
+        response = self.wait()
+        self.assertTrue(response is None)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
     def test_list_all_notes(self):
 
         collection_name = 'col_name'
