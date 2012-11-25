@@ -77,6 +77,8 @@ class CollectionTests(AsyncHTTPTestCase):
         #cleanup
         url = '/'.join(['',self.account_id, 'Collections', collection_name])
         self.fetch(path=url, method='DELETE')
+        url = '/'.join(['',self.subscriber_id, 'Collections', subscriber_collection_name])
+        self.fetch(path=url, method='DELETE')
 
 
     def test_delete_shared_collection_by_owner(self):
@@ -101,6 +103,8 @@ class CollectionTests(AsyncHTTPTestCase):
         response = self.fetch(path=subscription_url, method='POST',
             headers=headers, body=postData)
         self.assertEqual(200, response.code)
+        json_obj = json.loads(response.body)
+        subscriber_collection_name = json_obj['collection_name']
 
         #delete
         del_url = '/'.join(['',self.account_id, 'Collections', collection_name])
@@ -110,6 +114,10 @@ class CollectionTests(AsyncHTTPTestCase):
         #verify
         response = self.fetch(path=url, method='GET')
         self.assertEqual(404, response.code)
+
+        #cleanup
+        url = '/'.join(['',self.subscriber_id, 'Collections', subscriber_collection_name])
+        self.fetch(path=url, method='DELETE')
 
     def test_rename_collection(self):
         collection_name = 'collName1'
@@ -149,6 +157,8 @@ class CollectionTests(AsyncHTTPTestCase):
         response = self.fetch(path=subscription_url, method='POST',
             headers=headers, body=postData)
         self.assertEqual(200, response.code)
+        json_obj = json.loads(response.body)
+        subscriber_collection_name = json_obj['collection_name']
 
         #rename
         rename_collection_name = 'new_name'
@@ -168,7 +178,9 @@ class CollectionTests(AsyncHTTPTestCase):
         self.assertEqual(rename_collection_name, actual_collection_name)
 
         #cleanup
-        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        url = '/'.join(['',self.account_id, 'Collections', rename_collection_name])
+        self.fetch(path=url, method='DELETE')
+        url = '/'.join(['',self.subscriber_id, 'Collections', subscriber_collection_name])
         self.fetch(path=url, method='DELETE')
 
     def test_rename_shared_collection_by_subscriber(self):
@@ -213,6 +225,8 @@ class CollectionTests(AsyncHTTPTestCase):
 
         #cleanup
         url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+        url = '/'.join(['',self.subscriber_id, 'Collections', rename_collection_name])
         self.fetch(path=url, method='DELETE')
 
     def test_save_manifest(self):

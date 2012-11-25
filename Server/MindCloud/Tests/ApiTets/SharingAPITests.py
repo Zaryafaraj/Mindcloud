@@ -177,9 +177,10 @@ class SharingTests(AsyncHTTPTestCase):
         self.assertTrue([self.subscriber_id, subscriber_collection_name]
             in subscribers_list)
 
-        #cleanup
-        self.fetch(path=url, method='DELETE')
+        #cleanu
         url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+        url = '/'.join(['',self.subscriber_id, 'Collections', subscriber_collection_name])
         self.fetch(path=url, method='DELETE')
 
     def test_subscribe_to_non_existing_sharing_space(self):
@@ -234,8 +235,10 @@ class SharingTests(AsyncHTTPTestCase):
         not in subscribers_list)
 
         #cleanup
-        self.fetch(path=url, method='DELETE')
+
         url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+        url = '/'.join(['',self.subscriber_id, 'Collections', subscriber_collection_name])
         self.fetch(path=url, method='DELETE')
 
     def test_unsubscribe_non_existing_sharing_space(self):
@@ -285,7 +288,8 @@ class SharingTests(AsyncHTTPTestCase):
         self.assertEqual(404, response.code)
 
         #cleanup
-        self.fetch(path=url, method='DELETE')
         url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+        url = '/'.join(['',self.subscriber_id, 'Collections', subscriber_collection_name])
         self.fetch(path=url, method='DELETE')
 
