@@ -33,6 +33,10 @@ class UpdateSharedNoteImageAction(SharingAction):
                 self.__note_img_file),
         callback(result_code)
 
+
+    def get_note_name(self):
+        return self.__note_name
+
     def get_user_id(self):
         return self.__user_id
 

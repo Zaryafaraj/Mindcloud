@@ -34,6 +34,9 @@ class UpdateSharedNoteAction(SharingAction):
                 self.__note_file)
         callback(result_code)
 
+    def get_note_name(self):
+        return self.__note_name
+
     def get_user_id(self):
         return self.__user_id
 
