@@ -34,3 +34,6 @@ class UpdateSharedManifestAction(SharingAction):
     def get_action_type(self):
         return SharingEvent.UPDATE_MANIFEST
 
+    def get_associated_file(self):
+        return self.__manifest_file
+

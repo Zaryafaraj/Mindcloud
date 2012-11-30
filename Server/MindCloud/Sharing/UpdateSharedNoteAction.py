@@ -39,3 +39,6 @@ class UpdateSharedNoteAction(SharingAction):
 
     def get_action_type(self):
         return SharingEvent.UPDATE_NOTE
+
+    def get_associated_file(self):
+        return self.__note_file
