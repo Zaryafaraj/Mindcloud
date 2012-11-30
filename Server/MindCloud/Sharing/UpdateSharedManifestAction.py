@@ -1,5 +1,6 @@
 from tornado import gen
 from Sharing.SharingAction import SharingAction
+from Sharing.SharingEvent import SharingEvent
 from Storage.StorageResponse import StorageResponse
 from Storage.StorageServer import StorageServer
 
@@ -27,4 +28,9 @@ class UpdateSharedManifestAction(SharingAction):
                 self.__user_id, self.__collection_name, self.__manifest_file)
         callback(result_code)
 
+    def get_user_id(self):
+        return self.__user_id
+
+    def get_action_type(self):
+        return SharingEvent.UPDATE_MANIFEST
 

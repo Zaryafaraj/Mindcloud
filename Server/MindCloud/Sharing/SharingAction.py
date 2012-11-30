@@ -10,3 +10,11 @@ class SharingAction:
     def execute(self, callback):
         pass
 
+    @abstractmethod
+    def get_user_id(self):
+        pass
+
+    @abstractmethod
+    def get_action_type(self):
+        pass
+

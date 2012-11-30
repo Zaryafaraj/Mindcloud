@@ -1,3 +1,5 @@
+from Sharing.SharingEvent import SharingEvent
+
 __author__ = 'afathali'
 
 from tornado import gen
@@ -30,3 +32,10 @@ class UpdateSharedNoteImageAction(SharingAction):
                 self.__user_id, self.__collection_name, self.__note_name,
                 self.__note_img_file),
         callback(result_code)
+
+    def get_user_id(self):
+        return self.__user_id
+
+    def get_action_type(self):
+        return SharingEvent.UPDATE_NOTE_IMG
+
