@@ -3,6 +3,11 @@ import json
 __author__ = 'afathali'
 
 class SharingEvent:
+    """
+    A representation of a single or multiple sharing event.
+    Each instance of this class can only contain one event for each
+    sharing event type with only one file associated
+    """
 
     UPDATE_MANIFEST = 'update_manifest'
     UPDATE_NOTE = 'update_note'
@@ -10,20 +15,17 @@ class SharingEvent:
 
     __event_dictionary = {}
 
-    def add_update_manifest_event(self, manifest_file):
+    def add_event(self, event_type, event_file):
         """
-        Adds an update manifest even with the given file.
-        If an even for update manifest already existed this new event
-        will replace that.
+        Adds a sharing event with the given file.
+        If an event with the same type already exists the new file will
+         replace the existing events file.
         """
-        self.__event_dictionary[SharingEvent.UPDATE_MANIFEST] = manifest_file.read()
-
-    def add_update_note_event(self, note_file):
-        self.__event_dictionary[SharingEvent.UPDATE_NOTE] = note_file.read()
-
-    def add_update_img_event(self, img_file):
-        self.__event_dictionary[SharingEvent.UPDATE_NOTE_IMG] = img_file.read()
+        self.__event_dictionary[event_type] = event_file.read()
 
     def convert_to_json_string(self):
+        """
+        Returns a json representation of all the events the class holds
+        """
         return json.dumps(self.__event_dictionary)
 

@@ -15,6 +15,10 @@ class SharingAction:
         pass
 
     @abstractmethod
+    def get_associated_file(self):
+        pass
+
+    @abstractmethod
     def get_action_type(self):
         pass
 
