@@ -6,6 +6,9 @@ __author__ = 'afathali'
 
 class SharingSpaceController():
 
+    """
+    A sharing space is per shared collection.
+    """
 
     #primary listeners is a dictionary of user id to a request
     #these listeners are notified as soon as an update becomes
@@ -43,9 +46,7 @@ class SharingSpaceController():
     #   backup listener returns to user with notification and the second
     #   listener becomes the primary listener.
 
-
-
-    __sharing_action_queue = []
+    latest_sharing_events = {}
 
     def add_listener(self, user_id, request):
         """
@@ -91,7 +92,6 @@ class SharingSpaceController():
             self.__listeners[user_id] = request
 
 
-
     def remove_listener(self, user_id):
         """
         removes the primary and backup listener for the user if they exist
@@ -102,9 +102,26 @@ class SharingSpaceController():
         if user_id in self.__listeners:
             del self.__listeners[user_id]
 
-
-
     def add_action(self, sharing_action):
+        """
+        An action that needs to be taken place and all the
+        listeners sohuld get notified of
+
+        When an action is added first all of the listeners get notified
+        immediatley . Then the action goes on a queue and when the
+        sharing space has time it will submit the action to the actual
+        storage. However after registering an action and before submitting
+        it, if a new action with the same type is registered. The latest
+        action will take the place of the most recent one before it
+
+        It is not neccessary for an action to affect only listeners.
+        There might be an offline user that gets updated by the request.
+        In those cases the timing for the submission of action is the based
+        on the best try of the class.
+
+        -Args:
+            -``sharing_action``: A proper subclass of the sharing action
+        """
         self.__sharing_action_queue.append(sharing_action)
         self.__notify_listeners(sharing_action)
         if len(self.__sharing_action_queue) == 1:
@@ -127,8 +144,12 @@ class SharingSpaceController():
 
         #now update the backup listeners only for those items that
         #didn't get notified
-        for user_id, request in self.__backup_listeners:
+        for user_id in self.__backup_listeners:
+            #the backup listener didn't have a primary listener
+            #so it must be in recording state
             if user_id not in notified_listeners:
+                backup_sharing_event = self.__backup_listeners[user_id][1]
+                backup_sharing_event.add_event(event_file, event_file)
 
 
     @gen.engine
