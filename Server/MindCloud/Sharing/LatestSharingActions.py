@@ -18,6 +18,8 @@ class LatestSharingActions:
     #A dictionary for note image update actions keyed on the name of the note
     __update_note_img_actions = {}
 
+    __is_empty= True
+
     def add_action(self, sharing_action):
         """
         Add an action to be performed later.
@@ -28,6 +30,8 @@ class LatestSharingActions:
             -``sharing_action``: An instance of a subclass of sharing_action
             class
         """
+
+        self.__is_empty = False
         action_type = sharing_action.get_action_type()
         if action_type == SharingEvent.UPDATE_MANIFEST:
             self.__update_manifest_action= action_type
@@ -37,6 +41,8 @@ class LatestSharingActions:
         elif action_type == SharingEvent.UPDATE_NOTE_IMG:
             note_name = sharing_action.get_note_name()
             self.__update_note_img_actions[note_name] = sharing_action
+        else:
+            self.__is_empty = True
 
     def queue_up_actions(self):
         """
@@ -53,4 +59,15 @@ class LatestSharingActions:
             queue.append(action)
         return queue
 
+    def clear(self):
+        self.__update_manifest_action = None
+        self.__update_note_actions.clear()
+        self.__update_note_img_actions.clear()
+        self.__is_empty = True
+
+    def is_empty(self):
+        """
+        Returns whether there are actions in this collection
+        """
+        return self.__is_empty
 

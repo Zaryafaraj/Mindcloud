@@ -1,4 +1,5 @@
 from tornado import gen
+from Sharing.LatestSharingActions import LatestSharingActions
 from Sharing.SharingEvent import SharingEvent
 from Storage.StorageResponse import StorageResponse
 
@@ -46,7 +47,10 @@ class SharingSpaceController():
     #   backup listener returns to user with notification and the second
     #   listener becomes the primary listener.
 
-    latest_sharing_events = {}
+
+    __latest_sharing_actions = None
+    def __init__(self):
+        self.__latest_sharing_actions = LatestSharingActions()
 
     def add_listener(self, user_id, request):
         """
@@ -122,10 +126,15 @@ class SharingSpaceController():
         -Args:
             -``sharing_action``: A proper subclass of the sharing action
         """
-        self.__sharing_action_queue.append(sharing_action)
         self.__notify_listeners(sharing_action)
-        if len(self.__sharing_action_queue) == 1:
-            yield gen.Task(self.__start_processing_queue)
+
+        #THIS DOESNT WORK
+        if self.__latest_sharing_actions.is_empty():
+            self.__latest_sharing_actions.add_action(sharing_action)
+            actions = self.__latest_sharing_actions.queue_up_actions()
+            yield gen.Task(self.__start_processing_queue, actions)
+        else:
+            self.__latest_sharing_actions.add_action(sharing_action)
 
     @gen.engine
     def __notify_listeners(self, sharing_action):
