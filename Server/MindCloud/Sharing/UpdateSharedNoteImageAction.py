@@ -14,9 +14,6 @@ class UpdateSharedNoteImageAction(SharingAction):
     __note_name = None
     __note_img_file = None
 
-    def __init__(self):
-        raise NotImplemented
-
     def __init__(self, user_id, collection_name, note_name,  note_img_file):
         self.__user_id = user_id
         self.__collection_name = collection_name
@@ -30,9 +27,8 @@ class UpdateSharedNoteImageAction(SharingAction):
            self.__note_name and self.__note_img_file:
             result_code = yield gen.Task(StorageServer.add_image_to_note,
                 self.__user_id, self.__collection_name, self.__note_name,
-                self.__note_img_file),
+                self.__note_img_file)
         callback(result_code)
-
 
     def get_note_name(self):
         return self.__note_name

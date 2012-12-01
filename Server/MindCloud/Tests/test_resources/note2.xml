@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xooml="http://kftf.ischool.washington.edu/xmlns/xooml" xsi:schemaLocation="http://kftf.ischool.washington.edu/xmlns/xooml http://kftf.ischool.washington.edu/XMLschema/0.41/XooML.xsd">
-
-    <xooml:fragment schemaVersion='2' itemDescribed='Travel'>
-        <xooml:association ID='c7f22b01-b6d5-411a-873b-bf7c0e7f53b7' associatedXooMLFragment = 'Collection1'/>
-        <xooml:association ID='c7f22b01-b6d5-411a-873b-bf7c0e7f53b8' associatedXooMLFragment = 'Collection2'/>
-        <xooml:association ID='c7f22b01-b6d5-411a-873b-bf7c0e7f53b9' associatedXooMLFragment = 'Collection3'/>
-    </fragment>
-    <xooml:fragment schemaVersion='2' itemDescribed='School'>
-        <xooml:association ID='c7f22b01-b6d5-411a-873b-bf7c0e7f53b0' associatedXooMLFragment = 'Collection1'/>
-        <xooml:association ID='c7f22b01-b6d5-411a-873b-bf7c0e7f53b1' associatedXooMLFragment = 'Collection4'/>
-        <xooml:association ID='c7f22b01-b6d5-411a-873b-bf7c0e7f53b2' associatedXooMLFragment = 'Collection5'/>
-    </fragment>
-
+  <xooml:fragment schemaVersion="2" itemDescribed="Travel">
+    <xooml:association ID="secondNote2"/>
+    <xooml:association ID="c7f22b01-b6d5-411a-873b-bf7c0e7f53b7" associatedXooMLFragment="Collection1"/>
+    <xooml:association ID="c7f22b01-b6d5-411a-873b-bf7c0e7f53b8" associatedXooMLFragment="Collection2"/>
+    <xooml:association ID="c7f22b01-b6d5-411a-873b-bf7c0e7f53b9" associatedXooMLFragment="Collection3"/>
+  </xooml:fragment>
+  <xooml:fragment schemaVersion="2" itemDescribed="School">
+    <xooml:association ID="c7f22b01-b6d5-411a-873b-bf7c0e7f53b0" associatedXooMLFragment="Collection1"/>
+    <xooml:association ID="c7f22b01-b6d5-411a-873b-bf7c0e7f53b1" associatedXooMLFragment="Collection4"/>
+    <xooml:association ID="c7f22b01-b6d5-411a-873b-bf7c0e7f53b2" associatedXooMLFragment="Collection5"/>
+  </xooml:fragment>
 </root>

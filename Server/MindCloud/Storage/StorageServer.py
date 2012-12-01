@@ -131,6 +131,7 @@ class StorageServer:
         if storage is not None:
             file_closure = manifest_file
             if file_closure is not None:
+
                 parent_path = '/' + collection_name
                 result_code = yield gen.Task(DropboxHelper.add_file, storage, parent_path,
                     file_closure, file_name = StorageServer.__COLLECTION_FILE_NAME)
