@@ -6,15 +6,15 @@ from tornado.httputil import HTTPHeaders
 from tornado.ioloop import IOLoop
 from tornado.testing import AsyncHTTPTestCase
 from Tests.ApiTets.HTTPHelper import HTTPHelper
+from Tests.TestingProperties import TestingProperties
 from TornadoMain import Application
 
 __author__ = 'afathali'
 
 class CollectionTests(AsyncHTTPTestCase):
 
-    account_id = '04B08CB7-17D5-493A-8ED1-E086FDC1327E'
-    subscriber_id = 'E82FD595-AD5E-4D91-B73D-3A7C3A3FEDCE'
-
+    account_id = TestingProperties.account_id
+    subscriber_id = TestingProperties.subscriber_id
 
     def get_new_ioloop(self):
         return IOLoop.instance()

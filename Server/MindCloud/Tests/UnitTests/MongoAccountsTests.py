@@ -2,13 +2,14 @@ import uuid
 from tornado.ioloop import IOLoop
 from tornado.testing import AsyncTestCase
 from Storage.Accounts import Accounts
+from Tests.TestingProperties import TestingProperties
 
 __author__ = 'afathali'
 
 
 class MongoAccountTestCase(AsyncTestCase):
 
-    __account_id = '04B08CB7-17D5-493A-8ED1-E086FDC1327E'
+    __account_id = TestingProperties.account_id
 
     def get_new_ioloop(self):
         return IOLoop.instance()

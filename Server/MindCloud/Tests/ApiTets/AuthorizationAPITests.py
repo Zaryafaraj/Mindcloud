@@ -1,4 +1,5 @@
 from tornado.testing import AsyncHTTPTestCase
+from Tests.TestingProperties import TestingProperties
 from TornadoMain import Application
 from tornado.ioloop import IOLoop
 
@@ -7,7 +8,7 @@ __author__ = 'afathali'
 class AuthorizationTests(AsyncHTTPTestCase):
 
     #this is a pre authorized accountId
-    account_id = '37912505-10e7-11e2-a09c-c82a1425c93b'
+    account_id = TestingProperties.account_id
 
     def get_new_ioloop(self):
         return IOLoop.instance()

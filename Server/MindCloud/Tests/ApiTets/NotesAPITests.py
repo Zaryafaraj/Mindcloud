@@ -1,5 +1,6 @@
 import json
 from tornado.httputil import HTTPHeaders
+from Tests.TestingProperties import TestingProperties
 
 __author__ = 'afathali'
 import urllib
@@ -12,7 +13,7 @@ __author__ = 'afathali'
 
 class NotesTests(AsyncHTTPTestCase):
 
-    account_id = '1118029F-473A-4053-B85C-1CF9F061D98A'
+    account_id = TestingProperties.account_id
 
     def get_new_ioloop(self):
         return IOLoop.instance()
