@@ -3,13 +3,14 @@ from tornado.ioloop import IOLoop
 from tornado.testing import AsyncTestCase
 from Storage.StorageResponse import StorageResponse
 from Storage.StorageServer import StorageServer
+from Tests.TestingProperties import TestingProperties
 
 __author__ = 'afathali'
 
 class StorageServerTests(AsyncTestCase):
 
-    __account_id = '04B08CB7-17D5-493A-8ED1-E086FDC1327E'
-    __second_account_id = 'E82FD595-AD5E-4D91-B73D-3A7C3A3FEDCE'
+    __account_id = TestingProperties.account_id
+    __second_account_id = TestingProperties.subscriber_id
 
     def get_new_ioloop(self):
         return IOLoop.instance()

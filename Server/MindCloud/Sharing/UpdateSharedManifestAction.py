@@ -12,9 +12,6 @@ class UpdateSharedManifestAction(SharingAction):
     __collection_name = None
     __manifest_file = None
 
-    def __init__(self):
-        raise NotImplemented
-
     def __init__(self, user_id, collection_name, manifest_file):
         self.__user_id = user_id
         self.__collection_name = collection_name
