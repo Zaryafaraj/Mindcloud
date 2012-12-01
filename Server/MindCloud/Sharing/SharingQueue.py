@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from Sharing.SharingEvent import SharingEvent
 
 __author__ = 'afathali'
@@ -13,22 +14,17 @@ class SharingQueue:
     __update_manifest_action = None
 
     #A dictionary for note update action keyed on the name of the note
-    __update_note_actions = {}
+    __update_note_actions = OrderedDict()
 
     #A dictionary for note image update actions keyed on the name of the note
-    __update_note_img_actions = {}
-
-    #A queue that determines the latest note action to be performed
-    #its elements are refrences to the update_notes and update_note_img
-    # actions
-    __notes_queue = []
+    __update_note_img_actions = OrderedDict()
 
     #Public attribute indicating that the SharingActions are being processed
     #its the responsibility of the client to turn this on/off because its
     #the client that uses this not the class internally
     is_being_processed = False
 
-    def add_action(self, sharing_action):
+    def push_action(self, sharing_action):
         """
         Add an action to be performed later.
         If an older action exists for the same resource the new action
@@ -41,30 +37,13 @@ class SharingQueue:
 
         action_type = sharing_action.get_action_type()
         if action_type == SharingEvent.UPDATE_MANIFEST:
-            self.__update_manifest_action= action_type
+            self.__update_manifest_action = sharing_action
         elif action_type == SharingEvent.UPDATE_NOTE:
             note_name = sharing_action.get_note_name()
             self.__update_note_actions[note_name] = sharing_action
-            self.__notes_queue.append(sharing_action)
         elif action_type == SharingEvent.UPDATE_NOTE_IMG:
             note_name = sharing_action.get_note_name()
             self.__update_note_img_actions[note_name] = sharing_action
-            self.__notes_queue.append(sharing_action)
-
-    def peak_next_action(self):
-        """
-        Returns the best action to be performed at a given point in time.
-        However, it doesn't remove it from the list of actions to be performed
-
-        Returns None is there is no other action to be performed
-        """
-        if self.__update_manifest_action is not None:
-            return self.__update_manifest_action
-        elif len(self.__notes_queue) > 0:
-            #last element of the list
-            return self.__notes_queue[-1]
-        else:
-            return None
 
     def pop_next_action(self):
         """
@@ -74,20 +53,20 @@ class SharingQueue:
 
         Returns None is there is no other action to be performed
         """
-        popped_action = None
-        if self.__update_manifest_action is not None:
-            popped_action = self.__update_manifest_action
-            self.__update_manifest_action = None
-        elif len(self.__notes_queue) > 0 :
-            popped_action = self.__notes_queue[-1]
-            del self.__notes_queue[-1]
 
-        #if there were no popped actions set, meaning all items have been
-        #processed
-        if popped_action is None:
-            #just to make sure that this gets self
+        if self.__update_manifest_action is not None:
+            manifest_action = self.__update_manifest_action
+            self.__update_manifest_action = None
+            return manifest_action
+        elif len(self.__update_note_actions) > 0:
+            #return the value for the last item in the ordered dict
+            return self.__update_note_actions.popitem(last=True)[1]
+        elif len(self.__update_note_img_actions) > 0:
+            return self.__update_note_img_actions.popitem(last=True)[1]
+        else:
             self.is_being_processed = False
-        return popped_action
+            return None
+
 
     def clear(self):
         self.__update_manifest_action = None

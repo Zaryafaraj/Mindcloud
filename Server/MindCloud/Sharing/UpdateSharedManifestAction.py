@@ -35,3 +35,6 @@ class UpdateSharedManifestAction(SharingAction):
     def get_associated_file(self):
         return self.__manifest_file
 
+    def get_collection_name(self):
+        return self.__collection_name
+

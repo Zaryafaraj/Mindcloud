@@ -134,7 +134,7 @@ class SharingSpaceController():
         #Now add the action to the latest_sharing_actions to be
         #performed later. This is not as time bound as notify listeners
         #since the user has the perception of being real time
-        self.__sharing_queue.add_action(sharing_action)
+        self.__sharing_queue.push_action(sharing_action)
 
         #if the class is not processing the actions start processing them
         if  not self.__sharing_queue.is_being_processed :
