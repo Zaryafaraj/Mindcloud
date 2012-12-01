@@ -106,6 +106,7 @@ class SharingSpaceController():
         if user_id in self.__listeners:
             del self.__listeners[user_id]
 
+    @gen.engine
     def add_action(self, sharing_action):
         """
         An action that needs to be taken place and all the
@@ -126,15 +127,24 @@ class SharingSpaceController():
         -Args:
             -``sharing_action``: A proper subclass of the sharing action
         """
+
+        #first notify all the listeners as fast as possible
         self.__notify_listeners(sharing_action)
 
-        #THIS DOESNT WORK
-        if self.__latest_sharing_actions.is_empty():
-            self.__latest_sharing_actions.add_action(sharing_action)
-            actions = self.__latest_sharing_actions.queue_up_actions()
-            yield gen.Task(self.__start_processing_queue, actions)
-        else:
-            self.__latest_sharing_actions.add_action(sharing_action)
+        #Now add the action to the latest_sharing_actions to be
+        #performed later. This is not as time bound as notify listeners
+        #since the user has the perception of being real time
+        self.__latest_sharing_actions.add_action(sharing_action)
+
+        #if the class is not processing the actions start processing them
+        if  not self.__latest_sharing_actions.is_being_processed :
+            self.__latest_sharing_actions.is_being_processed = True
+            #This is an async call so we set the processing flag to true
+            #before it to make sure the processing is not getting kicked in
+            #while the list is already being processed
+            yield gen.Task(self.__proccess_latest_actions)
+            self.__latest_sharing_actions.is_being_processed = False
+
 
     @gen.engine
     def __notify_listeners(self, sharing_action):
@@ -162,28 +172,27 @@ class SharingSpaceController():
 
 
     @gen.engine
-    def __process_queue_recursive(self, callback):
+    def __proccess_latest_actions(self, callback):
 
-        #this may break if the queue has more than 1000 items in it
-        #because of of the recursion depth limit in python
-        if not len(self.__sharing_action_queue):
-            next_sharing_action = self.__sharing_action_queue[0]
-            yield gen.Task(next_sharing_action.execute)
-            del self.__sharing_action_queue[0]
-            gen.Task(self.__process_queue_recursive)
-        else:
-            #this is actually called once
+        #get the next action to be performed
+        #poping this item, allows for another similiar action to replace it
+        #while the current action is being processed
+        next_sharing_action = self.__latest_sharing_actions.pop_next_action()
+        #if we have run out of the actions to perform callback to stop
+        #processing the queue
+        if next_sharing_action is None:
             callback()
+        else:
+            yield gen.Task(next_sharing_action.execute)
+            #now process the next action
+            #this will break if the latest action is always being replaced
+            #in that situation we end up with an infinite queue that
+            #eats memory
+            #TODO: start throteling
 
-    @gen.engine
-    def __start_processing_queue(self, callback):
-        yield gen.Task(self.__process_queue_recursive)
-
-
-
-
-
-
-
-
-
+            yield gen.Task(self.__proccess_latest_actions)
+            #finally when all the actions are finished call the callback
+            #for the recursive calls this callback returns to the same line
+            #the other callbacks are called until we reach the first callback
+            #which gets out of this method and ends the processing
+            callback()
