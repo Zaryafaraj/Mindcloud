@@ -1,5 +1,5 @@
 from tornado import gen
-from Sharing.LatestSharingActions import LatestSharingActions
+from Sharing.SharingQueue import SharingQueue
 from Sharing.SharingEvent import SharingEvent
 from Storage.StorageResponse import StorageResponse
 
@@ -48,9 +48,9 @@ class SharingSpaceController():
     #   listener becomes the primary listener.
 
 
-    __latest_sharing_actions = None
+    __sharing_queue = None
     def __init__(self):
-        self.__latest_sharing_actions = LatestSharingActions()
+        self.__sharing_queue = SharingQueue()
 
     def add_listener(self, user_id, request):
         """
@@ -134,16 +134,16 @@ class SharingSpaceController():
         #Now add the action to the latest_sharing_actions to be
         #performed later. This is not as time bound as notify listeners
         #since the user has the perception of being real time
-        self.__latest_sharing_actions.add_action(sharing_action)
+        self.__sharing_queue.add_action(sharing_action)
 
         #if the class is not processing the actions start processing them
-        if  not self.__latest_sharing_actions.is_being_processed :
-            self.__latest_sharing_actions.is_being_processed = True
+        if  not self.__sharing_queue.is_being_processed :
+            self.__sharing_queue.is_being_processed = True
             #This is an async call so we set the processing flag to true
             #before it to make sure the processing is not getting kicked in
             #while the list is already being processed
             yield gen.Task(self.__proccess_latest_actions)
-            self.__latest_sharing_actions.is_being_processed = False
+            self.__sharing_queue.is_being_processed = False
 
 
     @gen.engine
@@ -177,7 +177,7 @@ class SharingSpaceController():
         #get the next action to be performed
         #poping this item, allows for another similiar action to replace it
         #while the current action is being processed
-        next_sharing_action = self.__latest_sharing_actions.pop_next_action()
+        next_sharing_action = self.__sharing_queue.pop_next_action()
         #if we have run out of the actions to perform callback to stop
         #processing the queue
         if next_sharing_action is None:

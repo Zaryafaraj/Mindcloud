@@ -2,7 +2,7 @@ from Sharing.SharingEvent import SharingEvent
 
 __author__ = 'afathali'
 
-class LatestSharingActions:
+class SharingQueue:
 
     """
     An object which holds the latest actions to be performed
