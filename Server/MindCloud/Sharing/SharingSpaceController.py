@@ -222,3 +222,7 @@ class SharingSpaceController():
             #the other callbacks are called until we reach the first callback
             #which gets out of this method and ends the processing
             callback()
+    def clear(self):
+        self.__listeners.clear()
+        self.__backup_listeners.clear()
+        self.__sharing_queue.clear()

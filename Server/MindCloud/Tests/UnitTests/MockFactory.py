@@ -2,7 +2,8 @@ __author__ = 'afathali'
 
 class MockFactory():
 
-    def get_mock_request(self, user_id, callback):
+    @staticmethod
+    def get_mock_request(user_id, callback):
         """
         Creates a mock Tornado request with user_id and the
         callback to be called when request.finish() is called
@@ -35,4 +36,4 @@ class MockFactory():
 
         return MockRequest(user_id, callback)
 
-        
+
