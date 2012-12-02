@@ -106,6 +106,32 @@ class SharingSpaceController():
         if user_id in self.__listeners:
             del self.__listeners[user_id]
 
+    def get_number_of_primary_listeners(self):
+        """
+        Returns the number of primary listeners on this space
+
+        """
+        return len(self.__listeners)
+
+    def get_number_of_backup_listeners(self):
+        """
+        Returns the number of backup listeners on this space.
+
+        """
+        return len(self.__backup_listeners)
+
+    def get_all_primary_listener_ids(self):
+        """
+        Returns a list of user_id of the primary listeners
+        """
+        return [user_id for user_id in self.__listeners]
+
+    def get_all_backup_listener_ids(self):
+        """
+        Returns a list of user_id of the backup listeners
+        """
+        return [user_id for user_id in self.__backup_listeners]
+
     @gen.engine
     def add_action(self, sharing_action):
         """
