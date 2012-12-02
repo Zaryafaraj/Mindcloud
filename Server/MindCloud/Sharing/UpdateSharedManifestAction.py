@@ -21,9 +21,10 @@ class UpdateSharedManifestAction(SharingAction):
     def execute(self, callback):
         result_code = StorageResponse.BAD_REQUEST
         if self.__user_id and self.__collection_name and self.__manifest_file:
-            print self.__manifest_file.read()
             result_code = yield gen.Task(StorageServer.save_collection_manifest,
                 self.__user_id, self.__collection_name, self.__manifest_file)
+
+        print self.__manifest_file.read()
         callback(result_code)
 
     def get_user_id(self):

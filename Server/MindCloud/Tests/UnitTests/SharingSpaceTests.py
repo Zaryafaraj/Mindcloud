@@ -1,13 +1,22 @@
 import uuid
+import time
+import cStringIO
 from tornado.ioloop import IOLoop
 from tornado.testing import AsyncTestCase
 from Sharing.SharingSpaceController import SharingSpaceController
+from Sharing.UpdateSharedManifestAction import UpdateSharedManifestAction
+from Storage.StorageResponse import StorageResponse
+from Storage.StorageServer import StorageServer
+from Tests.TestingProperties import TestingProperties
 from Tests.UnitTests.MockFactory import MockFactory
 
 __author__ = 'afathali'
 
 
 class SharingSpaceTestcase(AsyncTestCase):
+
+    __account_id = TestingProperties.account_id
+    __subscriber_id = TestingProperties.subscriber_id
 
     def get_new_ioloop(self):
         return IOLoop.instance()
@@ -214,6 +223,57 @@ class SharingSpaceTestcase(AsyncTestCase):
         self.assertEqual(0,backup_listeners)
 
         sharing_space.clear()
+
+    def __create_collection(self, account_id, collection_name):
+
+        file = open('../test_resources/XooML.xml')
+        StorageServer.add_collection(user_id= account_id,
+            collection_name=collection_name, callback=self.stop, file= file)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+
+    def __get_collection_manifest_content(self, account_id, collection_name):
+        StorageServer.get_collection_manifest(account_id,
+            collection_name, callback=self.stop)
+        response = self.wait()
+        return response.read()
+
+    def test_add_action_single_user_no_listener_update_manifest(self):
+        sharing_space = SharingSpaceController()
+
+        collection_name = 'col1'
+        self.__create_collection(self.__account_id, collection_name)
+
+
+        manifest_file = open('../test_resources/sharing_manifest1.xml')
+        expected_manifest_body = manifest_file.read()
+        manifest_file_like = cStringIO.StringIO(expected_manifest_body)
+        update_manifest_action = UpdateSharedManifestAction(self.__account_id,
+            collection_name, manifest_file_like)
+        sharing_space.add_action(update_manifest_action)
+
+        #just a dummy operation while results become eventually consistent
+        manifest_body = self.__get_collection_manifest_content(self.__account_id,
+            collection_name)
+
+        #the actual operation
+        manifest_body = self.__get_collection_manifest_content(self.__account_id,
+            collection_name)
+        self.assertEqual(expected_manifest_body, manifest_body)
+
+
+
+
+        pass
+    def test_add_action_single_user_no_listener_update_note(self):
+        pass
+    def test_add_action_single_user_no_listener_create_note(self):
+        pass
+    def test_add_action_single_user_no_listener_update_note_image(self):
+        pass
+    def test_add_action_single_user_no_listener_create_note_image(self):
+        pass
 
     #def test_backup_placement_strategy_backup_recorded(self):
     #    pass

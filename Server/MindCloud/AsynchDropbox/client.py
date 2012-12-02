@@ -294,7 +294,8 @@ class DropboxClient(object):
         url, params, headers = self.request(path, params, method='PUT', content_server=True)
 
         http = AsyncHTTPClient()
-        response = yield gen.Task(http.fetch, url, method='PUT', headers=headers, body=file_obj.read())
+        body = file_obj.read()
+        response = yield gen.Task(http.fetch, url, method='PUT', headers=headers, body=body)
         callback(response)
 
     @gen.engine

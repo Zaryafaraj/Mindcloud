@@ -51,6 +51,7 @@ class SharingSpaceController():
     __sharing_queue = None
     def __init__(self):
         self.__sharing_queue = SharingQueue()
+        self.__sharing_queue.is_being_processed = False
 
     def add_listener(self, user_id, request):
         """

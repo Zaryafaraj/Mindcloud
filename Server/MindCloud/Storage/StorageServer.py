@@ -127,6 +127,7 @@ class StorageServer:
             -A storageResponse status code that represents the status of the
             server will be passed to the callback
         """
+
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
             file_closure = manifest_file
