@@ -69,12 +69,31 @@ class SharingQueue:
             manifest_action = self.__update_manifest_action.popitem(last=True)[1]
             return manifest_action
         elif len(self.__update_note_actions) > 0:
-            #return the value for the last item in the ordered dict
-            user_note_actions = self.__update_note_actions.popitem(last=True)[1]
-            return user_note_actions.popitem(last=True)[1]
+            #get the update note actions that were made by the last user
+            #who had the latest activity
+            user_note_action_tuple =\
+                self.__update_note_actions.popitem(last=True)
+            user_id = user_note_action_tuple[0]
+            #now get all of the actions that that user has in queue
+            user_note_actions = user_note_action_tuple[1]
+            #get the latest of those actions
+            next_action = user_note_actions.popitem(last=True)[1]
+            #if there are more actions left for the user put the user actions
+            #back
+            if len(user_note_actions) :
+                self.__update_note_actions[user_id] = user_note_actions
+            return next_action
+
         elif len(self.__update_note_img_actions) > 0:
-            user_img_actions = self.__update_note_img_actions.popitem(last=True)[1]
-            return user_img_actions.popitem(last=True)[1]
+            #same as above
+            user_img_actions_tuple =\
+                self.__update_note_img_actions.popitem(last=True)
+            user_id = user_img_actions_tuple[0]
+            user_img_actions = user_img_actions_tuple[1]
+            next_action = user_img_actions.popitem(last=True)[1]
+            if len(user_img_actions):
+                self.__update_note_img_actions[user_id] = user_img_actions
+            return next_action
         else:
             self.is_being_processed = False
             return None
