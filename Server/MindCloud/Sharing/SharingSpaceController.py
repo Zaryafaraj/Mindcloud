@@ -161,6 +161,8 @@ class SharingSpaceController():
         #Now add the action to the latest_sharing_actions to be
         #performed later. This is not as time bound as notify listeners
         #since the user has the perception of being real time
+
+        print 'pushing action: ' + sharing_action.name
         self.__sharing_queue.push_action(sharing_action)
 
         #if the class is not processing the actions start processing them
@@ -169,7 +171,9 @@ class SharingSpaceController():
             #This is an async call so we set the processing flag to true
             #before it to make sure the processing is not getting kicked in
             #while the list is already being processed
+            print 'beginning processing queue'
             yield gen.Task(self.__proccess_latest_actions)
+            print 'finished processing queue'
             self.__sharing_queue.is_being_processed = False
 
 
@@ -204,12 +208,15 @@ class SharingSpaceController():
         #get the next action to be performed
         #poping this item, allows for another similiar action to replace it
         #while the current action is being processed
+        print 'started process latest actions'
         next_sharing_action = self.__sharing_queue.pop_next_action()
         #if we have run out of the actions to perform callback to stop
         #processing the queue
         if next_sharing_action is None:
+            print 'reached the end of the queue'
             callback()
         else:
+            print 'executing action: ' + next_sharing_action.name
             yield gen.Task(next_sharing_action.execute)
             #now process the next action
             #this will break if the latest action is always being replaced
@@ -217,6 +224,7 @@ class SharingSpaceController():
             #eats memory
             #TODO: start throteling
 
+            print 'finished executing action: ' + next_sharing_action.name
             yield gen.Task(self.__proccess_latest_actions)
             #finally when all the actions are finished call the callback
             #for the recursive calls this callback returns to the same line

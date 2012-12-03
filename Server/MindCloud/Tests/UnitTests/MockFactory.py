@@ -1,3 +1,6 @@
+import cStringIO
+from twisted.test.test_sslverify import counter
+
 __author__ = 'afathali'
 
 class MockFactory():
@@ -35,5 +38,20 @@ class MockFactory():
                callback(self.__status_code, self.__body)
 
         return MockRequest(user_id, callback)
+
+    @staticmethod
+    def get_list_of_different_strings(count, template_str):
+        """
+        Creates and returns a list of strings from the template str
+
+        Args:
+            -``count``: The number of strings to return in the list
+            -``template_str``: A string to make the content of the list out of
+
+        Returns:
+            - A list containing count number of string structures and
+        """
+
+        return [template_str + str(counter) for counter in range(0,count)]
 
 

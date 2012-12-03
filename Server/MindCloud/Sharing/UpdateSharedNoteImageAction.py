@@ -13,6 +13,8 @@ class UpdateSharedNoteImageAction(SharingAction):
     __collection_name = None
     __note_name = None
     __note_img_file = None
+    #TODO for testing purposes
+    testing_name = None
 
     def __init__(self, user_id, collection_name, note_name,  note_img_file):
         self.__user_id = user_id

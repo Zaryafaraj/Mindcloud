@@ -420,6 +420,102 @@ class SharingSpaceTestcase(AsyncTestCase):
         #cleanup
         self.__remove_collection(self.__account_id, collection_name)
 
+    def test_add_multiple_actions_two_users_no_listener(self):
+        sharing_space = SharingSpaceController()
+        collection_name1 = 'sharing_col1'
+        collection_name2 = 'sharing_col2'
+        self.__create_collection(self.__account_id, collection_name1)
+        self.__create_collection(self.__subscriber_id, collection_name2)
+
+        action_list = []
+        sharing_template_file = open('../test_resources/sharing_template1.xml')
+        sharing_template_str = sharing_template_file.read()
+        manifest_str_list = MockFactory.get_list_of_different_strings(3,
+            sharing_template_str)
+        manifest_file_list = [cStringIO.StringIO(file_body)
+                              for file_body in manifest_str_list]
+        counter = 0
+        for file in manifest_file_list:
+            name = str(counter)
+            counter += 1
+            action1 = UpdateSharedManifestAction(self.__account_id,
+                collection_name1, file)
+            action1.name = 'user1-manifest-' + name
+            action2 = UpdateSharedManifestAction(self.__subscriber_id,
+                collection_name2, file)
+            action2.name = 'user2-manifest-' + name
+            action_list.append(action1)
+            action_list.append(action2)
+
+        #add some notes and images
+        note_str_list = MockFactory.get_list_of_different_strings(3,
+            sharing_template_str)
+        note_file_list = [cStringIO.StringIO(file_body)
+                              for file_body in note_str_list]
+        img_file1 = open('../test_resources/sharing_note_img1.jpg')
+        img_file2 = open('../test_resources/sharing_note_img2.jpg')
+        file_name_counter = 0
+        note_names = []
+        for file in note_file_list :
+            note_name = 'note' + str(file_name_counter)
+            note_names.append(note_name)
+            action1 = UpdateSharedNoteAction(self.__account_id,
+                collection_name1, note_name, file)
+            action1.name = 'user1-update-note-' + note_name
+            action2 = UpdateSharedNoteAction(self.__subscriber_id,
+                collection_name2, note_name, file)
+            action2.name = 'user2-update-note-' + note_name
+            action_list.append(action1)
+            action_list.append(action2)
+            action3 = UpdateSharedNoteImageAction(self.__account_id,
+            collection_name1, note_name, img_file1)
+            action3.name = 'user1-update-img-' + note_name
+            action4 = UpdateSharedNoteImageAction(self.__subscriber_id,
+                collection_name2, note_name, img_file2)
+            action4.name = 'user2-update-img-' + note_name
+            action_list.append(action3)
+            action_list.append(action4)
+
+            for action in action_list:
+                sharing_space.add_action(action)
+
+            #busy wait for a long time
+            self.__busy_wait(collection_name1, 20)
+
+            #verify
+            collection1_manifest_content = \
+                self.__get_collection_manifest_content(self.__account_id,
+                    collection_name1)
+            collection2_manifest_content = self.__get_collection_manifest_content(self.__subscriber_id,
+                collection_name2)
+            self.assertEquals(collection1_manifest_content, collection2_manifest_content)
+            expected_content = manifest_str_list[-1]
+            self.assertEquals(expected_content, collection1_manifest_content)
+
+            #now verify the notes
+            counter = 0
+            for note_name in note_names:
+                note_content1 = self.__get_note_content(self.__account_id,
+                    collection_name1, note_name)
+                note_content2 = self.__get_note_content(self.__subscriber_id,
+                    collection_name2, note_name)
+                self.assertEqual(note_content1, note_content2)
+                expected_note_content = note_str_list[counter]
+                counter += 1
+                self.assertEqual(expected_note_content, note_content1)
+
+        #cleanup
+
+
+
+
+    def test_add_multiple_actions_two_users_no_listener_low_load(self):
+        pass
+    def test_add_multiple_actions_two_users_no_listener_medium_load(self):
+        pass
+    def test_add_multiple_actions_two_users_no_listener_heavy_load(self):
+        pass
+
     #def test_backup_placement_strategy_backup_recorded(self):
     #    pass
 

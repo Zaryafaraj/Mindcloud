@@ -11,6 +11,8 @@ class UpdateSharedManifestAction(SharingAction):
     __user_id = None
     __collection_name = None
     __manifest_file = None
+    #TODO for testing purposes
+    testing_name = None
 
     def __init__(self, user_id, collection_name, manifest_file):
         self.__user_id = user_id
@@ -38,4 +40,5 @@ class UpdateSharedManifestAction(SharingAction):
 
     def get_collection_name(self):
         return self.__collection_name
+
 
