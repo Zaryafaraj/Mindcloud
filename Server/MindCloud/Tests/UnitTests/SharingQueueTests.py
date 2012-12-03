@@ -49,7 +49,7 @@ class SharingQueueTests(AsyncTestCase):
         self.assertEqual(expected_note_action, SharingEvent.UPDATE_NOTE)
         self.assertEqual(expected_note_img_action, SharingEvent.UPDATE_NOTE_IMG)
 
-    def test_pop_and_push(self):
+    def test_pop_and_push_single_user(self):
 
         collection_name = 'col_name'
         sharing_queue = SharingQueue()
@@ -93,6 +93,99 @@ class SharingQueueTests(AsyncTestCase):
         self.assertTrue(action is not None)
         action = sharing_queue.pop_next_action()
         self.assertTrue(action is None)
+
+    def test_push_and_pop_multiple_users(self):
+        sharing_queue = SharingQueue()
+        collection_name1 = 'collection_name1'
+        collection_name2 = 'collection_name2'
+        note_name1 = 'note_name'
+        note_name2 = 'note_name2'
+
+        action_list = []
+        #note actions
+        #user1
+        note_file = open('../test_resources/note2.xml')
+        for user_id in [self.__account_id, self.__subscriber_id]:
+            #add the same note twice
+            for x in range (2):
+                update_note_action = UpdateSharedNoteAction(user_id,
+                    collection_name1, note_name1, note_file)
+                action_list.append(update_note_action)
+            #now add different notes
+            for x in range(2):
+                update_note_action = UpdateSharedNoteAction(user_id,
+                    collection_name1, note_name1 + str(x), note_file)
+                action_list.append(update_note_action)
+        #manifest actions
+        manifest_file = open('../test_resources/XooML2.xml')
+        for user_id in [self.__account_id, self.__subscriber_id]:
+            #these should be added only once per user
+            for x in range(5):
+                update_manifest_action = UpdateSharedManifestAction(user_id,
+                    collection_name1, manifest_file)
+                action_list.append(update_manifest_action)
+
+        #image actions
+        note_img = open('../test_resources/note2.xml')
+        for user_id in [self.__account_id, self.__subscriber_id]:
+            #these should be only added once per user
+            for x in range (3):
+                update_note_img_action = UpdateSharedNoteImageAction(user_id, collection_name1,
+                    note_name1, note_img)
+                action_list.append(update_note_img_action)
+                #now add different notes
+            for x in range(3):
+                update_note_img_action = UpdateSharedNoteImageAction(user_id, collection_name1,
+                    note_name1 + str(x), note_img)
+                action_list.append(update_note_img_action)
+        #now update the queue
+        for action in action_list:
+            sharing_queue.push_action(action)
+
+        #verify
+        #two manifest actions
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_MANIFEST, next_action.get_action_type())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_MANIFEST, next_action.get_action_type())
+        #6 update note actions
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE, next_action.get_action_type())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE, next_action.get_action_type())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE, next_action.get_action_type())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE, next_action.get_action_type())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE, next_action.get_action_type())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE, next_action.get_action_type())
+        #8 update img actions
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE_IMG, next_action.get_action_type())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE_IMG, next_action.get_action_type())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE_IMG, next_action.get_action_type())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE_IMG, next_action.get_action_type())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE_IMG, next_action.get_action_type())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE_IMG, next_action.get_action_type())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE_IMG, next_action.get_action_type())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE_IMG, next_action.get_action_type())
+
+        #rest should be empty
+        next_action = sharing_queue.pop_next_action()
+        self.assertTrue(next_action is None)
+        next_action = sharing_queue.pop_next_action()
+        self.assertTrue(next_action is None)
+
+
 
     def test_pop_action_order(self):
 
@@ -179,4 +272,3 @@ class SharingQueueTests(AsyncTestCase):
         self.assertEqual(action.get_action_type(), SharingEvent.UPDATE_NOTE_IMG)
         action = sharing_queue.pop_next_action()
         self.assertTrue(action is None)
-
