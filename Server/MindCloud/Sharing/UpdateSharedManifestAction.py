@@ -12,7 +12,7 @@ class UpdateSharedManifestAction(SharingAction):
     __collection_name = None
     __manifest_file = None
     #TODO for testing purposes
-    testing_name = None
+    name = " "
 
     def __init__(self, user_id, collection_name, manifest_file):
         self.__user_id = user_id

@@ -287,7 +287,7 @@ class SharingSpaceTestcase(AsyncTestCase):
         self.assertEqual(StorageResponse.OK, response)
 
     def __get_note_content(self, user_id, collection_name, note_name):
-        StorageServer.get_note_from_collection(self.__account_id,
+        StorageServer.get_note_from_collection(user_id,
             collection_name, note_name, callback=self.stop)
         response = self.wait()
         return response.read()
@@ -432,17 +432,17 @@ class SharingSpaceTestcase(AsyncTestCase):
         sharing_template_str = sharing_template_file.read()
         manifest_str_list = MockFactory.get_list_of_different_strings(3,
             sharing_template_str)
-        manifest_file_list = [cStringIO.StringIO(file_body)
-                              for file_body in manifest_str_list]
         counter = 0
-        for file in manifest_file_list:
+        for manifest_str in manifest_str_list:
+            manifest_file1 = cStringIO.StringIO(manifest_str)
+            manifest_file2 = cStringIO.StringIO(manifest_str)
             name = str(counter)
             counter += 1
             action1 = UpdateSharedManifestAction(self.__account_id,
-                collection_name1, file)
+                collection_name1, manifest_file1)
             action1.name = 'user1-manifest-' + name
             action2 = UpdateSharedManifestAction(self.__subscriber_id,
-                collection_name2, file)
+                collection_name2, manifest_file2)
             action2.name = 'user2-manifest-' + name
             action_list.append(action1)
             action_list.append(action2)
@@ -450,23 +450,24 @@ class SharingSpaceTestcase(AsyncTestCase):
         #add some notes and images
         note_str_list = MockFactory.get_list_of_different_strings(3,
             sharing_template_str)
-        note_file_list = [cStringIO.StringIO(file_body)
-                              for file_body in note_str_list]
-        img_file1 = open('../test_resources/sharing_note_img1.jpg')
-        img_file2 = open('../test_resources/sharing_note_img2.jpg')
         file_name_counter = 0
         note_names = []
-        for file in note_file_list :
+        for note_str in note_str_list :
             note_name = 'note' + str(file_name_counter)
+            file_name_counter += 1
             note_names.append(note_name)
+            file_obj1 = cStringIO.StringIO(note_str)
+            file_obj2 = cStringIO.StringIO(note_str)
             action1 = UpdateSharedNoteAction(self.__account_id,
-                collection_name1, note_name, file)
+                collection_name1, note_name, file_obj1)
             action1.name = 'user1-update-note-' + note_name
             action2 = UpdateSharedNoteAction(self.__subscriber_id,
-                collection_name2, note_name, file)
+                collection_name2, note_name, file_obj2)
             action2.name = 'user2-update-note-' + note_name
             action_list.append(action1)
             action_list.append(action2)
+            img_file1 = open('../test_resources/sharing_note_img1.jpg')
+            img_file2 = open('../test_resources/sharing_note_img2.jpg')
             action3 = UpdateSharedNoteImageAction(self.__account_id,
             collection_name1, note_name, img_file1)
             action3.name = 'user1-update-img-' + note_name
@@ -476,35 +477,35 @@ class SharingSpaceTestcase(AsyncTestCase):
             action_list.append(action3)
             action_list.append(action4)
 
-            for action in action_list:
-                sharing_space.add_action(action)
+        for action in action_list:
+            sharing_space.add_action(action)
 
-            #busy wait for a long time
-            self.__busy_wait(collection_name1, 20)
+        #busy wait for a long time
+        self.__busy_wait(collection_name1, 30)
 
-            #verify
-            collection1_manifest_content = \
-                self.__get_collection_manifest_content(self.__account_id,
-                    collection_name1)
-            collection2_manifest_content = self.__get_collection_manifest_content(self.__subscriber_id,
-                collection_name2)
-            self.assertEquals(collection1_manifest_content, collection2_manifest_content)
-            expected_content = manifest_str_list[-1]
-            self.assertEquals(expected_content, collection1_manifest_content)
+        #verify
+        collection1_manifest_content = \
+            self.__get_collection_manifest_content(self.__account_id,
+                collection_name1)
+        collection2_manifest_content = self.__get_collection_manifest_content(self.__subscriber_id,
+            collection_name2)
+        self.assertEquals(collection1_manifest_content, collection2_manifest_content)
+        expected_content = manifest_str_list[-1]
+        self.assertEquals(expected_content, collection1_manifest_content)
 
-            #now verify the notes
-            counter = 0
-            for note_name in note_names:
-                note_content1 = self.__get_note_content(self.__account_id,
-                    collection_name1, note_name)
-                note_content2 = self.__get_note_content(self.__subscriber_id,
-                    collection_name2, note_name)
-                self.assertEqual(note_content1, note_content2)
-                expected_note_content = note_str_list[counter]
-                counter += 1
-                self.assertEqual(expected_note_content, note_content1)
+        #now verify the notes
+        counter = 0
+        for note_name in note_names:
+            note_content1 = self.__get_note_content(self.__account_id,
+                collection_name1, note_name)
+            note_content2 = self.__get_note_content(self.__subscriber_id,
+                collection_name2, note_name)
+            self.assertEqual(note_content1, note_content2)
+            expected_note_content = note_str_list[counter]
+            counter += 1
+            self.assertEqual(expected_note_content, note_content1)
 
-        #cleanup
+    #cleanup
 
 
 

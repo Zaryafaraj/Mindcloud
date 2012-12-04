@@ -162,7 +162,7 @@ class SharingSpaceController():
         #performed later. This is not as time bound as notify listeners
         #since the user has the perception of being real time
 
-        print 'pushing action: ' + sharing_action.name
+        print 'pushing action: ' + str(sharing_action.name)
         self.__sharing_queue.push_action(sharing_action)
 
         #if the class is not processing the actions start processing them

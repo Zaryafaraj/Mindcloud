@@ -52,6 +52,6 @@ class MockFactory():
             - A list containing count number of string structures and
         """
 
-        return [template_str + str(counter) for counter in range(0,count)]
+        return [template_str + str(counter) for counter in range(count)]
 
 
