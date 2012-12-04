@@ -213,9 +213,12 @@ class DropboxHelper:
             callback(None)
         file_data = httpResponse.body
         #create a file like object from thumbnail_data
-        file = cStringIO.StringIO(file_data)
-        #should we close this ?
-        callback(file)
+        if file_data is None:
+            callback(None)
+        else:
+            file = cStringIO.StringIO(file_data)
+            #should we close this ?
+            callback(file)
 
     @staticmethod
     @gen.engine

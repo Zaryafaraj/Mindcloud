@@ -231,15 +231,20 @@ class SharingSpaceTestcase(AsyncTestCase):
         file = open('../test_resources/XooML.xml')
         StorageServer.add_collection(user_id= account_id,
             collection_name=collection_name, callback=self.stop, file= file)
-        response = self.wait()
+        response = self.wait(timeout=100)
         self.assertEqual(StorageResponse.OK, response)
 
 
     def __get_collection_manifest_content(self, account_id, collection_name):
+        print 'getting manifest for: ' + collection_name
         StorageServer.get_collection_manifest(account_id,
             collection_name, callback=self.stop)
-        response = self.wait()
-        return response.read()
+        response = self.wait(timeout=100)
+        if response is None:
+            print 'GOT NONE'
+            return None
+        else:
+            return response.read()
 
     def __busy_wait(self, collection_name, iteration):
         for x in range(1, iteration):
@@ -253,7 +258,7 @@ class SharingSpaceTestcase(AsyncTestCase):
 
         StorageServer.remove_collection(user_id, collection_name,
             callback=self.stop)
-        self.wait()
+        response = self.wait(timeout=100)
 
     def test_add_action_single_user_no_listener_update_manifest(self):
         sharing_space = SharingSpaceController()
@@ -283,14 +288,19 @@ class SharingSpaceTestcase(AsyncTestCase):
 
         StorageServer.add_note_to_collection(user_id,
             collection_name, note_name, note_file, callback = self.stop)
-        response = self.wait()
+        response = self.wait(timeout=100)
         self.assertEqual(StorageResponse.OK, response)
 
     def __get_note_content(self, user_id, collection_name, note_name):
+        print 'getting note ' + note_name
         StorageServer.get_note_from_collection(user_id,
             collection_name, note_name, callback=self.stop)
-        response = self.wait()
-        return response.read()
+        response = self.wait(timeout=100)
+        if response is None:
+            print 'GOT NONE'
+            return None
+        else:
+            return response.read()
 
     def test_add_action_single_user_no_listener_update_note(self):
         sharing_space = SharingSpaceController()
@@ -349,13 +359,13 @@ class SharingSpaceTestcase(AsyncTestCase):
 
         StorageServer.add_image_to_note(user_id, collection_name,
             note_name, note_img, callback= self.stop)
-        response = self.wait()
+        response = self.wait(timeout=100)
         self.assertEqual(StorageResponse.OK, response)
 
     def __get_img_content(self, user_id, collection_name, note_name):
         StorageServer.get_note_image(user_id, collection_name,
             note_name, callback=self.stop)
-        response = self.wait()
+        response = self.wait(timeout=100)
         self.assertTrue(response is not None)
         return response.read()
 
@@ -505,17 +515,111 @@ class SharingSpaceTestcase(AsyncTestCase):
             counter += 1
             self.assertEqual(expected_note_content, note_content1)
 
-    #cleanup
+        #cleanup
+        self.__remove_collection(self.__account_id, collection_name1)
+        self.__remove_collection(self.__subscriber_id, collection_name2)
 
+    def __load_test(self, manifest_count, note_count, busy_wait_cycle):
 
+        sharing_space = SharingSpaceController()
+        collection_name1 = 'sharing_col1'
+        collection_name2 = 'sharing_col2'
+        self.__create_collection(self.__account_id, collection_name1)
+        self.__create_collection(self.__subscriber_id, collection_name2)
 
+        action_list = []
+        sharing_template_file = open('../test_resources/sharing_template1.xml')
+        sharing_template_str = sharing_template_file.read()
+        manifest_str_list = MockFactory.get_list_of_different_strings(manifest_count,
+            sharing_template_str)
+        counter = 0
+        last_manifest = None
+
+        for x in range(manifest_count):
+            for manifest_str in manifest_str_list:
+                last_manifest = manifest_str + str(x)
+                manifest_file1 = cStringIO.StringIO(last_manifest)
+                manifest_file2 = cStringIO.StringIO(last_manifest)
+                name = str(counter)
+                counter += 1
+                action1 = UpdateSharedManifestAction(self.__account_id,
+                    collection_name1, manifest_file1)
+                action1.name = 'user1-manifest-' + name
+                action2 = UpdateSharedManifestAction(self.__subscriber_id,
+                    collection_name2, manifest_file2)
+                action2.name = 'user2-manifest-' + name
+                action_list.append(action1)
+                action_list.append(action2)
+
+        #add some notes and images
+        note_str_list = MockFactory.get_list_of_different_strings(note_count,
+            sharing_template_str)
+        file_name_counter = 0
+        note_names = []
+        for note_str in note_str_list :
+            note_name = 'note' + str(file_name_counter)
+            file_name_counter += 1
+            note_names.append(note_name)
+            file_obj1 = cStringIO.StringIO(note_str)
+            file_obj2 = cStringIO.StringIO(note_str)
+            action1 = UpdateSharedNoteAction(self.__account_id,
+                collection_name1, note_name, file_obj1)
+            action1.name = 'user1-update-note-' + note_name
+            action2 = UpdateSharedNoteAction(self.__subscriber_id,
+                collection_name2, note_name, file_obj2)
+            action2.name = 'user2-update-note-' + note_name
+            action_list.append(action1)
+            action_list.append(action2)
+            img_file1 = open('../test_resources/sharing_note_img1.jpg')
+            img_file2 = open('../test_resources/sharing_note_img2.jpg')
+            action3 = UpdateSharedNoteImageAction(self.__account_id,
+                collection_name1, note_name, img_file1)
+            action3.name = 'user1-update-img-' + note_name
+            action4 = UpdateSharedNoteImageAction(self.__subscriber_id,
+                collection_name2, note_name, img_file2)
+            action4.name = 'user2-update-img-' + note_name
+            action_list.append(action3)
+            action_list.append(action4)
+
+        for action in action_list:
+            sharing_space.add_action(action)
+
+        #busy wait for a long time
+        self.__busy_wait(collection_name1, busy_wait_cycle)
+
+        #verify
+        collection1_manifest_content =\
+        self.__get_collection_manifest_content(self.__account_id,
+            collection_name1)
+        collection2_manifest_content = self.__get_collection_manifest_content(self.__subscriber_id,
+            collection_name2)
+        self.assertEquals(collection1_manifest_content, collection2_manifest_content)
+        self.assertEquals(last_manifest, collection1_manifest_content)
+
+        #now verify the notes
+        counter = 0
+        for note_name in note_names:
+            note_content1 = self.__get_note_content(self.__account_id,
+                collection_name1, note_name)
+            note_content2 = self.__get_note_content(self.__subscriber_id,
+                collection_name2, note_name)
+            self.assertEqual(note_content1, note_content2)
+            expected_note_content = note_str_list[counter]
+            counter += 1
+            self.assertEqual(expected_note_content, note_content1)
+
+        #cleanup
+        #self.__remove_collection(self.__account_id, collection_name1)
+        #self.__remove_collection(self.__subscriber_id, collection_name2)
 
     def test_add_multiple_actions_two_users_no_listener_low_load(self):
-        pass
+        self.__load_test(5,10, 50)
+
     def test_add_multiple_actions_two_users_no_listener_medium_load(self):
-        pass
+        self.__load_test(20,50, 700)
+
     def test_add_multiple_actions_two_users_no_listener_heavy_load(self):
-        pass
+        self.__load_test(50,100, 1400)
 
     #def test_backup_placement_strategy_backup_recorded(self):
     #    pass
