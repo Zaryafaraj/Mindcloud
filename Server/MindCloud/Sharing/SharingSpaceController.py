@@ -49,6 +49,7 @@ class SharingSpaceController():
 
 
     __sharing_queue = None
+
     def __init__(self):
         self.__sharing_queue = SharingQueue()
         self.__sharing_queue.is_being_processed = False
@@ -203,7 +204,8 @@ class SharingSpaceController():
 
 
     @gen.engine
-    def __proccess_latest_actions(self, callback):
+    def __proccess_latest_actions(self, callback,
+                                  number_of_actions_to_process):
 
         #get the next action to be performed
         #poping this item, allows for another similiar action to replace it
@@ -215,6 +217,10 @@ class SharingSpaceController():
         if next_sharing_action is None:
             print 'reached the end of the queue'
             callback()
+
+        if not number_of_actions_to_process:
+            callback()
+
         else:
             print 'executing action: ' + next_sharing_action.name
             yield gen.Task(next_sharing_action.execute)
@@ -225,7 +231,8 @@ class SharingSpaceController():
             #TODO: start throteling
 
             print 'finished executing action: ' + next_sharing_action.name
-            yield gen.Task(self.__proccess_latest_actions)
+            yield gen.Task(self.__proccess_latest_actions,
+                number_of_actions_to_process -1)
             #finally when all the actions are finished call the callback
             #for the recursive calls this callback returns to the same line
             #the other callbacks are called until we reach the first callback

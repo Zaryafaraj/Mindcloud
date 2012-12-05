@@ -29,6 +29,14 @@ class SharingQueue:
     #the client that uses this not the class internally
     is_being_processed = False
 
+    __action_count = 0
+
+    def is_empty(self):
+        if self.__action_count > 0 :
+            return True
+        else:
+            return False
+
     def push_action(self, sharing_action):
         """
         Add an action to be performed later.
@@ -40,19 +48,28 @@ class SharingQueue:
             class
         """
 
+        if sharing_action is None:
+            return
+
         action_type = sharing_action.get_action_type()
         action_user_id = sharing_action.get_user_id()
         if action_type == SharingEvent.UPDATE_MANIFEST:
+            if action_user_id not in self.__update_manifest_action:
+                self.__action_count += 1
             self.__update_manifest_action[action_user_id] = sharing_action
         elif action_type == SharingEvent.UPDATE_NOTE:
             if action_user_id not in self.__update_note_actions:
                 self.__update_note_actions[action_user_id] = OrderedDict()
             note_name = sharing_action.get_note_name()
+            if note_name in self.__update_note_actions[action_user_id]:
+                self.__action_count += 1
             self.__update_note_actions[action_user_id][note_name] = sharing_action
         elif action_type == SharingEvent.UPDATE_NOTE_IMG:
             if action_user_id not in self.__update_note_img_actions:
                 self.__update_note_img_actions[action_user_id] = OrderedDict()
             note_name = sharing_action.get_note_name()
+            if note_name not in self.__update_note_img_actions[action_user_id]:
+                self.__action_count += 1
             self.__update_note_img_actions[action_user_id][note_name] = sharing_action
 
     def pop_next_action(self):
@@ -67,6 +84,7 @@ class SharingQueue:
         if len(self.__update_manifest_action) > 0:
             #the index is because pop item returns a key value tuple
             manifest_action = self.__update_manifest_action.popitem(last=True)[1]
+            self.__action_count -= 1
             return manifest_action
         elif len(self.__update_note_actions) > 0:
             #get the update note actions that were made by the last user
@@ -82,6 +100,7 @@ class SharingQueue:
             #back
             if len(user_note_actions) :
                 self.__update_note_actions[user_id] = user_note_actions
+            self.__action_count -= 1
             return next_action
 
         elif len(self.__update_note_img_actions) > 0:
@@ -93,9 +112,13 @@ class SharingQueue:
             next_action = user_img_actions.popitem(last=True)[1]
             if len(user_img_actions):
                 self.__update_note_img_actions[user_id] = user_img_actions
+            self.__action_count -= 1
             return next_action
         else:
+            #just to be sure
+            #these should be dynamically set to zero and False
             self.is_being_processed = False
+            self.__action_count = 0
             return None
 
 
@@ -104,6 +127,7 @@ class SharingQueue:
         self.__update_note_actions.clear()
         self.__update_note_img_actions.clear()
         self.is_being_processed = False
+        self.__action_count = 0
 
     #convinience method
     def is_being_processed(self):
