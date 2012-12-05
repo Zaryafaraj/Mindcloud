@@ -272,3 +272,151 @@ class SharingQueueTests(AsyncTestCase):
         self.assertEqual(action.get_action_type(), SharingEvent.UPDATE_NOTE_IMG)
         action = sharing_queue.pop_next_action()
         self.assertTrue(action is None)
+
+    def test_is_empty_functionality_simple(self):
+        collection_name = 'col_name'
+        sharing_queue = SharingQueue()
+        popped_item = sharing_queue.pop_next_action()
+        self.assertTrue(popped_item is None)
+
+        #single push
+        file = open('../test_resources/XooML2.xml')
+        update_manifest_action = UpdateSharedManifestAction(self.__account_id,
+            collection_name, file)
+        sharing_queue.push_action(update_manifest_action)
+        self.assertTrue(not sharing_queue.is_empty())
+        sharing_queue.pop_next_action()
+        self.assertTrue(sharing_queue.is_empty())
+        file2 = open('../test_resources/note.xml')
+        sharing_queue.push_action(update_manifest_action)
+        update_manifest_action2 = UpdateSharedManifestAction(self.__account_id,
+            collection_name, file2)
+        sharing_queue.push_action(update_manifest_action2)
+        self.assertTrue(not sharing_queue.is_empty())
+        sharing_queue.pop_next_action()
+        self.assertTrue(sharing_queue.is_empty())
+
+    def test_is_empty_functionality_complex(self):
+        sharing_queue = SharingQueue()
+        collection_name1 = 'collection_name1'
+        note_name1 = 'note_name'
+
+        action_list = []
+        #note actions
+        #user1
+        note_file = open('../test_resources/note2.xml')
+        for user_id in [self.__account_id, self.__subscriber_id]:
+            #add the same note twice
+            for x in range (2):
+                update_note_action = UpdateSharedNoteAction(user_id,
+                    collection_name1, note_name1, note_file)
+                action_list.append(update_note_action)
+                #now add different notes
+            for x in range(2):
+                update_note_action = UpdateSharedNoteAction(user_id,
+                    collection_name1, note_name1 + str(x), note_file)
+                action_list.append(update_note_action)
+            #manifest actions
+        manifest_file = open('../test_resources/XooML2.xml')
+        for user_id in [self.__account_id, self.__subscriber_id]:
+            #these should be added only once per user
+            for x in range(5):
+                update_manifest_action = UpdateSharedManifestAction(user_id,
+                    collection_name1, manifest_file)
+                action_list.append(update_manifest_action)
+
+        #image actions
+        note_img = open('../test_resources/note2.xml')
+        for user_id in [self.__account_id, self.__subscriber_id]:
+            #these should be only added once per user
+            for x in range (3):
+                update_note_img_action = UpdateSharedNoteImageAction(user_id, collection_name1,
+                    note_name1, note_img)
+                action_list.append(update_note_img_action)
+                #now add different notes
+            for x in range(3):
+                update_note_img_action = UpdateSharedNoteImageAction(user_id, collection_name1,
+                    note_name1 + str(x), note_img)
+                action_list.append(update_note_img_action)
+            #now update the queue
+        for action in action_list:
+            sharing_queue.push_action(action)
+
+        #verify
+        #two manifest actions
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_MANIFEST, next_action.get_action_type())
+        self.assertTrue(not sharing_queue.is_empty())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_MANIFEST, next_action.get_action_type())
+        self.assertTrue(not sharing_queue.is_empty())
+        #6 update note actions
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE, next_action.get_action_type())
+        self.assertTrue(not sharing_queue.is_empty())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE, next_action.get_action_type())
+        self.assertTrue(not sharing_queue.is_empty())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE, next_action.get_action_type())
+        self.assertTrue(not sharing_queue.is_empty())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE, next_action.get_action_type())
+        self.assertTrue(not sharing_queue.is_empty())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE, next_action.get_action_type())
+        self.assertTrue(not sharing_queue.is_empty())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE, next_action.get_action_type())
+        self.assertTrue(not sharing_queue.is_empty())
+        #8 update img actions
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE_IMG, next_action.get_action_type())
+        self.assertTrue(not sharing_queue.is_empty())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE_IMG, next_action.get_action_type())
+        self.assertTrue(not sharing_queue.is_empty())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE_IMG, next_action.get_action_type())
+        self.assertTrue(not sharing_queue.is_empty())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE_IMG, next_action.get_action_type())
+        self.assertTrue(not sharing_queue.is_empty())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE_IMG, next_action.get_action_type())
+        self.assertTrue(not sharing_queue.is_empty())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE_IMG, next_action.get_action_type())
+        self.assertTrue(not sharing_queue.is_empty())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE_IMG, next_action.get_action_type())
+        self.assertTrue(not sharing_queue.is_empty())
+        next_action = sharing_queue.pop_next_action()
+        self.assertEqual(SharingEvent.UPDATE_NOTE_IMG, next_action.get_action_type())
+        self.assertTrue(sharing_queue.is_empty())
+
+        #rest should be empty
+        next_action = sharing_queue.pop_next_action()
+        self.assertTrue(next_action is None)
+        self.assertTrue(sharing_queue.is_empty())
+        next_action = sharing_queue.pop_next_action()
+        self.assertTrue(next_action is None)
+        self.assertTrue(sharing_queue.is_empty())
+
+        sharing_queue.push_action(None)
+        self.assertTrue(sharing_queue.is_empty())
+
+        #add some stuff back in
+        #indexes 0 and 1 are the same action that should replace
+        #each other
+        sharing_queue.push_action(action_list[0])
+        self.assertTrue(not sharing_queue.is_empty())
+        sharing_queue.push_action(action_list[1])
+        self.assertTrue(not sharing_queue.is_empty())
+        sharing_queue.push_action(action_list[8])
+        self.assertTrue(not sharing_queue.is_empty())
+        sharing_queue.pop_next_action()
+        self.assertTrue(not sharing_queue.is_empty())
+        sharing_queue.pop_next_action()
+        self.assertTrue(sharing_queue.is_empty())
+

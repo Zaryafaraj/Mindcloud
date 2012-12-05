@@ -33,9 +33,9 @@ class SharingQueue:
 
     def is_empty(self):
         if self.__action_count > 0 :
-            return True
-        else:
             return False
+        else:
+            return True
 
     def push_action(self, sharing_action):
         """
@@ -61,7 +61,7 @@ class SharingQueue:
             if action_user_id not in self.__update_note_actions:
                 self.__update_note_actions[action_user_id] = OrderedDict()
             note_name = sharing_action.get_note_name()
-            if note_name in self.__update_note_actions[action_user_id]:
+            if note_name not in self.__update_note_actions[action_user_id]:
                 self.__action_count += 1
             self.__update_note_actions[action_user_id][note_name] = sharing_action
         elif action_type == SharingEvent.UPDATE_NOTE_IMG:
