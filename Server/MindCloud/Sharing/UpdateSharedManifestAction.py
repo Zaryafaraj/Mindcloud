@@ -1,5 +1,6 @@
 from tornado import gen
 from Sharing.SharingAction import SharingAction
+from Sharing.SharingActionDelegate import SharingActionDelegate
 from Sharing.SharingEvent import SharingEvent
 from Storage.StorageResponse import StorageResponse
 from Storage.StorageServer import StorageServer
@@ -20,14 +21,15 @@ class UpdateSharedManifestAction(SharingAction):
         self.__manifest_file = manifest_file
 
     @gen.engine
-    def execute(self, callback):
+    def execute(self, delegate=None):
         result_code = StorageResponse.BAD_REQUEST
         if self.__user_id and self.__collection_name and self.__manifest_file:
             result_code = yield gen.Task(StorageServer.save_collection_manifest,
                 self.__user_id, self.__collection_name, self.__manifest_file)
 
-        print self.__manifest_file.read()
-        callback(result_code)
+        if delegate is not None:
+            if isinstance(delegate, SharingActionDelegate):
+                delegate.actionFinishedExecuting(self, result_code)
 
     def get_user_id(self):
         return self.__user_id

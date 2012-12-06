@@ -1,15 +1,27 @@
 from tornado import gen
+from Sharing.SharingActionDelegate import SharingActionDelegate
 from Sharing.SharingQueue import SharingQueue
 from Sharing.SharingEvent import SharingEvent
 from Storage.StorageResponse import StorageResponse
 
 __author__ = 'afathali'
 
-class SharingSpaceController():
+class SharingSpaceController(SharingActionDelegate):
 
     """
     A sharing space is per shared collection.
     """
+
+    #number of items to process in a batch
+    #as the batch size grows actions will be processed faster however
+    #there is a chance that we will be performing extra actions that
+    #will be later replaced by a new action.
+    #with a small batch size we process and execute slower however this
+    #slowness allows us to see the next incoming actions and if necessary
+    #replace an existing action in a queue by the new action
+    __BATCH_SIZE = 20
+
+    __remaining_actions = 0
 
     #primary listeners is a dictionary of user id to a request
     #these listeners are notified as soon as an update becomes
@@ -134,7 +146,6 @@ class SharingSpaceController():
         """
         return [user_id for user_id in self.__backup_listeners]
 
-    @gen.engine
     def add_action(self, sharing_action):
         """
         An action that needs to be taken place and all the
@@ -168,15 +179,13 @@ class SharingSpaceController():
 
         #if the class is not processing the actions start processing them
         if  not self.__sharing_queue.is_being_processed :
-            self.__sharing_queue.is_being_processed = True
-            #This is an async call so we set the processing flag to true
-            #before it to make sure the processing is not getting kicked in
-            #while the list is already being processed
-            print 'beginning processing queue'
-            yield gen.Task(self.__proccess_latest_actions)
-            print 'finished processing queue'
-            self.__sharing_queue.is_being_processed = False
+            self.__process_next_batch_of_queue_actions()
 
+
+    def __process_next_batch_of_queue_actions(self):
+        print 'starting to process an action batch'
+        self.__sharing_queue.is_being_processed = True
+        self.__process_actions_iterative(self.__BATCH_SIZE)
 
     @gen.engine
     def __notify_listeners(self, sharing_action):
@@ -203,41 +212,40 @@ class SharingSpaceController():
                 backup_sharing_event.add_event(event_file, event_file)
 
 
-    @gen.engine
-    def __proccess_latest_actions(self, callback,
-                                  number_of_actions_to_process):
+    def __process_actions_iterative(self, iteration_count):
 
-        #get the next action to be performed
-        #poping this item, allows for another similiar action to replace it
-        #while the current action is being processed
-        print 'started process latest actions'
-        next_sharing_action = self.__sharing_queue.pop_next_action()
-        #if we have run out of the actions to perform callback to stop
-        #processing the queue
-        if next_sharing_action is None:
-            print 'reached the end of the queue'
-            callback()
+        self.__remaining_actions += iteration_count
+        print 'started processing' + str(iteration_count) + 'items'
+        for x in range(iteration_count):
+            next_sharing_action = self.__sharing_queue.pop_next_action()
+            if next_sharing_action is None:
+                return
+            else:
+                print 'executing' + next_sharing_action.name
+                next_sharing_action.execute(delegate=self)
 
-        if not number_of_actions_to_process:
-            callback()
+    #delegate method from SharingActionDelegate
+    def actionFinishedExecuting(self, action, response):
+        """
+        This function is called when an action is finished executing.
+        It keeps a count of the remaining actions and when it reaches
+        zero it knows that the batch actions are finished and opens up
+        the queue for second batch of processing
 
-        else:
-            print 'executing action: ' + next_sharing_action.name
-            yield gen.Task(next_sharing_action.execute)
-            #now process the next action
-            #this will break if the latest action is always being replaced
-            #in that situation we end up with an infinite queue that
-            #eats memory
-            #TODO: start throteling
+        -Args:
+            -``action``: The SharingAction that got ginished executing
+            -``remaining_actions``: The remaining actions to be finished
+            before the batch of actions that action was part of is considered
+            done
+        """
+        print 'finished executing' + action.name + "with " + str(response)
+        self.__remaining_actions -= 1
+        print 'remaining actions: ' + str(self.__remaining_actions)
+        if not self.__remaining_actions :
+            print 'finished processing a batch of queue items'
+            self.__sharing_queue.is_being_processed = False
+            self.__process_next_batch_of_queue_actions()
 
-            print 'finished executing action: ' + next_sharing_action.name
-            yield gen.Task(self.__proccess_latest_actions,
-                number_of_actions_to_process -1)
-            #finally when all the actions are finished call the callback
-            #for the recursive calls this callback returns to the same line
-            #the other callbacks are called until we reach the first callback
-            #which gets out of this method and ends the processing
-            callback()
     def clear(self):
         self.__listeners.clear()
         self.__backup_listeners.clear()

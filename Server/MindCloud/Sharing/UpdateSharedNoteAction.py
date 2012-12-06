@@ -1,3 +1,4 @@
+from Sharing.SharingActionDelegate import SharingActionDelegate
 from Sharing.SharingEvent import SharingEvent
 
 __author__ = 'afathali'
@@ -24,14 +25,17 @@ class UpdateSharedNoteAction(SharingAction):
         self.__note_name = note_name
 
     @gen.engine
-    def execute(self, callback):
+    def execute(self, delegate=None):
         result_code = StorageResponse.BAD_REQUEST
         if self.__user_id and self.__collection_name and\
            self.__note_name and self.__note_file:
             result_code = yield gen.Task(StorageServer.add_note_to_collection,
                 self.__user_id, self.__collection_name, self.__note_name,
                 self.__note_file)
-        callback(result_code)
+
+        if delegate is not None:
+            if isinstance(delegate, SharingActionDelegate):
+                delegate.actionFinishedExecuting(self, result_code)
 
     def get_note_name(self):
         return self.__note_name
