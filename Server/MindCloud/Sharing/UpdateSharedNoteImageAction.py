@@ -24,7 +24,7 @@ class UpdateSharedNoteImageAction(SharingAction):
         self.__note_name = note_name
 
     @gen.engine
-    def execute(self, delegate=None):
+    def execute(self, callback=None, delegate=None):
         result_code = StorageResponse.BAD_REQUEST
         if self.__user_id and self.__collection_name and\
            self.__note_name and self.__note_img_file:
@@ -35,6 +35,9 @@ class UpdateSharedNoteImageAction(SharingAction):
         if delegate is not None:
             if isinstance(delegate, SharingActionDelegate):
                 delegate.actionFinishedExecuting(self, result_code)
+
+        elif callback is not None:
+            callback(result_code)
 
     def get_note_name(self):
         return self.__note_name
