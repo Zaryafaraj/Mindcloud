@@ -18,8 +18,7 @@ class DatabaseFactory:
         if not hasattr(DatabaseFactory, '__accounts_db'):
             DatabaseFactory.__accounts_db =\
             asyncmongo.Client(pool_id='accounts_pool', host = DatabaseFactory.__host,
-                port= DatabaseFactory.__port, maxcached=10, maxconnections=100,
-                dbname=DatabaseFactory.__database_name)
+                port= DatabaseFactory.__port, dbname=DatabaseFactory.__database_name)
         return DatabaseFactory.__accounts_db
 
     @staticmethod
@@ -27,8 +26,7 @@ class DatabaseFactory:
         if not hasattr(DatabaseFactory, '__sharing_db'):
             DatabaseFactory.__sharing_db =\
             asyncmongo.Client(pool_id='sharing_pool', host = DatabaseFactory.__host,
-                port= DatabaseFactory.__port, maxcached=10, maxconnections=100,
-                dbname=DatabaseFactory.__database_name)
+                port= DatabaseFactory.__port, dbname=DatabaseFactory.__database_name)
         return DatabaseFactory.__sharing_db
 
     @staticmethod
@@ -36,8 +34,7 @@ class DatabaseFactory:
         if not hasattr(DatabaseFactory, '__subscribers_db'):
             DatabaseFactory.__subscribers_db =\
             asyncmongo.Client(pool_id='subscribers_pool', host = DatabaseFactory.__host,
-                port= DatabaseFactory.__port, maxcached=10, maxconnections=100,
-                dbname=DatabaseFactory.__database_name)
+                port= DatabaseFactory.__port, dbname=DatabaseFactory.__database_name)
         return DatabaseFactory.__subscribers_db
 
     @staticmethod

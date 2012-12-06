@@ -21,6 +21,7 @@ class SharingSpaceController(SharingActionDelegate):
     #replace an existing action in a queue by the new action
     __BATCH_SIZE = 20
 
+    #current remaining actions in a batch
     __remaining_actions = 0
 
     #primary listeners is a dictionary of user id to a request
@@ -214,15 +215,24 @@ class SharingSpaceController(SharingActionDelegate):
 
     def __process_actions_iterative(self, iteration_count):
 
-        self.__remaining_actions += iteration_count
         print 'started processing' + str(iteration_count) + 'items'
-        for x in range(iteration_count):
-            next_sharing_action = self.__sharing_queue.pop_next_action()
-            if next_sharing_action is None:
-                return
-            else:
-                print 'executing' + next_sharing_action.name
-                next_sharing_action.execute(delegate=self)
+        if self.__sharing_queue.is_empty():
+            return
+        else:
+            actions_to_be_executed = []
+            for x in range(iteration_count):
+                next_sharing_action = self.__sharing_queue.pop_next_action()
+                if next_sharing_action is None:
+                   break
+                #first increment the counters in remaining actions then execute them
+                #this will make sure that when any action is being executed the counter
+                #won't change
+                else:
+                    self.__remaining_actions += 1
+                    actions_to_be_executed.append(next_sharing_action)
+            for action in actions_to_be_executed:
+                print 'executing' + action.name
+                action.execute(delegate=self)
 
     #delegate method from SharingActionDelegate
     def actionFinishedExecuting(self, action, response):
@@ -238,9 +248,8 @@ class SharingSpaceController(SharingActionDelegate):
             before the batch of actions that action was part of is considered
             done
         """
-        print 'finished executing' + action.name + "with " + str(response)
         self.__remaining_actions -= 1
-        print 'remaining actions: ' + str(self.__remaining_actions)
+        print 'finished executing' + action.name + "with " + str(response)
         if not self.__remaining_actions :
             print 'finished processing a batch of queue items'
             self.__sharing_queue.is_being_processed = False

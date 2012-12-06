@@ -236,7 +236,6 @@ class SharingSpaceTestcase(AsyncTestCase):
 
 
     def __get_collection_manifest_content(self, account_id, collection_name):
-        print 'getting manifest for: ' + collection_name
         StorageServer.get_collection_manifest(account_id,
             collection_name, callback=self.stop)
         response = self.wait(timeout=100)
@@ -274,7 +273,7 @@ class SharingSpaceTestcase(AsyncTestCase):
             collection_name, manifest_file_like)
         sharing_space.add_action(update_manifest_action)
 
-        self.__busy_wait(collection_name, 3)
+        self.__busy_wait(collection_name, 5)
 
         #verify
         manifest_body = self.__get_collection_manifest_content(self.__account_id,
@@ -318,7 +317,7 @@ class SharingSpaceTestcase(AsyncTestCase):
             note_name, note_file_like)
         sharing_space.add_action(update_note_action)
 
-        self.__busy_wait(collection_name, 3)
+        self.__busy_wait(collection_name, 5)
 
         #verify
         note_content = self.__get_note_content(self.__account_id, collection_name,
@@ -344,7 +343,7 @@ class SharingSpaceTestcase(AsyncTestCase):
             note_name, note_file_like)
         sharing_space.add_action(update_note_action)
 
-        self.__busy_wait(collection_name,3)
+        self.__busy_wait(collection_name,5)
 
         #verify
         note_content = self.__get_note_content(self.__account_id, collection_name,
@@ -392,7 +391,7 @@ class SharingSpaceTestcase(AsyncTestCase):
         sharing_space.add_action(update_note_img_action)
 
         #because we have an image busy wait more
-        self.__busy_wait(collection_name, 5)
+        self.__busy_wait(collection_name, 7)
 
         #verify
         self.__get_img_content(self.__account_id,
@@ -421,7 +420,7 @@ class SharingSpaceTestcase(AsyncTestCase):
             collection_name, note_name, sharing_note_img)
         sharing_space.add_action(update_note_img_action)
 
-        self.__busy_wait(collection_name, 5)
+        self.__busy_wait(collection_name, 7)
 
         #verify
         self.__get_img_content(self.__account_id,
@@ -491,7 +490,7 @@ class SharingSpaceTestcase(AsyncTestCase):
             sharing_space.add_action(action)
 
         #busy wait for a long time
-        self.__busy_wait(collection_name1, 30)
+        self.__busy_wait(collection_name1, 100)
 
         #verify
         collection1_manifest_content = \
@@ -609,17 +608,17 @@ class SharingSpaceTestcase(AsyncTestCase):
             self.assertEqual(expected_note_content, note_content1)
 
         #cleanup
-        #self.__remove_collection(self.__account_id, collection_name1)
-        #self.__remove_collection(self.__subscriber_id, collection_name2)
+     #   self.__remove_collection(self.__account_id, collection_name1)
+     #   self.__remove_collection(self.__subscriber_id, collection_name2)
 
     def test_add_multiple_actions_two_users_no_listener_low_load(self):
-        self.__load_test(5,10, 50)
+        self.__load_test(5,10, 100)
 
     def test_add_multiple_actions_two_users_no_listener_medium_load(self):
-        self.__load_test(20,50, 700)
+        self.__load_test(20,50, 1400)
 
-    def test_add_multiple_actions_two_users_no_listener_heavy_load(self):
-        self.__load_test(50,100, 1400)
+    #def test_add_multiple_actions_two_users_no_listener_heavy_load(self):
+    #    self.__load_test(50,100, 1400)
 
     #def test_backup_placement_strategy_backup_recorded(self):
     #    pass
