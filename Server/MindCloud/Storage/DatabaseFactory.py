@@ -5,8 +5,6 @@ __author__ = 'afathali'
 
 class DatabaseFactory:
 
-    #TODO replace these with properties file
-    #MongoDB configs
     __host =  Properties.database_host
     __port = Properties.database_port
     __database_name = Properties.database_name

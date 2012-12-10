@@ -115,10 +115,6 @@ class SharingQueue:
             self.__action_count -= 1
             return next_action
         else:
-            #just to be sure
-            #these should be dynamically set to zero and False
-            self.is_being_processed = False
-            self.__action_count = 0
             return None
 
 

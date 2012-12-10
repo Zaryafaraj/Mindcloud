@@ -19,7 +19,9 @@ class SharingSpaceController(SharingActionDelegate):
     #with a small batch size we process and execute slower however this
     #slowness allows us to see the next incoming actions and if necessary
     #replace an existing action in a queue by the new action
-    __BATCH_SIZE = 20
+    #it seems that 5 is kinda our magic number any bigger and we have
+    #weird lost packets in dropbox
+    __BATCH_SIZE =5
 
     #current remaining actions in a batch
     __remaining_actions = 0
@@ -175,7 +177,6 @@ class SharingSpaceController(SharingActionDelegate):
         #performed later. This is not as time bound as notify listeners
         #since the user has the perception of being real time
 
-        print 'pushing action: ' + str(sharing_action.name)
         self.__sharing_queue.push_action(sharing_action)
 
         #if the class is not processing the actions start processing them
@@ -215,7 +216,7 @@ class SharingSpaceController(SharingActionDelegate):
 
     def __process_actions_iterative(self, iteration_count):
 
-        print 'started processing' + str(iteration_count) + 'items'
+        print '** started processing ' + str(iteration_count) + ' items'
         if self.__sharing_queue.is_empty():
             return
         else:
@@ -231,7 +232,7 @@ class SharingSpaceController(SharingActionDelegate):
                     self.__remaining_actions += 1
                     actions_to_be_executed.append(next_sharing_action)
             for action in actions_to_be_executed:
-                print 'executing' + action.name
+                print 'executing ' + action.name
                 action.execute(delegate=self)
 
     #delegate method from SharingActionDelegate
@@ -249,7 +250,7 @@ class SharingSpaceController(SharingActionDelegate):
             done
         """
         self.__remaining_actions -= 1
-        print 'finished executing' + action.name + "with " + str(response)
+        print 'finished executing ' + action.name + 'with ' + str(response)
         if not self.__remaining_actions :
             print 'finished processing a batch of queue items'
             self.__sharing_queue.is_being_processed = False
