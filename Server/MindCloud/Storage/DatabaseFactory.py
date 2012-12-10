@@ -1,4 +1,5 @@
 import asyncmongo
+from Properties.MindcloudProperties import Properties
 
 __author__ = 'afathali'
 
@@ -6,12 +7,12 @@ class DatabaseFactory:
 
     #TODO replace these with properties file
     #MongoDB configs
-    __host = 'localhost'
-    __port = 27017
-    __database_name = 'mindcloud'
-    __accounts_collection_name = 'accounts'
-    __sharing_collection_name = 'sharings'
-    __subscribers_collection_name = 'subscribers'
+    __host =  Properties.database_host
+    __port = Properties.database_port
+    __database_name = Properties.database_name
+    __accounts_collection_name =  Properties.accounts_collection_name
+    __sharing_collection_name = Properties.sharing_collection_name
+    __subscribers_collection_name = Properties.subscribers_collection_name
 
     @staticmethod
     def __get_accounts_db():
