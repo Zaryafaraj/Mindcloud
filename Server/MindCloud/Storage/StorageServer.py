@@ -2,7 +2,9 @@
 Handles all the interaction with the storage mechanism
 """
 import cStringIO
+import json
 from tornado import gen
+from Cache.MindcloudCache import MindcloudCache
 from Helpers.DropboxHelper import DropboxHelper
 from Storage.StorageResponse import StorageResponse
 
@@ -15,6 +17,7 @@ class StorageServer:
     A static class handling all the interactions with *all* the storage services.
     """
 
+    __cache = MindcloudCache()
     __THUMBNAIL_FILENAME = 'thumbnail.jpg'
     __CATEGORIES_FILENAME = 'categories.xml'
     __COLLECTION_FILE_NAME = 'collection.xml'
@@ -30,15 +33,29 @@ class StorageServer:
         In future` if we add different storage mechanism it should be placed here
         """
 
-        account_info = yield gen.Task(Accounts.get_account,user_id)
+        #Try cache
+        account_info = \
+            yield gen.Task(StorageServer.__cache.get_user_info, user_id)
         if account_info is not None:
-            key = account_info['ticket'][0]
-            secret = account_info['ticket'][1]
+            account_obj = json.loads(account_info)
+            key = account_obj['key']
+            secret = account_obj['secret']
             storage = DropboxHelper.create_client(key, secret)
             callback(storage)
-
         else:
-            callback(None)
+            #get it from DB
+            account_info = yield gen.Task(Accounts.get_account,user_id)
+            if account_info is not None:
+                key = account_info['ticket'][0]
+                secret = account_info['ticket'][1]
+                #cache it
+                account_info_json = json.dumps({'key':key, 'secret':secret})
+                yield gen.Task(StorageServer.__cache.set_user_info,
+                    user_id, account_info_json)
+                storage = DropboxHelper.create_client(key, secret)
+                callback(storage)
+            else:
+                callback(None)
 
     @staticmethod
     @gen.engine
