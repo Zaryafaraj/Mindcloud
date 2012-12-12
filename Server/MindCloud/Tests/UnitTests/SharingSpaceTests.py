@@ -610,7 +610,7 @@ class SharingSpaceTestcase(AsyncTestCase):
                 self.fail("invalid results more than acceptable threshold")
             counter += 1
 
-        print 'acceptable invalids left: ' + acceptable_invalids
+        print 'acceptable invalids left: ' + str(acceptable_invalids)
         #cleanup
         self.__remove_collection(self.__account_id, collection_name1)
         self.__remove_collection(self.__subscriber_id, collection_name2)
