@@ -1,3 +1,5 @@
+import json
+
 __author__ = 'afathali'
 
 class SharingRecord:
@@ -30,6 +32,19 @@ class SharingRecord:
                           SharingRecord.COLLECTION_NAME_KEY : self.collection_name,
                           SharingRecord.SUBSCIRBERS_KEY : self.subscribers}
 
+    def toJson(self):
+        dict = self.toDictionary()
+        return json.dumps(dict)
+
+    @classmethod
+    def fromJson(cls, json_str):
+        json_obj = json.loads(json_str)
+        sharing_secret = json_obj[SharingRecord.SECRET_KEY]
+        owner = json_obj[SharingRecord.OWNER_KEY]
+        owner_collection = json_obj[SharingRecord.COLLECTION_NAME_KEY]
+        subscribers = json_obj[SharingRecord.SUBSCIRBERS_KEY]
+        return SharingRecord(sharing_secret, owner, owner_collection,
+            subscribers)
 
     def get_sharing_secret(self):
         return self.sharing_secret
