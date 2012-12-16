@@ -171,6 +171,7 @@ class CollectionTests(AsyncHTTPTestCase):
         response = self.fetch(path=url, method='GET')
         self.assertEqual(404, response.code)
         url = '/'.join(['', self.account_id, 'Collections', rename_collection_name, 'Share'])
+        print url
         response = self.fetch(path=url, method='GET')
         self.assertEqual(200, response.code)
         json_obj = json.loads(response.body)

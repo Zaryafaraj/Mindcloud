@@ -342,7 +342,7 @@ class SharingController:
             user_id, old_collection_name)
         #add new content to the cache
         yield gen.Task(SharingController.__cache.set_subscriber_info,
-            user_id, new_collection_name, str(new_content))
+            user_id, new_collection_name, sharing_secret)
         #TODO I can probalby use the replace cmd in memcache to reduce these two calls to one
         callback()
 

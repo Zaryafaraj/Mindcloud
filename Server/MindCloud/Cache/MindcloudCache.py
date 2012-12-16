@@ -137,11 +137,10 @@ class MindcloudCache():
         """
         Removes the sharing record based on the sharing secret
         """
-        if sharing_secret is not None:
-            assert isinstance(sharing_secret, str) or isinstance(sharing_secret, unicode)
+        assert isinstance(sharing_secret, str) or isinstance(sharing_secret, unicode)
 
-            sharing_secret = str(sharing_secret)
-            cache.delete(sharing_secret, callback=callback)
+        sharing_secret = str(sharing_secret)
+        cache.delete(sharing_secret, callback=callback)
 
 
 
