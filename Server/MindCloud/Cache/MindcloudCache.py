@@ -24,13 +24,14 @@ class MindcloudCache():
             -``account_info``: A json stucture consisting of (key, secret)
             for the user_id
         """
-        assert isinstance(user_id,str) or isinstance(user_id, unicode)
-        assert isinstance(account_info_json,str) or isinstance(account_info_json, unicode)
+        if user_id is not None and account_info_json is not None:
+            assert isinstance(user_id,str) or isinstance(user_id, unicode)
+            assert isinstance(account_info_json,str) or isinstance(account_info_json, unicode)
 
-        user_id = str(user_id)
-        account_info_json = str(account_info_json)
+            user_id = str(user_id)
+            account_info_json = str(account_info_json)
 
-        cache.set(user_id, account_info_json, callback=callback)
+            cache.set(user_id, account_info_json, callback=callback)
 
     def get_user_info(self, user_id, callback):
         """
@@ -49,10 +50,11 @@ class MindcloudCache():
         """
 
 
-        assert isinstance(user_id,str) or isinstance(user_id, unicode)
+        if user_id is not None:
+            assert isinstance(user_id,str) or isinstance(user_id, unicode)
 
-        user_id = str(user_id)
-        cache.get(user_id, callback=callback)
+            user_id = str(user_id)
+            cache.get(user_id, callback=callback)
 
     def set_subscriber_info(self, user_id, collection_name, sharing_secret, callback=None):
         """
@@ -65,14 +67,15 @@ class MindcloudCache():
             and collection name
         """
 
-        assert isinstance(user_id,str) or isinstance(user_id, unicode)
-        assert isinstance(collection_name, str) or isinstance(collection_name, unicode)
-        assert isinstance(sharing_secret, str) or isinstance(sharing_secret, unicode)
+        if user_id is not None and collection_name is not None and sharing_secret is not None:
+            assert isinstance(user_id,str) or isinstance(user_id, unicode)
+            assert isinstance(collection_name, str) or isinstance(collection_name, unicode)
+            assert isinstance(sharing_secret, str) or isinstance(sharing_secret, unicode)
 
-        cache_key = str(self.__create_cache_key(user_id, collection_name))
-        sharing_secret = str(sharing_secret)
+            cache_key = str(self.__create_cache_key(user_id, collection_name))
+            sharing_secret = str(sharing_secret)
 
-        cache.set(cache_key, sharing_secret, callback=callback)
+            cache.set(cache_key, sharing_secret, callback=callback)
 
     def get_subscriber_info(self, user_id, collection_name, callback):
         """
@@ -83,11 +86,12 @@ class MindcloudCache():
             -The sharing secret associated with this or None is passed to callback
         """
 
-        assert isinstance(user_id,str) or isinstance(user_id, unicode)
-        assert isinstance(collection_name, str) or isinstance(collection_name, unicode)
+        if user_id is not None and collection_name is not None:
+            assert isinstance(user_id,str) or isinstance(user_id, unicode)
+            assert isinstance(collection_name, str) or isinstance(collection_name, unicode)
 
-        cache_key = self.__create_cache_key(user_id, collection_name)
-        cache.get(cache_key, callback=callback)
+            cache_key = self.__create_cache_key(user_id, collection_name)
+            cache.get(cache_key, callback=callback)
 
     def remove_subscriber_info(self, user_id, collection_name, callback):
         """
@@ -95,11 +99,12 @@ class MindcloudCache():
         the cache.
 
         """
-        assert isinstance(user_id,str) or isinstance(user_id, unicode)
-        assert isinstance(collection_name, str) or isinstance(collection_name, unicode)
+        if user_id is not None and collection_name is not None:
+            assert isinstance(user_id,str) or isinstance(user_id, unicode)
+            assert isinstance(collection_name, str) or isinstance(collection_name, unicode)
 
-        cache_key = self.__create_cache_key(user_id, collection_name)
-        cache.delete(cache_key, callback=callback)
+            cache_key = self.__create_cache_key(user_id, collection_name)
+            cache.delete(cache_key, callback=callback)
 
     def set_sharing_record(self, sharing_secret, sharing_record_json, callback):
         """
@@ -107,13 +112,14 @@ class MindcloudCache():
         The sharing_record that is passed in should be in json
         """
 
-        assert isinstance(sharing_secret, str) or isinstance(sharing_secret,unicode)
-        assert isinstance(sharing_record_json, str) or isinstance(sharing_record_json, unicode)
+        if sharing_secret is not None and sharing_record_json is not None:
+            assert isinstance(sharing_secret, str) or isinstance(sharing_secret,unicode)
+            assert isinstance(sharing_record_json, str) or isinstance(sharing_record_json, unicode)
 
-        sharing_secret = str(sharing_secret)
-        sharing_record_json = str(sharing_record_json)
+            sharing_secret = str(sharing_secret)
+            sharing_record_json = str(sharing_record_json)
 
-        cache.set(sharing_secret, sharing_record_json, callback = callback)
+            cache.set(sharing_secret, sharing_record_json, callback = callback)
 
     def get_sharing_record(self, sharing_secret, callback):
         """
@@ -121,19 +127,21 @@ class MindcloudCache():
         If a cache miss then None is passed to callback
         """
 
-        assert isinstance(sharing_secret, str) or isinstance(sharing_secret, unicode)
+        if sharing_secret is not None:
+            assert isinstance(sharing_secret, str) or isinstance(sharing_secret, unicode)
 
-        sharing_secret = str(sharing_secret)
-        cache.get(sharing_secret, callback=callback)
+            sharing_secret = str(sharing_secret)
+            cache.get(sharing_secret, callback=callback)
 
     def remove_sharing_record(self, sharing_secret, callback):
         """
         Removes the sharing record based on the sharing secret
         """
-        assert isinstance(sharing_secret, str) or isinstance(sharing_secret, unicode)
+        if sharing_secret is not None:
+            assert isinstance(sharing_secret, str) or isinstance(sharing_secret, unicode)
 
-        sharing_secret = str(sharing_secret)
-        cache.delete(sharing_secret, callback=callback)
+            sharing_secret = str(sharing_secret)
+            cache.delete(sharing_secret, callback=callback)
 
 
 

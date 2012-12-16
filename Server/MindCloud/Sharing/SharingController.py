@@ -292,8 +292,11 @@ class SharingController:
         """
         sharing_secret = yield gen.Task(SharingController.get_sharing_secret_from_subscriber_info,
             owner_id, collection_name)
-        yield gen.Task(SharingController.remove_sharing_record_by_secret, sharing_secret)
-        callback()
+        if sharing_secret is None:
+            callback()
+        else:
+            yield gen.Task(SharingController.remove_sharing_record_by_secret, sharing_secret)
+            callback()
 
     @staticmethod
     @gen.engine
