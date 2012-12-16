@@ -24,6 +24,7 @@ class SharingController:
         chars = string.ascii_uppercase + string.digits
         return ''.join(random.choice(chars) for x in range(SharingController.SECRET_LENGTH))
 
+    #implementation detail
     @staticmethod
     @gen.engine
     def add_subscriber(user_id, collection_name, sharing_secret, callback):
@@ -31,6 +32,8 @@ class SharingController:
         Adds a subscriber with user id and collection and sharing secret
         to the subscribers db. user_id and collection_name uniquely identify
         the subscriber and maps it to the sharing_secret of the sharing space
+
+        This is implementation detail. Do not use for actual logic
         """
 
         subscriber_collection = DatabaseFactory.get_subscribers_collection()
@@ -56,7 +59,7 @@ class SharingController:
             subscriber then None is passed
         """
         #first look up in the cache
-        sharing_secret = yield gen.Task(SharingController.__cache.get_user_info,
+        sharing_secret = yield gen.Task(SharingController.__cache.get_subscriber_info,
             user_id, collection_name)
         if sharing_secret is not None:
             callback(sharing_secret)
@@ -105,12 +108,17 @@ class SharingController:
                 sharing_secret)
             callback(sharing_info)
 
+
+    #implementation detail
     @staticmethod
     @gen.engine
     def remove_subscriber(user_id, collection_name, callback):
         """
         Removes the subscriber from the subscribers collection.
         user_id and collection_name identify a sharing space uniquely.
+
+        This is implementation detail. Do not use for actual logic, does
+        not guarauntee  updates to sharing record
         """
         subscriber_collection = DatabaseFactory.get_subscribers_collection()
         query = {SharingController.SUBSCRIBER_ID_KEY : user_id,
@@ -122,30 +130,38 @@ class SharingController:
         if callback is not None:
             callback()
 
+
+    #implementation detail
     @staticmethod
     @gen.engine
     def remove_all_subscribers(sharing_secret, callback):
         """
         Removes all the subscribers to a sharing space identified by
         a sharing_secret
+
+        implementation detail, does not gurantee sharing record updates.
+        do not use for logic
         """
         subscriber_collection = DatabaseFactory.get_subscribers_collection()
         query = {SharingController.SHARING_SPACE_SECRET_KEY: sharing_secret}
         #first get the sharing record
         sharing_record  = yield gen.Task(SharingController.get_sharing_record_by_secret,
             sharing_secret)
-        subscribers_list = sharing_record.get_subscribers()
-        for subscriber_info in subscribers_list:
-            subscriber_id = subscriber_info[0]
-            subscriber_collection_name = subscriber_info[1]
-            #just remove it from the cache
-            SharingController.__cache.remove_subscriber_info(subscriber_id,
-                subscriber_collection_name, callback=None)
 
-        #remove everything from the db in one shot
-        yield gen.Task(subscriber_collection.remove, query)
-        #remove all subscriber info from the cache
-        callback()
+        if sharing_record is None:
+            callback(None)
+        else:
+            subscribers_list = sharing_record.get_subscribers()
+            for subscriber_info in subscribers_list:
+                subscriber_id = subscriber_info[0]
+                subscriber_collection_name = subscriber_info[1]
+                #just remove it from the cache
+                SharingController.__cache.remove_subscriber_info(subscriber_id,
+                    subscriber_collection_name, callback=None)
+
+            #remove everything from the db in one shot
+            yield gen.Task(subscriber_collection.remove, query)
+            callback()
 
     @staticmethod
     @gen.engine
@@ -169,14 +185,13 @@ class SharingController:
                               SharingRecord.OWNER_KEY : user_id,
                               SharingRecord.COLLECTION_NAME_KEY : collection_name,
                               SharingRecord.SUBSCIRBERS_KEY : [(user_id,collection_name)]}
+
             #add sharing record to the cache
             yield gen.Task(sharing_collection.insert, sharing_record)
             yield gen.Task(SharingController.add_subscriber, user_id, collection_name,
                 sharing_secret)
 
             #cache both the subscription info and the sharing record itself
-            yield gen.Task(SharingController.__cache.set_subscriber_info,
-                user_id, collection_name, sharing_secret)
             sharing_record_json = json.dumps(sharing_record)
             yield gen.Task(SharingController.__cache.set_sharing_record,
                 sharing_secret, sharing_record_json)
@@ -240,9 +255,12 @@ class SharingController:
         """
         sharing_secret = yield gen.Task(SharingController.get_sharing_secret_from_subscriber_info,
             user_id, collection_name)
-        sharing_record = yield gen.Task(SharingController.get_sharing_record_by_secret,
-            sharing_secret)
-        callback(sharing_record)
+        if sharing_secret is None:
+            callback(None)
+        else:
+            sharing_record = yield gen.Task(SharingController.get_sharing_record_by_secret,
+                sharing_secret)
+            callback(sharing_record)
 
     @staticmethod
     @gen.engine
@@ -255,8 +273,10 @@ class SharingController:
         """
         sharing_collection = DatabaseFactory.get_sharing_collection()
         query = {SharingRecord.SECRET_KEY : sharing_secret}
-        yield gen.Task(sharing_collection.remove, query)
+        #first remove subscribers
         yield gen.Task(SharingController.remove_all_subscribers, sharing_secret)
+        #the collection itself
+        yield gen.Task(sharing_collection.remove, query)
         #remove the record from the cache too
         yield gen.Task(SharingController.__cache.remove_sharing_record, sharing_secret)
         callback()
@@ -273,6 +293,7 @@ class SharingController:
         sharing_secret = yield gen.Task(SharingController.get_sharing_secret_from_subscriber_info,
             owner_id, collection_name)
         yield gen.Task(SharingController.remove_sharing_record_by_secret, sharing_secret)
+        callback()
 
     @staticmethod
     @gen.engine
@@ -288,10 +309,11 @@ class SharingController:
         sharing_collection = DatabaseFactory.get_sharing_collection()
         doc_key = {SharingRecord.SECRET_KEY: sharing_record.get_sharing_secret()}
         doc_content = sharing_record.toDictionary()
-        sharing_record_json = json.dumps(sharing_record)
+        sharing_record_json = sharing_record.to_json_str()
         yield gen.Task(sharing_collection.update, doc_key, doc_content)
         #update the cache
-        yield gen.Task(SharingController.__cache.set_sharing_record,sharing_record_json)
+        yield gen.Task(SharingController.__cache.set_sharing_record,
+            sharing_record.get_sharing_secret(), sharing_record_json)
         callback()
 
     @staticmethod
@@ -317,7 +339,7 @@ class SharingController:
             user_id, old_collection_name)
         #add new content to the cache
         yield gen.Task(SharingController.__cache.set_subscriber_info,
-            user_id, new_collection_name)
+            user_id, new_collection_name, str(new_content))
         #TODO I can probalby use the replace cmd in memcache to reduce these two calls to one
         callback()
 

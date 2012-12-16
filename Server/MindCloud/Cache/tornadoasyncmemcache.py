@@ -33,6 +33,7 @@ Example using ClientPool
       application.listen(8888)
       tornado.ioloop.IOLoop.instance().start()
 
+Modified by Ali Fathalian for Mindcloud
 """
 import weakref
 import sys
@@ -113,7 +114,8 @@ class ClientPool(object):
             self._clients.append(c)
         else:
             c.disconnect_all()
-        _cb(response, *args, **kwargs)
+        if _cb is not None:
+            _cb(response, *args, **kwargs)
     
 
 class _Error(Exception):
@@ -377,7 +379,8 @@ class Client(object):
             val = pickle.dumps(val, 2)
         
         fullcmd = "%s %s %d %d %d\r\n%s" % (cmd, key, flags, time, len(val), val)
-        
+
+        fullcmd = str(fullcmd)
         server.send_cmd(fullcmd, callback=partial(self._set_send_cb, server=server, callback=callback))
         
     def _set_send_cb(self, server, callback):
@@ -466,7 +469,8 @@ class Client(object):
         self.finish(partial(callback,val))
         
     def finish(self, callback):
-        callback()
+        if callback is not None:
+            callback()
 #        self.disconnect_all()
 
     

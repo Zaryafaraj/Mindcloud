@@ -618,11 +618,11 @@ class SharingSpaceTestcase(AsyncTestCase):
     def test_add_multiple_actions_two_users_no_listener_low_load(self):
         self.__load_test(5,10, 50,0)
 
-    def test_add_multiple_actions_two_users_no_listener_medium_load(self):
-        self.__load_test(20,50, 200, 5)
+    #def test_add_multiple_actions_two_users_no_listener_medium_load(self):
+    #    self.__load_test(20,50, 200, 5)
 
-    def test_add_multiple_actions_two_users_no_listener_heavy_load(self):
-        self.__load_test(50,100, 400, 10)
+    #def test_add_multiple_actions_two_users_no_listener_heavy_load(self):
+    #    self.__load_test(50,100, 400, 10)
 
     #def test_backup_placement_strategy_backup_recorded(self):
     #    pass

@@ -9,8 +9,11 @@ cache = memcache.ClientPool(properties.Properties.memcached_servers,
 
 class MindcloudCache():
 
+    #we cast everything to str to make sure that unicode objects are not used to
+    #access the cache
+
     def __create_cache_key(self, user_id, collection_name):
-        return user_id + collection_name
+        return str(user_id + collection_name)
 
     def set_user_info(self, user_id, account_info_json, callback=None):
         """
@@ -21,6 +24,11 @@ class MindcloudCache():
             -``account_info``: A json stucture consisting of (key, secret)
             for the user_id
         """
+        assert isinstance(user_id,str) or isinstance(user_id, unicode)
+        assert isinstance(account_info_json,str) or isinstance(account_info_json, unicode)
+
+        user_id = str(user_id)
+        account_info_json = str(account_info_json)
 
         cache.set(user_id, account_info_json, callback=callback)
 
@@ -40,6 +48,10 @@ class MindcloudCache():
 
         """
 
+
+        assert isinstance(user_id,str) or isinstance(user_id, unicode)
+
+        user_id = str(user_id)
         cache.get(user_id, callback=callback)
 
     def set_subscriber_info(self, user_id, collection_name, sharing_secret, callback=None):
@@ -53,7 +65,13 @@ class MindcloudCache():
             and collection name
         """
 
-        cache_key = self.__create_cache_key(user_id, collection_name)
+        assert isinstance(user_id,str) or isinstance(user_id, unicode)
+        assert isinstance(collection_name, str) or isinstance(collection_name, unicode)
+        assert isinstance(sharing_secret, str) or isinstance(sharing_secret, unicode)
+
+        cache_key = str(self.__create_cache_key(user_id, collection_name))
+        sharing_secret = str(sharing_secret)
+
         cache.set(cache_key, sharing_secret, callback=callback)
 
     def get_subscriber_info(self, user_id, collection_name, callback):
@@ -65,6 +83,9 @@ class MindcloudCache():
             -The sharing secret associated with this or None is passed to callback
         """
 
+        assert isinstance(user_id,str) or isinstance(user_id, unicode)
+        assert isinstance(collection_name, str) or isinstance(collection_name, unicode)
+
         cache_key = self.__create_cache_key(user_id, collection_name)
         cache.get(cache_key, callback=callback)
 
@@ -74,6 +95,8 @@ class MindcloudCache():
         the cache.
 
         """
+        assert isinstance(user_id,str) or isinstance(user_id, unicode)
+        assert isinstance(collection_name, str) or isinstance(collection_name, unicode)
 
         cache_key = self.__create_cache_key(user_id, collection_name)
         cache.delete(cache_key, callback=callback)
@@ -83,6 +106,13 @@ class MindcloudCache():
         Caches a sharing record keyed on the sharing secret.
         The sharing_record that is passed in should be in json
         """
+
+        assert isinstance(sharing_secret, str) or isinstance(sharing_secret,unicode)
+        assert isinstance(sharing_record_json, str) or isinstance(sharing_record_json, unicode)
+
+        sharing_secret = str(sharing_secret)
+        sharing_record_json = str(sharing_record_json)
+
         cache.set(sharing_secret, sharing_record_json, callback = callback)
 
     def get_sharing_record(self, sharing_secret, callback):
@@ -90,12 +120,19 @@ class MindcloudCache():
         Retrives the sharing record for the sharing secret from cache.
         If a cache miss then None is passed to callback
         """
+
+        assert isinstance(sharing_secret, str) or isinstance(sharing_secret, unicode)
+
+        sharing_secret = str(sharing_secret)
         cache.get(sharing_secret, callback=callback)
 
     def remove_sharing_record(self, sharing_secret, callback):
         """
         Removes the sharing record based on the sharing secret
         """
+        assert isinstance(sharing_secret, str) or isinstance(sharing_secret, unicode)
+
+        sharing_secret = str(sharing_secret)
         cache.delete(sharing_secret, callback=callback)
 
 

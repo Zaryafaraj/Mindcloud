@@ -1,4 +1,5 @@
 import random
+import uuid
 from tornado.ioloop import IOLoop
 from tornado.testing import AsyncTestCase
 from Sharing.SharingController import SharingController
@@ -126,23 +127,31 @@ class SharingControllerTestCase(AsyncTestCase):
 
     def test_remove_all_subscribers(self):
 
-        collection_name = 'dummy_collection'
-        sharing_secret = 'secret'
-        SharingController.add_subscriber(self.__account_id,
-            collection_name,
-            sharing_secret,
-            callback=self.stop)
-        self.wait()
+        collection_name = 'shareable_collection'
+        file = open('../test_resources/XooML.xml')
+        StorageServer.add_collection(user_id=self.__account_id,
+            collection_name=collection_name, callback=self.stop, file= file)
+        response = self.wait()
 
-        collection_name2 = 'dummy_collection2'
-        SharingController.add_subscriber('second_user',
-            collection_name2,
-            sharing_secret,
-            callback=self.stop)
-        self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        SharingController.create_sharing_record(self.__account_id,
+            collection_name, callback=self.stop)
+        sharing_secret = self.wait()
+
+        SharingController.subscribe_to_sharing_space(self.__subscriber_id,
+            sharing_secret, callback= self.stop)
+        collection_name2 = self.wait(timeout=500)
+
 
         SharingController.remove_all_subscribers(sharing_secret, callback=self.stop)
-        self.wait()
+        self.wait(timeout=10000)
+
+        #busy wait for the results of remove all subscribers to become consistent
+        try:
+            self.wait(timeout=5)
+        except Exception:
+            pass
 
         SharingController.get_sharing_secret_from_subscriber_info(self.__account_id,
             collection_name,
@@ -222,7 +231,7 @@ class SharingControllerTestCase(AsyncTestCase):
         self.assertTrue(sharing_secret is not None)
         SharingController.remove_sharing_record_by_owner_info(self.__account_id,
             collection_name, callback=self.stop)
-        self.wait()
+        self.wait(timeout=10)
         #verify
         SharingController.get_sharing_record_by_secret(sharing_secret, callback = self.stop)
         sharing_record = self.wait()
@@ -247,7 +256,7 @@ class SharingControllerTestCase(AsyncTestCase):
         #create sharing record
         SharingController.create_sharing_record(self.__account_id,
             first_collection_name, callback = self.stop)
-        sharing_secret = self.wait()
+        sharing_secret = self.wait(timeout=10000)
         self.assertTrue(sharing_secret is not None)
 
         #subscribe

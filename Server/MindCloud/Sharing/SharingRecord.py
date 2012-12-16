@@ -32,9 +32,9 @@ class SharingRecord:
                           SharingRecord.COLLECTION_NAME_KEY : self.collection_name,
                           SharingRecord.SUBSCIRBERS_KEY : self.subscribers}
 
-    def toJson(self):
+    def to_json_str(self):
         dict = self.toDictionary()
-        return json.dumps(dict)
+        return str(json.dumps(dict))
 
     @classmethod
     def fromJson(cls, json_str):
