@@ -1,4 +1,5 @@
 from tornado import gen
+from Logging import Log
 from Sharing.SharingActionDelegate import SharingActionDelegate
 from Sharing.SharingQueue import SharingQueue
 from Sharing.SharingEvent import SharingEvent
@@ -11,6 +12,8 @@ class SharingSpaceController(SharingActionDelegate):
     """
     A sharing space is per shared collection.
     """
+
+    __log = Log.log()
 
     #number of items to process in a batch
     #as the batch size grows actions will be processed faster however
@@ -88,6 +91,7 @@ class SharingSpaceController(SharingActionDelegate):
         """
 
         if user_id in self.__listeners:
+            self.__log.info('SharingSpaceController - Backup listener added for user %s' % user_id)
             self.__backup_listeners[user_id] = (request, SharingEvent())
 
         #if there is a backup listener for the current listener
@@ -95,6 +99,7 @@ class SharingSpaceController(SharingActionDelegate):
         elif user_id in self.__backup_listeners:
             backup_listener_events = self.__backup_listeners[user_id][1]
             if backup_listener_events.has_update():
+                self.__log.info('SharingSpaceController - backup listener has updates for user %s' % user_id)
                 #return the back up listener to the user and make
                 #the new listener backup listener
                 request = self.__backup_listeners[user_id][0]
@@ -103,6 +108,7 @@ class SharingSpaceController(SharingActionDelegate):
                 request.finish()
                 del self.__backup_listeners[user_id]
                 self.__backup_listeners[user_id] = (request, SharingEvent())
+                self.__log.info('SharingSpaceController - backup listener update returned for user %s; replacing backup listener' % user_id)
             else:
                 #There are no updates in the backup listener make this listener
                 #the primary listener
@@ -110,6 +116,7 @@ class SharingSpaceController(SharingActionDelegate):
         else:
             #the listener is not in primary listeners or backup listener
             #it must be the first listener add it to primary listerners
+            self.__log.info('SharingSpaceController - primary listener added for user %s' % user_id)
             self.__listeners[user_id] = request
 
 
@@ -185,7 +192,6 @@ class SharingSpaceController(SharingActionDelegate):
 
 
     def __process_next_batch_of_queue_actions(self):
-        print 'starting to process an action batch'
         self.__sharing_queue.is_being_processed = True
         self.__process_actions_iterative(self.__BATCH_SIZE)
 
@@ -202,6 +208,9 @@ class SharingSpaceController(SharingActionDelegate):
             request.write(notification_json)
             request.set_status(StorageResponse.OK)
             request.finish()
+
+            SharingSpaceController.__log.info('SharingSpaceController - notified primary listener %s for sharing event %s' % (user_id, sharing_event.convert_to_json_string()))
+
             notified_listeners.add(user_id)
 
         #now update the backup listeners only for those items that
@@ -213,10 +222,12 @@ class SharingSpaceController(SharingActionDelegate):
                 backup_sharing_event = self.__backup_listeners[user_id][1]
                 backup_sharing_event.add_event(event_file, event_file)
 
+                SharingSpaceController.__log.info('SharingSpaceController - stored event for backup listener %s for sharing event %s' % (user_id, backup_sharing_event.convert_to_json_string()))
+
 
     def __process_actions_iterative(self, iteration_count):
 
-        print '** started processing ' + str(iteration_count) + ' items'
+        SharingSpaceController.__log.info('SharingSpaceController - Started processing batch of %s actions' % str(iteration_count))
         if self.__sharing_queue.is_empty():
             return
         else:
@@ -232,7 +243,7 @@ class SharingSpaceController(SharingActionDelegate):
                     self.__remaining_actions += 1
                     actions_to_be_executed.append(next_sharing_action)
             for action in actions_to_be_executed:
-                print 'executing ' + action.name
+                SharingSpaceController.__log.info('SharingSpaceController - executing action %s' % action.name)
                 action.execute(delegate=self)
 
     #delegate method from SharingActionDelegate
@@ -250,9 +261,11 @@ class SharingSpaceController(SharingActionDelegate):
             done
         """
         self.__remaining_actions -= 1
-        print 'finished executing ' + action.name + 'with ' + str(response)
+        SharingSpaceController.__log.info('SharingSpaceController - finished executing action %s with response %s' % (action.name, str(response)))
+
         if not self.__remaining_actions :
-            print 'finished processing a batch of queue items'
+            SharingSpaceController.__log.info('Finished executing all the actions in the batch')
+
             self.__sharing_queue.is_being_processed = False
             self.__process_next_batch_of_queue_actions()
 

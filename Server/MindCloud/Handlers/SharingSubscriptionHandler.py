@@ -19,7 +19,7 @@ class SharingSubscriptionHandler(tornado.web.RequestHandler):
         sharing_secret = self.get_argument('sharing_secret')
 
         self.__log.info('%s - POST: User %s subscribes to sharing space with secret %s' % (str(self.__class__), user_id, sharing_secret))
-        
+
         shared_collection = yield gen.Task\
             (SharingController.subscribe_to_sharing_space,
             user_id,
