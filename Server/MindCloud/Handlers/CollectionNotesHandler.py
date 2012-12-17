@@ -1,4 +1,5 @@
 import tornado
+from Logging import Log
 from Storage.StorageServer import StorageServer
 
 __author__ = 'afathali'
@@ -15,9 +16,14 @@ class CollectionNotesHandler(tornado.web.RequestHandler):
     """
     Handles actions relating to the notes in a collection collectively
     """
+
+    __log = Log.log()
+
     @tornado.web.asynchronous
     @gen.engine
     def get(self, user_id, collection_name):
+
+        self.__log.info('%s - GET: get all notes for collection %s for user %s' % (str(self.__class__), collection_name, user_id))
 
         collection_name = urllib2.unquote(collection_name)
         results = yield gen.Task(StorageServer.list_all_notes, user_id, collection_name)
@@ -28,6 +34,8 @@ class CollectionNotesHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @gen.engine
     def post(self, user_id, collection_name):
+
+        self.__log.info('%s - POST: Save note for collection %s for user %s' % (str(self.__class__), collection_name, user_id))
 
         collection_name = urllib2.unquote(collection_name)
         note_file = None

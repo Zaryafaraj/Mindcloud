@@ -2,6 +2,7 @@ import json
 import urllib2
 from tornado import gen
 import tornado.web
+from Logging import Log
 from Sharing.SharingController import SharingController
 from Storage.StorageResponse import StorageResponse
 from Storage.StorageServer import StorageServer
@@ -10,9 +11,13 @@ __author__ = 'afathali'
 
 class SharingHandler(tornado.web.RequestHandler):
 
+    __log = Log.log()
+
     @tornado.web.asynchronous
     @gen.engine
     def post(self, user_id, collection_name):
+
+        self.__log.info('%s - POST: create sharing space for collection %s for user %s' % (str(self.__class__), collection_name, user_id))
 
         collection_name = urllib2.unquote(collection_name)
         does_exist = yield gen.Task(StorageServer.does_collection_exist,
@@ -36,6 +41,8 @@ class SharingHandler(tornado.web.RequestHandler):
     @gen.engine
     def delete(self, user_id, collection_name):
 
+        self.__log.info('%s - DELETE: delete sharing space for collection %s for user %s' % (str(self.__class__), collection_name, user_id))
+
         collection_name = urllib2.unquote(collection_name)
 
         yield gen.Task(SharingController.remove_sharing_record_by_owner_info,
@@ -47,6 +54,8 @@ class SharingHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @gen.engine
     def get(self, user_id, collection_name):
+
+        self.__log.info('%s - GET: Get sharing space info for collection %s for user %s' % (str(self.__class__), collection_name, user_id))
 
         collection_name = urllib2.unquote(collection_name)
 
@@ -66,5 +75,3 @@ class SharingHandler(tornado.web.RequestHandler):
         else:
             self.set_status(StorageResponse.NOT_FOUND)
             self.finish()
-
-

@@ -3,6 +3,7 @@ Created for Mindcloud
 """
 import urllib2
 from tornado import gen
+from Logging import Log
 from Storage.StorageResponse import StorageResponse
 import tornado.httpserver
 import tornado.ioloop
@@ -14,9 +15,15 @@ class CollectionImageHandler(tornado.web.RequestHandler):
     """
     Handles actions relating a collections thumbnail
     """
+
+    __log = Log.log()
+
     @tornado.web.asynchronous
     @gen.engine
     def get(self, user_id, collection_name):
+
+        self.__log.info('%s - GET: get collection img for %s for user %s' % (str(self.__class__), collection_name, user_id))
+
         collection_name = urllib2.unquote(collection_name)
         thumbnail = yield gen.Task(StorageServer.get_thumbnail, user_id, collection_name)
         if thumbnail is None:
@@ -29,6 +36,8 @@ class CollectionImageHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @gen.engine
     def post(self, user_id, collection_name):
+
+        self.__log.info('%s - SET: set collection img for %s for user %s' % (str(self.__class__), collection_name, user_id))
 
         collection_name = urllib2.unquote(collection_name)
         #if there is an actual file

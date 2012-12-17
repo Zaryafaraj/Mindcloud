@@ -1,4 +1,5 @@
 import urllib2
+from Logging import Log
 from Storage.StorageResponse import StorageResponse
 from Storage.StorageServer import StorageServer
 
@@ -9,9 +10,13 @@ from tornado import gen
 import tornado.web
 class NoteImageHandler(tornado.web.RequestHandler):
 
+    __log = Log.log()
+
     @tornado.web.asynchronous
     @gen.engine
     def get(self, user_id, collection_name, note_name):
+
+        self.__log.info('%s - GET: get note img for note %s for collection %s for user %s' % (str(self.__class__), note_name, collection_name, user_id))
 
         collection_name = urllib2.unquote(collection_name)
         note_name = urllib2.unquote(note_name)
@@ -30,6 +35,8 @@ class NoteImageHandler(tornado.web.RequestHandler):
     @gen.engine
     def post(self, user_id, collection_name, note_name):
 
+        self.__log.info('%s - POST: save note img for note %s for collection %s for user %s' % (str(self.__class__), note_name, collection_name, user_id))
+
         collection_name = urllib2.unquote(collection_name)
         note_name = urllib2.unquote(note_name)
         if len(self.request.files) < 1:
@@ -40,6 +47,3 @@ class NoteImageHandler(tornado.web.RequestHandler):
                 user_id, collection_name, note_name, note_img)
             self.set_status(result_code)
         self.finish()
-
-
-

@@ -4,6 +4,7 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
+from Logging import Log
 from Sharing.SharingController import SharingController
 from Storage.StorageResponse import StorageResponse
 from Storage.StorageServer import StorageServer
@@ -11,10 +12,13 @@ from Storage.StorageServer import StorageServer
 
 class CollectionHandler(tornado.web.RequestHandler):
 
+    __log = Log.log()
 
     @tornado.web.asynchronous
     @gen.engine
     def get(self, user_id, collection_name):
+
+        self.__log.info('%s - GET: Get collection %s for user %s' % (str(self.__class__), collection_name, user_id))
 
         collection_name = urllib2.unquote(collection_name)
         result = yield gen.Task(StorageServer.get_collection_manifest, user_id, collection_name)
@@ -30,6 +34,8 @@ class CollectionHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @gen.engine
     def put(self, user_id, collection_name):
+
+        self.__log.info('%s - PUT: update collection %s for user %s' % (str(self.__class__), collection_name, user_id))
 
         collection_name = urllib2.unquote(collection_name)
         new_collection_name = self.get_argument('collectionName')
@@ -48,6 +54,8 @@ class CollectionHandler(tornado.web.RequestHandler):
     @gen.engine
     def delete(self, user_id, collection_name):
 
+        self.__log.info('%s - DELETE: delete collection %s for user %s' % (str(self.__class__), collection_name, user_id))
+
         collection_name = urllib2.unquote(collection_name)
         result_code = yield gen.Task(StorageServer.remove_collection, user_id, collection_name)
         if result_code == StorageResponse.OK:
@@ -60,6 +68,8 @@ class CollectionHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @gen.engine
     def post(self, user_id, collection_name):
+
+        self.__log.info('%s - POST: post collection %s for user %s' % (str(self.__class__), collection_name, user_id))
 
         collection_name = urllib2.unquote(collection_name)
         if len(self.request.files) > 0:

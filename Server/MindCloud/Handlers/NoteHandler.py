@@ -1,4 +1,5 @@
 import tornado
+from Logging import Log
 from Storage.StorageServer import StorageServer
 import urllib2
 from tornado import gen
@@ -13,9 +14,15 @@ class NoteHandler(tornado.web.RequestHandler):
     """
     Handles actions relating to the notes in a collection collectively
     """
+
+    __log = Log.log()
+
     @tornado.web.asynchronous
     @gen.engine
     def get(self, user_id, collection_name, note_name):
+
+
+        self.__log.info('%s - GET: get note %s for collection %s for user %s' % (str(self.__class__), note_name, collection_name, user_id))
 
         collection_name = urllib2.unquote(collection_name)
         note_name = urllib2.unquote(note_name)
@@ -33,10 +40,10 @@ class NoteHandler(tornado.web.RequestHandler):
     @gen.engine
     def delete(self, user_id, collection_name, note_name):
 
+        self.__log.info('%s - DELETE: delete note %s for collection %s for user %s' % (str(self.__class__), note_name, collection_name, user_id))
+
         collection_name = urllib2.unquote(collection_name)
         note_name = urllib2.unquote(note_name)
         result_code = yield gen.Task(StorageServer.remove_note, user_id, collection_name, note_name)
         self.set_status(result_code)
         self.finish()
-
-

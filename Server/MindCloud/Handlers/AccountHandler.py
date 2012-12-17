@@ -2,6 +2,7 @@
 Handler to all the requests to work with top level collections for a user
 """
 from tornado import gen
+from Logging import Log
 
 __author__ = 'afathali'
 
@@ -17,9 +18,12 @@ class AccountHandler(tornado.web.RequestHandler):
     Main handler class that is responsible for user activities around his collections
     """
 
+    __log = Log.log()
     @tornado.web.asynchronous
     @gen.engine
     def get(self, user_id):
+
+        self.__log.info('%s - GET: retrieving collection list for user %s' % (str(self.__class__), user_id))
 
         results = yield gen.Task(StorageServer.list_collections, user_id)
         json_str = json.dumps({'Collections': results})
@@ -29,6 +33,8 @@ class AccountHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @gen.engine
     def post(self, user_id):
+
+        self.__log.info('%s - POST:  adding collection for user %s' % (str(self.__class__), user_id))
 
         #if we have a file
         file = None

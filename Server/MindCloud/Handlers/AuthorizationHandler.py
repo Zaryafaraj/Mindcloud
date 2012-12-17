@@ -8,12 +8,14 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
+from Logging import Log
 from Storage.Accounts import Accounts
 import json
 from Helpers.DropboxHelper import DropboxHelper
 
 class AuthorizationHandler(tornado.web.RequestHandler):
 
+    __log = Log.log()
     #duration before which a sweep gets performed
     __SWEEP_PERIOD = 30
 
@@ -28,22 +30,20 @@ class AuthorizationHandler(tornado.web.RequestHandler):
         """
         This is the sweep operation that gets called every __SWEEP_PERIOD.
         """
-        print 'sweep started'
-        print "pending authorizations: "
-        print self.active_requests
+
+        self.__log.info('Authentication: authorization sweep started; pending requests: %s' % str(self.active_requests))
 
         #Remove sweep candidates from the list of active requests
         for sweep_candidate in self.sweep_candidates:
             if self.active_requests.has_key(sweep_candidate):
                 del self.active_requests[sweep_candidate]
-                print 'removed: ' + sweep_candidate
+                self.__log.info('Authentication: removed sweep candidate: %s' % sweep_candidate)
 
         #clone the remaining active requests to delete in the next sweep
         self.sweep_candidates = list(self.active_requests.keys())
 
         #The timer stops after this function is finished.
         #Create a new one if there are items still remaining
-        #TODO there should be a better way to have a timer
         #automatically call this function periodically
         if len(self.active_requests) > 0:
             self.timer = Timer(10, self.sweep)
@@ -66,9 +66,7 @@ class AuthorizationHandler(tornado.web.RequestHandler):
         unauthorized call will be removed from the pending list
         """
 
-        #FIXME what is the cost of making this object ?
-        #Is it better to use a static function
-
+        self.__log.info('%s - GET : get user info for user %s' % (str(self.__class__), account_id))
         sess = DropboxHelper.create_session()
         account_info = yield gen.Task(Accounts.get_account, account_id)
         if account_info:
@@ -94,6 +92,9 @@ class AuthorizationHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @gen.engine
     def post(self, account_id):
+
+        self.__log.info('%s - POST : authenticating user %s' % (str(self.__class__), account_id))
+
         if self.active_requests.has_key(account_id):
             sess = DropboxHelper.create_session()
             request_token = self.active_requests[account_id]
@@ -109,8 +110,7 @@ class AuthorizationHandler(tornado.web.RequestHandler):
             yield gen.Task(Accounts.add_account, account_id,access_token)
             #remove the pending request from the dictionary
             del self.active_requests[account_id]
-            #TODO log
-            print "account added"
+            self.__log.info('%s - POST: account %s added' % (str(self.__class__), account_id))
             self.set_status(200)
             self.write('OK')
             self.finish()
@@ -120,6 +120,9 @@ class AuthorizationHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @gen.engine
     def delete(self, account_id):
+
+        self.__log.info('%s - DELETE : deleting user %s' % (str(self.__class__), account_id))
+
         yield gen.Task(Accounts.delete_account, account_id)
         if self.active_requests.has_key(account_id):
             del self.active_requests[account_id]

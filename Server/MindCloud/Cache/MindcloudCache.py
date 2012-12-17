@@ -1,5 +1,3 @@
-from tornado import gen
-
 __author__ = 'afathali'
 import Properties.MindcloudProperties as properties
 import tornadoasyncmemcache as memcache
