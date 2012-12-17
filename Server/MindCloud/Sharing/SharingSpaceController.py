@@ -201,7 +201,8 @@ class SharingSpaceController(SharingActionDelegate):
         event_type = sharing_action.get_action_type()
         event_file = sharing_action.get_associated_file()
         notified_listeners = set()
-        for user_id, request in self.__listeners:
+        for user_id in self.__listeners:
+            request = self.__listeners[user_id]
             sharing_event = SharingEvent()
             sharing_event.add_event(event_type, event_file)
             notification_json = sharing_event.convert_to_json_string()

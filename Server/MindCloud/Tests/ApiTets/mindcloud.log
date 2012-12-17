@@ -1,0 +1,435 @@
+INFO: 2012-12-16 22:09:37,414 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:09:37,930 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 516.86ms
+INFO: 2012-12-16 22:09:37,932 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:09:38,370 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:09:38,370 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:09:38,370 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:09:38,371 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName (127.0.0.1) 438.94ms
+INFO: 2012-12-16 22:09:38,389 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:09:39,867 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 1478.43ms
+INFO: 2012-12-16 22:09:39,869 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection a for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:09:40,416 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection a
+INFO: 2012-12-16 22:09:40,416 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection a
+INFO: 2012-12-16 22:09:40,416 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection a
+INFO: 2012-12-16 22:09:40,416 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/a (127.0.0.1) 547.18ms
+INFO: 2012-12-16 22:09:40,419 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:09:40,786 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 368.21ms
+INFO: 2012-12-16 22:09:40,788 -- <class 'Handlers.AccountHandler.AccountHandler'> - GET: retrieving collection list for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:09:40,969 -- 200 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 181.16ms
+INFO: 2012-12-16 22:09:40,971 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:09:41,396 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:09:41,396 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:09:41,396 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:09:41,397 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName (127.0.0.1) 426.11ms
+INFO: 2012-12-16 22:10:04,867 -- <class 'Handlers.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:04,869 -- 200 GET /Authorize/A84FD293-1515-4CC2-BBD2-FC78FEED475D (127.0.0.1) 1.98ms
+INFO: 2012-12-16 22:10:10,792 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Categories (127.0.0.1) 876.48ms
+INFO: 2012-12-16 22:10:10,795 -- <class 'Handlers.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:11,297 -- 200 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Categories (127.0.0.1) 502.11ms
+INFO: 2012-12-16 22:10:15,099 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:15,706 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 607.01ms
+INFO: 2012-12-16 22:10:15,708 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:16,157 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:10:16,157 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:10:16,157 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:10:16,157 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName (127.0.0.1) 450.01ms
+INFO: 2012-12-16 22:10:16,160 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:16,591 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 432.07ms
+INFO: 2012-12-16 22:10:16,593 -- <class 'Handlers.SharingHandler.SharingHandler'> - POST: create sharing space for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:16,785 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:10:16,787 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 194.43ms
+INFO: 2012-12-16 22:10:16,789 -- <class 'Handlers.SharingSubscriptionHandler.SharingSubscriptionHandler'> - POST: User FDB51632-0973-43D4-8990-1BFC3D16909E subscribes to sharing space with secret CCQ926XK
+INFO: 2012-12-16 22:10:17,960 -- 200 POST /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/ShareSpaces/Subscribe (127.0.0.1) 1171.63ms
+INFO: 2012-12-16 22:10:17,962 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:18,575 -- SharingController - removing user A84FD293-1515-4CC2-BBD2-FC78FEED475D is owner of shared collection colName; removing all subscribers and unsharing
+INFO: 2012-12-16 22:10:18,581 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName (127.0.0.1) 619.56ms
+INFO: 2012-12-16 22:10:18,583 -- <class 'Handlers.SharingHandler.SharingHandler'> - GET: Get sharing space info for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+WARNING: 2012-12-16 22:10:18,783 -- 404 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 200.49ms
+INFO: 2012-12-16 22:10:18,785 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-16 22:10:19,393 -- SharingController - No sharing record found for user FDB51632-0973-43D4-8990-1BFC3D16909E and collection colName
+INFO: 2012-12-16 22:10:19,393 -- SharingController - sharing secret is none or empty for user FDB51632-0973-43D4-8990-1BFC3D16909E and collection colName
+INFO: 2012-12-16 22:10:19,393 -- SharingController - sharing record not found for subscriber FDB51632-0973-43D4-8990-1BFC3D16909E and collection colName
+INFO: 2012-12-16 22:10:19,393 -- 200 DELETE /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/colName (127.0.0.1) 608.24ms
+INFO: 2012-12-16 22:10:19,395 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:19,777 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 381.98ms
+INFO: 2012-12-16 22:10:19,779 -- <class 'Handlers.SharingHandler.SharingHandler'> - POST: create sharing space for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:19,979 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:10:19,981 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 202.61ms
+INFO: 2012-12-16 22:10:19,983 -- <class 'Handlers.SharingSubscriptionHandler.SharingSubscriptionHandler'> - POST: User FDB51632-0973-43D4-8990-1BFC3D16909E subscribes to sharing space with secret IKGUX86S
+INFO: 2012-12-16 22:10:22,262 -- 200 POST /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/ShareSpaces/Subscribe (127.0.0.1) 2279.21ms
+INFO: 2012-12-16 22:10:22,263 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-16 22:10:22,876 -- 200 DELETE /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/colName (127.0.0.1) 612.98ms
+INFO: 2012-12-16 22:10:22,878 -- <class 'Handlers.SharingHandler.SharingHandler'> - GET: Get sharing space info for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:23,154 -- 200 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 276.73ms
+INFO: 2012-12-16 22:10:23,156 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:23,695 -- SharingController - removing user A84FD293-1515-4CC2-BBD2-FC78FEED475D is owner of shared collection colName; removing all subscribers and unsharing
+INFO: 2012-12-16 22:10:23,701 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName (127.0.0.1) 544.87ms
+INFO: 2012-12-16 22:10:23,702 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-16 22:10:23,967 -- StorageServer - received error 404 for user FDB51632-0973-43D4-8990-1BFC3D16909E from dropbox
+WARNING: 2012-12-16 22:10:23,967 -- 404 DELETE /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/colName (127.0.0.1) 264.90ms
+INFO: 2012-12-16 22:10:23,969 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:24,514 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 544.99ms
+INFO: 2012-12-16 22:10:24,532 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - POST: post collection collName1 for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:25,372 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName1 (127.0.0.1) 839.87ms
+INFO: 2012-12-16 22:10:25,375 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - GET: Get collection collName1 for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:26,131 -- 200 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName1 (127.0.0.1) 756.46ms
+INFO: 2012-12-16 22:10:26,133 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection collName1 for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:26,766 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName1
+INFO: 2012-12-16 22:10:26,766 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName1
+INFO: 2012-12-16 22:10:26,766 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName1
+INFO: 2012-12-16 22:10:26,766 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName1 (127.0.0.1) 633.57ms
+INFO: 2012-12-16 22:10:26,768 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - GET: Get collection dummy for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:27,219 -- StorageServer - could not retrieve manifest file for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+WARNING: 2012-12-16 22:10:27,220 -- 404 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/dummy (127.0.0.1) 451.72ms
+INFO: 2012-12-16 22:10:27,222 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:27,792 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 569.84ms
+INFO: 2012-12-16 22:10:27,794 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - PUT: update collection collName1 for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:28,404 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName1
+INFO: 2012-12-16 22:10:28,405 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName1
+INFO: 2012-12-16 22:10:28,405 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and old collection collName1
+INFO: 2012-12-16 22:10:28,405 -- 200 PUT /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName1 (127.0.0.1) 611.24ms
+INFO: 2012-12-16 22:10:28,406 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection newColName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:29,016 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection newColName
+INFO: 2012-12-16 22:10:29,016 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection newColName
+INFO: 2012-12-16 22:10:29,016 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection newColName
+INFO: 2012-12-16 22:10:29,017 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/newColName (127.0.0.1) 610.48ms
+INFO: 2012-12-16 22:10:29,019 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:29,633 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 614.04ms
+INFO: 2012-12-16 22:10:29,634 -- <class 'Handlers.SharingHandler.SharingHandler'> - POST: create sharing space for collection fcolName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:29,897 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection fcolName
+INFO: 2012-12-16 22:10:29,898 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/fcolName/Share (127.0.0.1) 264.15ms
+INFO: 2012-12-16 22:10:29,900 -- <class 'Handlers.SharingSubscriptionHandler.SharingSubscriptionHandler'> - POST: User FDB51632-0973-43D4-8990-1BFC3D16909E subscribes to sharing space with secret HVDR4CR6
+INFO: 2012-12-16 22:10:32,296 -- 200 POST /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/ShareSpaces/Subscribe (127.0.0.1) 2396.41ms
+INFO: 2012-12-16 22:10:32,298 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - PUT: update collection fcolName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:32,914 -- 200 PUT /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/fcolName (127.0.0.1) 616.27ms
+INFO: 2012-12-16 22:10:32,916 -- <class 'Handlers.SharingHandler.SharingHandler'> - GET: Get sharing space info for collection fcolName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+WARNING: 2012-12-16 22:10:33,109 -- 404 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/fcolName/Share (127.0.0.1) 193.77ms
+INFO: 2012-12-16 22:10:33,112 -- <class 'Handlers.SharingHandler.SharingHandler'> - GET: Get sharing space info for collection new_name for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:33,357 -- 200 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/new_name/Share (127.0.0.1) 245.41ms
+INFO: 2012-12-16 22:10:33,358 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection new_name for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:33,776 -- SharingController - removing user A84FD293-1515-4CC2-BBD2-FC78FEED475D is owner of shared collection new_name; removing all subscribers and unsharing
+INFO: 2012-12-16 22:10:33,782 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/new_name (127.0.0.1) 423.67ms
+INFO: 2012-12-16 22:10:33,783 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection fcolName-shared15 for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-16 22:10:34,754 -- SharingController - No sharing record found for user FDB51632-0973-43D4-8990-1BFC3D16909E and collection fcolName-shared15
+INFO: 2012-12-16 22:10:34,754 -- SharingController - sharing secret is none or empty for user FDB51632-0973-43D4-8990-1BFC3D16909E and collection fcolName-shared15
+INFO: 2012-12-16 22:10:34,754 -- SharingController - sharing record not found for subscriber FDB51632-0973-43D4-8990-1BFC3D16909E and collection fcolName-shared15
+INFO: 2012-12-16 22:10:34,754 -- 200 DELETE /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/fcolName-shared15 (127.0.0.1) 970.78ms
+INFO: 2012-12-16 22:10:34,756 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:35,169 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 413.29ms
+INFO: 2012-12-16 22:10:35,173 -- <class 'Handlers.SharingHandler.SharingHandler'> - POST: create sharing space for collection fcolName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:35,413 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection fcolName
+INFO: 2012-12-16 22:10:35,415 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/fcolName/Share (127.0.0.1) 242.34ms
+INFO: 2012-12-16 22:10:35,417 -- <class 'Handlers.SharingSubscriptionHandler.SharingSubscriptionHandler'> - POST: User FDB51632-0973-43D4-8990-1BFC3D16909E subscribes to sharing space with secret 4QEGKFH0
+INFO: 2012-12-16 22:10:36,397 -- 200 POST /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/ShareSpaces/Subscribe (127.0.0.1) 980.56ms
+INFO: 2012-12-16 22:10:36,400 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - PUT: update collection fcolName-shared15 for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-16 22:10:37,008 -- 200 PUT /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/fcolName-shared15 (127.0.0.1) 609.17ms
+INFO: 2012-12-16 22:10:37,010 -- <class 'Handlers.SharingHandler.SharingHandler'> - GET: Get sharing space info for collection fcolName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:37,246 -- 200 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/fcolName/Share (127.0.0.1) 235.74ms
+INFO: 2012-12-16 22:10:37,247 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection fcolName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:37,735 -- SharingController - removing user A84FD293-1515-4CC2-BBD2-FC78FEED475D is owner of shared collection fcolName; removing all subscribers and unsharing
+INFO: 2012-12-16 22:10:37,739 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/fcolName (127.0.0.1) 491.77ms
+INFO: 2012-12-16 22:10:37,740 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection new_name for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-16 22:10:38,644 -- SharingController - No sharing record found for user FDB51632-0973-43D4-8990-1BFC3D16909E and collection new_name
+INFO: 2012-12-16 22:10:38,644 -- SharingController - sharing secret is none or empty for user FDB51632-0973-43D4-8990-1BFC3D16909E and collection new_name
+INFO: 2012-12-16 22:10:38,645 -- SharingController - sharing record not found for subscriber FDB51632-0973-43D4-8990-1BFC3D16909E and collection new_name
+INFO: 2012-12-16 22:10:38,645 -- 200 DELETE /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/new_name (127.0.0.1) 904.63ms
+INFO: 2012-12-16 22:10:38,647 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:39,258 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 611.41ms
+INFO: 2012-12-16 22:10:39,261 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - POST: post collection collName1 for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:40,282 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName1 (127.0.0.1) 1022.06ms
+INFO: 2012-12-16 22:10:40,284 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection collName1 for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:40,899 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName1
+INFO: 2012-12-16 22:10:40,899 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName1
+INFO: 2012-12-16 22:10:40,899 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName1
+INFO: 2012-12-16 22:10:40,899 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName1 (127.0.0.1) 615.52ms
+INFO: 2012-12-16 22:10:40,902 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:41,519 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 618.01ms
+INFO: 2012-12-16 22:10:41,521 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - POST: post collection collName1 for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+WARNING: 2012-12-16 22:10:41,521 -- 400 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName1 (127.0.0.1) 0.37ms
+INFO: 2012-12-16 22:10:41,523 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection collName1 for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:42,126 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName1
+INFO: 2012-12-16 22:10:42,127 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName1
+INFO: 2012-12-16 22:10:42,127 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName1
+INFO: 2012-12-16 22:10:42,127 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName1 (127.0.0.1) 604.27ms
+INFO: 2012-12-16 22:10:58,574 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:10:59,123 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 549.10ms
+INFO: 2012-12-16 22:10:59,143 -- <class 'Handlers.NoteImageHandler.NoteImageHandler'> - POST: save note img for note note_name for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:00,745 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes/note_name/Image (127.0.0.1) 1602.17ms
+INFO: 2012-12-16 22:11:00,746 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:01,379 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:01,379 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:01,379 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:01,379 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName (127.0.0.1) 632.93ms
+INFO: 2012-12-16 22:11:01,382 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:01,789 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 406.84ms
+INFO: 2012-12-16 22:11:01,791 -- <class 'Handlers.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:03,219 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes (127.0.0.1) 1428.45ms
+INFO: 2012-12-16 22:11:03,221 -- <class 'Handlers.NoteImageHandler.NoteImageHandler'> - POST: save note img for note note_name for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:04,245 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes/note_name/Image (127.0.0.1) 1024.07ms
+INFO: 2012-12-16 22:11:04,247 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:04,741 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:04,742 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:04,742 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:04,742 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName (127.0.0.1) 495.02ms
+INFO: 2012-12-16 22:11:04,744 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:05,156 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 411.90ms
+INFO: 2012-12-16 22:11:05,158 -- <class 'Handlers.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:06,087 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes (127.0.0.1) 929.27ms
+WARNING: 2012-12-16 22:11:06,088 -- Invalid multipart/form-data: no final boundary
+INFO: 2012-12-16 22:11:06,089 -- <class 'Handlers.NoteImageHandler.NoteImageHandler'> - POST: save note img for note note_name for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+WARNING: 2012-12-16 22:11:06,089 -- 400 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes/note_name/Image (127.0.0.1) 0.49ms
+INFO: 2012-12-16 22:11:06,090 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:06,635 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:06,635 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:06,635 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:06,636 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName (127.0.0.1) 545.51ms
+INFO: 2012-12-16 22:11:06,638 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:07,246 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 608.23ms
+INFO: 2012-12-16 22:11:07,248 -- <class 'Handlers.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:08,134 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes (127.0.0.1) 886.60ms
+INFO: 2012-12-16 22:11:08,136 -- <class 'Handlers.CollectionNotesHandler.CollectionNotesHandler'> - GET: get all notes for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:08,354 -- 200 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes (127.0.0.1) 218.81ms
+INFO: 2012-12-16 22:11:08,356 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:08,817 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:08,817 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:08,818 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:08,818 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName (127.0.0.1) 461.93ms
+INFO: 2012-12-16 22:11:08,820 -- <class 'Handlers.NoteHandler.NoteHandler'> - GET: get note dummy for collection dummyyy for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:09,316 -- StorageServer - Could not retrieve file for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+WARNING: 2012-12-16 22:11:09,316 -- 404 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/dummyyy/Notes/dummy (127.0.0.1) 496.27ms
+INFO: 2012-12-16 22:11:09,319 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:09,716 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 397.36ms
+INFO: 2012-12-16 22:11:09,718 -- <class 'Handlers.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:10,693 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes (127.0.0.1) 974.67ms
+INFO: 2012-12-16 22:11:10,694 -- <class 'Handlers.NoteHandler.NoteHandler'> - GET: get note note_name for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:11,210 -- 200 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes/note_name (127.0.0.1) 515.64ms
+INFO: 2012-12-16 22:11:11,212 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:11,823 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:11,823 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:11,823 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:11,823 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName (127.0.0.1) 610.96ms
+INFO: 2012-12-16 22:11:11,825 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:12,642 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 817.25ms
+INFO: 2012-12-16 22:11:12,645 -- <class 'Handlers.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:13,950 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes (127.0.0.1) 1305.45ms
+INFO: 2012-12-16 22:11:13,952 -- <class 'Handlers.NoteImageHandler.NoteImageHandler'> - POST: save note img for note note_name for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:14,895 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes/note_name/Image (127.0.0.1) 943.46ms
+INFO: 2012-12-16 22:11:14,898 -- <class 'Handlers.NoteImageHandler.NoteImageHandler'> - GET: get note img for note note_name for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:15,426 -- 200 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes/note_name/Image (127.0.0.1) 528.80ms
+INFO: 2012-12-16 22:11:15,428 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:16,111 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:16,111 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:16,111 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:16,111 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName (127.0.0.1) 683.20ms
+INFO: 2012-12-16 22:11:16,113 -- <class 'Handlers.NoteImageHandler.NoteImageHandler'> - GET: get note img for note dummy_note for collection dummy for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:16,567 -- StorageServer - Could not retrieve file for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+WARNING: 2012-12-16 22:11:16,568 -- 404 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/dummy/Notes/dummy_note/Image (127.0.0.1) 454.86ms
+INFO: 2012-12-16 22:11:16,570 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:16,966 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 396.71ms
+INFO: 2012-12-16 22:11:16,968 -- <class 'Handlers.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:17,965 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes (127.0.0.1) 997.30ms
+INFO: 2012-12-16 22:11:17,967 -- <class 'Handlers.NoteImageHandler.NoteImageHandler'> - GET: get note img for note note_name for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:18,434 -- StorageServer - Could not retrieve file for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+WARNING: 2012-12-16 22:11:18,434 -- 404 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes/note_name/Image (127.0.0.1) 467.19ms
+INFO: 2012-12-16 22:11:18,436 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:18,991 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:18,991 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:18,991 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:18,991 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName (127.0.0.1) 555.68ms
+INFO: 2012-12-16 22:11:18,993 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:20,219 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 1225.60ms
+INFO: 2012-12-16 22:11:20,220 -- <class 'Handlers.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:21,130 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes (127.0.0.1) 909.51ms
+INFO: 2012-12-16 22:11:21,131 -- <class 'Handlers.NoteHandler.NoteHandler'> - GET: get note note_name for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:22,471 -- 200 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes/note_name (127.0.0.1) 1339.76ms
+INFO: 2012-12-16 22:11:22,473 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:23,084 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:23,084 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:23,084 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:23,085 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName (127.0.0.1) 612.15ms
+INFO: 2012-12-16 22:11:23,087 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:23,701 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 613.99ms
+INFO: 2012-12-16 22:11:23,702 -- <class 'Handlers.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:24,929 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes (127.0.0.1) 1226.48ms
+INFO: 2012-12-16 22:11:24,930 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:25,548 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:25,548 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:25,548 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:25,548 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName (127.0.0.1) 618.06ms
+INFO: 2012-12-16 22:11:25,551 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:26,155 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 604.14ms
+INFO: 2012-12-16 22:11:26,157 -- <class 'Handlers.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:27,182 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes (127.0.0.1) 1025.25ms
+INFO: 2012-12-16 22:11:27,203 -- <class 'Handlers.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:28,208 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Notes (127.0.0.1) 1005.75ms
+INFO: 2012-12-16 22:11:28,211 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:28,823 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:28,823 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:28,823 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:28,824 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName (127.0.0.1) 612.89ms
+INFO: 2012-12-16 22:11:32,080 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:32,507 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 427.66ms
+INFO: 2012-12-16 22:11:32,509 -- <class 'Handlers.SharingHandler.SharingHandler'> - POST: create sharing space for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:32,731 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:32,733 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 224.69ms
+INFO: 2012-12-16 22:11:32,735 -- <class 'Handlers.SharingHandler.SharingHandler'> - DELETE: delete sharing space for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:32,738 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 2.95ms
+INFO: 2012-12-16 22:11:32,739 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:33,327 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:33,327 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:33,327 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:33,327 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName (127.0.0.1) 588.63ms
+INFO: 2012-12-16 22:11:33,329 -- <class 'Handlers.SharingHandler.SharingHandler'> - POST: create sharing space for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+WARNING: 2012-12-16 22:11:33,549 -- 404 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 219.51ms
+INFO: 2012-12-16 22:11:33,551 -- <class 'Handlers.SharingHandler.SharingHandler'> - GET: Get sharing space info for collection dummy for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+WARNING: 2012-12-16 22:11:33,747 -- 404 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/dummy/Share (127.0.0.1) 195.62ms
+INFO: 2012-12-16 22:11:33,749 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:34,147 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 398.08ms
+INFO: 2012-12-16 22:11:34,149 -- <class 'Handlers.SharingHandler.SharingHandler'> - GET: Get sharing space info for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:34,343 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:34,344 -- SharingController - No Sharing secret found for owner A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+WARNING: 2012-12-16 22:11:34,344 -- 404 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 195.23ms
+INFO: 2012-12-16 22:11:34,345 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:34,967 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:34,968 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:34,968 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:34,968 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName (127.0.0.1) 622.88ms
+INFO: 2012-12-16 22:11:34,971 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:35,359 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 388.43ms
+INFO: 2012-12-16 22:11:35,361 -- <class 'Handlers.SharingHandler.SharingHandler'> - POST: create sharing space for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:35,572 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:35,574 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 213.29ms
+INFO: 2012-12-16 22:11:35,575 -- <class 'Handlers.SharingHandler.SharingHandler'> - GET: Get sharing space info for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:35,778 -- 200 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 202.64ms
+INFO: 2012-12-16 22:11:35,780 -- <class 'Handlers.SharingHandler.SharingHandler'> - DELETE: delete sharing space for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:35,783 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 3.19ms
+INFO: 2012-12-16 22:11:35,784 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:36,396 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:36,396 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:36,396 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:36,396 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName (127.0.0.1) 612.47ms
+INFO: 2012-12-16 22:11:36,398 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:36,759 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 360.88ms
+INFO: 2012-12-16 22:11:36,761 -- <class 'Handlers.SharingHandler.SharingHandler'> - POST: create sharing space for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:36,962 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:36,964 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 203.09ms
+INFO: 2012-12-16 22:11:36,965 -- <class 'Handlers.SharingSubscriptionHandler.SharingSubscriptionHandler'> - POST: User FDB51632-0973-43D4-8990-1BFC3D16909E subscribes to sharing space with secret M4ZLNYWB
+INFO: 2012-12-16 22:11:38,038 -- 200 POST /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/ShareSpaces/Subscribe (127.0.0.1) 1072.60ms
+INFO: 2012-12-16 22:11:38,039 -- <class 'Handlers.SubscriptionHandler.SubscriptionHandler'> - DELETE: User A84FD293-1515-4CC2-BBD2-FC78FEED475D unsubscribes from sharing space of collection colName
+INFO: 2012-12-16 22:11:38,041 -- SharingController - removing user A84FD293-1515-4CC2-BBD2-FC78FEED475D is owner of shared collection colName; removing all subscribers and unsharing
+INFO: 2012-12-16 22:11:38,045 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Subscribe (127.0.0.1) 6.12ms
+INFO: 2012-12-16 22:11:38,047 -- <class 'Handlers.SharingHandler.SharingHandler'> - GET: Get sharing space info for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:38,246 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:38,246 -- SharingController - No Sharing secret found for owner A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+WARNING: 2012-12-16 22:11:38,246 -- 404 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 199.60ms
+INFO: 2012-12-16 22:11:38,248 -- <class 'Handlers.SubscriptionHandler.SubscriptionHandler'> - DELETE: User FDB51632-0973-43D4-8990-1BFC3D16909E unsubscribes from sharing space of collection colName
+INFO: 2012-12-16 22:11:38,249 -- SharingController - No sharing record found for user FDB51632-0973-43D4-8990-1BFC3D16909E and collection colName
+INFO: 2012-12-16 22:11:38,249 -- SharingController - sharing secret is none or empty for user FDB51632-0973-43D4-8990-1BFC3D16909E and collection colName
+INFO: 2012-12-16 22:11:38,249 -- SharingController - sharing record not found for subscriber FDB51632-0973-43D4-8990-1BFC3D16909E and collection colName
+WARNING: 2012-12-16 22:11:38,249 -- 404 DELETE /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/colName/Subscribe (127.0.0.1) 1.52ms
+INFO: 2012-12-16 22:11:38,251 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:38,857 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:38,857 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:38,857 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:38,857 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName (127.0.0.1) 606.47ms
+INFO: 2012-12-16 22:11:38,859 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-16 22:11:39,317 -- SharingController - No sharing record found for user FDB51632-0973-43D4-8990-1BFC3D16909E and collection colName
+INFO: 2012-12-16 22:11:39,317 -- SharingController - sharing secret is none or empty for user FDB51632-0973-43D4-8990-1BFC3D16909E and collection colName
+INFO: 2012-12-16 22:11:39,317 -- SharingController - sharing record not found for subscriber FDB51632-0973-43D4-8990-1BFC3D16909E and collection colName
+INFO: 2012-12-16 22:11:39,318 -- 200 DELETE /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/colName (127.0.0.1) 458.98ms
+INFO: 2012-12-16 22:11:39,319 -- <class 'Handlers.SharingHandler.SharingHandler'> - DELETE: delete sharing space for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:39,320 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:39,320 -- SharingController - No Sharing secret found for owner A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:39,321 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 1.28ms
+INFO: 2012-12-16 22:11:39,323 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:39,695 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 372.05ms
+INFO: 2012-12-16 22:11:39,696 -- <class 'Handlers.SharingHandler.SharingHandler'> - DELETE: delete sharing space for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:39,697 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:39,697 -- SharingController - No Sharing secret found for owner A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:39,697 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 1.46ms
+INFO: 2012-12-16 22:11:39,699 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:40,291 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:40,291 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:40,291 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:40,291 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName (127.0.0.1) 592.30ms
+INFO: 2012-12-16 22:11:40,293 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:40,702 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 408.70ms
+INFO: 2012-12-16 22:11:40,704 -- <class 'Handlers.SharingHandler.SharingHandler'> - POST: create sharing space for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:40,923 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:40,926 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 221.81ms
+INFO: 2012-12-16 22:11:40,927 -- <class 'Handlers.SharingHandler.SharingHandler'> - DELETE: delete sharing space for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:40,930 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 2.79ms
+INFO: 2012-12-16 22:11:40,931 -- <class 'Handlers.SharingHandler.SharingHandler'> - GET: Get sharing space info for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:41,130 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:41,130 -- SharingController - No Sharing secret found for owner A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+WARNING: 2012-12-16 22:11:41,130 -- 404 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 199.47ms
+INFO: 2012-12-16 22:11:41,132 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:41,588 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:41,588 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:41,588 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:41,588 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName (127.0.0.1) 456.49ms
+INFO: 2012-12-16 22:11:41,590 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:41,974 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 384.21ms
+INFO: 2012-12-16 22:11:41,976 -- <class 'Handlers.SharingHandler.SharingHandler'> - POST: create sharing space for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:42,162 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:42,163 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 187.56ms
+INFO: 2012-12-16 22:11:42,165 -- <class 'Handlers.SharingSubscriptionHandler.SharingSubscriptionHandler'> - POST: User FDB51632-0973-43D4-8990-1BFC3D16909E subscribes to sharing space with secret WMJVM7Y7
+INFO: 2012-12-16 22:11:43,156 -- 200 POST /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/ShareSpaces/Subscribe (127.0.0.1) 990.96ms
+INFO: 2012-12-16 22:11:43,157 -- <class 'Handlers.SharingHandler.SharingHandler'> - GET: Get sharing space info for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:43,350 -- 200 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 192.28ms
+INFO: 2012-12-16 22:11:43,351 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:43,976 -- SharingController - removing user A84FD293-1515-4CC2-BBD2-FC78FEED475D is owner of shared collection colName; removing all subscribers and unsharing
+INFO: 2012-12-16 22:11:43,981 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName (127.0.0.1) 629.87ms
+INFO: 2012-12-16 22:11:43,982 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-16 22:11:44,592 -- SharingController - No sharing record found for user FDB51632-0973-43D4-8990-1BFC3D16909E and collection colName
+INFO: 2012-12-16 22:11:44,592 -- SharingController - sharing secret is none or empty for user FDB51632-0973-43D4-8990-1BFC3D16909E and collection colName
+INFO: 2012-12-16 22:11:44,592 -- SharingController - sharing record not found for subscriber FDB51632-0973-43D4-8990-1BFC3D16909E and collection colName
+INFO: 2012-12-16 22:11:44,592 -- 200 DELETE /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/colName (127.0.0.1) 610.10ms
+INFO: 2012-12-16 22:11:44,595 -- <class 'Handlers.SharingSubscriptionHandler.SharingSubscriptionHandler'> - POST: User FDB51632-0973-43D4-8990-1BFC3D16909E subscribes to sharing space with secret blah
+WARNING: 2012-12-16 22:11:44,596 -- SharingController - no sharing info found for: blah
+INFO: 2012-12-16 22:11:44,596 -- SharingController - no sharing info found for sharing secret blah
+WARNING: 2012-12-16 22:11:44,596 -- 404 POST /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/ShareSpaces/Subscribe (127.0.0.1) 1.43ms
+INFO: 2012-12-16 22:11:44,598 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:45,204 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 606.33ms
+INFO: 2012-12-16 22:11:45,206 -- <class 'Handlers.SharingHandler.SharingHandler'> - POST: create sharing space for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:45,395 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection colName
+INFO: 2012-12-16 22:11:45,397 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 191.13ms
+INFO: 2012-12-16 22:11:45,399 -- <class 'Handlers.SharingSubscriptionHandler.SharingSubscriptionHandler'> - POST: User FDB51632-0973-43D4-8990-1BFC3D16909E subscribes to sharing space with secret YJ9I98OL
+INFO: 2012-12-16 22:11:46,389 -- 200 POST /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/ShareSpaces/Subscribe (127.0.0.1) 990.43ms
+INFO: 2012-12-16 22:11:46,391 -- <class 'Handlers.SubscriptionHandler.SubscriptionHandler'> - DELETE: User FDB51632-0973-43D4-8990-1BFC3D16909E unsubscribes from sharing space of collection colName
+INFO: 2012-12-16 22:11:46,393 -- 200 DELETE /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/colName/Subscribe (127.0.0.1) 3.15ms
+INFO: 2012-12-16 22:11:46,395 -- <class 'Handlers.SharingHandler.SharingHandler'> - GET: Get sharing space info for collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:46,608 -- 200 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName/Share (127.0.0.1) 212.86ms
+INFO: 2012-12-16 22:11:46,609 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:47,251 -- SharingController - removing user A84FD293-1515-4CC2-BBD2-FC78FEED475D is owner of shared collection colName; removing all subscribers and unsharing
+INFO: 2012-12-16 22:11:47,254 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/colName (127.0.0.1) 645.03ms
+INFO: 2012-12-16 22:11:47,256 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection colName for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-16 22:11:47,691 -- SharingController - No sharing record found for user FDB51632-0973-43D4-8990-1BFC3D16909E and collection colName
+INFO: 2012-12-16 22:11:47,691 -- SharingController - sharing secret is none or empty for user FDB51632-0973-43D4-8990-1BFC3D16909E and collection colName
+INFO: 2012-12-16 22:11:47,691 -- SharingController - sharing record not found for subscriber FDB51632-0973-43D4-8990-1BFC3D16909E and collection colName
+INFO: 2012-12-16 22:11:47,691 -- 200 DELETE /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/colName (127.0.0.1) 435.64ms
+INFO: 2012-12-16 22:11:47,693 -- <class 'Handlers.SubscriptionHandler.SubscriptionHandler'> - DELETE: User FDB51632-0973-43D4-8990-1BFC3D16909E unsubscribes from sharing space of collection dummy
+INFO: 2012-12-16 22:11:47,694 -- SharingController - No sharing record found for user FDB51632-0973-43D4-8990-1BFC3D16909E and collection dummy
+INFO: 2012-12-16 22:11:47,694 -- SharingController - sharing secret is none or empty for user FDB51632-0973-43D4-8990-1BFC3D16909E and collection dummy
+INFO: 2012-12-16 22:11:47,694 -- SharingController - sharing record not found for subscriber FDB51632-0973-43D4-8990-1BFC3D16909E and collection dummy
+WARNING: 2012-12-16 22:11:47,695 -- 404 DELETE /FDB51632-0973-43D4-8990-1BFC3D16909E/Collections/dummy/Subscribe (127.0.0.1) 1.48ms
+INFO: 2012-12-16 22:11:50,085 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:50,518 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 433.10ms
+INFO: 2012-12-16 22:11:50,537 -- <class 'Handlers.CollectionImageHandler.CollectionImageHandler'> - SET: set collection img for collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:51,413 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Thumbnail (127.0.0.1) 876.36ms
+INFO: 2012-12-16 22:11:51,415 -- <class 'Handlers.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:51,932 -- 200 GET /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Thumbnail (127.0.0.1) 517.48ms
+INFO: 2012-12-16 22:11:51,934 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:52,579 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:52,579 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:52,579 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:52,579 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName (127.0.0.1) 645.44ms
+INFO: 2012-12-16 22:11:52,581 -- <class 'Handlers.AccountHandler.AccountHandler'> - POST:  adding collection for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:53,052 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections (127.0.0.1) 470.55ms
+INFO: 2012-12-16 22:11:53,054 -- <class 'Handlers.CollectionImageHandler.CollectionImageHandler'> - SET: set collection img for collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:54,011 -- 200 POST /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName/Thumbnail (127.0.0.1) 957.87ms
+INFO: 2012-12-16 22:11:54,013 -- <class 'Handlers.CollectionHandler.CollectionHandler'> - DELETE: delete collection collName for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-16 22:11:54,525 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:54,525 -- SharingController - sharing secret is none or empty for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:54,526 -- SharingController - sharing record not found for subscriber A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection collName
+INFO: 2012-12-16 22:11:54,526 -- 200 DELETE /A84FD293-1515-4CC2-BBD2-FC78FEED475D/Collections/collName (127.0.0.1) 512.95ms
