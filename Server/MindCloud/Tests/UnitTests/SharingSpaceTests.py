@@ -778,6 +778,7 @@ class SharingSpaceTestcase(AsyncTestCase):
 
     def owner_simple_callback(self, status, body):
         self.__simple_callback_flag = True
+        print body
         response_json = json.loads(body)
         self.__primary_listener_notification_action = response_json
 

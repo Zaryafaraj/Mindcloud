@@ -442,3 +442,44 @@ INFO: 2012-12-17 23:51:37,570 -- SharingSpaceController - primary listener added
 INFO: 2012-12-17 23:51:37,571 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
 INFO: 2012-12-17 23:53:13,009 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
 INFO: 2012-12-17 23:53:13,009 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-18 23:53:42,504 -- SharingSpaceController - primary listener added for user efdb6cf4-2bda-4b29-93fb-fc31871e2350
+INFO: 2012-12-18 23:53:42,523 -- SharingSpaceController - Backup listener added for user efdb6cf4-2bda-4b29-93fb-fc31871e2350
+INFO: 2012-12-18 23:53:42,523 -- SharingSpaceController - Backup listener added for user efdb6cf4-2bda-4b29-93fb-fc31871e2350
+INFO: 2012-12-18 23:53:42,523 -- SharingSpaceController - primary listener added for user 1409aeb2-6da3-44d9-b116-907fe9ff5387
+INFO: 2012-12-18 23:53:42,523 -- SharingSpaceController - primary listener added for user 644ca584-da33-4ff5-b8cd-c976a59e295c
+INFO: 2012-12-18 23:53:42,523 -- SharingSpaceController - Backup listener added for user 644ca584-da33-4ff5-b8cd-c976a59e295c
+INFO: 2012-12-18 23:53:42,523 -- SharingSpaceController - Backup listener added for user 644ca584-da33-4ff5-b8cd-c976a59e295c
+INFO: 2012-12-18 23:53:54,990 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-18 23:53:54,990 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-18 23:53:55,008 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_manifest": {"content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n    <xooml:fragment schemaVersion=\"2\" itemDescribed=\"Travel\"/>\n</root>\n", "resource": "manifest"}}
+INFO: 2012-12-18 23:53:55,009 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-18 23:53:55,009 -- SharingSpaceController - executing action  
+INFO: 2012-12-18 23:54:30,724 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-18 23:54:30,724 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-18 23:54:30,724 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_manifest": {"content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n    <xooml:fragment schemaVersion=\"2\" itemDescribed=\"Travel\"/>\n</root>\n", "resource": "manifest"}}
+INFO: 2012-12-18 23:54:30,724 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-18 23:54:30,724 -- SharingSpaceController - executing action  
+INFO: 2012-12-18 23:54:46,078 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-18 23:54:46,078 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:04:00,680 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:04:00,680 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:04:33,447 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:04:33,448 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:05:05,436 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:05:05,436 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:07:28,320 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:07:28,321 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:08:04,864 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:08:04,864 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:08:54,072 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:08:54,072 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:11:14,377 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:11:14,377 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:11:14,378 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note_img": {"content": "request image to the same resource", "resource": "new_note"}}
+INFO: 2012-12-19 00:11:14,378 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 00:11:14,378 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 00:11:30,500 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:11:30,500 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 00:11:30,501 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note_img": {"content": "request image to the same resource", "resource": "new_note"}}
+INFO: 2012-12-19 00:11:30,501 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 00:11:30,501 -- SharingSpaceController - executing action  

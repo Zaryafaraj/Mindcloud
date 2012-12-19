@@ -153,13 +153,20 @@ class MindcloudCache():
         cache_key = self.__create_temp_img_cache_key(user_id, collection_name,
             note_name)
         if img_file_content is not None :
-            cache.set(cache_key, img_file_content)
+            cache.set(cache_key, img_file_content, callback=callback)
 
     def get_temp_img(self, user_id, collection_name, note_name, callback = None):
 
         cache_key = self.__create_temp_img_cache_key(user_id, collection_name,
             note_name)
         return cache.get(cache_key, callback)
+
+    def remove_temp_img(self, user_id, collection_name, note_name, callback = None):
+
+        cache_key = self.__create_temp_img_cache_key(user_id, collection_name,
+            note_name)
+        cache.delete(cache_key, callback=callback)
+
 
 
 
