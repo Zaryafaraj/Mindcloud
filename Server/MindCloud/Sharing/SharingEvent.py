@@ -15,13 +15,25 @@ class SharingEvent:
 
     __event_dictionary = {}
 
-    def add_event(self, event_type, event_file):
+    def add_event(self, sharing_action):
         """
         Adds a sharing event with the given file.
         If an event with the same type already exists the new file will
          replace the existing events file.
         """
-        self.__event_dictionary[event_type] = event_file.read()
+        event_type = sharing_action.get_action_type()
+        event_file = sharing_action.get_associated_file()
+        event_resource_name = sharing_action.get_action_resource_name()
+        event_content = None
+        if event_type == SharingEvent.UPDATE_NOTE_IMG:
+            event_content = 'request image to the same resource'
+        else:
+            event_content = event_file.read()
+
+        dictionary_value = {'resource' : event_resource_name,
+                            'content'  : event_content}
+
+        self.__event_dictionary[event_type] = dictionary_value
 
     def convert_to_json_string(self):
         """

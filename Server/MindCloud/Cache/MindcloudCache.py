@@ -10,8 +10,11 @@ class MindcloudCache():
     #we cast everything to str to make sure that unicode objects are not used to
     #access the cache
 
-    def __create_cache_key(self, user_id, collection_name):
+    def __create_sharing_info_cache_key(self, user_id, collection_name):
         return str(user_id + collection_name)
+
+    def __create_temp_img_cache_key(self, user_id, collection_name, note_name):
+        return str(user_id + collection_name + note_name)
 
     def set_user_info(self, user_id, account_info_json, callback=None):
         """
@@ -70,7 +73,7 @@ class MindcloudCache():
             assert isinstance(collection_name, str) or isinstance(collection_name, unicode)
             assert isinstance(sharing_secret, str) or isinstance(sharing_secret, unicode)
 
-            cache_key = str(self.__create_cache_key(user_id, collection_name))
+            cache_key = str(self.__create_sharing_info_cache_key(user_id, collection_name))
             sharing_secret = str(sharing_secret)
 
             cache.set(cache_key, sharing_secret, callback=callback)
@@ -88,7 +91,7 @@ class MindcloudCache():
             assert isinstance(user_id,str) or isinstance(user_id, unicode)
             assert isinstance(collection_name, str) or isinstance(collection_name, unicode)
 
-            cache_key = self.__create_cache_key(user_id, collection_name)
+            cache_key = self.__create_sharing_info_cache_key(user_id, collection_name)
             cache.get(cache_key, callback=callback)
 
     def remove_subscriber_info(self, user_id, collection_name, callback):
@@ -101,7 +104,7 @@ class MindcloudCache():
             assert isinstance(user_id,str) or isinstance(user_id, unicode)
             assert isinstance(collection_name, str) or isinstance(collection_name, unicode)
 
-            cache_key = self.__create_cache_key(user_id, collection_name)
+            cache_key = self.__create_sharing_info_cache_key(user_id, collection_name)
             cache.delete(cache_key, callback=callback)
 
     def set_sharing_record(self, sharing_secret, sharing_record_json, callback):
@@ -139,6 +142,27 @@ class MindcloudCache():
 
         sharing_secret = str(sharing_secret)
         cache.delete(sharing_secret, callback=callback)
+
+    def set_temp_img(self, user_id, collection_name, note_name, img_file, callback = None):
+
+        assert isinstance(user_id, str) or isinstance(user_id, unicode)
+        assert isinstance(collection_name, str) or isinstance(collection_name, unicode)
+        assert isinstance(note_name, str) or isinstance(note_name, unicode)
+
+        img_file_content = img_file.read()
+        cache_key = self.__create_temp_img_cache_key(user_id, collection_name,
+            note_name)
+        if img_file_content is not None :
+            cache.set(cache_key, img_file_content)
+
+    def get_temp_img(self, user_id, collection_name, note_name, callback = None):
+
+        cache_key = self.__create_temp_img_cache_key(user_id, collection_name,
+            note_name)
+        return cache.get(cache_key, callback)
+
+
+
 
 
 

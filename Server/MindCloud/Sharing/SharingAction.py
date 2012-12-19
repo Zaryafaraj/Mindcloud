@@ -39,3 +39,10 @@ class SharingAction:
     def get_action_type(self):
         pass
 
+    @abstractmethod
+    def get_action_resource_name(self):
+        """
+        Returns the name of the resource affected by this action
+        """
+        pass
+

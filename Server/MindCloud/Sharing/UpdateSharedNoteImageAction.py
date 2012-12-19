@@ -42,6 +42,9 @@ class UpdateSharedNoteImageAction(SharingAction):
     def get_note_name(self):
         return self.__note_name
 
+    def get_collection_name(self):
+        return self.__collection_name
+
     def get_user_id(self):
         return self.__user_id
 
@@ -51,3 +54,8 @@ class UpdateSharedNoteImageAction(SharingAction):
     def get_associated_file(self):
         return self.__note_img_file
 
+    def get_action_resource_name(self):
+        """
+        Returns the name of the resource affected by this action
+        """
+        return self.get_note_name()

@@ -50,3 +50,9 @@ class UpdateSharedNoteAction(SharingAction):
 
     def get_associated_file(self):
         return self.__note_file
+
+    def get_action_resource_name(self):
+        """
+        Returns the name of the resource affected by this action
+        """
+        return self.get_note_name()

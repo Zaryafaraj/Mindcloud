@@ -1,5 +1,6 @@
 from tornado import gen
 from Logging import Log
+from Cache.MindcloudCache import MindcloudCache
 from Sharing.SharingActionDelegate import SharingActionDelegate
 from Sharing.SharingQueue import SharingQueue
 from Sharing.SharingEvent import SharingEvent
@@ -12,6 +13,8 @@ class SharingSpaceController(SharingActionDelegate):
     """
     A sharing space is per shared collection.
     """
+
+    __cache = MindcloudCache()
 
     __log = Log.log()
 
@@ -195,16 +198,31 @@ class SharingSpaceController(SharingActionDelegate):
         self.__sharing_queue.is_being_processed = True
         self.__process_actions_iterative(self.__BATCH_SIZE)
 
+    def __store_temp_image(self, update_img_sharing_action):
+        #store the img associated with the update image sharing
+        #action in the cache.
+        user_id = update_img_sharing_action.get_user_id()
+        collection_name = update_img_sharing_action.get_collection_name()
+        note_name = update_img_sharing_action.get_note_name()
+        img_file = update_img_sharing_action.get_associated_file()
+
+        self.__cache.set_temp_img(user_id, collection_name, note_name,
+            img_file)
+
     @gen.engine
     def __notify_listeners(self, sharing_action):
         #for each primary listener notify the primary listener
         event_type = sharing_action.get_action_type()
-        event_file = sharing_action.get_associated_file()
+        #in the case of the image we cache the image and notify the user
+        #of the image, they can then request the temporary cached image
+        if event_type == SharingEvent.UPDATE_NOTE_IMG:
+            self.__store_temp_image(sharing_action)
+
         notified_listeners = set()
         for user_id in self.__listeners:
             request = self.__listeners[user_id]
             sharing_event = SharingEvent()
-            sharing_event.add_event(event_type, event_file)
+            sharing_event.add_event(sharing_action)
             notification_json = sharing_event.convert_to_json_string()
             request.write(notification_json)
             request.set_status(StorageResponse.OK)
@@ -221,7 +239,7 @@ class SharingSpaceController(SharingActionDelegate):
             #so it must be in recording state
             if user_id not in notified_listeners:
                 backup_sharing_event = self.__backup_listeners[user_id][1]
-                backup_sharing_event.add_event(event_file, event_file)
+                backup_sharing_event.add_event(sharing_action)
 
                 SharingSpaceController.__log.info('SharingSpaceController - stored event for backup listener %s for sharing event %s' % (user_id, backup_sharing_event.convert_to_json_string()))
 

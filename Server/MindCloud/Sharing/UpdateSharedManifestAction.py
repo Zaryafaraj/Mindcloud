@@ -45,4 +45,8 @@ class UpdateSharedManifestAction(SharingAction):
     def get_collection_name(self):
         return self.__collection_name
 
-
+    def get_action_resource_name(self):
+        """
+        Returns the name of the resource affected by this action
+        """
+        return 'manifest'
