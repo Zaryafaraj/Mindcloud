@@ -17,6 +17,10 @@ class SharingEvent:
     #determines whether an action was added to this event or not
     __has_update = False
 
+    def __init__(self):
+        self.__event_dictionary = {}
+        self.__has_update = False
+
     def add_event(self, sharing_action):
         """
         Adds a sharing event with the given file.

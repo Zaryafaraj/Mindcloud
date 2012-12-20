@@ -5,6 +5,7 @@ import time
 import cStringIO
 from tornado.ioloop import IOLoop
 from tornado.testing import AsyncTestCase
+from Sharing.SharingEvent import SharingEvent
 from Sharing.SharingSpaceController import SharingSpaceController
 from Sharing.UpdateSharedManifestAction import UpdateSharedManifestAction
 from Sharing.UpdateSharedNoteAction import UpdateSharedNoteAction
@@ -911,6 +912,7 @@ class SharingSpaceTestcase(AsyncTestCase):
         self.assertTrue(success)
         self.assertTrue(action_type in self.__primary_listener_notification_action)
 
+
         #subscriber sends another action
         #subscriber sends an action
         new_note_file = open('../test_resources/sharing_note1.xml')
@@ -940,6 +942,7 @@ class SharingSpaceTestcase(AsyncTestCase):
         self.__simple_callback_flag = False
         self.__simple_backup_callback_flag = False
 
+        print 'waiting for the primary listener notification'
         #now we send another listener to listen on the space
         owner_mock_request1 = MockFactory.get_mock_request(self.__account_id,
             self.owner_simple_callback)
@@ -947,7 +950,6 @@ class SharingSpaceTestcase(AsyncTestCase):
         #the listener should come back as fast as possible with the recorder
         #results
 
-        print 'waiting for the primary listener notification'
         success =self.__simple_backup_callback_flag
         if not success:
             for count in range(2):
@@ -973,9 +975,9 @@ class SharingSpaceTestcase(AsyncTestCase):
         update_note_action = UpdateSharedNoteAction(self.__subscriber_id, collection_name2,
             new_note_name, note_file_like)
         sharing_space.add_action(update_note_action)
-        pending_actions = []
+        pending_note_actions = []
         last_action_type = update_note_action.get_action_type()
-        pending_actions.append(last_action_type)
+        pending_note_actions.append(update_note_action.get_action_resource_name())
 
         #because the last primary action became the backup action
         #we should check the simple callback flag and not backup flag
@@ -1007,8 +1009,7 @@ class SharingSpaceTestcase(AsyncTestCase):
             update_note_action = UpdateSharedNoteAction(self.__subscriber_id, collection_name2,
                 new_note_name, note_file_like)
             sharing_space.add_action(update_note_action)
-            last_action_type = update_note_action.get_action_type()
-            pending_actions.append(update_note_action)
+            pending_note_actions.append(update_note_action.get_action_resource_name())
 
         #throw in an update manifest action
         new_manifest_file = open('../test_resources/sharing_manifest1.xml')
@@ -1017,18 +1018,17 @@ class SharingSpaceTestcase(AsyncTestCase):
         update_manifest_action = UpdateSharedManifestAction(self.__subscriber_id,
             collection_name2, manifest_file_like)
         sharing_space.add_action(update_manifest_action)
-        pending_actions.append(update_manifest_action)
 
         #an sprinkle of update note image actions
+        pending_img_actions = []
         for x in range(2):
             new_note_img = open('../test_resources/workfile.jpg')
-            expected_note_body = new_note_img.read()
             img_file_like = cStringIO.StringIO(expected_note_body)
             new_note_name = 'new_note_img' + str(x)
             update_img_action = UpdateSharedNoteImageAction(self.__subscriber_id,
                 collection_name2, new_note_name, img_file_like)
             sharing_space.add_action(update_img_action)
-            pending_actions.append(update_note_action)
+            pending_img_actions.append(update_img_action.get_action_resource_name())
 
         #now wait a little bit
         try:
@@ -1044,18 +1044,43 @@ class SharingSpaceTestcase(AsyncTestCase):
         #results
 
         print 'waiting for the primary listener notification'
-        success =self.__simple_backup_callback_flag
+        success =self.__simple_callback_flag
         if not success:
             for count in range(3):
                 if not success:
                     try:
                         self.wait(timeout=5)
                     except Exception:
-                        if self.__simple_backup_callback_flag:
+                        if self.__simple_callback_flag:
                             success = True
 
 
         self.assertTrue(success)
+
+        note_action_type = update_note_action.get_action_type()
+        update_note_actions = \
+            self.__primary_listener_notification_action[note_action_type]
+        for note_action_resource in update_note_actions:
+            if note_action_resource not in pending_note_actions:
+                self.fail('actions are not up to date')
+            else:
+                pending_note_actions.remove(note_action_resource)
+
+        self.assertTrue(not len(pending_note_actions))
+
+        manifest_action_type = update_manifest_action.get_action_type()
+        self.assertTrue(manifest_action_type in self.__primary_listener_notification_action)
+
+        update_img_action_type = SharingEvent.UPDATE_NOTE_IMG
+        update_img_actions =\
+        self.__primary_listener_notification_action[update_img_action_type]
+        for img_action_resource in update_img_actions:
+            if img_action_resource not in pending_img_actions:
+                self.fail('actions are not up to date')
+            else:
+                pending_img_actions.remove(img_action_resource)
+
+        self.assertTrue(not len(pending_img_actions))
 
     def owner_simple_callback(self, status, body):
 

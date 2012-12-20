@@ -106,10 +106,10 @@ class SharingSpaceController(SharingActionDelegate):
                 self.__log.info('SharingSpaceController - backup listener has updates for user %s' % user_id)
                 #return the back up listener to the user and make
                 #the new listener backup listener
-                request = self.__backup_listeners[user_id][0]
-                request.write(backup_listener_events.convert_to_json_string())
-                request.set_status(StorageResponse.OK)
-                request.finish()
+                backup_request = self.__backup_listeners[user_id][0]
+                backup_request.write(backup_listener_events.convert_to_json_string())
+                backup_request.set_status(StorageResponse.OK)
+                backup_request.finish()
                 del self.__backup_listeners[user_id]
                 self.__backup_listeners[user_id] = (request, SharingEvent())
                 self.__log.info('SharingSpaceController - backup listener update returned for user %s; replacing backup listener' % user_id)
@@ -269,7 +269,7 @@ class SharingSpaceController(SharingActionDelegate):
             request.set_status(StorageResponse.OK)
             request.finish()
 
-            SharingSpaceController.__log.info('SharingSpaceController - notified primary listener %s for sharing event %s' % (user_id, sharing_event.convert_to_json_string()))
+            SharingSpaceController.__log.info('SharingSpaceController - notified primary listener %s for sharing event %s - %s' % (user_id, sharing_action.get_action_type(), sharing_action.get_action_resource_name()))
 
             notified_listeners.add(user_id)
 
@@ -282,7 +282,7 @@ class SharingSpaceController(SharingActionDelegate):
                 backup_sharing_event = self.__backup_listeners[user_id][1]
                 backup_sharing_event.add_event(sharing_action)
 
-                SharingSpaceController.__log.info('SharingSpaceController - stored event for backup listener %s for sharing event %s' % (user_id, backup_sharing_event.convert_to_json_string()))
+                SharingSpaceController.__log.info('SharingSpaceController - stored event for backup listener %s for sharing event %s - %s' % (user_id, sharing_action.get_action_type(), sharing_action.get_action_resource_name()))
 
         #delete notified user
         for user_id in notified_listeners:
