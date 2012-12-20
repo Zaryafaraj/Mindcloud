@@ -778,10 +778,11 @@ class SharingSpaceTestcase(AsyncTestCase):
         self.assertTrue(action_type in self.__primary_listener_notification_action)
 
         action_details = self.__primary_listener_notification_action[action_type]
-        img_note_name = action_details['resource']
-        img_secret = str(action_details['content'])
+        assert(new_note_name in action_details)
+
+        img_secret = str(action_details[new_note_name])
         sharing_space.get_temp_img(img_secret, self.__account_id, collection_name1,
-            img_note_name, callback=self.stop)
+            new_note_name, callback=self.stop)
         img = self.wait()
 
         self.assertTrue(img is not None)
@@ -860,7 +861,7 @@ class SharingSpaceTestcase(AsyncTestCase):
 
         self.assertTrue(not success)
 
-    def test_backup_listener_recording_single_action_while_primary_listener_is_abssent(self):
+    def test_backup_listener_recording(self):
 
         sharing_space = SharingSpaceController()
         collection_name1 = 'col_listener1'
@@ -935,6 +936,9 @@ class SharingSpaceTestcase(AsyncTestCase):
 
         self.assertTrue(not success)
 
+        #just clean up some stuff :)
+        self.__simple_callback_flag = False
+        self.__simple_backup_callback_flag = False
 
         #now we send another listener to listen on the space
         owner_mock_request1 = MockFactory.get_mock_request(self.__account_id,
@@ -943,9 +947,7 @@ class SharingSpaceTestcase(AsyncTestCase):
         #the listener should come back as fast as possible with the recorder
         #results
 
-        #wait for a while
-        self.__simple_callback_flag = False
-        print 'waiting for the backup listener notification'
+        print 'waiting for the primary listener notification'
         success =self.__simple_backup_callback_flag
         if not success:
             for count in range(2):
@@ -958,20 +960,114 @@ class SharingSpaceTestcase(AsyncTestCase):
 
         self.assertTrue(success)
         self.assertTrue(action_type in self.__primary_listener_notification_action)
+        #just clean up some stuff :)
+        self.__simple_callback_flag = False
+        self.__simple_backup_callback_flag = False
 
         #now try to add other actions and the backup listener should not
         #return
+        new_note_file = open('../test_resources/sharing_note1.xml')
+        new_note_name = 'new_note_name3'
+        expected_note_body = new_note_file.read()
+        note_file_like = cStringIO.StringIO(expected_note_body)
+        update_note_action = UpdateSharedNoteAction(self.__subscriber_id, collection_name2,
+            new_note_name, note_file_like)
+        sharing_space.add_action(update_note_action)
+        pending_actions = []
+        last_action_type = update_note_action.get_action_type()
+        pending_actions.append(last_action_type)
 
+        #because the last primary action became the backup action
+        #we should check the simple callback flag and not backup flag
+        #wait for a while
+        print 'waiting for the backup listener notification'
+        success =self.__simple_callback_flag
+        if not success:
+            for count in range(2):
+                if not success:
+                    try:
+                        self.wait(timeout=5)
+                    except Exception:
+                        if self.__simple_callback_flag:
+                            success = True
+
+        self.assertTrue(not success)
+
+        #just clean up some stuff :) Again !
+        self.__simple_callback_flag = False
+        self.__simple_backup_callback_flag = False
+
+        #now we are going to just add all types of actions to
+        #see if all of them get recorded
+        for x in range(3):
+            new_note_file = open('../test_resources/sharing_note1.xml')
+            new_note_name = 'new_note_name_append' + str(x)
+            expected_note_body = new_note_file.read()
+            note_file_like = cStringIO.StringIO(expected_note_body)
+            update_note_action = UpdateSharedNoteAction(self.__subscriber_id, collection_name2,
+                new_note_name, note_file_like)
+            sharing_space.add_action(update_note_action)
+            last_action_type = update_note_action.get_action_type()
+            pending_actions.append(update_note_action)
+
+        #throw in an update manifest action
+        new_manifest_file = open('../test_resources/sharing_manifest1.xml')
+        expected_note_body = new_manifest_file.read()
+        manifest_file_like = cStringIO.StringIO(expected_note_body)
+        update_manifest_action = UpdateSharedManifestAction(self.__subscriber_id,
+            collection_name2, manifest_file_like)
+        sharing_space.add_action(update_manifest_action)
+        pending_actions.append(update_manifest_action)
+
+        #an sprinkle of update note image actions
+        for x in range(2):
+            new_note_img = open('../test_resources/workfile.jpg')
+            expected_note_body = new_note_img.read()
+            img_file_like = cStringIO.StringIO(expected_note_body)
+            new_note_name = 'new_note_img' + str(x)
+            update_img_action = UpdateSharedNoteImageAction(self.__subscriber_id,
+                collection_name2, new_note_name, img_file_like)
+            sharing_space.add_action(update_img_action)
+            pending_actions.append(update_note_action)
+
+        #now wait a little bit
+        try:
+            self.wait(timeout=5)
+        except Exception:
+            pass
+
+        #now add the primary listener again
+        owner_mock_request1 = MockFactory.get_mock_request(self.__account_id,
+            self.owner_simple_callback)
+        sharing_space.add_listener(self.__account_id, owner_mock_request1)
+        #the listener should come back as fast as possible with the recorder
+        #results
+
+        print 'waiting for the primary listener notification'
+        success =self.__simple_backup_callback_flag
+        if not success:
+            for count in range(3):
+                if not success:
+                    try:
+                        self.wait(timeout=5)
+                    except Exception:
+                        if self.__simple_backup_callback_flag:
+                            success = True
+
+
+        self.assertTrue(success)
 
     def owner_simple_callback(self, status, body):
 
         self.__simple_callback_flag = True
+        print 'first listener returned'
         print body
         response_json = json.loads(body)
         self.__primary_listener_notification_action = response_json
 
     def owner_backup_callback(self, status, body):
         self.__simple_backup_callback_flag= True
+        print 'backup listener returned'
         print body
         response_json = json.loads(body)
         self.__primary_listener_notification_action = response_json

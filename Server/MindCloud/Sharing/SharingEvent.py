@@ -32,10 +32,19 @@ class SharingEvent:
         else:
             event_content = event_file.read()
 
-        dictionary_value = {'resource' : event_resource_name,
-                            'content'  : event_content}
+        #we can have only one manifest
+        #{
+        # UPDATE_MANIFEST = content,
+        # UPDATE_NOTE = {NOTE1: content1, NOTE2 : content2}
+        # UPDATE_NOTE_IMG = {NOTE1 : content1, NOTE4: content4}
+        #}
+        if event_type == SharingEvent.UPDATE_MANIFEST:
+            self.__event_dictionary[event_type] = event_content
+        else:
+            if event_type not in self.__event_dictionary:
+                self.__event_dictionary[event_type] = {}
+            self.__event_dictionary[event_type][event_resource_name] = event_content
 
-        self.__event_dictionary[event_type] = dictionary_value
         self.__has_update = True
 
     def has_update(self):
