@@ -14,6 +14,8 @@ class SharingEvent:
     UPDATE_NOTE_IMG = 'update_note_img'
 
     __event_dictionary = {}
+    #determines whether an action was added to this event or not
+    __has_update = False
 
     def add_event(self, sharing_action):
         """
@@ -34,6 +36,10 @@ class SharingEvent:
                             'content'  : event_content}
 
         self.__event_dictionary[event_type] = dictionary_value
+        self.__has_update = True
+
+    def has_update(self):
+        return self.__has_update
 
     def convert_to_json_string(self):
         """
