@@ -199,27 +199,26 @@ class SharingSpaceController(SharingActionDelegate):
         self.__sharing_queue.is_being_processed = True
         self.__process_actions_iterative(self.__BATCH_SIZE)
 
-    def remove_temp_img(self, user_id, collection_name, note_name):
+    def remove_temp_img(self, img_secret):
         """
         There shouldn't be any real world use cases for this. The image
         will be automatically removed from cached based on the caching
         alg
         """
-        self.__cache.remove_temp_img(user_id, collection_name, note_name)
+        self.__cache.remove_temp_img(img_secret, callback=None)
 
-    def __get_temp_imge(self, user_id, collection_name, note_name, callback):
+    def __get_temp_img(self, img_secret, callback):
         """
         Returns None in case its a cache miss
         """
-        self.__cache.get_temp_img(user_id, collection_name, note_name, callback)
+        self.__cache.get_temp_img(img_secret, callback)
 
-    @gen.Task
-    def get_img(self, user_id, collection_name, note_name, callback):
+    @gen.engine
+    def get_temp_img(self, img_secret, user_id, collection_name, note_name, callback):
         """
         Retrievs the temp img
         """
-        img = yield gen.Task(self.__get_temp_imge, user_id, collection_name,
-            note_name)
+        img = yield gen.Task(self.__get_temp_img, img_secret)
         #if its a cache miss; it has probably passed enough time to
         #get the image directly from the storage
         if img is None:
@@ -229,7 +228,10 @@ class SharingSpaceController(SharingActionDelegate):
 
         callback(img)
 
-    def __store_temp_image(self, update_img_sharing_action):
+    def __generate_img_secret(self, user_id, collection_name, note_name):
+        return str(hash(str(user_id+collection_name+note_name)))
+    @gen.engine
+    def __store_temp_image(self, update_img_sharing_action, callback):
         """
         store the img associated with the update image sharing
         action in the cache.
@@ -239,8 +241,10 @@ class SharingSpaceController(SharingActionDelegate):
         note_name = update_img_sharing_action.get_note_name()
         img_file = update_img_sharing_action.get_associated_file()
 
-        self.__cache.set_temp_img(user_id, collection_name, note_name,
-            img_file, callback=None)
+        img_secret = self.__generate_img_secret(user_id, collection_name, note_name)
+        update_img_sharing_action.set_img_secret(img_secret)
+
+        self.__cache.set_temp_img(img_secret, img_file, callback=callback)
 
     @gen.engine
     def __notify_listeners(self, sharing_action):
@@ -249,7 +253,7 @@ class SharingSpaceController(SharingActionDelegate):
         #in the case of the image we cache the image and notify the user
         #of the image, they can then request the temporary cached image
         if event_type == SharingEvent.UPDATE_NOTE_IMG:
-            self.__store_temp_image(sharing_action)
+            yield gen.Task(self.__store_temp_image, sharing_action)
 
         notified_listeners = set()
         for user_id in self.__listeners:

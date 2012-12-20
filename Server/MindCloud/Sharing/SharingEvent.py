@@ -26,7 +26,7 @@ class SharingEvent:
         event_resource_name = sharing_action.get_action_resource_name()
         event_content = None
         if event_type == SharingEvent.UPDATE_NOTE_IMG:
-            event_content = 'request image to the same resource'
+            event_content = sharing_action.get_img_secret()
         else:
             event_content = event_file.read()
 

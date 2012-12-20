@@ -483,3 +483,67 @@ INFO: 2012-12-19 00:11:30,500 -- SharingSpaceController - Backup listener added 
 INFO: 2012-12-19 00:11:30,501 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note_img": {"content": "request image to the same resource", "resource": "new_note"}}
 INFO: 2012-12-19 00:11:30,501 -- SharingSpaceController - Started processing batch of 5 actions
 INFO: 2012-12-19 00:11:30,501 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 19:30:35,537 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:30:35,551 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:30:35,569 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note_img": {"content": "request image to the same resource", "resource": "new_note"}}
+INFO: 2012-12-19 19:30:35,569 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 19:30:35,570 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 19:33:10,005 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:33:10,005 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:33:10,006 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note_img": {"content": "request image to the same resource", "resource": "new_note"}}
+INFO: 2012-12-19 19:33:10,006 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 19:33:10,006 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 19:37:54,371 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:37:54,371 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:37:54,372 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note_img": {"content": "request image to the same resource", "resource": "new_note"}}
+INFO: 2012-12-19 19:37:54,372 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 19:37:54,372 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 19:40:32,434 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:40:32,434 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:40:32,434 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note_img": {"content": "request image to the same resource", "resource": "new_note"}}
+INFO: 2012-12-19 19:40:32,434 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 19:40:32,435 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 19:43:15,901 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:43:15,902 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:43:15,902 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note_img": {"content": "request image to the same resource", "resource": "new_note"}}
+INFO: 2012-12-19 19:43:15,902 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 19:43:15,902 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 19:43:16,392 -- StorageServer - Could not retrieve file for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:43:16,392 -- SharingSpaceController - failed to update img for A84FD293-1515-4CC2-BBD2-FC78FEED475D; collection= col_listener1; note=new_note
+INFO: 2012-12-19 19:44:34,400 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:44:34,401 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:45:17,563 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note_img": {"content": "request image to the same resource", "resource": "new_note"}}
+INFO: 2012-12-19 19:45:17,564 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 19:45:17,565 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 19:51:50,178 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:51:50,178 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:51:52,292 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 19:51:52,293 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 19:51:55,164 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note_img": {"content": "request image to the same resource", "resource": "new_note"}}
+INFO: 2012-12-19 19:51:56,134 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-19 19:51:56,135 -- Finished executing all the actions in the batch
+INFO: 2012-12-19 19:51:56,136 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 19:51:57,837 -- StorageServer - Could not retrieve file for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:51:57,837 -- SharingSpaceController - failed to update img for A84FD293-1515-4CC2-BBD2-FC78FEED475D; collection= col_listener1; note=new_note
+INFO: 2012-12-19 19:52:19,967 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:52:19,968 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 19:52:19,970 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 19:52:19,971 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 19:52:19,974 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note_img": {"content": "request image to the same resource", "resource": "new_note"}}
+INFO: 2012-12-19 19:52:20,637 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-19 19:52:20,637 -- Finished executing all the actions in the batch
+INFO: 2012-12-19 19:52:20,638 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 20:15:50,494 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 20:15:50,494 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 20:16:39,032 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 20:16:39,032 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 20:17:06,273 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 20:17:06,274 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 20:17:45,797 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 20:17:45,798 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 20:17:45,798 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 20:17:45,798 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 20:17:45,799 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note_img": {"content": "3324031253375437179", "resource": "new_note"}}
+INFO: 2012-12-19 20:17:46,821 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-19 20:17:46,822 -- Finished executing all the actions in the batch
+INFO: 2012-12-19 20:17:46,822 -- SharingSpaceController - Started processing batch of 5 actions

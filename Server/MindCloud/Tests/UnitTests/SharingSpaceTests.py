@@ -776,6 +776,15 @@ class SharingSpaceTestcase(AsyncTestCase):
         self.assertTrue(success)
         self.assertTrue(action_type in self.__primary_listener_notification_action)
 
+        action_details = self.__primary_listener_notification_action[action_type]
+        img_note_name = action_details['resource']
+        img_secret = str(action_details['content'])
+        sharing_space.get_temp_img(img_secret, self.__account_id, collection_name1,
+            img_note_name, callback=self.stop)
+        img = self.wait()
+
+        self.assertTrue(img is not None)
+
     def owner_simple_callback(self, status, body):
         self.__simple_callback_flag = True
         print body

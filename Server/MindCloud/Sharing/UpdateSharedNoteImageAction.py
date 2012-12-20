@@ -14,8 +14,9 @@ class UpdateSharedNoteImageAction(SharingAction):
     __collection_name = None
     __note_name = None
     __note_img_file = None
-    #TODO for testing purposes
+    __img_secret = None
     name = " "
+
 
     def __init__(self, user_id, collection_name, note_name,  note_img_file):
         self.__user_id = user_id
@@ -53,6 +54,16 @@ class UpdateSharedNoteImageAction(SharingAction):
 
     def get_associated_file(self):
         return self.__note_img_file
+
+    def set_img_secret(self, img_secret):
+        """
+        sets a temporary image secret that can be used to retrieve an update image result
+        from the server
+        """
+        self.__img_secret = img_secret
+
+    def get_img_secret(self):
+        return self.__img_secret
 
     def get_action_resource_name(self):
         """

@@ -14,7 +14,7 @@ class MindcloudCache():
         return str(user_id + collection_name)
 
     def __create_temp_img_cache_key(self, user_id, collection_name, note_name):
-        return str(user_id + collection_name + note_name)
+        return hash(str(user_id + collection_name + note_name))
 
     def set_user_info(self, user_id, account_info_json, callback=None):
         """
@@ -143,29 +143,25 @@ class MindcloudCache():
         sharing_secret = str(sharing_secret)
         cache.delete(sharing_secret, callback=callback)
 
-    def set_temp_img(self, user_id, collection_name, note_name, img_file, callback = None):
+    def set_temp_img(self,img_secret,img_file, callback = None):
 
-        assert isinstance(user_id, str) or isinstance(user_id, unicode)
-        assert isinstance(collection_name, str) or isinstance(collection_name, unicode)
-        assert isinstance(note_name, str) or isinstance(note_name, unicode)
+        assert isinstance(img_secret, str) or isinstance(img_secret, unicode)
 
         img_file_content = img_file.read()
-        cache_key = self.__create_temp_img_cache_key(user_id, collection_name,
-            note_name)
         if img_file_content is not None :
-            cache.set(cache_key, img_file_content, callback=callback)
+            cache.set(img_secret, img_file_content, callback=callback)
 
-    def get_temp_img(self, user_id, collection_name, note_name, callback = None):
+    def get_temp_img(self, img_secret, callback = None):
 
-        cache_key = self.__create_temp_img_cache_key(user_id, collection_name,
-            note_name)
-        return cache.get(cache_key, callback)
+        assert isinstance(img_secret, str) or isinstance(img_secret, unicode)
 
-    def remove_temp_img(self, user_id, collection_name, note_name, callback = None):
+        return cache.get(img_secret, callback=callback)
 
-        cache_key = self.__create_temp_img_cache_key(user_id, collection_name,
-            note_name)
-        cache.delete(cache_key, callback=callback)
+    def remove_temp_img(self, img_secret, callback = None):
+
+        assert isinstance(img_secret, str) or isinstance(img_secret, unicode)
+
+        cache.delete(img_secret, callback=callback)
 
 
 
