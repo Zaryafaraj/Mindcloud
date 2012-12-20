@@ -22,6 +22,7 @@ class SharingSpaceTestcase(AsyncTestCase):
     __account_id = TestingProperties.account_id
     __subscriber_id = TestingProperties.subscriber_id
     __simple_callback_flag = False
+    __simple_backup_callback_flag = False
 
     def get_new_ioloop(self):
         return IOLoop.instance()
@@ -785,8 +786,89 @@ class SharingSpaceTestcase(AsyncTestCase):
 
         self.assertTrue(img is not None)
 
+    def test_backup_listener_not_notified(self):
+
+        sharing_space = SharingSpaceController()
+        collection_name1 = 'col_listener1'
+        collection_name2 = 'col_listener2'
+        self.__create_collection(self.__account_id, collection_name1)
+        self.__create_collection(self.__subscriber_id, collection_name2)
+
+        note_name1 = 'note_listener1'
+        note_name2= 'note_listener2'
+        note_file1 = open('../test_resources/note.xml')
+        note_file2 = open('../test_resources/note.xml')
+        self.__create_note(self.__account_id, collection_name1, note_name1,
+            note_file1)
+        self.__create_note(self.__subscriber_id, collection_name2, note_name2,
+            note_file2)
+
+        #owner listens both on primary and backup port
+        owner_mock_request1 = MockFactory.get_mock_request(self.__account_id,
+            self.owner_simple_callback)
+        owner_mock_request2 = MockFactory.get_mock_request(self.__account_id,
+            self.owner_backup_callback)
+        sharing_space.add_listener(self.__account_id, owner_mock_request1)
+        sharing_space.add_listener(self.__account_id, owner_mock_request2)
+
+        #subscriber sends an action
+        new_note_file = open('../test_resources/sharing_note1.xml')
+        new_note_name = 'new_note_name'
+        expected_note_body = new_note_file.read()
+        note_file_like = cStringIO.StringIO(expected_note_body)
+        update_note_action = UpdateSharedNoteAction(self.__subscriber_id, collection_name2,
+            new_note_name, note_file_like)
+        sharing_space.add_action(update_note_action)
+        action_type = update_note_action.get_action_type()
+
+        #check to see if the primary listener has been notified
+        #busy wait three times and then give up
+        success =self.__simple_callback_flag
+        if not success:
+            for count in range(2):
+                if not success:
+                    try:
+                        self.wait(timeout=5)
+                    except Exception:
+                        if self.__simple_callback_flag:
+                            success = True
+
+        self.assertTrue(success)
+        self.assertTrue(action_type in self.__primary_listener_notification_action)
+
+        #subscriber sends another action
+        #subscriber sends an action
+        new_note_file = open('../test_resources/sharing_note1.xml')
+        new_note_name = 'new_note_name'
+        expected_note_body = new_note_file.read()
+        note_file_like = cStringIO.StringIO(expected_note_body)
+        update_note_action = UpdateSharedNoteAction(self.__subscriber_id, collection_name2,
+            new_note_name, note_file_like)
+        sharing_space.add_action(update_note_action)
+
+        #wait for a while
+        print 'waiting for the backup listener notification'
+        success =self.__simple_backup_callback_flag
+        if not success:
+            for count in range(2):
+                if not success:
+                    try:
+                        self.wait(timeout=5)
+                    except Exception:
+                        if self.__simple_backup_callback_flag:
+                            success = True
+
+        self.assertTrue(not success)
+
     def owner_simple_callback(self, status, body):
+
         self.__simple_callback_flag = True
+        print body
+        response_json = json.loads(body)
+        self.__primary_listener_notification_action = response_json
+
+    def owner_backup_callback(self, status, body):
+        self.__simple_backup_callback_flag= True
         print body
         response_json = json.loads(body)
         self.__primary_listener_notification_action = response_json

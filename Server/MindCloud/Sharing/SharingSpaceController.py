@@ -117,6 +117,9 @@ class SharingSpaceController(SharingActionDelegate):
                 #There are no updates in the backup listener make this listener
                 #the primary listener
                 self.__listeners[user_id] = request
+
+                self.__log.info('SharingSpaceController - primary listener added for user %s' % user_id)
+
         else:
             #the listener is not in primary listeners or backup listener
             #it must be the first listener add it to primary listerners
@@ -230,6 +233,7 @@ class SharingSpaceController(SharingActionDelegate):
 
     def __generate_img_secret(self, user_id, collection_name, note_name):
         return str(hash(str(user_id+collection_name+note_name)))
+
     @gen.engine
     def __store_temp_image(self, update_img_sharing_action, callback):
         """
@@ -279,6 +283,10 @@ class SharingSpaceController(SharingActionDelegate):
                 backup_sharing_event.add_event(sharing_action)
 
                 SharingSpaceController.__log.info('SharingSpaceController - stored event for backup listener %s for sharing event %s' % (user_id, backup_sharing_event.convert_to_json_string()))
+
+        #delete notified user
+        for user_id in notified_listeners:
+            del self.__listeners[user_id]
 
 
     def __process_actions_iterative(self, iteration_count):

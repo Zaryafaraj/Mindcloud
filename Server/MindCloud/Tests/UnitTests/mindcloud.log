@@ -547,3 +547,79 @@ INFO: 2012-12-19 20:17:45,799 -- SharingSpaceController - notified primary liste
 INFO: 2012-12-19 20:17:46,821 -- SharingSpaceController - finished executing action   with response 200
 INFO: 2012-12-19 20:17:46,822 -- Finished executing all the actions in the batch
 INFO: 2012-12-19 20:17:46,822 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 20:52:19,140 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 20:52:19,141 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 20:52:19,159 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note": {"content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r    <element>test</element>\r", "resource": "new_note_name"}}
+INFO: 2012-12-19 20:52:19,160 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 20:52:19,160 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 20:52:19,160 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note": {"content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r    <element>test</element>\r", "resource": "new_note_name"}}
+INFO: 2012-12-19 20:52:20,237 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-19 20:52:20,237 -- Finished executing all the actions in the batch
+INFO: 2012-12-19 20:52:20,237 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 20:52:20,237 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 20:52:21,056 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-19 20:52:21,056 -- Finished executing all the actions in the batch
+INFO: 2012-12-19 20:52:21,056 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 20:57:50,378 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 20:57:50,378 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 20:57:50,378 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note": {"content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r    <element>test</element>\r", "resource": "new_note_name"}}
+INFO: 2012-12-19 20:57:50,378 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 20:57:50,378 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 20:57:50,379 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note": {"content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r    <element>test</element>\r", "resource": "new_note_name"}}
+INFO: 2012-12-19 20:57:50,891 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-19 20:57:50,891 -- Finished executing all the actions in the batch
+INFO: 2012-12-19 20:57:50,891 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 20:57:50,891 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 20:57:51,454 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-19 20:57:51,454 -- Finished executing all the actions in the batch
+INFO: 2012-12-19 20:57:51,454 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 21:04:19,891 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 21:04:19,891 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 21:04:19,892 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note": {"content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r    <element>test</element>\r", "resource": "new_note_name"}}
+INFO: 2012-12-19 21:04:19,893 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 21:04:19,893 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 21:04:29,066 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note": {"content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r    <element>test</element>\r", "resource": "new_note_name"}}
+INFO: 2012-12-19 21:06:39,588 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 21:06:39,588 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 21:06:45,713 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note": {"content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r    <element>test</element>\r", "resource": "new_note_name"}}
+INFO: 2012-12-19 21:06:45,714 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 21:06:45,715 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 21:06:50,896 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note": {"content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r    <element>test</element>\r", "resource": "new_note_name"}}
+INFO: 2012-12-19 21:06:51,516 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-19 21:06:51,517 -- Finished executing all the actions in the batch
+INFO: 2012-12-19 21:06:51,517 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 21:06:51,518 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 21:06:52,133 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-19 21:06:52,134 -- Finished executing all the actions in the batch
+INFO: 2012-12-19 21:06:52,134 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 21:07:08,462 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 21:07:08,462 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 21:07:08,463 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note": {"content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r    <element>test</element>\r", "resource": "new_note_name"}}
+INFO: 2012-12-19 21:07:08,463 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 21:07:08,464 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 21:13:50,281 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 21:13:50,281 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 21:13:50,282 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note": {"content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r    <element>test</element>\r", "resource": "new_note_name"}}
+INFO: 2012-12-19 21:13:50,282 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 21:13:50,282 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 21:13:50,283 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note": {"content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r    <element>test</element>\r", "resource": "new_note_name"}}
+INFO: 2012-12-19 21:13:50,881 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-19 21:13:50,881 -- Finished executing all the actions in the batch
+INFO: 2012-12-19 21:13:50,881 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 21:13:50,881 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 21:13:51,489 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-19 21:13:51,489 -- Finished executing all the actions in the batch
+INFO: 2012-12-19 21:13:51,489 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 21:14:38,039 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 21:14:38,040 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-19 21:14:38,040 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note": {"content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r    <element>test</element>\r", "resource": "new_note_name"}}
+INFO: 2012-12-19 21:14:38,041 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 21:14:38,041 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 21:14:38,041 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event {"update_note": {"content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r    <element>test</element>\r", "resource": "new_note_name"}}
+INFO: 2012-12-19 21:14:39,017 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-19 21:14:39,017 -- Finished executing all the actions in the batch
+INFO: 2012-12-19 21:14:39,017 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-19 21:14:39,017 -- SharingSpaceController - executing action  
+INFO: 2012-12-19 21:14:39,613 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-19 21:14:39,613 -- Finished executing all the actions in the batch
+INFO: 2012-12-19 21:14:39,613 -- SharingSpaceController - Started processing batch of 5 actions
