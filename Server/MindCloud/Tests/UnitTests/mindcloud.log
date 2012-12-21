@@ -1282,3 +1282,81 @@ INFO: 2012-12-20 01:04:56,911 -- SharingSpaceController - stored event for backu
 INFO: 2012-12-20 01:04:56,911 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note_img - new_note_img1
 INFO: 2012-12-20 01:05:01,912 -- SharingSpaceController - backup listener has updates for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
 INFO: 2012-12-20 01:05:01,912 -- SharingSpaceController - backup listener update returned for user A84FD293-1515-4CC2-BBD2-FC78FEED475D; replacing backup listener
+INFO: 2012-12-20 20:04:47,464 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-20 20:04:47,464 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-20 20:04:47,474 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name
+INFO: 2012-12-20 20:04:47,475 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-20 20:04:47,475 -- SharingSpaceController - executing action  
+INFO: 2012-12-20 20:04:47,475 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name2
+INFO: 2012-12-20 20:04:47,988 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-20 20:04:47,988 -- Finished executing all the actions in the batch
+INFO: 2012-12-20 20:04:47,988 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-20 20:04:47,988 -- SharingSpaceController - executing action  
+INFO: 2012-12-20 20:04:48,518 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-20 20:04:48,518 -- Finished executing all the actions in the batch
+INFO: 2012-12-20 20:04:48,518 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-20 20:04:57,477 -- SharingSpaceController - backup listener has updates for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-20 20:04:57,477 -- SharingSpaceController - backup listener update returned for user A84FD293-1515-4CC2-BBD2-FC78FEED475D; replacing backup listener
+INFO: 2012-12-20 20:04:57,477 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name3
+INFO: 2012-12-20 20:05:07,479 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - replaceable_note
+INFO: 2012-12-20 20:05:07,479 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name_append0
+INFO: 2012-12-20 20:05:07,480 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name_append1
+INFO: 2012-12-20 20:05:07,480 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name_append2
+INFO: 2012-12-20 20:05:07,480 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_replaceable_note
+INFO: 2012-12-20 20:05:07,496 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_manifest - manifest
+INFO: 2012-12-20 20:05:07,530 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note_img - new_note_img1
+INFO: 2012-12-20 20:05:07,530 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note_img - new_note_img0
+INFO: 2012-12-20 20:05:12,497 -- SharingSpaceController - backup listener has updates for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-20 20:05:12,498 -- SharingSpaceController - backup listener update returned for user A84FD293-1515-4CC2-BBD2-FC78FEED475D; replacing backup listener
+INFO: 2012-12-20 20:09:48,781 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-20 20:09:48,781 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-20 20:09:48,782 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name
+INFO: 2012-12-20 20:09:48,782 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-20 20:09:48,782 -- SharingSpaceController - executing action  
+INFO: 2012-12-20 20:09:48,782 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name2
+INFO: 2012-12-20 20:09:49,983 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-20 20:09:49,983 -- Finished executing all the actions in the batch
+INFO: 2012-12-20 20:09:49,983 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-20 20:09:49,983 -- SharingSpaceController - executing action  
+INFO: 2012-12-20 20:09:50,626 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-20 20:09:50,626 -- Finished executing all the actions in the batch
+INFO: 2012-12-20 20:09:50,626 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-20 20:09:58,785 -- SharingSpaceController - backup listener has updates for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-20 20:09:58,785 -- SharingSpaceController - backup listener update returned for user A84FD293-1515-4CC2-BBD2-FC78FEED475D; replacing backup listener
+INFO: 2012-12-20 20:09:58,786 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name3
+INFO: 2012-12-20 20:10:08,788 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - replaceable_note
+INFO: 2012-12-20 20:10:08,788 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name_append0
+INFO: 2012-12-20 20:10:08,788 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name_append1
+INFO: 2012-12-20 20:10:08,789 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name_append2
+INFO: 2012-12-20 20:10:08,789 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_replaceable_note
+INFO: 2012-12-20 20:10:08,789 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_manifest - manifest
+INFO: 2012-12-20 20:10:08,790 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note_img - new_note_img0
+INFO: 2012-12-20 20:10:08,790 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note_img - new_note_img1
+INFO: 2012-12-20 20:10:13,790 -- SharingSpaceController - backup listener has updates for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-20 20:10:13,790 -- SharingSpaceController - backup listener update returned for user A84FD293-1515-4CC2-BBD2-FC78FEED475D; replacing backup listener
+INFO: 2012-12-20 20:11:09,473 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-20 20:11:09,473 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-20 20:11:09,473 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name
+INFO: 2012-12-20 20:11:09,473 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-20 20:11:09,474 -- SharingSpaceController - executing action  
+INFO: 2012-12-20 20:11:09,474 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name2
+INFO: 2012-12-20 20:11:10,017 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-20 20:11:10,017 -- Finished executing all the actions in the batch
+INFO: 2012-12-20 20:11:10,017 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-20 20:11:10,017 -- SharingSpaceController - executing action  
+INFO: 2012-12-20 20:11:10,565 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-20 20:11:10,565 -- Finished executing all the actions in the batch
+INFO: 2012-12-20 20:11:10,565 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-20 20:11:19,476 -- SharingSpaceController - backup listener has updates for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-20 20:11:19,477 -- SharingSpaceController - backup listener update returned for user A84FD293-1515-4CC2-BBD2-FC78FEED475D; replacing backup listener
+INFO: 2012-12-20 20:11:19,477 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name3
+INFO: 2012-12-20 20:11:29,479 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - replaceable_note
+INFO: 2012-12-20 20:11:29,479 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name_append0
+INFO: 2012-12-20 20:11:29,480 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name_append1
+INFO: 2012-12-20 20:11:29,480 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name_append2
+INFO: 2012-12-20 20:11:29,480 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - replaceable_note
+INFO: 2012-12-20 20:11:29,480 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_manifest - manifest
+INFO: 2012-12-20 20:11:29,481 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note_img - new_note_img0
+INFO: 2012-12-20 20:11:29,481 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note_img - new_note_img1
+INFO: 2012-12-20 20:11:34,482 -- SharingSpaceController - backup listener has updates for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-20 20:11:34,482 -- SharingSpaceController - backup listener update returned for user A84FD293-1515-4CC2-BBD2-FC78FEED475D; replacing backup listener

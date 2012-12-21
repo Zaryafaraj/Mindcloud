@@ -999,6 +999,15 @@ class SharingSpaceTestcase(AsyncTestCase):
         self.__simple_callback_flag = False
         self.__simple_backup_callback_flag = False
 
+        #add an action that we will replace later
+        replacable_note_file = open('../test_resources/sharing_note1.xml')
+        replacable_note_name = 'replaceable_note'
+        expected_note_body = replacable_note_file.read()
+        note_file_like = cStringIO.StringIO(expected_note_body)
+        update_note_action = UpdateSharedNoteAction(self.__subscriber_id, collection_name2,
+            replacable_note_name, note_file_like)
+        sharing_space.add_action(update_note_action)
+
         #now we are going to just add all types of actions to
         #see if all of them get recorded
         for x in range(3):
@@ -1010,6 +1019,16 @@ class SharingSpaceTestcase(AsyncTestCase):
                 new_note_name, note_file_like)
             sharing_space.add_action(update_note_action)
             pending_note_actions.append(update_note_action.get_action_resource_name())
+
+        #this will replace the replacable action
+        replaced_note_file = open('../test_resources/sharing_note1.xml')
+        replaced_note_name = replacable_note_name
+        expected_note_body = replaced_note_file.read()
+        note_file_like = cStringIO.StringIO(expected_note_body)
+        update_note_action = UpdateSharedNoteAction(self.__subscriber_id, collection_name2,
+            replaced_note_name, note_file_like)
+        sharing_space.add_action(update_note_action)
+        pending_note_actions.append(update_note_action.get_action_resource_name())
 
         #throw in an update manifest action
         new_manifest_file = open('../test_resources/sharing_manifest1.xml')
@@ -1086,14 +1105,14 @@ class SharingSpaceTestcase(AsyncTestCase):
 
         self.__simple_callback_flag = True
         print 'first listener returned'
-        print body
+        #print body
         response_json = json.loads(body)
         self.__primary_listener_notification_action = response_json
 
     def owner_backup_callback(self, status, body):
         self.__simple_backup_callback_flag= True
         print 'backup listener returned'
-        print body
+        #print body
         response_json = json.loads(body)
         self.__primary_listener_notification_action = response_json
 
