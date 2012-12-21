@@ -1101,6 +1101,78 @@ class SharingSpaceTestcase(AsyncTestCase):
 
         self.assertTrue(not len(pending_img_actions))
 
+    def test_primary_listener_joining_without_backup_recording(self):
+
+        sharing_space = SharingSpaceController()
+        collection_name1 = 'col_listener1'
+        collection_name2 = 'col_listener2'
+        self.__create_collection(self.__account_id, collection_name1)
+        self.__create_collection(self.__subscriber_id, collection_name2)
+
+        note_name1 = 'note_listener1'
+        note_name2= 'note_listener2'
+        note_file1 = open('../test_resources/note.xml')
+        note_file2 = open('../test_resources/note.xml')
+        self.__create_note(self.__account_id, collection_name1, note_name1,
+            note_file1)
+        self.__create_note(self.__subscriber_id, collection_name2, note_name2,
+            note_file2)
+
+        #owner listens both on primary and backup port
+        owner_mock_request1 = MockFactory.get_mock_request(self.__account_id,
+            self.owner_simple_callback)
+        owner_mock_request2 = MockFactory.get_mock_request(self.__account_id,
+            self.owner_backup_callback)
+        sharing_space.add_listener(self.__account_id, owner_mock_request1)
+        sharing_space.add_listener(self.__account_id, owner_mock_request2)
+
+        #subscriber sends an action
+        new_manifest_file = open('../test_resources/sharing_manifest1.xml')
+        expected_note_body = new_manifest_file.read()
+        manifest_file_like = cStringIO.StringIO(expected_note_body)
+        update_manifest_action = UpdateSharedManifestAction(self.__subscriber_id,
+            collection_name2, manifest_file_like)
+        sharing_space.add_action(update_manifest_action)
+        action_type = update_manifest_action.get_action_type()
+
+        #check to see if the primary listener has been notified
+        #busy wait three times and then give up
+        success =self.__simple_callback_flag
+        if not success:
+            for count in range(2):
+                if not success:
+                    try:
+                        self.wait(timeout=5)
+                    except Exception:
+                        if self.__simple_callback_flag:
+                            success = True
+
+        self.assertTrue(success)
+        self.assertTrue(action_type in self.__primary_listener_notification_action)
+
+        self.__simple_callback_flag = False
+
+        #the primary listener is sent again without anything happening meanwhile
+        owner_mock_request1 = MockFactory.get_mock_request(self.__account_id,
+            self.owner_simple_callback)
+        sharing_space.add_listener(self.__account_id, owner_mock_request1)
+
+        #wait for a while
+        success = self.__simple_callback_flag
+
+        if not success:
+            for count in range(2):
+                if not success:
+                    try:
+                        self.wait(timeout=5)
+                    except Exception:
+                        if self.__simple_callback_flag:
+                            success = True
+
+        self.assertTrue(not success)
+        self.assertTrue(not self.__simple_backup_callback_flag)
+
+
     def owner_simple_callback(self, status, body):
 
         self.__simple_callback_flag = True
