@@ -6,18 +6,19 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 import tornado.httpclient
-from Handlers.CategoriesHandler import CategoriesHandler
+from Handlers.Bane.CategoriesHandler import CategoriesHandler
 
-from Handlers.CollectionHandler import CollectionHandler
-from Handlers.CollectionImageHandler import CollectionImageHandler
-from Handlers.AccountHandler import AccountHandler
-from Handlers.AuthorizationHandler import AuthorizationHandler
-from Handlers.CollectionNotesHandler import CollectionNotesHandler
-from Handlers.NoteHandler import NoteHandler
-from Handlers.NoteImageHandler import NoteImageHandler
-from Handlers.SharingSubscriptionHandler import SharingSubscriptionHandler
-from Handlers.SharingHandler import SharingHandler
-from Handlers.SubscriptionHandler import SubscriptionHandler
+from Handlers.Bane.CollectionHandler import CollectionHandler
+from Handlers.Bane.CollectionImageHandler import CollectionImageHandler
+from Handlers.Bane.AccountHandler import AccountHandler
+from Handlers.Bane.AuthorizationHandler import AuthorizationHandler
+from Handlers.Bane.CollectionNotesHandler import CollectionNotesHandler
+from Handlers.Bane.NoteHandler import NoteHandler
+from Handlers.Bane.NoteImageHandler import NoteImageHandler
+from Handlers.Bane.SharingSubscriptionHandler import SharingSubscriptionHandler
+from Handlers.Bane.SharingHandler import SharingHandler
+from Handlers.Bane.SubscriptionHandler import SubscriptionHandler
+from Handlers.Joker.SharingSpaceActionHandler import SharingSpaceActionHandler
 
 class Application(tornado.web.Application):
     """
@@ -27,6 +28,7 @@ class Application(tornado.web.Application):
     def __init__(self):
 
         handlers = [
+            #Bane
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)", CollectionHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Share", SharingHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/ShareSpaces/Subscribe", SharingSubscriptionHandler),
@@ -37,7 +39,10 @@ class Application(tornado.web.Application):
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Thumbnail", CollectionImageHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections", AccountHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Categories", CategoriesHandler),
-            (r"/Authorize/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})", AuthorizationHandler)
+            (r"/Authorize/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})", AuthorizationHandler),
+            #Joker
+            (r"/SharingSpace/([0-9A-Za-z]{8})", SharingSpaceActionHandler),
+            (r"/SharingSpace/([0-9A-Za-z]{8})/Listen", SharingSpaceListenerHandler)
         ]
         tornado.web.Application.__init__(self, handlers)
 

@@ -261,24 +261,26 @@ class SharingSpaceController(SharingActionDelegate):
 
         notified_listeners = set()
         for user_id in self.__listeners:
-            request = self.__listeners[user_id]
-            sharing_event = SharingEvent()
-            sharing_event.add_event(sharing_action)
-            notification_json = sharing_event.convert_to_json_string()
-            request.write(notification_json)
-            request.set_status(StorageResponse.OK)
-            request.finish()
+            if user_id != sharing_action.get_user_id() :
+                request = self.__listeners[user_id]
+                sharing_event = SharingEvent()
+                sharing_event.add_event(sharing_action)
+                notification_json = sharing_event.convert_to_json_string()
+                request.write(notification_json)
+                request.set_status(StorageResponse.OK)
+                request.finish()
 
-            SharingSpaceController.__log.info('SharingSpaceController - notified primary listener %s for sharing event %s - %s' % (user_id, sharing_action.get_action_type(), sharing_action.get_action_resource_name()))
+                SharingSpaceController.__log.info('SharingSpaceController - notified primary listener %s for sharing event %s - %s' % (user_id, sharing_action.get_action_type(), sharing_action.get_action_resource_name()))
 
-            notified_listeners.add(user_id)
+                notified_listeners.add(user_id)
 
         #now update the backup listeners only for those items that
         #didn't get notified
         for user_id in self.__backup_listeners:
             #the backup listener didn't have a primary listener
             #so it must be in recording state
-            if user_id not in notified_listeners:
+            if user_id not in notified_listeners and \
+               user_id != sharing_action.get_user_id():
                 backup_sharing_event = self.__backup_listeners[user_id][1]
                 backup_sharing_event.add_event(sharing_action)
 
