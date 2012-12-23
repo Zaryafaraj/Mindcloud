@@ -19,6 +19,7 @@ from Handlers.Bane.SharingSubscriptionHandler import SharingSubscriptionHandler
 from Handlers.Bane.SharingHandler import SharingHandler
 from Handlers.Bane.SubscriptionHandler import SubscriptionHandler
 from Handlers.Joker.SharingSpaceActionHandler import SharingSpaceActionHandler
+from Handlers.Joker.SharingSpaceListenerHandler import SharingSpaceListenerHandler
 
 class Application(tornado.web.Application):
     """
