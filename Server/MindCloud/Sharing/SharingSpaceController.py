@@ -1,6 +1,7 @@
 from tornado import gen
 from Logging import Log
 from Cache.MindcloudCache import MindcloudCache
+from Properties import MindcloudProperties
 from Sharing.SharingActionDelegate import SharingActionDelegate
 from Sharing.SharingQueue import SharingQueue
 from Sharing.SharingEvent import SharingEvent
@@ -28,7 +29,7 @@ class SharingSpaceController(SharingActionDelegate):
     #replace an existing action in a queue by the new action
     #it seems that 5 is kinda our magic number any bigger and we have
     #weird lost packets in dropbox
-    __BATCH_SIZE =5
+    __BATCH_SIZE = MindcloudProperties.Properties.action_batch_size
 
     #current remaining actions in a batch
     __remaining_actions = 0
@@ -75,6 +76,9 @@ class SharingSpaceController(SharingActionDelegate):
     def __init__(self):
         self.__sharing_queue = SharingQueue()
         self.__sharing_queue.is_being_processed = False
+
+    def is_being_processed(self):
+        return self.__sharing_queue.is_being_processed()
 
     def add_listener(self, user_id, request):
         """
@@ -127,14 +131,34 @@ class SharingSpaceController(SharingActionDelegate):
             self.__listeners[user_id] = request
 
 
+    def __finish_request(self, request):
+        request.set_status(200)
+        request.finish()
+
     def remove_listener(self, user_id):
         """
         removes the primary and backup listener for the user if they exist
         """
 
         if user_id in self.__backup_listeners:
+            backup_listener = self.__backup_listeners[user_id][0]
+            self.__finish_request(backup_listener)
             del self.__backup_listeners[user_id]
         if user_id in self.__listeners:
+            primary_listener = self.__listeners[user_id]
+            self.__finish_request(primary_listener)
+            del self.__listeners[user_id]
+
+    def cleanup(self):
+
+        for user_id in self.__backup_listeners:
+            backup_listener = self.__backup_listeners[user_id][0]
+            self.__finish_request(backup_listener)
+            del self.__backup_listeners[user_id]
+
+        for user_id in self.__listeners:
+            primary_listener = self.__listeners[user_id]
+            self.__finish_request(primary_listener)
             del self.__listeners[user_id]
 
     def get_number_of_primary_listeners(self):

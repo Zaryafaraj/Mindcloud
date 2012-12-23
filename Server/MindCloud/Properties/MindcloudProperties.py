@@ -10,3 +10,6 @@ class Properties:
     accounts_collection_name = 'accounts'
     sharing_collection_name = 'sharings'
     subscribers_collection_name = 'subscribers'
+    authorization_sweep_period = 30
+    sharing_space_cleanup_sweep_period = 3600
+    action_batch_size = 5

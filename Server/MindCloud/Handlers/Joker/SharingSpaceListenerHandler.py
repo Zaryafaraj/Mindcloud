@@ -9,9 +9,24 @@ class SharingSpaceListenerHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @gen.engine
     def post(self, sharing_secret):
-        sharing_space = SharingSpaceStorage.get_sharing_space(sharing_secret)
+        sharing_storage = SharingSpaceStorage.get_instance()
+        sharing_space = sharing_storage.get_sharing_space(sharing_secret)
         if sharing_space is None:
             self.set_status(404)
             self.finish()
         else:
-            sharing_space.add_listener(request=self)
+            user_id = self.get_argument('user_id')
+            sharing_space.add_listener(user_id, request=self)
+
+    @tornado.web.asynchronous
+    @gen.engine
+    def delete(self, sharing_secret):
+
+        sharing_storage = SharingSpaceStorage.get_instance()
+        sharing_space = sharing_storage.get_sharing_space(sharing_secret)
+        if sharing_space is None:
+            self.set_status(404)
+            self.finish()
+        else:
+            user_id = self.get_argument('user_id')
+            sharing_space.remove_listener(user_id, request=self)

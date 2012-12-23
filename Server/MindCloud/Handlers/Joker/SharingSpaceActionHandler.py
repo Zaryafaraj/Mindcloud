@@ -11,7 +11,8 @@ class SharingSpaceActionHandler(tornado.web.RequestHandler):
     @gen.engine
     def post(self, sharing_secret):
 
-        sharing_space = SharingSpaceStorage.get_sharing_space(sharing_secret)
+        sharing_storage = SharingSpaceStorage.get_instance()
+        sharing_space = sharing_storage.get_sharing_space(sharing_secret)
         action_json = self.get_argument('action')
         file = None
         if len(self.request.files) > 0:
