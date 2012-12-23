@@ -1,3 +1,5 @@
+import shutil
+import cStringIO
 from tornado import gen
 from Sharing.SharingAction import SharingAction
 from Sharing.SharingActionDelegate import SharingActionDelegate
@@ -50,3 +52,9 @@ class UpdateSharedManifestAction(SharingAction):
         Returns the name of the resource affected by this action
         """
         return 'manifest'
+    def clone_for_user_and_collection(self, user_id, collection_name):
+        clone_manifest_file = cStringIO.StringIO()
+        shutil.copyfileobj(self.__manifest_file, clone_manifest_file)
+        new_action = UpdateSharedManifestAction(user_id, collection_name,
+            clone_manifest_file)
+        return new_action

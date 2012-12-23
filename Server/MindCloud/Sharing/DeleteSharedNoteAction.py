@@ -50,3 +50,9 @@ class DeleteSharedNoteAction(SharingAction):
         Returns the name of the resource affected by this action
         """
         return self.get_note_name()
+
+    def clone_for_user_and_collection(self, user_id, collection_name):
+
+        new_sharing_action = DeleteSharedNoteAction(user_id, collection_name,
+            self.__note_name)
+        return new_sharing_action

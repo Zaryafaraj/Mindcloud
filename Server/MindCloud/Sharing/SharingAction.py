@@ -46,3 +46,13 @@ class SharingAction:
         """
         pass
 
+    @abstractmethod
+    def clone_for_user_and_collection(self, user_id, collection_name):
+        """
+        Clones this action for another user with user_id and a collection
+        with collection_name
+
+        returns a new sharing action of the same type customized for the user
+        with user_id and collection_name
+        """
+

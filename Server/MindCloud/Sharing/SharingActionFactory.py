@@ -16,6 +16,8 @@ class SharingActionFactory():
     @staticmethod
     def from_json_and_file(json_str, file):
         """
+
+        Returns a sharing action from json string
         A Well formed json:
         {'update_manifest' : {'collection_name':'name',
                                 'user_id:'id'] }
@@ -82,3 +84,4 @@ class SharingActionFactory():
 
         returns a list of sharing_actions each for a user
         """
+

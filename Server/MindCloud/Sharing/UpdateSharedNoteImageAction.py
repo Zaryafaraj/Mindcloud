@@ -1,5 +1,8 @@
+import cStringIO
+import shutil
 from Sharing.SharingActionDelegate import SharingActionDelegate
 from Sharing.SharingEvent import SharingEvent
+from Sharing.UpdateSharedNoteAction import UpdateSharedNoteAction
 
 __author__ = 'afathali'
 
@@ -70,3 +73,10 @@ class UpdateSharedNoteImageAction(SharingAction):
         Returns the name of the resource affected by this action
         """
         return self.get_note_name()
+
+    def clone_for_user_and_collection(self, user_id, collection_name):
+        clone_note_file = cStringIO.StringIO()
+        shutil.copyfileobj(self.__note_img_file, clone_note_file)
+        new_action = UpdateSharedNoteImageAction(user_id, collection_name,
+            self.__note_name, clone_note_file)
+        return new_action
