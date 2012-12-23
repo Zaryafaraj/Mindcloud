@@ -1,5 +1,7 @@
 import json
+from tornado import gen
 from Sharing.DeleteSharedNoteAction import DeleteSharedNoteAction
+from Sharing.SharingController import SharingController
 from Sharing.SharingEvent import SharingEvent
 from Sharing.UpdateSharedManifestAction import UpdateSharedManifestAction
 from Sharing.UpdateSharedNoteAction import UpdateSharedNoteAction
@@ -14,7 +16,7 @@ class SharingActionFactory():
     __NOTE_NAME_KEY = 'note_name'
 
     @staticmethod
-    def from_json_and_file(json_str, file):
+    def from_json_and_file(json_str, file=None):
         """
 
         Returns a sharing action from json string
@@ -77,11 +79,34 @@ class SharingActionFactory():
             return None
 
     @staticmethod
-    def create_related_sharing_actions(sharing_secret, sharing_action):
+    @gen.engine
+    def create_related_sharing_actions(sharing_secret, sharing_action, callback=None):
         """
         creates all the sharing actions for all the users that have
         subscribed to sharing_secret
 
-        returns a list of sharing_actions each for a user
+        calls the callback with a list of all the related sharing actions
         """
+
+        #get the sharing record for the secret
+        sharing_record = \
+            yield gen.Task(SharingController.get_sharing_record_by_secret, sharing_secret)
+
+        #now get the list of all the subscribers
+        subscribers = sharing_record.get_subscribers()
+        all_actions = [sharing_action]
+        for subscriber_info in subscribers:
+            user_id = subscriber_info[0]
+            collection_name = subscriber_info[1]
+            if user_id != sharing_action.get_user_id():
+                related_action =\
+                    sharing_action.clone_for_user_and_collection(user_id,
+                        collection_name)
+                all_actions.append(related_action)
+
+        if callback is not None:
+            callback(all_actions)
+
+
+
 
