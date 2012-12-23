@@ -14,4 +14,4 @@ class SharingSpaceStorage():
             sharing_space = SharingSpaceController()
             SharingSpaceStorage.__sharing_spaces[sharing_secret] = sharing_space
             return sharing_space
-    
+
