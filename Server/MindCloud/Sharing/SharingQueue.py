@@ -14,6 +14,8 @@ class SharingQueue:
     #A dictionary keyed on user_id that holds the latest manifest update
     __update_manifest_action = OrderedDict()
 
+    __upate_thumbnail_action = OrderedDict()
+
     #A dictionary for note update action keyed on the user_id
     #Each user can have many note updates
     #each value is another OrderedDict valued on the name of the note
@@ -23,6 +25,8 @@ class SharingQueue:
     #Each user can have many note updates
     #each value is another OrderedDict valued on the name of the note
     __update_note_img_actions = OrderedDict()
+
+    __delete_note_actions = OrderedDict()
 
     #Public attribute indicating that the SharingActions are being processed
     #its the responsibility of the client to turn this on/off because its
@@ -71,6 +75,17 @@ class SharingQueue:
             if note_name not in self.__update_note_img_actions[action_user_id]:
                 self.__action_count += 1
             self.__update_note_img_actions[action_user_id][note_name] = sharing_action
+        elif  action_type == SharingEvent.UPDATE_THUMBNAIL:
+            if action_user_id not in self.__upate_thumbnail_action:
+                self.__action_count += 1
+            self.__upate_thumbnail_action[action_user_id] = sharing_action
+        elif action_type == SharingEvent.DELETE_NOTE:
+            if action_user_id not in self.__delete_note_actions:
+                self.__delete_note_actions[action_user_id] = OrderedDict()
+            note_name = sharing_action.get_note_name()
+            if note_name not in self.__delete_note_actions:
+                self.__action_count += 1
+            self.__delete_note_actions[action_user_id][note_name] = sharing_action
 
     def pop_next_action(self):
         """
@@ -86,6 +101,17 @@ class SharingQueue:
             manifest_action = self.__update_manifest_action.popitem(last=True)[1]
             self.__action_count -= 1
             return manifest_action
+        elif len(self.__delete_note_actions) > 0:
+            delete_notes_action_tuple = \
+                self.__delete_note_actions.popitem(last=True)
+            user_id = delete_notes_action_tuple[0]
+            user_delete_note_actions = delete_notes_action_tuple[1]
+            next_action =user_delete_note_actions.popitem(last=True)[1]
+            if len(user_delete_note_actions):
+                self.__delete_note_actions[user_id] = user_delete_note_actions
+            self.__action_count -= 1
+            return next_action
+
         elif len(self.__update_note_actions) > 0:
             #get the update note actions that were made by the last user
             #who had the latest activity
@@ -96,8 +122,10 @@ class SharingQueue:
             user_note_actions = user_note_action_tuple[1]
             #get the latest of those actions
             next_action = user_note_actions.popitem(last=True)[1]
-            #if there are more actions left for the user put the user actions
-            #back
+            #if there are more actions left for the user put the rest of user actions
+            #back. Becuase we have dict of dicts. We pick the dict, select the other dict in
+            #it based on user_id. pick an action from the selected dict. See if there are any
+            #actions left in the selected dict, if there are we put it back in
             if len(user_note_actions) :
                 self.__update_note_actions[user_id] = user_note_actions
             self.__action_count -= 1
@@ -114,6 +142,11 @@ class SharingQueue:
                 self.__update_note_img_actions[user_id] = user_img_actions
             self.__action_count -= 1
             return next_action
+        elif len(self.__upate_thumbnail_action) > 0:
+            #the index is because pop item returns a key value tuple
+            thumbnail_action = self.__upate_thumbnail_action.popitem(last=True)[1]
+            self.__action_count -= 1
+            return thumbnail_action
         else:
             return None
 

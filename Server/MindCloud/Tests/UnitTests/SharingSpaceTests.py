@@ -5,11 +5,13 @@ import time
 import cStringIO
 from tornado.ioloop import IOLoop
 from tornado.testing import AsyncTestCase
+from Sharing.DeleteSharedNoteAction import DeleteSharedNoteAction
 from Sharing.SharingEvent import SharingEvent
 from Sharing.SharingSpaceController import SharingSpaceController
 from Sharing.UpdateSharedManifestAction import UpdateSharedManifestAction
 from Sharing.UpdateSharedNoteAction import UpdateSharedNoteAction
 from Sharing.UpdateSharedNoteImageAction import UpdateSharedNoteImageAction
+from Sharing.UpdateSharedThumbnailAction import UpdateSharedThumbnailAction
 from Storage.StorageResponse import StorageResponse
 from Storage.StorageServer import StorageServer
 from Tests.TestingProperties import TestingProperties
@@ -460,6 +462,112 @@ class SharingSpaceTestcase(AsyncTestCase):
         #cleanup
         self.__remove_collection(self.__account_id, collection_name)
 
+    def test_add_action_single_user_no_listener_create_thumbnail(self):
+
+        sharing_space = SharingSpaceController()
+
+        collection_name = 'col1'
+        self.__create_collection(self.__account_id, collection_name)
+
+
+        thumbnail_file = open('../test_resources/sharing_note_img1.jpg')
+        update_thumbnail_action = UpdateSharedThumbnailAction(self.__account_id,
+            collection_name, thumbnail_file)
+        sharing_space.add_action(update_thumbnail_action)
+
+        self.__busy_wait(collection_name, 5)
+
+        #verify
+        StorageServer.get_thumbnail(self.__account_id, collection_name, callback=self.stop)
+        thumbnail_response = self.wait()
+        self.assertTrue(thumbnail_response)
+
+        #cleanup
+        self.__remove_collection(self.__account_id, collection_name)
+
+    def test_add_action_single_user_no_listener_update_thumbnail(self):
+
+        sharing_space = SharingSpaceController()
+
+        collection_name = 'col1'
+        self.__create_collection(self.__account_id, collection_name)
+
+        thumbnail_file = open('../test_resources/sharing_note_img1.jpg')
+        StorageServer.add_thumbnail(self.__account_id, collection_name,
+            thumbnail_file, callback = self.stop)
+        response = self.wait()
+        self.assertTrue(StorageResponse.OK, response)
+
+        thumbnail_file = open('../test_resources/sharing_note_img2.jpg')
+        update_thumbnail_action = UpdateSharedThumbnailAction(self.__account_id,
+            collection_name, thumbnail_file)
+        sharing_space.add_action(update_thumbnail_action)
+
+        self.__busy_wait(collection_name, 5)
+
+        #verify
+        StorageServer.get_thumbnail(self.__account_id, collection_name, callback=self.stop)
+        thumbnail_response = self.wait()
+        self.assertTrue(thumbnail_response)
+
+        #cleanup
+        self.__remove_collection(self.__account_id, collection_name)
+
+    def test_add_action_single_user_no_listener_delete_note(self):
+        sharing_space = SharingSpaceController()
+
+        collection_name = 'col'
+        self.__create_collection(self.__account_id, collection_name)
+        note_name = 'del_note'
+        note_file = open('../test_resources/note.xml')
+        self.__create_note(self.__account_id, collection_name, note_name, note_file)
+
+        delete_note_action = DeleteSharedNoteAction(self.__account_id,
+            collection_name, note_name)
+        sharing_space.add_action(delete_note_action)
+
+        self.__busy_wait(collection_name, 5)
+        #verify
+        StorageServer.get_note_from_collection(self.__account_id,
+            collection_name, note_name, callback=self.stop)
+        response = self.wait()
+        self.assertTrue(response is None)
+
+        #clear
+        self.__remove_collection(self.__account_id, collection_name)
+
+    def test_add_action_single_user_no_listener_delete_non_existing_note(self):
+
+        sharing_space = SharingSpaceController()
+
+        collection_name = 'col'
+        self.__create_collection(self.__account_id, collection_name)
+        note_name = 'del_note'
+        note_file = open('../test_resources/note.xml')
+        self.__create_note(self.__account_id, collection_name, note_name, note_file)
+
+        delete_note_action = DeleteSharedNoteAction(self.__account_id,
+            collection_name, note_name)
+        delete_note_action.name = 'first'
+        sharing_space.add_action(delete_note_action)
+
+        #we expect nothing happening here
+        delete_note_action = DeleteSharedNoteAction(self.__account_id,
+            collection_name, note_name)
+        delete_note_action.name = 'second'
+        sharing_space.add_action(delete_note_action)
+
+        self.__busy_wait(collection_name, 5)
+
+        #verify
+        StorageServer.get_note_from_collection(self.__account_id,
+            collection_name, note_name, callback=self.stop)
+        response = self.wait()
+        self.assertTrue(response is None)
+
+        #clear
+        self.__remove_collection(self.__account_id, collection_name)
+
     def test_add_multiple_actions_two_users_no_listener(self):
         sharing_space = SharingSpaceController()
         collection_name1 = 'sharing_col1'
@@ -816,6 +924,91 @@ class SharingSpaceTestcase(AsyncTestCase):
 
         self.assertTrue(img is not None)
 
+    def test_primary_listener_notified_update_thumbnail(self):
+
+        sharing_space = SharingSpaceController()
+        collection_name1 = 'col_listener1'
+        collection_name2 = 'col_listener2'
+        self.__create_collection(self.__account_id, collection_name1)
+        self.__create_collection(self.__subscriber_id, collection_name2)
+
+        #owner listens both on primary and backup port
+        owner_mock_request1 = MockFactory.get_mock_request(self.__account_id,
+            self.owner_simple_callback)
+        owner_mock_request2 = MockFactory.get_mock_request(self.__account_id,
+            self.owner_simple_callback)
+        sharing_space.add_listener(self.__account_id, owner_mock_request1)
+        sharing_space.add_listener(self.__account_id, owner_mock_request2)
+
+
+        #subscriber sends an action
+        thumbnail_file = open('../test_resources/workfile.jpg')
+        update_thumbnail_action = UpdateSharedThumbnailAction(self.__subscriber_id,
+            collection_name2, thumbnail_file)
+        update_thumbnail_action.name = 'thumbnail'
+        sharing_space.add_action(update_thumbnail_action)
+        action_type = update_thumbnail_action.get_action_type()
+
+        #check to see if the primary listener has been notified
+        #busy wait three times and then give up
+        success =self.__simple_callback_flag
+        if not success:
+            for count in range(2):
+                if not success:
+                    try:
+                        self.wait(timeout=5)
+                    except Exception:
+                        if self.__simple_callback_flag:
+                            success = True
+
+        self.assertTrue(success)
+        self.assertTrue(action_type in self.__primary_listener_notification_action)
+
+
+    def test_primary_listener_notified_delete_note(self):
+
+        sharing_space = SharingSpaceController()
+        collection_name1 = 'col_listener1'
+        collection_name2 = 'col_listener2'
+        self.__create_collection(self.__account_id, collection_name1)
+        self.__create_collection(self.__subscriber_id, collection_name2)
+
+        note_name1 = 'note_listener1'
+        note_name2= 'note_listener2'
+        note_file1 = open('../test_resources/note.xml')
+        note_file2 = open('../test_resources/note.xml')
+        self.__create_note(self.__account_id, collection_name1, note_name1,
+            note_file1)
+        self.__create_note(self.__subscriber_id, collection_name2, note_name2,
+            note_file2)
+
+        #owner listens both on primary and backup port
+        owner_mock_request1 = MockFactory.get_mock_request(self.__account_id,
+            self.owner_simple_callback)
+        owner_mock_request2 = MockFactory.get_mock_request(self.__account_id,
+            self.owner_simple_callback)
+        sharing_space.add_listener(self.__account_id, owner_mock_request1)
+        sharing_space.add_listener(self.__account_id, owner_mock_request2)
+
+        #subscriber acts
+        delete_note_action = DeleteSharedNoteAction(self.__subscriber_id,
+            collection_name2, note_name2)
+        sharing_space.add_action(delete_note_action)
+        action_type = delete_note_action.get_action_type()
+
+        success =self.__simple_callback_flag
+        if not success:
+            for count in range(2):
+                if not success:
+                    try:
+                        self.wait(timeout=5)
+                    except Exception:
+                        if self.__simple_callback_flag:
+                            success = True
+
+        self.assertTrue(success)
+        self.assertTrue(action_type in self.__primary_listener_notification_action)
+
     def test_backup_listener_not_notified(self):
 
         sharing_space = SharingSpaceController()
@@ -1065,6 +1258,29 @@ class SharingSpaceTestcase(AsyncTestCase):
         update_manifest_action = UpdateSharedManifestAction(self.__subscriber_id,
             collection_name2, manifest_file_like)
         sharing_space.add_action(update_manifest_action)
+        #and an update thumbnail
+        thumbnail_file = open('../test_resources/workfile.jpg')
+        update_thumbnail_action = UpdateSharedThumbnailAction(self.__subscriber_id,
+            collection_name2, thumbnail_file)
+
+        thumbnail_file2 = open('../test_resources/sharing_note_img2.jpg')
+        update_thumbnail_action2 = UpdateSharedThumbnailAction(self.__subscriber_id,
+            collection_name2, thumbnail_file2)
+        sharing_space.add_action(update_thumbnail_action2)
+
+        update_thumbnail_action = update_thumbnail_action2
+
+        #some deleted
+        pending_delete_actions = []
+
+        #now we are going to just add all types of actions to
+        #see if all of them get recorded
+        for x in range(2):
+            new_note_name = 'new_note_name_append' + str(x)
+            delete_note_action = DeleteSharedNoteAction(self.__subscriber_id, collection_name2,
+                new_note_name)
+            sharing_space.add_action(delete_note_action)
+            pending_delete_actions.append(delete_note_action.get_action_resource_name())
 
         #an sprinkle of update note image actions
         pending_img_actions = []
@@ -1115,8 +1331,23 @@ class SharingSpaceTestcase(AsyncTestCase):
 
         self.assertTrue(not len(pending_note_actions))
 
+        delete_action_type = SharingEvent.DELETE_NOTE
+        delete_note_actions = \
+            self.__primary_listener_notification_action[delete_action_type]
+        for delete_action_resource in delete_note_actions:
+            if delete_action_resource not in pending_delete_actions:
+                self.fail('actions are not up to date')
+            else:
+                pending_delete_actions.remove(delete_action_resource)
+
+        self.assertTrue(not len(pending_delete_actions))
+
+
         manifest_action_type = update_manifest_action.get_action_type()
         self.assertTrue(manifest_action_type in self.__primary_listener_notification_action)
+
+        thumbnail_action_type = SharingEvent.UPDATE_THUMBNAIL
+        self.assertTrue(thumbnail_action_type in self.__primary_listener_notification_action)
 
         update_img_action_type = SharingEvent.UPDATE_NOTE_IMG
         update_img_actions =\
@@ -1347,7 +1578,7 @@ class SharingSpaceTestcase(AsyncTestCase):
 
         self.__simple_callback_flag = True
         print 'first listener returned'
-        #print body
+        print body
         response_json = json.loads(body)
         self.__primary_listener_notification_action = response_json
         self.__primary_listeners_returned += 1
@@ -1355,15 +1586,10 @@ class SharingSpaceTestcase(AsyncTestCase):
     def owner_backup_callback(self, status, body):
         self.__simple_backup_callback_flag= True
         print 'backup listener returned'
-        #print body
+        print body
         response_json = json.loads(body)
         self.__primary_listener_notification_action = response_json
         self.__backup_listeners_returned += 1
-
-    #def test_backup_placement_strategy_backup_recorded(self): #    pass
-
-    #def test_backup_placement_strategy_backup_empty(self):
-    #    pass
 
 
 

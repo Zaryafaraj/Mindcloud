@@ -36,6 +36,8 @@ class SharingEvent:
         if event_type == SharingEvent.UPDATE_NOTE_IMG or \
            event_type == SharingEvent.UPDATE_THUMBNAIL:
             event_content = sharing_action.get_img_secret()
+        elif event_type == SharingEvent.DELETE_NOTE:
+            event_content = 'Deleted'
         else:
             event_content = event_file.read()
 
