@@ -132,7 +132,7 @@ class SharingSpaceController(SharingActionDelegate):
 
 
     def __finish_request(self, request):
-        request.set_status(200)
+        request.set_status('200')
         request.finish()
 
     def remove_listener(self, user_id):

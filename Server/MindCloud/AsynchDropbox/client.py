@@ -88,6 +88,7 @@ class DropboxClient(object):
 
 
     def get_chunked_uploader(self, file_obj, length):
+
         """Creates a ChunkedUploader to upload the given file-like object.
 
         Args:
@@ -294,6 +295,8 @@ class DropboxClient(object):
         url, params, headers = self.request(path, params, method='PUT', content_server=True)
 
         http = AsyncHTTPClient()
+        #in case someone read the file along the way
+        file_obj.seek(0)
         body = file_obj.read()
         response = yield gen.Task(http.fetch, url, method='PUT', headers=headers, body=body)
         callback(response)

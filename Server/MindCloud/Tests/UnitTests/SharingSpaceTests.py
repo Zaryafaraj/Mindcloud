@@ -32,6 +32,8 @@ class SharingSpaceTestcase(AsyncTestCase):
         return IOLoop.instance()
 
     def __simple_response_callback(self, status_code, body):
+        if body is None:
+            body =' '
         print '\n'.join(['Request finished', status_code, body])
 
     def test_add_listeners(self):
@@ -248,8 +250,19 @@ class SharingSpaceTestcase(AsyncTestCase):
             collection_name, callback=self.stop)
         response = self.wait(timeout=100)
         if response is None:
-            print 'GOT NONE'
-            return None
+            print 'GOT NONE; retrying'
+            try:
+                self.wait(timeout=10)
+            except Exception:
+                pass
+            StorageServer.get_collection_manifest(account_id,
+                collection_name, callback=self.stop)
+            response = self.wait(timeout=100)
+            if response is None:
+                print 'Still None, failing'
+                return None
+            else:
+                return response.read()
         else:
             return response.read()
 
@@ -304,8 +317,18 @@ class SharingSpaceTestcase(AsyncTestCase):
             collection_name, note_name, callback=self.stop)
         response = self.wait(timeout=100)
         if response is None:
-            print 'GOT NONE'
-            return None
+            print 'GOT NONE; retrying'
+            try:
+                self.wait(timeout=15)
+            except Exception:
+                StorageServer.get_note_from_collection(user_id,
+                    collection_name, note_name, callback=self.stop)
+                response = self.wait(timeout=100)
+                if response is None:
+                    print 'still none; failing'
+                    return None
+                else:
+                    return response.read()
         else:
             return response.read()
 
@@ -577,13 +600,15 @@ class SharingSpaceTestcase(AsyncTestCase):
             action2.name = 'user2-update-note-' + note_name
             action_list.append(action1)
             action_list.append(action2)
-            img_file1 = open('../test_resources/sharing_note_img1.jpg')
-            img_file2 = open('../test_resources/sharing_note_img2.jpg')
+            img_file1 = open('../test_resources/sharing_note_img1.jpg', 'rb')
+            img_file_like1 = cStringIO.StringIO(img_file1.read())
+            img_file2 = open('../test_resources/sharing_note_img2.jpg', 'rb')
+            img_file_like2 = cStringIO.StringIO(img_file2.read())
             action3 = UpdateSharedNoteImageAction(self.__account_id,
-                collection_name1, note_name, img_file1)
+                collection_name1, note_name, img_file_like1)
             action3.name = 'user1-update-img-' + note_name
             action4 = UpdateSharedNoteImageAction(self.__subscriber_id,
-                collection_name2, note_name, img_file2)
+                collection_name2, note_name, img_file_like2)
             action4.name = 'user2-update-img-' + note_name
             action_list.append(action3)
             action_list.append(action4)
@@ -624,7 +649,7 @@ class SharingSpaceTestcase(AsyncTestCase):
         self.__remove_collection(self.__subscriber_id, collection_name2)
 
     def test_add_multiple_actions_two_users_no_listener_low_load(self):
-        self.__load_test(5,10, 50,0)
+        self.__load_test(5,10, 100,0)
 
     #def test_add_multiple_actions_two_users_no_listener_medium_load(self):
     #    self.__load_test(20,50, 200, 5)
