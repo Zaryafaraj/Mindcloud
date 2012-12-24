@@ -7,6 +7,7 @@ from tornado import gen
 from Cache.MindcloudCache import MindcloudCache
 from Helpers.DropboxHelper import DropboxHelper
 from Logging import Log
+from Storage.StorageResourceType import StorageResourceType
 from Storage.StorageResponse import StorageResponse
 
 __author__ = 'afathali'
@@ -58,6 +59,38 @@ class StorageServer:
                 callback(storage)
             else:
                 callback(None)
+
+    @staticmethod
+    @gen.engine
+    def does_note_resource_exist(user_id, collection_name, note_name, resource_type, callback):
+        """
+        Determines whether a note xooml exists or note or the note folder
+        itself exists or not
+
+        -Args:
+            -``user_id``: The id of the user
+            -``colection_name``: The name of the collection in which the note
+            eixsts
+            -``note_name``: The name of the note to lookup
+            -``resource_type``: A object of the type StorageResourceType
+            determining what type of resource we look to check for existance
+
+        -Returns:
+            callback is called with True/False or None in case of an error
+        """
+        resource_name = ''
+        if resource_type == StorageResourceType.NOTE_IMG:
+            resource_name = StorageServer.__NOTE_IMG_FILE_NAME
+        elif  resource_type == StorageResourceType.NOTE_MANIFEST:
+            resource_name = StorageServer.__NOTE_FILE_NAME
+
+        storage =yield gen.Task(StorageServer.__get_storage, user_id)
+        if storage is not None:
+            path = '/'.join(['', collection_name, note_name, resource_name])
+            result = yield gen.Task(DropboxHelper.does_file_exist, storage, path)
+            callback(result)
+        else:
+            callback(None)
 
     @staticmethod
     @gen.engine
@@ -472,7 +505,7 @@ class StorageServer:
         if storage is not None:
             response = yield gen.Task(DropboxHelper.get_file, storage, note_path)
             if response is None:
-                StorageServer.__log.info('StorageServer - Could not retrieve file for user %s' % user_id)
+                StorageServer.__log.info('StorageServer - Could not retrieve file for collection %s note %s user %s' % (collection_name, note_name, user_id))
             callback(response)
         else:
             StorageServer.__log.info('StorageServer - Could not retrieve user storage for user %s' % user_id)
@@ -540,7 +573,7 @@ class StorageServer:
         if storage is not None:
             response = yield gen.Task(DropboxHelper.get_file, storage, note_path)
             if response is None:
-                StorageServer.__log.info('StorageServer - Could not retrieve file for user %s' % user_id)
+                StorageServer.__log.info('StorageServer - Could not retrieve img file for collection %s note %s user %s' % (collection_name, note_name, user_id))
             callback(response)
         else:
             StorageServer.__log.info('StorageServer - Could not retrieve user storage for user %s' % user_id)

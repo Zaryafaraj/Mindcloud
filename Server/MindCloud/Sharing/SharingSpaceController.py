@@ -350,6 +350,11 @@ class SharingSpaceController(SharingActionDelegate):
             before the batch of actions that action was part of is considered
             done
         """
+        #becauce of a dropbox bug it seems that some times files don't get submitted
+        #this is not an eventual consistency problem, the files don't get submitted
+        #even eventually.
+        #we try to get the result of the just finished action and if it wasn't there
+        #retry the action
         self.__remaining_actions -= 1
         SharingSpaceController.__log.info('SharingSpaceController - finished executing action %s with response %s' % (action.name, str(response)))
 

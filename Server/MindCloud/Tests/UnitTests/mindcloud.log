@@ -2571,3 +2571,355 @@ INFO: 2012-12-23 16:47:39,683 -- SharingSpaceController - finished executing act
 INFO: 2012-12-23 16:47:39,938 -- SharingSpaceController - finished executing action user1-update-img-note0 with response 200
 INFO: 2012-12-23 16:47:39,938 -- Finished executing all the actions in the batch
 INFO: 2012-12-23 16:47:39,939 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:48:27,766 -- StorageServer - Could not retrieve file for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-23 16:48:43,250 -- StorageServer - Could not retrieve file for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-23 16:49:52,015 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:49:52,016 -- SharingSpaceController - executing action user1-manifest-0
+INFO: 2012-12-23 16:49:53,507 -- SharingSpaceController - finished executing action user1-manifest-0 with response 200
+INFO: 2012-12-23 16:49:53,507 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:49:53,507 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:49:53,507 -- SharingSpaceController - executing action user1-manifest-24
+INFO: 2012-12-23 16:49:53,508 -- SharingSpaceController - executing action user2-manifest-24
+INFO: 2012-12-23 16:49:53,508 -- SharingSpaceController - executing action user2-update-note-note9
+INFO: 2012-12-23 16:49:53,508 -- SharingSpaceController - executing action user2-update-note-note8
+INFO: 2012-12-23 16:49:53,509 -- SharingSpaceController - executing action user2-update-note-note7
+INFO: 2012-12-23 16:49:54,367 -- SharingSpaceController - finished executing action user2-update-note-note8 with response 200
+INFO: 2012-12-23 16:49:54,459 -- SharingSpaceController - finished executing action user1-manifest-24 with response 200
+INFO: 2012-12-23 16:49:54,673 -- SharingSpaceController - finished executing action user2-update-note-note7 with response 200
+INFO: 2012-12-23 16:49:55,705 -- SharingSpaceController - finished executing action user2-update-note-note9 with response 200
+INFO: 2012-12-23 16:49:55,778 -- SharingSpaceController - finished executing action user2-manifest-24 with response 200
+INFO: 2012-12-23 16:49:55,778 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:49:55,778 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:49:55,778 -- SharingSpaceController - executing action user2-update-note-note6
+INFO: 2012-12-23 16:49:55,779 -- SharingSpaceController - executing action user2-update-note-note5
+INFO: 2012-12-23 16:49:55,779 -- SharingSpaceController - executing action user2-update-note-note4
+INFO: 2012-12-23 16:49:55,779 -- SharingSpaceController - executing action user2-update-note-note3
+INFO: 2012-12-23 16:49:55,780 -- SharingSpaceController - executing action user2-update-note-note2
+INFO: 2012-12-23 16:49:56,672 -- SharingSpaceController - finished executing action user2-update-note-note6 with response 200
+INFO: 2012-12-23 16:49:57,036 -- SharingSpaceController - finished executing action user2-update-note-note5 with response 200
+INFO: 2012-12-23 16:49:57,271 -- SharingSpaceController - finished executing action user2-update-note-note4 with response 200
+INFO: 2012-12-23 16:49:57,493 -- SharingSpaceController - finished executing action user2-update-note-note3 with response 200
+INFO: 2012-12-23 16:49:57,721 -- SharingSpaceController - finished executing action user2-update-note-note2 with response 200
+INFO: 2012-12-23 16:49:57,721 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:49:57,721 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:49:57,721 -- SharingSpaceController - executing action user2-update-note-note1
+INFO: 2012-12-23 16:49:57,722 -- SharingSpaceController - executing action user2-update-note-note0
+INFO: 2012-12-23 16:49:57,722 -- SharingSpaceController - executing action user1-update-note-note9
+INFO: 2012-12-23 16:49:57,723 -- SharingSpaceController - executing action user1-update-note-note8
+INFO: 2012-12-23 16:49:57,723 -- SharingSpaceController - executing action user1-update-note-note7
+INFO: 2012-12-23 16:49:58,604 -- SharingSpaceController - finished executing action user1-update-note-note8 with response 200
+INFO: 2012-12-23 16:49:58,679 -- SharingSpaceController - finished executing action user2-update-note-note1 with response 200
+INFO: 2012-12-23 16:49:58,804 -- SharingSpaceController - finished executing action user1-update-note-note9 with response 200
+INFO: 2012-12-23 16:49:59,043 -- SharingSpaceController - finished executing action user1-update-note-note7 with response 200
+INFO: 2012-12-23 16:49:59,881 -- SharingSpaceController - finished executing action user2-update-note-note0 with response 200
+INFO: 2012-12-23 16:49:59,881 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:49:59,881 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:49:59,881 -- SharingSpaceController - executing action user1-update-note-note6
+INFO: 2012-12-23 16:49:59,881 -- SharingSpaceController - executing action user1-update-note-note5
+INFO: 2012-12-23 16:49:59,882 -- SharingSpaceController - executing action user1-update-note-note4
+INFO: 2012-12-23 16:49:59,882 -- SharingSpaceController - executing action user1-update-note-note3
+INFO: 2012-12-23 16:49:59,883 -- SharingSpaceController - executing action user1-update-note-note2
+INFO: 2012-12-23 16:50:00,730 -- SharingSpaceController - finished executing action user1-update-note-note2 with response 200
+INFO: 2012-12-23 16:50:00,951 -- SharingSpaceController - finished executing action user1-update-note-note6 with response 200
+INFO: 2012-12-23 16:50:01,216 -- SharingSpaceController - finished executing action user1-update-note-note3 with response 200
+INFO: 2012-12-23 16:50:01,460 -- SharingSpaceController - finished executing action user1-update-note-note4 with response 200
+INFO: 2012-12-23 16:50:02,301 -- SharingSpaceController - finished executing action user1-update-note-note5 with response 200
+INFO: 2012-12-23 16:50:02,301 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:50:02,301 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:50:02,301 -- SharingSpaceController - executing action user1-update-note-note1
+INFO: 2012-12-23 16:50:02,302 -- SharingSpaceController - executing action user1-update-note-note0
+INFO: 2012-12-23 16:50:02,303 -- SharingSpaceController - executing action user2-update-img-note9
+INFO: 2012-12-23 16:50:02,303 -- SharingSpaceController - executing action user2-update-img-note8
+INFO: 2012-12-23 16:50:02,303 -- SharingSpaceController - executing action user2-update-img-note7
+INFO: 2012-12-23 16:50:03,213 -- SharingSpaceController - finished executing action user2-update-img-note7 with response 200
+INFO: 2012-12-23 16:50:03,323 -- SharingSpaceController - finished executing action user1-update-note-note0 with response 200
+INFO: 2012-12-23 16:50:03,523 -- SharingSpaceController - finished executing action user2-update-img-note9 with response 200
+INFO: 2012-12-23 16:50:03,545 -- SharingSpaceController - finished executing action user1-update-note-note1 with response 200
+INFO: 2012-12-23 16:50:03,842 -- SharingSpaceController - finished executing action user2-update-img-note8 with response 200
+INFO: 2012-12-23 16:50:03,842 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:50:03,842 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:50:03,842 -- SharingSpaceController - executing action user2-update-img-note6
+INFO: 2012-12-23 16:50:03,843 -- SharingSpaceController - executing action user2-update-img-note5
+INFO: 2012-12-23 16:50:03,843 -- SharingSpaceController - executing action user2-update-img-note4
+INFO: 2012-12-23 16:50:03,844 -- SharingSpaceController - executing action user2-update-img-note3
+INFO: 2012-12-23 16:50:03,844 -- SharingSpaceController - executing action user2-update-img-note2
+INFO: 2012-12-23 16:50:04,686 -- SharingSpaceController - finished executing action user2-update-img-note6 with response 200
+INFO: 2012-12-23 16:50:05,018 -- SharingSpaceController - finished executing action user2-update-img-note2 with response 200
+INFO: 2012-12-23 16:50:05,286 -- SharingSpaceController - finished executing action user2-update-img-note3 with response 200
+INFO: 2012-12-23 16:50:05,537 -- SharingSpaceController - finished executing action user2-update-img-note4 with response 200
+INFO: 2012-12-23 16:50:05,580 -- SharingSpaceController - finished executing action user2-update-img-note5 with response 200
+INFO: 2012-12-23 16:50:05,580 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:50:05,580 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:50:05,580 -- SharingSpaceController - executing action user2-update-img-note1
+INFO: 2012-12-23 16:50:05,581 -- SharingSpaceController - executing action user2-update-img-note0
+INFO: 2012-12-23 16:50:05,581 -- SharingSpaceController - executing action user1-update-img-note9
+INFO: 2012-12-23 16:50:05,581 -- SharingSpaceController - executing action user1-update-img-note8
+INFO: 2012-12-23 16:50:05,582 -- SharingSpaceController - executing action user1-update-img-note7
+INFO: 2012-12-23 16:50:06,676 -- SharingSpaceController - finished executing action user2-update-img-note0 with response 200
+INFO: 2012-12-23 16:50:06,935 -- SharingSpaceController - finished executing action user2-update-img-note1 with response 200
+INFO: 2012-12-23 16:50:07,597 -- SharingSpaceController - finished executing action user1-update-img-note8 with response 200
+INFO: 2012-12-23 16:50:07,605 -- SharingSpaceController - finished executing action user1-update-img-note9 with response 200
+INFO: 2012-12-23 16:50:07,963 -- SharingSpaceController - finished executing action user1-update-img-note7 with response 200
+INFO: 2012-12-23 16:50:07,964 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:50:07,964 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:50:07,964 -- SharingSpaceController - executing action user1-update-img-note6
+INFO: 2012-12-23 16:50:07,965 -- SharingSpaceController - executing action user1-update-img-note5
+INFO: 2012-12-23 16:50:07,965 -- SharingSpaceController - executing action user1-update-img-note4
+INFO: 2012-12-23 16:50:07,965 -- SharingSpaceController - executing action user1-update-img-note3
+INFO: 2012-12-23 16:50:07,966 -- SharingSpaceController - executing action user1-update-img-note2
+INFO: 2012-12-23 16:50:09,120 -- SharingSpaceController - finished executing action user1-update-img-note6 with response 200
+INFO: 2012-12-23 16:50:09,427 -- SharingSpaceController - finished executing action user1-update-img-note4 with response 200
+INFO: 2012-12-23 16:50:09,716 -- SharingSpaceController - finished executing action user1-update-img-note5 with response 200
+INFO: 2012-12-23 16:50:10,007 -- SharingSpaceController - finished executing action user1-update-img-note3 with response 200
+INFO: 2012-12-23 16:50:10,264 -- SharingSpaceController - finished executing action user1-update-img-note2 with response 200
+INFO: 2012-12-23 16:50:10,264 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:50:10,264 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:50:10,264 -- SharingSpaceController - executing action user1-update-img-note1
+INFO: 2012-12-23 16:50:10,264 -- SharingSpaceController - executing action user1-update-img-note0
+INFO: 2012-12-23 16:50:11,472 -- SharingSpaceController - finished executing action user1-update-img-note1 with response 200
+INFO: 2012-12-23 16:50:11,868 -- SharingSpaceController - finished executing action user1-update-img-note0 with response 200
+INFO: 2012-12-23 16:50:11,868 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:50:11,868 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:51:12,164 -- StorageServer - Could not retrieve file for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-23 16:51:27,687 -- StorageServer - Could not retrieve file for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-23 16:58:08,527 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:58:08,527 -- SharingSpaceController - executing action user1-manifest-0
+INFO: 2012-12-23 16:58:09,757 -- SharingSpaceController - finished executing action user1-manifest-0 with response 200
+INFO: 2012-12-23 16:58:09,757 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:58:09,757 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:58:09,757 -- SharingSpaceController - executing action user1-manifest-24
+INFO: 2012-12-23 16:58:09,758 -- SharingSpaceController - executing action user2-manifest-24
+INFO: 2012-12-23 16:58:09,759 -- SharingSpaceController - executing action user2-update-note-note9
+INFO: 2012-12-23 16:58:09,759 -- SharingSpaceController - executing action user2-update-note-note8
+INFO: 2012-12-23 16:58:09,759 -- SharingSpaceController - executing action user2-update-note-note7
+INFO: 2012-12-23 16:58:10,652 -- SharingSpaceController - finished executing action user2-update-note-note9 with response 200
+INFO: 2012-12-23 16:58:10,667 -- SharingSpaceController - finished executing action user1-manifest-24 with response 200
+INFO: 2012-12-23 16:59:02,184 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:59:02,184 -- SharingSpaceController - executing action user1-manifest-0
+INFO: 2012-12-23 16:59:03,037 -- SharingSpaceController - finished executing action user1-manifest-0 with response 200
+INFO: 2012-12-23 16:59:03,037 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:59:03,037 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:59:03,037 -- SharingSpaceController - executing action user1-manifest-24
+INFO: 2012-12-23 16:59:03,038 -- SharingSpaceController - executing action user2-manifest-24
+INFO: 2012-12-23 16:59:03,038 -- SharingSpaceController - executing action user2-update-note-note9
+INFO: 2012-12-23 16:59:03,038 -- SharingSpaceController - executing action user2-update-note-note8
+INFO: 2012-12-23 16:59:03,039 -- SharingSpaceController - executing action user2-update-note-note7
+INFO: 2012-12-23 16:59:03,914 -- SharingSpaceController - finished executing action user1-manifest-24 with response 200
+INFO: 2012-12-23 16:59:03,958 -- SharingSpaceController - finished executing action user2-update-note-note7 with response 200
+INFO: 2012-12-23 16:59:04,203 -- SharingSpaceController - finished executing action user2-update-note-note8 with response 200
+INFO: 2012-12-23 16:59:04,369 -- SharingSpaceController - finished executing action user2-manifest-24 with response 200
+INFO: 2012-12-23 16:59:04,620 -- SharingSpaceController - finished executing action user2-update-note-note9 with response 200
+INFO: 2012-12-23 16:59:04,621 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:59:04,621 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:59:04,621 -- SharingSpaceController - executing action user2-update-note-note6
+INFO: 2012-12-23 16:59:04,621 -- SharingSpaceController - executing action user2-update-note-note5
+INFO: 2012-12-23 16:59:04,622 -- SharingSpaceController - executing action user2-update-note-note4
+INFO: 2012-12-23 16:59:04,622 -- SharingSpaceController - executing action user2-update-note-note3
+INFO: 2012-12-23 16:59:04,622 -- SharingSpaceController - executing action user2-update-note-note2
+INFO: 2012-12-23 16:59:05,523 -- SharingSpaceController - finished executing action user2-update-note-note5 with response 200
+INFO: 2012-12-23 16:59:05,760 -- SharingSpaceController - finished executing action user2-update-note-note2 with response 200
+INFO: 2012-12-23 16:59:05,999 -- SharingSpaceController - finished executing action user2-update-note-note3 with response 200
+INFO: 2012-12-23 16:59:06,402 -- SharingSpaceController - finished executing action user2-update-note-note4 with response 200
+INFO: 2012-12-23 16:59:06,629 -- SharingSpaceController - finished executing action user2-update-note-note6 with response 200
+INFO: 2012-12-23 16:59:06,630 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:59:06,630 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:59:06,630 -- SharingSpaceController - executing action user2-update-note-note1
+INFO: 2012-12-23 16:59:06,630 -- SharingSpaceController - executing action user2-update-note-note0
+INFO: 2012-12-23 16:59:06,631 -- SharingSpaceController - executing action user1-update-note-note9
+INFO: 2012-12-23 16:59:06,631 -- SharingSpaceController - executing action user1-update-note-note8
+INFO: 2012-12-23 16:59:06,632 -- SharingSpaceController - executing action user1-update-note-note7
+INFO: 2012-12-23 16:59:07,442 -- SharingSpaceController - finished executing action user2-update-note-note1 with response 200
+INFO: 2012-12-23 16:59:07,535 -- SharingSpaceController - finished executing action user1-update-note-note8 with response 200
+INFO: 2012-12-23 16:59:07,682 -- SharingSpaceController - finished executing action user2-update-note-note0 with response 200
+INFO: 2012-12-23 16:59:07,699 -- SharingSpaceController - finished executing action user1-update-note-note9 with response 200
+INFO: 2012-12-23 16:59:07,973 -- SharingSpaceController - finished executing action user1-update-note-note7 with response 200
+INFO: 2012-12-23 16:59:07,973 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:59:07,973 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:59:07,973 -- SharingSpaceController - executing action user1-update-note-note6
+INFO: 2012-12-23 16:59:07,974 -- SharingSpaceController - executing action user1-update-note-note5
+INFO: 2012-12-23 16:59:07,974 -- SharingSpaceController - executing action user1-update-note-note4
+INFO: 2012-12-23 16:59:07,974 -- SharingSpaceController - executing action user1-update-note-note3
+INFO: 2012-12-23 16:59:07,975 -- SharingSpaceController - executing action user1-update-note-note2
+INFO: 2012-12-23 16:59:08,826 -- SharingSpaceController - finished executing action user1-update-note-note6 with response 200
+INFO: 2012-12-23 16:59:09,020 -- SharingSpaceController - finished executing action user1-update-note-note2 with response 200
+INFO: 2012-12-23 16:59:09,227 -- SharingSpaceController - finished executing action user1-update-note-note4 with response 200
+INFO: 2012-12-23 16:59:09,464 -- SharingSpaceController - finished executing action user1-update-note-note5 with response 200
+INFO: 2012-12-23 16:59:09,828 -- SharingSpaceController - finished executing action user1-update-note-note3 with response 200
+INFO: 2012-12-23 16:59:09,828 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:59:09,828 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:59:09,829 -- SharingSpaceController - executing action user1-update-note-note1
+INFO: 2012-12-23 16:59:09,829 -- SharingSpaceController - executing action user1-update-note-note0
+INFO: 2012-12-23 16:59:09,829 -- SharingSpaceController - executing action user2-update-img-note9
+INFO: 2012-12-23 16:59:09,830 -- SharingSpaceController - executing action user2-update-img-note8
+INFO: 2012-12-23 16:59:09,830 -- SharingSpaceController - executing action user2-update-img-note7
+INFO: 2012-12-23 16:59:11,426 -- SharingSpaceController - finished executing action user1-update-note-note0 with response 200
+INFO: 2012-12-23 16:59:11,426 -- SharingSpaceController - finished executing action user2-update-img-note8 with response 200
+INFO: 2012-12-23 16:59:11,427 -- SharingSpaceController - finished executing action user2-update-img-note7 with response 200
+INFO: 2012-12-23 16:59:11,526 -- SharingSpaceController - finished executing action user2-update-img-note9 with response 200
+INFO: 2012-12-23 16:59:11,893 -- SharingSpaceController - finished executing action user1-update-note-note1 with response 200
+INFO: 2012-12-23 16:59:11,893 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:59:11,893 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:59:11,894 -- SharingSpaceController - executing action user2-update-img-note6
+INFO: 2012-12-23 16:59:11,894 -- SharingSpaceController - executing action user2-update-img-note5
+INFO: 2012-12-23 16:59:11,894 -- SharingSpaceController - executing action user2-update-img-note4
+INFO: 2012-12-23 16:59:11,895 -- SharingSpaceController - executing action user2-update-img-note3
+INFO: 2012-12-23 16:59:11,895 -- SharingSpaceController - executing action user2-update-img-note2
+INFO: 2012-12-23 16:59:12,776 -- SharingSpaceController - finished executing action user2-update-img-note4 with response 200
+INFO: 2012-12-23 16:59:13,066 -- SharingSpaceController - finished executing action user2-update-img-note6 with response 200
+INFO: 2012-12-23 16:59:13,317 -- SharingSpaceController - finished executing action user2-update-img-note3 with response 200
+INFO: 2012-12-23 16:59:13,609 -- SharingSpaceController - finished executing action user2-update-img-note5 with response 200
+INFO: 2012-12-23 16:59:13,869 -- SharingSpaceController - finished executing action user2-update-img-note2 with response 200
+INFO: 2012-12-23 16:59:13,869 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:59:13,870 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:59:13,870 -- SharingSpaceController - executing action user2-update-img-note1
+INFO: 2012-12-23 16:59:13,870 -- SharingSpaceController - executing action user2-update-img-note0
+INFO: 2012-12-23 16:59:13,871 -- SharingSpaceController - executing action user1-update-img-note9
+INFO: 2012-12-23 16:59:13,871 -- SharingSpaceController - executing action user1-update-img-note8
+INFO: 2012-12-23 16:59:13,872 -- SharingSpaceController - executing action user1-update-img-note7
+INFO: 2012-12-23 16:59:14,673 -- SharingSpaceController - finished executing action user2-update-img-note1 with response 200
+INFO: 2012-12-23 16:59:14,945 -- SharingSpaceController - finished executing action user2-update-img-note0 with response 200
+INFO: 2012-12-23 16:59:15,109 -- SharingSpaceController - finished executing action user1-update-img-note7 with response 200
+INFO: 2012-12-23 16:59:15,422 -- SharingSpaceController - finished executing action user1-update-img-note9 with response 200
+INFO: 2012-12-23 16:59:15,652 -- SharingSpaceController - finished executing action user1-update-img-note8 with response 200
+INFO: 2012-12-23 16:59:15,652 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:59:15,652 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:59:15,652 -- SharingSpaceController - executing action user1-update-img-note6
+INFO: 2012-12-23 16:59:15,653 -- SharingSpaceController - executing action user1-update-img-note5
+INFO: 2012-12-23 16:59:15,653 -- SharingSpaceController - executing action user1-update-img-note4
+INFO: 2012-12-23 16:59:15,653 -- SharingSpaceController - executing action user1-update-img-note3
+INFO: 2012-12-23 16:59:15,654 -- SharingSpaceController - executing action user1-update-img-note2
+INFO: 2012-12-23 16:59:16,849 -- SharingSpaceController - finished executing action user1-update-img-note4 with response 200
+INFO: 2012-12-23 16:59:17,604 -- SharingSpaceController - finished executing action user1-update-img-note3 with response 200
+INFO: 2012-12-23 16:59:17,613 -- SharingSpaceController - finished executing action user1-update-img-note5 with response 200
+INFO: 2012-12-23 16:59:17,684 -- SharingSpaceController - finished executing action user1-update-img-note2 with response 200
+INFO: 2012-12-23 16:59:17,944 -- SharingSpaceController - finished executing action user1-update-img-note6 with response 200
+INFO: 2012-12-23 16:59:17,944 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:59:17,944 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 16:59:17,944 -- SharingSpaceController - executing action user1-update-img-note1
+INFO: 2012-12-23 16:59:17,944 -- SharingSpaceController - executing action user1-update-img-note0
+INFO: 2012-12-23 16:59:19,188 -- SharingSpaceController - finished executing action user1-update-img-note1 with response 200
+INFO: 2012-12-23 16:59:19,833 -- SharingSpaceController - finished executing action user1-update-img-note0 with response 200
+INFO: 2012-12-23 16:59:19,833 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 16:59:19,833 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 17:01:18,676 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 17:01:18,676 -- SharingSpaceController - executing action user1-manifest-0
+INFO: 2012-12-23 17:01:19,605 -- SharingSpaceController - finished executing action user1-manifest-0 with response 200
+INFO: 2012-12-23 17:01:19,605 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 17:01:19,605 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 17:01:19,605 -- SharingSpaceController - executing action user1-manifest-24
+INFO: 2012-12-23 17:01:19,606 -- SharingSpaceController - executing action user2-manifest-24
+INFO: 2012-12-23 17:01:19,606 -- SharingSpaceController - executing action user2-update-note-note9
+INFO: 2012-12-23 17:01:19,607 -- SharingSpaceController - executing action user2-update-note-note8
+INFO: 2012-12-23 17:01:19,607 -- SharingSpaceController - executing action user2-update-note-note7
+INFO: 2012-12-23 17:01:20,502 -- SharingSpaceController - finished executing action user2-update-note-note9 with response 200
+INFO: 2012-12-23 17:01:20,583 -- SharingSpaceController - finished executing action user1-manifest-24 with response 200
+INFO: 2012-12-23 17:01:20,712 -- SharingSpaceController - finished executing action user2-manifest-24 with response 200
+INFO: 2012-12-23 17:01:21,052 -- SharingSpaceController - finished executing action user2-update-note-note7 with response 200
+INFO: 2012-12-23 17:01:21,204 -- SharingSpaceController - finished executing action user2-update-note-note8 with response 200
+INFO: 2012-12-23 17:01:21,205 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 17:01:21,205 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 17:01:21,205 -- SharingSpaceController - executing action user2-update-note-note6
+INFO: 2012-12-23 17:01:21,205 -- SharingSpaceController - executing action user2-update-note-note5
+INFO: 2012-12-23 17:01:21,205 -- SharingSpaceController - executing action user2-update-note-note4
+INFO: 2012-12-23 17:01:21,206 -- SharingSpaceController - executing action user2-update-note-note3
+INFO: 2012-12-23 17:01:21,206 -- SharingSpaceController - executing action user2-update-note-note2
+INFO: 2012-12-23 17:01:22,070 -- SharingSpaceController - finished executing action user2-update-note-note5 with response 200
+INFO: 2012-12-23 17:01:22,321 -- SharingSpaceController - finished executing action user2-update-note-note2 with response 200
+INFO: 2012-12-23 17:01:22,754 -- SharingSpaceController - finished executing action user2-update-note-note4 with response 200
+INFO: 2012-12-23 17:01:22,881 -- SharingSpaceController - finished executing action user2-update-note-note3 with response 200
+INFO: 2012-12-23 17:01:22,987 -- SharingSpaceController - finished executing action user2-update-note-note6 with response 200
+INFO: 2012-12-23 17:01:22,987 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 17:01:22,987 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 17:01:22,988 -- SharingSpaceController - executing action user2-update-note-note1
+INFO: 2012-12-23 17:01:22,988 -- SharingSpaceController - executing action user2-update-note-note0
+INFO: 2012-12-23 17:01:22,989 -- SharingSpaceController - executing action user1-update-note-note9
+INFO: 2012-12-23 17:01:22,989 -- SharingSpaceController - executing action user1-update-note-note8
+INFO: 2012-12-23 17:01:22,989 -- SharingSpaceController - executing action user1-update-note-note7
+INFO: 2012-12-23 17:01:23,911 -- SharingSpaceController - finished executing action user2-update-note-note1 with response 200
+INFO: 2012-12-23 17:01:23,911 -- SharingSpaceController - finished executing action user1-update-note-note8 with response 200
+INFO: 2012-12-23 17:01:24,085 -- SharingSpaceController - finished executing action user1-update-note-note9 with response 200
+INFO: 2012-12-23 17:01:24,305 -- SharingSpaceController - finished executing action user1-update-note-note7 with response 200
+INFO: 2012-12-23 17:01:25,338 -- SharingSpaceController - finished executing action user2-update-note-note0 with response 200
+INFO: 2012-12-23 17:01:25,338 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 17:01:25,338 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 17:01:25,338 -- SharingSpaceController - executing action user1-update-note-note6
+INFO: 2012-12-23 17:01:25,338 -- SharingSpaceController - executing action user1-update-note-note5
+INFO: 2012-12-23 17:01:25,339 -- SharingSpaceController - executing action user1-update-note-note4
+INFO: 2012-12-23 17:01:25,339 -- SharingSpaceController - executing action user1-update-note-note3
+INFO: 2012-12-23 17:01:25,339 -- SharingSpaceController - executing action user1-update-note-note2
+INFO: 2012-12-23 17:01:26,187 -- SharingSpaceController - finished executing action user1-update-note-note5 with response 200
+INFO: 2012-12-23 17:01:26,391 -- SharingSpaceController - finished executing action user1-update-note-note4 with response 200
+INFO: 2012-12-23 17:01:26,590 -- SharingSpaceController - finished executing action user1-update-note-note3 with response 200
+INFO: 2012-12-23 17:01:26,844 -- SharingSpaceController - finished executing action user1-update-note-note2 with response 200
+INFO: 2012-12-23 17:01:27,106 -- SharingSpaceController - finished executing action user1-update-note-note6 with response 200
+INFO: 2012-12-23 17:01:27,107 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 17:01:27,107 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 17:01:27,107 -- SharingSpaceController - executing action user1-update-note-note1
+INFO: 2012-12-23 17:01:27,107 -- SharingSpaceController - executing action user1-update-note-note0
+INFO: 2012-12-23 17:01:28,097 -- SharingSpaceController - finished executing action user1-update-note-note1 with response 200
+INFO: 2012-12-23 17:01:28,184 -- SharingSpaceController - finished executing action user1-update-note-note0 with response 200
+INFO: 2012-12-23 17:01:28,185 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 17:01:28,185 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 17:02:27,764 -- StorageServer - Could not retrieve file for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-23 17:02:43,242 -- StorageServer - Could not retrieve file for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-23 17:06:04,079 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 17:06:04,079 -- SharingSpaceController - executing action user1-manifest-0
+INFO: 2012-12-23 17:06:05,064 -- SharingSpaceController - finished executing action user1-manifest-0 with response 200
+INFO: 2012-12-23 17:06:05,064 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 17:06:05,065 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 17:06:05,065 -- SharingSpaceController - executing action user1-manifest-24
+INFO: 2012-12-23 17:06:05,065 -- SharingSpaceController - executing action user2-manifest-24
+INFO: 2012-12-23 17:06:05,065 -- SharingSpaceController - executing action user2-update-note-note9
+INFO: 2012-12-23 17:06:05,066 -- SharingSpaceController - executing action user2-update-note-note8
+INFO: 2012-12-23 17:06:05,066 -- SharingSpaceController - executing action user2-update-note-note7
+INFO: 2012-12-23 17:06:05,898 -- SharingSpaceController - finished executing action user1-manifest-24 with response 200
+INFO: 2012-12-23 17:06:05,969 -- SharingSpaceController - finished executing action user2-update-note-note9 with response 200
+INFO: 2012-12-23 17:06:06,199 -- SharingSpaceController - finished executing action user2-manifest-24 with response 200
+INFO: 2012-12-23 17:06:06,394 -- SharingSpaceController - finished executing action user2-update-note-note8 with response 200
+INFO: 2012-12-23 17:06:07,658 -- SharingSpaceController - finished executing action user2-update-note-note7 with response 200
+INFO: 2012-12-23 17:06:07,658 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 17:06:07,658 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 17:06:07,658 -- SharingSpaceController - executing action user2-update-note-note6
+INFO: 2012-12-23 17:06:07,659 -- SharingSpaceController - executing action user2-update-note-note5
+INFO: 2012-12-23 17:06:07,659 -- SharingSpaceController - executing action user2-update-note-note4
+INFO: 2012-12-23 17:06:07,660 -- SharingSpaceController - executing action user2-update-note-note3
+INFO: 2012-12-23 17:06:07,660 -- SharingSpaceController - executing action user2-update-note-note2
+INFO: 2012-12-23 17:06:08,993 -- SharingSpaceController - finished executing action user2-update-note-note6 with response 200
+INFO: 2012-12-23 17:06:09,203 -- SharingSpaceController - finished executing action user2-update-note-note3 with response 200
+INFO: 2012-12-23 17:06:09,443 -- SharingSpaceController - finished executing action user2-update-note-note5 with response 200
+INFO: 2012-12-23 17:06:09,513 -- SharingSpaceController - finished executing action user2-update-note-note4 with response 200
+INFO: 2012-12-23 17:06:09,647 -- SharingSpaceController - finished executing action user2-update-note-note2 with response 200
+INFO: 2012-12-23 17:06:09,647 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 17:06:09,647 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 17:06:09,647 -- SharingSpaceController - executing action user2-update-note-note1
+INFO: 2012-12-23 17:06:09,648 -- SharingSpaceController - executing action user2-update-note-note0
+INFO: 2012-12-23 17:06:09,648 -- SharingSpaceController - executing action user1-update-note-note9
+INFO: 2012-12-23 17:06:09,648 -- SharingSpaceController - executing action user1-update-note-note8
+INFO: 2012-12-23 17:06:09,649 -- SharingSpaceController - executing action user1-update-note-note7
+INFO: 2012-12-23 17:06:10,633 -- SharingSpaceController - finished executing action user2-update-note-note0 with response 200
+INFO: 2012-12-23 17:06:10,633 -- SharingSpaceController - finished executing action user1-update-note-note7 with response 200
+INFO: 2012-12-23 17:06:10,709 -- SharingSpaceController - finished executing action user1-update-note-note8 with response 200
+INFO: 2012-12-23 17:06:10,730 -- SharingSpaceController - finished executing action user2-update-note-note1 with response 200
+INFO: 2012-12-23 17:06:10,967 -- SharingSpaceController - finished executing action user1-update-note-note9 with response 200
+INFO: 2012-12-23 17:06:10,967 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 17:06:10,967 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 17:06:10,967 -- SharingSpaceController - executing action user1-update-note-note6
+INFO: 2012-12-23 17:06:10,967 -- SharingSpaceController - executing action user1-update-note-note5
+INFO: 2012-12-23 17:06:10,968 -- SharingSpaceController - executing action user1-update-note-note4
+INFO: 2012-12-23 17:06:10,968 -- SharingSpaceController - executing action user1-update-note-note3
+INFO: 2012-12-23 17:06:10,968 -- SharingSpaceController - executing action user1-update-note-note2
+INFO: 2012-12-23 17:06:11,758 -- SharingSpaceController - finished executing action user1-update-note-note6 with response 200
+INFO: 2012-12-23 17:06:11,979 -- SharingSpaceController - finished executing action user1-update-note-note5 with response 200
+INFO: 2012-12-23 17:06:12,206 -- SharingSpaceController - finished executing action user1-update-note-note2 with response 200
+INFO: 2012-12-23 17:06:12,463 -- SharingSpaceController - finished executing action user1-update-note-note4 with response 200
+INFO: 2012-12-23 17:06:12,699 -- SharingSpaceController - finished executing action user1-update-note-note3 with response 200
+INFO: 2012-12-23 17:06:12,699 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 17:06:12,699 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 17:06:12,699 -- SharingSpaceController - executing action user1-update-note-note1
+INFO: 2012-12-23 17:06:12,700 -- SharingSpaceController - executing action user1-update-note-note0
+INFO: 2012-12-23 17:06:13,597 -- SharingSpaceController - finished executing action user1-update-note-note1 with response 200
+INFO: 2012-12-23 17:06:13,759 -- SharingSpaceController - finished executing action user1-update-note-note0 with response 200
+INFO: 2012-12-23 17:06:13,759 -- Finished executing all the actions in the batch
+INFO: 2012-12-23 17:06:13,760 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-23 17:07:14,998 -- StorageServer - Could not retrieve file for collection sharing_col2 note note4 user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-23 17:07:30,472 -- StorageServer - Could not retrieve file for collection sharing_col2 note note4 user FDB51632-0973-43D4-8990-1BFC3D16909E

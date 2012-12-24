@@ -30,7 +30,6 @@ class UpdateSharedNoteImageAction(SharingAction):
     @gen.engine
     def execute(self, callback=None, delegate=None):
         result_code = StorageResponse.BAD_REQUEST
-        filee = self.__note_img_file
         if self.__user_id and self.__collection_name and\
            self.__note_name and self.__note_img_file:
             result_code = yield gen.Task(StorageServer.add_image_to_note,

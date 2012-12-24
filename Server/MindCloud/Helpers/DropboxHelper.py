@@ -193,6 +193,27 @@ class DropboxHelper:
 
     @staticmethod
     @gen.engine
+    def does_file_exist(db_client, path, callback):
+        """
+        Checks whether a file exists or not.
+
+        -Args:
+            -``path``: The full path in the dropbox for file
+
+        -Returns:
+            -callback is called with true or false
+        """
+        try:
+            metadata = yield gen.Task(db_client.metadata, path)
+            if metadata is not None:
+                callback(True)
+            else:
+                callback(False)
+        except Exception:
+            callback(False)
+
+    @staticmethod
+    @gen.engine
     def get_file(db_client, path, callback, rev=None):
         """
         Retrieves the file specified by the path.
