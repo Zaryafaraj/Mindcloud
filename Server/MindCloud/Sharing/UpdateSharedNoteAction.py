@@ -2,6 +2,7 @@ import cStringIO
 import shutil
 from Sharing.SharingActionDelegate import SharingActionDelegate
 from Sharing.SharingEvent import SharingEvent
+from Storage.StorageResourceType import StorageResourceType
 
 __author__ = 'afathali'
 from tornado import gen
@@ -65,3 +66,10 @@ class UpdateSharedNoteAction(SharingAction):
         new_action = UpdateSharedNoteAction(user_id, collection_name,
             self.__note_name, clone_note_file)
         return new_action
+
+    @gen.engine
+    def was_successful(self, callback=None):
+        answer = yield gen.Task(StorageServer.does_note_resource_exist, self.__user_id,
+            self.__collection_name, self.__note_name,
+            StorageResourceType.NOTE_MANIFEST)
+        callback(answer)

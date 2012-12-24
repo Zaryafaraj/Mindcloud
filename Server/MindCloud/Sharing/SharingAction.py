@@ -56,3 +56,12 @@ class SharingAction:
         with user_id and collection_name
         """
 
+    @abstractmethod
+    @gen.engine
+    def was_successful(self, callback=None):
+        """
+        Checks the dropbox to see if the action was successful or not
+
+        Returns true or false to the callback
+        """
+

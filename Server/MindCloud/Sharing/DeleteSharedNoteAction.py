@@ -56,3 +56,7 @@ class DeleteSharedNoteAction(SharingAction):
         new_sharing_action = DeleteSharedNoteAction(user_id, collection_name,
             self.__note_name)
         return new_sharing_action
+
+    def was_successful(self, callback=None):
+        if callback:
+            callback(True)

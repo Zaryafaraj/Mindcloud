@@ -600,18 +600,18 @@ class SharingSpaceTestcase(AsyncTestCase):
             action2.name = 'user2-update-note-' + note_name
             action_list.append(action1)
             action_list.append(action2)
-            #img_file1 = open('../test_resources/sharing_note_img1.jpg', 'rb')
-            #img_file_like1 = cStringIO.StringIO(img_file1.read())
-            #img_file2 = open('../test_resources/sharing_note_img2.jpg', 'rb')
-            #img_file_like2 = cStringIO.StringIO(img_file2.read())
-            #action3 = UpdateSharedNoteImageAction(self.__account_id,
-            #    collection_name1, note_name, img_file_like1)
-            #action3.name = 'user1-update-img-' + note_name
-            #action4 = UpdateSharedNoteImageAction(self.__subscriber_id,
-            #    collection_name2, note_name, img_file_like2)
-            #action4.name = 'user2-update-img-' + note_name
-            #action_list.append(action3)
-            #action_list.append(action4)
+            img_file1 = open('../test_resources/sharing_note_img1.jpg', 'rb')
+            img_file_like1 = cStringIO.StringIO(img_file1.read())
+            img_file2 = open('../test_resources/sharing_note_img2.jpg', 'rb')
+            img_file_like2 = cStringIO.StringIO(img_file2.read())
+            action3 = UpdateSharedNoteImageAction(self.__account_id,
+                collection_name1, note_name, img_file_like1)
+            action3.name = 'user1-update-img-' + note_name
+            action4 = UpdateSharedNoteImageAction(self.__subscriber_id,
+                collection_name2, note_name, img_file_like2)
+            action4.name = 'user2-update-img-' + note_name
+            action_list.append(action3)
+            action_list.append(action4)
 
         for action in action_list:
             sharing_space.add_action(action)
@@ -652,7 +652,7 @@ class SharingSpaceTestcase(AsyncTestCase):
         self.__load_test(5,10, 100,0)
 
     #def test_add_multiple_actions_two_users_no_listener_medium_load(self):
-    #    self.__load_test(20,50, 200, 5)
+    #    self.__load_test(20,50, 200, 0)
 
     #def test_add_multiple_actions_two_users_no_listener_heavy_load(self):
     #    self.__load_test(50,100, 400, 10)

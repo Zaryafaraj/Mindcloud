@@ -58,3 +58,7 @@ class UpdateSharedManifestAction(SharingAction):
         new_action = UpdateSharedManifestAction(user_id, collection_name,
             clone_manifest_file)
         return new_action
+
+    def was_successful(self, callback=None):
+        if callback:
+            callback(True)

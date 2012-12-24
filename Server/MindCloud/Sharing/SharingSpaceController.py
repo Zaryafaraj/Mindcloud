@@ -336,7 +336,9 @@ class SharingSpaceController(SharingActionDelegate):
                 SharingSpaceController.__log.info('SharingSpaceController - executing action %s' % action.name)
                 action.execute(delegate=self)
 
+
     #delegate method from SharingActionDelegate
+    @gen.engine
     def actionFinishedExecuting(self, action, response):
         """
         This function is called when an action is finished executing.
@@ -355,8 +357,15 @@ class SharingSpaceController(SharingActionDelegate):
         #even eventually.
         #we try to get the result of the just finished action and if it wasn't there
         #retry the action
-        self.__remaining_actions -= 1
-        SharingSpaceController.__log.info('SharingSpaceController - finished executing action %s with response %s' % (action.name, str(response)))
+
+        was_successful = yield gen.Task(action.was_successful)
+        if was_successful:
+            self.__remaining_actions -= 1
+            SharingSpaceController.__log.info('SharingSpaceController - finished executing action %s with response %s' % (action.name, str(response)))
+
+        else:
+            SharingSpaceController.__log.debug('SharingSpaceController - Retrying action %s' % action.name)
+            action.execute(delegate=self)
 
         if not self.__remaining_actions :
             SharingSpaceController.__log.info('Finished executing all the actions in the batch')
