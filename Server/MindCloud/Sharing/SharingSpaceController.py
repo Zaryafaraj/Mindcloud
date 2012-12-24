@@ -241,7 +241,7 @@ class SharingSpaceController(SharingActionDelegate):
         self.__cache.get_temp_img(img_secret, callback)
 
     @gen.engine
-    def get_temp_img(self, img_secret, user_id, collection_name, note_name, callback):
+    def get_temp_img(self, img_secret, user_id, collection_name, note_name=None, callback=None):
         """
         Retrievs the temp img
         """
@@ -249,7 +249,13 @@ class SharingSpaceController(SharingActionDelegate):
         #if its a cache miss; it has probably passed enough time to
         #get the image directly from the storage
         if img is None:
-            img = yield gen.Task(StorageServer.get_note_image, user_id, collection_name, note_name)
+            #this relates to a note image
+            if note_name is not None:
+                img = yield gen.Task(StorageServer.get_note_image, user_id, collection_name, note_name)
+            else:
+            #its a thumbnail
+                img = yield gen.Task(StorageServer.get_thumbnail, user_id, collection_name)
+
             if img is None:
                 SharingSpaceController.__log.info('SharingSpaceController - failed to update img for %s; collection= %s; note=%s' % (user_id,collection_name,note_name))
 
@@ -266,7 +272,9 @@ class SharingSpaceController(SharingActionDelegate):
         """
         user_id = update_img_sharing_action.get_user_id()
         collection_name = update_img_sharing_action.get_collection_name()
-        note_name = update_img_sharing_action.get_note_name()
+        note_name = 'thumbnail'
+        if update_img_sharing_action.get_action_type() == SharingEvent.UPDATE_NOTE_IMG:
+            note_name = update_img_sharing_action.get_note_name()
         img_file = update_img_sharing_action.get_associated_file()
 
         img_secret = self.__generate_img_secret(user_id, collection_name, note_name)
