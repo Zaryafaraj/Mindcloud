@@ -19,16 +19,20 @@ class SharingSpaceActionHandler(tornado.web.RequestHandler):
             file = self.request.files['file'][0]
         sharing_action = \
             SharingActionFactory.from_json_and_file(action_json, file)
-        #as the user is concerned this call is finished
-        self.set_status(200)
-        self.finish()
+        if sharing_action is None:
+            self.set_status(400)
+            self.finish()
+        else:
+            #as the user is concerned this call is finished
+            self.set_status(200)
+            self.finish()
 
-        all_actions = \
-            yield gen.Task(SharingActionFactory.create_related_sharing_actions,
-                sharing_secret, sharing_action)
+            all_actions = \
+                yield gen.Task(SharingActionFactory.create_related_sharing_actions,
+                    sharing_secret, sharing_action)
 
-        for action in all_actions:
-            sharing_space.add_action(action)
+            for action in all_actions:
+                sharing_space.add_action(action)
 
 
 
