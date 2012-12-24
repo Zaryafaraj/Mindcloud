@@ -36,6 +36,8 @@ class SharingSpaceActionHandler(tornado.web.RequestHandler):
                 sharing_space.add_action(action)
 
 
+    @tornado.web.asynchronous
+    @gen.engine
     def get(self, sharing_secret):
 
         sharing_storage = SharingSpaceStorage.get_instance()

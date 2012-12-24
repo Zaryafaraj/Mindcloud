@@ -30,8 +30,8 @@ class DeleteSharedNoteAction(SharingAction):
         if delegate is not None:
             if isinstance(delegate, SharingActionDelegate):
                 delegate.actionFinishedExecuting(self, result_code)
-            elif callback is not None:
-                callback(result_code)
+        elif callback is not None:
+            callback(result_code)
 
     def get_note_name(self):
         return self.__note_name

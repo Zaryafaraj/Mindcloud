@@ -1,6 +1,8 @@
+from Sharing.DeleteSharedNoteAction import DeleteSharedNoteAction
 from Sharing.UpdateSharedManifestAction import UpdateSharedManifestAction
 from Sharing.UpdateSharedNoteAction import UpdateSharedNoteAction
 from Sharing.UpdateSharedNoteImageAction import UpdateSharedNoteImageAction
+from Sharing.UpdateSharedThumbnailAction import UpdateSharedThumbnailAction
 from Tests.TestingProperties import TestingProperties
 
 __author__ = 'afathali'
@@ -248,6 +250,140 @@ class SharingActionTestCase(AsyncTestCase):
             update_not_img_action.execute(callback=self.stop)
             response = self.wait()
             self.assertEqual(StorageResponse.OK, response)
+
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        self.wait()
+
+    def test_update_sharing_thumbnail(self):
+
+        first_collection_name = 'shareable_collection_thumbnail'
+        file = open('../test_resources/XooML.xml')
+        StorageServer.add_collection(user_id=self.__account_id,
+            collection_name=first_collection_name, callback=self.stop, file= file)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #add thumbnail
+        file = open('../test_resources/note_img.jpg')
+        StorageServer.add_thumbnail(self.__account_id, first_collection_name,
+            file, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #update thumnail action
+        file = open('../test_resources/note_img2.jpg')
+        update_thumbnail_action = UpdateSharedThumbnailAction(self.__account_id,
+            first_collection_name, file)
+        update_thumbnail_action.execute(callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, first_collection_name,
+            callback=self.stop)
+        self.wait()
+
+    def test_update_sharing_thumbnail_non_existing_thumbnail(self):
+
+        first_collection_name = 'shareable_collection_thumbnail'
+        file = open('../test_resources/XooML.xml')
+        StorageServer.add_collection(user_id=self.__account_id,
+            collection_name=first_collection_name, callback=self.stop, file= file)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #update thumnail action
+        file = open('../test_resources/note_img2.jpg')
+        update_thumbnail_action = UpdateSharedThumbnailAction(self.__account_id,
+            first_collection_name, file)
+        update_thumbnail_action.execute(callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, first_collection_name,
+            callback=self.stop)
+        self.wait()
+
+    def test_update_sharing_thumbnail_repeatedly(self):
+
+        first_collection_name = 'shareable_collection_thumbnail'
+        file = open('../test_resources/XooML.xml')
+        StorageServer.add_collection(user_id=self.__account_id,
+            collection_name=first_collection_name, callback=self.stop, file= file)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        for x in range(3):
+            #update thumnail action
+            file = open('../test_resources/note_img2.jpg')
+            update_thumbnail_action = UpdateSharedThumbnailAction(self.__account_id,
+                first_collection_name, file)
+            update_thumbnail_action.execute(callback=self.stop)
+            response = self.wait()
+            self.assertEqual(StorageResponse.OK, response)
+
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, first_collection_name,
+            callback=self.stop)
+        self.wait()
+
+    def test_delete_shared_note(self):
+
+        note_name = 'note_name'
+        collection_name = 'collection_name'
+        #update note
+        note_file = open('../test_resources/note2.xml')
+        update_note_action = UpdateSharedNoteAction(self.__account_id, collection_name,
+            note_name, note_file)
+        update_note_action.execute(callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        delete_action = DeleteSharedNoteAction(self.__account_id,
+            collection_name, note_name)
+        delete_action.execute(callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        self.wait()
+
+    def test_delete_shared_note_non_existing_note(self):
+
+        delete_action = DeleteSharedNoteAction(self.__account_id,
+            'dummy', 'dummer')
+        delete_action.execute(callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.NOT_FOUND, response)
+
+    def test_double_deleting_shared_note(self):
+
+        note_name = 'note_name'
+        collection_name = 'collection_name'
+        #update note
+        note_file = open('../test_resources/note2.xml')
+        update_note_action = UpdateSharedNoteAction(self.__account_id, collection_name,
+            note_name, note_file)
+        update_note_action.execute(callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        delete_action = DeleteSharedNoteAction(self.__account_id,
+            collection_name, note_name)
+        delete_action.execute(callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        delete_action2 = DeleteSharedNoteAction(self.__account_id,
+            collection_name, note_name)
+        delete_action2.execute(callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.NOT_FOUND, response)
 
         #cleanup
         StorageServer.remove_collection(self.__account_id, collection_name,
