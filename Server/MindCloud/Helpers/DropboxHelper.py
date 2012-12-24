@@ -206,7 +206,13 @@ class DropboxHelper:
         try:
             metadata = yield gen.Task(db_client.metadata, path)
             if metadata is not None:
-                callback(True)
+                if 'is_deleted' in metadata:
+                    if metadata['is_deleted'] :
+                        callback(False)
+                    else:
+                        callback(True)
+                else:
+                    callback(True)
             else:
                 callback(False)
         except Exception:

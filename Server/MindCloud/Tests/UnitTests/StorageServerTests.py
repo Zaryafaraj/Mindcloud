@@ -1,6 +1,7 @@
 import uuid
 from tornado.ioloop import IOLoop
 from tornado.testing import AsyncTestCase
+from Storage.StorageResourceType import StorageResourceType
 from Storage.StorageResponse import StorageResponse
 from Storage.StorageServer import StorageServer
 from Tests.TestingProperties import TestingProperties
@@ -421,6 +422,48 @@ class StorageServerTests(AsyncTestCase):
         StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
         self.wait()
 
+    def test_existance_of_note_valid(self):
+        collection_name = 'col_name'
+        note_name = 'noteName'
+        note_file = open('../test_resources/note.xml')
+        StorageServer.add_note_to_collection(self.__account_id,
+            collection_name, note_name, note_file, callback = self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #check the existance
+        StorageServer.does_note_resource_exist(self.__account_id,
+            collection_name, note_name, StorageResourceType.NOTE_MANIFEST,
+            callback=self.stop)
+
+        does_exist = self.wait()
+        self.assertTrue(does_exist)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
+    def test_existance_of_note_invalid(self):
+
+        collection_name = 'col_name'
+        note_name = 'noteName'
+        StorageServer.add_note_to_collection(self.__account_id,
+            collection_name, note_name, note_file=None, callback = self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #check
+        StorageServer.does_note_resource_exist(self.__account_id,
+            collection_name, note_name, StorageResourceType.NOTE_MANIFEST,
+            callback=self.stop)
+
+        does_exist = self.wait()
+        self.assertTrue(not does_exist)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
     def test_get_non_existing_note(self):
 
         collection_name = 'col_name'
@@ -537,6 +580,48 @@ class StorageServerTests(AsyncTestCase):
         #clean up
         StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
         self.wait()
+
+    def test_existance_of_note_img_valid(self):
+
+        #add image
+        img_file = open('../test_resources/note_img.jpg')
+        collection_name = 'dummyCol'
+        note_name = 'dummyNote'
+        StorageServer.add_image_to_note(self.__account_id, collection_name,
+            note_name, img_file, callback= self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #check for the exsistance
+        StorageServer.does_note_resource_exist(self.__account_id,
+            collection_name, note_name, StorageResourceType.NOTE_IMG, callback=self.stop)
+        does_exist = self.wait()
+        self.assertTrue(does_exist)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
+    def test_existance_of_note_img_invalid(self):
+        #create collection and note without image
+        collection_name = 'col_name'
+        note_name = 'noteName'
+        StorageServer.add_note_to_collection(self.__account_id,
+            collection_name, note_name, note_file=None, callback = self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #check for existance
+        StorageServer.does_note_resource_exist(self.__account_id,
+            collection_name, note_name, StorageResourceType.NOTE_IMG, callback=self.stop)
+        does_exist = self.wait()
+        self.assertTrue(not does_exist)
+
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
 
     def test_get_note_img_invalid_collection(self):
 
