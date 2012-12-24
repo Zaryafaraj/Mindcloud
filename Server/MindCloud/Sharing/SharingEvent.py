@@ -13,6 +13,7 @@ class SharingEvent:
     UPDATE_NOTE = 'update_note'
     UPDATE_NOTE_IMG = 'update_note_img'
     DELETE_NOTE = 'delete_note'
+    UPDATE_THUMBNAIL = 'update_thumbnail'
 
     __event_dictionary = {}
     #determines whether an action was added to this event or not
@@ -32,7 +33,8 @@ class SharingEvent:
         event_file = sharing_action.get_associated_file()
         event_resource_name = sharing_action.get_action_resource_name()
         event_content = None
-        if event_type == SharingEvent.UPDATE_NOTE_IMG:
+        if event_type == SharingEvent.UPDATE_NOTE_IMG or \
+           event_type == SharingEvent.UPDATE_THUMBNAIL:
             event_content = sharing_action.get_img_secret()
         else:
             event_content = event_file.read()
@@ -43,7 +45,8 @@ class SharingEvent:
         # UPDATE_NOTE = {NOTE1: content1, NOTE2 : content2}
         # UPDATE_NOTE_IMG = {NOTE1 : content1, NOTE4: content4}
         #}
-        if event_type == SharingEvent.UPDATE_MANIFEST:
+        if event_type == SharingEvent.UPDATE_MANIFEST or \
+           event_type == SharingEvent.UPDATE_THUMBNAIL:
             self.__event_dictionary[event_type] = event_content
         else:
             if event_type not in self.__event_dictionary:

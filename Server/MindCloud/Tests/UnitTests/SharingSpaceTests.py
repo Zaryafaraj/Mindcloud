@@ -1338,7 +1338,7 @@ class SharingSpaceTestcase(AsyncTestCase):
                             success = True
 
         self.assertTrue(success)
-        self.assertTrue(not self.__simple_callback_flag)
+        self.assertEqual(1, self.__primary_listeners_returned)
         #only one backup callback should return. Two listeners return one is the priamry listener
         #remainign from the owner and the other is the backup listener for first subscriber
         self.assertEqual(1, self.__backup_listeners_returned)

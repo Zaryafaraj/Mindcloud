@@ -34,20 +34,6 @@ class SharingSpaceController(SharingActionDelegate):
     #current remaining actions in a batch
     __remaining_actions = 0
 
-    #primary listeners is a dictionary of user id to a request
-    #these listeners are notified as soon as an update becomes
-    #available for them
-    __listeners = {}
-
-    #backup listeners is a dictionary of user_id to a tuple of
-    #(request, sharing_event). These listeners act as a backup
-    #for primary listeners and save the next notification until
-    #another listener is added for them.
-    #As soon as another listener is added for these, the backup listeners
-    #are notified with all the changes before the other listener arrived
-    #and go back to the user. In this case, the second listener becomes a
-    #backup listener
-    __backup_listeners = {}
 
     #At any point in time the following conditions may exist:
     # 1- There is a primary listener and no back up listener:
@@ -76,6 +62,20 @@ class SharingSpaceController(SharingActionDelegate):
     def __init__(self):
         self.__sharing_queue = SharingQueue()
         self.__sharing_queue.is_being_processed = False
+        #primary listeners is a dictionary of user id to a request
+        #these listeners are notified as soon as an update becomes
+        #available for them
+        self.__listeners = {}
+
+        #backup listeners is a dictionary of user_id to a tuple of
+        #(request, sharing_event). These listeners act as a backup
+        #for primary listeners and save the next notification until
+        #another listener is added for them.
+        #As soon as another listener is added for these, the backup listeners
+        #are notified with all the changes before the other listener arrived
+        #and go back to the user. In this case, the second listener becomes a
+        #backup listener
+        self.__backup_listeners = {}
 
     def is_being_processed(self):
         return self.__sharing_queue.is_being_processed()
@@ -280,7 +280,8 @@ class SharingSpaceController(SharingActionDelegate):
         event_type = sharing_action.get_action_type()
         #in the case of the image we cache the image and notify the user
         #of the image, they can then request the temporary cached image
-        if event_type == SharingEvent.UPDATE_NOTE_IMG:
+        if event_type == SharingEvent.UPDATE_NOTE_IMG or \
+           event_type == SharingEvent.UPDATE_THUMBNAIL:
             yield gen.Task(self.__store_temp_image, sharing_action)
 
         notified_listeners = set()

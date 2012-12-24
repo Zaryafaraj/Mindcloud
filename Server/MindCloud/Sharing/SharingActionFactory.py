@@ -6,6 +6,7 @@ from Sharing.SharingEvent import SharingEvent
 from Sharing.UpdateSharedManifestAction import UpdateSharedManifestAction
 from Sharing.UpdateSharedNoteAction import UpdateSharedNoteAction
 from Sharing.UpdateSharedNoteImageAction import UpdateSharedNoteImageAction
+from Sharing.UpdateSharedThumbnailAction import UpdateSharedThumbnailAction
 
 __author__ = 'afathali'
 
@@ -72,6 +73,17 @@ class SharingActionFactory():
                 sharing_action = DeleteSharedNoteAction(user_id, collection_name,
                     note_name)
                 return sharing_action
+            elif SharingEvent.UPDATE_THUMBNAIL:
+
+                if file is None:
+                    return None
+
+                details = json_obj[SharingEvent.UPDATE_THUMBNAIL]
+                user_id = details[SharingActionFactory.__USER_ID_KEY]
+                collection_name = details[SharingActionFactory.__COLLECTION_NAME_KEY]
+                sharing_action = UpdateSharedThumbnailAction(user_id, collection_name, file)
+                return sharing_action
+
             else:
                 return None
 
