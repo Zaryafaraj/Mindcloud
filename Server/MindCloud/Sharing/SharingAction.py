@@ -32,6 +32,10 @@ class SharingAction:
         pass
 
     @abstractmethod
+    def get_collection_name(self):
+        pass
+
+    @abstractmethod
     def get_associated_file(self):
         pass
 

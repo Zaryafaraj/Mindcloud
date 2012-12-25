@@ -1877,3 +1877,724 @@ INFO: 2012-12-24 20:12:52,993 -- SharingSpaceController - failed to update img f
 INFO: 2012-12-24 20:17:51,297 -- StorageServer - received error 404 for user A84FD293-1515-4CC2-BBD2-FC78FEED475D from dropbox
 INFO: 2012-12-24 20:19:10,109 -- StorageServer - received error 404 for user A84FD293-1515-4CC2-BBD2-FC78FEED475D from dropbox
 INFO: 2012-12-24 20:20:45,990 -- StorageServer - received error 404 for user A84FD293-1515-4CC2-BBD2-FC78FEED475D from dropbox
+INFO: 2012-12-24 21:22:42,138 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:22:42,138 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:22:43,721 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:22:43,721 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:22:43,722 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:22:48,701 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:22:48,702 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:22:50,717 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:22:50,718 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:22:50,718 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:22:54,890 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:22:54,890 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:22:56,221 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:22:56,221 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:22:56,222 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:00,955 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:00,956 -- SharingSpaceController - executing action first
+INFO: 2012-12-24 21:23:01,408 -- SharingSpaceController - finished executing action first with response 200
+INFO: 2012-12-24 21:23:01,409 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:23:01,409 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:01,410 -- SharingSpaceController - executing action second
+INFO: 2012-12-24 21:23:01,657 -- StorageServer - received error 404 for user A84FD293-1515-4CC2-BBD2-FC78FEED475D from dropbox
+INFO: 2012-12-24 21:23:01,658 -- SharingSpaceController - finished executing action second with response 404
+INFO: 2012-12-24 21:23:01,658 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:23:01,658 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:04,384 -- StorageServer - Could not retrieve file for collection col note del_note user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:23:07,289 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:07,290 -- SharingSpaceController - executing action 
+INFO: 2012-12-24 21:23:07,783 -- SharingSpaceController - finished executing action  with response 200
+INFO: 2012-12-24 21:23:07,784 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:23:07,784 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:10,292 -- StorageServer - Could not retrieve file for collection col note del_note user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:23:12,217 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:12,218 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:23:13,147 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:23:13,147 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:23:13,147 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:17,910 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:17,911 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:23:18,990 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:23:18,990 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:23:18,991 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:25,930 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:25,931 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:23:27,736 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:23:27,737 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:23:27,737 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:34,339 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:34,339 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:23:35,344 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:23:35,344 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:23:35,345 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:37,820 -- SharingSpaceController - primary listener added for user e76e2950-8dc8-4c47-8e8f-9c96dea86c0a
+INFO: 2012-12-24 21:23:37,821 -- SharingSpaceController - Backup listener added for user e76e2950-8dc8-4c47-8e8f-9c96dea86c0a
+INFO: 2012-12-24 21:23:37,822 -- SharingSpaceController - Backup listener added for user e76e2950-8dc8-4c47-8e8f-9c96dea86c0a
+INFO: 2012-12-24 21:23:37,822 -- SharingSpaceController - primary listener added for user e2a00f4c-2674-4af5-8060-84821ebb5427
+INFO: 2012-12-24 21:23:37,823 -- SharingSpaceController - primary listener added for user 72d46dc2-15db-4b59-9282-89a19aa5de7c
+INFO: 2012-12-24 21:23:37,823 -- SharingSpaceController - Backup listener added for user 72d46dc2-15db-4b59-9282-89a19aa5de7c
+INFO: 2012-12-24 21:23:37,824 -- SharingSpaceController - Backup listener added for user 72d46dc2-15db-4b59-9282-89a19aa5de7c
+INFO: 2012-12-24 21:23:39,934 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:39,935 -- SharingSpaceController - executing action user1-manifest-0
+INFO: 2012-12-24 21:23:41,292 -- SharingSpaceController - finished executing action user1-manifest-0 with response 200
+INFO: 2012-12-24 21:23:41,293 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:23:41,293 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:41,294 -- SharingSpaceController - executing action user1-manifest-2
+INFO: 2012-12-24 21:23:41,295 -- SharingSpaceController - executing action user2-manifest-2
+INFO: 2012-12-24 21:23:41,297 -- SharingSpaceController - executing action user2-update-note-note2
+INFO: 2012-12-24 21:23:41,298 -- SharingSpaceController - executing action user2-update-note-note1
+INFO: 2012-12-24 21:23:41,299 -- SharingSpaceController - executing action user2-update-note-note0
+INFO: 2012-12-24 21:23:42,207 -- SharingSpaceController - finished executing action user1-manifest-2 with response 200
+INFO: 2012-12-24 21:23:42,440 -- SharingSpaceController - finished executing action user2-manifest-2 with response 200
+INFO: 2012-12-24 21:23:42,580 -- SharingSpaceController - finished executing action user2-update-note-note2 with response 200
+INFO: 2012-12-24 21:23:42,906 -- SharingSpaceController - finished executing action user2-update-note-note1 with response 200
+INFO: 2012-12-24 21:23:43,145 -- SharingSpaceController - finished executing action user2-update-note-note0 with response 200
+INFO: 2012-12-24 21:23:43,146 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:23:43,146 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:43,148 -- SharingSpaceController - executing action user1-update-note-note2
+INFO: 2012-12-24 21:23:43,149 -- SharingSpaceController - executing action user1-update-note-note1
+INFO: 2012-12-24 21:23:43,150 -- SharingSpaceController - executing action user1-update-note-note0
+INFO: 2012-12-24 21:23:43,151 -- SharingSpaceController - executing action user2-update-img-note2
+INFO: 2012-12-24 21:23:43,153 -- SharingSpaceController - executing action user2-update-img-note1
+INFO: 2012-12-24 21:23:44,169 -- SharingSpaceController - finished executing action user1-update-note-note1 with response 200
+INFO: 2012-12-24 21:23:44,241 -- SharingSpaceController - finished executing action user2-update-img-note1 with response 200
+INFO: 2012-12-24 21:23:44,468 -- SharingSpaceController - finished executing action user1-update-note-note2 with response 200
+INFO: 2012-12-24 21:23:44,650 -- SharingSpaceController - finished executing action user1-update-note-note0 with response 200
+INFO: 2012-12-24 21:23:44,744 -- SharingSpaceController - finished executing action user2-update-img-note2 with response 200
+INFO: 2012-12-24 21:23:44,745 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:23:44,745 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:23:44,746 -- SharingSpaceController - executing action user2-update-img-note0
+INFO: 2012-12-24 21:23:44,748 -- SharingSpaceController - executing action user1-update-img-note2
+INFO: 2012-12-24 21:23:44,749 -- SharingSpaceController - executing action user1-update-img-note1
+INFO: 2012-12-24 21:23:44,750 -- SharingSpaceController - executing action user1-update-img-note0
+INFO: 2012-12-24 21:23:45,919 -- SharingSpaceController - finished executing action user2-update-img-note0 with response 200
+INFO: 2012-12-24 21:23:46,184 -- SharingSpaceController - finished executing action user1-update-img-note2 with response 200
+INFO: 2012-12-24 21:23:46,596 -- SharingSpaceController - finished executing action user1-update-img-note0 with response 200
+INFO: 2012-12-24 21:23:46,901 -- SharingSpaceController - finished executing action user1-update-img-note1 with response 200
+INFO: 2012-12-24 21:23:46,902 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:23:46,902 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:24:56,868 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:24:56,868 -- SharingSpaceController - executing action user1-manifest-0
+INFO: 2012-12-24 21:24:57,889 -- SharingSpaceController - finished executing action user1-manifest-0 with response 200
+INFO: 2012-12-24 21:24:57,890 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:24:57,890 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:24:57,891 -- SharingSpaceController - executing action user1-manifest-24
+INFO: 2012-12-24 21:24:57,892 -- SharingSpaceController - executing action user2-manifest-24
+INFO: 2012-12-24 21:24:57,894 -- SharingSpaceController - executing action user2-update-note-note9
+INFO: 2012-12-24 21:24:57,895 -- SharingSpaceController - executing action user2-update-note-note8
+INFO: 2012-12-24 21:24:57,896 -- SharingSpaceController - executing action user2-update-note-note7
+INFO: 2012-12-24 21:24:58,870 -- SharingSpaceController - finished executing action user2-manifest-24 with response 200
+INFO: 2012-12-24 21:24:58,905 -- SharingSpaceController - finished executing action user1-manifest-24 with response 200
+INFO: 2012-12-24 21:24:59,339 -- SharingSpaceController - finished executing action user2-update-note-note9 with response 200
+INFO: 2012-12-24 21:24:59,554 -- SharingSpaceController - finished executing action user2-update-note-note8 with response 200
+INFO: 2012-12-24 21:24:59,699 -- SharingSpaceController - finished executing action user2-update-note-note7 with response 200
+INFO: 2012-12-24 21:24:59,699 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:24:59,700 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:24:59,701 -- SharingSpaceController - executing action user2-update-note-note6
+INFO: 2012-12-24 21:24:59,702 -- SharingSpaceController - executing action user2-update-note-note5
+INFO: 2012-12-24 21:24:59,703 -- SharingSpaceController - executing action user2-update-note-note4
+INFO: 2012-12-24 21:24:59,705 -- SharingSpaceController - executing action user2-update-note-note3
+INFO: 2012-12-24 21:24:59,706 -- SharingSpaceController - executing action user2-update-note-note2
+INFO: 2012-12-24 21:25:01,166 -- SharingSpaceController - finished executing action user2-update-note-note3 with response 200
+INFO: 2012-12-24 21:25:01,296 -- SharingSpaceController - finished executing action user2-update-note-note5 with response 200
+INFO: 2012-12-24 21:25:01,665 -- SharingSpaceController - finished executing action user2-update-note-note4 with response 200
+INFO: 2012-12-24 21:25:02,399 -- SharingSpaceController - finished executing action user2-update-note-note6 with response 200
+INFO: 2012-12-24 21:25:03,108 -- SharingSpaceController - finished executing action user2-update-note-note2 with response 200
+INFO: 2012-12-24 21:25:03,109 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:25:03,109 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:25:03,110 -- SharingSpaceController - executing action user2-update-note-note1
+INFO: 2012-12-24 21:25:03,112 -- SharingSpaceController - executing action user2-update-note-note0
+INFO: 2012-12-24 21:25:03,113 -- SharingSpaceController - executing action user1-update-note-note9
+INFO: 2012-12-24 21:25:03,114 -- SharingSpaceController - executing action user1-update-note-note8
+INFO: 2012-12-24 21:25:03,115 -- SharingSpaceController - executing action user1-update-note-note7
+INFO: 2012-12-24 21:25:04,708 -- SharingSpaceController - finished executing action user2-update-note-note0 with response 200
+INFO: 2012-12-24 21:25:04,745 -- SharingSpaceController - finished executing action user1-update-note-note7 with response 200
+INFO: 2012-12-24 21:25:04,852 -- SharingSpaceController - finished executing action user2-update-note-note1 with response 200
+INFO: 2012-12-24 21:25:05,266 -- SharingSpaceController - finished executing action user1-update-note-note9 with response 200
+INFO: 2012-12-24 21:25:05,277 -- SharingSpaceController - finished executing action user1-update-note-note8 with response 200
+INFO: 2012-12-24 21:25:05,277 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:25:05,278 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:25:05,279 -- SharingSpaceController - executing action user1-update-note-note6
+INFO: 2012-12-24 21:25:05,280 -- SharingSpaceController - executing action user1-update-note-note5
+INFO: 2012-12-24 21:25:05,281 -- SharingSpaceController - executing action user1-update-note-note4
+INFO: 2012-12-24 21:25:05,283 -- SharingSpaceController - executing action user1-update-note-note3
+INFO: 2012-12-24 21:25:05,284 -- SharingSpaceController - executing action user1-update-note-note2
+INFO: 2012-12-24 21:25:06,546 -- SharingSpaceController - finished executing action user1-update-note-note2 with response 200
+INFO: 2012-12-24 21:25:06,803 -- SharingSpaceController - finished executing action user1-update-note-note3 with response 200
+INFO: 2012-12-24 21:25:06,966 -- SharingSpaceController - finished executing action user1-update-note-note5 with response 200
+INFO: 2012-12-24 21:25:07,364 -- SharingSpaceController - finished executing action user1-update-note-note4 with response 200
+INFO: 2012-12-24 21:25:07,472 -- SharingSpaceController - finished executing action user1-update-note-note6 with response 200
+INFO: 2012-12-24 21:25:07,473 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:25:07,473 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:25:07,474 -- SharingSpaceController - executing action user1-update-note-note1
+INFO: 2012-12-24 21:25:07,475 -- SharingSpaceController - executing action user1-update-note-note0
+INFO: 2012-12-24 21:25:07,477 -- SharingSpaceController - executing action user2-update-img-note9
+INFO: 2012-12-24 21:25:07,478 -- SharingSpaceController - executing action user2-update-img-note8
+INFO: 2012-12-24 21:25:07,479 -- SharingSpaceController - executing action user2-update-img-note7
+INFO: 2012-12-24 21:25:08,758 -- SharingSpaceController - finished executing action user1-update-note-note0 with response 200
+INFO: 2012-12-24 21:25:08,853 -- SharingSpaceController - finished executing action user2-update-img-note9 with response 200
+INFO: 2012-12-24 21:25:09,014 -- SharingSpaceController - finished executing action user2-update-img-note7 with response 200
+INFO: 2012-12-24 21:25:09,020 -- SharingSpaceController - finished executing action user1-update-note-note1 with response 200
+INFO: 2012-12-24 21:25:09,474 -- SharingSpaceController - finished executing action user2-update-img-note8 with response 200
+INFO: 2012-12-24 21:25:09,474 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:25:09,475 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:25:09,476 -- SharingSpaceController - executing action user2-update-img-note6
+INFO: 2012-12-24 21:25:09,477 -- SharingSpaceController - executing action user2-update-img-note5
+INFO: 2012-12-24 21:25:09,479 -- SharingSpaceController - executing action user2-update-img-note4
+INFO: 2012-12-24 21:25:09,480 -- SharingSpaceController - executing action user2-update-img-note3
+INFO: 2012-12-24 21:25:09,481 -- SharingSpaceController - executing action user2-update-img-note2
+INFO: 2012-12-24 21:25:10,794 -- SharingSpaceController - finished executing action user2-update-img-note6 with response 200
+INFO: 2012-12-24 21:25:11,093 -- SharingSpaceController - finished executing action user2-update-img-note5 with response 200
+INFO: 2012-12-24 21:25:11,382 -- SharingSpaceController - finished executing action user2-update-img-note3 with response 200
+INFO: 2012-12-24 21:25:11,661 -- SharingSpaceController - finished executing action user2-update-img-note2 with response 200
+INFO: 2012-12-24 21:25:11,891 -- SharingSpaceController - finished executing action user2-update-img-note4 with response 200
+INFO: 2012-12-24 21:25:11,892 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:25:11,892 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:25:11,893 -- SharingSpaceController - executing action user2-update-img-note1
+INFO: 2012-12-24 21:25:11,895 -- SharingSpaceController - executing action user2-update-img-note0
+INFO: 2012-12-24 21:25:11,896 -- SharingSpaceController - executing action user1-update-img-note9
+INFO: 2012-12-24 21:25:11,897 -- SharingSpaceController - executing action user1-update-img-note8
+INFO: 2012-12-24 21:25:11,899 -- SharingSpaceController - executing action user1-update-img-note7
+INFO: 2012-12-24 21:25:13,211 -- SharingSpaceController - finished executing action user2-update-img-note1 with response 200
+INFO: 2012-12-24 21:25:13,559 -- SharingSpaceController - finished executing action user1-update-img-note7 with response 200
+INFO: 2012-12-24 21:25:13,579 -- SharingSpaceController - finished executing action user2-update-img-note0 with response 200
+INFO: 2012-12-24 21:25:13,819 -- SharingSpaceController - finished executing action user1-update-img-note9 with response 200
+INFO: 2012-12-24 21:25:14,773 -- SharingSpaceController - finished executing action user1-update-img-note8 with response 200
+INFO: 2012-12-24 21:25:14,774 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:25:14,774 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:25:14,775 -- SharingSpaceController - executing action user1-update-img-note6
+INFO: 2012-12-24 21:25:14,777 -- SharingSpaceController - executing action user1-update-img-note5
+INFO: 2012-12-24 21:25:14,778 -- SharingSpaceController - executing action user1-update-img-note4
+INFO: 2012-12-24 21:25:14,779 -- SharingSpaceController - executing action user1-update-img-note3
+INFO: 2012-12-24 21:25:14,780 -- SharingSpaceController - executing action user1-update-img-note2
+INFO: 2012-12-24 21:25:16,397 -- SharingSpaceController - finished executing action user1-update-img-note3 with response 200
+INFO: 2012-12-24 21:25:17,338 -- SharingSpaceController - finished executing action user1-update-img-note6 with response 200
+DEBUG: 2012-12-24 21:25:17,385 -- SharingSpaceController - Retrying action user1-update-img-note5
+DEBUG: 2012-12-24 21:25:17,884 -- SharingSpaceController - Retrying action user1-update-img-note2
+INFO: 2012-12-24 21:25:18,411 -- SharingSpaceController - finished executing action user1-update-img-note4 with response 200
+INFO: 2012-12-24 21:25:18,912 -- SharingSpaceController - finished executing action user1-update-img-note5 with response 200
+INFO: 2012-12-24 21:25:19,816 -- SharingSpaceController - finished executing action user1-update-img-note2 with response 200
+INFO: 2012-12-24 21:25:19,817 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:25:19,817 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:25:19,818 -- SharingSpaceController - executing action user1-update-img-note1
+INFO: 2012-12-24 21:25:19,819 -- SharingSpaceController - executing action user1-update-img-note0
+INFO: 2012-12-24 21:25:22,026 -- SharingSpaceController - finished executing action user1-update-img-note1 with response 200
+INFO: 2012-12-24 21:25:22,330 -- SharingSpaceController - finished executing action user1-update-img-note0 with response 200
+INFO: 2012-12-24 21:25:22,331 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:25:22,331 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:26:37,685 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:26:37,686 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:26:37,687 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name
+INFO: 2012-12-24 21:26:37,688 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:26:37,689 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:26:37,690 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name
+INFO: 2012-12-24 21:26:38,650 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:26:38,651 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:26:38,651 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:26:38,652 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:26:39,550 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:26:39,551 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:26:39,551 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:26:51,933 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:26:51,933 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:26:51,934 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name
+INFO: 2012-12-24 21:26:51,935 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:26:51,936 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:26:51,937 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name2
+INFO: 2012-12-24 21:26:52,803 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:26:52,803 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:26:52,804 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:26:52,804 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:26:53,846 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:26:53,847 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:26:53,847 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:27:01,941 -- SharingSpaceController - backup listener has updates for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:27:01,942 -- SharingSpaceController - backup listener update returned for user A84FD293-1515-4CC2-BBD2-FC78FEED475D; replacing backup listener
+INFO: 2012-12-24 21:27:01,943 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name3
+INFO: 2012-12-24 21:27:11,948 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - replaceable_note
+INFO: 2012-12-24 21:27:11,949 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name_append0
+INFO: 2012-12-24 21:27:11,950 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name_append1
+INFO: 2012-12-24 21:27:11,950 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name_append2
+INFO: 2012-12-24 21:27:11,951 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - replaceable_note
+INFO: 2012-12-24 21:27:11,952 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_manifest - manifest
+INFO: 2012-12-24 21:27:11,954 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event delete_note - new_note_name_append0
+INFO: 2012-12-24 21:27:11,955 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event delete_note - new_note_name_append1
+INFO: 2012-12-24 21:27:11,959 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_thumbnail - thumbnail
+INFO: 2012-12-24 21:27:11,960 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note_img - new_note_img0
+INFO: 2012-12-24 21:27:11,961 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note_img - new_note_img1
+INFO: 2012-12-24 21:27:16,958 -- SharingSpaceController - backup listener has updates for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:27:16,959 -- SharingSpaceController - backup listener update returned for user A84FD293-1515-4CC2-BBD2-FC78FEED475D; replacing backup listener
+INFO: 2012-12-24 21:27:21,053 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:27:21,054 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:27:21,054 -- SharingSpaceController - primary listener added for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-24 21:27:21,055 -- SharingSpaceController - Backup listener added for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-24 21:27:21,055 -- SharingSpaceController - primary listener added for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2012-12-24 21:27:21,056 -- SharingSpaceController - Backup listener added for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2012-12-24 21:27:21,057 -- SharingSpaceController - notified primary listener FDB51632-0973-43D4-8990-1BFC3D16909E for sharing event update_note - new_note_name
+INFO: 2012-12-24 21:27:21,057 -- SharingSpaceController - notified primary listener 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84 for sharing event update_note - new_note_name
+INFO: 2012-12-24 21:27:21,058 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:27:21,059 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:27:21,060 -- SharingSpaceController - executing action 
+INFO: 2012-12-24 21:27:21,062 -- SharingSpaceController - executing action 
+INFO: 2012-12-24 21:27:21,063 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:27:21,064 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:27:21,066 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - recording_note
+INFO: 2012-12-24 21:27:21,066 -- SharingSpaceController - stored event for backup listener FDB51632-0973-43D4-8990-1BFC3D16909E for sharing event update_note - recording_note
+INFO: 2012-12-24 21:27:21,578 -- SharingSpaceController - finished executing action  with response 200
+INFO: 2012-12-24 21:27:21,824 -- SharingSpaceController - finished executing action  with response 200
+INFO: 2012-12-24 21:27:22,188 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:27:22,249 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:27:22,283 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:27:22,283 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:27:22,284 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:27:26,068 -- SharingSpaceController - backup listener has updates for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-24 21:27:26,069 -- SharingSpaceController - backup listener update returned for user FDB51632-0973-43D4-8990-1BFC3D16909E; replacing backup listener
+INFO: 2012-12-24 21:27:26,069 -- SharingSpaceController - primary listener added for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2012-12-24 21:27:29,860 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:27:29,860 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:27:29,861 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_manifest - manifest
+INFO: 2012-12-24 21:27:29,862 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:27:29,863 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:27:29,864 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:27:29,865 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:27:29,867 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:27:29,868 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:27:29,869 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:27:31,132 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:27:31,228 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:27:31,230 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:27:32,115 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:27:32,874 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:27:32,874 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:27:32,875 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:27:39,874 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_manifest - manifest
+INFO: 2012-12-24 21:27:43,582 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:27:43,583 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:27:43,583 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event delete_note - note_listener2
+INFO: 2012-12-24 21:27:43,584 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:27:43,585 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:27:43,586 -- SharingSpaceController - executing action 
+INFO: 2012-12-24 21:27:43,588 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:27:43,589 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:27:43,591 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:27:44,288 -- SharingSpaceController - finished executing action  with response 200
+INFO: 2012-12-24 21:27:44,731 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:27:44,944 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:27:45,200 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:27:45,288 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:27:45,288 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:27:45,289 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:27:49,521 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:27:49,521 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:27:49,522 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_manifest - manifest
+INFO: 2012-12-24 21:27:49,523 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:27:49,523 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:27:49,524 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:27:50,573 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:27:51,067 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:27:51,067 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:27:51,067 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:27:54,436 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:27:54,437 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:27:54,437 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name
+INFO: 2012-12-24 21:27:54,438 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:27:54,439 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:27:55,691 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:27:55,692 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:27:55,692 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:27:58,737 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:27:58,737 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:27:58,739 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:27:58,739 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:27:58,743 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note_img - new_note
+INFO: 2012-12-24 21:28:00,167 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:28:00,168 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:28:00,168 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:28:05,438 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:28:05,439 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:28:05,440 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:28:05,441 -- SharingSpaceController - executing action thumbnail
+INFO: 2012-12-24 21:28:05,445 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_thumbnail - thumbnail
+INFO: 2012-12-24 21:28:06,520 -- SharingSpaceController - finished executing action thumbnail with response 200
+INFO: 2012-12-24 21:28:06,520 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:28:06,520 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:28:10,448 -- SharingSpaceController - primary listener added for user 6bd1c20c-0536-4905-9612-9ce12ceb7702
+INFO: 2012-12-24 21:28:10,449 -- SharingSpaceController - Backup listener added for user 6bd1c20c-0536-4905-9612-9ce12ceb7702
+INFO: 2012-12-24 21:28:10,450 -- SharingSpaceController - Backup listener added for user 6bd1c20c-0536-4905-9612-9ce12ceb7702
+INFO: 2012-12-24 21:28:10,451 -- SharingSpaceController - primary listener added for user 6287ffe3-0c49-49bc-9358-1e9a55530447
+INFO: 2012-12-24 21:28:10,451 -- SharingSpaceController - primary listener added for user 4ef8819b-b899-4ce1-a1f0-26525b6b1aa0
+INFO: 2012-12-24 21:28:10,452 -- SharingSpaceController - Backup listener added for user 4ef8819b-b899-4ce1-a1f0-26525b6b1aa0
+INFO: 2012-12-24 21:28:10,453 -- SharingSpaceController - Backup listener added for user 4ef8819b-b899-4ce1-a1f0-26525b6b1aa0
+INFO: 2012-12-24 21:28:10,464 -- StorageServer - Could not retrieve user storage for user dummer
+INFO: 2012-12-24 21:28:16,767 -- StorageServer - Could not retrieve user storage for user dummer
+INFO: 2012-12-24 21:29:56,096 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:29:56,097 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:29:57,203 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:29:57,203 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:29:57,204 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:02,909 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:02,910 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:30:04,718 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:30:04,718 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:30:04,719 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:08,993 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:08,993 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:30:10,474 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:30:10,475 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:30:10,475 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:15,956 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:15,957 -- SharingSpaceController - executing action first
+INFO: 2012-12-24 21:30:16,528 -- SharingSpaceController - finished executing action first with response 200
+INFO: 2012-12-24 21:30:16,529 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:30:16,529 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:16,530 -- SharingSpaceController - executing action second
+INFO: 2012-12-24 21:30:16,795 -- StorageServer - received error 404 for user A84FD293-1515-4CC2-BBD2-FC78FEED475D from dropbox
+INFO: 2012-12-24 21:30:16,796 -- SharingSpaceController - finished executing action second with response 404
+INFO: 2012-12-24 21:30:16,796 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:30:16,797 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:18,778 -- StorageServer - Could not retrieve file for collection col note del_note user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:30:22,185 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:22,186 -- SharingSpaceController - executing action 
+INFO: 2012-12-24 21:30:22,625 -- SharingSpaceController - finished executing action  with response 200
+INFO: 2012-12-24 21:30:22,625 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:30:22,626 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:27,271 -- StorageServer - Could not retrieve file for collection col note del_note user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:30:28,851 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:28,851 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:30:29,870 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:30:29,870 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:30:29,871 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:33,977 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:33,978 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:30:35,136 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:30:35,137 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:30:35,137 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:40,609 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:40,610 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:30:42,044 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:30:42,045 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:30:42,045 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:47,348 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:47,348 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:30:48,188 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:30:48,188 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:30:48,189 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:50,772 -- SharingSpaceController - primary listener added for user 7074d1f3-1291-44f3-8117-8356a8244812
+INFO: 2012-12-24 21:30:50,773 -- SharingSpaceController - Backup listener added for user 7074d1f3-1291-44f3-8117-8356a8244812
+INFO: 2012-12-24 21:30:50,773 -- SharingSpaceController - Backup listener added for user 7074d1f3-1291-44f3-8117-8356a8244812
+INFO: 2012-12-24 21:30:50,774 -- SharingSpaceController - primary listener added for user f0025cc6-c364-44d6-b429-cf282f88ef39
+INFO: 2012-12-24 21:30:50,774 -- SharingSpaceController - primary listener added for user e3fb9c90-b6de-481c-b96e-b9de9ea507cc
+INFO: 2012-12-24 21:30:50,775 -- SharingSpaceController - Backup listener added for user e3fb9c90-b6de-481c-b96e-b9de9ea507cc
+INFO: 2012-12-24 21:30:50,775 -- SharingSpaceController - Backup listener added for user e3fb9c90-b6de-481c-b96e-b9de9ea507cc
+INFO: 2012-12-24 21:30:52,615 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:52,616 -- SharingSpaceController - executing action user1-manifest-0
+INFO: 2012-12-24 21:30:53,439 -- SharingSpaceController - finished executing action user1-manifest-0 with response 200
+INFO: 2012-12-24 21:30:53,439 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:30:53,440 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:53,441 -- SharingSpaceController - executing action user1-manifest-2
+INFO: 2012-12-24 21:30:53,442 -- SharingSpaceController - executing action user2-manifest-2
+INFO: 2012-12-24 21:30:53,443 -- SharingSpaceController - executing action user2-update-note-note2
+INFO: 2012-12-24 21:30:53,445 -- SharingSpaceController - executing action user2-update-note-note1
+INFO: 2012-12-24 21:30:53,446 -- SharingSpaceController - executing action user2-update-note-note0
+INFO: 2012-12-24 21:30:54,375 -- SharingSpaceController - finished executing action user1-manifest-2 with response 200
+INFO: 2012-12-24 21:30:54,473 -- SharingSpaceController - finished executing action user2-manifest-2 with response 200
+INFO: 2012-12-24 21:30:54,497 -- SharingSpaceController - finished executing action user2-update-note-note2 with response 200
+INFO: 2012-12-24 21:30:54,891 -- SharingSpaceController - finished executing action user2-update-note-note0 with response 200
+INFO: 2012-12-24 21:30:55,140 -- SharingSpaceController - finished executing action user2-update-note-note1 with response 200
+INFO: 2012-12-24 21:30:55,141 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:30:55,141 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:55,142 -- SharingSpaceController - executing action user1-update-note-note2
+INFO: 2012-12-24 21:30:55,143 -- SharingSpaceController - executing action user1-update-note-note1
+INFO: 2012-12-24 21:30:55,145 -- SharingSpaceController - executing action user1-update-note-note0
+INFO: 2012-12-24 21:30:55,146 -- SharingSpaceController - executing action user2-update-img-note2
+INFO: 2012-12-24 21:30:55,147 -- SharingSpaceController - executing action user2-update-img-note1
+INFO: 2012-12-24 21:30:56,128 -- SharingSpaceController - finished executing action user1-update-note-note1 with response 200
+INFO: 2012-12-24 21:30:56,318 -- SharingSpaceController - finished executing action user2-update-img-note1 with response 200
+INFO: 2012-12-24 21:30:56,359 -- SharingSpaceController - finished executing action user1-update-note-note2 with response 200
+INFO: 2012-12-24 21:30:56,566 -- SharingSpaceController - finished executing action user1-update-note-note0 with response 200
+INFO: 2012-12-24 21:30:58,175 -- SharingSpaceController - finished executing action user2-update-img-note2 with response 200
+INFO: 2012-12-24 21:30:58,176 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:30:58,177 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:30:58,179 -- SharingSpaceController - executing action user2-update-img-note0
+INFO: 2012-12-24 21:30:58,180 -- SharingSpaceController - executing action user1-update-img-note2
+INFO: 2012-12-24 21:30:58,182 -- SharingSpaceController - executing action user1-update-img-note1
+INFO: 2012-12-24 21:30:58,183 -- SharingSpaceController - executing action user1-update-img-note0
+INFO: 2012-12-24 21:30:59,581 -- SharingSpaceController - finished executing action user1-update-img-note1 with response 200
+INFO: 2012-12-24 21:30:59,879 -- SharingSpaceController - finished executing action user1-update-img-note2 with response 200
+INFO: 2012-12-24 21:31:00,188 -- SharingSpaceController - finished executing action user1-update-img-note0 with response 200
+INFO: 2012-12-24 21:31:00,302 -- SharingSpaceController - finished executing action user2-update-img-note0 with response 200
+INFO: 2012-12-24 21:31:00,302 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:31:00,303 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:32:05,528 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:32:05,528 -- SharingSpaceController - executing action user1-manifest-0
+INFO: 2012-12-24 21:32:06,559 -- SharingSpaceController - finished executing action user1-manifest-0 with response 200
+INFO: 2012-12-24 21:32:06,559 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:32:06,560 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:32:06,561 -- SharingSpaceController - executing action user1-manifest-24
+INFO: 2012-12-24 21:32:06,562 -- SharingSpaceController - executing action user2-manifest-24
+INFO: 2012-12-24 21:32:06,563 -- SharingSpaceController - executing action user2-update-note-note9
+INFO: 2012-12-24 21:32:06,564 -- SharingSpaceController - executing action user2-update-note-note8
+INFO: 2012-12-24 21:32:06,566 -- SharingSpaceController - executing action user2-update-note-note7
+INFO: 2012-12-24 21:32:07,515 -- SharingSpaceController - finished executing action user1-manifest-24 with response 200
+INFO: 2012-12-24 21:32:07,672 -- SharingSpaceController - finished executing action user2-update-note-note7 with response 200
+INFO: 2012-12-24 21:32:07,892 -- SharingSpaceController - finished executing action user2-manifest-24 with response 200
+INFO: 2012-12-24 21:32:07,910 -- SharingSpaceController - finished executing action user2-update-note-note9 with response 200
+INFO: 2012-12-24 21:32:08,311 -- SharingSpaceController - finished executing action user2-update-note-note8 with response 200
+INFO: 2012-12-24 21:32:08,311 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:32:08,312 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:32:08,313 -- SharingSpaceController - executing action user2-update-note-note6
+INFO: 2012-12-24 21:32:08,314 -- SharingSpaceController - executing action user2-update-note-note5
+INFO: 2012-12-24 21:32:08,316 -- SharingSpaceController - executing action user2-update-note-note4
+INFO: 2012-12-24 21:32:08,317 -- SharingSpaceController - executing action user2-update-note-note3
+INFO: 2012-12-24 21:32:08,318 -- SharingSpaceController - executing action user2-update-note-note2
+INFO: 2012-12-24 21:32:09,438 -- SharingSpaceController - finished executing action user2-update-note-note6 with response 200
+INFO: 2012-12-24 21:32:09,741 -- SharingSpaceController - finished executing action user2-update-note-note5 with response 200
+INFO: 2012-12-24 21:32:09,934 -- SharingSpaceController - finished executing action user2-update-note-note2 with response 200
+INFO: 2012-12-24 21:32:10,141 -- SharingSpaceController - finished executing action user2-update-note-note4 with response 200
+INFO: 2012-12-24 21:32:10,336 -- SharingSpaceController - finished executing action user2-update-note-note3 with response 200
+INFO: 2012-12-24 21:32:10,337 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:32:10,337 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:32:10,338 -- SharingSpaceController - executing action user2-update-note-note1
+INFO: 2012-12-24 21:32:10,340 -- SharingSpaceController - executing action user2-update-note-note0
+INFO: 2012-12-24 21:32:10,341 -- SharingSpaceController - executing action user1-update-note-note9
+INFO: 2012-12-24 21:32:10,342 -- SharingSpaceController - executing action user1-update-note-note8
+INFO: 2012-12-24 21:32:10,343 -- SharingSpaceController - executing action user1-update-note-note7
+INFO: 2012-12-24 21:32:11,452 -- SharingSpaceController - finished executing action user1-update-note-note8 with response 200
+INFO: 2012-12-24 21:32:11,510 -- SharingSpaceController - finished executing action user2-update-note-note1 with response 200
+INFO: 2012-12-24 21:32:11,724 -- SharingSpaceController - finished executing action user1-update-note-note7 with response 200
+INFO: 2012-12-24 21:32:11,735 -- SharingSpaceController - finished executing action user2-update-note-note0 with response 200
+INFO: 2012-12-24 21:32:11,866 -- SharingSpaceController - finished executing action user1-update-note-note9 with response 200
+INFO: 2012-12-24 21:32:11,867 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:32:11,867 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:32:11,869 -- SharingSpaceController - executing action user1-update-note-note6
+INFO: 2012-12-24 21:32:11,870 -- SharingSpaceController - executing action user1-update-note-note5
+INFO: 2012-12-24 21:32:11,871 -- SharingSpaceController - executing action user1-update-note-note4
+INFO: 2012-12-24 21:32:11,872 -- SharingSpaceController - executing action user1-update-note-note3
+INFO: 2012-12-24 21:32:11,874 -- SharingSpaceController - executing action user1-update-note-note2
+INFO: 2012-12-24 21:32:12,999 -- SharingSpaceController - finished executing action user1-update-note-note3 with response 200
+INFO: 2012-12-24 21:32:13,223 -- SharingSpaceController - finished executing action user1-update-note-note5 with response 200
+INFO: 2012-12-24 21:32:13,441 -- SharingSpaceController - finished executing action user1-update-note-note2 with response 200
+INFO: 2012-12-24 21:32:13,631 -- SharingSpaceController - finished executing action user1-update-note-note4 with response 200
+INFO: 2012-12-24 21:32:13,840 -- SharingSpaceController - finished executing action user1-update-note-note6 with response 200
+INFO: 2012-12-24 21:32:13,841 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:32:13,841 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:32:13,843 -- SharingSpaceController - executing action user1-update-note-note1
+INFO: 2012-12-24 21:32:13,844 -- SharingSpaceController - executing action user1-update-note-note0
+INFO: 2012-12-24 21:32:13,845 -- SharingSpaceController - executing action user2-update-img-note9
+INFO: 2012-12-24 21:32:13,847 -- SharingSpaceController - executing action user2-update-img-note8
+INFO: 2012-12-24 21:32:13,848 -- SharingSpaceController - executing action user2-update-img-note7
+INFO: 2012-12-24 21:32:14,982 -- SharingSpaceController - finished executing action user2-update-img-note8 with response 200
+INFO: 2012-12-24 21:32:15,002 -- SharingSpaceController - finished executing action user1-update-note-note1 with response 200
+INFO: 2012-12-24 21:32:15,235 -- SharingSpaceController - finished executing action user1-update-note-note0 with response 200
+DEBUG: 2012-12-24 21:32:15,866 -- SharingSpaceController - Retrying action user2-update-img-note9
+INFO: 2012-12-24 21:32:17,019 -- SharingSpaceController - finished executing action user2-update-img-note7 with response 200
+INFO: 2012-12-24 21:32:17,156 -- SharingSpaceController - finished executing action user2-update-img-note9 with response 200
+INFO: 2012-12-24 21:32:17,156 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:32:17,157 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:32:17,158 -- SharingSpaceController - executing action user2-update-img-note6
+INFO: 2012-12-24 21:32:17,160 -- SharingSpaceController - executing action user2-update-img-note5
+INFO: 2012-12-24 21:32:17,161 -- SharingSpaceController - executing action user2-update-img-note4
+INFO: 2012-12-24 21:32:17,162 -- SharingSpaceController - executing action user2-update-img-note3
+INFO: 2012-12-24 21:32:17,164 -- SharingSpaceController - executing action user2-update-img-note2
+INFO: 2012-12-24 21:32:18,320 -- SharingSpaceController - finished executing action user2-update-img-note5 with response 200
+INFO: 2012-12-24 21:32:18,624 -- SharingSpaceController - finished executing action user2-update-img-note3 with response 200
+INFO: 2012-12-24 21:32:18,877 -- SharingSpaceController - finished executing action user2-update-img-note2 with response 200
+INFO: 2012-12-24 21:32:19,117 -- SharingSpaceController - finished executing action user2-update-img-note4 with response 200
+INFO: 2012-12-24 21:32:19,405 -- SharingSpaceController - finished executing action user2-update-img-note6 with response 200
+INFO: 2012-12-24 21:32:19,406 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:32:19,406 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:32:19,407 -- SharingSpaceController - executing action user2-update-img-note1
+INFO: 2012-12-24 21:32:19,408 -- SharingSpaceController - executing action user2-update-img-note0
+INFO: 2012-12-24 21:32:19,410 -- SharingSpaceController - executing action user1-update-img-note9
+INFO: 2012-12-24 21:32:19,411 -- SharingSpaceController - executing action user1-update-img-note8
+INFO: 2012-12-24 21:32:19,412 -- SharingSpaceController - executing action user1-update-img-note7
+INFO: 2012-12-24 21:32:20,616 -- SharingSpaceController - finished executing action user2-update-img-note0 with response 200
+INFO: 2012-12-24 21:32:20,840 -- SharingSpaceController - finished executing action user2-update-img-note1 with response 200
+INFO: 2012-12-24 21:32:21,015 -- SharingSpaceController - finished executing action user1-update-img-note8 with response 200
+INFO: 2012-12-24 21:32:21,584 -- SharingSpaceController - finished executing action user1-update-img-note7 with response 200
+INFO: 2012-12-24 21:32:21,905 -- SharingSpaceController - finished executing action user1-update-img-note9 with response 200
+INFO: 2012-12-24 21:32:21,905 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:32:21,906 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:32:21,907 -- SharingSpaceController - executing action user1-update-img-note6
+INFO: 2012-12-24 21:32:21,908 -- SharingSpaceController - executing action user1-update-img-note5
+INFO: 2012-12-24 21:32:21,909 -- SharingSpaceController - executing action user1-update-img-note4
+INFO: 2012-12-24 21:32:21,911 -- SharingSpaceController - executing action user1-update-img-note3
+INFO: 2012-12-24 21:32:21,912 -- SharingSpaceController - executing action user1-update-img-note2
+INFO: 2012-12-24 21:32:23,346 -- SharingSpaceController - finished executing action user1-update-img-note4 with response 200
+INFO: 2012-12-24 21:32:23,914 -- SharingSpaceController - finished executing action user1-update-img-note6 with response 200
+INFO: 2012-12-24 21:32:24,227 -- SharingSpaceController - finished executing action user1-update-img-note5 with response 200
+INFO: 2012-12-24 21:32:24,521 -- SharingSpaceController - finished executing action user1-update-img-note2 with response 200
+INFO: 2012-12-24 21:32:24,772 -- SharingSpaceController - finished executing action user1-update-img-note3 with response 200
+INFO: 2012-12-24 21:32:24,773 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:32:24,773 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:32:24,774 -- SharingSpaceController - executing action user1-update-img-note1
+INFO: 2012-12-24 21:32:24,775 -- SharingSpaceController - executing action user1-update-img-note0
+INFO: 2012-12-24 21:32:26,551 -- SharingSpaceController - finished executing action user1-update-img-note0 with response 200
+INFO: 2012-12-24 21:32:26,686 -- SharingSpaceController - finished executing action user1-update-img-note1 with response 200
+INFO: 2012-12-24 21:32:26,687 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:32:26,687 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:33:28,466 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:33:28,467 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:33:28,468 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name
+INFO: 2012-12-24 21:33:28,468 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:33:28,469 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:33:28,470 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name
+INFO: 2012-12-24 21:33:29,541 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:33:29,542 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:33:29,543 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:33:29,543 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:33:30,731 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:33:30,732 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:33:30,732 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:33:41,687 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:33:41,688 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:33:41,689 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name
+INFO: 2012-12-24 21:33:41,689 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:33:41,690 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:33:41,692 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name2
+INFO: 2012-12-24 21:33:42,765 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:33:42,765 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:33:42,766 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:33:42,766 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:33:43,862 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:33:43,862 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:33:43,863 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:33:51,703 -- SharingSpaceController - backup listener has updates for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:33:51,704 -- SharingSpaceController - backup listener update returned for user A84FD293-1515-4CC2-BBD2-FC78FEED475D; replacing backup listener
+INFO: 2012-12-24 21:33:51,704 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name3
+INFO: 2012-12-24 21:34:01,708 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - replaceable_note
+INFO: 2012-12-24 21:34:01,709 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name_append0
+INFO: 2012-12-24 21:34:01,709 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name_append1
+INFO: 2012-12-24 21:34:01,710 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name_append2
+INFO: 2012-12-24 21:34:01,711 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - replaceable_note
+INFO: 2012-12-24 21:34:01,712 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_manifest - manifest
+INFO: 2012-12-24 21:34:01,713 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event delete_note - new_note_name_append0
+INFO: 2012-12-24 21:34:01,714 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event delete_note - new_note_name_append1
+INFO: 2012-12-24 21:34:01,719 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_thumbnail - thumbnail
+INFO: 2012-12-24 21:34:01,720 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note_img - new_note_img0
+INFO: 2012-12-24 21:34:01,721 -- SharingSpaceController - stored event for backup listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note_img - new_note_img1
+INFO: 2012-12-24 21:34:06,718 -- SharingSpaceController - backup listener has updates for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:34:06,719 -- SharingSpaceController - backup listener update returned for user A84FD293-1515-4CC2-BBD2-FC78FEED475D; replacing backup listener
+INFO: 2012-12-24 21:34:11,135 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:34:11,135 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:34:11,136 -- SharingSpaceController - primary listener added for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-24 21:34:11,136 -- SharingSpaceController - Backup listener added for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-24 21:34:11,137 -- SharingSpaceController - primary listener added for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2012-12-24 21:34:11,137 -- SharingSpaceController - Backup listener added for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2012-12-24 21:34:11,138 -- SharingSpaceController - notified primary listener FDB51632-0973-43D4-8990-1BFC3D16909E for sharing event update_note - new_note_name
+INFO: 2012-12-24 21:34:11,138 -- SharingSpaceController - notified primary listener 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84 for sharing event update_note - new_note_name
+INFO: 2012-12-24 21:34:11,139 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:34:11,140 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:34:11,142 -- SharingSpaceController - executing action 
+INFO: 2012-12-24 21:34:11,143 -- SharingSpaceController - executing action 
+INFO: 2012-12-24 21:34:11,144 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:34:11,145 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:34:11,147 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - recording_note
+INFO: 2012-12-24 21:34:11,148 -- SharingSpaceController - stored event for backup listener FDB51632-0973-43D4-8990-1BFC3D16909E for sharing event update_note - recording_note
+INFO: 2012-12-24 21:34:11,581 -- SharingSpaceController - finished executing action  with response 200
+INFO: 2012-12-24 21:34:11,793 -- SharingSpaceController - finished executing action  with response 200
+INFO: 2012-12-24 21:34:14,800 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:34:15,029 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:34:15,041 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:34:15,042 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:34:15,042 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:34:16,150 -- SharingSpaceController - backup listener has updates for user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2012-12-24 21:34:16,150 -- SharingSpaceController - backup listener update returned for user FDB51632-0973-43D4-8990-1BFC3D16909E; replacing backup listener
+INFO: 2012-12-24 21:34:16,151 -- SharingSpaceController - primary listener added for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2012-12-24 21:34:22,740 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:34:22,740 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:34:22,741 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_manifest - manifest
+INFO: 2012-12-24 21:34:22,742 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:34:22,743 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:34:22,744 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:34:22,745 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:34:22,747 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:34:22,748 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:34:22,749 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:34:23,960 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:34:24,093 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:34:24,152 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:34:24,796 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:34:25,043 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:34:25,043 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:34:25,044 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:34:32,753 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_manifest - manifest
+INFO: 2012-12-24 21:34:37,679 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:34:37,680 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:34:37,681 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event delete_note - note_listener2
+INFO: 2012-12-24 21:34:37,682 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:34:37,683 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:34:37,684 -- SharingSpaceController - executing action 
+INFO: 2012-12-24 21:34:37,685 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:34:37,687 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:34:37,688 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:34:38,219 -- SharingSpaceController - finished executing action  with response 200
+INFO: 2012-12-24 21:34:38,707 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:34:38,969 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:34:38,979 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:34:39,714 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:34:39,714 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:34:39,715 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:34:41,583 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:34:41,583 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:34:41,584 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_manifest - manifest
+INFO: 2012-12-24 21:34:41,585 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:34:41,585 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:34:41,587 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:34:42,613 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:34:42,732 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:34:42,733 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:34:42,733 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:34:45,476 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:34:45,476 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:34:45,477 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note - new_note_name
+INFO: 2012-12-24 21:34:45,478 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:34:45,478 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:34:46,481 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:34:46,481 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:34:46,482 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:34:49,160 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:34:49,161 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:34:49,162 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:34:49,163 -- SharingSpaceController - executing action  
+INFO: 2012-12-24 21:34:49,166 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_note_img - new_note
+INFO: 2012-12-24 21:34:50,614 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2012-12-24 21:34:50,614 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:34:50,615 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:34:56,328 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:34:56,329 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 21:34:56,330 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:34:56,331 -- SharingSpaceController - executing action thumbnail
+INFO: 2012-12-24 21:34:56,334 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_thumbnail - thumbnail
+INFO: 2012-12-24 21:34:57,557 -- SharingSpaceController - finished executing action thumbnail with response 200
+INFO: 2012-12-24 21:34:57,558 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 21:34:57,558 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 21:35:01,337 -- SharingSpaceController - primary listener added for user b83a750f-e0bd-4dc1-933e-c86ad2c499db
+INFO: 2012-12-24 21:35:01,338 -- SharingSpaceController - Backup listener added for user b83a750f-e0bd-4dc1-933e-c86ad2c499db
+INFO: 2012-12-24 21:35:01,339 -- SharingSpaceController - Backup listener added for user b83a750f-e0bd-4dc1-933e-c86ad2c499db
+INFO: 2012-12-24 21:35:01,340 -- SharingSpaceController - primary listener added for user be79ec3c-e392-4b0f-af70-53149643bc7d
+INFO: 2012-12-24 21:35:01,340 -- SharingSpaceController - primary listener added for user 764bf48c-55f5-4fd8-952b-8b037edc8936
+INFO: 2012-12-24 21:35:01,341 -- SharingSpaceController - Backup listener added for user 764bf48c-55f5-4fd8-952b-8b037edc8936
+INFO: 2012-12-24 21:35:01,342 -- SharingSpaceController - Backup listener added for user 764bf48c-55f5-4fd8-952b-8b037edc8936
+INFO: 2012-12-24 21:35:01,353 -- StorageServer - Could not retrieve user storage for user dummer
+INFO: 2012-12-24 21:35:01,353 -- SharingSpaceController - failed to update img for dummer; collection= dumms; note=dummble
+INFO: 2012-12-24 21:35:07,190 -- StorageServer - Could not retrieve user storage for user dummer
+INFO: 2012-12-24 21:35:07,191 -- SharingSpaceController - failed to update img for dummer; collection= dumms; note=None
+INFO: 2012-12-24 22:52:38,646 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection sharing_collection
+INFO: 2012-12-24 22:52:50,730 -- SharingController - exsiting sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection sharing_collection
+INFO: 2012-12-24 22:55:34,365 -- SharingController - exsiting sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection sharing_collection
+INFO: 2012-12-24 23:02:54,492 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection sharing_collection
+INFO: 2012-12-24 23:04:17,232 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection sharing_collection
+INFO: 2012-12-24 23:07:09,727 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection sharing_collection
+INFO: 2012-12-24 23:09:06,203 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection sharing_collection
+WARNING: 2012-12-24 23:11:30,690 -- SharingController - no sharing info found for: dummy
+INFO: 2012-12-24 23:12:39,399 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection sharing_collection
+INFO: 2012-12-24 23:13:01,788 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection sharing_collection
+WARNING: 2012-12-24 23:13:03,697 -- SharingController - no sharing info found for: dummy
+INFO: 2012-12-24 23:13:04,801 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection sharing_collection
+INFO: 2012-12-24 23:13:08,017 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection sharing_collection
+INFO: 2012-12-24 23:13:11,717 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection sharing_collection
+INFO: 2012-12-24 23:13:15,001 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection sharing_collection
+INFO: 2012-12-24 23:13:18,115 -- SharingController - No sharing record found for user A84FD293-1515-4CC2-BBD2-FC78FEED475D and collection sharing_collection

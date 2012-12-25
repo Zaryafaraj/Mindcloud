@@ -252,11 +252,13 @@ class SharingSpaceController(SharingActionDelegate):
             #this relates to a note image
             if note_name is not None:
                 img_file = yield gen.Task(StorageServer.get_note_image, user_id, collection_name, note_name)
-                img = img_file.read()
+                if img_file is not None:
+                    img = img_file.read()
             else:
             #its a thumbnail
                 img_file = yield gen.Task(StorageServer.get_thumbnail, user_id, collection_name)
-                img = img_file.read()
+                if img_file is not None:
+                    img = img_file.read()
 
             if img is None:
                 SharingSpaceController.__log.info('SharingSpaceController - failed to update img for %s; collection= %s; note=%s' % (user_id,collection_name,note_name))

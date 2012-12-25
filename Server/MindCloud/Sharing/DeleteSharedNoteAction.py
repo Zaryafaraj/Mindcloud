@@ -51,6 +51,9 @@ class DeleteSharedNoteAction(SharingAction):
         """
         return self.get_note_name()
 
+    def get_collection_name(self):
+        return self.__collection_name
+
     def clone_for_user_and_collection(self, user_id, collection_name):
 
         new_sharing_action = DeleteSharedNoteAction(user_id, collection_name,

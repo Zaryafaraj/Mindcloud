@@ -73,3 +73,6 @@ class UpdateSharedNoteAction(SharingAction):
             self.__collection_name, self.__note_name,
             StorageResourceType.NOTE_MANIFEST)
         callback(answer)
+
+    def get_collection_name(self):
+        return self.__collection_name

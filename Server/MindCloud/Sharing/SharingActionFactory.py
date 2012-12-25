@@ -30,8 +30,8 @@ class SharingActionFactory():
                            'user_id':'id']}
         """
 
-        json_obj = json.loads(json_str)
         try:
+            json_obj = json.loads(json_str)
             if SharingEvent.UPDATE_MANIFEST in json_obj:
                 if file is None:
                     return None
@@ -104,20 +104,23 @@ class SharingActionFactory():
         sharing_record = \
             yield gen.Task(SharingController.get_sharing_record_by_secret, sharing_secret)
 
-        #now get the list of all the subscribers
-        subscribers = sharing_record.get_subscribers()
-        all_actions = [sharing_action]
-        for subscriber_info in subscribers:
-            user_id = subscriber_info[0]
-            collection_name = subscriber_info[1]
-            if user_id != sharing_action.get_user_id():
-                related_action =\
-                    sharing_action.clone_for_user_and_collection(user_id,
-                        collection_name)
-                all_actions.append(related_action)
+        if sharing_record is None:
+            callback([])
+        else:
+            #now get the list of all the subscribers
+            subscribers = sharing_record.get_subscribers()
+            all_actions = [sharing_action]
+            for subscriber_info in subscribers:
+                user_id = subscriber_info[0]
+                collection_name = subscriber_info[1]
+                if user_id != sharing_action.get_user_id():
+                    related_action =\
+                        sharing_action.clone_for_user_and_collection(user_id,
+                            collection_name)
+                    all_actions.append(related_action)
 
-        if callback is not None:
-            callback(all_actions)
+            if callback is not None:
+                callback(all_actions)
 
 
 
