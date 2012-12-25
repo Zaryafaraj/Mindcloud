@@ -1830,3 +1830,50 @@ INFO: 2012-12-24 02:13:27,119 -- SharingSpaceController - primary listener added
 INFO: 2012-12-24 02:13:27,120 -- SharingSpaceController - primary listener added for user 02fd14f4-82d7-4aae-8056-db1e958036e9
 INFO: 2012-12-24 02:13:27,120 -- SharingSpaceController - Backup listener added for user 02fd14f4-82d7-4aae-8056-db1e958036e9
 INFO: 2012-12-24 02:13:27,121 -- SharingSpaceController - Backup listener added for user 02fd14f4-82d7-4aae-8056-db1e958036e9
+INFO: 2012-12-24 20:00:46,675 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 20:00:46,675 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 20:00:46,675 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 20:00:46,675 -- SharingSpaceController - executing action thumbnail
+INFO: 2012-12-24 20:00:46,676 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_thumbnail - thumbnail
+INFO: 2012-12-24 20:00:47,717 -- SharingSpaceController - finished executing action thumbnail with response 200
+INFO: 2012-12-24 20:00:47,718 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 20:00:47,718 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 20:05:37,348 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 20:05:37,348 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 20:05:37,349 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 20:05:37,349 -- SharingSpaceController - executing action thumbnail
+INFO: 2012-12-24 20:05:37,350 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_thumbnail - thumbnail
+INFO: 2012-12-24 20:05:38,232 -- SharingSpaceController - finished executing action thumbnail with response 200
+INFO: 2012-12-24 20:05:38,232 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 20:05:38,233 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 20:08:27,105 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 20:08:27,105 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 20:08:27,105 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 20:08:27,105 -- SharingSpaceController - executing action thumbnail
+INFO: 2012-12-24 20:08:27,106 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_thumbnail - thumbnail
+INFO: 2012-12-24 20:08:28,359 -- SharingSpaceController - finished executing action thumbnail with response 200
+INFO: 2012-12-24 20:08:28,359 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 20:08:28,359 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 20:08:45,729 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 20:08:45,729 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 20:08:45,729 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 20:08:45,729 -- SharingSpaceController - executing action thumbnail
+INFO: 2012-12-24 20:08:45,730 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_thumbnail - thumbnail
+INFO: 2012-12-24 20:08:46,995 -- SharingSpaceController - finished executing action thumbnail with response 200
+INFO: 2012-12-24 20:08:46,996 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 20:08:46,996 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 20:09:16,899 -- SharingSpaceController - primary listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 20:09:16,900 -- SharingSpaceController - Backup listener added for user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2012-12-24 20:09:16,901 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 20:09:16,901 -- SharingSpaceController - executing action thumbnail
+INFO: 2012-12-24 20:09:16,905 -- SharingSpaceController - notified primary listener A84FD293-1515-4CC2-BBD2-FC78FEED475D for sharing event update_thumbnail - thumbnail
+INFO: 2012-12-24 20:09:18,537 -- SharingSpaceController - finished executing action thumbnail with response 200
+INFO: 2012-12-24 20:09:18,537 -- Finished executing all the actions in the batch
+INFO: 2012-12-24 20:09:18,538 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2012-12-24 20:12:15,940 -- StorageServer - Could not retrieve user storage for user dummer
+INFO: 2012-12-24 20:12:15,941 -- SharingSpaceController - failed to update img for dummer; collection= dumms; note=dummble
+INFO: 2012-12-24 20:12:52,993 -- StorageServer - Could not retrieve user storage for user dummer
+INFO: 2012-12-24 20:12:52,993 -- SharingSpaceController - failed to update img for dummer; collection= dumms; note=None
+INFO: 2012-12-24 20:17:51,297 -- StorageServer - received error 404 for user A84FD293-1515-4CC2-BBD2-FC78FEED475D from dropbox
+INFO: 2012-12-24 20:19:10,109 -- StorageServer - received error 404 for user A84FD293-1515-4CC2-BBD2-FC78FEED475D from dropbox
+INFO: 2012-12-24 20:20:45,990 -- StorageServer - received error 404 for user A84FD293-1515-4CC2-BBD2-FC78FEED475D from dropbox

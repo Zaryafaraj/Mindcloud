@@ -964,6 +964,12 @@ class SharingSpaceTestcase(AsyncTestCase):
         self.assertTrue(success)
         self.assertTrue(action_type in self.__primary_listener_notification_action)
 
+        secret = str(self.__primary_listener_notification_action[action_type])
+        sharing_space.get_temp_img(secret, self.__account_id,
+            collection_name1,note_name=None, callback=self.stop)
+        img = self.wait()
+
+        self.assertTrue(img is not None)
 
     def test_primary_listener_notified_delete_note(self):
 
@@ -1590,6 +1596,70 @@ class SharingSpaceTestcase(AsyncTestCase):
         response_json = json.loads(body)
         self.__primary_listener_notification_action = response_json
         self.__backup_listeners_returned += 1
+
+
+    def test_retreive_sotred_note_img_not_existing(self):
+
+        sharing_space = SharingSpaceController()
+        sharing_space.get_temp_img('dummy', 'dummer',
+            'dumms', 'dummble', callback=self.stop)
+        img = self.wait()
+        self.assertTrue(img is None)
+
+    def test_retreive_stored_note_img_not_cached(self):
+
+        sharing_space = SharingSpaceController()
+
+        collection_name = 'collName'
+        note_name = 'note_name_temp'
+        #add image
+        img_file = open('../test_resources/note_img.jpg')
+        StorageServer.add_image_to_note(self.__account_id, collection_name,
+            note_name, img_file, callback= self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        sharing_space.get_temp_img('lalala', self.__account_id,
+            collection_name, note_name, callback=self.stop)
+        img = self.wait()
+
+        self.assertTrue(img is not None)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+
+    def test_retreive_stored_thumbnail_not_existing(self):
+        sharing_space = SharingSpaceController()
+        sharing_space.get_temp_img('dummy', 'dummer',
+            'dumms', note_name=None, callback=self.stop)
+        img = self.wait()
+        self.assertTrue(img is None)
+
+    def test_retreive_stored_thumbnail_not_cached(self):
+
+        collection_name = str(uuid.uuid1())
+        StorageServer.add_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+        thumbnail = open('../test_resources/thumbnail.jpg')
+        StorageServer.add_thumbnail(self.__account_id, collection_name, thumbnail,
+            callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+
+        sharing_space = SharingSpaceController()
+        sharing_space.get_temp_img('lalala', self.__account_id,
+            collection_name, note_name=None, callback=self.stop)
+        img = self.wait()
+        self.assertTrue(img is not None)
+
+        #cleanup
+        StorageServer.remove_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        self.wait()
 
 
 
