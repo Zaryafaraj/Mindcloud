@@ -1,4 +1,5 @@
 import json
+import cStringIO
 from tornado.ioloop import IOLoop
 from tornado.testing import AsyncTestCase
 from Sharing.DeleteSharedNoteAction import DeleteSharedNoteAction
@@ -12,6 +13,7 @@ from Sharing.UpdateSharedThumbnailAction import UpdateSharedThumbnailAction
 from Storage.StorageResponse import StorageResponse
 from Storage.StorageServer import StorageServer
 from Tests.TestingProperties import TestingProperties
+from Tests.UnitTests.MockFactory import MockFactory
 
 __author__ = 'afathali'
 
@@ -481,3 +483,4 @@ class SharingActionFactoryTestcase(AsyncTestCase):
             StorageServer.remove_collection(user_id, collection_name,
                 callback=self.stop)
             self.wait()
+

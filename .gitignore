@@ -62,3 +62,5 @@ Client/Mindcloud.xcodeproj/project.xcworkspace/xcuserdata/Karez.xcuserdatad/User
 Client/Mindcloud.xcodeproj/project.xcworkspace/xcuserdata/afathali.xcuserdatad/UserInterfaceState.xcuserstate
 
 Server/MindCloud/.idea/workspace.xml
+
+*.log

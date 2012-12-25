@@ -78,7 +78,10 @@ class SharingSpaceController(SharingActionDelegate):
         self.__backup_listeners = {}
 
     def is_being_processed(self):
-        return self.__sharing_queue.is_being_processed()
+        if self.__sharing_queue is None:
+            return False
+        else:
+            return self.__sharing_queue.is_being_processed
 
     def add_listener(self, user_id, request):
         """
@@ -332,6 +335,7 @@ class SharingSpaceController(SharingActionDelegate):
 
         SharingSpaceController.__log.info('SharingSpaceController - Started processing batch of %s actions' % str(iteration_count))
         if self.__sharing_queue.is_empty():
+            self.__sharing_queue.is_being_processed = False
             return
         else:
             actions_to_be_executed = []
@@ -382,7 +386,6 @@ class SharingSpaceController(SharingActionDelegate):
 
         if not self.__remaining_actions :
             SharingSpaceController.__log.info('Finished executing all the actions in the batch')
-
             self.__sharing_queue.is_being_processed = False
             self.__process_next_batch_of_queue_actions()
 

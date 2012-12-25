@@ -157,8 +157,3 @@ class SharingQueue:
         self.__update_note_img_actions.clear()
         self.is_being_processed = False
         self.__action_count = 0
-
-    #convinience method
-    def is_being_processed(self):
-        return self.is_being_processed
-
