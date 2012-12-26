@@ -70,6 +70,14 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         json_str = json.dumps(dict)
         return json_str
 
+    def __make_update_thumbnail_action(self, user_id, collection_name):
+
+        details = {'user_id' : user_id,
+                   'collection_name' : collection_name}
+        dict = {SharingEvent.UPDATE_THUMBNAIL : details}
+        json_str = json.dumps(dict)
+        return json_str
+
     def __cleanup(self, owner_id, collection_name, subscriber_list):
 
         url='/'.join(['', owner_id,'Collections', collection_name,'Share'])
@@ -478,19 +486,27 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         self.__backup_listener_returned = False
         #subscriber adds an action
         thumbnail = open('../../test_resources/note_img.jpg')
-        json_str = self.__make_update_thumbnail(self.subscriber_id, collection_name)
+        json_str = self.__make_update_thumbnail_action(self.subscriber_id, collection_name)
         header, post_body = HTTPHelper.create_multipart_request_with_file_and_params({'action' : json_str},
             'file', thumbnail)
 
         sharing_space_url = '/'.join(['', 'SharingSpace', sharing_secret])
         response = self.fetch(path=sharing_space_url, method = 'POST',
             headers=header, body=post_body)
-
-        self.__wait(10)
         self.assertEqual(200, response.code)
 
+        self.__wait(10)
+
         self.assertTrue(self.__primary_listener_returned)
-        img_secret = self.__primary_listener_json_obj[SharingEvent.UPDATE_THUMBNAIL]['secret']
+        secret = self.__primary_listener_json_obj[SharingEvent.UPDATE_THUMBNAIL]
+        temp_url = sharing_space_url + '/'+ owner_id + '/' +\
+                   collection_name + '/Thumbnail/' + secret
+        response = self.fetch(path=temp_url, method = 'GET')
+        self.assertEqual(StorageResponse.OK, response.code)
+        self.assertTrue(response.body is not None)
+
+        self.__cleanup(owner_id, collection_name, subscriber_list)
+        SharingSpaceStorage.get_instance().stop_cleanup_service()
 
 
     def test_get_temp_img_note_img(self):
@@ -530,7 +546,7 @@ class SharingSpaceTests(AsyncHTTPTestCase):
             headers=header, body=post_body)
         self.assertEqual(200, response.code)
 
-        self.__wait(10)
+        self.__wait(15)
 
         self.assertTrue(self.__primary_listener_returned)
         details = self.__primary_listener_json_obj[SharingEvent.UPDATE_NOTE_IMG]
@@ -540,14 +556,12 @@ class SharingSpaceTests(AsyncHTTPTestCase):
                        collection_name + '/' + note_name + '/' + secret
             response = self.fetch(path=temp_url, method = 'GET')
             self.assertEqual(StorageResponse.OK, response.code)
+            self.assertTrue(response.body is not None)
+
+        self.__cleanup(owner_id, collection_name, subscriber_list)
+        SharingSpaceStorage.get_instance().stop_cleanup_service()
 
     def test_get_temp_img_invalid_secret(self):
-        pass
-    def test_get_temp_img_missing_secret(self):
-        pass
-    def test_get_temp_img_invalid_parameters(self):
-        pass
-    def test_get_temp_img_missing_parameters(self):
 
         collection_name = 'share_api_col_name' + str(random.randint(0,100))
         owner_id = self.account_id
@@ -582,13 +596,76 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         sharing_space_url = '/'.join(['', 'SharingSpace', sharing_secret])
         response = self.fetch(path=sharing_space_url, method = 'POST',
             headers=header, body=post_body)
-
-        self.__wait(10)
         self.assertEqual(200, response.code)
+
+        self.__wait(15)
 
         self.assertTrue(self.__primary_listener_returned)
         details = self.__primary_listener_json_obj[SharingEvent.UPDATE_NOTE_IMG]
         for note_name in details:
-            secret = details[note_name]
-            response = self.fetch(path=sharing_space_url, method = 'GET')
-            self.assertEqual(StorageResponse.BAD_REQUEST, response.code)
+            secret =  'dummy'+ str(random.randint(0,100))
+            temp_url = sharing_space_url + '/'+ owner_id + '/' +\
+                       collection_name + '/' + note_name + '/' + secret
+            response = self.fetch(path=temp_url, method = 'GET')
+            #we still should get the image because the secret is used to revive
+            #the temp image from the cache and if its not there we discard
+            #and use otheri nformation to get the image
+            self.assertEqual(StorageResponse.OK, response.code)
+            self.assertTrue(response.body is not None)
+
+        self.__cleanup(owner_id, collection_name, subscriber_list)
+        SharingSpaceStorage.get_instance().stop_cleanup_service()
+
+
+    def test_get_temp_img_invalid_parameters(self):
+
+        collection_name = 'share_api_col_name' + str(random.randint(0,100))
+        owner_id = self.account_id
+        subscribers = [self.subscriber_id]
+
+        sharing_secret, subscriber_list =\
+        self.__create_shared_collection(owner_id, subscribers,
+            collection_name)
+
+        #add primary and secondary listeners
+        sharing_space_url = '/'.join(['', 'SharingSpace', sharing_secret, 'Listen'])
+        sharing_space_url = self.get_url(sharing_space_url)
+        details = {'user_id': owner_id}
+        json_str = json.dumps(details)
+        headers, post_body = HTTPHelper.create_multipart_request_with_parameters({'details' : json_str})
+        #owner listens as primary listener
+        self.http_client.fetch(sharing_space_url,
+            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+        #owner listeners as backup listener
+        self.http_client.fetch(sharing_space_url,
+            method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned)
+
+        self.__primary_listener_returned = False
+        self.__backup_listener_returned = False
+        #subscriber adds an action
+        note_name = 'name' + str(random.randint(0,100))
+        note_img_file = open('../../test_resources/note_img.jpg')
+        json_str = self.__make_update_note_img_action(self.subscriber_id, collection_name, note_name)
+        header, post_body = HTTPHelper.create_multipart_request_with_file_and_params({'action' : json_str},
+            'file', note_img_file)
+
+        sharing_space_url = '/'.join(['', 'SharingSpace', sharing_secret])
+        response = self.fetch(path=sharing_space_url, method = 'POST',
+            headers=header, body=post_body)
+        self.assertEqual(200, response.code)
+
+        self.__wait(15)
+
+        self.assertTrue(self.__primary_listener_returned)
+        details = self.__primary_listener_json_obj[SharingEvent.UPDATE_NOTE_IMG]
+        for note_name in details:
+            secret = 'lilililihozak'
+            temp_url = sharing_space_url + '/'+ owner_id + '/' +\
+                       'dummy_col_col' + '/' + 'nonexistingdummy' +\
+                       '/' + secret
+            response = self.fetch(path=temp_url, method = 'GET')
+            self.assertEqual(StorageResponse.NOT_FOUND, response.code)
+
+        self.__cleanup(owner_id, collection_name, subscriber_list)
+        SharingSpaceStorage.get_instance().stop_cleanup_service()
+

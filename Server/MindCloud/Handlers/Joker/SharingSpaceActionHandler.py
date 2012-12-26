@@ -40,30 +40,19 @@ class SharingSpaceActionHandler(tornado.web.RequestHandler):
                 self.set_status(200)
                 self.finish()
 
-
     @tornado.web.asynchronous
     @gen.engine
-    def get(self, sharing_secret, user_id, collection_name, secret):
-
-        sharing_storage = SharingSpaceStorage.get_instance()
-        sharing_space = sharing_storage.get_sharing_space(sharing_secret)
-
-        img = yield gen.Task(sharing_space.get_temp_img, secret,
-            user_id, collection_name, None)
-        if img is None:
-            self.set_status(404)
-            self.finish()
-        else:
-            self.set_status(200)
-            self.write(img)
-            self.finish()
-
-    @tornado.web.asynchronous
-    @gen.engine
+    #TODO Maybe we can separate this API into ? I don't like he we use the
+    #lack of note_name as a semantical cue
     def get(self, sharing_secret, user_id, collection_name, note_name, secret):
 
         sharing_storage = SharingSpaceStorage.get_instance()
         sharing_space = sharing_storage.get_sharing_space(sharing_secret)
+
+        #if we are asking for the thumbnail temp image we really don't need
+        #the note name as none will indicate it
+        if note_name == 'Thumbnail':
+            note_name = None
 
         img = yield gen.Task(sharing_space.get_temp_img, secret,
             user_id, collection_name, note_name)
