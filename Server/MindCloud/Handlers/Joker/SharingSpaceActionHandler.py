@@ -43,33 +43,36 @@ class SharingSpaceActionHandler(tornado.web.RequestHandler):
 
     @tornado.web.asynchronous
     @gen.engine
-    def get(self, sharing_secret):
+    def get(self, sharing_secret, user_id, collection_name, secret):
 
         sharing_storage = SharingSpaceStorage.get_instance()
         sharing_space = sharing_storage.get_sharing_space(sharing_secret)
 
-        details_json_str = self.get_argument('details')
-        try:
-            json_obj = json.loads(details_json_str)
-            user_id = json_obj['user_id']
-            collection_name = json_obj['collection_name']
-            note_name = None
-            if 'note_name' in json_obj:
-                note_name = json_obj[note_name]
-            secret = json_obj['secret']
-            img = yield gen.Task(sharing_space.get_temp_img, secret,
-                user_id, collection_name, note_name)
-            if img is None:
-                self.set_status(404)
-                self.finish()
-            else:
-                self.set_status(200)
-                self.write(img)
-                self.finish()
-
-        except Exception:
-            self.set_status(400)
+        img = yield gen.Task(sharing_space.get_temp_img, secret,
+            user_id, collection_name, None)
+        if img is None:
+            self.set_status(404)
+            self.finish()
+        else:
+            self.set_status(200)
+            self.write(img)
             self.finish()
 
+    @tornado.web.asynchronous
+    @gen.engine
+    def get(self, sharing_secret, user_id, collection_name, note_name, secret):
+
+        sharing_storage = SharingSpaceStorage.get_instance()
+        sharing_space = sharing_storage.get_sharing_space(sharing_secret)
+
+        img = yield gen.Task(sharing_space.get_temp_img, secret,
+            user_id, collection_name, note_name)
+        if img is None:
+            self.set_status(404)
+            self.finish()
+        else:
+            self.set_status(200)
+            self.write(img)
+            self.finish()
 
 

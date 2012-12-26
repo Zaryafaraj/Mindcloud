@@ -135,7 +135,7 @@ class SharingSpaceController(SharingActionDelegate):
 
 
     def __finish_request(self, request):
-        request.set_status('200')
+        request.set_status(200)
         request.finish()
 
     def remove_listener(self, user_id):
@@ -269,7 +269,7 @@ class SharingSpaceController(SharingActionDelegate):
         callback(img)
 
     def __generate_img_secret(self, user_id, collection_name, note_name):
-        return str(hash(str(user_id+collection_name+note_name)))
+        return str(abs(hash(str(user_id+collection_name+note_name))))
 
     @gen.engine
     def __store_temp_image(self, update_img_sharing_action, callback):

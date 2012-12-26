@@ -38,21 +38,25 @@ class SharingSpaceListenerHandler(tornado.web.RequestHandler):
 
     @tornado.web.asynchronous
     @gen.engine
-    def delete(self, sharing_secret):
+    def delete(self, sharing_secret, user_id):
 
         sharing_storage = SharingSpaceStorage.get_instance()
-        sharing_space = sharing_storage.get_sharing_space(sharing_secret)
-        if sharing_space is None:
-            self.set_status(404)
-            self.finish()
-        else:
-            try:
-                user_id = self.get_argument('user_id')
-                if user_id is None:
+
+        isValid = yield gen.Task(sharing_storage.validate_secret,
+            sharing_secret)
+        if isValid:
+            sharing_space = sharing_storage.get_sharing_space(sharing_secret)
+            if sharing_space is None:
+                self.set_status(404)
+                self.finish()
+            else:
+                try:
+                    sharing_space.remove_listener(user_id)
+                    self.set_status(200)
+                    self.finish()
+                except Exception as exceptionn:
                     self.set_status(400)
                     self.finish()
-                else:
-                    sharing_space.remove_listener(user_id, request=self)
-            except Exception:
-                self.set_status(400)
-                self.finish()
+        else:
+            self.set_status(404)
+            self.finish()

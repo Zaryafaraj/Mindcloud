@@ -147,20 +147,25 @@ class MindcloudCache():
 
         assert isinstance(img_secret, str) or isinstance(img_secret, unicode)
 
+        img_secret = str(img_secret)
+
+        img_file.seek(0)
         img_file_content = img_file.read()
+
         if img_file_content is not None :
             cache.set(img_secret, img_file_content, callback=callback)
 
     def get_temp_img(self, img_secret, callback = None):
 
         assert isinstance(img_secret, str) or isinstance(img_secret, unicode)
-
-        return cache.get(img_secret, callback=callback)
+        img_secret = str(img_secret)
+        cache.get(img_secret, callback=callback)
 
     def remove_temp_img(self, img_secret, callback = None):
 
         assert isinstance(img_secret, str) or isinstance(img_secret, unicode)
 
+        img_secret = str(img_secret)
         cache.delete(img_secret, callback=callback)
 
 
