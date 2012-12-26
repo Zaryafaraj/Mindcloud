@@ -213,6 +213,7 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         #owner listens as primary listener
         self.http_client.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+        self.__wait(5)
         #owner listeners as backup listener
         self.http_client.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned)
@@ -230,7 +231,7 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         response = self.fetch(path=sharing_space_url, method = 'POST',
             headers=header, body=post_body)
 
-        self.__wait(10)
+        self.__wait(20)
         self.assertEqual(200, response.code)
 
         self.assertTrue(self.__primary_listener_returned)
@@ -305,6 +306,7 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         #owner listens as primary listener
         response1 = self.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body)
+        self.__wait(5)
         #owner listeners as backup listener
         response2 =  self.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body)
@@ -336,6 +338,7 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         #owner listens as primary listener
         response1 = self.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body)
+        self.__wait(5)
         #owner listeners as backup listener
         response2 =  self.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body)
@@ -365,6 +368,7 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         #owner listens as primary listener
         self.http_client.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+        self.__wait(5)
         #owner listeners as backup listener
         self.http_client.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned)
@@ -418,6 +422,7 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         #owner listens as primary listener
         self.http_client.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+        self.__wait(5)
         #owner listeners as backup listener
         self.http_client.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned)
@@ -478,6 +483,7 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         #owner listens as primary listener
         self.http_client.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+        self.__wait(5)
         #owner listeners as backup listener
         self.http_client.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned)
@@ -528,6 +534,7 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         #owner listens as primary listener
         self.http_client.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+        self.__wait(5)
         #owner listeners as backup listener
         self.http_client.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned)
@@ -580,6 +587,7 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         #owner listens as primary listener
         self.http_client.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+        self.__wait(5)
         #owner listeners as backup listener
         self.http_client.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned)
@@ -636,6 +644,7 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         #owner listens as primary listener
         self.http_client.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+        self.__wait(5)
         #owner listeners as backup listener
         self.http_client.fetch(sharing_space_url,
             method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned)
