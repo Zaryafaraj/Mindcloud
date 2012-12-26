@@ -1,6 +1,8 @@
 from threading import Timer
 from Logging import Log
+from tornado import gen
 from Properties import MindcloudProperties
+from Sharing.SharingController import SharingController
 from Sharing.SharingSpaceController import SharingSpaceController
 
 __author__ = 'afathali'
@@ -118,4 +120,15 @@ class SharingSpaceStorage():
             sharing_space = SharingSpaceController()
             self.__sharing_spaces[sharing_secret] = sharing_space
             return sharing_space
+
+    @gen.engine
+    def validate_secret(self, sharing_secret, callback):
+
+        sharing_record =\
+        yield gen.Task(SharingController.get_sharing_record_by_secret, sharing_secret)
+
+        if sharing_record is None:
+            callback(True)
+        else:
+            callback(False)
 

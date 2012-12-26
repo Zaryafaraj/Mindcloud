@@ -333,11 +333,13 @@ class SharingSpaceController(SharingActionDelegate):
 
     def __process_actions_iterative(self, iteration_count):
 
-        SharingSpaceController.__log.info('SharingSpaceController - Started processing batch of %s actions' % str(iteration_count))
         if self.__sharing_queue.is_empty():
             self.__sharing_queue.is_being_processed = False
+            self.__log.info('SharingSpaceController - Finished executing all actions')
             return
         else:
+
+            SharingSpaceController.__log.info('SharingSpaceController - Started processing batch of %s actions' % str(iteration_count))
             actions_to_be_executed = []
             for x in range(iteration_count):
                 next_sharing_action = self.__sharing_queue.pop_next_action()
