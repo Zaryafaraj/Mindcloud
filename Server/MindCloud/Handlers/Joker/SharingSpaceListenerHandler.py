@@ -10,10 +10,11 @@ class SharingSpaceListenerHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @gen.engine
     def post(self, sharing_secret):
-        isValid = yield gen.Task(SharingSpaceStorage.validate_secret,
+
+        sharing_storage = SharingSpaceStorage.get_instance()
+        isValid = yield gen.Task(sharing_storage.validate_secret,
             sharing_secret)
         if isValid:
-            sharing_storage = SharingSpaceStorage.get_instance()
             sharing_space = sharing_storage.get_sharing_space(sharing_secret)
             if sharing_space is None:
                 self.set_status(404)

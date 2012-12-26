@@ -261,17 +261,19 @@ class SharingSpaceTests(AsyncHTTPTestCase):
 
     def primary_listener_returned(self, response):
         print 'primary'
+        print response.code
         print response.body
         self.__primary_listener_json_obj = json.loads(response.body)
         self.__primary_listener_returned = True
-        self.__primary_listener_status = response.status
+        self.__primary_listener_status = response.code
 
     def backup_listener_returned(self, response):
         print 'backup'
+        print response.code
         print response.body
         self.__backup_listener_json_obj = json.loads(response.body)
         self.__backup_listener_returned = True
-        self.__backup_listener_status = response.status
+        self.__backup_listener_status = response.code
 
     def test_add_listener_invalid_sharing_secret(self):
 
@@ -279,27 +281,55 @@ class SharingSpaceTests(AsyncHTTPTestCase):
 
         sharing_secret = 'XXXXXXXX'
 
-        self.__primary_listener_status = 0
-        self.__backup_listener_status = 0
         #add primary and secondary listeners
         sharing_space_url = '/'.join(['', 'SharingSpace', sharing_secret, 'Listen'])
-        sharing_space_url = self.get_url(sharing_space_url)
         details = {'user_id': owner_id}
         json_str = json.dumps(details)
         headers, post_body = HTTPHelper.create_multipart_request_with_parameters({'details' : json_str})
         #owner listens as primary listener
-        self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+        response1 = self.fetch(sharing_space_url,
+            method='POST', headers=headers, body=post_body)
         #owner listeners as backup listener
-        self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned)
+        response2 =  self.fetch(sharing_space_url,
+            method='POST', headers=headers, body=post_body)
 
-        self.__wait(10)
-        self.assertEqual(StorageResponse.NOT_FOUND, self.__primary_listener_status)
-        self.assertEqual(StorageResponse.NOT_FOUND, self.__backup_listener_status)
+        self.assertEqual(StorageResponse.NOT_FOUND, response1.code)
+        self.assertEqual(StorageResponse.NOT_FOUND, response2.code)
+
+        SharingSpaceStorage.get_instance().stop_cleanup_service()
 
     def test_add_listener_missing_parameter(self):
-        pass
+
+        collection_name = 'share_api_col_name' + str(random.randint(0,100))
+        owner_id = self.account_id
+        subscribers = [self.subscriber_id]
+
+        sharing_secret, subscriber_list =\
+        self.__create_shared_collection(owner_id, subscribers,
+            collection_name)
+
+        #add primary and secondary listeners
+        sharing_space_url = '/'.join(['', 'SharingSpace', sharing_secret, 'Listen'])
+        details = {'liliuser_id': owner_id}
+        json_str = json.dumps(details)
+
+        SharingSpaceStorage.get_instance().stop_cleanup_service()
+        headers, post_body = HTTPHelper.create_multipart_request_with_parameters({'details' : json_str})
+        #owner listens as primary listener
+
+        #owner listens as primary listener
+        response1 = self.fetch(sharing_space_url,
+            method='POST', headers=headers, body=post_body)
+        #owner listeners as backup listener
+        response2 =  self.fetch(sharing_space_url,
+            method='POST', headers=headers, body=post_body)
+
+        self.assertEqual(StorageResponse.BAD_REQUEST, response1.code)
+        self.assertEqual(StorageResponse.BAD_REQUEST, response2.code)
+
+        self.__cleanup(owner_id, collection_name, subscriber_list)
+        SharingSpaceStorage.get_instance().stop_cleanup_service()
+
     def test_delete_listener(self):
         pass
     def test_delete_listener_invalid_sharing_secret(self):

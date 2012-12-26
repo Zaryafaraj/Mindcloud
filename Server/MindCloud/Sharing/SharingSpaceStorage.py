@@ -128,7 +128,7 @@ class SharingSpaceStorage():
         yield gen.Task(SharingController.get_sharing_record_by_secret, sharing_secret)
 
         if sharing_record is None:
-            callback(True)
-        else:
             callback(False)
+        else:
+            callback(True)
 
