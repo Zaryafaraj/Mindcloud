@@ -105,7 +105,7 @@ class SharingActionFactory():
             yield gen.Task(SharingController.get_sharing_record_by_secret, sharing_secret)
 
         if sharing_record is None:
-            callback([])
+            callback(None)
         else:
             #now get the list of all the subscribers
             subscribers = sharing_record.get_subscribers()
