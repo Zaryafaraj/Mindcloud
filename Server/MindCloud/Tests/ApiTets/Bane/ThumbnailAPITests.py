@@ -26,7 +26,7 @@ class ThumbnailsTests(AsyncHTTPTestCase):
         url = '/'+self.account_id + '/Collections'
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
         self.assertEqual(200, response.code)
-        thumbnail = open('../test_resources/thumbnail.jpg')
+        thumbnail = open('../../test_resources/thumbnail.jpg')
         url += '/' + collection_name + '/Thumbnail'
         headers, post_data = HTTPHelper.create_multipart_request_with_single_file('file', thumbnail)
         response = self.fetch(path=url, headers=headers, method='POST',
@@ -42,7 +42,7 @@ class ThumbnailsTests(AsyncHTTPTestCase):
         url = '/'+self.account_id + '/Collections'
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
         self.assertEqual(200, response.code)
-        thumbnail = open('../test_resources/thumbnail.jpg')
+        thumbnail = open('../../test_resources/thumbnail.jpg')
         url += '/' + collection_name + '/Thumbnail'
         headers, post_data = HTTPHelper.create_multipart_request_with_single_file('file', thumbnail)
         response = self.fetch(path=url, headers=headers, method='POST',

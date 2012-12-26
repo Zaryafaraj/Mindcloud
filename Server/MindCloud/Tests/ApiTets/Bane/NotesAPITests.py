@@ -28,7 +28,7 @@ class NotesTests(AsyncHTTPTestCase):
         url = '/'+self.account_id + '/Collections'
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
         self.assertEqual(200, response.code)
-        note_file = open('../test_resources/note.xml')
+        note_file = open('../../test_resources/note.xml')
         url += '/' + collection_name + '/Notes'
         params = {'noteName' : 'NoteName'}
         headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
@@ -54,7 +54,7 @@ class NotesTests(AsyncHTTPTestCase):
         url = '/'+self.account_id + '/Collections'
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
         self.assertEqual(200, response.code)
-        note_file = open('../test_resources/note.xml')
+        note_file = open('../../test_resources/note.xml')
         url += '/' + collection_name + '/Notes'
         params = {'noteName' : 'NoteName'}
         headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
@@ -74,7 +74,7 @@ class NotesTests(AsyncHTTPTestCase):
         url = '/'+self.account_id + '/Collections'
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
         self.assertEqual(200, response.code)
-        note_file = open('../test_resources/note.xml')
+        note_file = open('../../test_resources/note.xml')
         url += '/' + collection_name + '/Notes'
         params = {'noteName' : note_name}
         headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
@@ -104,7 +104,7 @@ class NotesTests(AsyncHTTPTestCase):
         url = '/'+self.account_id + '/Collections'
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
         self.assertEqual(200, response.code)
-        note_file = open('../test_resources/note.xml')
+        note_file = open('../../test_resources/note.xml')
         url += '/' + collection_name + '/Notes'
         params = {'noteName' : note_name}
         headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
@@ -114,7 +114,7 @@ class NotesTests(AsyncHTTPTestCase):
         self.assertEqual(200, response.code)
 
         #update
-        note_file = open('../test_resources/note2.xml')
+        note_file = open('../../test_resources/note2.xml')
         headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
             (params, 'file', note_file)
         response = self.fetch(path=url, headers=headers, method='POST',
@@ -133,7 +133,7 @@ class NotesTests(AsyncHTTPTestCase):
         url = '/'+self.account_id + '/Collections'
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
         self.assertEqual(200, response.code)
-        note_file = open('../test_resources/note.xml')
+        note_file = open('../../test_resources/note.xml')
         url += '/' + collection_name + '/Notes'
         params = {'noteName' : note_name}
         headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
@@ -160,7 +160,7 @@ class NotesTests(AsyncHTTPTestCase):
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
         self.assertEqual(200, response.code)
 
-        note_file = open('../test_resources/note.xml')
+        note_file = open('../../test_resources/note.xml')
         url += '/' + collection_name + '/Notes'
         params = {'noteName' : note_name}
         headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
@@ -169,7 +169,7 @@ class NotesTests(AsyncHTTPTestCase):
             body=post_data)
         self.assertEqual(200, response.code)
 
-        img_file = open('../test_resources/note_img.jpg')
+        img_file = open('../../test_resources/note_img.jpg')
         url += '/' + note_name + '/Image'
         headers, post_data = HTTPHelper.\
             create_multipart_request_with_single_file('file', img_file)
@@ -191,7 +191,7 @@ class NotesTests(AsyncHTTPTestCase):
         self.assertEqual(200, response.code)
         url += '/' + collection_name + '/Notes'
 
-        img_file = open('../test_resources/note_img.jpg')
+        img_file = open('../../test_resources/note_img.jpg')
         url += '/' + note_name + '/Image'
 
         headers, post_data = HTTPHelper.\
@@ -213,7 +213,7 @@ class NotesTests(AsyncHTTPTestCase):
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
         self.assertEqual(200, response.code)
 
-        note_file = open('../test_resources/note.xml')
+        note_file = open('../../test_resources/note.xml')
         url += '/' + collection_name + '/Notes'
         params = {'noteName' : note_name}
         headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
@@ -222,7 +222,7 @@ class NotesTests(AsyncHTTPTestCase):
             body=post_data)
         self.assertEqual(200, response.code)
 
-        img_file = open('../test_resources/note_img.jpg')
+        img_file = open('../../test_resources/note_img.jpg')
         url += '/' + note_name + '/Image'
         headers, post_data = HTTPHelper.\
         create_multipart_request_with_single_file('file', img_file)
@@ -243,7 +243,7 @@ class NotesTests(AsyncHTTPTestCase):
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
         self.assertEqual(200, response.code)
 
-        note_file = open('../test_resources/note.xml')
+        note_file = open('../../test_resources/note.xml')
         url += '/' + collection_name + '/Notes'
         params = {'noteName' : note_name}
         headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
@@ -252,7 +252,7 @@ class NotesTests(AsyncHTTPTestCase):
             body=post_data)
         self.assertEqual(200, response.code)
 
-        img_file = open('../test_resources/note_img.jpg')
+        img_file = open('../../test_resources/note_img.jpg')
         url += '/' + note_name + '/Image'
         headers, post_data = HTTPHelper.\
         create_multipart_request_with_single_file('file', img_file)
@@ -288,7 +288,7 @@ class NotesTests(AsyncHTTPTestCase):
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
         self.assertEqual(200, response.code)
 
-        note_file = open('../test_resources/note.xml')
+        note_file = open('../../test_resources/note.xml')
         url += '/' + collection_name + '/Notes'
         params = {'noteName' : note_name}
         headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\

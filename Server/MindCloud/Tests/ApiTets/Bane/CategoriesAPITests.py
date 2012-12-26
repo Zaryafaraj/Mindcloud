@@ -19,7 +19,7 @@ class CategoriesTests(AsyncHTTPTestCase):
         return application
 
     def test_add_categories(self):
-        categories_file = open('../test_resources/categories.xml')
+        categories_file = open('../../test_resources/categories.xml')
         url = '/' + self.account_id + '/Categories'
         headers, post_data = HTTPHelper.create_multipart_request_with_single_file('file', categories_file)
         response = self.fetch(path=url, headers=headers, method='POST',

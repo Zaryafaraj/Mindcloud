@@ -15,8 +15,16 @@ class SharingSpaceListenerHandler(tornado.web.RequestHandler):
             self.set_status(404)
             self.finish()
         else:
-            user_id = self.get_argument('user_id')
-            sharing_space.add_listener(user_id, request=self)
+            try:
+                user_id = self.get_argument('user_id')
+                if user_id is None:
+                    self.set_status(400)
+                    self.finish()
+                else:
+                    sharing_space.add_listener(user_id, request=self)
+            except Exception:
+                self.set_status(400)
+                self.finish()
 
     @tornado.web.asynchronous
     @gen.engine
@@ -28,5 +36,13 @@ class SharingSpaceListenerHandler(tornado.web.RequestHandler):
             self.set_status(404)
             self.finish()
         else:
-            user_id = self.get_argument('user_id')
-            sharing_space.remove_listener(user_id, request=self)
+            try:
+                user_id = self.get_argument('user_id')
+                if user_id is None:
+                    self.set_status(400)
+                    self.finish()
+                else:
+                    sharing_space.remove_listener(user_id, request=self)
+            except Exception:
+                self.set_status(400)
+                self.finish()

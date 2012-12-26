@@ -51,7 +51,7 @@ class AccountsTests(AsyncHTTPTestCase):
 
     def test_add_collections_with_file(self):
         collection_name = 'a'
-        file = open('../test_resources/XooML.xml')
+        file = open('../../test_resources/XooML.xml')
         params = {'collectionName' : collection_name}
         headers, postData = HTTPHelper.create_multipart_request_with_file_and_params\
             (params, 'file', file)

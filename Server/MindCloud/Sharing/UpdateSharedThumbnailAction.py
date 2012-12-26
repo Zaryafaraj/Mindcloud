@@ -1,6 +1,7 @@
 import shutil
 import cStringIO
 from tornado import gen
+from tornado.httputil import HTTPFile
 from Sharing.SharingAction import SharingAction
 from Sharing.SharingActionDelegate import SharingActionDelegate
 from Sharing.SharingEvent import SharingEvent
@@ -17,6 +18,8 @@ class UpdateSharedThumbnailAction(SharingAction):
     def __init__(self, user_id, collection_name, thumbnail_file):
         self.__user_id = user_id
         self.__collection_name = collection_name
+        if isinstance(thumbnail_file, HTTPFile):
+            thumbnail_file = cStringIO.StringIO(thumbnail_file.body)
         self.__thumbnail_file = thumbnail_file
 
     @gen.engine

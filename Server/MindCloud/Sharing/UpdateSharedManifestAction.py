@@ -1,6 +1,7 @@
 import shutil
 import cStringIO
 from tornado import gen
+from tornado.httputil import HTTPFile
 from Sharing.SharingAction import SharingAction
 from Sharing.SharingActionDelegate import SharingActionDelegate
 from Sharing.SharingEvent import SharingEvent
@@ -20,6 +21,9 @@ class UpdateSharedManifestAction(SharingAction):
     def __init__(self, user_id, collection_name, manifest_file):
         self.__user_id = user_id
         self.__collection_name = collection_name
+
+        if isinstance(manifest_file, HTTPFile):
+            manifest_file = cStringIO.StringIO(manifest_file.body)
         self.__manifest_file = manifest_file
 
     @gen.engine

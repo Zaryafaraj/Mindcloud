@@ -237,7 +237,7 @@ class CollectionTests(AsyncHTTPTestCase):
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
         self.assertEqual(200, response.code)
         url = '/'.join(['', self.account_id, 'Collections', collection_name])
-        collection_file = open('../test_resources/collection.xml')
+        collection_file = open('../../test_resources/collection.xml')
         headers, postData = HTTPHelper.create_multipart_request_with_single_file('file', collection_file)
         response = self.fetch(path=url, headers=headers, method='POST',
             body=postData)
@@ -268,7 +268,7 @@ class CollectionTests(AsyncHTTPTestCase):
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
         self.assertEqual(200, response.code)
         url = '/'.join(['', self.account_id, 'Collections', collection_name])
-        collection_file = open('../test_resources/collection.xml')
+        collection_file = open('../../test_resources/collection.xml')
         headers, postData = HTTPHelper.create_multipart_request_with_single_file('file', collection_file)
         response = self.fetch(path=url, headers=headers, method='POST',
             body=postData)

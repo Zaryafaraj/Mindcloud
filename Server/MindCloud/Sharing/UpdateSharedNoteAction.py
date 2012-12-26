@@ -1,5 +1,6 @@
 import cStringIO
 import shutil
+from tornado.httputil import HTTPFile
 from Sharing.SharingActionDelegate import SharingActionDelegate
 from Sharing.SharingEvent import SharingEvent
 from Storage.StorageResourceType import StorageResourceType
@@ -24,6 +25,8 @@ class UpdateSharedNoteAction(SharingAction):
     def __init__(self, user_id, collection_name, note_name,  note_file):
         self.__user_id = user_id
         self.__collection_name = collection_name
+        if isinstance(note_file, HTTPFile):
+            note_file = cStringIO.StringIO(note_file.body)
         self.__note_file = note_file
         self.__note_name = note_name
 

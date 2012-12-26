@@ -24,16 +24,21 @@ class SharingSpaceActionHandler(tornado.web.RequestHandler):
             self.set_status(400)
             self.finish()
         else:
-            #as the user is concerned this call is finished
-            self.set_status(200)
-            self.finish()
 
             all_actions = \
                 yield gen.Task(SharingActionFactory.create_related_sharing_actions,
                     sharing_secret, sharing_action)
 
-            for action in all_actions:
-                sharing_space.add_action(action)
+            if all_actions is None:
+                self.set_status(404)
+                self.finish()
+            else:
+                for action in all_actions:
+                    sharing_space.add_action(action)
+
+                #as the user is concerned this call is finished
+                self.set_status(200)
+                self.finish()
 
 
     @tornado.web.asynchronous
