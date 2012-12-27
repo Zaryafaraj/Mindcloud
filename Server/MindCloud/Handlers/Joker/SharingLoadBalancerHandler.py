@@ -18,12 +18,22 @@ class SharingLoadBalancerHandler(tornado.web.RequestHandler):
             self.set_status(404)
             self.finish()
         else :
-            self.__log.info('SharingLoadBalancer - Querying sharing space %s from load balancer', sharing_secret)
+            self.__log.info('SharingLoadBalancer - Querying sharing space %s from load balancer' % sharing_secret)
 
             self.set_status(200)
             json_str = json.dumps(sharing_server_info_dict)
             self.write(json_str)
             self.finish()
+
+    def delete(self, sharing_secret):
+
+        self.__log.info('SharingLoadBalancer - removing sharing space %s from load balancer info' % sharing_secret)
+        load_balancer = SharingLoadBalancer.get_instance()
+        load_balancer.remove_sharing_space(sharing_secret)
+        self.set_status(200)
+        self.finish()
+
+
 
 
 
