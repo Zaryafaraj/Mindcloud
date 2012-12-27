@@ -1,12 +1,16 @@
 import json
 from tornado import gen
 import tornado.web
+from Logging import Log
 from Sharing.SharingActionFactory import SharingActionFactory
 from Sharing.SharingSpaceStorage import SharingSpaceStorage
 
 __author__ = 'afathali'
 
 class SharingSpaceActionHandler(tornado.web.RequestHandler):
+
+
+    __log = Log.log()
 
     @tornado.web.asynchronous
     @gen.engine
@@ -33,6 +37,9 @@ class SharingSpaceActionHandler(tornado.web.RequestHandler):
             else:
                 sharing_storage = SharingSpaceStorage.get_instance()
                 sharing_space = sharing_storage.get_sharing_space(sharing_secret)
+
+                self.__log.info('SharingSpaceActionHandler - adding %s action to sharing space %s from action initiated by user %s' % (str(len(all_actions)), sharing_secret, sharing_action.get_user_id()))
+
                 for action in all_actions:
                     sharing_space.add_action(action)
 
@@ -53,6 +60,11 @@ class SharingSpaceActionHandler(tornado.web.RequestHandler):
         #the note name as none will indicate it
         if note_name == 'Thumbnail':
             note_name = None
+            self.__log.info('SharingSpaceActionHandler - getting collection thumbnail with secret %s for user %s and collection %s from temp images of sharing space %s' % (secret, user_id, collection_name, sharing_secret))
+        else:
+            self.__log.info('SharingSpaceActionHandler - getting img with secret %s for user %s and collection %s for note %s from temp images of sharing space %s' % (secret, user_id, collection_name, note_name, sharing_secret))
+
+
 
         img = yield gen.Task(sharing_space.get_temp_img, secret,
             user_id, collection_name, note_name)

@@ -1,12 +1,15 @@
 import json
 from tornado import gen
 import tornado.web
+from Logging import Log
 from Sharing.SharingSpaceStorage import SharingSpaceStorage
 
 __author__ = 'afathali'
 
 class SharingSpaceListenerHandler(tornado.web.RequestHandler):
 
+
+    __log = Log.log()
     @tornado.web.asynchronous
     @gen.engine
     def post(self, sharing_secret):
@@ -25,6 +28,9 @@ class SharingSpaceListenerHandler(tornado.web.RequestHandler):
                     json_obj = json.loads(json_str)
                     if 'user_id' in json_obj:
                         user_id = json_obj['user_id']
+
+                        self.__log.info('SharingSpaceListener - adding user %s as listener to sharing space %s' % (user_id, sharing_secret))
+
                         sharing_space.add_listener(user_id, request=self)
                     else:
                         self.set_status(400)
@@ -51,6 +57,8 @@ class SharingSpaceListenerHandler(tornado.web.RequestHandler):
                 self.finish()
             else:
                 try:
+
+                    self.__log.info('SharingSpaceListener - removing user %s as listener from sharing space %s' % (user_id, sharing_secret))
                     sharing_space.remove_listener(user_id)
                     self.set_status(200)
                     self.finish()
