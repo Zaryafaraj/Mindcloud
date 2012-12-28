@@ -10,6 +10,8 @@ class MindcloudCache():
     #we cast everything to str to make sure that unicode objects are not used to
     #access the cache
 
+    __sharing_space_server_prefix = 'server_prefix_'
+
     def __create_sharing_info_cache_key(self, user_id, collection_name):
         return str(user_id + collection_name)
 
@@ -168,13 +170,10 @@ class MindcloudCache():
         img_secret = str(img_secret)
         cache.delete(img_secret, callback=callback)
 
+    def set_sharing_space_server(self, sharing_secret, server_info, callback):
 
+        assert isinstance(sharing_secret, str) or isinstance(sharing_secret, unicode)
+        assert isinstance(server_info, str) or isinstance(server_info, unicode)
 
-
-
-
-
-
-
-
-
+        server_key = self.__sharing_space_server_prefix + sharing_secret
+        cache.set(server_key, server_info, callback=callback)
