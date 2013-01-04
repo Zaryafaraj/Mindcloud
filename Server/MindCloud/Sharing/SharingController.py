@@ -71,7 +71,11 @@ class SharingController:
         sharing_secret = yield gen.Task(SharingController.__cache.get_subscriber_info,
             user_id, collection_name)
         if sharing_secret is not None:
-            callback(sharing_secret)
+            #this means we have looked up in the DB before and the sharing secret wasn't there
+            if sharing_secret == 'false':
+                callback(None)
+            else:
+                callback(sharing_secret)
 
         #if cache miss it look up in the DB
         else:
@@ -84,10 +88,12 @@ class SharingController:
             #share space then we are in trouble
             if result_count >= 2:
                 SharingController.__log.warning('SharingController - More than two sharing info found for: ' + user_id + ' - ' + collection_name)
-                result_count = None
+                result_count = 0
 
             if not result_count:
-                #SharingController.__log.info('SharingController - No sharing record found for user %s and collection %s' % (user_id, collection_name))
+                SharingController.__log.info('SharingController - No sharing record found for user %s and collection %s' % (user_id, collection_name))
+                #cache the lack of info so we don't hit the DB every time we ask for a non existing sharing record
+                yield gen.Task(SharingController.__cache.set_subscriber_info, user_id, collection_name, 'false')
                 callback(None)
 
             else:
@@ -95,6 +101,7 @@ class SharingController:
                 sharing_secret = subscriber_record_bson[SharingController.SHARING_SPACE_SECRET_KEY]
                 if sharing_secret is None or not len(sharing_secret):
                     SharingController.__log.info('SharingController - Sharing secret is None or Empty for user %s and collection %s' % (user_id, collection_name))
+                    yield gen.Task(SharingController.__cache.set_subscriber_info, user_id, collection_name, 'false')
                     callback(None)
                 else:
                     #set the cache for future usage
@@ -232,13 +239,16 @@ class SharingController:
             sharing_secret)
         #cache hit
         if sharing_record_json_str is not None:
-            sharing_record_obj = json.loads(sharing_record_json_str)
-            sharing_record = SharingRecord(
-                sharing_record_obj[SharingRecord.SECRET_KEY],
-                sharing_record_obj[SharingRecord.OWNER_KEY],
-                sharing_record_obj[SharingRecord.COLLECTION_NAME_KEY],
-                sharing_record_obj[SharingRecord.SUBSCIRBERS_KEY])
-            callback(sharing_record)
+            if sharing_record_json_str == 'false':
+                callback(None)
+            else:
+                sharing_record_obj = json.loads(sharing_record_json_str)
+                sharing_record = SharingRecord(
+                    sharing_record_obj[SharingRecord.SECRET_KEY],
+                    sharing_record_obj[SharingRecord.OWNER_KEY],
+                    sharing_record_obj[SharingRecord.COLLECTION_NAME_KEY],
+                    sharing_record_obj[SharingRecord.SUBSCIRBERS_KEY])
+                callback(sharing_record)
 
         #cache miss
         else:
@@ -250,22 +260,29 @@ class SharingController:
             #something is horribly wrong
             if result_count >= 2:
                 SharingController.__log.warning('SharingController - More than two sharing info found for: %s' % sharing_secret)
+                yield gen.Task(SharingController.__cache.set_sharing_record, sharing_secret, 'false')
                 callback(None)
 
             if not result_count:
                 SharingController.__log.warning('SharingController - no sharing info found for: %s' % sharing_secret)
+                yield gen.Task(SharingController.__cache.set_sharing_record, sharing_secret, 'false')
                 callback(None)
 
             else:
                 #FIXME: is there a better way to these in asyncMongo other
                 #than these ugly indicies
                 sharing_record_bson = sharing_records_cursor[0][0][0]
-                sharing_record = SharingRecord(
-                                sharing_record_bson[SharingRecord.SECRET_KEY],
-                                sharing_record_bson[SharingRecord.OWNER_KEY],
-                                sharing_record_bson[SharingRecord.COLLECTION_NAME_KEY],
-                                sharing_record_bson[SharingRecord.SUBSCIRBERS_KEY])
-                callback(sharing_record)
+                try:
+                    sharing_record = SharingRecord(
+                                    sharing_record_bson[SharingRecord.SECRET_KEY],
+                                    sharing_record_bson[SharingRecord.OWNER_KEY],
+                                    sharing_record_bson[SharingRecord.COLLECTION_NAME_KEY],
+                                    sharing_record_bson[SharingRecord.SUBSCIRBERS_KEY])
+                    callback(sharing_record)
+                except Exception:
+                    SharingController.__log.warning('SharingController - corrupted sharing info found for: %s' % sharing_secret)
+                    yield gen.Task(SharingController.__cache.set_sharing_record, sharing_secret, 'false')
+                    callback(None)
 
     @staticmethod
     @gen.engine
