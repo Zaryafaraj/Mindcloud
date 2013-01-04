@@ -39,7 +39,7 @@ class SharingLoadBalancer():
     def get_sharing_space_info(self, sharing_secret, callback):
 
         #if it exists in the already available shared spaces; then return it
-        if sharing_secret is in self.sharing_spaces:
+        if sharing_secret in self.sharing_spaces:
             answer = {'server' : self.sharing_spaces[sharing_secret],
                       'cached' : 'True'}
             callback(answer)
@@ -73,7 +73,8 @@ class SharingLoadBalancer():
                 self.sharing_spaces[sharing_secret] = server
 
                 #cache the server address so the client can later retrieve it
-                yield gen.Task(MindcloudCache.set_sharing_space_server, sharing_secret, server)
+                cache = MindcloudCache()
+                yield gen.Task(cache.set_sharing_space_server, sharing_secret, server)
 
                 #return the server address to the client and tell it that its
                 #cached in memcached now
@@ -82,5 +83,50 @@ class SharingLoadBalancer():
                 callback(answer)
 
 
-    def remove_sharing_space_info(self, sharing_secret):
-        pass
+    def remove_sharing_space_info(self, sharing_secret, callback):
+
+        if sharing_secret not in self.sharing_spaces:
+            callback()
+        else:
+
+            server_name = self.sharing_spaces[sharing_secret]
+            self.__log.info('SharingLoadBalancer - purging cache for sharing_secret %s and server %s' % (sharing_secret, server_name))
+
+            #remove the load associated with the sharing space from the
+            #heap
+            sharing_record = yield gen.Task(SharingController.get_sharing_record_by_secret,
+                sharing_secret)
+            if sharing_record is None:
+                self.__log.info('SharingLoadBalancer - invalid sharing secret %s' % sharing_secret)
+                callback(None)
+            else:
+                subscribers = sharing_record.get_subscribers()
+                subcriber_len = len(subscribers)
+                #remove the item from heap
+                #because items are of tuple (load, server_name) we need to do it like this
+                index_list = [item[1] for item in self.__heap if item[1] == server_name]
+                index_len = len(index_list)
+                if not index_len:
+                    self.__log.info('SharingLoadBalancer - no server for sharing secret %s' % sharing_secret)
+                    callback()
+                elif index_len > 1:
+                    self.__log.info('SharingLoadBalancer - more than one server for sharing secret %s' % sharing_secret)
+                    callback()
+                else:
+                    index = index_list[0]
+                    server_record = self.__heap[index]
+                    new_server_name = server_record[1]
+                    new_server_weight = server_record[0]
+                    new_server_weight -= subcriber_len
+                    self.__heap[index] = self.__heap[-1]
+                    self.__heap.pop()
+                    heapq.heapify(self.__heap)
+                    heapq.heappush(self.__heap, (new_server_weight, new_server_name))
+
+                    #remove it from the sharing_spaces
+                    del self.sharing_spaces[sharing_secret]
+                    #last remove it from the cache
+                    cache = MindcloudCache()
+                    yield gen.Task(cache.remove_sharing_space_server, sharing_secret)
+
+

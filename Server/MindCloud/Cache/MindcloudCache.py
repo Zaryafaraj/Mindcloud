@@ -176,4 +176,21 @@ class MindcloudCache():
         assert isinstance(server_info, str) or isinstance(server_info, unicode)
 
         server_key = self.__sharing_space_server_prefix + sharing_secret
+
         cache.set(server_key, server_info, callback=callback)
+
+    def get_sharing_space_server(self, sharing_secret, callback):
+
+        assert isinstance(sharing_secret, str) or isinstance(sharing_secret, unicode)
+
+        server_key = self.__sharing_space_server_prefix + sharing_secret
+        cache.get(server_key, callback=callback)
+
+    def remove_sharing_space_server(self, sharing_secret, callback):
+
+        assert isinstance(sharing_secret, str) or isinstance(sharing_secret, unicode)
+
+        server_key = self.__sharing_space_server_prefix + sharing_secret
+        cache.delete(server_key, callback=callback)
+
+
