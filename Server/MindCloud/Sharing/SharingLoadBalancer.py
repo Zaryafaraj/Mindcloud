@@ -15,7 +15,9 @@ class SharingLoadBalancer():
     __log = Log.log()
 
     def __init__(self):
-
+        """
+        Singletone don't use this except for testing purposes
+        """
         #public for testing purposes don't use for logic
         self.servers = Properties.sharing_space_servers
         #We use the heap to store servers prioritized on their load

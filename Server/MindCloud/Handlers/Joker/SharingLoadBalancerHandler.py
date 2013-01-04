@@ -27,6 +27,8 @@ class SharingLoadBalancerHandler(tornado.web.RequestHandler):
             self.write(json_str)
             self.finish()
 
+    @tornado.web.asynchronous
+    @gen.engine
     def delete(self, sharing_secret):
 
         self.__log.info('SharingLoadBalancer - removing sharing space %s from load balancer info' % sharing_secret)

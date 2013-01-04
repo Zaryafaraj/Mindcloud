@@ -18,7 +18,7 @@ from Handlers.Bane.NoteImageHandler import NoteImageHandler
 from Handlers.Bane.SharingSubscriptionHandler import SharingSubscriptionHandler
 from Handlers.Bane.SharingHandler import SharingHandler
 from Handlers.Bane.SubscriptionHandler import SubscriptionHandler
-from Handlers.Joker.SharingLoadBalancerHandler import SharingLoadBalancer
+from Handlers.Joker.SharingLoadBalancerHandler import SharingLoadBalancer, SharingLoadBalancerHandler
 from Handlers.Joker.SharingSpaceActionHandler import SharingSpaceActionHandler
 from Handlers.Joker.SharingSpaceListenerHandler import SharingSpaceListenerHandler
 
@@ -43,7 +43,7 @@ class Application(tornado.web.Application):
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Categories", CategoriesHandler),
             (r"/Authorize/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})", AuthorizationHandler),
             #Joker
-            (r"/SharingFactory/([0-9A-Za-z]{8})", SharingLoadBalancer),
+            (r"/SharingFactory/([0-9A-Za-z]{8})", SharingLoadBalancerHandler),
             (r"/SharingSpace/([0-9A-Za-z]{8})/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/([\w+\-*%*\d*]+)/([\w+\-*%*\d*]+)/(\w+)", SharingSpaceActionHandler),
             (r"/SharingSpace/([0-9A-Za-z]{8})/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/([\w+\-*%*\d*]+)/(\w+)", SharingSpaceActionHandler),
             (r"/SharingSpace/([0-9A-Za-z]{8})", SharingSpaceActionHandler),

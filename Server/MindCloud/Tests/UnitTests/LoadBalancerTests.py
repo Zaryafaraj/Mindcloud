@@ -49,7 +49,8 @@ class LoadBalancerTestCase(AsyncTestCase):
         return sharing_secret, subscribers
 
     def test_get_sharing_space_info_new(self):
-        servers = ['a', 'b', 'c', 'd']
+
+        servers = {'a', 'b', 'c'}
         Properties.sharing_space_servers = servers
         collection_name = str(uuid.uuid4())
         subscriber_list = [self.__subscriber_id, self.__second_subscriber_id]
@@ -74,7 +75,7 @@ class LoadBalancerTestCase(AsyncTestCase):
 
     def test_get_sharing_space_info_existing(self):
 
-        servers = ['a', 'b', 'c', 'd']
+        servers = ['a', 'b', 'c']
         Properties.sharing_space_servers = servers
         collection_name = str(uuid.uuid4())
         subscriber_list = [self.__subscriber_id, self.__second_subscriber_id]
@@ -112,7 +113,7 @@ class LoadBalancerTestCase(AsyncTestCase):
 
     def test_remove_sharing_space_info(self):
 
-        servers = ['a', 'b', 'c', 'd']
+        servers = ['a', 'b', 'c']
         Properties.sharing_space_servers = servers
         collection_name = str(uuid.uuid4())
         subscriber_list = [self.__subscriber_id, self.__second_subscriber_id]
@@ -152,7 +153,7 @@ class LoadBalancerTestCase(AsyncTestCase):
 
     def test_remove_already_removed_sharing_space_info(self):
 
-        servers = ['a', 'b', 'c', 'd']
+        servers = ['a', 'b', 'c']
         Properties.sharing_space_servers = servers
         collection_name = str(uuid.uuid4())
         subscriber_list = [self.__subscriber_id, self.__second_subscriber_id]
@@ -197,7 +198,7 @@ class LoadBalancerTestCase(AsyncTestCase):
         subscriber_list1 = [self.__subscriber_id, self.__second_subscriber_id]
         sharing_secret1, subscribers_collections1 =\
         self.__create_sharing_record(subscriber_list1, collection_name1)
-        load_balancer = SharingLoadBalancer.get_instance()
+        load_balancer = SharingLoadBalancer()
         load_balancer.get_sharing_space_info(sharing_secret1, callback=self.stop)
         server_info1 = self.wait()
         server_adrs1 = server_info1['server']
@@ -290,7 +291,7 @@ class LoadBalancerTestCase(AsyncTestCase):
         subscriber_list1 = [self.__subscriber_id, self.__second_subscriber_id]
         sharing_secret1, subscribers_collections1 =\
         self.__create_sharing_record(subscriber_list1, collection_name1)
-        load_balancer = SharingLoadBalancer.get_instance()
+        load_balancer = SharingLoadBalancer()
         load_balancer.get_sharing_space_info(sharing_secret1, callback=self.stop)
         server_info1 = self.wait()
         server_adrs1 = server_info1['server']
@@ -304,8 +305,8 @@ class LoadBalancerTestCase(AsyncTestCase):
         load_balancer.get_sharing_space_info(sharing_secret2, callback=self.stop)
         server_info2 = self.wait()
         server_adrs2 = server_info2['server']
-        self.assertTrue(server_adrs2 in servers)
         print server_adrs2
+        self.assertTrue(server_adrs2 in servers)
         self.assertNotEqual(server_adrs2, server_adrs1)
 
 
