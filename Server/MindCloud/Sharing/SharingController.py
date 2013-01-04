@@ -87,7 +87,7 @@ class SharingController:
                 result_count = None
 
             if not result_count:
-                SharingController.__log.info('SharingController - No sharing record found for user %s and collection %s' % (user_id, collection_name))
+                #SharingController.__log.info('SharingController - No sharing record found for user %s and collection %s' % (user_id, collection_name))
                 callback(None)
 
             else:

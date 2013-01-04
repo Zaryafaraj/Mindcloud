@@ -82,10 +82,14 @@ class SharingLoadBalancer():
                         'cached' : 'True'}
                 callback(answer)
 
+    def is_sharing_space_cached(self, sharing_secret):
+        return sharing_secret in self.sharing_spaces
 
+    @gen.engine
     def remove_sharing_space_info(self, sharing_secret, callback):
 
         if sharing_secret not in self.sharing_spaces:
+            self.__log.info('SharingLoadBalancer - no cached server for sharing space for secret %s' % sharing_secret)
             callback()
         else:
 
@@ -104,7 +108,8 @@ class SharingLoadBalancer():
                 subcriber_len = len(subscribers)
                 #remove the item from heap
                 #because items are of tuple (load, server_name) we need to do it like this
-                index_list = [item[1] for item in self.__heap if item[1] == server_name]
+                index_list = [self.__heap.index(item)
+                              for item in self.__heap if item[1] == server_name]
                 index_len = len(index_list)
                 if not index_len:
                     self.__log.info('SharingLoadBalancer - no server for sharing secret %s' % sharing_secret)
@@ -128,5 +133,6 @@ class SharingLoadBalancer():
                     #last remove it from the cache
                     cache = MindcloudCache()
                     yield gen.Task(cache.remove_sharing_space_server, sharing_secret)
+                    callback()
 
 

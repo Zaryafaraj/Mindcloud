@@ -14,7 +14,8 @@ class SharingLoadBalancerHandler(tornado.web.RequestHandler):
     @gen.engine
     def get(self, sharing_secret):
         load_balancer = SharingLoadBalancer.get_instance()
-        sharing_server_info_dict = load_balancer.get_sharing_space_info(sharing_secret)
+        sharing_server_info_dict = yield gen.Task(load_balancer.get_sharing_space_info,
+            sharing_secret)
         if sharing_server_info_dict is None:
             self.set_status(404)
             self.finish()
@@ -30,11 +31,7 @@ class SharingLoadBalancerHandler(tornado.web.RequestHandler):
 
         self.__log.info('SharingLoadBalancer - removing sharing space %s from load balancer info' % sharing_secret)
         load_balancer = SharingLoadBalancer.get_instance()
-        load_balancer.remove_sharing_space_info(sharing_secret)
+        yield gen.Task(load_balancer.remove_sharing_space_info, sharing_secret)
         self.set_status(200)
         self.finish()
-
-
-
-
 
