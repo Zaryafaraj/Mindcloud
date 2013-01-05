@@ -113,3 +113,31 @@ class JokerHelper():
         response = yield gen.Task(http.fetch,url,
             method='POST', headers=headers, body=post_data)
         callback(response.code)
+
+    @gen.engine
+    def update_note_image(self, server_address, sharing_secret,
+                          user_id, collection_name, note_name, note_img, callback):
+
+        json_dict = {
+            SharingEvent.UPDATE_NOTE_IMG :
+                    {
+                    JokerHelper.__COLLECTION_NAME_KEY : collection_name,
+                    JokerHelper.__USER_ID_KEY : user_id,
+                    JokerHelper.__NOTE_NAME_KEY : note_name
+                }
+        }
+
+        json_str = json.dumps(json_dict)
+        params = {JokerHelper.__ACTION_KEY : json_str}
+        file_obj = note_img
+        if isinstance(note_img, HTTPFile):
+            file_obj = cStringIO.StringIO(note_img.body)
+
+        headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params(params,
+            'file', file_obj)
+        http = AsyncHTTPClient()
+        url = '/'.join([server_address, 'SharingSpace', sharing_secret])
+        response = yield gen.Task(http.fetch,url,
+            method='POST', headers=headers, body=post_data)
+        callback(response.code)
+        
