@@ -42,7 +42,7 @@ class JokerHelper():
         else:
             #its not in the cache go and ask the load balancer for it
             load_balancer = Properties.load_balancer_url
-            url = '/'.join(['', load_balancer, 'SharingFactory', sharing_secret])
+            url = '/'.join([load_balancer, 'SharingFactory', sharing_secret])
 
             http = AsyncHTTPClient()
             response = yield gen.Task(http.fetch, url, method='GET')
@@ -80,9 +80,9 @@ class JokerHelper():
             file_obj = cStringIO.StringIO(manifest_file.body)
 
         headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params(params,
-            'manifest.xml', file_obj)
+            'file', file_obj)
         http = AsyncHTTPClient()
-        url = '/'.join(['', server_address, 'SharingSpace', sharing_secret])
+        url = '/'.join([server_address, 'SharingSpace', sharing_secret])
         response = yield gen.Task(http.fetch,url,
             method='POST', headers=headers, body=post_data)
         callback(response.code)

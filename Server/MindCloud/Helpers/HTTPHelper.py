@@ -28,6 +28,8 @@ class HTTPHelper:
         postData = "--" + boundary +\
                    "\r\nContent-Disposition: form-data; name=\""+ file_name + \
                    "\"; filename=\"Xooml.xml\"\r\nContent-Type: application/xml\r\n\r\n"
+
+        file.seek(0)
         postData += file.read()
         postData += "\r\n--" + boundary + "--"
         return headers, postData
@@ -42,6 +44,7 @@ class HTTPHelper:
         postData = "--" + boundary +\
                    "\r\nContent-Disposition: form-data; name=\"" + file_name + \
                    "\"; filename=\"Xooml.xml\"\r\nContent-Type: application/xml\r\n\r\n"
+        file.seek(0)
         postData += file.read()
         for param_name in params:
             postData += "\r\n--" + boundary +\

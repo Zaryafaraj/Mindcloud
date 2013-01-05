@@ -29,3 +29,239 @@ INFO: 2012-12-20 22:17:45,485 -- StorageServer - could not retreive thumbnail fi
 WARNING: 2012-12-20 22:17:45,486 -- 404 GET /6FB4A061-CAB1-4A7F-9637-94B0FDD15D84/Collections/col_listener2/Thumbnail (::1) 497.03ms
 INFO: 2012-12-20 22:17:45,999 -- 200 POST /6FB4A061-CAB1-4A7F-9637-94B0FDD15D84/Categories (::1) 1011.88ms
 INFO: 2012-12-20 22:18:03,742 -- Authentication: authorization __sweep started; pending requests: {}
+INFO: 2013-01-04 19:08:31,486 -- SharingLoadBalancer - assigning servers to the sharing space D0J30X62
+INFO: 2013-01-04 19:08:31,488 -- SharingLoadBalancer - Querying sharing space D0J30X62 from load balancer
+INFO: 2013-01-04 19:08:31,488 -- 200 GET /SharingFactory/D0J30X62 (127.0.0.1) 1.93ms
+INFO: 2013-01-04 19:09:37,025 -- SharingLoadBalancer - assigning servers to the sharing space DL3LVLH3
+INFO: 2013-01-04 19:09:37,026 -- SharingLoadBalancer - Querying sharing space DL3LVLH3 from load balancer
+INFO: 2013-01-04 19:09:37,027 -- 200 GET /SharingFactory/DL3LVLH3 (127.0.0.1) 2.28ms
+INFO: 2013-01-04 19:10:50,753 -- SharingLoadBalancer - assigning servers to the sharing space J697HLMC
+INFO: 2013-01-04 19:10:50,755 -- SharingLoadBalancer - Querying sharing space J697HLMC from load balancer
+INFO: 2013-01-04 19:10:50,755 -- 200 GET /SharingFactory/J697HLMC (127.0.0.1) 2.33ms
+INFO: 2013-01-04 19:19:06,574 -- SharingLoadBalancer - assigning servers to the sharing space DKQ1YWKW
+INFO: 2013-01-04 19:19:06,575 -- SharingLoadBalancer - Querying sharing space DKQ1YWKW from load balancer
+INFO: 2013-01-04 19:19:06,576 -- 200 GET /SharingFactory/DKQ1YWKW (127.0.0.1) 1.39ms
+INFO: 2013-01-04 19:20:10,882 -- SharingLoadBalancer - assigning servers to the sharing space MNWF4QM3
+INFO: 2013-01-04 19:20:10,883 -- SharingLoadBalancer - Querying sharing space MNWF4QM3 from load balancer
+INFO: 2013-01-04 19:20:10,883 -- 200 GET /SharingFactory/MNWF4QM3 (127.0.0.1) 1.39ms
+INFO: 2013-01-04 19:20:37,713 -- SharingLoadBalancer - assigning servers to the sharing space HPA3ZJZI
+INFO: 2013-01-04 19:20:37,714 -- SharingLoadBalancer - Querying sharing space HPA3ZJZI from load balancer
+INFO: 2013-01-04 19:20:37,714 -- 200 GET /SharingFactory/HPA3ZJZI (127.0.0.1) 1.56ms
+INFO: 2013-01-04 19:23:46,582 -- SharingLoadBalancer - assigning servers to the sharing space 00000000
+WARNING: 2013-01-04 19:23:46,584 -- SharingController - no sharing info found for: 00000000
+INFO: 2013-01-04 19:23:46,627 -- SharingLoadBalancer - invalid sharing secret 00000000
+WARNING: 2013-01-04 19:23:46,627 -- 404 GET /SharingFactory/00000000 (127.0.0.1) 45.37ms
+INFO: 2013-01-04 19:23:54,304 -- SharingLoadBalancer - assigning servers to the sharing space 00000000
+INFO: 2013-01-04 19:23:54,305 -- SharingLoadBalancer - invalid sharing secret 00000000
+WARNING: 2013-01-04 19:23:54,305 -- 404 GET /SharingFactory/00000000 (127.0.0.1) 1.06ms
+INFO: 2013-01-04 19:23:58,406 -- SharingLoadBalancer - assigning servers to the sharing space EO62OF9M
+INFO: 2013-01-04 19:23:58,407 -- SharingLoadBalancer - Querying sharing space EO62OF9M from load balancer
+INFO: 2013-01-04 19:23:58,408 -- 200 GET /SharingFactory/EO62OF9M (127.0.0.1) 1.53ms
+INFO: 2013-01-04 19:24:02,963 -- SharingLoadBalancer - assigning servers to the sharing space A2J1NR1F
+INFO: 2013-01-04 19:24:02,964 -- SharingLoadBalancer - Querying sharing space A2J1NR1F from load balancer
+INFO: 2013-01-04 19:24:02,964 -- 200 GET /SharingFactory/A2J1NR1F (127.0.0.1) 1.67ms
+INFO: 2013-01-04 19:56:16,730 -- SharingLoadBalancer - assigning servers to the sharing space A5DEATUU
+INFO: 2013-01-04 19:56:16,732 -- SharingLoadBalancer - Querying sharing space A5DEATUU from load balancer
+INFO: 2013-01-04 19:56:16,732 -- 200 GET /SharingFactory/A5DEATUU (127.0.0.1) 1.89ms
+INFO: 2013-01-04 19:57:09,438 -- SharingLoadBalancer - assigning servers to the sharing space DBMHZ8OS
+INFO: 2013-01-04 19:57:09,439 -- SharingLoadBalancer - Querying sharing space DBMHZ8OS from load balancer
+INFO: 2013-01-04 19:57:09,439 -- 200 GET /SharingFactory/DBMHZ8OS (127.0.0.1) 1.37ms
+INFO: 2013-01-04 19:57:52,064 -- SharingLoadBalancer - assigning servers to the sharing space GWQZHIIK
+INFO: 2013-01-04 19:57:52,065 -- SharingLoadBalancer - Querying sharing space GWQZHIIK from load balancer
+INFO: 2013-01-04 19:57:52,066 -- 200 GET /SharingFactory/GWQZHIIK (127.0.0.1) 1.50ms
+INFO: 2013-01-04 19:58:51,728 -- SharingLoadBalancer - assigning servers to the sharing space LFUQS4XM
+INFO: 2013-01-04 19:58:51,729 -- SharingLoadBalancer - Querying sharing space LFUQS4XM from load balancer
+INFO: 2013-01-04 19:58:51,730 -- 200 GET /SharingFactory/LFUQS4XM (127.0.0.1) 1.99ms
+INFO: 2013-01-04 19:59:28,515 -- SharingLoadBalancer - assigning servers to the sharing space 1ZASDC2L
+INFO: 2013-01-04 19:59:28,516 -- SharingLoadBalancer - Querying sharing space 1ZASDC2L from load balancer
+INFO: 2013-01-04 19:59:28,516 -- 200 GET /SharingFactory/1ZASDC2L (127.0.0.1) 1.41ms
+ERROR: 2013-01-04 19:59:28,518 -- Uncaught exception POST /SharingSpace/1ZASDC2L (127.0.0.1)
+HTTPRequest(protocol='http', host='127.0.0.1:8001', method='POST', uri='/SharingSpace/1ZASDC2L', version='HTTP/1.1', remote_ip='127.0.0.1', body='------------------------------62ae4a76207c\r\nContent-Disposition: form-data; name="manifest.xml"; filename="Xooml.xml"\r\nContent-Type: application/xml\r\n\r\n\r\n------------------------------62ae4a76207c\r\nContent-Disposition: form-data; name="action"\r\n\r\n{"update_manifest": {"collection_name": "395306b1-2386-4979-afe2-be1e6e602ef4", "user_id": "A84FD293-1515-4CC2-BBD2-FC78FEED475D"}}\r\n------------------------------62ae4a76207c--', headers={'Content-Length': '424', 'Connection': 'close', 'Content-Type': 'multipart/form-data; boundary=----------------------------62ae4a76207c', 'Host': '127.0.0.1:8001', 'Accept-Encoding': 'gzip'})
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 1000, in _stack_context_handle_exception
+    raise_exc_info((type, value, traceback))
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 1118, in wrapper
+    return method(self, *args, **kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 120, in wrapper
+    runner.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 345, in run
+    yielded = self.gen.send(next)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Handlers/Joker/SharingSpaceActionHandler.py", line 22, in post
+    file = self.request.files['file'][0]
+KeyError: 'file'
+ERROR: 2013-01-04 19:59:28,543 -- 500 POST /SharingSpace/1ZASDC2L (127.0.0.1) 25.33ms
+INFO: 2013-01-04 20:00:01,540 -- SharingLoadBalancer - assigning servers to the sharing space MKX8HTAX
+INFO: 2013-01-04 20:00:01,541 -- SharingLoadBalancer - Querying sharing space MKX8HTAX from load balancer
+INFO: 2013-01-04 20:00:01,542 -- 200 GET /SharingFactory/MKX8HTAX (127.0.0.1) 1.83ms
+INFO: 2013-01-04 20:00:01,546 -- SharingSpaceActionHandler - adding 3 action to sharing space MKX8HTAX from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 20:00:01,547 -- 200 POST /SharingSpace/MKX8HTAX (127.0.0.1) 3.62ms
+INFO: 2013-01-04 20:01:42,287 -- SharingLoadBalancer - assigning servers to the sharing space MWG5XGST
+INFO: 2013-01-04 20:01:42,288 -- SharingLoadBalancer - Querying sharing space MWG5XGST from load balancer
+INFO: 2013-01-04 20:01:42,288 -- 200 GET /SharingFactory/MWG5XGST (127.0.0.1) 1.44ms
+INFO: 2013-01-04 20:01:42,291 -- SharingSpaceActionHandler - adding 3 action to sharing space MWG5XGST from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 20:01:42,291 -- 200 POST /SharingSpace/MWG5XGST (127.0.0.1) 1.77ms
+INFO: 2013-01-04 20:03:11,575 -- SharingLoadBalancer - assigning servers to the sharing space M7FZ8SJJ
+INFO: 2013-01-04 20:03:11,577 -- SharingLoadBalancer - Querying sharing space M7FZ8SJJ from load balancer
+INFO: 2013-01-04 20:03:11,577 -- 200 GET /SharingFactory/M7FZ8SJJ (127.0.0.1) 1.62ms
+INFO: 2013-01-04 20:03:11,579 -- SharingSpaceActionHandler - adding 3 action to sharing space M7FZ8SJJ from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 20:03:11,580 -- 200 POST /SharingSpace/M7FZ8SJJ (127.0.0.1) 1.59ms
+INFO: 2013-01-04 20:07:06,656 -- SharingLoadBalancer - assigning servers to the sharing space 0HIXXELJ
+INFO: 2013-01-04 20:07:06,657 -- SharingLoadBalancer - Querying sharing space 0HIXXELJ from load balancer
+INFO: 2013-01-04 20:07:06,657 -- 200 GET /SharingFactory/0HIXXELJ (127.0.0.1) 1.55ms
+INFO: 2013-01-04 20:07:24,574 -- SharingLoadBalancer - assigning servers to the sharing space 81MIZSLY
+INFO: 2013-01-04 20:07:24,576 -- SharingLoadBalancer - Querying sharing space 81MIZSLY from load balancer
+INFO: 2013-01-04 20:07:24,576 -- 200 GET /SharingFactory/81MIZSLY (127.0.0.1) 1.40ms
+INFO: 2013-01-04 20:07:24,585 -- SharingSpaceActionHandler - adding 3 action to sharing space 81MIZSLY from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 20:07:24,588 -- 200 POST /SharingSpace/81MIZSLY (127.0.0.1) 8.53ms
+INFO: 2013-01-04 21:07:24,586 -- cleanup service - Sweep started
+INFO: 2013-01-04 21:07:24,586 -- cleanup service - Sweep finished
+INFO: 2013-01-04 22:33:51,047 -- cleanup service - Sweep started
+INFO: 2013-01-04 22:33:51,048 -- cleanup service - cleaning candidate for 81MIZSLY
+INFO: 2013-01-04 22:33:51,049 -- cleanup service - Sweep finished
+INFO: 2013-01-04 22:39:43,936 -- SharingLoadBalancer - assigning servers to the sharing space F2134HVP
+INFO: 2013-01-04 22:39:43,951 -- SharingLoadBalancer - Querying sharing space F2134HVP from load balancer
+INFO: 2013-01-04 22:39:43,952 -- 200 GET /SharingFactory/F2134HVP (127.0.0.1) 16.10ms
+INFO: 2013-01-04 22:39:43,959 -- SharingSpaceActionHandler - adding 3 action to sharing space F2134HVP from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 22:39:43,961 -- 200 POST /SharingSpace/F2134HVP (127.0.0.1) 5.59ms
+INFO: 2013-01-04 22:40:17,099 -- SharingLoadBalancer - assigning servers to the sharing space ABW1KHNZ
+INFO: 2013-01-04 22:40:17,100 -- SharingLoadBalancer - Querying sharing space ABW1KHNZ from load balancer
+INFO: 2013-01-04 22:40:17,100 -- 200 GET /SharingFactory/ABW1KHNZ (127.0.0.1) 1.38ms
+INFO: 2013-01-04 22:40:17,102 -- SharingSpaceActionHandler - adding 3 action to sharing space ABW1KHNZ from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 22:40:17,103 -- 200 POST /SharingSpace/ABW1KHNZ (127.0.0.1) 1.67ms
+INFO: 2013-01-04 22:40:49,871 -- SharingLoadBalancer - assigning servers to the sharing space URNBEBMP
+INFO: 2013-01-04 22:40:49,872 -- SharingLoadBalancer - Querying sharing space URNBEBMP from load balancer
+INFO: 2013-01-04 22:40:49,873 -- 200 GET /SharingFactory/URNBEBMP (127.0.0.1) 1.44ms
+INFO: 2013-01-04 22:40:49,875 -- SharingSpaceActionHandler - adding 3 action to sharing space URNBEBMP from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 22:40:49,876 -- 200 POST /SharingSpace/URNBEBMP (127.0.0.1) 1.71ms
+INFO: 2013-01-04 22:41:36,153 -- SharingLoadBalancer - assigning servers to the sharing space CA3XXRVT
+INFO: 2013-01-04 22:41:36,154 -- SharingLoadBalancer - Querying sharing space CA3XXRVT from load balancer
+INFO: 2013-01-04 22:41:36,154 -- 200 GET /SharingFactory/CA3XXRVT (127.0.0.1) 1.50ms
+INFO: 2013-01-04 22:41:36,156 -- SharingSpaceActionHandler - adding 3 action to sharing space CA3XXRVT from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 22:41:36,157 -- 200 POST /SharingSpace/CA3XXRVT (127.0.0.1) 1.56ms
+INFO: 2013-01-04 22:55:49,565 -- SharingLoadBalancer - assigning servers to the sharing space 8NK6MC2A
+INFO: 2013-01-04 22:55:49,566 -- SharingLoadBalancer - Querying sharing space 8NK6MC2A from load balancer
+INFO: 2013-01-04 22:55:49,566 -- 200 GET /SharingFactory/8NK6MC2A (127.0.0.1) 1.56ms
+INFO: 2013-01-04 22:55:49,570 -- SharingSpaceActionHandler - adding 3 action to sharing space 8NK6MC2A from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 22:55:49,570 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 22:55:49,570 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 22:55:49,572 -- 200 POST /SharingSpace/8NK6MC2A (127.0.0.1) 3.57ms
+INFO: 2013-01-04 22:55:50,583 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 22:55:50,583 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 22:55:50,583 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 22:55:50,583 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 22:55:50,584 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 22:55:51,316 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 22:55:53,044 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 22:55:53,045 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 22:55:53,045 -- SharingSpaceController - Finished executing all actions
+INFO: 2013-01-04 23:20:18,045 -- SharingLoadBalancer - assigning servers to the sharing space RCVHFV1T
+INFO: 2013-01-04 23:20:18,046 -- SharingLoadBalancer - Querying sharing space RCVHFV1T from load balancer
+INFO: 2013-01-04 23:20:18,046 -- 200 GET /SharingFactory/RCVHFV1T (127.0.0.1) 1.36ms
+INFO: 2013-01-04 23:20:18,056 -- SharingSpaceActionHandler - adding 3 action to sharing space RCVHFV1T from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 23:20:18,057 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:20:18,057 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:20:18,060 -- 200 POST /SharingSpace/RCVHFV1T (127.0.0.1) 9.34ms
+INFO: 2013-01-04 23:20:18,749 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:20:18,750 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:20:18,750 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:20:18,751 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:20:18,752 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:20:19,529 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:20:19,611 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:20:19,611 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:20:19,611 -- SharingSpaceController - Finished executing all actions
+INFO: 2013-01-04 23:23:14,051 -- SharingLoadBalancer - assigning servers to the sharing space PWP1FXKB
+INFO: 2013-01-04 23:23:14,052 -- SharingLoadBalancer - Querying sharing space PWP1FXKB from load balancer
+INFO: 2013-01-04 23:23:14,052 -- 200 GET /SharingFactory/PWP1FXKB (127.0.0.1) 1.45ms
+INFO: 2013-01-04 23:24:14,247 -- SharingLoadBalancer - assigning servers to the sharing space 1FOOVYSV
+INFO: 2013-01-04 23:24:14,248 -- SharingLoadBalancer - Querying sharing space 1FOOVYSV from load balancer
+INFO: 2013-01-04 23:24:14,248 -- 200 GET /SharingFactory/1FOOVYSV (127.0.0.1) 1.57ms
+INFO: 2013-01-04 23:24:14,261 -- SharingSpaceActionHandler - adding 3 action to sharing space 1FOOVYSV from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 23:24:14,261 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:24:14,262 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:24:14,264 -- 200 POST /SharingSpace/1FOOVYSV (127.0.0.1) 9.32ms
+INFO: 2013-01-04 23:24:14,916 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:24:14,916 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:24:14,917 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:24:14,917 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:24:14,918 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:24:15,669 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:24:15,782 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:24:15,782 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:24:15,782 -- SharingSpaceController - Finished executing all actions
+INFO: 2013-01-04 23:24:38,721 -- SharingLoadBalancer - assigning servers to the sharing space AVQWIGUB
+INFO: 2013-01-04 23:24:38,722 -- SharingLoadBalancer - Querying sharing space AVQWIGUB from load balancer
+INFO: 2013-01-04 23:24:38,722 -- 200 GET /SharingFactory/AVQWIGUB (127.0.0.1) 1.56ms
+INFO: 2013-01-04 23:25:26,030 -- SharingLoadBalancer - assigning servers to the sharing space 536S2UVE
+INFO: 2013-01-04 23:25:26,031 -- SharingLoadBalancer - Querying sharing space 536S2UVE from load balancer
+INFO: 2013-01-04 23:25:26,031 -- 200 GET /SharingFactory/536S2UVE (127.0.0.1) 1.61ms
+INFO: 2013-01-04 23:27:18,763 -- SharingLoadBalancer - assigning servers to the sharing space FKL5T0JR
+INFO: 2013-01-04 23:27:18,764 -- SharingLoadBalancer - Querying sharing space FKL5T0JR from load balancer
+INFO: 2013-01-04 23:27:18,764 -- 200 GET /SharingFactory/FKL5T0JR (127.0.0.1) 1.67ms
+INFO: 2013-01-04 23:27:18,774 -- SharingSpaceActionHandler - adding 2 action to sharing space FKL5T0JR from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 23:27:18,775 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:27:18,775 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:27:18,777 -- 200 POST /SharingSpace/FKL5T0JR (127.0.0.1) 9.14ms
+INFO: 2013-01-04 23:27:19,583 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:27:19,584 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:27:19,584 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:27:19,585 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:27:21,474 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:27:21,474 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:27:21,475 -- SharingSpaceController - Finished executing all actions
+INFO: 2013-01-04 23:27:48,869 -- SharingLoadBalancer - assigning servers to the sharing space 780J1CBL
+INFO: 2013-01-04 23:27:48,870 -- SharingLoadBalancer - Querying sharing space 780J1CBL from load balancer
+INFO: 2013-01-04 23:27:48,870 -- 200 GET /SharingFactory/780J1CBL (127.0.0.1) 1.35ms
+INFO: 2013-01-04 23:27:48,876 -- SharingSpaceActionHandler - adding 2 action to sharing space 780J1CBL from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 23:27:48,877 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:27:48,877 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:27:48,881 -- 200 POST /SharingSpace/780J1CBL (127.0.0.1) 8.54ms
+INFO: 2013-01-04 23:27:50,093 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:27:50,094 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:27:50,094 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:27:50,095 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:27:51,505 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:27:51,506 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:27:51,507 -- SharingSpaceController - Finished executing all actions
+INFO: 2013-01-04 23:28:31,620 -- SharingLoadBalancer - assigning servers to the sharing space 5BAUJLBF
+INFO: 2013-01-04 23:28:31,621 -- SharingLoadBalancer - Querying sharing space 5BAUJLBF from load balancer
+INFO: 2013-01-04 23:28:31,621 -- 200 GET /SharingFactory/5BAUJLBF (127.0.0.1) 1.33ms
+INFO: 2013-01-04 23:28:31,627 -- SharingSpaceActionHandler - adding 2 action to sharing space 5BAUJLBF from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 23:28:31,627 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:28:31,628 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:28:31,630 -- 200 POST /SharingSpace/5BAUJLBF (127.0.0.1) 7.28ms
+INFO: 2013-01-04 23:28:32,696 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:28:32,696 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:28:32,696 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:28:32,697 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:28:33,719 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:28:33,719 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:28:33,720 -- SharingSpaceController - Finished executing all actions
+INFO: 2013-01-04 23:32:15,315 -- SharingLoadBalancer - assigning servers to the sharing space LSH2ILCZ
+INFO: 2013-01-04 23:32:15,316 -- SharingLoadBalancer - Querying sharing space LSH2ILCZ from load balancer
+INFO: 2013-01-04 23:32:15,316 -- 200 GET /SharingFactory/LSH2ILCZ (127.0.0.1) 1.41ms
+INFO: 2013-01-04 23:32:15,323 -- SharingSpaceActionHandler - adding 2 action to sharing space LSH2ILCZ from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 23:32:15,324 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:32:15,324 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:32:15,326 -- 200 POST /SharingSpace/LSH2ILCZ (127.0.0.1) 8.22ms
+INFO: 2013-01-04 23:32:16,235 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:32:16,236 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:32:16,236 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:32:16,237 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:32:17,159 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:32:17,159 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:32:17,159 -- SharingSpaceController - Finished executing all actions
+INFO: 2013-01-04 23:32:55,669 -- SharingLoadBalancer - assigning servers to the sharing space 8PES9J5B
+INFO: 2013-01-04 23:32:55,670 -- SharingLoadBalancer - Querying sharing space 8PES9J5B from load balancer
+INFO: 2013-01-04 23:32:55,670 -- 200 GET /SharingFactory/8PES9J5B (127.0.0.1) 1.35ms
+INFO: 2013-01-04 23:32:55,677 -- SharingSpaceActionHandler - adding 2 action to sharing space 8PES9J5B from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 23:32:55,677 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:32:55,678 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:32:55,680 -- 200 POST /SharingSpace/8PES9J5B (127.0.0.1) 7.10ms
+INFO: 2013-01-04 23:32:56,684 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:32:56,684 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:32:56,684 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:32:56,685 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:32:57,708 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:32:57,709 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:32:57,709 -- SharingSpaceController - Finished executing all actions

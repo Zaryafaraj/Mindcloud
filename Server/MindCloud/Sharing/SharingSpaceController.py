@@ -310,7 +310,7 @@ class SharingSpaceController(SharingActionDelegate):
                 request.set_status(StorageResponse.OK)
                 request.finish()
 
-                SharingSpaceController.__log.debug('SharingSpaceController - notified primary listener %s for sharing event %s - %s' % (user_id, sharing_action.get_action_type(), sharing_action.get_action_resource_name()))
+                SharingSpaceController.__log.info('SharingSpaceController - notified primary listener %s for sharing event %s - %s' % (user_id, sharing_action.get_action_type(), sharing_action.get_action_resource_name()))
 
                 notified_listeners.add(user_id)
 
@@ -324,7 +324,7 @@ class SharingSpaceController(SharingActionDelegate):
                 backup_sharing_event = self.__backup_listeners[user_id][1]
                 backup_sharing_event.add_event(sharing_action)
 
-                SharingSpaceController.__log.debug('SharingSpaceController - stored event for backup listener %s for sharing event %s - %s' % (user_id, sharing_action.get_action_type(), sharing_action.get_action_resource_name()))
+                SharingSpaceController.__log.info('SharingSpaceController - stored event for backup listener %s for sharing event %s - %s' % (user_id, sharing_action.get_action_type(), sharing_action.get_action_resource_name()))
 
         #delete notified user
         for user_id in notified_listeners:
@@ -335,11 +335,11 @@ class SharingSpaceController(SharingActionDelegate):
 
         if self.__sharing_queue.is_empty():
             self.__sharing_queue.is_being_processed = False
-            self.__log.debug('SharingSpaceController - Finished executing all actions')
+            self.__log.info('SharingSpaceController - Finished executing all actions')
             return
         else:
 
-            SharingSpaceController.__log.debug('SharingSpaceController - Started processing batch of %s actions' % str(iteration_count))
+            SharingSpaceController.__log.info('SharingSpaceController - Started processing batch of %s actions' % str(iteration_count))
             actions_to_be_executed = []
             for x in range(iteration_count):
                 next_sharing_action = self.__sharing_queue.pop_next_action()
@@ -352,7 +352,7 @@ class SharingSpaceController(SharingActionDelegate):
                     self.__remaining_actions += 1
                     actions_to_be_executed.append(next_sharing_action)
             for action in actions_to_be_executed:
-                SharingSpaceController.__log.debug('SharingSpaceController - executing action %s' % action.name)
+                SharingSpaceController.__log.info('SharingSpaceController - executing action %s' % action.name)
                 action.execute(delegate=self)
 
 
@@ -380,14 +380,14 @@ class SharingSpaceController(SharingActionDelegate):
         was_successful = yield gen.Task(action.was_successful)
         if was_successful:
             self.__remaining_actions -= 1
-            SharingSpaceController.__log.debug('SharingSpaceController - finished executing action %s with response %s' % (action.name, str(response)))
+            SharingSpaceController.__log.info('SharingSpaceController - finished executing action %s with response %s' % (action.name, str(response)))
 
         else:
-            SharingSpaceController.__log.debug('SharingSpaceController - Retrying action %s' % action.name)
+            SharingSpaceController.__log.info('SharingSpaceController - Retrying action %s' % action.name)
             action.execute(delegate=self)
 
         if not self.__remaining_actions :
-            SharingSpaceController.__log.debug('Finished executing all the actions in the batch')
+            SharingSpaceController.__log.info('Finished executing all the actions in the batch')
             self.__sharing_queue.is_being_processed = False
             self.__process_next_batch_of_queue_actions()
 
