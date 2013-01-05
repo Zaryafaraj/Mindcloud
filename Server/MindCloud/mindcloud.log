@@ -265,3 +265,70 @@ INFO: 2013-01-04 23:32:56,685 -- SharingSpaceController - executing action
 INFO: 2013-01-04 23:32:57,708 -- SharingSpaceController - finished executing action   with response 200
 INFO: 2013-01-04 23:32:57,709 -- Finished executing all the actions in the batch
 INFO: 2013-01-04 23:32:57,709 -- SharingSpaceController - Finished executing all actions
+INFO: 2013-01-04 23:33:45,842 -- SharingLoadBalancer - assigning servers to the sharing space Q79PPZ3R
+INFO: 2013-01-04 23:33:45,843 -- SharingLoadBalancer - Querying sharing space Q79PPZ3R from load balancer
+INFO: 2013-01-04 23:33:45,844 -- 200 GET /SharingFactory/Q79PPZ3R (127.0.0.1) 1.43ms
+INFO: 2013-01-04 23:33:45,847 -- SharingSpaceActionHandler - adding 2 action to sharing space Q79PPZ3R from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 23:33:45,847 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:33:45,847 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:33:45,849 -- 200 POST /SharingSpace/Q79PPZ3R (127.0.0.1) 3.87ms
+INFO: 2013-01-04 23:33:46,740 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:33:46,740 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:33:46,740 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:33:46,741 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:33:47,590 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:33:47,590 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:33:47,590 -- SharingSpaceController - Finished executing all actions
+INFO: 2013-01-04 23:50:39,219 -- SharingLoadBalancer - assigning servers to the sharing space 38BTSG5R
+INFO: 2013-01-04 23:50:39,220 -- SharingLoadBalancer - Querying sharing space 38BTSG5R from load balancer
+INFO: 2013-01-04 23:50:39,220 -- 200 GET /SharingFactory/38BTSG5R (127.0.0.1) 1.56ms
+INFO: 2013-01-04 23:50:39,226 -- SharingSpaceActionHandler - adding 2 action to sharing space 38BTSG5R from action initiated by user A84FD293-1515-4CC2-BBD2-FC78FEED475D
+INFO: 2013-01-04 23:50:39,227 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:50:39,227 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:50:39,227 -- 200 POST /SharingSpace/38BTSG5R (127.0.0.1) 1.73ms
+INFO: 2013-01-04 23:50:40,205 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:50:40,205 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:50:40,205 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-04 23:50:40,205 -- SharingSpaceController - executing action  
+INFO: 2013-01-04 23:50:41,232 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-04 23:50:41,232 -- Finished executing all the actions in the batch
+INFO: 2013-01-04 23:50:41,232 -- SharingSpaceController - Finished executing all actions
+INFO: 2013-01-05 00:13:55,321 -- SharingLoadBalancer - assigning servers to the sharing space PZ2X4UDV
+INFO: 2013-01-05 00:13:55,322 -- SharingLoadBalancer - Querying sharing space PZ2X4UDV from load balancer
+INFO: 2013-01-05 00:13:55,322 -- 200 GET /SharingFactory/PZ2X4UDV (127.0.0.1) 1.65ms
+INFO: 2013-01-05 00:13:55,324 -- SharingSpaceActionHandler - adding 2 action to sharing space PZ2X4UDV from action initiated by user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2013-01-05 00:13:55,324 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-05 00:13:55,324 -- SharingSpaceController - executing action  
+INFO: 2013-01-05 00:13:55,325 -- 200 POST /SharingSpace/PZ2X4UDV (127.0.0.1) 1.60ms
+INFO: 2013-01-05 00:13:56,546 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-05 00:13:56,546 -- Finished executing all the actions in the batch
+INFO: 2013-01-05 00:13:56,546 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-05 00:13:56,546 -- SharingSpaceController - executing action  
+INFO: 2013-01-05 00:13:57,574 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-05 00:13:57,574 -- Finished executing all the actions in the batch
+INFO: 2013-01-05 00:13:57,574 -- SharingSpaceController - Finished executing all actions
+INFO: 2013-01-05 00:14:40,792 -- SharingLoadBalancer - assigning servers to the sharing space WUV3AS20
+INFO: 2013-01-05 00:14:40,793 -- SharingLoadBalancer - Querying sharing space WUV3AS20 from load balancer
+INFO: 2013-01-05 00:14:40,793 -- 200 GET /SharingFactory/WUV3AS20 (127.0.0.1) 1.32ms
+INFO: 2013-01-05 00:14:40,795 -- SharingSpaceActionHandler - adding 2 action to sharing space WUV3AS20 from action initiated by user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2013-01-05 00:14:40,795 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-05 00:14:40,795 -- SharingSpaceController - executing action  
+INFO: 2013-01-05 00:14:40,796 -- 200 POST /SharingSpace/WUV3AS20 (127.0.0.1) 1.89ms
+INFO: 2013-01-05 00:14:41,805 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-05 00:14:41,805 -- Finished executing all the actions in the batch
+INFO: 2013-01-05 00:14:41,805 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-05 00:14:41,805 -- SharingSpaceController - executing action  
+INFO: 2013-01-05 00:14:42,851 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-05 00:14:42,851 -- Finished executing all the actions in the batch
+INFO: 2013-01-05 00:14:42,851 -- SharingSpaceController - Finished executing all actions
+INFO: 2013-01-05 00:16:22,875 -- SharingSpaceActionHandler - adding 2 action to sharing space WUV3AS20 from action initiated by user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2013-01-05 00:16:22,875 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-05 00:16:22,875 -- SharingSpaceController - executing action  
+INFO: 2013-01-05 00:16:22,876 -- 200 POST /SharingSpace/WUV3AS20 (127.0.0.1) 1.74ms
+INFO: 2013-01-05 00:16:23,811 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-05 00:16:23,811 -- Finished executing all the actions in the batch
+INFO: 2013-01-05 00:16:23,812 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-05 00:16:23,812 -- SharingSpaceController - executing action  
+INFO: 2013-01-05 00:16:24,820 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-05 00:16:24,820 -- Finished executing all the actions in the batch
+INFO: 2013-01-05 00:16:24,820 -- SharingSpaceController - Finished executing all actions

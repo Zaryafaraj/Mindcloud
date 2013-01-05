@@ -230,6 +230,44 @@ class CollectionTests(AsyncHTTPTestCase):
         url = '/'.join(['',self.subscriber_id, 'Collections', rename_collection_name])
         self.fetch(path=url, method='DELETE')
 
+    def test_save_manifest_shared_collection(self):
+
+        #initialize
+        collection_name = 'fcolName-shared-update_manifest'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+        url += "/" + collection_name + '/Share'
+        response = self.fetch(path=url, method='POST', body="")
+        json_obj = json.loads(response.body)
+        sharing_secret = json_obj['sharing_secret']
+        self.assertEqual(200, response.code)
+
+        #subscribe
+        subscription_url = '/'.join(['', self.subscriber_id,
+                                     'Collections','ShareSpaces', 'Subscribe'])
+        headers, postData =\
+        HTTPHelper.create_multipart_request_with_parameters\
+            ({'sharing_secret': sharing_secret})
+        response = self.fetch(path=subscription_url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+        json_obj = json.loads(response.body)
+        subscriber_collection_name = json_obj['collection_name']
+
+        url = '/'.join(['', self.subscriber_id, 'Collections', collection_name])
+        collection_file = open('../../test_resources/collection.xml')
+        headers, postData = HTTPHelper.create_multipart_request_with_single_file('file', collection_file)
+        response = self.fetch(path=url, headers=headers, method='POST',
+            body=postData)
+        self.assertEquals(200, response.code)
+
+        #cleanup
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+
+
     def test_save_manifest(self):
         collection_name = 'collName1'
         params = {'collectionName':collection_name}
