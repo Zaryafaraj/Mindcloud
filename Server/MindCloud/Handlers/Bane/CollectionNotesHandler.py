@@ -55,19 +55,24 @@ class CollectionNotesHandler(tornado.web.RequestHandler):
                 user_id, collection_name, note_name, note_file)
             self.set_status(result_code)
         else:
-            #Its shared go the the corresponding sharing space
-            joker_helper = JokerHelper.get_instance()
-            sharing_server =\
-            yield gen.Task(joker_helper.get_sharing_space_server, sharing_secret)
-            if sharing_server is None:
-                #sharing server could not be found just update it locally
-                self.__log.info('Collection Note Handler - POST: sharing server not found for %s; performing updates locally' % sharing_secret)
-                result_code =yield gen.Task(StorageServer.add_note_to_collection,
-                    user_id, collection_name, note_name, note_file)
-                self.set_status(result_code)
+            if note_file is None:
+                self.__log.info('Collection Note Handler - POST: updating shared note with no file for %s' % sharing_secret)
+                self.set_status(StorageResponse.BAD_REQUEST)
+
             else:
-                result_code = yield gen.Task(joker_helper.update_note, sharing_server,
-                    sharing_secret, user_id, collection_name, note_name, note_file)
-                self.set_status(result_code)
+                #Its shared go the the corresponding sharing space
+                joker_helper = JokerHelper.get_instance()
+                sharing_server =\
+                yield gen.Task(joker_helper.get_sharing_space_server, sharing_secret)
+                if sharing_server is None:
+                    #sharing server could not be found just update it locally
+                    self.__log.info('Collection Note Handler - POST: sharing server not found for %s; performing updates locally' % sharing_secret)
+                    result_code =yield gen.Task(StorageServer.add_note_to_collection,
+                        user_id, collection_name, note_name, note_file)
+                    self.set_status(result_code)
+                else:
+                    result_code = yield gen.Task(joker_helper.update_note, sharing_server,
+                        sharing_secret, user_id, collection_name, note_name, note_file)
+                    self.set_status(result_code)
         self.finish()
 

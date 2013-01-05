@@ -124,7 +124,7 @@ class JokerHelper():
                     JokerHelper.__COLLECTION_NAME_KEY : collection_name,
                     JokerHelper.__USER_ID_KEY : user_id,
                     JokerHelper.__NOTE_NAME_KEY : note_name
-                }
+                    }
         }
 
         json_str = json.dumps(json_dict)
@@ -140,4 +140,28 @@ class JokerHelper():
         response = yield gen.Task(http.fetch,url,
             method='POST', headers=headers, body=post_data)
         callback(response.code)
-        
+
+    @gen.engine
+    def delete_note(self, server_address, sharing_secret, user_id,
+                    collection_name, note_name, callback):
+
+        json_dict = {
+            SharingEvent.DELETE_NOTE :
+                    {
+                    JokerHelper.__COLLECTION_NAME_KEY : collection_name,
+                    JokerHelper.__USER_ID_KEY : user_id,
+                    JokerHelper.__NOTE_NAME_KEY : note_name
+                    }
+        }
+
+        json_str = json.dumps(json_dict)
+        params = {JokerHelper.__ACTION_KEY : json_str}
+
+        headers, post_data = HTTPHelper.create_multipart_request_with_parameters(params)
+        http = AsyncHTTPClient()
+        url = '/'.join([server_address, 'SharingSpace', sharing_secret])
+        response = yield gen.Task(http.fetch,url,
+            method='POST', headers=headers, body=post_data)
+        callback(response.code)
+
+
