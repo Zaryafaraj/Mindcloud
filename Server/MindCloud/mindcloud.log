@@ -332,3 +332,19 @@ INFO: 2013-01-05 00:16:23,812 -- SharingSpaceController - executing action
 INFO: 2013-01-05 00:16:24,820 -- SharingSpaceController - finished executing action   with response 200
 INFO: 2013-01-05 00:16:24,820 -- Finished executing all the actions in the batch
 INFO: 2013-01-05 00:16:24,820 -- SharingSpaceController - Finished executing all actions
+INFO: 2013-01-05 00:20:29,387 -- SharingLoadBalancer - assigning servers to the sharing space OB45DJ82
+INFO: 2013-01-05 00:20:29,388 -- SharingLoadBalancer - Querying sharing space OB45DJ82 from load balancer
+INFO: 2013-01-05 00:20:29,389 -- 200 GET /SharingFactory/OB45DJ82 (127.0.0.1) 1.63ms
+INFO: 2013-01-05 00:20:29,395 -- SharingSpaceActionHandler - adding 2 action to sharing space OB45DJ82 from action initiated by user FDB51632-0973-43D4-8990-1BFC3D16909E
+INFO: 2013-01-05 00:20:29,396 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-05 00:20:29,396 -- SharingSpaceController - executing action  
+INFO: 2013-01-05 00:20:29,396 -- 200 POST /SharingSpace/OB45DJ82 (127.0.0.1) 2.11ms
+INFO: 2013-01-05 00:20:30,511 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-05 00:20:30,511 -- Finished executing all the actions in the batch
+INFO: 2013-01-05 00:20:30,511 -- SharingSpaceController - Started processing batch of 5 actions
+INFO: 2013-01-05 00:20:30,511 -- SharingSpaceController - executing action  
+INFO: 2013-01-05 00:20:31,420 -- SharingSpaceController - finished executing action   with response 200
+INFO: 2013-01-05 00:20:31,420 -- Finished executing all the actions in the batch
+INFO: 2013-01-05 00:20:31,420 -- SharingSpaceController - Finished executing all actions
+INFO: 2013-01-05 00:33:45,848 -- cleanup service - Sweep started
+INFO: 2013-01-05 00:33:45,848 -- cleanup service - Sweep finished

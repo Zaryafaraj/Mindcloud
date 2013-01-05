@@ -64,3 +64,5 @@ Client/Mindcloud.xcodeproj/project.xcworkspace/xcuserdata/afathali.xcuserdatad/U
 Server/MindCloud/.idea/workspace.xml
 
 *.log
+
+*.log
