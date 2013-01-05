@@ -164,4 +164,27 @@ class JokerHelper():
             method='POST', headers=headers, body=post_data)
         callback(response.code)
 
+    @gen.engine
+    def update_thumbnail(self, server_address, sharing_secret, user_id,
+                         collection_name, thumbnail_file, callback):
 
+        json_dict = {
+            SharingEvent.UPDATE_THUMBNAIL :
+                    {
+                    JokerHelper.__COLLECTION_NAME_KEY : collection_name,
+                    JokerHelper.__USER_ID_KEY : user_id
+                }
+        }
+        json_str = json.dumps(json_dict)
+        params = {JokerHelper.__ACTION_KEY : json_str}
+        file_obj = thumbnail_file
+        if isinstance(thumbnail_file, HTTPFile):
+            file_obj = cStringIO.StringIO(thumbnail_file.body)
+
+        headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params(params,
+            'file', file_obj)
+        http = AsyncHTTPClient()
+        url = '/'.join([server_address, 'SharingSpace', sharing_secret])
+        response = yield gen.Task(http.fetch,url,
+            method='POST', headers=headers, body=post_data)
+        callback(response.code)
