@@ -23,7 +23,7 @@ class SharingSpaceStorageTestcase(AsyncTestCase):
         return IOLoop.instance()
 
     def test_get_sharing_space_fresh(self):
-        sharing_secret = 'lalala'
+        sharing_secret = 'XXXXXXX1'
         sharing_space_storage = SharingSpaceStorage.get_instance()
         sharing_space = \
             sharing_space_storage.get_sharing_space(sharing_secret)
@@ -34,7 +34,7 @@ class SharingSpaceStorageTestcase(AsyncTestCase):
 
     def test_get_Sharing_space_used(self):
 
-        sharing_secret = 'lalala'
+        sharing_secret = 'XXXXXXX2'
         sharing_space_storage = SharingSpaceStorage.get_instance()
         sharing_space =\
             sharing_space_storage.get_sharing_space(sharing_secret)
@@ -52,7 +52,7 @@ class SharingSpaceStorageTestcase(AsyncTestCase):
 
     def test_cleanup_unused_space(self):
 
-        sharing_secret = 'sec'
+        sharing_secret = 'XXXXXXX3'
         #for testing set the sweep period low
         SharingSpaceStorage.SWEEP_PERIOD = 5
         sharing_space_storage = SharingSpaceStorage.get_instance()
@@ -80,8 +80,7 @@ class SharingSpaceStorageTestcase(AsyncTestCase):
 
 
     def test_cleanup_used_space(self):
-
-        sharing_secret = 'sec2'
+        sharing_secret = 'XXXXXXX3'
         #for testing set the sweep period low
         SharingSpaceStorage.SWEEP_PERIOD = 5
         sharing_space_storage = SharingSpaceStorage.get_instance()
@@ -123,7 +122,7 @@ class SharingSpaceStorageTestcase(AsyncTestCase):
 
     def test_recreated_cleanup_space(self):
 
-        sharing_secret = 'seclili'
+        sharing_secret = 'XXXXXXX5'
         #for testing set the sweep period low
         SharingSpaceStorage.SWEEP_PERIOD = 5
         sharing_space_storage = SharingSpaceStorage.get_instance()
@@ -147,8 +146,8 @@ class SharingSpaceStorageTestcase(AsyncTestCase):
 
     def test_cleanup_unused_and_used_space(self):
 
-        sharing_secret = 'sec3'
-        sharing_secret2 = 'sec4'
+        sharing_secret = 'XXXXXXX6'
+        sharing_secret2 = 'YXXXXXXX'
         #for testing set the sweep period low
         SharingSpaceStorage.SWEEP_PERIOD = 5
         sharing_space_storage = SharingSpaceStorage.get_instance()
@@ -197,7 +196,7 @@ class SharingSpaceStorageTestcase(AsyncTestCase):
 
     def test_cleanup_candidate_is_being_processed(self):
 
-        sharing_secret = 'sec29'
+        sharing_secret = 'XXXXXXX7'
         #for testing set the sweep period low
         SharingSpaceStorage.SWEEP_PERIOD = 2
         sharing_space_storage = SharingSpaceStorage.get_instance()

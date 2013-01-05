@@ -1,7 +1,9 @@
 from threading import Timer
 from Logging import Log
 from tornado import gen
+from tornado.httpclient import AsyncHTTPClient
 from Properties import MindcloudProperties
+from Properties.MindcloudProperties import Properties
 from Sharing.SharingController import SharingController
 from Sharing.SharingSpaceController import SharingSpaceController
 
@@ -28,6 +30,7 @@ class SharingSpaceStorage():
     def __init__(self):
         self.__remove_candidates = {}
         self.__sharing_spaces = {}
+        print self.SWEEP_PERIOD
         self.timer = Timer(self.SWEEP_PERIOD, self.__sweep)
         self.timer.start()
 
@@ -66,6 +69,7 @@ class SharingSpaceStorage():
     def clear(self):
         self.__remove_candidates.clear()
         self.__sharing_spaces.clear()
+
     def __sweep(self):
         """
         the function called by the cleanup service
@@ -81,6 +85,12 @@ class SharingSpaceStorage():
             if not candidate.is_being_processed():
                 self.__log.info('cleanup service - cleaning candidate for %s' % sharing_secret)
                 candidate.cleanup()
+                #notify the load balancer of the cleanup
+                http = AsyncHTTPClient()
+                load_balancer = Properties.load_balancer_url
+                url = '/'.join([load_balancer, 'SharingFactory',sharing_secret])
+                http.fetch(url, method='DELETE', callback=None)
+                #yield gen.Task(http.fetch, url, method = 'DELETE')
                 #remove if from stored sharing spaces
                 del(self.__sharing_spaces[sharing_secret])
             else:

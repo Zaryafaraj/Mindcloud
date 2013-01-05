@@ -768,3 +768,40 @@ INFO: 2013-01-05 03:11:49,104 -- SharingSpaceController - executing action
 INFO: 2013-01-05 03:11:50,307 -- SharingSpaceController - finished executing action   with response 200
 INFO: 2013-01-05 03:11:50,307 -- Finished executing all the actions in the batch
 INFO: 2013-01-05 03:11:50,307 -- SharingSpaceController - Finished executing all actions
+WARNING: 2013-01-05 03:52:27,805 -- 404 DELETE /sec2 (127.0.0.1) 0.21ms
+WARNING: 2013-01-05 03:53:30,674 -- 404 DELETE /sec2 (127.0.0.1) 0.21ms
+WARNING: 2013-01-05 03:59:34,542 -- 404 DELETE /XXXXXXX4 (127.0.0.1) 0.20ms
+WARNING: 2013-01-05 04:02:35,957 -- 404 DELETE /XXXXXXX3 (127.0.0.1) 0.24ms
+INFO: 2013-01-05 04:03:40,965 -- SharingLoadBalancer - removing sharing space XXXXXXX3 from load balancer info
+INFO: 2013-01-05 04:03:40,965 -- SharingLoadBalancer - no cached server for sharing space for secret XXXXXXX3
+INFO: 2013-01-05 04:03:40,966 -- 200 DELETE /SharingFactory/XXXXXXX3 (127.0.0.1) 0.70ms
+INFO: 2013-01-05 04:04:50,390 -- SharingLoadBalancer - removing sharing space XXXXXXX3 from load balancer info
+INFO: 2013-01-05 04:04:50,390 -- SharingLoadBalancer - no cached server for sharing space for secret XXXXXXX3
+INFO: 2013-01-05 04:04:50,391 -- 200 DELETE /SharingFactory/XXXXXXX3 (127.0.0.1) 0.51ms
+INFO: 2013-01-05 04:05:20,582 -- SharingLoadBalancer - removing sharing space XXXXXXX3 from load balancer info
+INFO: 2013-01-05 04:05:20,582 -- SharingLoadBalancer - no cached server for sharing space for secret XXXXXXX3
+INFO: 2013-01-05 04:05:20,582 -- 200 DELETE /SharingFactory/XXXXXXX3 (127.0.0.1) 0.50ms
+INFO: 2013-01-05 04:06:08,053 -- SharingLoadBalancer - removing sharing space XXXXXXX7 from load balancer info
+INFO: 2013-01-05 04:06:08,053 -- SharingLoadBalancer - no cached server for sharing space for secret XXXXXXX7
+INFO: 2013-01-05 04:06:08,053 -- 200 DELETE /SharingFactory/XXXXXXX7 (127.0.0.1) 0.51ms
+INFO: 2013-01-05 04:06:35,750 -- SharingLoadBalancer - removing sharing space YXXXXXXX from load balancer info
+INFO: 2013-01-05 04:06:35,750 -- SharingLoadBalancer - no cached server for sharing space for secret YXXXXXXX
+INFO: 2013-01-05 04:06:35,751 -- 200 DELETE /SharingFactory/YXXXXXXX (127.0.0.1) 1.27ms
+INFO: 2013-01-05 04:06:35,751 -- SharingLoadBalancer - removing sharing space XXXXXXX6 from load balancer info
+INFO: 2013-01-05 04:06:35,751 -- SharingLoadBalancer - no cached server for sharing space for secret XXXXXXX6
+INFO: 2013-01-05 04:06:35,751 -- 200 DELETE /SharingFactory/XXXXXXX6 (127.0.0.1) 0.37ms
+INFO: 2013-01-05 04:06:45,754 -- SharingLoadBalancer - removing sharing space XXXXXXX6 from load balancer info
+INFO: 2013-01-05 04:06:45,754 -- SharingLoadBalancer - no cached server for sharing space for secret XXXXXXX6
+INFO: 2013-01-05 04:06:45,754 -- 200 DELETE /SharingFactory/XXXXXXX6 (127.0.0.1) 0.68ms
+INFO: 2013-01-05 04:06:55,757 -- SharingLoadBalancer - removing sharing space XXXXXXX6 from load balancer info
+INFO: 2013-01-05 04:06:55,758 -- SharingLoadBalancer - no cached server for sharing space for secret XXXXXXX6
+INFO: 2013-01-05 04:06:55,758 -- 200 DELETE /SharingFactory/XXXXXXX6 (127.0.0.1) 0.49ms
+INFO: 2013-01-05 04:07:13,755 -- SharingLoadBalancer - removing sharing space XXXXXXX3 from load balancer info
+INFO: 2013-01-05 04:07:13,755 -- SharingLoadBalancer - no cached server for sharing space for secret XXXXXXX3
+INFO: 2013-01-05 04:07:13,755 -- 200 DELETE /SharingFactory/XXXXXXX3 (127.0.0.1) 0.76ms
+INFO: 2013-01-05 04:07:34,758 -- SharingLoadBalancer - removing sharing space XXXXXXX3 from load balancer info
+INFO: 2013-01-05 04:07:34,758 -- SharingLoadBalancer - no cached server for sharing space for secret XXXXXXX3
+INFO: 2013-01-05 04:07:34,758 -- 200 DELETE /SharingFactory/XXXXXXX3 (127.0.0.1) 0.55ms
+INFO: 2013-01-05 04:07:55,763 -- SharingLoadBalancer - removing sharing space XXXXXXX5 from load balancer info
+INFO: 2013-01-05 04:07:55,763 -- SharingLoadBalancer - no cached server for sharing space for secret XXXXXXX5
+INFO: 2013-01-05 04:07:55,763 -- 200 DELETE /SharingFactory/XXXXXXX5 (127.0.0.1) 0.48ms

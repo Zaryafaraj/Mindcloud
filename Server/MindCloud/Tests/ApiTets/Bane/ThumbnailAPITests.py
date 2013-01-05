@@ -84,6 +84,7 @@ class ThumbnailsTests(AsyncHTTPTestCase):
         self.fetch(path=url, method='DELETE')
 
     def test_get_thumbnail(self):
+
         collection_name = 'collName'
         params = {'collectionName':collection_name}
         url = '/'+self.account_id + '/Collections'
