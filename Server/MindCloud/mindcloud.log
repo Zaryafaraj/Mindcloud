@@ -348,3 +348,10 @@ INFO: 2013-01-05 00:20:31,420 -- Finished executing all the actions in the batch
 INFO: 2013-01-05 00:20:31,420 -- SharingSpaceController - Finished executing all actions
 INFO: 2013-01-05 00:33:45,848 -- cleanup service - Sweep started
 INFO: 2013-01-05 00:33:45,848 -- cleanup service - Sweep finished
+INFO: 2013-01-05 01:33:45,850 -- cleanup service - Sweep started
+INFO: 2013-01-05 01:33:45,850 -- cleanup service - cleaning candidate for OB45DJ82
+INFO: 2013-01-05 01:33:45,850 -- cleanup service - cleaning candidate for PZ2X4UDV
+INFO: 2013-01-05 01:33:45,851 -- cleanup service - cleaning candidate for 38BTSG5R
+INFO: 2013-01-05 01:33:45,851 -- cleanup service - cleaning candidate for Q79PPZ3R
+INFO: 2013-01-05 01:33:45,851 -- cleanup service - cleaning candidate for WUV3AS20
+INFO: 2013-01-05 01:33:45,852 -- cleanup service - Sweep finished

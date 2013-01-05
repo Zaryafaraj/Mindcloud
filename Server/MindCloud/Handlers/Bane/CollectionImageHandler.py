@@ -4,6 +4,8 @@ Created for Mindcloud
 import urllib2
 from tornado import gen
 from Logging import Log
+from Helpers.JokerHelper import JokerHelper
+from Sharing.SharingController import SharingController
 from Storage.StorageResponse import StorageResponse
 import tornado.httpserver
 import tornado.ioloop
@@ -43,8 +45,27 @@ class CollectionImageHandler(tornado.web.RequestHandler):
         #if there is an actual file
         if len(self.request.files) > 0:
             file = self.request.files['file'][0]
-            result_code = yield gen.Task(StorageServer.add_thumbnail, user_id, collection_name, file)
-            self.set_status(result_code)
+
+            sharing_secret = yield gen.Task(SharingController.get_sharing_secret_from_subscriber_info,
+                user_id, collection_name)
+            if sharing_secret is None:
+                #its not shared
+                result_code = yield gen.Task(StorageServer.add_thumbnail, user_id, collection_name, file)
+                self.set_status(result_code)
+            else:
+                #its shared
+                joker_helper = JokerHelper.get_instance()
+                sharing_server =\
+                yield gen.Task(joker_helper.get_sharing_space_server, sharing_secret)
+                if sharing_server is None:
+                    #sharing server could not be found just update it locally
+                    self.__log.info('Collection Thumbnail Handler - POST: sharing server not found for %s; performing updates locally' % sharing_secret)
+                    result_code = yield gen.Task(StorageServer.add_thumbnail, user_id, collection_name, file)
+                    self.set_status(result_code)
+                else:
+                    result_code = yield gen.Task(joker_helper.update_thumbnail, sharing_server,
+                        sharing_secret, user_id, collection_name, file)
+                    self.set_status(result_code)
             self.finish()
         else:
             self.set_status(StorageResponse.BAD_REQUEST)
