@@ -154,3 +154,173 @@ class JokerHelperTests(AsyncTestCase):
             StorageServer.remove_collection(subscriber_id, subscriber_collection,
                 callback=self.stop)
             self.wait()
+
+    def test_update_note(self):
+
+        collection_name = str(uuid.uuid4())
+        subscriber_list = [self.__subscriber_id]
+        sharing_secret, subscribers_collections =\
+        self.__create_sharing_record(subscriber_list, collection_name)
+
+
+        joker = JokerHelper.get_instance()
+        joker.get_sharing_space_server(sharing_secret, callback=self.stop)
+        server_adrs = self.wait(timeout=10000)
+        self.assertIn(server_adrs, Properties.sharing_space_servers)
+
+        note_file = open('../test_resources/sharing_template1.xml')
+        expected_note_body = note_file.read()
+        note_name = str(uuid.uuid4())
+        joker.update_note(server_adrs, sharing_secret,
+            self.__account_id, collection_name, note_name, note_file, callback=self.stop)
+        result = self.wait(timeout=1000)
+        self.assertEqual(StorageResponse.OK,result)
+
+        #wait for a while
+        self.__wait(10)
+
+        #try to retreive the note
+        StorageServer.get_note_from_collection(self.__account_id,
+            collection_name, note_name, callback=self.stop)
+        response = self.wait()
+        self.assertTrue(response is not None)
+
+        #cleanup
+        SharingController.remove_sharing_record_by_secret(sharing_secret, callback =self.stop)
+        self.wait()
+        StorageServer.remove_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        for subscriber_id in subscribers_collections:
+            subscriber_collection = subscribers_collections[subscriber_id]
+            StorageServer.remove_collection(subscriber_id, subscriber_collection,
+                callback=self.stop)
+            self.wait()
+
+    def test_update_note_image(self):
+
+        collection_name = str(uuid.uuid4())
+        subscriber_list = [self.__subscriber_id]
+        sharing_secret, subscribers_collections =\
+        self.__create_sharing_record(subscriber_list, collection_name)
+
+
+        joker = JokerHelper.get_instance()
+        joker.get_sharing_space_server(sharing_secret, callback=self.stop)
+        server_adrs = self.wait(timeout=10000)
+        self.assertIn(server_adrs, Properties.sharing_space_servers)
+
+        img_file = open('../test_resources/note_img.jpg')
+        note_name = str(uuid.uuid4())
+        joker.update_note_image(server_adrs, sharing_secret, self.__account_id,
+            collection_name, note_name, img_file, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #wait for a while
+        self.__wait(10)
+
+        #try to retreive the note
+        StorageServer.get_note_image(self.__account_id,
+            collection_name, note_name, callback=self.stop)
+        response = self.wait()
+        self.assertTrue(response is not None)
+
+        #cleanup
+        SharingController.remove_sharing_record_by_secret(sharing_secret, callback =self.stop)
+        self.wait()
+        StorageServer.remove_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        for subscriber_id in subscribers_collections:
+            subscriber_collection = subscribers_collections[subscriber_id]
+            StorageServer.remove_collection(subscriber_id, subscriber_collection,
+               callback=self.stop)
+            self.wait()
+
+    def test_delete_note(self):
+
+        collection_name = str(uuid.uuid4())
+        subscriber_list = [self.__subscriber_id]
+        sharing_secret, subscribers_collections =\
+        self.__create_sharing_record(subscriber_list, collection_name)
+
+
+        joker = JokerHelper.get_instance()
+        joker.get_sharing_space_server(sharing_secret, callback=self.stop)
+        server_adrs = self.wait(timeout=10000)
+        self.assertIn(server_adrs, Properties.sharing_space_servers)
+
+        note_file = open('../test_resources/sharing_template1.xml')
+        note_name = str(uuid.uuid4())
+        joker.update_note(server_adrs, sharing_secret,
+            self.__account_id, collection_name, note_name, note_file, callback=self.stop)
+        result = self.wait(timeout=1000)
+        self.assertEqual(StorageResponse.OK,result)
+
+        #wait for a while
+        self.__wait(10)
+
+        #now delete
+        joker.delete_note(server_adrs, sharing_secret, self.__account_id,
+            collection_name, note_name, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #wait for a while
+        self.__wait(10)
+
+        #Now Try to retreive the note
+        StorageServer.get_note_from_collection(self.__account_id,
+            collection_name, note_name, callback=self.stop)
+        response = self.wait()
+        self.assertTrue(response is None)
+
+        #cleanup
+        SharingController.remove_sharing_record_by_secret(sharing_secret, callback =self.stop)
+        self.wait()
+        StorageServer.remove_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        for subscriber_id in subscribers_collections:
+            subscriber_collection = subscribers_collections[subscriber_id]
+            StorageServer.remove_collection(subscriber_id, subscriber_collection,
+                callback=self.stop)
+            self.wait()
+
+    def test_update_thumbnail(self):
+
+        collection_name = str(uuid.uuid4())
+        subscriber_list = [self.__subscriber_id]
+        sharing_secret, subscribers_collections =\
+        self.__create_sharing_record(subscriber_list, collection_name)
+
+
+        joker = JokerHelper.get_instance()
+        joker.get_sharing_space_server(sharing_secret, callback=self.stop)
+        server_adrs = self.wait(timeout=10000)
+        self.assertIn(server_adrs, Properties.sharing_space_servers)
+
+        thumbnail_file = open('../test_resources/note_img.jpg')
+        joker.update_thumbnail(server_adrs, sharing_secret, self.__account_id,
+            collection_name, thumbnail_file, callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #wait for a while
+        self.__wait(10)
+
+        #try to retreive the thumbnail
+        StorageServer.get_thumbnail(self.__account_id, collection_name,
+            callback=self.stop)
+        response = self.wait()
+        self.assertTrue(response is not None)
+
+        #cleanup
+        SharingController.remove_sharing_record_by_secret(sharing_secret, callback =self.stop)
+        self.wait()
+        StorageServer.remove_collection(self.__account_id, collection_name,
+            callback=self.stop)
+        for subscriber_id in subscribers_collections:
+            subscriber_collection = subscribers_collections[subscriber_id]
+            StorageServer.remove_collection(subscriber_id, subscriber_collection,
+                callback=self.stop)
+            self.wait()
+

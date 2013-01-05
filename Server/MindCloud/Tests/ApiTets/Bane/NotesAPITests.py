@@ -14,6 +14,7 @@ __author__ = 'afathali'
 class NotesTests(AsyncHTTPTestCase):
 
     account_id = TestingProperties.account_id
+    subscriber_id = TestingProperties.subscriber_id
 
     def get_new_ioloop(self):
         return IOLoop.instance()
@@ -65,6 +66,55 @@ class NotesTests(AsyncHTTPTestCase):
         #cleanup
         url = '/'.join(['',self.account_id, 'Collections', collection_name])
         self.fetch(path=url, method='DELETE')
+
+    def test_save_shared_note(self):
+
+        #initialize
+        collection_name = 'fcolName-shared-update_note'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+        url += "/" + collection_name + '/Share'
+        response = self.fetch(path=url, method='POST', body="")
+        json_obj = json.loads(response.body)
+        sharing_secret = json_obj['sharing_secret']
+        self.assertEqual(200, response.code)
+
+        #subscribe
+        subscription_url = '/'.join(['', self.subscriber_id,
+                                     'Collections','ShareSpaces', 'Subscribe'])
+        headers, postData =\
+        HTTPHelper.create_multipart_request_with_parameters\
+            ({'sharing_secret': sharing_secret})
+        response = self.fetch(path=subscription_url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+        json_obj = json.loads(response.body)
+        subscriber_collection_name = json_obj['collection_name']
+
+
+        url = '/'+self.account_id + '/Collections/' + collection_name + '/Notes'
+
+        note_file = open('../../test_resources/note.xml')
+        params = {'noteName' : 'NoteName'}
+        headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
+            (params, 'file', note_file)
+        response = self.fetch(path=url, headers=headers, method='POST',
+            body=post_data)
+        self.assertEqual(200, response.code)
+
+        try:
+            self.wait(timeout=5)
+        except Exception:
+            pass
+
+        #cleanup
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+        url = '/'.join(['',self.subscriber_id, 'Collections', subscriber_collection_name])
+        self.fetch(path=url, method='DELETE')
+
 
     def test_get_note(self):
 
@@ -144,12 +194,82 @@ class NotesTests(AsyncHTTPTestCase):
 
         #Delete
         del_url = '/'.join(['', self.account_id, 'Collections', collection_name, 'Notes', note_name])
-        self.fetch(path=del_url, method='GET')
+        self.fetch(path=del_url, method='DELETE')
         self.assertEqual(200, response.code)
 
         #cleanup
         url = '/'.join(['',self.account_id, 'Collections', collection_name])
         self.fetch(path=url, method='DELETE')
+
+    def test_remove_shared_note(self):
+
+        #initialize
+        collection_name = 'fcolName-shared-delete-note'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+        url += "/" + collection_name + '/Share'
+        response = self.fetch(path=url, method='POST', body="")
+        json_obj = json.loads(response.body)
+        sharing_secret = json_obj['sharing_secret']
+        self.assertEqual(200, response.code)
+
+        #subscribe
+        subscription_url = '/'.join(['', self.subscriber_id,
+                                     'Collections','ShareSpaces', 'Subscribe'])
+        headers, postData =\
+        HTTPHelper.create_multipart_request_with_parameters\
+            ({'sharing_secret': sharing_secret})
+        response = self.fetch(path=subscription_url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+        json_obj = json.loads(response.body)
+        subscriber_collection_name = json_obj['collection_name']
+
+
+        url = '/'+self.account_id + '/Collections/' + collection_name + '/Notes'
+
+        note_file = open('../../test_resources/note.xml')
+        note_name = 'NoteName'
+        params = {'noteName' : note_name}
+        headers, post_data = HTTPHelper.create_multipart_request_with_file_and_params\
+            (params, 'file', note_file)
+        response = self.fetch(path=url, headers=headers, method='POST',
+            body=post_data)
+        self.assertEqual(200, response.code)
+
+        try:
+            self.wait(timeout=5)
+        except Exception:
+            pass
+
+        #now go for the delete
+        del_url = '/'.join(['', self.account_id, 'Collections', collection_name, 'Notes', note_name])
+        self.fetch(path=del_url, method='DELETE')
+        self.assertEqual(200, response.code)
+
+        try:
+            self.wait(timeout=5)
+        except Exception:
+            pass
+
+        #try to retreive the note from another id
+        url = '/'+self.subscriber_id + '/Collections/' + subscriber_collection_name + '/Notes/' + note_name
+        response = self.fetch(path=url,method='GET')
+        self.assertEqual(404, response.code)
+
+        try:
+            self.wait(timeout=5)
+        except Exception:
+            pass
+
+        #cleanup
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+        url = '/'.join(['',self.subscriber_id, 'Collections', subscriber_collection_name])
+        self.fetch(path=url, method='DELETE')
+
 
     def test_add_image_to_note(self):
 
@@ -202,6 +322,54 @@ class NotesTests(AsyncHTTPTestCase):
 
         #cleanup
         url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+
+    def test_add_image_to_shared_note(self):
+
+        #initialize
+        collection_name = 'fcolName-shared-update_note_img'
+        params = {'collectionName':collection_name}
+        url = '/'+self.account_id + '/Collections'
+        response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
+        self.assertEqual(200, response.code)
+        url += "/" + collection_name + '/Share'
+        response = self.fetch(path=url, method='POST', body="")
+        json_obj = json.loads(response.body)
+        sharing_secret = json_obj['sharing_secret']
+        self.assertEqual(200, response.code)
+
+        #subscribe
+        subscription_url = '/'.join(['', self.subscriber_id,
+                                     'Collections','ShareSpaces', 'Subscribe'])
+        headers, postData =\
+        HTTPHelper.create_multipart_request_with_parameters\
+            ({'sharing_secret': sharing_secret})
+        response = self.fetch(path=subscription_url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+        json_obj = json.loads(response.body)
+        subscriber_collection_name = json_obj['collection_name']
+
+
+        note_name = 'name'
+        img_file = open('../../test_resources/note_img.jpg')
+        url = '/'+self.account_id + '/Collections/' + collection_name + '/Notes/' + note_name + '/Image'
+        print url
+        headers, post_data = HTTPHelper.\
+        create_multipart_request_with_single_file('file', img_file)
+        response = self.fetch(path=url, headers=headers, method='POST',
+            body=post_data)
+        self.assertEqual(200, response.code)
+
+        try:
+            self.wait(timeout=5)
+        except Exception:
+            pass
+
+        #cleanup
+        url = '/'.join(['',self.account_id, 'Collections', collection_name])
+        self.fetch(path=url, method='DELETE')
+        url = '/'.join(['',self.subscriber_id, 'Collections', subscriber_collection_name])
         self.fetch(path=url, method='DELETE')
 
     def test_add_image_with_no_file_to_note(self):
