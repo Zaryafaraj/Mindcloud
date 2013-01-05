@@ -13,4 +13,5 @@ class Properties:
     authorization_sweep_period = 30
     sharing_space_cleanup_sweep_period = 3600
     action_batch_size = 5
-    sharing_space_servers = ['127.0.0.1:8000', '127.0.0.1:8001']
+    sharing_space_servers = ['127.0.0.1:8001', '127.0.0.1:8002']
+    load_balancer_url = '127.0.0.1:8003'

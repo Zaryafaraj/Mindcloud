@@ -5,6 +5,7 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 from Logging import Log
+from Helpers.JokerHelper import JokerHelper
 from Sharing.SharingController import SharingController
 from Storage.StorageResponse import StorageResponse
 from Storage.StorageServer import StorageServer
@@ -74,9 +75,35 @@ class CollectionHandler(tornado.web.RequestHandler):
         collection_name = urllib2.unquote(collection_name)
         if len(self.request.files) > 0:
             collection_file = self.request.files['file'][0]
-            result_code = yield gen.Task(StorageServer.
-            save_collection_manifest, user_id, collection_name, collection_file)
-            self.set_status(result_code)
+
+            sharing_secret = yield gen.Task(SharingController.get_sharing_secret_from_subscriber_info,
+                user_id, collection_name)
+
+            if sharing_secret is None:
+                #Its not shared
+                result_code = yield gen.Task(StorageServer.
+                save_collection_manifest, user_id, collection_name, collection_file)
+                self.set_status(result_code)
+            else:
+                #Its shared it has to go to the corresponding sharing space
+                #first figure out the sharing space server
+                joker_helper = JokerHelper.get_instance()
+                sharing_server = \
+                    yield gen.Task(joker_helper.get_sharing_space_server, sharing_secret)
+                if sharing_server is None:
+                    #sharing server could not be found just update it locally
+                    self.__log.info('Collection Handler - POST: sharing server not found for %s; performing updates locally' % sharing_secret)
+
+                    result_code = yield gen.Task(StorageServer.
+                        save_collection_manifest, user_id, collection_name, collection_file)
+                    self.set_status(result_code)
+                else:
+                    result_code = yield gen.Task(joker_helper.update_manifest,
+                        sharing_server, sharing_secret, user_id, collection_name,
+                        collection_file)
+                    self.set_status(result_code)
+            self.finish()
+
         else:
             self.set_status(StorageResponse.BAD_REQUEST)
         self.finish()
