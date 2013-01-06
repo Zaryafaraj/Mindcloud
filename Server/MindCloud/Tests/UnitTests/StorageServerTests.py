@@ -99,7 +99,7 @@ class StorageServerTests(AsyncTestCase):
         file = open('../test_resources/XooML.xml')
         StorageServer.add_collection(user_id=self.__account_id,
             collection_name=collection_name, callback=self.stop, file= file)
-        response = self.wait()
+        response = self.wait(timeout=10)
         self.assertEqual(StorageResponse.OK, response)
         StorageServer.remove_collection(self.__account_id,
             collection_name, callback=self.stop)

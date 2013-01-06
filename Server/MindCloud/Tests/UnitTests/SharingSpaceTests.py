@@ -36,7 +36,7 @@ class SharingSpaceTestcase(AsyncTestCase):
     def __simple_response_callback(self, status_code, body):
         if body is None:
             body =' '
-        print '\n'.join(['Request finished', status_code, body])
+        print '\n'.join(['Request finished', str(status_code), body])
 
     def test_add_listeners(self):
         sharing_space = SharingSpaceController()
@@ -1601,8 +1601,8 @@ class SharingSpaceTestcase(AsyncTestCase):
     def test_retreive_sotred_note_img_not_existing(self):
 
         sharing_space = SharingSpaceController()
-        sharing_space.get_temp_img('dummy', 'dummer',
-            'dumms', 'dummble', callback=self.stop)
+        sharing_space.get_temp_img('img-dummy', 'img-dummer',
+            'img-dumms', 'img-dummble', callback=self.stop)
         img = self.wait()
         self.assertTrue(img is None)
 
@@ -1631,8 +1631,8 @@ class SharingSpaceTestcase(AsyncTestCase):
 
     def test_retreive_stored_thumbnail_not_existing(self):
         sharing_space = SharingSpaceController()
-        sharing_space.get_temp_img('dummy', 'dummer',
-            'dumms', note_name=None, callback=self.stop)
+        sharing_space.get_temp_img('img-dummy', 'img-dummer',
+            'img-dumms', note_name=None, callback=self.stop)
         img = self.wait()
         self.assertTrue(img is None)
 

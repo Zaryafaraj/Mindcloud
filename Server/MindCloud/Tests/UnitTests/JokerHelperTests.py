@@ -40,7 +40,7 @@ class JokerHelperTests(AsyncTestCase):
             #subscribe
             SharingController.subscribe_to_sharing_space(subscriber_id,
                 sharing_secret, callback = self.stop)
-            subscribers_collection_name  = self.wait()
+            subscribers_collection_name  = self.wait(timeout=10)
             self.assertTrue(subscribers_collection_name is not None)
             subscribers[subscriber_id] = subscribers_collection_name
 

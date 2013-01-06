@@ -446,8 +446,8 @@ class SharingActionFactoryTestcase(AsyncTestCase):
         SharingActionFactory.create_related_sharing_actions('dummy',
             manifest_action, callback=self.stop)
         sharing_action_list = self.wait()
+        self.assertTrue(sharing_action_list is None)
 
-        self.assertEqual(0, len(sharing_action_list))
 
     def test_created_related_actions_multiple_subscribers(self):
 

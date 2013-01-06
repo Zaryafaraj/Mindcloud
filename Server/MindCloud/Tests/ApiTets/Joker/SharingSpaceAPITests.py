@@ -212,11 +212,13 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         headers, post_body = HTTPHelper.create_multipart_request_with_parameters({'details' : json_str})
         #owner listens as primary listener
         self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned,
+            request_timeout = 100, connect_timeout = 100)
         self.__wait(5)
         #owner listeners as backup listener
         self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned)
+            method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned,
+            request_timeout = 100, connect_timeout = 100)
 
         self.__primary_listener_returned = False
         self.__backup_listener_returned = False
@@ -231,7 +233,7 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         response = self.fetch(path=sharing_space_url, method = 'POST',
             headers=header, body=post_body)
 
-        self.__wait(20)
+        self.__wait(10)
         self.assertEqual(200, response.code)
 
         self.assertTrue(self.__primary_listener_returned)
@@ -259,7 +261,8 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         headers, post_body = HTTPHelper.create_multipart_request_with_parameters({'details' : json_str})
         #owner listens as primary listener
         self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned,
+            request_timeout = 100, connect_timeout = 100)
 
         self.__wait(5)
 
@@ -305,11 +308,13 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         headers, post_body = HTTPHelper.create_multipart_request_with_parameters({'details' : json_str})
         #owner listens as primary listener
         response1 = self.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body)
+            method='POST', headers=headers, body=post_body,
+            request_timeout = 100, connect_timeout = 100)
         self.__wait(5)
         #owner listeners as backup listener
         response2 =  self.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body)
+            method='POST', headers=headers, body=post_body,
+            request_timeout = 100, connect_timeout = 100)
 
         self.assertEqual(StorageResponse.NOT_FOUND, response1.code)
         self.assertEqual(StorageResponse.NOT_FOUND, response2.code)
@@ -337,11 +342,13 @@ class SharingSpaceTests(AsyncHTTPTestCase):
 
         #owner listens as primary listener
         response1 = self.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body)
+            method='POST', headers=headers, body=post_body,
+            request_timeout = 100, connect_timeout = 100)
         self.__wait(5)
         #owner listeners as backup listener
         response2 =  self.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body)
+            method='POST', headers=headers, body=post_body,
+            request_timeout = 100, connect_timeout = 100)
 
         self.assertEqual(StorageResponse.BAD_REQUEST, response1.code)
         self.assertEqual(StorageResponse.BAD_REQUEST, response2.code)
@@ -367,11 +374,13 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         headers, post_body = HTTPHelper.create_multipart_request_with_parameters({'details' : json_str})
         #owner listens as primary listener
         self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned,
+            request_timeout = 100, connect_timeout = 100)
         self.__wait(5)
         #owner listeners as backup listener
         self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned)
+            method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned,
+            request_timeout = 100, connect_timeout = 100)
 
         self.__primary_listener_returned = False
         self.__backup_listener_returned = False
@@ -381,7 +390,8 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         remove_listener_url = '/'.join(['', 'SharingSpace', sharing_secret, 'Listen', owner_id])
         headers, post_body = HTTPHelper.create_multipart_request_with_parameters({'details' : json_str})
         #owner listens as primary listener
-        response = self.fetch(remove_listener_url, method='DELETE', headers=headers)
+        response = self.fetch(remove_listener_url, method='DELETE', headers=headers,
+            request_timeout = 100, connect_timeout = 100)
 
         self.assertEqual(StorageResponse.OK, response.code)
 
@@ -399,7 +409,8 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         owner_id = self.account_id
         remove_listener_url = '/'.join(['', 'SharingSpace', sharing_secret, 'Listen', owner_id])
         #owner listens as primary listener
-        response = self.fetch(remove_listener_url, method='DELETE')
+        response = self.fetch(remove_listener_url, method='DELETE',
+            request_timeout = 100, connect_timeout = 100)
 
         self.assertEqual(StorageResponse.NOT_FOUND, response.code)
 
@@ -421,11 +432,13 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         headers, post_body = HTTPHelper.create_multipart_request_with_parameters({'details' : json_str})
         #owner listens as primary listener
         self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned,
+            request_timeout = 100, connect_timeout = 100)
         self.__wait(5)
         #owner listeners as backup listener
         self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned)
+            method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned,
+            request_timeout = 100, connect_timeout = 100)
 
         self.__primary_listener_returned = False
         self.__backup_listener_returned = False
@@ -435,7 +448,8 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         remove_listener_url = '/'.join(['', 'SharingSpace', sharing_secret, 'Listen', owner_id])
         headers, post_body = HTTPHelper.create_multipart_request_with_parameters({'details' : json_str})
         #owner listens as primary listener
-        response = self.fetch(remove_listener_url, method='DELETE', headers=headers)
+        response = self.fetch(remove_listener_url, method='DELETE', headers=headers,
+            request_timeout = 100, connect_timeout = 100)
 
         self.assertEqual(StorageResponse.OK, response.code)
 
@@ -482,11 +496,13 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         headers, post_body = HTTPHelper.create_multipart_request_with_parameters({'details' : json_str})
         #owner listens as primary listener
         self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned,
+            request_timeout = 100, connect_timeout = 100)
         self.__wait(5)
         #owner listeners as backup listener
         self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned)
+            method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned,
+            request_timeout = 100, connect_timeout = 100)
 
         self.__primary_listener_returned = False
         self.__backup_listener_returned = False
@@ -533,11 +549,13 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         headers, post_body = HTTPHelper.create_multipart_request_with_parameters({'details' : json_str})
         #owner listens as primary listener
         self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned,
+            request_timeout = 100, connect_timeout = 100)
         self.__wait(5)
         #owner listeners as backup listener
         self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned)
+            method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned,
+            request_timeout = 100, connect_timeout = 100)
 
         self.__primary_listener_returned = False
         self.__backup_listener_returned = False
@@ -586,11 +604,13 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         headers, post_body = HTTPHelper.create_multipart_request_with_parameters({'details' : json_str})
         #owner listens as primary listener
         self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned,
+            request_timeout = 100, connect_timeout = 100)
         self.__wait(5)
         #owner listeners as backup listener
         self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned)
+            method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned,
+            request_timeout = 100, connect_timeout = 100)
 
         self.__primary_listener_returned = False
         self.__backup_listener_returned = False
@@ -603,7 +623,7 @@ class SharingSpaceTests(AsyncHTTPTestCase):
 
         sharing_space_url = '/'.join(['', 'SharingSpace', sharing_secret])
         response = self.fetch(path=sharing_space_url, method = 'POST',
-            headers=header, body=post_body)
+            headers=header, body=post_body, request_timeout = 100, connect_timeout = 100)
         self.assertEqual(200, response.code)
 
         self.__wait(15)
@@ -643,11 +663,13 @@ class SharingSpaceTests(AsyncHTTPTestCase):
         headers, post_body = HTTPHelper.create_multipart_request_with_parameters({'details' : json_str})
         #owner listens as primary listener
         self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned)
+            method='POST', headers=headers, body=post_body, callback=self.primary_listener_returned,
+            request_timeout = 100, connect_timeout = 100)
         self.__wait(5)
         #owner listeners as backup listener
         self.http_client.fetch(sharing_space_url,
-            method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned)
+            method='POST', headers=headers, body=post_body, callback=self.backup_listener_returned,
+            request_timeout = 100, connect_timeout = 100)
 
         self.__primary_listener_returned = False
         self.__backup_listener_returned = False
@@ -663,7 +685,7 @@ class SharingSpaceTests(AsyncHTTPTestCase):
             headers=header, body=post_body)
         self.assertEqual(200, response.code)
 
-        self.__wait(15)
+        self.__wait(10)
 
         self.assertTrue(self.__primary_listener_returned)
         details = self.__primary_listener_json_obj[SharingEvent.UPDATE_NOTE_IMG]
