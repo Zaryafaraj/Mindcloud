@@ -1113,3 +1113,69 @@ INFO: 2013-01-05 14:34:53,406 -- SharingLoadBalancer - no cached server for shar
 INFO: 2013-01-05 14:34:53,407 -- 200 DELETE /SharingFactory/XXXXXXX5 (127.0.0.1) 2.30ms
 INFO: 2013-01-05 15:23:40,135 -- cleanup service - Sweep started
 INFO: 2013-01-05 15:23:40,136 -- cleanup service - Sweep finished
+INFO: 2013-01-05 16:23:40,137 -- cleanup service - Sweep started
+INFO: 2013-01-05 16:23:40,138 -- cleanup service - cleaning candidate for 7NS7H2CW
+INFO: 2013-01-05 16:23:40,139 -- cleanup service - cleaning candidate for VRIQBJWN
+INFO: 2013-01-05 16:23:40,140 -- SharingLoadBalancer - removing sharing space 7NS7H2CW from load balancer info
+INFO: 2013-01-05 16:23:40,140 -- cleanup service - cleaning candidate for NCP4Z7TV
+INFO: 2013-01-05 16:23:40,140 -- SharingLoadBalancer - purging cache for sharing_secret 7NS7H2CW and server http://127.0.0.1:8001
+INFO: 2013-01-05 16:23:40,141 -- SharingLoadBalancer - removing sharing space VRIQBJWN from load balancer info
+INFO: 2013-01-05 16:23:40,142 -- SharingLoadBalancer - purging cache for sharing_secret VRIQBJWN and server http://127.0.0.1:8001
+INFO: 2013-01-05 16:23:40,142 -- cleanup service - cleaning candidate for 39KS6IFR
+INFO: 2013-01-05 16:23:40,143 -- cleanup service - cleaning candidate for KFMXN17G
+INFO: 2013-01-05 16:23:40,144 -- cleanup service - cleaning candidate for U81AO7B5
+INFO: 2013-01-05 16:23:40,145 -- cleanup service - cleaning candidate for XDGA3FGO
+INFO: 2013-01-05 16:23:40,145 -- SharingLoadBalancer - removing sharing space NCP4Z7TV from load balancer info
+INFO: 2013-01-05 16:23:40,145 -- SharingLoadBalancer - purging cache for sharing_secret NCP4Z7TV and server http://127.0.0.1:8001
+INFO: 2013-01-05 16:23:40,146 -- SharingLoadBalancer - removing sharing space 39KS6IFR from load balancer info
+INFO: 2013-01-05 16:23:40,146 -- SharingLoadBalancer - purging cache for sharing_secret 39KS6IFR and server http://127.0.0.1:8001
+INFO: 2013-01-05 16:23:40,146 -- cleanup service - cleaning candidate for JS54VFYL
+INFO: 2013-01-05 16:23:40,147 -- cleanup service - cleaning candidate for YUFU3QN8
+INFO: 2013-01-05 16:23:40,147 -- SharingLoadBalancer - removing sharing space U81AO7B5 from load balancer info
+INFO: 2013-01-05 16:23:40,147 -- SharingLoadBalancer - purging cache for sharing_secret U81AO7B5 and server http://127.0.0.1:8001
+INFO: 2013-01-05 16:23:40,148 -- cleanup service - Sweep finished
+INFO: 2013-01-05 16:23:40,148 -- SharingLoadBalancer - removing sharing space KFMXN17G from load balancer info
+INFO: 2013-01-05 16:23:40,148 -- SharingLoadBalancer - purging cache for sharing_secret KFMXN17G and server http://127.0.0.1:8001
+WARNING: 2013-01-05 16:23:40,150 -- SharingController - no sharing info found for: 7NS7H2CW
+WARNING: 2013-01-05 16:23:40,150 -- SharingController - no sharing info found for: VRIQBJWN
+INFO: 2013-01-05 16:23:40,151 -- SharingLoadBalancer - removing sharing space JS54VFYL from load balancer info
+INFO: 2013-01-05 16:23:40,151 -- SharingLoadBalancer - purging cache for sharing_secret JS54VFYL and server http://127.0.0.1:8001
+INFO: 2013-01-05 16:23:40,151 -- SharingLoadBalancer - removing sharing space YUFU3QN8 from load balancer info
+INFO: 2013-01-05 16:23:40,151 -- SharingLoadBalancer - purging cache for sharing_secret YUFU3QN8 and server http://127.0.0.1:8001
+INFO: 2013-01-05 16:23:40,151 -- SharingLoadBalancer - removing sharing space XDGA3FGO from load balancer info
+INFO: 2013-01-05 16:23:40,151 -- SharingLoadBalancer - purging cache for sharing_secret XDGA3FGO and server http://127.0.0.1:8001
+INFO: 2013-01-05 16:23:40,153 -- SharingLoadBalancer - invalid sharing secret 7NS7H2CW
+INFO: 2013-01-05 16:23:40,153 -- 200 DELETE /SharingFactory/7NS7H2CW (127.0.0.1) 12.86ms
+INFO: 2013-01-05 16:23:40,153 -- SharingLoadBalancer - invalid sharing secret VRIQBJWN
+INFO: 2013-01-05 16:23:40,153 -- 200 DELETE /SharingFactory/VRIQBJWN (127.0.0.1) 11.92ms
+WARNING: 2013-01-05 16:23:40,155 -- SharingController - no sharing info found for: NCP4Z7TV
+WARNING: 2013-01-05 16:23:40,155 -- SharingController - no sharing info found for: 39KS6IFR
+WARNING: 2013-01-05 16:23:40,155 -- SharingController - no sharing info found for: U81AO7B5
+WARNING: 2013-01-05 16:23:40,156 -- SharingController - no sharing info found for: KFMXN17G
+INFO: 2013-01-05 16:23:40,156 -- SharingLoadBalancer - invalid sharing secret NCP4Z7TV
+INFO: 2013-01-05 16:23:40,156 -- 200 DELETE /SharingFactory/NCP4Z7TV (127.0.0.1) 11.20ms
+INFO: 2013-01-05 16:23:40,156 -- SharingLoadBalancer - invalid sharing secret 39KS6IFR
+INFO: 2013-01-05 16:23:40,157 -- 200 DELETE /SharingFactory/39KS6IFR (127.0.0.1) 10.81ms
+WARNING: 2013-01-05 16:23:40,157 -- SharingController - no sharing info found for: XDGA3FGO
+WARNING: 2013-01-05 16:23:40,157 -- SharingController - no sharing info found for: JS54VFYL
+WARNING: 2013-01-05 16:23:40,157 -- SharingController - no sharing info found for: YUFU3QN8
+INFO: 2013-01-05 16:23:40,157 -- SharingLoadBalancer - invalid sharing secret U81AO7B5
+INFO: 2013-01-05 16:23:40,158 -- 200 DELETE /SharingFactory/U81AO7B5 (127.0.0.1) 10.64ms
+INFO: 2013-01-05 16:23:40,158 -- SharingLoadBalancer - invalid sharing secret KFMXN17G
+INFO: 2013-01-05 16:23:40,158 -- 200 DELETE /SharingFactory/KFMXN17G (127.0.0.1) 10.28ms
+INFO: 2013-01-05 16:23:40,158 -- SharingLoadBalancer - invalid sharing secret XDGA3FGO
+INFO: 2013-01-05 16:23:40,158 -- 200 DELETE /SharingFactory/XDGA3FGO (127.0.0.1) 7.19ms
+INFO: 2013-01-05 16:23:40,159 -- SharingLoadBalancer - invalid sharing secret JS54VFYL
+INFO: 2013-01-05 16:23:40,159 -- 200 DELETE /SharingFactory/JS54VFYL (127.0.0.1) 8.30ms
+INFO: 2013-01-05 16:23:40,159 -- SharingLoadBalancer - invalid sharing secret YUFU3QN8
+INFO: 2013-01-05 16:23:40,159 -- 200 DELETE /SharingFactory/YUFU3QN8 (127.0.0.1) 8.20ms
+INFO: 2013-01-05 16:47:33,047 -- 200 GET /HealthCheck (::1) 0.78ms
+WARNING: 2013-01-05 16:47:33,281 -- 404 GET /favicon.ico (::1) 0.21ms
+INFO: 2013-01-05 16:49:15,287 -- 200 GET /HealthCheck (::1) 0.70ms
+WARNING: 2013-01-05 16:49:15,363 -- 404 GET /favicon.ico (::1) 0.23ms
+INFO: 2013-01-05 16:55:21,316 -- 200 GET /HealthCheck (::1) 0.43ms
+WARNING: 2013-01-05 16:55:21,350 -- 404 GET /favicon.ico (::1) 0.22ms
+INFO: 2013-01-05 17:01:40,907 -- 200 GET /HealthCheck (::1) 1.07ms
+WARNING: 2013-01-05 17:01:40,944 -- 404 GET /favicon.ico (::1) 0.21ms
+INFO: 2013-01-05 17:02:37,157 -- 200 GET /HealthCheck (::1) 0.54ms
+WARNING: 2013-01-05 17:02:37,194 -- 404 GET /favicon.ico (::1) 0.21ms

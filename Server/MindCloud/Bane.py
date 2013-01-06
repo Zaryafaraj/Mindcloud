@@ -6,6 +6,7 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 import tornado.httpclient
+from Handlers.Bane.BaneHealthCheckHandler import BaneHealthCheckHandler
 from Handlers.Bane.CategoriesHandler import CategoriesHandler
 
 from Handlers.Bane.CollectionHandler import CollectionHandler
@@ -41,7 +42,8 @@ class Application(tornado.web.Application):
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Thumbnail", CollectionImageHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections", AccountHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Categories", CategoriesHandler),
-            (r"/Authorize/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})", AuthorizationHandler)
+            (r"/Authorize/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})", AuthorizationHandler),
+            (r"/HealthCheck", BaneHealthCheckHandler)
         ]
         tornado.web.Application.__init__(self, handlers)
 
