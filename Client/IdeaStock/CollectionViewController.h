@@ -12,7 +12,7 @@
 #import "NoteViewDelegate.h"
 #import "DropBoxAssociativeBulletinBoard.h"
 
-@interface BulletinBoardViewController : UIViewController <UIScrollViewDelegate,StackViewDelegate, NoteViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface CollectionViewController : UIViewController <UIScrollViewDelegate,StackViewDelegate, NoteViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 @property (strong,nonatomic) NSString * bulletinBoardName;
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 University of Washington. All rights reserved.
 //
 
-#import "BulletinBoardViewController.h"
+#import "CollectionViewController.h"
 
 #import "NoteView.h"
 #import "StackView.h"
@@ -16,7 +16,7 @@
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "ImageView.h"
 
-@interface BulletinBoardViewController ()
+@interface CollectionViewController ()
 
 
 /*========================================================================*/
@@ -54,7 +54,7 @@
 /*========================================================================*/
 
 
-@implementation BulletinBoardViewController
+@implementation CollectionViewController
 
 /*-----------------------------------------------------------
  Synthesizers

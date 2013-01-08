@@ -7,7 +7,7 @@
 //
 
 #import "MainScreenViewController.h"
-#import "BulletinBoardViewController.h"
+#import "CollectionViewController.h"
 #import "Mindcloud.h"
 #import "UserPropertiesHelper.h"
 #import "CollectionsModel.h"
@@ -125,9 +125,9 @@
         
         NSString * name = ((UILabel *)[((UIView *) sender) subviews][0]).text;
         DropBoxAssociativeBulletinBoard * board = [[DropBoxAssociativeBulletinBoard alloc] initBulletinBoardFromXoomlWithName:name];
-        ((BulletinBoardViewController *) segue.destinationViewController).bulletinBoardName = name;
-        ((BulletinBoardViewController *) segue.destinationViewController).parent = self;
-        ((BulletinBoardViewController *) segue.destinationViewController).board = board;
+        ((CollectionViewController *) segue.destinationViewController).bulletinBoardName = name;
+        ((CollectionViewController *) segue.destinationViewController).parent = self;
+        ((CollectionViewController *) segue.destinationViewController).board = board;
     }
 }
 

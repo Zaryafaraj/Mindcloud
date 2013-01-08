@@ -23,7 +23,7 @@
 		D715B4D415708F85006975A6 /* red board.png in Resources */ = {isa = PBXBuildFile; fileRef = D715B4D315708F85006975A6 /* red board.png */; };
 		D71D934E15230A930043E573 /* DropboxDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D71D934D15230A930043E573 /* DropboxDataModel.m */; };
 		D71EA17F154BA19600496663 /* pile boardBig.png in Resources */ = {isa = PBXBuildFile; fileRef = D71EA17D154BA19600496663 /* pile boardBig.png */; };
-		D71EA185154CD3FB00496663 /* BulletinBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D71EA184154CD3FB00496663 /* BulletinBoardViewController.m */; };
+		D71EA185154CD3FB00496663 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D71EA184154CD3FB00496663 /* CollectionViewController.m */; };
 		D731B4C11535F17B0015C325 /* MockDropBoxDatamodel.m in Sources */ = {isa = PBXBuildFile; fileRef = D731B4C01535F17B0015C325 /* MockDropBoxDatamodel.m */; };
 		D7440ECC157541A500C53F4A /* DropboxAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D7440ECB157541A500C53F4A /* DropboxAction.m */; };
 		D74CF0C415266DD900DDEF0F /* BulletinboardXoomlTemplate.xml in Resources */ = {isa = PBXBuildFile; fileRef = D74CF0C315266DD900DDEF0F /* BulletinboardXoomlTemplate.xml */; };
@@ -148,8 +148,8 @@
 		D71D934F15230B3D0043E573 /* BulletinBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletinBoard.h; sourceTree = "<group>"; };
 		D71D935015230B820043E573 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
 		D71EA17D154BA19600496663 /* pile boardBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pile boardBig.png"; sourceTree = "<group>"; };
-		D71EA183154CD3FB00496663 /* BulletinBoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletinBoardViewController.h; sourceTree = "<group>"; };
-		D71EA184154CD3FB00496663 /* BulletinBoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BulletinBoardViewController.m; sourceTree = "<group>"; };
+		D71EA183154CD3FB00496663 /* CollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewController.h; sourceTree = "<group>"; };
+		D71EA184154CD3FB00496663 /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
 		D731B4BF1535F17B0015C325 /* MockDropBoxDatamodel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MockDropBoxDatamodel.h; path = IdeaStockTests/MockDropBoxDatamodel.h; sourceTree = SOURCE_ROOT; };
 		D731B4C01535F17B0015C325 /* MockDropBoxDatamodel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MockDropBoxDatamodel.m; path = IdeaStockTests/MockDropBoxDatamodel.m; sourceTree = SOURCE_ROOT; };
 		D7440EC81574C3E700C53F4A /* DropboxActionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxActionController.h; sourceTree = "<group>"; };
@@ -562,8 +562,8 @@
 			children = (
 				D7E44C01156573800080EF71 /* StackViewController.h */,
 				D7E44C02156573800080EF71 /* StackViewController.m */,
-				D71EA183154CD3FB00496663 /* BulletinBoardViewController.h */,
-				D71EA184154CD3FB00496663 /* BulletinBoardViewController.m */,
+				D71EA183154CD3FB00496663 /* CollectionViewController.h */,
+				D71EA184154CD3FB00496663 /* CollectionViewController.m */,
 				D7BF46641547303700F06412 /* MainScreenViewController.h */,
 				D7BF46651547303700F06412 /* MainScreenViewController.m */,
 				DB3174FC16337636001229FE /* SignInViewController.h */,
@@ -811,7 +811,7 @@
 				D7AB7DEA152F760400FC6BC0 /* DropBoxAssociativeBulletinBoard.m in Sources */,
 				D7DEF2C41530D37800D13CF4 /* FileSystemHelper.m in Sources */,
 				D7BF46661547303700F06412 /* MainScreenViewController.m in Sources */,
-				D71EA185154CD3FB00496663 /* BulletinBoardViewController.m in Sources */,
+				D71EA185154CD3FB00496663 /* CollectionViewController.m in Sources */,
 				D7F1FF2C154D1A3300D07B58 /* NoteView.m in Sources */,
 				D7E44BEE15643AA90080EF71 /* StackView.m in Sources */,
 				D7E44C03156573800080EF71 /* StackViewController.m in Sources */,
