@@ -1179,3 +1179,180 @@ INFO: 2013-01-05 17:01:40,907 -- 200 GET /HealthCheck (::1) 1.07ms
 WARNING: 2013-01-05 17:01:40,944 -- 404 GET /favicon.ico (::1) 0.21ms
 INFO: 2013-01-05 17:02:37,157 -- 200 GET /HealthCheck (::1) 0.54ms
 WARNING: 2013-01-05 17:02:37,194 -- 404 GET /favicon.ico (::1) 0.21ms
+INFO: 2013-01-06 21:45:54,248 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:45:54,782 -- 200 GET /Authorize/6FB4A061-CAB1-4A7F-9637-94B0FDD15D84 (::1) 534.49ms
+INFO: 2013-01-06 21:46:24,783 -- Authentication: authorization __sweep started; pending requests: {u'6FB4A061-CAB1-4A7F-9637-94B0FDD15D84': <AsynchDropbox.session.OAuthToken object at 0x101d75610>}
+INFO: 2013-01-06 21:46:34,785 -- Authentication: authorization __sweep started; pending requests: {u'6FB4A061-CAB1-4A7F-9637-94B0FDD15D84': <AsynchDropbox.session.OAuthToken object at 0x101d75610>}
+INFO: 2013-01-06 21:46:34,785 -- Authentication: removed __sweep candidate: 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:47:12,914 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - POST : authenticating user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:50:16,083 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:50:16,532 -- 200 GET /Authorize/6FB4A061-CAB1-4A7F-9637-94B0FDD15D84 (::1) 448.63ms
+INFO: 2013-01-06 21:50:22,174 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - POST : authenticating user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:50:23,023 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - POST: account 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84 added
+INFO: 2013-01-06 21:50:23,023 -- 200 POST /Authorize/6FB4A061-CAB1-4A7F-9637-94B0FDD15D84 (::1) 849.62ms
+INFO: 2013-01-06 21:50:23,091 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:50:23,092 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:50:23,379 -- 200 GET /6FB4A061-CAB1-4A7F-9637-94B0FDD15D84/Collections (::1) 288.29ms
+INFO: 2013-01-06 21:50:23,383 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for 05a6556a-ba26-49f1-9166-97bc98b8f590 for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:50:23,387 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for 79cda347-578c-11e2-a1e2-c82a1425c93b for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:50:23,388 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for ab7b2dd1-0a1f-4673-87af-8650c3758ec9 for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:50:23,389 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for ac8b2f43-5b70-443a-a8c0-69c06e22dd26 for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:50:23,828 -- StorageServer - could not retreive thumbnail file for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+WARNING: 2013-01-06 21:50:23,828 -- 404 GET /6FB4A061-CAB1-4A7F-9637-94B0FDD15D84/Collections/05a6556a-ba26-49f1-9166-97bc98b8f590/Thumbnail (::1) 445.07ms
+INFO: 2013-01-06 21:50:23,829 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for b0019c29-0cce-46bd-966a-628f7825d196 for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:50:23,874 -- StorageServer - could not retreive thumbnail file for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+WARNING: 2013-01-06 21:50:23,874 -- 404 GET /6FB4A061-CAB1-4A7F-9637-94B0FDD15D84/Collections/79cda347-578c-11e2-a1e2-c82a1425c93b/Thumbnail (::1) 487.79ms
+INFO: 2013-01-06 21:50:23,874 -- StorageServer - could not retreive thumbnail file for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+WARNING: 2013-01-06 21:50:23,875 -- 404 GET /6FB4A061-CAB1-4A7F-9637-94B0FDD15D84/Collections/ac8b2f43-5b70-443a-a8c0-69c06e22dd26/Thumbnail (::1) 486.12ms
+INFO: 2013-01-06 21:50:23,875 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for col_listener1 for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:50:23,876 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for share_api_col_name0 for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:50:23,887 -- StorageServer - could not retreive thumbnail file for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+WARNING: 2013-01-06 21:50:23,888 -- 404 GET /6FB4A061-CAB1-4A7F-9637-94B0FDD15D84/Collections/ab7b2dd1-0a1f-4673-87af-8650c3758ec9/Thumbnail (::1) 500.21ms
+INFO: 2013-01-06 21:50:23,888 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for f2625456-fc29-4560-864d-8d0ef04e1cdc for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:50:24,286 -- StorageServer - could not retreive thumbnail file for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+WARNING: 2013-01-06 21:50:24,286 -- 404 GET /6FB4A061-CAB1-4A7F-9637-94B0FDD15D84/Collections/b0019c29-0cce-46bd-966a-628f7825d196/Thumbnail (::1) 457.17ms
+INFO: 2013-01-06 21:50:24,339 -- StorageServer - could not retreive thumbnail file for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+WARNING: 2013-01-06 21:50:24,340 -- 404 GET /6FB4A061-CAB1-4A7F-9637-94B0FDD15D84/Collections/f2625456-fc29-4560-864d-8d0ef04e1cdc/Thumbnail (::1) 451.32ms
+INFO: 2013-01-06 21:50:24,347 -- StorageServer - could not retreive thumbnail file for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+WARNING: 2013-01-06 21:50:24,347 -- 404 GET /6FB4A061-CAB1-4A7F-9637-94B0FDD15D84/Collections/share_api_col_name0/Thumbnail (::1) 471.23ms
+INFO: 2013-01-06 21:50:24,418 -- StorageServer - could not retreive thumbnail file for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+WARNING: 2013-01-06 21:50:24,419 -- 404 GET /6FB4A061-CAB1-4A7F-9637-94B0FDD15D84/Collections/col_listener1/Thumbnail (::1) 543.84ms
+INFO: 2013-01-06 21:50:24,640 -- 200 GET /6FB4A061-CAB1-4A7F-9637-94B0FDD15D84/Categories (::1) 1547.89ms
+INFO: 2013-01-06 21:50:24,640 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for c4208b97-db09-4e04-bf4e-c038438018a2 for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:50:24,747 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for c4208b97-db09-4e04-bf4e-c038438018a2 for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+INFO: 2013-01-06 21:50:25,181 -- StorageServer - could not retreive thumbnail file for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+WARNING: 2013-01-06 21:50:25,181 -- 404 GET /6FB4A061-CAB1-4A7F-9637-94B0FDD15D84/Collections/c4208b97-db09-4e04-bf4e-c038438018a2/Thumbnail (::1) 541.15ms
+INFO: 2013-01-06 21:50:25,208 -- StorageServer - could not retreive thumbnail file for user 6FB4A061-CAB1-4A7F-9637-94B0FDD15D84
+WARNING: 2013-01-06 21:50:25,208 -- 404 GET /6FB4A061-CAB1-4A7F-9637-94B0FDD15D84/Collections/c4208b97-db09-4e04-bf4e-c038438018a2/Thumbnail (::1) 461.41ms
+INFO: 2013-01-06 21:50:25,491 -- 200 POST /6FB4A061-CAB1-4A7F-9637-94B0FDD15D84/Categories (::1) 745.11ms
+INFO: 2013-01-06 21:50:46,532 -- Authentication: authorization __sweep started; pending requests: {}
+INFO: 2013-01-06 21:57:08,784 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:09,137 -- 200 GET /Authorize/4F390A3A-46A1-444C-9F42-53ADE2DB7356 (::1) 353.20ms
+INFO: 2013-01-06 21:57:16,254 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - POST : authenticating user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:16,751 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - POST: account 4F390A3A-46A1-444C-9F42-53ADE2DB7356 added
+INFO: 2013-01-06 21:57:16,751 -- 200 POST /Authorize/4F390A3A-46A1-444C-9F42-53ADE2DB7356 (::1) 497.87ms
+INFO: 2013-01-06 21:57:16,766 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:16,767 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:17,083 -- 200 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections (::1) 315.52ms
+INFO: 2013-01-06 21:57:17,086 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for 05a6556a-ba26-49f1-9166-97bc98b8f590 for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:17,089 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for 79cda347-578c-11e2-a1e2-c82a1425c93b for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:17,090 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for ab7b2dd1-0a1f-4673-87af-8650c3758ec9 for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:17,091 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for ac8b2f43-5b70-443a-a8c0-69c06e22dd26 for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:17,405 -- 200 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Categories (::1) 638.47ms
+INFO: 2013-01-06 21:57:17,405 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for b0019c29-0cce-46bd-966a-628f7825d196 for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:17,546 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:17,546 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/05a6556a-ba26-49f1-9166-97bc98b8f590/Thumbnail (::1) 459.69ms
+INFO: 2013-01-06 21:57:17,546 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for c4208b97-db09-4e04-bf4e-c038438018a2 for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:17,566 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:17,566 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/ac8b2f43-5b70-443a-a8c0-69c06e22dd26/Thumbnail (::1) 475.25ms
+INFO: 2013-01-06 21:57:17,567 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for share_api_col_name0 for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:17,606 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:17,606 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/ab7b2dd1-0a1f-4673-87af-8650c3758ec9/Thumbnail (::1) 516.05ms
+INFO: 2013-01-06 21:57:17,607 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for f2625456-fc29-4560-864d-8d0ef04e1cdc for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:17,698 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:17,698 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/79cda347-578c-11e2-a1e2-c82a1425c93b/Thumbnail (::1) 608.54ms
+INFO: 2013-01-06 21:57:17,698 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for col_listener1 for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:18,045 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:18,045 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/c4208b97-db09-4e04-bf4e-c038438018a2/Thumbnail (::1) 499.09ms
+INFO: 2013-01-06 21:57:18,046 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for 79cda347-578c-11e2-a1e2-c82a1425c93b for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:18,073 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:18,073 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/f2625456-fc29-4560-864d-8d0ef04e1cdc/Thumbnail (::1) 466.19ms
+INFO: 2013-01-06 21:57:18,074 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for ac8b2f43-5b70-443a-a8c0-69c06e22dd26 for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:18,092 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:18,092 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/share_api_col_name0/Thumbnail (::1) 525.69ms
+INFO: 2013-01-06 21:57:18,093 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for b0019c29-0cce-46bd-966a-628f7825d196 for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:18,223 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:18,223 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/col_listener1/Thumbnail (::1) 524.72ms
+INFO: 2013-01-06 21:57:18,223 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for ab7b2dd1-0a1f-4673-87af-8650c3758ec9 for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:18,283 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:18,283 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/b0019c29-0cce-46bd-966a-628f7825d196/Thumbnail (::1) 877.68ms
+INFO: 2013-01-06 21:57:18,577 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:18,577 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/79cda347-578c-11e2-a1e2-c82a1425c93b/Thumbnail (::1) 531.03ms
+INFO: 2013-01-06 21:57:18,578 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for col_listener1 for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:18,600 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:18,601 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/b0019c29-0cce-46bd-966a-628f7825d196/Thumbnail (::1) 507.95ms
+INFO: 2013-01-06 21:57:18,664 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:18,665 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/ac8b2f43-5b70-443a-a8c0-69c06e22dd26/Thumbnail (::1) 591.23ms
+INFO: 2013-01-06 21:57:18,665 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for share_api_col_name0 for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:18,681 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:18,682 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/ab7b2dd1-0a1f-4673-87af-8650c3758ec9/Thumbnail (::1) 458.21ms
+INFO: 2013-01-06 21:57:18,682 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for f2625456-fc29-4560-864d-8d0ef04e1cdc for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:19,012 -- 200 POST /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Categories (::1) 728.74ms
+INFO: 2013-01-06 21:57:19,013 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for 05a6556a-ba26-49f1-9166-97bc98b8f590 for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:19,032 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:19,032 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/col_listener1/Thumbnail (::1) 454.83ms
+INFO: 2013-01-06 21:57:19,228 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:19,228 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/share_api_col_name0/Thumbnail (::1) 563.37ms
+INFO: 2013-01-06 21:57:19,279 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:19,279 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/f2625456-fc29-4560-864d-8d0ef04e1cdc/Thumbnail (::1) 597.38ms
+INFO: 2013-01-06 21:57:19,475 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:19,475 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/05a6556a-ba26-49f1-9166-97bc98b8f590/Thumbnail (::1) 462.17ms
+INFO: 2013-01-06 21:57:19,475 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for c4208b97-db09-4e04-bf4e-c038438018a2 for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+INFO: 2013-01-06 21:57:20,026 -- StorageServer - could not retreive thumbnail file for user 4F390A3A-46A1-444C-9F42-53ADE2DB7356
+WARNING: 2013-01-06 21:57:20,026 -- 404 GET /4F390A3A-46A1-444C-9F42-53ADE2DB7356/Collections/c4208b97-db09-4e04-bf4e-c038438018a2/Thumbnail (::1) 550.69ms
+INFO: 2013-01-06 21:57:39,138 -- Authentication: authorization __sweep started; pending requests: {}
+INFO: 2013-01-06 21:57:51,032 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:51,376 -- 200 GET /Authorize/AC89E749-2ECE-4628-BE14-44B378C66A6F (::1) 344.66ms
+INFO: 2013-01-06 21:57:55,079 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - POST : authenticating user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:55,671 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - POST: account AC89E749-2ECE-4628-BE14-44B378C66A6F added
+INFO: 2013-01-06 21:57:55,672 -- 200 POST /Authorize/AC89E749-2ECE-4628-BE14-44B378C66A6F (::1) 592.82ms
+INFO: 2013-01-06 21:57:55,687 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:55,689 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:55,970 -- 200 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections (::1) 282.65ms
+INFO: 2013-01-06 21:57:55,973 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for 05a6556a-ba26-49f1-9166-97bc98b8f590 for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:55,976 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for 79cda347-578c-11e2-a1e2-c82a1425c93b for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:55,976 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for ab7b2dd1-0a1f-4673-87af-8650c3758ec9 for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:55,977 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for ac8b2f43-5b70-443a-a8c0-69c06e22dd26 for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:56,284 -- 200 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Categories (::1) 595.82ms
+INFO: 2013-01-06 21:57:56,285 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for c4208b97-db09-4e04-bf4e-c038438018a2 for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:56,423 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:56,424 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/05a6556a-ba26-49f1-9166-97bc98b8f590/Thumbnail (::1) 450.80ms
+INFO: 2013-01-06 21:57:56,424 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for b0019c29-0cce-46bd-966a-628f7825d196 for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:56,478 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:56,478 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/ac8b2f43-5b70-443a-a8c0-69c06e22dd26/Thumbnail (::1) 500.91ms
+INFO: 2013-01-06 21:57:56,482 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for share_api_col_name0 for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:56,487 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:56,488 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/79cda347-578c-11e2-a1e2-c82a1425c93b/Thumbnail (::1) 512.05ms
+INFO: 2013-01-06 21:57:56,488 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for col_listener1 for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:56,511 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:56,512 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/ab7b2dd1-0a1f-4673-87af-8650c3758ec9/Thumbnail (::1) 535.24ms
+INFO: 2013-01-06 21:57:56,512 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for f2625456-fc29-4560-864d-8d0ef04e1cdc for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:56,775 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:56,775 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/c4208b97-db09-4e04-bf4e-c038438018a2/Thumbnail (::1) 490.56ms
+INFO: 2013-01-06 21:57:56,916 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:56,917 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/b0019c29-0cce-46bd-966a-628f7825d196/Thumbnail (::1) 492.47ms
+INFO: 2013-01-06 21:57:56,917 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for 05a6556a-ba26-49f1-9166-97bc98b8f590 for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:56,955 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:56,955 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/col_listener1/Thumbnail (::1) 466.90ms
+INFO: 2013-01-06 21:57:56,956 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for ab7b2dd1-0a1f-4673-87af-8650c3758ec9 for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:56,976 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:56,976 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/share_api_col_name0/Thumbnail (::1) 494.86ms
+INFO: 2013-01-06 21:57:56,977 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for b0019c29-0cce-46bd-966a-628f7825d196 for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:57,114 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:57,114 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/f2625456-fc29-4560-864d-8d0ef04e1cdc/Thumbnail (::1) 602.09ms
+INFO: 2013-01-06 21:57:57,115 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for ac8b2f43-5b70-443a-a8c0-69c06e22dd26 for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:57,366 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:57,366 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/05a6556a-ba26-49f1-9166-97bc98b8f590/Thumbnail (::1) 449.25ms
+INFO: 2013-01-06 21:57:57,367 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for c4208b97-db09-4e04-bf4e-c038438018a2 for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:57,409 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:57,409 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/ab7b2dd1-0a1f-4673-87af-8650c3758ec9/Thumbnail (::1) 453.57ms
+INFO: 2013-01-06 21:57:57,409 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for f2625456-fc29-4560-864d-8d0ef04e1cdc for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:57,455 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:57,455 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/b0019c29-0cce-46bd-966a-628f7825d196/Thumbnail (::1) 478.11ms
+INFO: 2013-01-06 21:57:57,583 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:57,583 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/ac8b2f43-5b70-443a-a8c0-69c06e22dd26/Thumbnail (::1) 468.39ms
+INFO: 2013-01-06 21:57:57,584 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for share_api_col_name0 for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:57,777 -- 200 POST /AC89E749-2ECE-4628-BE14-44B378C66A6F/Categories (::1) 1001.59ms
+INFO: 2013-01-06 21:57:57,778 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for 79cda347-578c-11e2-a1e2-c82a1425c93b for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:57,847 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:57,847 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/c4208b97-db09-4e04-bf4e-c038438018a2/Thumbnail (::1) 480.44ms
+INFO: 2013-01-06 21:57:57,930 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:57,930 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/f2625456-fc29-4560-864d-8d0ef04e1cdc/Thumbnail (::1) 520.84ms
+INFO: 2013-01-06 21:57:58,053 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:58,053 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/share_api_col_name0/Thumbnail (::1) 469.56ms
+INFO: 2013-01-06 21:57:58,252 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:58,252 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/79cda347-578c-11e2-a1e2-c82a1425c93b/Thumbnail (::1) 474.61ms
+INFO: 2013-01-06 21:57:58,253 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for col_listener1 for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+INFO: 2013-01-06 21:57:58,728 -- StorageServer - could not retreive thumbnail file for user AC89E749-2ECE-4628-BE14-44B378C66A6F
+WARNING: 2013-01-06 21:57:58,728 -- 404 GET /AC89E749-2ECE-4628-BE14-44B378C66A6F/Collections/col_listener1/Thumbnail (::1) 475.61ms
+INFO: 2013-01-06 21:58:21,377 -- Authentication: authorization __sweep started; pending requests: {}

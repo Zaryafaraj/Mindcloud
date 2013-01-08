@@ -2,10 +2,10 @@ __author__ = 'afathali'
 
 class Properties:
 
-    memcached_servers = ['127.0.0.1:11211']
+    memcached_servers = ['54.235.217.101:11211']
     memcached_max_clients = 100
-    database_host = 'localhost'
-    database_port = 27017
+    database_host = '54.235.214.23'
+    database_port = 27000
     database_name = 'mindcloud'
     accounts_collection_name = 'accounts'
     sharing_collection_name = 'sharings'
