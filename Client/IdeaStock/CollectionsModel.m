@@ -271,7 +271,7 @@
         }
     }
     
-    if (collections == nil) self.collections = [NSMutableArray array];
+    if (collections == nil) self.collections = [NSMutableDictionary dictionary];
     else self.collections[ALL] = [collections mutableCopy];
     if (uncategorizedArray == nil) self.collections[UNCATEGORIZED_KEY] = [NSMutableArray array];
     else self.collections[UNCATEGORIZED_KEY] = [uncategorizedArray mutableCopy];
