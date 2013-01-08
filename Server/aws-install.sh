@@ -15,3 +15,4 @@ cd ..
 yum install memcached
 echo configure memcached ...
 vim /etc/sysconfig/memcached
+
