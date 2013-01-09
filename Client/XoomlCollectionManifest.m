@@ -6,50 +6,44 @@
 //  Copyright (c) 2012 University of Washington. All rights reserved.
 //
 
-#import "XoomlBulletinBoardController.h"
+#import "XoomlCollectionManifest.h"
 #import "DDXML.h"
 #import "XoomlParser.h"
 
 
-@interface XoomlBulletinBoardController()
-
-/*-----------------------------------------------------------
- Model
- -----------------------------------------------------------*/
+@interface XoomlCollectionManifest()
 
 //This is the actual xooml document that this object wraps around.
 @property (nonatomic,strong) DDXMLDocument * document;
 
 @end
 
-/*========================================================================*/
+@implementation XoomlCollectionManifest
 
+#pragma mark - XML Keys
+#define XOOML_NOTE_TOOL_ATTRIBUTE @"xooml:associationToolAttributes"
+#define ATTRIBUTE_NAME @"name"
+#define ATTRIBUTE_TYPE @"type"
+#define LINKAGE_TYPE @"linkage"
+#define STACKING_TYPE @"stacking"
+#define GROUPING_TYPE @"grouping"
+#define REF_ID @"refID"
+#define NOTE_NAME_KEY @"name"
+#define NOTE_POSITION_X_KEY @"positionX"
+#define NOTE_POSITION_Y_KEY @"positionY"
+#define NOTE_IS_VISIBLE @"isVisible"
+#define NOTE_LINKAGE_KEY @"linkage"
+#define POSITION_TYPE @"position"
+#define XOOML_POSITION_X @"positionX"
+#define XOOML_POSITION_Y @"positionY"
+#define XOOML_IS_VISIBLE @"isVisible"
+#define XOOML_NOTE_NAME @"associatedItem"
+#define XOOML_ID @"ID"
+#define XOOML_NOTE_ID @"ID"
+#define NOTE_ID_KEY @"ID"
+#define ATTRIBUTE_TYPE @"type"
 
-@implementation XoomlBulletinBoardController 
-
-/*-----------------------------------------------------------
- Synthesizer
- -----------------------------------------------------------*/
-
-@synthesize document = _document;
-
-/*========================================================================*/
-
-
-/*-----------------------------------------------------------
- Datasource implementation
- -----------------------------------------------------------*/
-
-//TODO There may be some tidying up needed in the xooml file.
-// to validate it and make sure its proper and also add some parts to it yourself
-// as planz does
-
-/*-----------------------------------------------------------
- 
- Initializers
- 
- -----------------------------------------------------------*/
-
+#pragma mark - Initialization
 -(id) initWithData:(NSData *) data{
     
     self = [super init];
@@ -79,12 +73,7 @@
     return self;
 }
 
-/*-----------------------------------------------------------
- 
- Serialization
- 
- -----------------------------------------------------------*/
-
+#pragma mark - Serialization
 -(NSData *) data{
     return [self.document XMLData];
 }
@@ -93,49 +82,14 @@
     return [XoomlParser getEmptyBulletinBoardXooml];
 }
 
-/*================================================================
- Private helpers
- 
- New bulletinboard structural functionality should be added here
- The bulletinboard object itself is oblivious of the 
- functionality that it can perform. 
- ===============================================================*/
-
-#define XOOML_NOTE_TOOL_ATTRIBUTE @"xooml:associationToolAttributes"
-#define ATTRIBUTE_NAME @"name"
-#define ATTRIBUTE_TYPE @"type"
-#define LINKAGE_TYPE @"linkage"
-#define STACKING_TYPE @"stacking"
-#define GROUPING_TYPE @"grouping"
-#define REF_ID @"refID"
-#define NOTE_NAME_KEY @"name"
-#define NOTE_POSITION_X_KEY @"positionX"
-#define NOTE_POSITION_Y_KEY @"positionY"
-#define NOTE_IS_VISIBLE @"isVisible"
-#define NOTE_LINKAGE_KEY @"linkage"
-#define POSITION_TYPE @"position"
-#define XOOML_POSITION_X @"positionX"
-#define XOOML_POSITION_Y @"positionY"
-#define XOOML_IS_VISIBLE @"isVisible"
-#define XOOML_NOTE_NAME @"associatedItem"
-#define XOOML_ID @"ID"
-
-/*-----------------------------------------------------------
- 
- Query
- 
- -----------------------------------------------------------*/
-
+#pragma mark - Query
 /*
- Finds a xml node element with noteID and returns it 
+ Finds a xml node element with noteID and returns it
  */
-
 -(DDXMLElement *) getNoteElementFor: (NSString *) noteID{
     //get the note fragment using xpath
     
-    //xooml:association[@ID ="d391c321-4f25-4128-8a82-13dd5f268034"]
-    //TODO this may not work maybe I shoud remove @ sign
-    NSString * xPath = [XoomlParser xPathforNote:noteID]; 
+    NSString * xPath = [XoomlParser xPathforNote:noteID];
     NSError * err;
     NSArray *notes = [self.document.rootElement nodesForXPath: xPath error: &err];
     
@@ -143,7 +97,6 @@
         NSLog(@"Error reading the content from XML");
         return nil;
     }
-    
     
     if ([notes count] == 0 ){
         
@@ -159,9 +112,7 @@
     }
     
     return [notes lastObject];
-    
 }
-
 
 /*
  Returns a dictionary of all the linkage info for the note with noteID. 
@@ -208,7 +159,6 @@
         
     }
     return [result copy];
-    
 }
 
 /*
@@ -218,7 +168,6 @@
  
  For Example: 
  {stackingName1 = {refID1} , stackingName2 = {refID3,refID4}}
- 
  
  If no stacking infos exist the dictionary will be empty. 
  
@@ -230,7 +179,6 @@
 -(NSDictionary *) getStackingInfo{
     //get All the stackings
     NSString * xPath = [XoomlParser xPathForBulletinBoardAttribute:STACKING_TYPE];
-    
     
     NSError * err;
     NSMutableArray *attribtues = [[self.document nodesForXPath: xPath error: &err]  mutableCopy];
@@ -264,7 +212,6 @@
     }
     
     return [result copy];
-    
 }
 
 /*
@@ -313,12 +260,8 @@
     }
     
     return [result copy];
-    
-    
 }
 
-#define XOOML_NOTE_ID @"ID"
-#define NOTE_ID_KEY @"ID"
 
 -(NSDictionary *) getAllNoteBasicInfo{
     
@@ -385,12 +328,7 @@
     
 }
 
-/*-----------------------------------------------------------
- 
- Creation
- 
- -----------------------------------------------------------*/
-
+#pragma mark - Creation
 /*
  The reason why there are static method names for linkage and stacking and etc
  instead of a dynamic attribute Type is that at some point in future the processes
@@ -404,7 +342,6 @@
  
  This method assumes that refNoteID is a valid refID. 
  */
-
 -(void) addLinkage: (NSString *) linkageName
             ToNote: (NSString *) noteID
 WithReferenceToNote: (NSString *) refNoteID{
@@ -422,9 +359,7 @@ WithReferenceToNote: (NSString *) refNoteID{
             [[[noteChild attributeForName:ATTRIBUTE_TYPE] stringValue] isEqualToString:LINKAGE_TYPE]){
             [noteChild addChild:noteRef];
             return;
-            
         }
-        
     }
     
     //a note linkage with the given name does not exist so we have to 
@@ -432,8 +367,6 @@ WithReferenceToNote: (NSString *) refNoteID{
     DDXMLElement * linkageElement = [XoomlParser xoomlForAssociationToolAttributeWithName:linkageName andType:LINKAGE_TYPE];
     [linkageElement addChild:noteRef];
     [noteNode addChild:linkageElement];
-    
-    
 }
 
 /*
@@ -448,8 +381,6 @@ WithReferenceToNote: (NSString *) refNoteID{
  Th method assumes the noteIDs passed in the NSArray notes are valid existing
  refNoteIDs. 
  */
-
-
 -(void) addStackingWithName: (NSString *) stackingName
                   withNotes: (NSArray *) notes{
     
@@ -487,10 +418,8 @@ WithReferenceToNote: (NSString *) refNoteID{
             [stackingElement addChild:note];
         }
     }
-    
-    
-    
 }
+
 /*
  Adds a grouping property with groupingName and the notes that are specified
  in the array note. 
@@ -503,8 +432,6 @@ WithReferenceToNote: (NSString *) refNoteID{
  Th method assumes the noteIDs passed in the NSArray notes are valid existing
  refNoteIDs. 
  */
-
-
 -(void) addGroupingWithName: (NSString *) groupingName
                   withNotes: (NSArray *) notes{
     DDXMLElement * groupingElement = [XoomlParser xoomlForFragmentToolAttributeWithName:groupingName andType:GROUPING_TYPE];
@@ -513,9 +440,6 @@ WithReferenceToNote: (NSString *) refNoteID{
         [groupingElement addChild:note];
     }
     [[self.document rootElement] addChild:groupingElement];
-    
-    
-    
 }
 
 /*
@@ -529,7 +453,6 @@ WithReferenceToNote: (NSString *) refNoteID{
  This method assumes that stackingName is unique. If there are more than
  one stacking with the stackingName it adds the note to the first stacking.
  */
-
 -(void) addNote: (NSString *) noteID
      toStacking: (NSString *) stackingName{
     
@@ -563,7 +486,6 @@ WithReferenceToNote: (NSString *) refNoteID{
  This method assumes that groupingName is unique. If there are more than
  one grouping with the groupingName it adds the note to the first stacking.
  */
-
 -(void) addNote: (NSString *) noteID
      toGrouping: (NSString *) groupingName{
     //get the xpath for the required attribute
@@ -620,11 +542,8 @@ WithReferenceToNote: (NSString *) refNoteID{
         }
         
     }
-    
-    
 }
 
-//TODO maybe I should do these with selectors later
 -(void) addNoteAttribute: (NSString *) attributeName
                  forType: (NSString *) attributeType 
                  forNote: (NSString *)noteID 
@@ -656,10 +575,7 @@ WithReferenceToNote: (NSString *) refNoteID{
         [associationAttribute addChild:noteProperty];
         [note addChild: associationAttribute];
         return;
-        
     }
-    
-    
 }
 
 -(void) addCollectionAttribute: (NSString *) attributeName 
@@ -676,13 +592,7 @@ WithReferenceToNote: (NSString *) refNoteID{
     
 }
 
-/*-----------------------------------------------------------
- 
- Deletion
- 
- -----------------------------------------------------------*/
-
-
+#pragma mark - Deletion
 /*
  Deletes the linkage with linkageName for the note with NoteID. 
  
@@ -707,9 +617,7 @@ WithReferenceToNote: (NSString *) refNoteID{
             [noteNode removeChildAtIndex:[noteChild index]];
             return;
         }
-        
     }
-    
 }
 
 /*
@@ -719,8 +627,6 @@ WithReferenceToNote: (NSString *) refNoteID{
  If the noteID, noteRefID, or linkageName are invalid this method returns
  without doing anything. 
  */
-
-
 -(void) deleteNote: (NSString *) noteRefID
        fromLinkage: (NSString *)linkageName
            forNote: (NSString *) noteID{
@@ -744,11 +650,9 @@ WithReferenceToNote: (NSString *) refNoteID{
             }
             return;
         }
-        
     }
-    
-    
 }
+
 /*
  Deletes the stacking with stackingName from the bulletin board. 
  
@@ -757,7 +661,6 @@ WithReferenceToNote: (NSString *) refNoteID{
  
  If the stackingName is invalid this method returns without doing anything.
  */
-
 -(void) deleteStacking: (NSString *) stackingName{
     
     NSString * xPath = [XoomlParser xPathForFragmentAttributeWithName:stackingName andType:STACKING_TYPE];
@@ -781,8 +684,6 @@ WithReferenceToNote: (NSString *) refNoteID{
     DDXMLElement * bulletinBoardAttribute = [stacking lastObject];
     DDXMLElement * attributeParent = (DDXMLElement *)[bulletinBoardAttribute parent];
     [attributeParent removeChildAtIndex:[bulletinBoardAttribute index]];
-    
-    
 }
 
 /*
@@ -791,7 +692,6 @@ WithReferenceToNote: (NSString *) refNoteID{
  If the stackingName or noteID are invalid this method returns without
  doing anything.
  */
-
 -(void) deleteNote: (NSString *) noteID
       fromStacking: (NSString *) stackingName{
     
@@ -821,8 +721,8 @@ WithReferenceToNote: (NSString *) refNoteID{
             return;
         }
     }
-    
 }
+
 /*
  Deletes the grouping with groupingName from the bulletin board. 
  
@@ -831,8 +731,6 @@ WithReferenceToNote: (NSString *) refNoteID{
  
  If the groupingName is invalid this method returns without doing anything.
  */
-
-
 -(void) deleteGrouping: (NSString *) groupingName{
     
     NSString * xPath = [XoomlParser xPathForFragmentAttributeWithName:groupingName andType:GROUPING_TYPE];
@@ -846,8 +744,6 @@ WithReferenceToNote: (NSString *) refNoteID{
     DDXMLElement * bulletinBoardAttribute = [attribtues lastObject];
     DDXMLElement * attributeParent = (DDXMLElement *)[bulletinBoardAttribute parent];
     [attributeParent removeChildAtIndex:[bulletinBoardAttribute index]];
-    
-    
 }
 
 /*
@@ -876,8 +772,6 @@ WithReferenceToNote: (NSString *) refNoteID{
             return;
         }
     }
-    
-    
 }
 
 -(void) deleteNote: (NSString *) noteID{
@@ -913,9 +807,6 @@ WithReferenceToNote: (NSString *) refNoteID{
     for (NSString * groupingName in allGroupings){
         [self deleteNote:noteID fromGrouping:groupingName];
     }
-    
-    
-    
 }
 
 -(void) deleteNote:(NSString *) targetNoteID 
@@ -970,7 +861,6 @@ attributeName ofType:(NSString *) attributeType{
     }
 }
 
-#define ATTRIBUTE_TYPE @"type"
 -(void) deleteNoteAttribute: (NSString *) attributeName
                      ofType: (NSString *) attributeType 
                    fromNote: (NSString *) noteID{
@@ -990,8 +880,6 @@ attributeName ofType:(NSString *) attributeType{
         }
         
     }
-    
-    
 }
 
 -(void) deleteCollectionAttribute:(NSString *) attributeName 
@@ -1004,14 +892,9 @@ attributeName ofType:(NSString *) attributeType{
         [self deleteGrouping:attributeName];
         return;
     }
-    
 }
 
-/*-----------------------------------------------------------
- 
- Updating
- 
- -----------------------------------------------------------*/
+#pragma mark - Update
 
 /*
  updates the name of linkage for note with noteID from linkageName
@@ -1038,10 +921,7 @@ attributeName ofType:(NSString *) attributeType{
             [[noteNode attributeForName:ATTRIBUTE_NAME] setStringValue:newLinkageName];
             return;
         }
-        
     }
-    
-    
 }
 
 /*
@@ -1050,7 +930,6 @@ attributeName ofType:(NSString *) attributeType{
  
  If the stackingName is invalid the method returns without doing anything.
  */
-
 -(void) updateStackingName: (NSString *) stackingName
                withNewName: (NSString *) newStackingName{
     NSString * xPath = [XoomlParser xPathForFragmentAttributeWithName:stackingName andType:STACKING_TYPE];
@@ -1063,15 +942,14 @@ attributeName ofType:(NSString *) attributeType{
     
     DDXMLElement * bulletinBoardAttribute = [attribtues lastObject];
     [[bulletinBoardAttribute attributeForName:ATTRIBUTE_NAME] setStringValue:newStackingName];
-    
 }
+
 /*
  Updates the name of a bulletin board grouping from groupingName to 
  newGroupingName. 
  
  If the groupingName is invalid the method returns without doing anything.
  */
-
 -(void) updateGroupingName: (NSString *) groupingName
                withNewName: (NSString *) newGroupingName{
     NSString * xPath = [XoomlParser xPathForFragmentAttributeWithName:groupingName andType:GROUPING_TYPE];
@@ -1084,7 +962,6 @@ attributeName ofType:(NSString *) attributeType{
     
     DDXMLElement * bulletinBoardAttribute = [attribtues lastObject];
     [[bulletinBoardAttribute attributeForName:ATTRIBUTE_NAME] setStringValue:newGroupingName];
-    
 }
 
 -(void) updateNote: (NSString *) noteID 
@@ -1115,7 +992,6 @@ attributeName ofType:(NSString *) attributeType{
             if (newPositionX){
                 [positionNode removeAttributeForName:XOOML_POSITION_X];
                 [positionNode addAttribute:[DDXMLNode attributeWithName:XOOML_POSITION_X stringValue:newPositionX]];
-                
             }
             if(newPositionY){
                 [positionNode removeAttributeForName:XOOML_POSITION_Y];
@@ -1137,7 +1013,6 @@ attributeName ofType:(NSString *) attributeType{
     if ([attributeType isEqualToString:LINKAGE_TYPE]){
         [self updateLinkageName:oldAttributeName forNote:noteID withNewName:newAttributeName];
     }
-    
 }
 
 -(void) updateCollectionAttributeName: (NSString *) oldAttributeName
@@ -1149,7 +1024,6 @@ attributeName ofType:(NSString *) attributeType{
     if ([attributeType isEqualToString:GROUPING_TYPE]){
         [self updateGroupingName:oldAttributeName withNewName:newAttributeName];
     }
-    
 }
 
 -(void) updateNoteAttribute: (NSString *) attributeName
@@ -1162,11 +1036,11 @@ attributeName ofType:(NSString *) attributeType{
             [self addLinkage:attributeName ToNote:noteID WithReferenceToNote:value];
         }
     }
-    
 }
 
 -(NSString *) description{
     NSData * xml = self.data;
     return [[NSString alloc] initWithData:xml encoding:NSUTF8StringEncoding];
 }
+
 @end

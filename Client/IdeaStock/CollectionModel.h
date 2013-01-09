@@ -10,7 +10,6 @@
 #import "BulletinBoard.h"
 #import "CollectionDataSource.h"
 #import "CollectionManifest.h"
-#import "BulletinBoardDatasource.h"
 #import "BulletinBoardAttributes.h"
 #import "SynchronizedObject.h"
 

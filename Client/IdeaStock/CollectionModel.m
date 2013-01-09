@@ -9,7 +9,7 @@
 #import "CollectionModel.h"
 #import "XoomlParser.h"
 
-#import "XoomlBulletinBoardController.h"
+#import "XoomlCollectionManifest.h"
 #import "CallBackDataModel.h"
 #import "FileSystemHelper.h"
 #import "DropboxDataModel.h"
@@ -210,7 +210,7 @@ _needSynchronization;
     
     //create an empty bulletinBoard controller and make it both delegate
     //and the datasource
-    id bulletinBoardController = [[XoomlBulletinBoardController alloc] initAsEmpty];
+    id bulletinBoardController = [[XoomlCollectionManifest alloc] initAsEmpty];
     self.dataSource = bulletinBoardController;
     self.delegate = bulletinBoardController;
     
@@ -371,7 +371,7 @@ _needSynchronization;
     
     //Initialize the bulletinBoard controller to parse and hold the 
     //tree for the bulletin board
-    id bulletinBoardController= [[XoomlBulletinBoardController alloc]  initWithData:bulletinBoardData];
+    id bulletinBoardController= [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
     
     //Make the bulletinboard controller the datasource and delegate
     //for the bulletin board so the bulletin board can structural and
@@ -964,7 +964,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 -(void) initiateBulletinBoad{
     
     NSData * bulletinBoardData = [self getBulletinBoardData];
-    id bulletinBoardController= [[XoomlBulletinBoardController alloc]  initWithData:bulletinBoardData];
+    id bulletinBoardController= [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
     
     //Make the bulletinboard controller the datasource and delegate
     //for the bulletin board so the bulletin board can structural and

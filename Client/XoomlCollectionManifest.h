@@ -24,8 +24,9 @@
  has less perforamnce penality than keeping it in the xooml level. 
  */
 
-@interface XoomlBulletinBoardController : NSObject <CollectionManifest>
+@interface XoomlCollectionManifest : NSObject <CollectionManifest>
 
+/*Convinience method*/
 + (NSData *) getEmptyBulletinBoardData;
 
 @end
