@@ -87,7 +87,7 @@
 /*
  This is the datamodel that the bulletin board uses for retrieval and storage of itself. 
  */
-@property (nonatomic,strong) id<DataModel> dataModel;
+@property (nonatomic,strong) id<CollectionDataModel> dataModel;
 /*
  This delegate object provides information for all of the data specific 
  questions that the bulletin baord may ask. 
@@ -190,7 +190,7 @@ _needSynchronization;
     return [[BulletinBoardAttributes alloc] initWithAttributes:@[NOTE_NAME_TYPE,LINKAGE_TYPE,POSITION_TYPE, VISIBILITY_TYPE]];
 }
 
--(id)initEmptyBulletinBoardWithDataModel: (id <DataModel>) dataModel 
+-(id)initEmptyBulletinBoardWithDataModel: (id <CollectionDataModel>) dataModel 
                                  andName:(NSString *) bulletinBoardName{
     
     /*
@@ -222,7 +222,8 @@ _needSynchronization;
     
     //add an empty bulletinboard to the datamodel
     NSData * bulletinBoardData = [self.dataSource data];
-    [self.dataModel addBulletinBoardWithName:bulletinBoardName andBulletinBoardInfo:bulletinBoardData] ;
+    
+    //[self.dataModel addCollectionWithName:bulletinBoardName andContent:bulletinBoardData] ;
     
     
     [self startTimer];
@@ -336,7 +337,7 @@ _needSynchronization;
     
 }
 
--(id) initBulletinBoardFromXoomlWithDatamodel:(id<DataModel>)datamodel
+-(id) initBulletinBoardFromXoomlWithDatamodel:(id<CollectionDataModel>)datamodel
                                       andName:(NSString *)bulletinBoardName{
     
     self = [super init];
@@ -367,7 +368,7 @@ _needSynchronization;
     
     //First get the xooml file for the bulletinboard as NSData from
     //the datamodel
-    NSData * bulletinBoardData = [self.dataModel getBulletinBoard:bulletinBoardName];  
+    NSData * bulletinBoardData = [self.dataModel getCollection:bulletinBoardName];  
     
     //Initialize the bulletinBoard controller to parse and hold the 
     //tree for the bulletin board
@@ -390,7 +391,7 @@ _needSynchronization;
         //for each note create a note Object by reading its separate xooml files
         //from the data model
         NSString * noteName = noteInfo[noteID][NOTE_NAME];
-        NSData * noteData = [self.dataModel getNoteForTheBulletinBoard:bulletinBoardName WithName:noteName];
+        NSData * noteData = [self.dataModel getNoteForTheCollection:bulletinBoardName WithName:noteName];
         
         if (!noteData) return self;
         
@@ -490,7 +491,7 @@ _needSynchronization;
     
     //update the datamodel
     NSData * noteData = [XoomlParser convertNoteToXooml:note];
-    [self.dataModel addNote:noteName withContent:noteData  ToBulletinBoard:self.bulletinBoardName];
+    [self.dataModel addNote:noteName withContent:noteData  ToCollection:self.bulletinBoardName];
     
     self.actionInProgress = YES;
     self.needSynchronization = YES;
@@ -557,7 +558,7 @@ _needSynchronization;
                  withNoteContent: noteData 
                         andImage: img 
                withImageFileName: imgName
-                 toBulletinBoard:self.bulletinBoardName];
+                 toCollection:self.bulletinBoardName];
 
     
     self.actionInProgress = YES;
@@ -658,7 +659,7 @@ toBulletinBoardAttribute:(NSString *)attributeName
     
     //remove all the occurances in the xooml file
     [self.delegate deleteNote:delNoteID];
-    [self.dataModel removeNote:noteName FromBulletinBoard:self.bulletinBoardName];
+    [self.dataModel removeNote:noteName FromCollection:self.bulletinBoardName];
     
     self.actionInProgress = YES;
     self.needSynchronization = true;
@@ -756,7 +757,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     
     [self.dataModel updateNote:noteName 
                    withContent:noteData 
-               inBulletinBoard:self.bulletinBoardName];
+               inCollection:self.bulletinBoardName];
 }
 
 //TODO There may be performance penalities for this way of doing an update
@@ -901,7 +902,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     if ([bulletinBoard isKindOfClass:[MindcloudBoard class]]){
         
         MindcloudBoard * board = (MindcloudBoard *) bulletinBoard;
-            [board.dataModel updateBulletinBoardWithName:board.bulletinBoardName andBulletinBoardInfo:[board.dataSource data]];
+            [board.dataModel updateCollectionWithName:board.bulletinBoardName andContent:[board.dataSource data]];
 
     }
 

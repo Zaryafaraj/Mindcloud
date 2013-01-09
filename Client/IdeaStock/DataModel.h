@@ -14,33 +14,8 @@
  * The protocol for the datamodel. Includes essential behaviors for working 
  with bulletin boards and notes. 
  */
-@protocol DataModel <NSObject>
+@protocol CollectionDataModel <NSObject>
 
-@required
-
-
-/*----------------------
- Creation Behavior
- ----------------------*/
-
-
-
-/*
- Adds a bulletin board with all of its note content to the data model. 
- 
- Since notes are stored as separate entities, the implementation should 
- provide for recursive writing of all the notes in the bulletin board. 
- 
- This method assumes that the content passed to it as NSData is verified 
- and is valid.
- 
- This method also assumes that the bulletinBoard with the given name doesn't exist
- If the bulletin board name with this same name exists the details should be handled
- by the implementation. 
- 
- */
-- (void) addBulletinBoardWithName: (NSString *) bulletinBoardName
-             andBulletinBoardInfo: (NSData *) content;
 
 /*
  Adds one note with name noteName and content note to the bulletinBoard
@@ -54,22 +29,13 @@
  */
 - (void) addNote: (NSString *)noteName 
      withContent: (NSData *) note 
- ToBulletinBoard: (NSString *) bulletinBoardName; 
+ ToCollection: (NSString *) collectionName;
 
-
-@optional
-
--(void) addImageNote: (NSString *) noteName 
+-(void) addImageNote: (NSString *) noteName
      withNoteContent: (NSData *) note 
             andImage: (NSData *) img 
    withImageFileName: (NSString *)imgName
-     toBulletinBoard: (NSString *) bulletinBoardName;
-
-
-/*----------------------
- Update Behavior
- -----------------------*/
-
+     toCollection: (NSString *) collectionName;
 /*
  Updates the bulletinboard with name with the given content
  
@@ -78,8 +44,8 @@
  
  The method replaces the bulletinboard info with the new one. 
  */
--(void) updateBulletinBoardWithName: (NSString *) bulletinBoardName 
-               andBulletinBoardInfo: (NSData *) content;
+-(void) updateCollectionWithName: (NSString *) collectionName
+               andContent: (NSData *) content;
 
 /*
  Updates a given note with noteName with the content. 
@@ -91,24 +57,7 @@
  */
 -(void) updateNote: (NSString *) noteName 
        withContent: (NSData *) conetent
-   inBulletinBoard:(NSString *) bulletinBoardName;
- 
- /*----------------------
- Deletion Behavior
- ----------------------*/
-
-/*
- Remove a bulletin board with the boardName from the root. 
- 
- This method also removes all the notes that are contained in the bulletin board. 
- 
- If the boardName is invalid the method returns without doing anything.
- 
- This method is not responsible for deletion of the bulletin board structure in the 
- application.
- */
-- (void) removeBulletinBoard:(NSString *) boardName;
-
+   inCollection:(NSString *) collectionName;
 /*
  Removes a note with noteName from the bulletin board with bulletinBoardName.
  
@@ -118,29 +67,8 @@ If the boardName or noteName are invalid the method returns without doing anythi
  in the application. 
  */
 - (void) removeNote: (NSString *) noteName
-  FromBulletinBoard: (NSString *) bulletinBoardName;
+  FromCollection: (NSString *) collectionName;
 
-
-/*----------------------
- Query Behavior
- ----------------------*/
-
-/*
- Returns an Array of string with the name of all the available bulletin
- boards in the root.
- 
- If no bulletin board exists the array is empty. 
- 
- In case of any error in storage or retrieval the method returns nil.
- */
-- (NSArray *) getAllBulletinBoardsFromRoot;
-
-
-@optional
-- (NSData *) getImage: (NSString *) imgName
-              ForNote: (NSString *)noteID 
-            andBulletinBoard: (NSString *) bulletinBoardName;
-@required
 /*
  Return a NSData object with the contents of the stored bulletinBoard for
  the bulletinBoardName. 
@@ -149,7 +77,7 @@ If the boardName or noteName are invalid the method returns without doing anythi
  
  The method does not gurantee the NSData returned is a valid bulletin board data. 
  */
-- (NSData *) getBulletinBoard: (NSString *) bulletinBoardName;
+- (NSData *) getCollection: (NSString *) collectionName;
 /*
  Gets the note contents for the passed bulletin board name and noteName.
  Returns an NSData containing the data for the note. 
@@ -159,15 +87,12 @@ If the boardName or noteName are invalid the method returns without doing anythi
  
  The method does not gurantee the NSData returned is a valid note data. 
  */
-
-@optional
-- (NSData *) getNoteForTheBulletinBoard: (NSString *) bulletinBoardName
+- (NSData *) getNoteForTheCollection: (NSString *) collectionName
                                    WithName: (NSString *) noteName;
 
 
-
-
-
-
+- (NSData *) getImage: (NSString *) imgName
+              ForNote: (NSString *)noteID 
+            andCollection: (NSString *) bulletinBoardName;
 
 @end

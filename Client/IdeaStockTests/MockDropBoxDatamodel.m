@@ -43,9 +43,9 @@
     
 }
 
--(void) addBulletinBoardWithName:
+-(void) addCollectionWithName:
 (NSString *)bulletinBoardName 
-            andBulletinBoardInfo:(NSData *)content{
+            andContent:(NSData *)content{
        
     NSLog(@"bulletin board added to mock dropbox");
 }

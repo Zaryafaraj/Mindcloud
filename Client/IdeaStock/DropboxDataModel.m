@@ -103,8 +103,8 @@
  -------------------------------------------------*/
 
 #define BULLETINBOARD_XOOML_FILE_NAME @"XooML.xml"
--(void) addBulletinBoardWithName: (NSString *) bulletinBoardName
-            andBulletinBoardInfo: (NSData *) content{
+-(void) addCollectionWithName: (NSString *) bulletinBoardName
+            andContent: (NSData *) content{
     
     
     //first write the new content to the disk
@@ -140,7 +140,7 @@
 
 -(void) addNote: (NSString *)noteName 
     withContent: (NSData *) note 
-ToBulletinBoard: (NSString *) bulletinBoardName{
+ToCollection: (NSString *) bulletinBoardName{
     
     NSError * err;
     //first write the note to the disk
@@ -183,7 +183,7 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
      withNoteContent: (NSData *) note 
             andImage: (NSData *) img 
    withImageFileName:(NSString *)imgName
-     toBulletinBoard: (NSString *) bulletinBoardName{
+     toCollection: (NSString *) bulletinBoardName{
     
     
     NSError * err;
@@ -232,8 +232,8 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
  
  -------------------------------------------------*/
 
--(void) updateBulletinBoardWithName: (NSString *) bulletinBoardName 
-               andBulletinBoardInfo: (NSData *) content{
+-(void) updateCollectionWithName: (NSString *) bulletinBoardName 
+               andContent: (NSData *) content{
     [self.actionController setActionInProgress:NO];
     
     
@@ -272,7 +272,7 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
 
 -(void) updateNote: (NSString *) noteName 
        withContent: (NSData *) content
-   inBulletinBoard:(NSString *) bulletinBoardName{
+   inCollection:(NSString *) bulletinBoardName{
     
     NSError *err;
     NSString *path = [FileSystemHelper getPathForNoteWithName:noteName inBulletinBoardWithName:bulletinBoardName];
@@ -312,7 +312,7 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
  -------------------------------------------------*/
 
 
--(void) removeBulletinBoard:(NSString *) boardName{
+-(void) removeCollection:(NSString *) boardName{
     
     NSError * err;
     NSString * path = [FileSystemHelper getPathForBulletinBoardWithName:boardName];
@@ -332,7 +332,7 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
 }
 
 -(void) removeNote: (NSString *) noteName
- FromBulletinBoard: (NSString *) bulletinBoardName{
+ FromCollection: (NSString *) bulletinBoardName{
     
     
      NSError *err;
@@ -359,12 +359,12 @@ ToBulletinBoard: (NSString *) bulletinBoardName{
  
  -------------------------------------------------*/
 
--(NSArray *) getAllBulletinBoardsFromRoot{
+-(NSArray *) getAllCollections{
     [self getAllBulletinBoardsAsynch];
     return nil;
 }
 
--(NSData *) getBulletinBoard: (NSString *) bulletinBoardName{
+-(NSData *) getCollection: (NSString *) bulletinBoardName{
     [self getBulletinBoardAsynch:bulletinBoardName];
     return nil;
 }

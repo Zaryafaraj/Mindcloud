@@ -13,7 +13,7 @@
 #import "DropboxActionController.h"
 #import "QueueProducer.h"
 
-@interface DropboxDataModel : NSObject <DataModel,CallBackDataModel,DBRestClientDelegate> 
+@interface DropboxDataModel : NSObject <CollectionDataModel,CallBackDataModel,DBRestClientDelegate> 
 
 
 //action keyed on the action type
