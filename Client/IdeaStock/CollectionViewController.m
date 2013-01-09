@@ -51,10 +51,10 @@
 @synthesize activityIndicator = _activityIndicator;
 @synthesize endActivityIndicator = _endActivityIndicator;
 
--(MindcloudBoard *) board{
+-(CollectionModel *) board{
     
     if (!_board){
-        _board = [[MindcloudBoard alloc] initBulletinBoardFromXoomlWithName:self.bulletinBoardName];
+        _board = [[CollectionModel alloc] initBulletinBoardFromXoomlWithName:self.bulletinBoardName];
     }
     return _board;
 }
@@ -1101,7 +1101,7 @@
     if (self.isRefreshing) return;
     
     self.isRefreshing = YES;
-    self.board = [[MindcloudBoard alloc] initBulletinBoardFromXoomlWithName:self.bulletinBoardName];
+    self.board = [[CollectionModel alloc] initBulletinBoardFromXoomlWithName:self.bulletinBoardName];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(loadSavedNotes:)
                                                  name:@"BulletinBoardLoaded" 

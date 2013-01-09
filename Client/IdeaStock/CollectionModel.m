@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 University of Washington. All rights reserved.
 //
 
-#import "MindcloudBoard.h"
+#import "CollectionModel.h"
 #import "XoomlParser.h"
 
 #import "XoomlBulletinBoardController.h"
@@ -63,7 +63,7 @@
 #define SYNCHRONIZATION_PERIOD 2
 /*====================================================================*/
 
-@interface MindcloudBoard()
+@interface CollectionModel()
 
 /*
  Holds the actual individual note contents. This dictonary is keyed on the noteID.
@@ -87,7 +87,7 @@
 /*
  This is the datamodel that the bulletin board uses for retrieval and storage of itself. 
  */
-@property (nonatomic,strong) id<CollectionDataModel> dataModel;
+@property (nonatomic,strong) id<CollectionDataSource> dataModel;
 /*
  This delegate object provides information for all of the data specific 
  questions that the bulletin baord may ask. 
@@ -115,7 +115,7 @@
 
 @end
 
-@implementation MindcloudBoard
+@implementation CollectionModel
 
 /*--------------------------------------------------
  
@@ -189,7 +189,7 @@ _needSynchronization;
     return [[BulletinBoardAttributes alloc] initWithAttributes:@[NOTE_NAME_TYPE,LINKAGE_TYPE,POSITION_TYPE, VISIBILITY_TYPE]];
 }
 
--(id)initEmptyBulletinBoardWithDataModel: (id <CollectionDataModel>) dataModel 
+-(id)initEmptyBulletinBoardWithDataModel: (id <CollectionDataSource>) dataModel 
                                  andName:(NSString *) bulletinBoardName{
     
     /*
@@ -336,7 +336,7 @@ _needSynchronization;
     
 }
 
--(id) initBulletinBoardFromXoomlWithDatamodel:(id<CollectionDataModel>)datamodel
+-(id) initBulletinBoardFromXoomlWithDatamodel:(id<CollectionDataSource>)datamodel
                                       andName:(NSString *)bulletinBoardName{
     
     self = [super init];
@@ -898,9 +898,9 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 
 +(void) saveBulletinBoard:(id) bulletinBoard{
     
-    if ([bulletinBoard isKindOfClass:[MindcloudBoard class]]){
+    if ([bulletinBoard isKindOfClass:[CollectionModel class]]){
         
-        MindcloudBoard * board = (MindcloudBoard *) bulletinBoard;
+        CollectionModel * board = (CollectionModel *) bulletinBoard;
             [board.dataModel updateCollectionWithName:board.bulletinBoardName andContent:[board.dataSource data]];
 
     }
@@ -951,7 +951,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
         self.needSynchronization = NO;
         
        // self.actionInProgress = YES;
-        [MindcloudBoard saveBulletinBoard: self];
+        [CollectionModel saveBulletinBoard: self];
     }
 }
 

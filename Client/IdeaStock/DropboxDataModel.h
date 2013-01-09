@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CollectionDataModel.h"
+#import "CollectionDataSource.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "CallBackDataModel.h"
 #import "DropboxActionController.h"
 #import "QueueProducer.h"
 
-@interface DropboxDataModel : NSObject <CollectionDataModel,CallBackDataModel,DBRestClientDelegate> 
+@interface DropboxDataModel : NSObject <CollectionDataSource,CallBackDataModel,DBRestClientDelegate> 
 
 
 //action keyed on the action type

@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CollectionDataModel.h"
+#import "CollectionDataSource.h"
 
-@interface CachedCollectionDataModel : NSObject<CollectionDataModel>
+@interface CachedCollectionDataModel : NSObject<CollectionDataSource>
 
 @end

@@ -43,7 +43,7 @@
 		D7AB7DEE152FB52C00FC6BC0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53D271522F4E100183CB6 /* Security.framework */; };
 		D7B1431C152680B600DC7556 /* IdeaStockSchema.xsd in Resources */ = {isa = PBXBuildFile; fileRef = D7B1431B152680B500DC7556 /* IdeaStockSchema.xsd */; };
 		D7B1432115268B4C00DC7556 /* BulletinBoardAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B1432015268B4C00DC7556 /* BulletinBoardAttributes.m */; };
-		D7B1432D1526A50400DC7556 /* MindcloudBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B1432C1526A50400DC7556 /* MindcloudBoard.m */; };
+		D7B1432D1526A50400DC7556 /* CollectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B1432C1526A50400DC7556 /* CollectionModel.m */; };
 		D7BF465D154728DD00F06412 /* MainStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7BF465C154728DD00F06412 /* MainStoryBoard.storyboard */; };
 		D7BF46661547303700F06412 /* MainScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BF46651547303700F06412 /* MainScreenViewController.m */; };
 		D7D86C741570A95400FE2E21 /* note.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D86C731570A95400FE2E21 /* note.png */; };
@@ -142,7 +142,7 @@
 		D715B4B415707F63006975A6 /* noteselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noteselected.png; sourceTree = "<group>"; };
 		D715B4B615707F63006975A6 /* stackSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stackSelected.png; sourceTree = "<group>"; };
 		D715B4D315708F85006975A6 /* red board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red board.png"; sourceTree = "<group>"; };
-		D71D934B152301F10043E573 /* CollectionDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionDataModel.h; sourceTree = "<group>"; };
+		D71D934B152301F10043E573 /* CollectionDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionDataSource.h; sourceTree = "<group>"; };
 		D71D934C15230A930043E573 /* DropboxDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxDataModel.h; sourceTree = "<group>"; };
 		D71D934D15230A930043E573 /* DropboxDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxDataModel.m; sourceTree = "<group>"; };
 		D71D934F15230B3D0043E573 /* BulletinBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletinBoard.h; sourceTree = "<group>"; };
@@ -180,8 +180,8 @@
 		D7B1431B152680B500DC7556 /* IdeaStockSchema.xsd */ = {isa = PBXFileReference; explicitFileType = text.xml; fileEncoding = 4; path = IdeaStockSchema.xsd; sourceTree = "<group>"; };
 		D7B1431F15268B4C00DC7556 /* BulletinBoardAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletinBoardAttributes.h; sourceTree = "<group>"; };
 		D7B1432015268B4C00DC7556 /* BulletinBoardAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BulletinBoardAttributes.m; sourceTree = "<group>"; };
-		D7B1432B1526A50400DC7556 /* MindcloudBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudBoard.h; sourceTree = "<group>"; };
-		D7B1432C1526A50400DC7556 /* MindcloudBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudBoard.m; sourceTree = "<group>"; };
+		D7B1432B1526A50400DC7556 /* CollectionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionModel.h; sourceTree = "<group>"; };
+		D7B1432C1526A50400DC7556 /* CollectionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionModel.m; sourceTree = "<group>"; };
 		D7BF465C154728DD00F06412 /* MainStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryBoard.storyboard; sourceTree = "<group>"; };
 		D7BF46641547303700F06412 /* MainScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenViewController.h; sourceTree = "<group>"; };
 		D7BF46651547303700F06412 /* MainScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenViewController.m; sourceTree = "<group>"; };
@@ -362,8 +362,6 @@
 				D7B1431F15268B4C00DC7556 /* BulletinBoardAttributes.h */,
 				D7B1432015268B4C00DC7556 /* BulletinBoardAttributes.m */,
 				D709472815242AC3008E4AD9 /* XoomlParser.h */,
-				D7B1432B1526A50400DC7556 /* MindcloudBoard.h */,
-				D7B1432C1526A50400DC7556 /* MindcloudBoard.m */,
 				D7440EC81574C3E700C53F4A /* DropboxActionController.h */,
 				D709472915242AC3008E4AD9 /* XoomlParser.m */,
 				D71D934F15230B3D0043E573 /* BulletinBoard.h */,
@@ -585,7 +583,7 @@
 			isa = PBXGroup;
 			children = (
 				D7F85EAE1528D29E00F16D25 /* CollectionManifest.h */,
-				D71D934B152301F10043E573 /* CollectionDataModel.h */,
+				D71D934B152301F10043E573 /* CollectionDataSource.h */,
 				D71D934C15230A930043E573 /* DropboxDataModel.h */,
 				D71D934D15230A930043E573 /* DropboxDataModel.m */,
 				DB43382B169D2E09000353DA /* CachedCollectionDataModel.h */,
@@ -597,6 +595,8 @@
 		DB4E0AC5163DCD1E00AB82E6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D7B1432B1526A50400DC7556 /* CollectionModel.h */,
+				D7B1432C1526A50400DC7556 /* CollectionModel.m */,
 				DB4E0AC7163DCD3D00AB82E6 /* CollectionsModel.h */,
 				DB4E0AC8163DCD3D00AB82E6 /* CollectionsModel.m */,
 				DB225AC2164CD67B0094BFC9 /* CategoryModelProtocol.h */,
@@ -816,7 +816,7 @@
 				D709472A15242AC3008E4AD9 /* XoomlParser.m in Sources */,
 				D74E48201524F3DF00BC8B9D /* XoomlAttributeHelper.m in Sources */,
 				D7B1432115268B4C00DC7556 /* BulletinBoardAttributes.m in Sources */,
-				D7B1432D1526A50400DC7556 /* MindcloudBoard.m in Sources */,
+				D7B1432D1526A50400DC7556 /* CollectionModel.m in Sources */,
 				D7F85EB41528D80300F16D25 /* XoomlBulletinBoardController.m in Sources */,
 				D7DEF2C41530D37800D13CF4 /* FileSystemHelper.m in Sources */,
 				D7BF46661547303700F06412 /* MainScreenViewController.m in Sources */,

@@ -124,7 +124,7 @@
     if ([segue.identifier isEqualToString:@"bulletinBoardSegue"]){
         
         NSString * name = ((UILabel *)[((UIView *) sender) subviews][0]).text;
-        MindcloudBoard * board = [[MindcloudBoard alloc] initBulletinBoardFromXoomlWithName:name];
+        CollectionModel * board = [[CollectionModel alloc] initBulletinBoardFromXoomlWithName:name];
         ((CollectionViewController *) segue.destinationViewController).bulletinBoardName = name;
         ((CollectionViewController *) segue.destinationViewController).parent = self;
         ((CollectionViewController *) segue.destinationViewController).board = board;

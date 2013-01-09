@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BulletinBoard.h"
-#import "CollectionDataModel.h"
+#import "CollectionDataSource.h"
 #import "CollectionManifest.h"
 #import "BulletinBoardDatasource.h"
 #import "BulletinBoardAttributes.h"
@@ -19,19 +19,19 @@
 #define LINKAGE @"linkage"
 #define POSITION @"position"
 
-@interface MindcloudBoard : NSObject <BulletinBoard>
+@interface CollectionModel : NSObject <BulletinBoard>
 
 /*
  Creates an internal model for the bulletin board which is empty 
  and updates the data model for to have an external representation of
  the bulletin board. 
  */
-- (id)initEmptyBulletinBoardWithDataModel: (id <CollectionDataModel>) dataModel
+- (id)initEmptyBulletinBoardWithDataModel: (id <CollectionDataSource>) dataModel
                                   andName:(NSString *) bulletinBoardName;
 /*
  Reads and fills up a bulletin board from the external structure of the datamodel
  */
-- (id)initBulletinBoardFromXoomlWithDatamodel: (id <CollectionDataModel>) datamodel 
+- (id)initBulletinBoardFromXoomlWithDatamodel: (id <CollectionDataSource>) datamodel 
                                       andName: (NSString *) bulletinBoardName;
 
 -(id) initBulletinBoardFromXoomlWithName:(NSString *)bulletinBoardName;

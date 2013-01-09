@@ -14,7 +14,7 @@
  * The protocol for the datamodel. Includes essential behaviors for working 
  with bulletin boards and notes. 
  */
-@protocol CollectionDataModel <NSObject>
+@protocol CollectionDataSource <NSObject>
 
 
 /*
