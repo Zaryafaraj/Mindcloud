@@ -242,6 +242,15 @@ fromCollectionAttribute: (NSString *) attributeName
  */
 - (NSDictionary *) getCollectionAttributeInfo: (NSString *) attributeType;
 
+-(id) initWithData: (NSData *) data;
+
+-(id) initAsEmpty;
+/*
+ Serializes the bulletin board into raw data that is ready for serialization.
+ 
+ The method guruantees that the returned data is valid. 
+ */
+- (NSData *) data;
 
 @end
 

@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "CollectionDataSource.h"
 
-@interface CachedCollectionDataModel : NSObject<CollectionDataSource>
+@interface CachedCollectionDataSource : NSObject<CollectionDataSource>
 
 @end

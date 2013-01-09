@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "CollectionManifest.h"
-#import "BulletinBoardDatasource.h"
-
 
 /*
  Provides functionality for working the xooml datamodel of the bulletin 
@@ -26,7 +24,7 @@
  has less perforamnce penality than keeping it in the xooml level. 
  */
 
-@interface XoomlBulletinBoardController : NSObject <CollectionManifest, BulletinBoardDatasource>
+@interface XoomlBulletinBoardController : NSObject <CollectionManifest>
 
 + (NSData *) getEmptyBulletinBoardData;
 

@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 University of Washington. All rights reserved.
 //
 
-#import "CachedCollectionDataModel.h"
+#import "CachedCollectionDataSource.h"
 
-@implementation CachedCollectionDataModel
+@implementation CachedCollectionDataSource
 
 - (void) addNote: (NSString *)noteName 
      withContent: (NSData *) note 
