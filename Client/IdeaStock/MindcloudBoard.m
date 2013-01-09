@@ -12,6 +12,7 @@
 #import "XoomlBulletinBoardController.h"
 #import "CallBackDataModel.h"
 #import "FileSystemHelper.h"
+#import "DropboxDataModel.h"
 
 
 /*====================================================================*/
@@ -98,7 +99,7 @@
 @property (nonatomic,strong) id <BulletinBoardDatasource> dataSource;
 
 - (void) synchronize:(NSTimer *) timer;
-
+@property BOOL actionInProgress;
 /*--------------------------------------------------
  
  Synchronization Properties
@@ -131,7 +132,6 @@
 @synthesize noteContents = _noteContents;
 @synthesize bulletinBoardName = _bulletinBoardName;
 @synthesize noteImages = _noteImages;
-@synthesize dataModel = _dataModel;
 @synthesize fileCounter = _fileCounter;
 @synthesize  needSynchronization =
 _needSynchronization;
@@ -193,6 +193,11 @@ _needSynchronization;
 -(id)initEmptyBulletinBoardWithDataModel: (id <DataModel>) dataModel 
                                  andName:(NSString *) bulletinBoardName{
     
+    /*
+    if ( [dataModel isKindOfClass:[DropboxDataModel class]]){
+        ((DropboxDataModel *) dataModel).actionController = self;
+    }
+     */
     self = [super init];
     
     self.bulletinBoardName = bulletinBoardName;
@@ -218,6 +223,13 @@ _needSynchronization;
     //add an empty bulletinboard to the datamodel
     NSData * bulletinBoardData = [self.dataSource data];
     [self.dataModel addBulletinBoardWithName:bulletinBoardName andBulletinBoardInfo:bulletinBoardData] ;
+    
+    
+    [self startTimer];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(bulletinboardDownloaded:)
+                                                 name:@"bulletinboardsDownloaded" 
+                                               object:nil];
     return self;
     
 }
@@ -329,6 +341,13 @@ _needSynchronization;
     
     self = [super init];
     
+    
+    self.dataModel = datamodel;
+    /*
+    if ( [datamodel isKindOfClass:[DropboxDataModel class]]){
+        ((DropboxDataModel *) datamodel).actionController = self;
+    }*/
+    
     //initialize the data structures
     self.bulletinBoardName = bulletinBoardName;
     
@@ -403,9 +422,11 @@ _needSynchronization;
     
     self = [self initBulletinBoardFromXoomlWithDatamodel:self.dataModel andName:bulletinBoardName];
     
+    /*
     if ( [self.dataModel isKindOfClass:[DropboxDataModel class]]){
         ((DropboxDataModel *) self.dataModel).actionController = self;
     }
+     */
     //count the number of file to know when the download is finished
     self.fileCounter = 0;
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -471,6 +492,8 @@ _needSynchronization;
     NSData * noteData = [XoomlParser convertNoteToXooml:note];
     [self.dataModel addNote:noteName withContent:noteData  ToBulletinBoard:self.bulletinBoardName];
     
+    self.actionInProgress = YES;
+    self.needSynchronization = YES;
 }
 
 - (void) addImageNoteContent:(id <Note> )note 
@@ -537,6 +560,8 @@ _needSynchronization;
                  toBulletinBoard:self.bulletinBoardName];
 
     
+    self.actionInProgress = YES;
+    self.needSynchronization = YES;
     
 }
 
@@ -559,6 +584,7 @@ _needSynchronization;
     //have the delegate reflect the changes in its struture
     [self.delegate addNoteAttribute:attributeName forType:attributeType forNote:noteID withValues:values];
     
+    self.needSynchronization = YES;
 }
 
 
@@ -575,6 +601,8 @@ forAttributeType: (NSString *) attributeType
     
     //have the delegate reflect the changes in its struture
     [self.delegate addNoteAttribute:attributeName forType:attributeType forNote:sourceNoteId withValues:@[targetNoteID]];
+    
+    self.needSynchronization = YES;
 }
 
 -(void) addBulletinBoardAttribute: (NSString *) attributeName
@@ -598,6 +626,8 @@ toBulletinBoardAttribute:(NSString *)attributeName
     
     //have the delegate reflect the change in its structure
     [self.delegate addBulletinBoardAttribute:attributeName forType:attributeType withValues:@[noteID]];
+    
+    self.needSynchronization = YES;
 }
 
 /*--------------------------------------------------
@@ -630,6 +660,8 @@ toBulletinBoardAttribute:(NSString *)attributeName
     [self.delegate deleteNote:delNoteID];
     [self.dataModel removeNote:noteName FromBulletinBoard:self.bulletinBoardName];
     
+    self.actionInProgress = YES;
+    self.needSynchronization = true;
     
 }
 
@@ -646,6 +678,8 @@ toBulletinBoardAttribute:(NSString *)attributeName
     
     //reflect the changes in the xooml structure
     [self.delegate deleteNote:targetNoteID fromNoteAttribute:attributeName ofType:attributeType forNote:sourceNoteID];
+    
+    self.needSynchronization = YES;
 }
 
 -(void) removeNoteAttribute: (NSString *) attributeName
@@ -659,6 +693,8 @@ toBulletinBoardAttribute:(NSString *)attributeName
     
     //reflect the change in the xooml structure
     [self.delegate deleteNoteAttribute:attributeName ofType:attributeType fromNote:noteID];
+    
+    self.needSynchronization = YES;
 }
 
 -(void) removeNote: (NSString *) noteID
@@ -675,6 +711,9 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     
     //reflect the change in the xooml structure
     [self.delegate deleteNote:noteID fromBulletinBoardAttribute:attributeName ofType:attributeType];
+    
+    
+    self.needSynchronization = YES;
 }
 
 -(void) removeBulletinBoardAttribute:(NSString *)attributeName 
@@ -687,6 +726,8 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     //reflect the change in the xooml structure
     [self.delegate deleteBulletinBoardAttribute:attributeName ofType:attributeType];
     
+    
+    self.needSynchronization = YES;
 }
 
 /*--------------------------------------------------
@@ -732,6 +773,8 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     //reflect the changes in the xooml data model
     [self.delegate updateNoteAttribute:oldAttributeName ofType:attributeType forNote:noteID withNewName:newAttributeName];
     
+    
+    self.needSynchronization = YES;
 }
 
 
@@ -750,7 +793,8 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     }
     
 
-
+    self.needSynchronization = YES;
+    
 }
 -(void) updateNoteAttribute: (NSString *) attributeName
                      ofType:(NSString *) attributeType 
@@ -765,6 +809,9 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     
     //reflect the changes in the xooml data model
     [self.delegate updateNoteAttribute:attributeName ofType:attributeType forNote: noteID withValues:newValues];
+    
+    self.needSynchronization = YES;
+
 }
 
 - (void) renameBulletinBoardAttribute: (NSString *) oldAttributeNAme 
@@ -776,6 +823,8 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     
     //reflect the changes in the xooml data model
     [self.delegate updateBulletinBoardAttributeName:oldAttributeNAme ofType:attributeType withNewName:newAttributeName];
+    
+    self.needSynchronization = YES;
 }
 
 /*--------------------------------------------------
@@ -827,7 +876,17 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 }
 
 -(NSDictionary *) getAllNoteImages{
-    return [self.noteImages mutableCopy];
+    
+    NSMutableDictionary * images = [[NSMutableDictionary alloc] init];
+    for (NSString * noteID in self.noteImages){
+        
+        NSString * imgPath = (self.noteImages)[noteID];
+        NSData * imgData = [self getImageDataForPath:imgPath];
+        if (imgData != nil){
+            images[noteID] = imgData;
+        }
+    }
+    return images;
 }
 
 
@@ -892,7 +951,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
         self.needSynchronization = NO;
         
        // self.actionInProgress = YES;
-        [DropBoxAssociativeBulletinBoard saveBulletinBoard: self];
+        [MindcloudBoard saveBulletinBoard: self];
     }
 }
 
@@ -1022,200 +1081,6 @@ Notification
     return data;
     
 }
-/*--------------------------------------------------
- 
- Creation
- 
- -------------------------------------------------*/
-
-/*
- For the rest of the methods we use the parent methods. 
- However those methods that change only and only the bulletin board require later synchronization.
- In those cases we set the synchronization flag. 
- Note that notes that are changed directly without the bulletin board : for example changing the
- contnets of a note, do not require synchronization cause the changes gets saved in dropbox as
- soon as they happen. 
- */
-
--(void) addNoteContent: (id <Note>) note 
-         andProperties: (NSDictionary *) properties{
-
-    [super addNoteContent:note andProperties:properties];
-    
-    self.actionInProgress = YES;
-    self.needSynchronization = YES;
-}
-
-- (void) addImageNoteContent:(id <Note> )noteItem 
-               andProperties:noteProperties
-                    andImage: (NSData *) img{
-    [super addImageNoteContent:noteItem andProperties:noteProperties andImage:img];
-    
-    self.actionInProgress = YES;
-    self.needSynchronization = YES;
-    
-}
-
--(void) addNoteAttribute: (NSString *) attributeName
-        forAttributeType: (NSString *) attributeType
-                 forNote: (NSString *) noteID 
-               andValues: (NSArray *) values{
-    [super addNoteAttribute:attributeName
-           forAttributeType:attributeType 
-                    forNote:noteID 
-                  andValues:values];
-    
-    
-    self.needSynchronization = YES;
-}
-
--(void) addNote: (NSString *) targetNoteID
-toAttributeName: (NSString *) attributeName
-forAttributeType: (NSString *) attributeType
-         ofNote: (NSString *) sourceNoteId{
-    [super addNote:targetNoteID 
-   toAttributeName:attributeName 
-  forAttributeType:attributeType 
-            ofNote:sourceNoteId];
-    
-    self.needSynchronization = YES;
-}
-
--(void) addNoteWithID:(NSString *)noteID 
-toBulletinBoardAttribute:(NSString *)attributeName 
-     forAttributeType:(NSString *)attributeType{
-    [super addNoteWithID:noteID 
-toBulletinBoardAttribute:attributeName
-        forAttributeType:attributeType];
-    
-
-    self.needSynchronization = YES;
-}
-
-/*--------------------------------------------------
- 
- Deletion
- 
- -------------------------------------------------*/
-
--(void) removeNoteWithID:(NSString *)delNoteID{
-    [super removeNoteWithID:delNoteID];
-    
-    self.actionInProgress = YES;
-    self.needSynchronization = true;
-}
-
--(void) removeNote: (NSString *) targetNoteID
-     fromAttribute: (NSString *) attributeName
-            ofType: (NSString *) attributeType
-  fromAttributesOf: (NSString *) sourceNoteID{
-    [super removeNote:targetNoteID 
-        fromAttribute:attributeName 
-               ofType:attributeType 
-     fromAttributesOf:sourceNoteID];
-    
-
-    self.needSynchronization = YES;
-}
-
--(void) removeNoteAttribute: (NSString *) attributeName
-                     ofType: (NSString *) attributeType
-                   FromNote: (NSString *) noteID{
-    [super removeNoteAttribute:attributeName 
-                        ofType:attributeType 
-                      FromNote:noteID];
-    
-
-    self.needSynchronization = YES;
-}
-
--(void) removeNote: (NSString *) noteID
-fromBulletinBoardAttribute: (NSString *) attributeName 
-            ofType: (NSString *) attributeType{
-    [super removeNote:noteID 
-fromBulletinBoardAttribute:attributeName
-               ofType:attributeType];
-    
-
-    self.needSynchronization = YES;
-}
-
--(void) removeBulletinBoardAttribute:(NSString *)attributeName 
-                              ofType:(NSString *)attributeType{
-    [super removeBulletinBoardAttribute:attributeName 
-                                 ofType:attributeType];
-
-    self.needSynchronization = YES;
-}
-
-
-/*--------------------------------------------------
- 
- Update 
- 
- -------------------------------------------------*/
-
--(void) renameNoteAttribute: (NSString *) oldAttributeName 
-                     ofType: (NSString *) attributeType
-                    forNote: (NSString *) noteID 
-                   withName: (NSString *) newAttributeName{
-    [super renameNoteAttribute:oldAttributeName
-                        ofType:attributeType
-                       forNote:noteID
-                      withName:newAttributeName];
-
-    self.needSynchronization = YES;
-}
-
--(void) updateNoteAttribute: (NSString *) attributeName
-                     ofType:(NSString *) attributeType 
-                    forNote: (NSString *) noteID 
-              withNewValues: (NSArray *) newValues{
-    [super updateNoteAttribute:attributeName
-                        ofType:attributeType
-                       forNote:noteID 
-                 withNewValues:newValues];
-
-    
-    self.needSynchronization = YES;
-}
-
--(void) renameBulletinBoardAttribute: (NSString *) oldAttributeNAme 
-                              ofType: (NSString *) attributeType 
-                            withName: (NSString *) newAttributeName{
-    [super renameBulletinBoardAttribute:oldAttributeNAme
-                                 ofType:attributeType 
-                               withName:newAttributeName];
-
-    self.needSynchronization = YES;
-}
-
-
--(void) updateNoteAttributes:(NSString *)noteID withAttributes:(NSDictionary *)newProperties{
-    [super updateNoteAttributes:noteID withAttributes:newProperties];
-
-    self.needSynchronization = YES;
-}
-
-
-/*--------------------------------------------------
- 
- Query
- 
- -------------------------------------------------*/
-
--(NSDictionary *) getAllNoteImages{
-    NSMutableDictionary * images = [[NSMutableDictionary alloc] init];
-    for (NSString * noteID in self.noteImages){
-        
-        NSString * imgPath = (self.noteImages)[noteID];
-        NSData * imgData = [self getImageDataForPath:imgPath];
-        if (imgData != nil){
-            images[noteID] = imgData;
-        }
-    }
-    return images;
-}
 
 
 /*-------------------------------------------
@@ -1226,34 +1091,5 @@ fromBulletinBoardAttribute:attributeName
 -(void) cleanUp{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
--(id) initEmptyBulletinBoardWithDataModel:(id<DataModel>)dataModel 
-                                  andName:(NSString *)bulletinBoardName{
-    
-    if ( [dataModel isKindOfClass:[DropboxDataModel class]]){
-        ((DropboxDataModel *) dataModel).actionController = self;
-    }
-    self = [super initEmptyBulletinBoardWithDataModel:dataModel
-                                              andName:bulletinBoardName];
-    [self startTimer];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(bulletinboardDownloaded:)
-                                                 name:@"bulletinboardsDownloaded" 
-                                               object:nil];
-    return self;
-    
-}
-
--(id) initBulletinBoardFromXoomlWithDatamodel:(id<DataModel>)dataModel
-                                      andName:(NSString *)bulletinBoardName{
-    self.dataModel = dataModel;
-    if ( [dataModel isKindOfClass:[DropboxDataModel class]]){
-        ((DropboxDataModel *) dataModel).actionController = self;
-    }
-    
-    
-    return [self initBulletinBoardFromXoomlWithName:bulletinBoardName];
-}
-
 
 @end

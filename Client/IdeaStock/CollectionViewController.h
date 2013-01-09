@@ -10,13 +10,13 @@
 #import "MainScreenViewController.h"
 #import "StackViewController.h"
 #import "NoteViewDelegate.h"
-#import "DropBoxAssociativeBulletinBoard.h"
+#import "MindcloudBoard.h"
 
 @interface CollectionViewController : UIViewController <UIScrollViewDelegate,StackViewDelegate, NoteViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 @property (strong,nonatomic) NSString * bulletinBoardName;
 
-@property (strong, nonatomic) DropBoxAssociativeBulletinBoard * board;
+@property (strong, nonatomic) MindcloudBoard * board;
 
 @property (weak,nonatomic) MainScreenViewController * parent;
 

@@ -51,10 +51,10 @@
 @synthesize activityIndicator = _activityIndicator;
 @synthesize endActivityIndicator = _endActivityIndicator;
 
--(DropBoxAssociativeBulletinBoard *) board{
+-(MindcloudBoard *) board{
     
     if (!_board){
-        _board = [[DropBoxAssociativeBulletinBoard alloc] initBulletinBoardFromXoomlWithName:self.bulletinBoardName];
+        _board = [[MindcloudBoard alloc] initBulletinBoardFromXoomlWithName:self.bulletinBoardName];
     }
     return _board;
 }
@@ -1101,7 +1101,7 @@
     if (self.isRefreshing) return;
     
     self.isRefreshing = YES;
-    self.board = [[DropBoxAssociativeBulletinBoard alloc] initBulletinBoardFromXoomlWithName:self.bulletinBoardName];
+    self.board = [[MindcloudBoard alloc] initBulletinBoardFromXoomlWithName:self.bulletinBoardName];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(loadSavedNotes:)
                                                  name:@"BulletinBoardLoaded" 

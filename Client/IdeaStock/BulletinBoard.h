@@ -232,7 +232,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 /*
  Any bookkeeping and cleanning up needed for the bulletin board should be done here
  */
--(void) cleanup;
+-(void) cleanUp;
 
 + (void) saveBulletinBoard: (id) bulletinBoard;
 
