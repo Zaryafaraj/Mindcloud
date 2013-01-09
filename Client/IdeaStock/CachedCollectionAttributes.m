@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 University of Washington. All rights reserved.
 //
 
-#import "BulletinBoardAttributes.h"
+#import "CachedCollectionAttributes.h"
 
-@interface BulletinBoardAttributes()
+@interface CachedCollectionAttributes()
 
 /*
  the main datastructure for holding the attributes. This is an NSDictionary of NSDictionary of NSArrays. 
@@ -28,7 +28,7 @@
 
 @end
 
-@implementation BulletinBoardAttributes
+@implementation CachedCollectionAttributes
 
 /*--------------------------------------------------
                     Synthesizers

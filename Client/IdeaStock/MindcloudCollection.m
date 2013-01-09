@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 University of Washington. All rights reserved.
 //
 
-#import "CollectionModel.h"
+#import "MindcloudCollection.h"
 #import "XoomlManifestParser.h"
 
 #import "XoomlCollectionManifest.h"
@@ -63,7 +63,7 @@
 #define SYNCHRONIZATION_PERIOD 2
 /*====================================================================*/
 
-@interface CollectionModel()
+@interface MindcloudCollection()
 
 /*
  Holds the actual individual note contents. This dictonary is keyed on the noteID.
@@ -73,7 +73,7 @@
 /*
  holds all the attributes that belong to the bulletin board level: for example stack groups. 
  */
-@property (nonatomic,strong) BulletinBoardAttributes * bulletinBoardAttributes;
+@property (nonatomic,strong) CachedCollectionAttributes * bulletinBoardAttributes;
 /*
  This is an NSDictionary of BulletinBoardAttributes. Its keyed on the noteIDs.
  For each noteID,  this contains all of the note level attributes that are
@@ -115,7 +115,7 @@
 
 @end
 
-@implementation CollectionModel
+@implementation MindcloudCollection
 
 /*--------------------------------------------------
  
@@ -136,7 +136,7 @@
 _needSynchronization;
 @synthesize  timer = _timer;
 
--(BulletinBoardAttributes *) bulletinBoardAttributes{
+-(CachedCollectionAttributes *) bulletinBoardAttributes{
     if (!_bulletinBoardAttributes){
         _bulletinBoardAttributes = [self createBulletinBoardAttributeForBulletinBoard];
     }
@@ -178,15 +178,15 @@ _needSynchronization;
 /*
  Factory method for the bulletin board attributes
  */
--(BulletinBoardAttributes *) createBulletinBoardAttributeForBulletinBoard{
-    return [[BulletinBoardAttributes alloc] initWithAttributes:@[STACKING_TYPE,GROUPING_TYPE]];
+-(CachedCollectionAttributes *) createBulletinBoardAttributeForBulletinBoard{
+    return [[CachedCollectionAttributes alloc] initWithAttributes:@[STACKING_TYPE,GROUPING_TYPE]];
 }
 
 /*
  Factory method for the note bulletin board attributes
  */
--(BulletinBoardAttributes *) createBulletinBoardAttributeForNotes{
-    return [[BulletinBoardAttributes alloc] initWithAttributes:@[NOTE_NAME_TYPE,LINKAGE_TYPE,POSITION_TYPE, VISIBILITY_TYPE]];
+-(CachedCollectionAttributes *) createBulletinBoardAttributeForNotes{
+    return [[CachedCollectionAttributes alloc] initWithAttributes:@[NOTE_NAME_TYPE,LINKAGE_TYPE,POSITION_TYPE, VISIBILITY_TYPE]];
 }
 
 -(id)initEmptyBulletinBoardWithDataModel: (id <CollectionDataSource>) dataModel 
@@ -262,7 +262,7 @@ _needSynchronization;
     
     //now initialize the bulletinBoard attributes to hold all the 
     //note specific attributes for that note
-    BulletinBoardAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
+    CachedCollectionAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
     //get the note specific info from the note basic info
     NSDictionary * noteInfo = noteInfos[noteID];
     
@@ -480,7 +480,7 @@ _needSynchronization;
     
     //have the notes bulletin board attribute list for the note hold the note
     //properties
-    BulletinBoardAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
+    CachedCollectionAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
     [noteAttribute createAttributeWithName:NOTE_NAME forAttributeType: NOTE_NAME_TYPE andValues:@[noteName]];
     [noteAttribute createAttributeWithName:POSITION_X forAttributeType: POSITION_TYPE andValues:@[positionX]];
     [noteAttribute createAttributeWithName:POSITION_Y forAttributeType:POSITION_TYPE andValues:@[positionY]];
@@ -529,7 +529,7 @@ _needSynchronization;
     
     //have the notes bulletin board attribute list for the note hold the note
     //properties
-    BulletinBoardAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
+    CachedCollectionAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
     [noteAttribute createAttributeWithName:NOTE_NAME forAttributeType: NOTE_NAME_TYPE andValues:@[noteName]];
     [noteAttribute createAttributeWithName:POSITION_X forAttributeType: POSITION_TYPE andValues:@[positionX]];
     [noteAttribute createAttributeWithName:POSITION_Y forAttributeType:POSITION_TYPE andValues:@[positionY]];
@@ -575,7 +575,7 @@ _needSynchronization;
     
     //get the noteattributes for the specified note. If there are no attributes for that
     //note create a new bulletinboard attribute list.
-    BulletinBoardAttributes * noteAttributes = (self.noteAttributes)[noteID];
+    CachedCollectionAttributes * noteAttributes = (self.noteAttributes)[noteID];
     if(!noteAttributes) noteAttributes = [self createBulletinBoardAttributeForNotes];
     
     //add the note attribute to the attribute list of the notes
@@ -751,7 +751,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     if (newNote.modificationDate) oldNote.modificationDate = newNote.modificationDate;
     
     NSData * noteData = [XoomlManifestParser convertNoteToXooml:(self.noteContents)[noteID]];
-    BulletinBoardAttributes * noteAttributes = (self.noteAttributes)[noteID];
+    CachedCollectionAttributes * noteAttributes = (self.noteAttributes)[noteID];
     NSString * noteName = [[noteAttributes getAttributeWithName:NOTE_NAME forAttributeType:NOTE_NAME_TYPE] lastObject];
     
     [self.dataModel updateNote:noteName 
@@ -783,7 +783,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     
     if (!(self.noteContents)[noteID]) return;
     
-    BulletinBoardAttributes * noteAttribute = (self.noteAttributes)[noteID];
+    CachedCollectionAttributes * noteAttribute = (self.noteAttributes)[noteID];
     
     if(newProperties[POSITION_TYPE]){
         NSDictionary * positionProp = newProperties[POSITION_TYPE];
@@ -838,7 +838,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 }
 - (NSDictionary *) getAllNoteAttributesForNote: (NSString *) noteID{
     
-    BulletinBoardAttributes * noteAttributes = (self.noteAttributes)[noteID];
+    CachedCollectionAttributes * noteAttributes = (self.noteAttributes)[noteID];
     return [noteAttributes getAllAttributes];
 }
 
@@ -898,9 +898,9 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 
 +(void) saveBulletinBoard:(id) bulletinBoard{
     
-    if ([bulletinBoard isKindOfClass:[CollectionModel class]]){
+    if ([bulletinBoard isKindOfClass:[MindcloudCollection class]]){
         
-        CollectionModel * board = (CollectionModel *) bulletinBoard;
+        MindcloudCollection * board = (MindcloudCollection *) bulletinBoard;
             [board.dataModel updateCollectionWithName:board.bulletinBoardName andContent:[board.dataSource data]];
 
     }
@@ -951,7 +951,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
         self.needSynchronization = NO;
         
        // self.actionInProgress = YES;
-        [CollectionModel saveBulletinBoard: self];
+        [MindcloudCollection saveBulletinBoard: self];
     }
 }
 

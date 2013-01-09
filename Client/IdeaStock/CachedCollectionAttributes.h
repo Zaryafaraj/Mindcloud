@@ -12,7 +12,8 @@
  * This is a class for holding all the attributes belonging to a bulletin board.
  * These attributes can belong to a single note or the whole bulletinBoard. 
  * 
- * This class can be thought of as a data structure that holds values for different attribute names and types. 
+ * This class can be thought of as a data structure that holds values for different attribute names and types cached in memory instead of looking them up each time in the xml file. 
+ * We accept the burden of cache synchronization just to be better at performance.
  * Attributes are the same if they have the same name and type. 
  *
  * The attribute types that this container can handle should be specified in initilization 
@@ -23,7 +24,7 @@
  */
 
 
-@interface BulletinBoardAttributes : NSObject
+@interface CachedCollectionAttributes : NSObject
 
 /*--------------------------------------------------
 

@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "BulletinBoardNote.h"
-#import "CollectionModel.h"
-#import "BulletinBoardAttributes.h"
+#import "MindcloudCollection.h"
+#import "CachedCollectionAttributes.h"
 #import "DDXML.h"
 
 /*

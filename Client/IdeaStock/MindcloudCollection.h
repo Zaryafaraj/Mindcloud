@@ -10,7 +10,7 @@
 #import "BulletinBoard.h"
 #import "CollectionDataSource.h"
 #import "CollectionManifest.h"
-#import "BulletinBoardAttributes.h"
+#import "CachedCollectionAttributes.h"
 #import "SynchronizedObject.h"
 
 #define STACKING @"stacking"
@@ -18,7 +18,7 @@
 #define LINKAGE @"linkage"
 #define POSITION @"position"
 
-@interface CollectionModel : NSObject <BulletinBoard>
+@interface MindcloudCollection : NSObject <BulletinBoard>
 
 /*
  Creates an internal model for the bulletin board which is empty 
