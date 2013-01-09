@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BulletinBoardNote.h"
-#import "AssociativeBulletinBoard.h"
+#import "MindcloudBoard.h"
 #import "BulletinBoardAttributes.h"
 #import "DDXML.h"
 

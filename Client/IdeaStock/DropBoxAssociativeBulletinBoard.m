@@ -489,8 +489,8 @@ fromBulletinBoardAttribute:attributeName
 }
 
 
--(void) updateNoteProperties:(NSString *)noteID withProperties:(NSDictionary *)newProperties{
-    [super updateNoteProperties:noteID withProperties:newProperties];
+-(void) updateNoteAttributes:(NSString *)noteID withAttributes:(NSDictionary *)newProperties{
+    [super updateNoteAttributes:noteID withAttributes:newProperties];
 
     self.needSynchronization = YES;
 }
@@ -516,7 +516,6 @@ fromBulletinBoardAttribute:attributeName
 }
 
 
-
 /*-------------------------------------------
  
  Clean up
@@ -525,42 +524,5 @@ fromBulletinBoardAttribute:attributeName
 -(void) cleanUp{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-/*--------------------------------------------------
- 
- Dummy Methods
- 
- -------------------------------------------------*/
-
--(void) demoAddNewBulletinBoard{
-    
-    int r = arc4random();
-    NSString * BBName = [NSString stringWithFormat:@"BulletinBoard%d",r];
-    self.demoBulletinBoardName = BBName;
-    [self.dataModel addBulletinBoardWithName:BBName andBulletinBoardInfo:[self.dataSource data]];
-}
-
--(void) demoAddNewNote{
-    
-    NSData * content;
-    for (NSString * noteID in self.noteContents){
-        content = [XoomlParser convertNoteToXooml:(self.noteContents)[noteID]];
-        break;
-    }
-    NSString * bulletinBoardName = self.demoBulletinBoardName ? self.demoBulletinBoardName : self.bulletinBoardName;
-    
-    int r = arc4random();
-    NSString * noteName = [NSString stringWithFormat:@"note%d",r];
-    self.demoNoteName = noteName;
-    [self.dataModel addNote: noteName withContent:content ToBulletinBoard:bulletinBoardName];
-}
-
--(void) demoDeleteBB{
-    [self.dataModel removeBulletinBoard:self.demoBulletinBoardName];
-}
-
--(void) demoDeleteNote{
-    [self.dataModel removeNote:self.demoNoteName FromBulletinBoard:self.demoBulletinBoardName];
-}
-
 
 @end

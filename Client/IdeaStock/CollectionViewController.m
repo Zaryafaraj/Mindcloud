@@ -1,6 +1,6 @@
 //
-//  BulletinBoardViewController.m
-//  IdeaStock
+//  CollectionViewController.m
+//  Mindcloud
 //
 //  Created by Ali Fathalian on 4/28/12.
 //  Copyright (c) 2012 University of Washington. All rights reserved.
@@ -18,28 +18,19 @@
 
 @interface CollectionViewController ()
 
-
-/*========================================================================*/
-
-
-/*-----------------------------------------------------------
- UI Properties
- -----------------------------------------------------------*/
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *label;
-@property (weak, nonatomic) IBOutlet UIScrollView *bulletinboardView;
+#pragma mark - UI Elements
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *title;
 @property (strong, nonatomic) UIBarButtonItem * deleteButton;
 @property (strong, nonatomic) UIBarButtonItem * expandButton;
-@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+
+@property (weak, nonatomic) IBOutlet UIScrollView *collectionView;
+
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong,nonatomic) UIActivityIndicatorView *endActivityIndicator;
 
-/*-----------------------------------------------------------
- Model
- -----------------------------------------------------------*/
+#pragma mark - UI Elements
 @property int noteCount;
-/*-----------------------------------------------------------
- Modal Properties
- -----------------------------------------------------------*/
 @property (strong, nonatomic) NSArray * intersectingViews;
 @property (weak, nonatomic) UIView<BulletinBoardObject> * highlightedView;
 @property (nonatomic) BOOL editMode;
@@ -48,33 +39,17 @@
 
 @end
 
+#pragma mark - UI Properties
 #define NOTE_WIDTH 200
 #define NOTE_HEIGHT 200
-
-/*========================================================================*/
-
+#define STACKING_SCALING_WIDTH 1.1
+#define STACKING_SCALING_HEIGHT 1.05
 
 @implementation CollectionViewController
 
-/*-----------------------------------------------------------
- Synthesizers
- -----------------------------------------------------------*/
-@synthesize label = _label;
-@synthesize bulletinboardView = _bulletinboardView; 
-@synthesize parent = _parent;
 @synthesize board = _board;
-@synthesize panCounter = _panCounter;
-@synthesize toolbar = _toolbar;
 @synthesize activityIndicator = _activityIndicator;
-@synthesize intersectingViews = _intersectingViews;
-@synthesize deleteButton = _deleteButton;
-@synthesize expandButton = _expandButton;
-@synthesize editMode = _editMode;
-@synthesize highlightedView = _highlightedView;
-@synthesize bulletinBoardName = _bulletinBoardName;
-@synthesize noteCount = _noteCount;
 @synthesize endActivityIndicator = _endActivityIndicator;
-@synthesize isRefreshing = _isRefreshing;
 
 -(DropBoxAssociativeBulletinBoard *) board{
     
@@ -84,24 +59,13 @@
     return _board;
 }
 
--(void) setBulletinBoardName:(NSString *) bulletinBoardName{
-    _bulletinBoardName = bulletinBoardName;
-    
-    
-}
-
 -(void) setActivityIndicator:(UIActivityIndicatorView *)activityIndicator{
     _activityIndicator = activityIndicator;
     self.endActivityIndicator = activityIndicator;
 }
 
-/*========================================================================*/
-
-/*-----------------------------------------------------------
- Initializers
- -----------------------------------------------------------*/
-
-- (id)initWithNibName:(NSString *) nibNameOrNil bundle:(NSBundle *) nibBundleOrNil
+#pragma mark - Initializers
+- (id) initWithNibName:(NSString *) nibNameOrNil bundle:(NSBundle *) nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -110,10 +74,7 @@
     return self;
 }
 
-/*-----------------------------------------------------------
- UI Action Helper
- -----------------------------------------------------------*/
-
+#pragma mark - UI Helpers
 -(void) removeContextualToolbarItems:(UIView *) contextView{
     
     NSMutableArray * newToolbarItems = [self.toolbar.items mutableCopy];
@@ -131,12 +92,7 @@
     }
     [newToolbarItems addObject:self.deleteButton];
     self.toolbar.items = newToolbarItems;
-    
-    
 }
-
-#define STACKING_SCALING_WIDTH 1.1
-#define STACKING_SCALING_HEIGHT 1.05
 
 /*
  If ID is nil the methods will create a unique UUID itself and will also write
@@ -187,7 +143,7 @@
     [stack addGestureRecognizer:pgr];
     [stack addGestureRecognizer:tgr];
     [stack addGestureRecognizer:lpgr];
-    [self.bulletinboardView addSubview:stack];
+    [self.collectionView addSubview:stack];
     [UIView animateWithDuration:0.5 animations:^{stack.alpha = 1;}];
     
     
@@ -205,50 +161,6 @@
                                      }
                                  }
                                  [view removeFromSuperview];
-                               /*  if (first){
-                                     CGRect stackFrame;
-                                     if ([mainView isKindOfClass:[NoteView class]]){
-                                         stackFrame = CGRectMake(mainView.frame.origin.x - ((STACKING_SCALING_WIDTH -1)/4) * mainView.frame.origin.x,
-                                                                 mainView.frame.origin.y - ((STACKING_SCALING_HEIGHT -1)/4) * mainView.frame.origin.y,
-                                                                 mainView.bounds.size.width * STACKING_SCALING_WIDTH,
-                                                                 mainView.bounds.size.height * STACKING_SCALING_HEIGHT );
-                                     }
-                                     else if ([mainView isKindOfClass:[StackView class]]){
-                                         stackFrame = mainView.frame;
-                                     }*/
-                                     
-                                   /*  NSMutableArray * allNotes = [self getAllNormalNotesInViews:items];
-                                     NSString * stackingID ;
-                                     
-                                     if (!ID){
-                                         stackingID = [self normalizeStackingWithItems: (NSArray *)items 
-                                                                           andMainView: (UIView *) mainView];
-                                     }
-                                     else{
-                                         stackingID = ID;
-                                     }
-                                     StackView * stack = [[StackView alloc] initWithViews:allNotes
-                                                                              andMainView:(NoteView *)mainView
-                                                                                withFrame:
-                                                          stackFrame];*/
-                                   /*  [UIView animateWithDuration:0.5 animations:^{mainView.alpha = 0;}];
-                                     [mainView removeFromSuperview];
-                                     mainView.alpha = 1;
-                                     stack.alpha =0;
-                                     stack.ID = stackingID;
-                                     UIPanGestureRecognizer * gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(objectPanned:)];
-                                     UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
-                                     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stackTapped:)];
-                                     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
-                                     [stack addGestureRecognizer:gr];
-                                     [stack addGestureRecognizer:pgr];
-                                     [stack addGestureRecognizer:tgr];
-                                     [stack addGestureRecognizer:lpgr];
-                                     [self.bulletinboardView addSubview:stack];
-                                     [UIView animateWithDuration:0.5 animations:^{stack.alpha = 1;}];
-                                     first = NO;*/
-                                     
-                            
                             }];
         }
     }    
@@ -268,10 +180,8 @@
     return ans;
 }
 
-/*-----------------------------------------------------------
- Model Manipulation
- -----------------------------------------------------------*/
 
+#pragma mark - Model Manipulation
 #define POSITION_X_TYPE @"positionX"
 #define POSITION_Y_TYPE @"positionY"
 #define POSITION_TYPE @"position"
@@ -337,7 +247,7 @@
     
     NSDictionary * newProperties = @{POSITION_TYPE: position};
     
-    [self.board updateNoteProperties:noteID withProperties:newProperties]; 
+    [self.board updateNoteAttributes:noteID withAttributes:newProperties]; 
 }
 
 -(NSString *) normalizeStackingWithItems: (NSArray *)items andMainView: (UIView *) mainView{
@@ -397,7 +307,7 @@
 -(void) layoutNotes{
     
     NSLog(@"Laying out Notes");
-    for(UIView * view in self.bulletinboardView.subviews){
+    for(UIView * view in self.collectionView.subviews){
         [view removeFromSuperview];
     }
     NSDictionary * allNotes = [self.board getAllNotes];
@@ -414,17 +324,17 @@
         float positionX = [[position[@"positionX"] lastObject] floatValue];
         float positionY = [[position[@"positionY"] lastObject] floatValue];
         
-        if ( positionX + NOTE_WIDTH > self.bulletinboardView.frame.origin.x + self.bulletinboardView.frame.size.width ){
-            positionX = self.bulletinboardView.frame.origin.x + self.bulletinboardView.frame.size.width - NOTE_WIDTH;
+        if ( positionX + NOTE_WIDTH > self.collectionView.frame.origin.x + self.collectionView.frame.size.width ){
+            positionX = self.collectionView.frame.origin.x + self.collectionView.frame.size.width - NOTE_WIDTH;
         }
-        if ( positionY + NOTE_HEIGHT > self.bulletinboardView.frame.origin.x + self.bulletinboardView.frame.size.height){
-            positionY = self.bulletinboardView.frame.origin.x + self.bulletinboardView.frame.size.height - NOTE_HEIGHT;
+        if ( positionY + NOTE_HEIGHT > self.collectionView.frame.origin.x + self.collectionView.frame.size.height){
+            positionY = self.collectionView.frame.origin.x + self.collectionView.frame.size.height - NOTE_HEIGHT;
         }
-        if (positionX <  self.bulletinboardView.frame.origin.x){
-            positionX = self.bulletinboardView.frame.origin.x;
+        if (positionX <  self.collectionView.frame.origin.x){
+            positionX = self.collectionView.frame.origin.x;
         }
-        if (positionY < self.bulletinboardView.frame.origin.y){
-            positionY = self.bulletinboardView.frame.origin.y;
+        if (positionY < self.collectionView.frame.origin.y){
+            positionY = self.collectionView.frame.origin.y;
         }
         
         
@@ -451,7 +361,7 @@
             note.alpha = 1;
         }];
         
-        [self.bulletinboardView addSubview:note];
+        [self.collectionView addSubview:note];
         UIPanGestureRecognizer * gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(objectPanned:)];
         UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
         UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
@@ -469,7 +379,7 @@
 -(void) layoutStackings{
     NSLog(@"Laying Stackings");
     NSDictionary * stackings =[self.board getAllBulletinBoardAttributeNamesOfType:STACKING_TYPE];
-    for (UIView * view in self.bulletinboardView.subviews){
+    for (UIView * view in self.collectionView.subviews){
         NSLog(@"%@",view);
         if ([view isKindOfClass:[StackView class]]){
             NSLog(@"Removing Stacking");
@@ -485,7 +395,7 @@
         NSArray * noteRefIDs = stackings[stackingID];
         NSSet * noteRefs = [[NSSet alloc] initWithArray:noteRefIDs];
         UIView * mainView;
-        for (UIView * view in self.bulletinboardView.subviews){
+        for (UIView * view in self.collectionView.subviews){
             if ([view isKindOfClass:[NoteView class]]){
                 NSString * noteID = ((NoteView *) view).ID;
                 if ([noteRefs containsObject:noteID]){
@@ -547,15 +457,15 @@
     //first find the starting x
     float startX = 0;
     float startY = 0;
-    if (stackMiddleX + rectSize.width/2 > self.bulletinboardView.bounds.origin.x + self.bulletinboardView.bounds.size.width){
+    if (stackMiddleX + rectSize.width/2 > self.collectionView.bounds.origin.x + self.collectionView.bounds.size.width){
         //rect goes out of the right side of screen so fit it in a way that the right side of rect is on the right side of 
         //the screen
-        startX = (self.bulletinboardView.bounds.origin.x + self.bulletinboardView.bounds.size.width) - rectSize.width;
+        startX = (self.collectionView.bounds.origin.x + self.collectionView.bounds.size.width) - rectSize.width;
     }
-    else if (stackMiddleX - rectSize.width/2 < self.bulletinboardView.bounds.origin.x){
+    else if (stackMiddleX - rectSize.width/2 < self.collectionView.bounds.origin.x){
         //rect goes out of the left side of screen so fit it in a way that the left side of rect is on the left side of 
         //the screen
-        startX = self.bulletinboardView.bounds.origin.x;
+        startX = self.collectionView.bounds.origin.x;
     }
     else{
         //rect fits around the stack 
@@ -563,11 +473,11 @@
     }
     
     //do the same thing to find starting y
-    if (stackMiddleY + rectSize.height/2 > self.bulletinboardView.bounds.origin.y + self.bulletinboardView.bounds.size.height){
-        startY  = (self.bulletinboardView.bounds.origin.y + self.bulletinboardView.bounds.size.height) - rectSize.height;
+    if (stackMiddleY + rectSize.height/2 > self.collectionView.bounds.origin.y + self.collectionView.bounds.size.height){
+        startY  = (self.collectionView.bounds.origin.y + self.collectionView.bounds.size.height) - rectSize.height;
     }
-    else if (stackMiddleY - rectSize.height/2 < self.bulletinboardView.bounds.origin.y){
-        startY = self.bulletinboardView.bounds.origin.y;
+    else if (stackMiddleY - rectSize.height/2 < self.collectionView.bounds.origin.y){
+        startY = self.collectionView.bounds.origin.y;
     }
     else {
         startY = stackMiddleY - rectSize.height/2;
@@ -578,7 +488,7 @@
 
 #define EXIT_OFFSET_RATIO 0.1
 -(void) clearRectangle: (CGRect) rect{
-    for (UIView * subView in self.bulletinboardView.subviews){
+    for (UIView * subView in self.collectionView.subviews){
         if ([subView conformsToProtocol:@protocol(BulletinBoardObject)]){
             if (CGRectIntersectsRect(subView.frame, rect)){
                 
@@ -602,7 +512,7 @@
                     float distanceToExitX = (subView.frame.origin.x + subView.frame.size.width + offsetX) - rect.origin.x;
                     
                     //check to see if traveling this distance makes the subView fall out of screen on the left side
-                    if ( subView.frame.origin.x - distanceToExitX > self.bulletinboardView.bounds.origin.x){
+                    if ( subView.frame.origin.x - distanceToExitX > self.collectionView.bounds.origin.x){
                         //the view doesn't fall out of the screen so move make its starting point there 
                         newStartX = subView.frame.origin.x - distanceToExitX;
                     }
@@ -610,7 +520,7 @@
                         //the view falls out of the screen if we move left, try moving down
                         //the distance is between the top edge of the subview and low buttom of the rect
                         float distanceToExitY = (rect.origin.y + rect.size.height + offsetY) - (subView.frame.origin.y);
-                        if (subView.frame.origin.y + subView.frame.size.height +distanceToExitY < self.bulletinboardView.bounds.origin.y + self.bulletinboardView.bounds.size.height){
+                        if (subView.frame.origin.y + subView.frame.size.height +distanceToExitY < self.collectionView.bounds.origin.y + self.collectionView.bounds.size.height){
                             //the view can be fit outside the lower edge of the rect
                             newStartY = subView.frame.origin.y + distanceToExitY;
                         }
@@ -630,14 +540,14 @@
                     
                     //try the rightside. The distance is between the right edge of rect and left edge of view
                     float distanceToExitX = (rect.origin.x + rect.size.width + offsetX) - (subView.frame.origin.x );
-                    if (subView.frame.origin.x + subView.frame.size.width + distanceToExitX < self.bulletinboardView.bounds.origin.x + self.bulletinboardView.bounds.size.width){
+                    if (subView.frame.origin.x + subView.frame.size.width + distanceToExitX < self.collectionView.bounds.origin.x + self.collectionView.bounds.size.width){
                         //fits in the right side 
                         newStartX = subView.frame.origin.x + distanceToExitX;
                     }
                     else{
                         //try the lower side
                         float distanceToExitY = (rect.origin.y + rect.size.height + offsetY) - (subView.frame.origin.y);
-                        if (subView.frame.origin.y +subView.frame.size.height + distanceToExitY < self.bulletinboardView.bounds.origin.y + self.bulletinboardView.bounds.size.height){
+                        if (subView.frame.origin.y +subView.frame.size.height + distanceToExitY < self.collectionView.bounds.origin.y + self.collectionView.bounds.size.height){
                             newStartY = subView.frame.origin.y + distanceToExitY;
                         }
                         else{
@@ -691,7 +601,7 @@
         view.delegate = self;
         [view resetSize];
         [view removeFromSuperview];
-        [self.bulletinboardView addSubview:view];
+        [self.collectionView addSubview:view];
         CGRect viewTempFrame = CGRectMake(stack.frame.origin.x, stack.frame.origin.y, view.frame.size.width, view.frame.size.height);
         view.frame = viewTempFrame;
         
@@ -753,7 +663,7 @@
     
 -(NSArray *) checkForOverlapWithView: (UIView *) senderView{
     NSMutableArray * ans = [[NSMutableArray alloc] init];
-    for (UIView * view in self.bulletinboardView.subviews){
+    for (UIView * view in self.collectionView.subviews){
         if (view != senderView && [view conformsToProtocol:@protocol(BulletinBoardObject)]){
             
             if ([self does:view OverlapWithView:senderView]){
@@ -797,7 +707,7 @@
     
     if (self.editMode) return;
     
-    CGPoint location = [sender locationOfTouch:0 inView:self.bulletinboardView];
+    CGPoint location = [sender locationOfTouch:0 inView:self.collectionView];
     CGRect frame = CGRectMake(location.x, location.y, NOTE_WIDTH, NOTE_HEIGHT);
     
     
@@ -806,34 +716,34 @@
     CGFloat newOriginY = frame.origin.y;
     
     
-    if (frame.origin.x < self.bulletinboardView.frame.origin.x){
+    if (frame.origin.x < self.collectionView.frame.origin.x){
         frameChanged = YES;
-        newOriginX = self.bulletinboardView.frame.origin.x;
+        newOriginX = self.collectionView.frame.origin.x;
     }
-    if (frame.origin.y < self.bulletinboardView.frame.origin.y){
+    if (frame.origin.y < self.collectionView.frame.origin.y){
         frameChanged = YES;
-        newOriginY = self.bulletinboardView.frame.origin.y;
+        newOriginY = self.collectionView.frame.origin.y;
     }
     if (frame.origin.x + frame.size.width > 
-        self.bulletinboardView.frame.origin.x + self.bulletinboardView.frame.size.width){
+        self.collectionView.frame.origin.x + self.collectionView.frame.size.width){
         frameChanged = YES;
-        newOriginX = self.bulletinboardView.frame.origin.x + self.bulletinboardView.frame.size.width - frame.size.width;
+        newOriginX = self.collectionView.frame.origin.x + self.collectionView.frame.size.width - frame.size.width;
     }
     if (frame.origin.y + frame.size.height > 
-        self.bulletinboardView.frame.origin.y + self.bulletinboardView.frame.size.height){
+        self.collectionView.frame.origin.y + self.collectionView.frame.size.height){
         frameChanged = YES;
-        newOriginY = self.bulletinboardView.frame.origin.y + self.bulletinboardView.frame.size.height - frame.size.height - 50;
+        newOriginY = self.collectionView.frame.origin.y + self.collectionView.frame.size.height - frame.size.height - 50;
     }
     
     if (sender.view.frame.origin.x + sender.view.frame.size.width > 
-        self.bulletinboardView.frame.origin.x + self.bulletinboardView.frame.size.width){
+        self.collectionView.frame.origin.x + self.collectionView.frame.size.width){
         frameChanged = YES;
-        newOriginX = self.bulletinboardView.frame.origin.x + self.bulletinboardView.frame.size.width - sender.view.frame.size.width;
+        newOriginX = self.collectionView.frame.origin.x + self.collectionView.frame.size.width - sender.view.frame.size.width;
     }
     if (sender.view.frame.origin.y + sender.view.frame.size.height > 
-        self.bulletinboardView.frame.origin.y + self.bulletinboardView.frame.size.height){
+        self.collectionView.frame.origin.y + self.collectionView.frame.size.height){
         frameChanged = YES;
-        newOriginY = self.bulletinboardView.frame.origin.y + self.bulletinboardView.frame.size.height - sender.view.frame.size.height - 50;
+        newOriginY = self.collectionView.frame.origin.y + self.collectionView.frame.size.height - sender.view.frame.size.height - 50;
     }
     if (frameChanged){
             frame = CGRectMake(newOriginX, newOriginY,frame.size.width, frame.size.height);
@@ -850,7 +760,7 @@
         note.alpha = 1;
     }];
     
-    [self.bulletinboardView addSubview:note];
+    [self.collectionView addSubview:note];
     UIPanGestureRecognizer * gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(objectPanned:)];
     UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
     UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
@@ -914,12 +824,12 @@
     
     if( sender.state == UIGestureRecognizerStateChanged ||
        sender.state == UIGestureRecognizerStateEnded){
-        CGPoint translation = [sender translationInView:self.bulletinboardView];
+        CGPoint translation = [sender translationInView:self.collectionView];
         UIView * pannedView = [sender view];
         CGPoint newOrigin = CGPointMake(pannedView.frame.origin.x + translation.x,
                                         pannedView.frame.origin.y + translation.y);
         pannedView.frame = CGRectMake(newOrigin.x, newOrigin.y, pannedView.frame.size.width,pannedView.frame.size.height);
-        [sender setTranslation:CGPointZero inView:self.bulletinboardView];
+        [sender setTranslation:CGPointZero inView:self.collectionView];
         
         if (self.editMode) return;
         
@@ -948,23 +858,23 @@
         CGFloat newOriginX = sender.view.frame.origin.x;
         CGFloat newOriginY = sender.view.frame.origin.y;
         
-        if (sender.view.frame.origin.x < self.bulletinboardView.frame.origin.x){
+        if (sender.view.frame.origin.x < self.collectionView.frame.origin.x){
             frameChanged = YES;
-            newOriginX = self.bulletinboardView.frame.origin.x;
+            newOriginX = self.collectionView.frame.origin.x;
         }
-        if (sender.view.frame.origin.y < self.bulletinboardView.frame.origin.y){
+        if (sender.view.frame.origin.y < self.collectionView.frame.origin.y){
             frameChanged = YES;
-            newOriginY = self.bulletinboardView.frame.origin.y;
+            newOriginY = self.collectionView.frame.origin.y;
         }
         if (sender.view.frame.origin.x + sender.view.frame.size.width > 
-            self.bulletinboardView.frame.origin.x + self.bulletinboardView.frame.size.width){
+            self.collectionView.frame.origin.x + self.collectionView.frame.size.width){
             frameChanged = YES;
-            newOriginX = self.bulletinboardView.frame.origin.x + self.bulletinboardView.frame.size.width - sender.view.frame.size.width;
+            newOriginX = self.collectionView.frame.origin.x + self.collectionView.frame.size.width - sender.view.frame.size.width;
         }
         if (sender.view.frame.origin.y + sender.view.frame.size.height > 
-            self.bulletinboardView.frame.origin.y + self.bulletinboardView.frame.size.height){
+            self.collectionView.frame.origin.y + self.collectionView.frame.size.height){
             frameChanged = YES;
-            newOriginY = self.bulletinboardView.frame.origin.y + self.bulletinboardView.frame.size.height - sender.view.frame.size.height - 50;
+            newOriginY = self.collectionView.frame.origin.y + self.collectionView.frame.size.height - sender.view.frame.size.height - 50;
         }
         
         if (frameChanged){
@@ -1030,7 +940,7 @@
 -(void) viewWillAppear:(BOOL)animated{
     /*  UIImage * image = [UIImage imageNamed:@"greenchalkboard.jpg"];
      UIColor * color = [UIColor colorWithPatternImage:image];*/
-    [self.bulletinboardView setBackgroundColor:[UIColor clearColor]];
+    [self.collectionView setBackgroundColor:[UIColor clearColor]];
 }
 
 - (IBAction)cameraPressed:(id)sender {
@@ -1071,16 +981,16 @@
     self.toolbar.items = [toolBarItems copy];
     
     [super viewDidLoad];
-    self.label.title = self.bulletinBoardName;
-    CGSize size =  CGSizeMake(self.bulletinboardView.bounds.size.width, self.bulletinboardView.bounds.size.height);
-    [self.bulletinboardView setContentSize:size];
+    self.title.title = self.bulletinBoardName;
+    CGSize size =  CGSizeMake(self.collectionView.bounds.size.width, self.collectionView.bounds.size.height);
+    [self.collectionView setContentSize:size];
     
     UITapGestureRecognizer * gr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mainScreenDoubleTapped:)];
     gr.numberOfTapsRequired = 2;
     UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenTapped:)];
-    [self.bulletinboardView addGestureRecognizer:gr];
-    [self.bulletinboardView addGestureRecognizer:tgr];
-    self.bulletinboardView.delegate = self;
+    [self.collectionView addGestureRecognizer:gr];
+    [self.collectionView addGestureRecognizer:tgr];
+    self.collectionView.delegate = self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(loadSavedNotes:)
@@ -1162,7 +1072,7 @@
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     NSLog(@"size: %f",self.activityIndicator.frame.size.width);
     self.activityIndicator.color = [UIColor blackColor];*/
-    [self.bulletinboardView addSubview:self.endActivityIndicator];
+    [self.collectionView addSubview:self.endActivityIndicator];
     [self.endActivityIndicator startAnimating];
     
 
@@ -1176,9 +1086,9 @@
     
     [self.board cleanUp];
     
-    [self setLabel:nil];
+    [self setTitle:nil];
     [self setView:nil];
-    [self setBulletinboardView:nil];
+    [self setCollectionView:nil];
     [self setToolbar:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self setActivityIndicator:nil];
@@ -1205,25 +1115,25 @@
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     
-    for (UIView * view in self.bulletinboardView.subviews){
+    for (UIView * view in self.collectionView.subviews){
         
         float positionX = view.frame.origin.x;
         float positionY = view.frame.origin.y;
         BOOL changed = NO;
-        if ( positionX + view.frame.size.width > self.bulletinboardView.frame.origin.x + self.bulletinboardView.frame.size.width ){
-            positionX = self.bulletinboardView.frame.origin.x + self.bulletinboardView.frame.size.width - NOTE_WIDTH;
+        if ( positionX + view.frame.size.width > self.collectionView.frame.origin.x + self.collectionView.frame.size.width ){
+            positionX = self.collectionView.frame.origin.x + self.collectionView.frame.size.width - NOTE_WIDTH;
             changed = YES;
         }
-        if ( positionY + view.frame.size.height > self.bulletinboardView.frame.origin.x + self.bulletinboardView.frame.size.height){
-            positionY = self.bulletinboardView.frame.origin.x + self.bulletinboardView.frame.size.height - NOTE_HEIGHT;
+        if ( positionY + view.frame.size.height > self.collectionView.frame.origin.x + self.collectionView.frame.size.height){
+            positionY = self.collectionView.frame.origin.x + self.collectionView.frame.size.height - NOTE_HEIGHT;
             changed = YES;
         }
-        if (positionX <  self.bulletinboardView.frame.origin.x){
-            positionX = self.bulletinboardView.frame.origin.x;
+        if (positionX <  self.collectionView.frame.origin.x){
+            positionX = self.collectionView.frame.origin.x;
             changed = YES;
         }
-        if (positionY < self.bulletinboardView.frame.origin.y){
-            positionY = self.bulletinboardView.frame.origin.y;
+        if (positionY < self.collectionView.frame.origin.y){
+            positionY = self.collectionView.frame.origin.y;
             changed = YES;
         }
         
@@ -1269,12 +1179,12 @@
         
         [noteItem resetSize];
         float offset = SEPERATOR_RATIO * noteItem.frame.size.width;
-        CGRect tempRect = CGRectMake (self.bulletinboardView.frame.origin.x + offset,
-                                      self.bulletinboardView.frame.origin.y + self.bulletinboardView.frame.size.height - (noteItem.frame.size.height + offset),
+        CGRect tempRect = CGRectMake (self.collectionView.frame.origin.x + offset,
+                                      self.collectionView.frame.origin.y + self.collectionView.frame.size.height - (noteItem.frame.size.height + offset),
                                       noteItem.frame.size.width,
                                       noteItem.frame.size.height);
         noteItem.frame = tempRect;
-        [self.bulletinboardView addSubview:noteItem];
+        [self.collectionView addSubview:noteItem];
         [UIView animateWithDuration:0.5 animations:^{ noteItem.alpha = 1;} completion:^(BOOL isFinished){
             CGRect finalRect = CGRectMake(stackView.frame.origin.x + (count * offset * 2), 
                                           stackView.frame.origin.y + (count * offset * 2), 
@@ -1305,7 +1215,7 @@
 }
 
 -(void) resignFirstResponders{
-    for(UIView * view in self.bulletinboardView.subviews){
+    for(UIView * view in self.collectionView.subviews){
         if ([view conformsToProtocol:@protocol(BulletinBoardObject)]){
             id<BulletinBoardObject> obj = (id<BulletinBoardObject>) view;
             [obj resignFirstResponder];
@@ -1326,8 +1236,8 @@
 
 -(void) imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo{
     [self dismissModalViewControllerAnimated:YES];
-    CGRect frame = CGRectMake(self.bulletinboardView.frame.origin.x,
-                              self.bulletinboardView.frame.origin.y,
+    CGRect frame = CGRectMake(self.collectionView.frame.origin.x,
+                              self.collectionView.frame.origin.y,
                               NOTE_WIDTH, 
                               NOTE_HEIGHT);
     
@@ -1343,7 +1253,7 @@
         note.alpha = 1;
     }];
     
-    [self.bulletinboardView addSubview:note];
+    [self.collectionView addSubview:note];
     UIPanGestureRecognizer * gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(objectPanned:)];
     UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
     UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];

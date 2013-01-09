@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 University of Washington. All rights reserved.
 //
 
-#import "AssociativeBulletinBoard.h"
+#import "MindcloudBoard.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "CallBackDataModel.h"
 #import "QueueProducer.h"
@@ -17,7 +17,7 @@
  with the extra functionality that it can also be used as a delegate for 
  responsing to the dropbox asynch calls
  */
-@interface DropBoxAssociativeBulletinBoard : AssociativeBulletinBoard <DropboxActionController>
+@interface DropBoxAssociativeBulletinBoard : MindcloudBoard <DropboxActionController>
 
 -(id) initBulletinBoardFromXoomlWithName:(NSString *)bulletinBoardName;
 
@@ -31,13 +31,4 @@
 -(void) stopTimer;
 
 -(void) cleanUp;
-
--(void) demoAddNewBulletinBoard;
-
--(void) demoAddNewNote;
-
--(void) demoDeleteBB;
-
--(void) demoDeleteNote;
-
 @end

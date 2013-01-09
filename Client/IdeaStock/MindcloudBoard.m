@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 University of Washington. All rights reserved.
 //
 
-#import "AssociativeBulletinBoard.h"
+#import "MindcloudBoard.h"
 #import "XoomlParser.h"
 
 #import "XoomlBulletinBoardController.h"
@@ -52,8 +52,44 @@
 
 /*====================================================================*/
 
+@interface MindcloudBoard()
 
-@implementation AssociativeBulletinBoard
+/*
+ Holds the actual individual note contents. This dictonary is keyed on the noteID.
+ The noteIDs in this dictionary determine whether a note belongs to this bulletin board or not.
+ */
+@property (nonatomic,strong) NSMutableDictionary * noteContents;
+/*
+ holds all the attributes that belong to the bulletin board level: for example stack groups. 
+ */
+@property (nonatomic,strong) BulletinBoardAttributes * bulletinBoardAttributes;
+/*
+ This is an NSDictionary of BulletinBoardAttributes. Its keyed on the noteIDs.
+ For each noteID,  this contains all of the note level attributes that are
+ associated with that particular note.
+ */
+@property (nonatomic,strong) NSMutableDictionary * noteAttributes;
+/*
+ Keyed on noteID and values are UIImages; 
+ */
+@property (nonatomic,strong) NSMutableDictionary * noteImages;
+/*
+ This is the datamodel that the bulletin board uses for retrieval and storage of itself. 
+ */
+@property (nonatomic,strong) id<DataModel> dataModel;
+/*
+ This delegate object provides information for all of the data specific 
+ questions that the bulletin baord may ask. 
+ 
+ Properties of the bulletin board are among these data specific questions. 
+ */
+@property (nonatomic,strong) id <BulletinBoardDelegate> delegate;
+
+@property (nonatomic,strong) id <BulletinBoardDatasource> dataSource;
+
+@end
+
+@implementation MindcloudBoard
 
 /*--------------------------------------------------
  
@@ -644,8 +680,8 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 }
 
 
--(void) updateNoteProperties:(NSString *)noteID 
-              withProperties:(NSDictionary *)newProperties{
+-(void) updateNoteAttributes:(NSString *)noteID 
+              withAttributes:(NSDictionary *)newProperties{
     
     if (!(self.noteContents)[noteID]) return;
     
@@ -735,6 +771,10 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     
 }
 
+-(NSDictionary *) getAllNoteImages{
+    return [self.noteImages mutableCopy];
+}
+
 
 /*--------------------------------------------------
  
@@ -744,9 +784,9 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 
 +(void) saveBulletinBoard:(id) bulletinBoard{
     
-    if ([bulletinBoard isKindOfClass:[AssociativeBulletinBoard class]]){
+    if ([bulletinBoard isKindOfClass:[MindcloudBoard class]]){
         
-        AssociativeBulletinBoard * board = (AssociativeBulletinBoard *) bulletinBoard;
+        MindcloudBoard * board = (MindcloudBoard *) bulletinBoard;
             [board.dataModel updateBulletinBoardWithName:board.bulletinBoardName andBulletinBoardInfo:[board.dataSource data]];
 
     }

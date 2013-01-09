@@ -8,14 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "Note.h"
-#import "BulletinBoardAttributes.h"
+
 @protocol BulletinBoard <NSObject>
 
 
-
-/*---------------------------------
- * Creation behavior
- *--------------------------------*/
+@property (nonatomic,strong) NSString * bulletinBoardName;
 
 /*
  Adds a note content to the bulletin board with a unique noteID. This noteID
@@ -36,18 +33,13 @@
 
  The method raises an exception if any of these info is miising. 
  */
-//TODO maybe the required properties should be passed as explicit attributes
-//It is easy for the user of the API to make mistakes and not pass implicit
-//properties
-- (void) addNoteContent: (id <Note>) note 
-          andProperties: (NSDictionary *) properties;
+-(void) addNoteContent: (id <Note>) note
+         andProperties: (NSDictionary *) properties;
 
-@optional
-- (void) addImageNoteContent:(id <Note> )noteItem 
-               andProperties:noteProperties
-                    andImage: (NSData *) img;
+-(void) addImageNoteContent:(id <Note> )noteItem
+              andProperties:noteProperties
+                   andImage: (NSData *) img;
 
-@required
 /*
  Adds an attribute with AttributeName and AttributeType for a particular note specified by note ID. The values specified in the values array will be avalues of this attribute.
  
@@ -58,7 +50,7 @@
  It is up to the implementation to only allow a fixed set of attribute type or allow variable dynamic attribute types.
  */
 
-- (void) addNoteAttribute: (NSString *) attributeName
+-(void) addNoteAttribute: (NSString *) attributeName
          forAttributeType: (NSString *) attributeType
                   forNote: (NSString *) noteID 
                 andValues:(NSArray *)values;
@@ -71,7 +63,7 @@
  creates the attributeName for the noteID and adds sourceNoteID to it
  */
 
-- (void) addNote: (NSString *) targetNoteID
+-(void) addNote: (NSString *) targetNoteID
  toAttributeName: (NSString *) attributeName
 forAttributeType: (NSString *) attributeType
           ofNote: (NSString *) sourceNoteId;
@@ -83,7 +75,7 @@ forAttributeType: (NSString *) attributeType
  
  It is up to the implementation to only allow a fixed set of attribute type or allow variable dynamic attribute types.
  */
-- (void) addBulletinBoardAttribute: (NSString *) attributeName
+-(void) addBulletinBoardAttribute: (NSString *) attributeName
                   forAttributeType: (NSString *) attributeType;
 
 /*
@@ -94,14 +86,10 @@ forAttributeType: (NSString *) attributeType
  
  If the attributeName does not exist. The method creates it and addes the noteID to it. 
  */
-- (void) addNoteWithID: (NSString *) noteID
+-(void) addNoteWithID: (NSString *) noteID
 toBulletinBoardAttribute: (NSString *) attributeName
       forAttributeType: (NSString *) attributeType;
 
-
-/**---------------------------------
- * Deletion behavior
- *--------------------------------**/
 
 /*
  This method removed the note including its content and also updated all the bulletinboard and note specific attributes that the note participated in to reflect that deletion. 
@@ -109,7 +97,7 @@ toBulletinBoardAttribute: (NSString *) attributeName
  If a noteContent with the ID noteID does not exists, methods reutnrs without doing 
  anything. 
  */
-- (void) removeNoteWithID: (NSString *) noteID;
+-(void) removeNoteWithID: (NSString *) noteID;
 
 /*
  Removes the note with targetNoteID from an attribute of a note with sourceNoteID. The attribute is specified by its name and type in attributeName and attributeType. 
@@ -117,7 +105,7 @@ toBulletinBoardAttribute: (NSString *) attributeName
  This method only removes the note if the attributeName, attributeType, targetNoteID, and sourceNoteID are valid and targetNoteID has been previously added to sourceNoteID attributes. Otherwise the methods returns without doing anything.
  
  */
-- (void) removeNote: (NSString *) targetNoteID
+-(void) removeNote: (NSString *) targetNoteID
       fromAttribute: (NSString *) attributeName
              ofType: (NSString *) attributeType
    fromAttributesOf: (NSString *) sourceNoteID;
@@ -130,7 +118,7 @@ toBulletinBoardAttribute: (NSString *) attributeName
  This method acts only if attributeName, attributeType, and noteID are valid. Otherwise, the method returns without doing anything.
  */
 
-- (void) removeNoteAttribute: (NSString *) attributeName
+-(void) removeNoteAttribute: (NSString *) attributeName
                       ofType: (NSString *) attributeType
                     FromNote: (NSString *) noteID;
 
@@ -139,7 +127,7 @@ toBulletinBoardAttribute: (NSString *) attributeName
  
  This method only acts when noteID, attributeName, and attributeType are valid and noteID actually belongs to the bulletinboard with attributeName and the type attributeType. Otherwise, this method returns without doing anything .
  */
-- (void) removeNote: (NSString *) noteID
+-(void) removeNote: (NSString *) noteID
 fromBulletinBoardAttribute: (NSString *) attributeName 
              ofType: (NSString *) attributeType;
 
@@ -149,13 +137,8 @@ fromBulletinBoardAttribute: (NSString *) attributeName
  
  This method only functions if attributeName and attributeType are valid existing attribtueNames. Otherwise it returns without doing anything. 
  */
-- (void) removeBulletinBoardAttribute: (NSString *) attributeName
+-(void) removeBulletinBoardAttribute: (NSString *) attributeName
                                ofType: (NSString *) attributeType;
-
-
-/**---------------------------------
- * Updating behavior
- *--------------------------------**/
 
 /*
  Updates the contenst of a note with noteID with the contents of newNote.
@@ -165,7 +148,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
  This method only functions if noteID is valid ID of a note content. Otherwise it returns without doing anything. 
  */
 
-- (void) updateNoteContentOf: (NSString *) noteID
+-(void) updateNoteContentOf: (NSString *) noteID
               withContentsOf: (id <Note>) newNote;
 
 /*
@@ -174,7 +157,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
  If oldAttributeName, attributeType, noteID are not valid the method returns without doing anything. 
  */
 
-- (void) renameNoteAttribute: (NSString *) oldAttributeName 
+-(void) renameNoteAttribute: (NSString *) oldAttributeName
                       ofType: (NSString *) attributeType
                      forNote: (NSString *) noteID 
                     withName: (NSString *) newAttributeName;
@@ -196,17 +179,13 @@ fromBulletinBoardAttribute: (NSString *) attributeName
  
  If oldAttributeName and attributeType are not valid, the method returns without doing anything.
  */
-- (void) renameBulletinBoardAttribute: (NSString *) oldAttributeNAme 
+-(void) renameBulletinBoardAttribute: (NSString *) oldAttributeNAme
                                ofType: (NSString *) attributeType 
                              withName: (NSString *) newAttributeName;
 
 
-- (void) updateNoteProperties: (NSString *) noteID 
-              withProperties: (NSDictionary *) newProperties;
-
-/**---------------------------------
- * Query behavior
- *--------------------------------**/
+-(void) updateNoteAttributes: (NSString *) noteID
+              withAttributes: (NSDictionary *) newProperties;
 
 /*
  Returns a copy of all the note contents in the bulletin board. 
@@ -214,41 +193,38 @@ fromBulletinBoardAttribute: (NSString *) attributeName
  noteIds. The values for these keys are objects that follow the note
  protocol.
  */
-- (NSDictionary *) getAllNotes;
+-(NSDictionary *) getAllNotes;
 
-@optional
 -(NSDictionary *) getAllNoteImages;
 
-@required
 /*
  Returns an array of strings containing the name of all the attributes of type attributeType in the bulletin board. 
  */
+-(NSDictionary *) getAllNoteAttributesForNote: (NSString *) noteID;
 
-- (NSDictionary *) getAllNoteAttributesForNote: (NSString *) noteID;
-
-- (NSDictionary *) getAllBulletinBoardAttributeNamesOfType: (NSString *) attributeType;
+-(NSDictionary *) getAllBulletinBoardAttributeNamesOfType: (NSString *) attributeType;
 
 /*
  Returns an array of strings containing the name of all the attributes of type attributeType in the attribute list of note with noteID. 
  */
-- (NSDictionary *) getAllNoteAttributeNamesOfType: (NSString *) attributeType
+-(NSDictionary *) getAllNoteAttributeNamesOfType: (NSString *) attributeType
                             forNote: (NSString *) noteID;
 
 /*
  Returns the note contents of a note with noteID. 
  */
-- (id <Note>) getNoteContent: (NSString *) noteID;
+-(id <Note>) getNoteContent: (NSString *) noteID;
 
 /*
  Returns an array of noteIDs belonging to the attribute with attributeName and the type attributeType for the bulletin board. 
  */
-- (NSArray *) getAllNotesBelongingToBulletinBoardAttribute: (NSString *) attributeName 
+-(NSArray *) getAllNotesBelongingToBulletinBoardAttribute: (NSString *) attributeName
                                           forAttributeType: (NSString *) attributeType;
 
 /*
  Returns an array of NoteIDs belonging to the attribute with attribueName and the type attributeType for the note with noteID. 
  */
-- (NSArray *) getAllNotesBelongtingToNoteAttribute: (NSString *) attributeName
+-(NSArray *) getAllNotesBelongtingToNoteAttribute: (NSString *) attributeName
                                    ofAttributeType: (NSString *) attributeType
                                            forNote: (NSString *) noteID;
 
