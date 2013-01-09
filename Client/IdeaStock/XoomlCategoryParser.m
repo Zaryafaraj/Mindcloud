@@ -26,7 +26,6 @@
 
 +(NSData *) serializeToXooml:(id<CategoryModelProtocol>) model
 {
-    
     DDXMLElement * root = [[DDXMLElement alloc] initWithName: @"root"];
     
     [root addNamespace: [DDXMLNode namespaceWithName:@"xsi" stringValue: XSI_NAMESPACE]];

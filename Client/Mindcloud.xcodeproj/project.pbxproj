@@ -232,8 +232,8 @@
 		DB433829169CF6CC000353DA /* SynchronizedObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SynchronizedObject.h; sourceTree = "<group>"; };
 		DB43382B169D2E09000353DA /* CachedCollectionDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CachedCollectionDataSource.h; sourceTree = "<group>"; };
 		DB43382C169D2E09000353DA /* CachedCollectionDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CachedCollectionDataSource.m; sourceTree = "<group>"; };
-		DB43389E169D4B14000353DA /* XoomlManifestParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlManifestParser.h; sourceTree = "<group>"; };
 		DB43389F169D4B14000353DA /* XoomlManifestParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlManifestParser.m; sourceTree = "<group>"; };
+		DB4338A4169E112C000353DA /* XoomlManifestParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlManifestParser.h; sourceTree = "<group>"; };
 		DB4E0AC7163DCD3D00AB82E6 /* CollectionsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionsModel.h; sourceTree = "<group>"; };
 		DB4E0AC8163DCD3D00AB82E6 /* CollectionsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionsModel.m; sourceTree = "<group>"; };
 		DB54E2761645122F008A5BBB /* ButtonMenu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ButtonMenu@2x.png"; sourceTree = "<group>"; };
@@ -503,7 +503,7 @@
 		DB225ABD164CD5B70094BFC9 /* Parsers */ = {
 			isa = PBXGroup;
 			children = (
-				DB43389E169D4B14000353DA /* XoomlManifestParser.h */,
+				DB4338A4169E112C000353DA /* XoomlManifestParser.h */,
 				DB43389F169D4B14000353DA /* XoomlManifestParser.m */,
 				DB225ABF164CD5D90094BFC9 /* XoomlCategoryParser.h */,
 				DB225AC0164CD5D90094BFC9 /* XoomlCategoryParser.m */,
