@@ -10,4 +10,10 @@
 
 @protocol SynchronizedObject <NSObject>
 
+-(void) startTimer;
+
+-(void) stopTimer;
+
+-(void) synchronize;
+
 @end

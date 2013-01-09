@@ -12,6 +12,7 @@
 #import "BulletinBoardDelegate.h"
 #import "BulletinBoardDatasource.h"
 #import "BulletinBoardAttributes.h"
+#import "SynchronizedObject.h"
 
 #define STACKING @"stacking"
 #define GROUPING @"grouping"
@@ -32,5 +33,7 @@
  */
 - (id)initBulletinBoardFromXoomlWithDatamodel: (id <DataModel>) datamodel 
                                       andName: (NSString *) bulletinBoardName;
+
+-(id) initBulletinBoardFromXoomlWithName:(NSString *)bulletinBoardName;
 
 @end

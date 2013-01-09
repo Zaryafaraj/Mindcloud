@@ -228,6 +228,12 @@ fromBulletinBoardAttribute: (NSString *) attributeName
                                    ofAttributeType: (NSString *) attributeType
                                            forNote: (NSString *) noteID;
 
+@optional
+/*
+ Any bookkeeping and cleanning up needed for the bulletin board should be done here
+ */
+-(void) cleanup;
+
 + (void) saveBulletinBoard: (id) bulletinBoard;
 
 @end
