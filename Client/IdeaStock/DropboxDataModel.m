@@ -10,7 +10,7 @@
 #import "FileSystemHelper.h"
 #import "QueueProducer.h"
 #import "DropboxAction.h"
-#import "XoomlParser.h"
+#import "XoomlManifestParser.h"
 
 #define ADD_BULLETIN_BOARD_ACTION @"addBulletinBoard"
 #define UPDATE_BULLETIN_BOARD_ACTION @"updateBulletinBoard"

@@ -6,15 +6,15 @@
 //  Copyright (c) 2012 University of Washington. All rights reserved.
 //
 
-#import "XoomlParser.h"
+#import "XoomlManifestParser.h"
 #import "DDXML.h"
 #import "XoomlAttributeHelper.h"
 
-@interface XoomlParser()
+@interface XoomlManifestParser()
 
 @end
 
-@implementation XoomlParser
+@implementation XoomlManifestParser
 
 
 /*===========================================================*/
@@ -208,7 +208,7 @@
     
     //TODO Add tool specific child of the root here 
     
-    NSString *imageName = [XoomlParser getImageFileName:note];    //create the association note and its attributes
+    NSString *imageName = [XoomlManifestParser getImageFileName:note];    //create the association note and its attributes
     
     DDXMLElement * xoomlAssociation = [[DDXMLElement alloc] initWithName: XOOML_ASSOCIATION];
     [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:NOTE_ID stringValue:note.noteTextID]];

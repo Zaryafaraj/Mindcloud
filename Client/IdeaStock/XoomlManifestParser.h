@@ -17,7 +17,7 @@
  with Xooml syntax
  */
 
-@interface XoomlParser : NSObject
+@interface XoomlManifestParser : NSObject
 
 /*--------------------------------------------------
  

@@ -7,7 +7,7 @@
 //
 
 #import "CollectionModel.h"
-#import "XoomlParser.h"
+#import "XoomlManifestParser.h"
 
 #import "XoomlCollectionManifest.h"
 #import "CallBackDataModel.h"
@@ -96,7 +96,7 @@
  */
 @property (nonatomic,strong) id <CollectionManifest> delegate;
 
-@property (nonatomic,strong) id <BulletinBoardDatasource> dataSource;
+@property (nonatomic,strong) id <CollectionManifest> dataSource;
 
 @property BOOL actionInProgress;
 /*--------------------------------------------------
@@ -244,7 +244,7 @@ _needSynchronization;
                     andName: (NSString *) noteName
               andProperties: (NSDictionary *) noteInfos{
     
-    id <Note> noteObj = [XoomlParser xoomlNoteFromXML:noteData];
+    id <Note> noteObj = [XoomlManifestParser xoomlNoteFromXML:noteData];
     
     if ( !noteObj) return ;
     
@@ -489,7 +489,7 @@ _needSynchronization;
     (self.noteAttributes)[noteID] = noteAttribute;
     
     //update the datamodel
-    NSData * noteData = [XoomlParser convertNoteToXooml:note];
+    NSData * noteData = [XoomlManifestParser convertNoteToXooml:note];
     [self.dataModel addNote:noteName withContent:noteData  ToCollection:self.bulletinBoardName];
     
     self.actionInProgress = YES;
@@ -541,9 +541,9 @@ _needSynchronization;
     //for performance reasons, anytime that an image is needed we will load
     //it from the disk. The dictionary holds noteID and imageFile Path
     
-    NSData * noteData = [XoomlParser convertImageNoteToXooml:note];
+    NSData * noteData = [XoomlManifestParser convertImageNoteToXooml:note];
 
-    NSString * imgName = [XoomlParser getImageFileName: note];
+    NSString * imgName = [XoomlManifestParser getImageFileName: note];
     
     NSString * imgPath = [FileSystemHelper getPathForImageWithName:imgName forNoteName:noteName inBulletinBoard:self.bulletinBoardName];
     
@@ -750,7 +750,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     if (newNote.creationDate) oldNote.creationDate = newNote.creationDate;
     if (newNote.modificationDate) oldNote.modificationDate = newNote.modificationDate;
     
-    NSData * noteData = [XoomlParser convertNoteToXooml:(self.noteContents)[noteID]];
+    NSData * noteData = [XoomlManifestParser convertNoteToXooml:(self.noteContents)[noteID]];
     BulletinBoardAttributes * noteAttributes = (self.noteAttributes)[noteID];
     NSString * noteName = [[noteAttributes getAttributeWithName:NOTE_NAME forAttributeType:NOTE_NAME_TYPE] lastObject];
     

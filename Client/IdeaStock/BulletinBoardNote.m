@@ -7,7 +7,7 @@
 //
 
 #import "BulletinBoardNote.h"
-#import "XoomlParser.h"
+#import "ManifestXoomlParser.h"
 #import "XoomlAttributeHelper.h"
 
 @implementation BulletinBoardNote

@@ -8,7 +8,7 @@
 
 #import "CollectionsAction.h"
 #import "HTTPHelper.h"
-#import "XoomlParser.h"
+#import "XoomlManifestParser.h"
 #import "MindcloudBaseAction.h"
 
 @interface CollectionsAction()
@@ -71,7 +71,7 @@
 -(void) executePOST
 {
     [self.request setHTTPMethod:@"POST"];
-    NSData * postFile = [XoomlParser getEmptyBulletinBoardXooml];
+    NSData * postFile = [XoomlManifestParser getEmptyBulletinBoardXooml];
     self.request = [HTTPHelper addPostFile:postFile
                                   withName:@"xooml.xml"
                                  andParams: self.postArguments
