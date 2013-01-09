@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BulletinBoard.h"
-#import "DataModel.h"
+#import "CollectionDataModel.h"
 #import "BulletinBoardDelegate.h"
 #import "BulletinBoardDatasource.h"
 #import "BulletinBoardAttributes.h"

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DataModel.h"
+#import "CollectionDataModel.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "CallBackDataModel.h"
 #import "DropboxActionController.h"

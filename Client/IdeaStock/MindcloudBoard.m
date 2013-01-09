@@ -98,7 +98,6 @@
 
 @property (nonatomic,strong) id <BulletinBoardDatasource> dataSource;
 
-- (void) synchronize:(NSTimer *) timer;
 @property BOOL actionInProgress;
 /*--------------------------------------------------
  

@@ -79,6 +79,7 @@
 		DB3174F916336DEB001229FE /* cJOfLC.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DB3174F816336DEA001229FE /* cJOfLC.jpeg */; };
 		DB3174FB1633744F001229FE /* dropbox_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3174FA1633744F001229FE /* dropbox_icon.png */; };
 		DB3174FE16337636001229FE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3174FD16337636001229FE /* SignInViewController.m */; };
+		DB43382D169D2E09000353DA /* CachedCollectionDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB43382C169D2E09000353DA /* CachedCollectionDataModel.m */; };
 		DB4E0AC9163DCD3D00AB82E6 /* CollectionsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4E0AC8163DCD3D00AB82E6 /* CollectionsModel.m */; };
 		DB54E2771645122F008A5BBB /* ButtonMenu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB54E2761645122F008A5BBB /* ButtonMenu@2x.png */; };
 		DB54E2791645128F008A5BBB /* ButtonMenu@x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB54E2781645128F008A5BBB /* ButtonMenu@x.png */; };
@@ -141,7 +142,7 @@
 		D715B4B415707F63006975A6 /* noteselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noteselected.png; sourceTree = "<group>"; };
 		D715B4B615707F63006975A6 /* stackSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stackSelected.png; sourceTree = "<group>"; };
 		D715B4D315708F85006975A6 /* red board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red board.png"; sourceTree = "<group>"; };
-		D71D934B152301F10043E573 /* DataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataModel.h; sourceTree = "<group>"; };
+		D71D934B152301F10043E573 /* CollectionDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionDataModel.h; sourceTree = "<group>"; };
 		D71D934C15230A930043E573 /* DropboxDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxDataModel.h; sourceTree = "<group>"; };
 		D71D934D15230A930043E573 /* DropboxDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxDataModel.m; sourceTree = "<group>"; };
 		D71D934F15230B3D0043E573 /* BulletinBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletinBoard.h; sourceTree = "<group>"; };
@@ -232,6 +233,8 @@
 		DB3174FD16337636001229FE /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		DB31750216337ED7001229FE /* AuthorizationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthorizationDelegate.h; sourceTree = "<group>"; };
 		DB433829169CF6CC000353DA /* SynchronizedObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SynchronizedObject.h; sourceTree = "<group>"; };
+		DB43382B169D2E09000353DA /* CachedCollectionDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CachedCollectionDataModel.h; sourceTree = "<group>"; };
+		DB43382C169D2E09000353DA /* CachedCollectionDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CachedCollectionDataModel.m; sourceTree = "<group>"; };
 		DB4E0AC7163DCD3D00AB82E6 /* CollectionsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionsModel.h; sourceTree = "<group>"; };
 		DB4E0AC8163DCD3D00AB82E6 /* CollectionsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionsModel.m; sourceTree = "<group>"; };
 		DB54E2761645122F008A5BBB /* ButtonMenu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ButtonMenu@2x.png"; sourceTree = "<group>"; };
@@ -348,9 +351,10 @@
 			path = Private;
 			sourceTree = "<group>";
 		};
-		D709472B15242BA4008E4AD9 /* DataModel */ = {
+		D709472B15242BA4008E4AD9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DB43382A169D2D86000353DA /* Collection */,
 				DB225ABD164CD5B70094BFC9 /* Parsers */,
 				D75820EF1532C8EC00F2617E /* QueueProducer.h */,
 				D7F85EB21528D80300F16D25 /* XoomlBulletinBoardController.h */,
@@ -363,12 +367,9 @@
 				D7440EC81574C3E700C53F4A /* DropboxActionController.h */,
 				D709472915242AC3008E4AD9 /* XoomlParser.m */,
 				D71D934F15230B3D0043E573 /* BulletinBoard.h */,
-				D71D934B152301F10043E573 /* DataModel.h */,
 				D71D935015230B820043E573 /* Note.h */,
 				D70947091523BDFE008E4AD9 /* BulletinBoardNote.h */,
 				D709470A1523BDFE008E4AD9 /* BulletinBoardNote.m */,
-				D71D934C15230A930043E573 /* DropboxDataModel.h */,
-				D71D934D15230A930043E573 /* DropboxDataModel.m */,
 				D74E481E1524F3DF00BC8B9D /* XoomlAttributeHelper.h */,
 				D74E481F1524F3DF00BC8B9D /* XoomlAttributeHelper.m */,
 				D7F85EAD1528CF7800F16D25 /* BulletinBoardDatasource.h */,
@@ -378,7 +379,7 @@
 				D7440ECB157541A500C53F4A /* DropboxAction.m */,
 				DB433829169CF6CC000353DA /* SynchronizedObject.h */,
 			);
-			name = DataModel;
+			name = Model;
 			sourceTree = "<group>";
 		};
 		D7A53CE11522F39400183CB6 = {
@@ -427,7 +428,7 @@
 				DB99FFB1160E5C2D0042ED2A /* Services */,
 				D7BF466315472E0D00F06412 /* UI */,
 				D70947131523DC27008E4AD9 /* KissXML */,
-				D709472B15242BA4008E4AD9 /* DataModel */,
+				D709472B15242BA4008E4AD9 /* Model */,
 				D7A53CFF1522F39500183CB6 /* IdeaStockAppDelegate.h */,
 				D7A53D001522F39500183CB6 /* IdeaStockAppDelegate.m */,
 				D7A53CF71522F39500183CB6 /* Supporting Files */,
@@ -579,6 +580,18 @@
 				DB31750216337ED7001229FE /* AuthorizationDelegate.h */,
 			);
 			name = Delegates;
+			sourceTree = "<group>";
+		};
+		DB43382A169D2D86000353DA /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				D71D934B152301F10043E573 /* CollectionDataModel.h */,
+				D71D934C15230A930043E573 /* DropboxDataModel.h */,
+				D71D934D15230A930043E573 /* DropboxDataModel.m */,
+				DB43382B169D2E09000353DA /* CachedCollectionDataModel.h */,
+				DB43382C169D2E09000353DA /* CachedCollectionDataModel.m */,
+			);
+			name = Collection;
 			sourceTree = "<group>";
 		};
 		DB4E0AC5163DCD1E00AB82E6 /* Models */ = {
@@ -830,6 +843,7 @@
 				DB225AC1164CD5D90094BFC9 /* XoomlCategoryParser.m in Sources */,
 				DB712C87164EF678008E68C6 /* CategoriesAction.m in Sources */,
 				DB712C8B164F42D1008E68C6 /* PreviewImageAction.m in Sources */,
+				DB43382D169D2E09000353DA /* CachedCollectionDataModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
