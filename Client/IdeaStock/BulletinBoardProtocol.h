@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Note.h"
+#import "NoteProtocol.h"
 
-@protocol BulletinBoard <NSObject>
+@protocol BulletinBoardProtocol <NSObject>
 
 
 @property (nonatomic,strong) NSString * bulletinBoardName;
@@ -33,10 +33,10 @@
 
  The method raises an exception if any of these info is miising. 
  */
--(void) addNoteContent: (id <Note>) note
+-(void) addNoteContent: (id <NoteProtocol>) note
          andProperties: (NSDictionary *) properties;
 
--(void) addImageNoteContent:(id <Note> )noteItem
+-(void) addImageNoteContent:(id <NoteProtocol> )noteItem
               andProperties:noteProperties
                    andImage: (NSData *) img;
 
@@ -149,7 +149,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
  */
 
 -(void) updateNoteContentOf: (NSString *) noteID
-              withContentsOf: (id <Note>) newNote;
+              withContentsOf: (id <NoteProtocol>) newNote;
 
 /*
  Changes the name of a note attribute with type attributeType for the note with NoteID from oldAttributeName to newAttributeName. 
@@ -213,7 +213,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 /*
  Returns the note contents of a note with noteID. 
  */
--(id <Note>) getNoteContent: (NSString *) noteID;
+-(id <NoteProtocol>) getNoteContent: (NSString *) noteID;
 
 /*
  Returns an array of noteIDs belonging to the attribute with attributeName and the type attributeType for the bulletin board. 

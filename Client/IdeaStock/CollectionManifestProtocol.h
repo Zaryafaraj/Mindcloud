@@ -12,7 +12,7 @@
  manifest of a collection describes the collections and its notes
  */
 
-@protocol CollectionManifest <NSObject>
+@protocol CollectionManifestProtocol <NSObject>
 
 /*
  Adds a note with properties specified in the properties dictioanry. 

@@ -143,8 +143,8 @@
 		D71D934B152301F10043E573 /* CollectionDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionDataSource.h; sourceTree = "<group>"; };
 		D71D934C15230A930043E573 /* DropboxDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxDataModel.h; sourceTree = "<group>"; };
 		D71D934D15230A930043E573 /* DropboxDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxDataModel.m; sourceTree = "<group>"; };
-		D71D934F15230B3D0043E573 /* BulletinBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletinBoard.h; sourceTree = "<group>"; };
-		D71D935015230B820043E573 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
+		D71D934F15230B3D0043E573 /* BulletinBoardProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletinBoardProtocol.h; sourceTree = "<group>"; };
+		D71D935015230B820043E573 /* NoteProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteProtocol.h; sourceTree = "<group>"; };
 		D71EA17D154BA19600496663 /* pile boardBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pile boardBig.png"; sourceTree = "<group>"; };
 		D71EA183154CD3FB00496663 /* CollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewController.h; sourceTree = "<group>"; };
 		D71EA184154CD3FB00496663 /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
@@ -215,7 +215,7 @@
 		D7F19836157189A1008DA24F /* Background_Blue.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Background_Blue.jpg; sourceTree = "<group>"; };
 		D7F1FF2A154D1A3300D07B58 /* NoteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoteView.h; path = ../NoteView.h; sourceTree = "<group>"; };
 		D7F1FF2B154D1A3300D07B58 /* NoteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoteView.m; path = ../NoteView.m; sourceTree = "<group>"; };
-		D7F85EAE1528D29E00F16D25 /* CollectionManifest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionManifest.h; sourceTree = "<group>"; };
+		D7F85EAE1528D29E00F16D25 /* CollectionManifestProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionManifestProtocol.h; sourceTree = "<group>"; };
 		D7F85EB21528D80300F16D25 /* XoomlCollectionManifest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XoomlCollectionManifest.h; path = ../XoomlCollectionManifest.h; sourceTree = "<group>"; };
 		D7F85EB31528D80300F16D25 /* XoomlCollectionManifest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XoomlCollectionManifest.m; path = ../XoomlCollectionManifest.m; sourceTree = "<group>"; };
 		D7FAD42E1534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxAssociativeBulletinBoardTests.h; sourceTree = "<group>"; };
@@ -566,15 +566,15 @@
 		DB43382A169D2D86000353DA /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				D71D935015230B820043E573 /* Note.h */,
+				D71D935015230B820043E573 /* NoteProtocol.h */,
 				D70947091523BDFE008E4AD9 /* CollectionNote.h */,
 				D709470A1523BDFE008E4AD9 /* CollectionNote.m */,
-				D71D934F15230B3D0043E573 /* BulletinBoard.h */,
+				D71D934F15230B3D0043E573 /* BulletinBoardProtocol.h */,
 				D7B1431F15268B4C00DC7556 /* CachedCollectionAttributes.h */,
 				D7B1432015268B4C00DC7556 /* CachedCollectionAttributes.m */,
 				D7F85EB21528D80300F16D25 /* XoomlCollectionManifest.h */,
 				D7F85EB31528D80300F16D25 /* XoomlCollectionManifest.m */,
-				D7F85EAE1528D29E00F16D25 /* CollectionManifest.h */,
+				D7F85EAE1528D29E00F16D25 /* CollectionManifestProtocol.h */,
 				D71D934B152301F10043E573 /* CollectionDataSource.h */,
 				D71D934C15230A930043E573 /* DropboxDataModel.h */,
 				D71D934D15230A930043E573 /* DropboxDataModel.m */,

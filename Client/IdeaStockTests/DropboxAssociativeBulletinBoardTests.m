@@ -86,7 +86,7 @@ DropBoxAssociativeBulletinBoard * board;
     
     //test note contents
     NSArray * noteObjects = [notes allValues];
-    for (id<Note> note in noteObjects){
+    for (id<NoteProtocol> note in noteObjects){
         NSString * noteText = note.noteText;
         STAssertEqualObjects(@"Note1Text1",noteText, @"Note text didn't get initiated properly");
     }

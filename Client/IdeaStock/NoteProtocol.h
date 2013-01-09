@@ -16,7 +16,7 @@
  The name of the note is used primaraly from the bulletin board who uses this note
  to identify it so its stored separately as metadata for the note. 
  */
-@protocol Note <NSObject>
+@protocol NoteProtocol <NSObject>
 
 @required
 @property (nonatomic,strong) NSString * noteText;

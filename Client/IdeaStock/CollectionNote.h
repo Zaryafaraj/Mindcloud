@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Note.h"
-@interface CollectionNote : NSObject <Note>
+#import "NoteProtocol.h"
+@interface CollectionNote : NSObject <NoteProtocol>
 
 -(CollectionNote *) initWithCreationDate: (NSString *) date;
 

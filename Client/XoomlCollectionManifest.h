@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CollectionManifest.h"
+#import "CollectionManifestProtocol.h"
 
 /*
  Provides functionality for working the xooml datamodel of the bulletin 
@@ -24,7 +24,7 @@
  has less perforamnce penality than keeping it in the xooml level. 
  */
 
-@interface XoomlCollectionManifest : NSObject <CollectionManifest>
+@interface XoomlCollectionManifest : NSObject <CollectionManifestProtocol>
 
 /*Convinience method*/
 + (NSData *) getEmptyBulletinBoardData;

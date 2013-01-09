@@ -94,9 +94,9 @@
  
  Properties of the bulletin board are among these data specific questions. 
  */
-@property (nonatomic,strong) id <CollectionManifest> delegate;
+@property (nonatomic,strong) id <CollectionManifestProtocol> delegate;
 
-@property (nonatomic,strong) id <CollectionManifest> dataSource;
+@property (nonatomic,strong) id <CollectionManifestProtocol> dataSource;
 
 @property BOOL actionInProgress;
 /*--------------------------------------------------
@@ -244,7 +244,7 @@ _needSynchronization;
                     andName: (NSString *) noteName
               andProperties: (NSDictionary *) noteInfos{
     
-    id <Note> noteObj = [XoomlManifestParser xoomlNoteFromXML:noteData];
+    id <NoteProtocol> noteObj = [XoomlManifestParser xoomlNoteFromXML:noteData];
     
     if ( !noteObj) return ;
     
@@ -447,7 +447,7 @@ _needSynchronization;
  
  -------------------------------------------------*/
 
--(void) addNoteContent: (id <Note>) note 
+-(void) addNoteContent: (id <NoteProtocol>) note 
           andProperties: (NSDictionary *) properties{
     
     //get note Name and note ID if they are not present throw an exception
@@ -496,7 +496,7 @@ _needSynchronization;
     self.needSynchronization = YES;
 }
 
-- (void) addImageNoteContent:(id <Note> )note 
+- (void) addImageNoteContent:(id <NoteProtocol> )note 
                andProperties:properties
                     andImage: (NSData *) img{
     //get note Name and note ID if they are not present throw an exception
@@ -638,7 +638,7 @@ toBulletinBoardAttribute:(NSString *)attributeName
 
 -(void) removeNoteWithID:(NSString *)delNoteID{
     
-    id <Note> note = (self.noteContents)[delNoteID];
+    id <NoteProtocol> note = (self.noteContents)[delNoteID];
     //if the note does not exist return
     if (!note) return;
     
@@ -737,10 +737,10 @@ fromBulletinBoardAttribute: (NSString *) attributeName
  -------------------------------------------------*/
 
 - (void) updateNoteContentOf:(NSString *)noteID 
-              withContentsOf:(id<Note>)newNote{
+              withContentsOf:(id<NoteProtocol>)newNote{
     
     //if noteID is inavlid return
-    id <Note> oldNote = (self.noteContents)[noteID];
+    id <NoteProtocol> oldNote = (self.noteContents)[noteID];
     if (!oldNote) return;
     
     //for attributes in newNote that a value is specified
@@ -855,7 +855,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     return [(self.noteAttributes)[noteID] getAllAttributeNamesForAttributeType:attributeType];
 }
 
-- (id <Note>) getNoteContent: (NSString *) noteID{
+- (id <NoteProtocol>) getNoteContent: (NSString *) noteID{
     return (self.noteContents)[noteID];
 }
 

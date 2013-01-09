@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BulletinBoard.h"
+#import "BulletinBoardProtocol.h"
 #import "CollectionDataSource.h"
-#import "CollectionManifest.h"
+#import "CollectionManifestProtocol.h"
 #import "CachedCollectionAttributes.h"
 #import "SynchronizedObject.h"
 
@@ -18,7 +18,7 @@
 #define LINKAGE @"linkage"
 #define POSITION @"position"
 
-@interface MindcloudCollection : NSObject <BulletinBoard>
+@interface MindcloudCollection : NSObject <BulletinBoardProtocol>
 
 /*
  Creates an internal model for the bulletin board which is empty 

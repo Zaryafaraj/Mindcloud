@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BulletinBoard.h"
-#import "Note.h"
+#import "BulletinBoardProtocol.h"
+#import "NoteProtocol.h"
 
 /**
  * The protocol for the datamodel. Includes essential behaviors for working 
