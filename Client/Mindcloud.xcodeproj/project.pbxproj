@@ -218,7 +218,7 @@
 		D7F1FF2A154D1A3300D07B58 /* NoteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoteView.h; path = ../NoteView.h; sourceTree = "<group>"; };
 		D7F1FF2B154D1A3300D07B58 /* NoteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoteView.m; path = ../NoteView.m; sourceTree = "<group>"; };
 		D7F85EAD1528CF7800F16D25 /* BulletinBoardDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletinBoardDatasource.h; sourceTree = "<group>"; };
-		D7F85EAE1528D29E00F16D25 /* BulletinBoardDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletinBoardDelegate.h; sourceTree = "<group>"; };
+		D7F85EAE1528D29E00F16D25 /* CollectionManifest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionManifest.h; sourceTree = "<group>"; };
 		D7F85EB21528D80300F16D25 /* XoomlBulletinBoardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XoomlBulletinBoardController.h; path = ../XoomlBulletinBoardController.h; sourceTree = "<group>"; };
 		D7F85EB31528D80300F16D25 /* XoomlBulletinBoardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XoomlBulletinBoardController.m; path = ../XoomlBulletinBoardController.m; sourceTree = "<group>"; };
 		D7FAD42E1534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxAssociativeBulletinBoardTests.h; sourceTree = "<group>"; };
@@ -373,7 +373,6 @@
 				D74E481E1524F3DF00BC8B9D /* XoomlAttributeHelper.h */,
 				D74E481F1524F3DF00BC8B9D /* XoomlAttributeHelper.m */,
 				D7F85EAD1528CF7800F16D25 /* BulletinBoardDatasource.h */,
-				D7F85EAE1528D29E00F16D25 /* BulletinBoardDelegate.h */,
 				D7AB7DE6152F6DB200FC6BC0 /* CallBackDataModel.h */,
 				D7440ECA157541A500C53F4A /* DropboxAction.h */,
 				D7440ECB157541A500C53F4A /* DropboxAction.m */,
@@ -585,6 +584,7 @@
 		DB43382A169D2D86000353DA /* Collection */ = {
 			isa = PBXGroup;
 			children = (
+				D7F85EAE1528D29E00F16D25 /* CollectionManifest.h */,
 				D71D934B152301F10043E573 /* CollectionDataModel.h */,
 				D71D934C15230A930043E573 /* DropboxDataModel.h */,
 				D71D934D15230A930043E573 /* DropboxDataModel.m */,

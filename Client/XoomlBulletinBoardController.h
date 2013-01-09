@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BulletinBoardDelegate.h"
+#import "CollectionManifest.h"
 #import "BulletinBoardDatasource.h"
 
 
@@ -26,7 +26,7 @@
  has less perforamnce penality than keeping it in the xooml level. 
  */
 
-@interface XoomlBulletinBoardController : NSObject <BulletinBoardDelegate, BulletinBoardDatasource>
+@interface XoomlBulletinBoardController : NSObject <CollectionManifest, BulletinBoardDatasource>
 
 + (NSData *) getEmptyBulletinBoardData;
 

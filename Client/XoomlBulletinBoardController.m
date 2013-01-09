@@ -373,7 +373,7 @@
     
     else return nil;
 }
--(NSDictionary *) getBulletinBoardAttributeInfo: (NSString *) attributeType{
+-(NSDictionary *) getCollectionAttributeInfo: (NSString *) attributeType{
     if ([attributeType isEqualToString:STACKING_TYPE]){
         return [self getStackingInfo];
     }
@@ -662,7 +662,7 @@ WithReferenceToNote: (NSString *) refNoteID{
     
 }
 
--(void) addBulletinBoardAttribute: (NSString *) attributeName 
+-(void) addCollectionAttribute: (NSString *) attributeName 
                           forType: (NSString *) attributeType 
                        withValues: (NSArray *) values{
     if ([attributeType isEqualToString:STACKING_TYPE]){
@@ -940,7 +940,7 @@ WithReferenceToNote: (NSString *) refNoteID{
 }
 
 -(void) deleteNote: (NSString *) noteID 
-fromBulletinBoardAttribute: (NSString *) 
+fromCollectionAttribute: (NSString *) 
 attributeName ofType:(NSString *) attributeType{
     
     if ([attributeType isEqualToString:STACKING_TYPE]){
@@ -994,7 +994,7 @@ attributeName ofType:(NSString *) attributeType{
     
 }
 
--(void) deleteBulletinBoardAttribute:(NSString *) attributeName 
+-(void) deleteCollectionAttribute:(NSString *) attributeName 
                               ofType: (NSString *) attributeType{
     if ([attributeType isEqualToString:STACKING_TYPE]){
         [self deleteStacking:attributeName];
@@ -1140,7 +1140,7 @@ attributeName ofType:(NSString *) attributeType{
     
 }
 
--(void) updateBulletinBoardAttributeName: (NSString *) oldAttributeName
+-(void) updateCollectionAttributeName: (NSString *) oldAttributeName
                                   ofType: (NSString *) attributeType 
                              withNewName: (NSString *) newAttributeName{
     if ([attributeType isEqualToString:STACKING_TYPE]){

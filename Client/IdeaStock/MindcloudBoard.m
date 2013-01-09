@@ -94,7 +94,7 @@
  
  Properties of the bulletin board are among these data specific questions. 
  */
-@property (nonatomic,strong) id <BulletinBoardDelegate> delegate;
+@property (nonatomic,strong) id <CollectionManifest> delegate;
 
 @property (nonatomic,strong) id <BulletinBoardDatasource> dataSource;
 
@@ -309,7 +309,7 @@ _needSynchronization;
 -(void) initiateStacking{
     
     //get the stacking information and fill out the stacking attributes
-    NSDictionary *stackingInfo = [self.delegate getBulletinBoardAttributeInfo:STACKING_TYPE];
+    NSDictionary *stackingInfo = [self.delegate getCollectionAttributeInfo:STACKING_TYPE];
     for (NSString * stackingName in stackingInfo){
         NSArray * refIDs = stackingInfo[stackingName];
         for (NSString * refID in refIDs){
@@ -324,7 +324,7 @@ _needSynchronization;
 -(void) initiateGrouping{
     
     //get the grouping information and fill out the grouping info
-    NSDictionary *groupingInfo = [self.delegate getBulletinBoardAttributeInfo:GROUPING_TYPE];
+    NSDictionary *groupingInfo = [self.delegate getCollectionAttributeInfo:GROUPING_TYPE];
     for (NSString * groupingName in groupingInfo){
         NSArray * refIDs = groupingInfo[groupingName];
         for (NSString * refID in refIDs){
@@ -611,7 +611,7 @@ forAttributeType: (NSString *) attributeType
     [self.bulletinBoardAttributes createAttributeWithName:attributeName forAttributeType:attributeType];
     
     //have the delegate reflect the change in its structure
-    [self.delegate addBulletinBoardAttribute:attributeName forType:attributeType withValues:@[]];
+    [self.delegate addCollectionAttribute:attributeName forType:attributeType withValues:@[]];
 }
 
 -(void) addNoteWithID:(NSString *)noteID 
@@ -625,7 +625,7 @@ toBulletinBoardAttribute:(NSString *)attributeName
     [self.bulletinBoardAttributes addValues:@[noteID] ToAttribute:attributeName forAttributeType:attributeType];
     
     //have the delegate reflect the change in its structure
-    [self.delegate addBulletinBoardAttribute:attributeName forType:attributeType withValues:@[noteID]];
+    [self.delegate addCollectionAttribute:attributeName forType:attributeType withValues:@[noteID]];
     
     self.needSynchronization = YES;
 }
@@ -710,7 +710,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
                               forAttributeType: attributeType];
     
     //reflect the change in the xooml structure
-    [self.delegate deleteNote:noteID fromBulletinBoardAttribute:attributeName ofType:attributeType];
+    [self.delegate deleteNote:noteID fromCollectionAttribute:attributeName ofType:attributeType];
     
     
     self.needSynchronization = YES;
@@ -724,7 +724,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     
     
     //reflect the change in the xooml structure
-    [self.delegate deleteBulletinBoardAttribute:attributeName ofType:attributeType];
+    [self.delegate deleteCollectionAttribute:attributeName ofType:attributeType];
     
     
     self.needSynchronization = YES;
@@ -822,7 +822,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     [self.bulletinBoardAttributes updateAttributeName: oldAttributeNAme ofType:attributeType withNewName:newAttributeName];
     
     //reflect the changes in the xooml data model
-    [self.delegate updateBulletinBoardAttributeName:oldAttributeNAme ofType:attributeType withNewName:newAttributeName];
+    [self.delegate updateCollectionAttributeName:oldAttributeNAme ofType:attributeType withNewName:newAttributeName];
     
     self.needSynchronization = YES;
 }

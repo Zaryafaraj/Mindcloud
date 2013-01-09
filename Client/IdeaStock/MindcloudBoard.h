@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "BulletinBoard.h"
 #import "CollectionDataModel.h"
-#import "BulletinBoardDelegate.h"
+#import "CollectionManifest.h"
 #import "BulletinBoardDatasource.h"
 #import "BulletinBoardAttributes.h"
 #import "SynchronizedObject.h"

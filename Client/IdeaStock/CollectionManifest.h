@@ -8,24 +8,12 @@
 #import <Foundation/Foundation.h>
 
 /*
- This protocol describes all the behavior that the bulletin board expects
- of a Xooml data to provide. 
- 
- Any added functionality to the bulletin board should implement this protocol
- and add its own functionality to it.
- 
- If you feel that the functionality to be added is abseloutly fundamental,
- feel free to add it here.
- 
+ A higher level representation of the manifest of a collection.
+ manifest of a collection describes the collections and its notes
  */
 
-//TODO the notes named with linkage, stacking, and grouping should be made private
-//a function selector should be used in the public functions to select are run them
-@protocol BulletinBoardDelegate <NSObject>
+@protocol CollectionManifest <NSObject>
 
-/*---------------------------------
- * Creation behavior
- *--------------------------------*/
 /*
  Adds a note with properties specified in the properties dictioanry. 
  
@@ -44,23 +32,13 @@
  This method assumes that the noteIDs that may be passed in the linkage
  property are valid. 
  */
-//TODO maybe the required properties should be passed as explicit attributes
-//It is easy for the user of the API to make mistakes and not pass implicit
-//properties
-
-@required
-- (void) addNoteWithID: (NSString *) id andProperties: (NSDictionary *)properties;
-
-@optional
+- (void) addNoteWithID: (NSString *) ID andProperties: (NSDictionary *)properties;
 
 /*
  Creates an  attribute of the type attributeType for the note 
  with attributeName and noteID.
  
- This method just checks to see if attributeType is valid and based 
- on that calls an associated add method. 
- 
- If the attributeName is invalid the method creates the attribute and then adds 
+ If the attributeName is invalid the method creates the attribute and then adds
  the note to it. 
  
  If the attribute is position the values passed shuold be : 
@@ -69,16 +47,13 @@
  
  If the values is an empty array, this method only creates and empty attribute. 
  */
-
-//TODO note position and other properties should be added here. 
 - (void) addNoteAttribute: (NSString *) attributeName
                   forType: (NSString *) attributeType 
                   forNote: (NSString *)noteID 
                withValues:(NSArray *) values;
 
 /*
- Creates an  attribute of the type attributeType for the note 
- with attributeName for the bulletinBoard.
+ Creates an  attribute of the type attributeType for the collection
  
  This method just checks to see if attributeType is valid and based 
  on that calls an associated add method. 
@@ -87,13 +62,10 @@
  
  If the values is an empty array, this method only creates and empty attribute. 
  */
-- (void) addBulletinBoardAttribute: (NSString *) attributeName 
+- (void) addCollectionAttribute: (NSString *) attributeName
                            forType: (NSString *) attributeType 
                         withValues: (NSArray *) values;
 
-/**---------------------------------
- * Deletion behavior
- *--------------------------------**/
 /*
  Deletes the note with ID noteID from the bulletin board. Deleting the note
  includes removing any reference ID to it from the list of all the attribute
@@ -104,7 +76,6 @@
  
  If noteID is not a valid noteID this method returns without doing anything.
  */
-@required
 - (void) deleteNote: (NSString *) noteID;
 
 /*
@@ -116,8 +87,7 @@
  
  If the specified parameters are invalid the method returns without doing anything.
  */
-@optional
-- (void) deleteNote:(NSString *) targetNoteID 
+- (void) deleteNote:(NSString *) targetNoteID
   fromNoteAttribute: (NSString *) attributeName 
              ofType: (NSString *) attributeType 
             forNote: (NSString *) sourceNoteID;
@@ -131,10 +101,9 @@
  
  If the specified parameters are invalid the method returns without doing anything.
  */
-@optional
 -(void) deleteNote: (NSString *) noteID 
-fromBulletinBoardAttribute: (NSString *) 
-attributeName ofType:(NSString *) attributeType;
+fromCollectionAttribute: (NSString *) attributeName
+            ofType:(NSString *) attributeType;
 
 /*
  Deletes the note attribute with attributeName and attributeType from the 
@@ -148,7 +117,6 @@ attributeName ofType:(NSString *) attributeType;
  
  If the specified parameters are invalid the method returns without doing anything.
  */
-@optional
 - (void) deleteNoteAttribute: (NSString *) attributeName
                       ofType: (NSString *) attributeType 
                     fromNote: (NSString *) noteID;
@@ -162,15 +130,8 @@ attributeName ofType:(NSString *) attributeType;
  
  If the specified parameters are invalid the method returns without doing anything.
  */
-@optional
-- (void) deleteBulletinBoardAttribute:(NSString *) attributeName 
+- (void) deleteCollectionAttribute:(NSString *) attributeName 
                                ofType: (NSString *) attributeType;
-
-
-
-/*---------------------------------
- * Updating behavior
- *--------------------------------**/
 
 /*
  Updates the note with noteID with the new properties that are passed
@@ -182,7 +143,6 @@ attributeName ofType:(NSString *) attributeType;
  
  If the noteID is invalid the method returns without doing anything.
  */
-@required
 - (void) updateNote: (NSString *) noteID 
      withProperties: (NSDictionary *)  newProperties;
 
@@ -196,7 +156,6 @@ attributeName ofType:(NSString *) attributeType;
  If noteID, attributeType, and oldAttributeName are invalid the method returns
  without doing anything. 
  */
-@optional
 - (void) updateNoteAttribute: (NSString *) oldAttributeName
                       ofType:(NSString *) attributeType 
                      forNote: (NSString *) noteID 
@@ -212,8 +171,7 @@ attributeName ofType:(NSString *) attributeType;
  If attributeType, and oldAttributeName are invalid the method returns
  without doing anything. 
  */
-@optional
-- (void) updateBulletinBoardAttributeName: (NSString *) oldAttributeName
+- (void) updateCollectionAttributeName: (NSString *) oldAttributeName
                                    ofType: (NSString *) attributeType 
                               withNewName: (NSString *) newAttributeName;
 
@@ -229,15 +187,10 @@ attributeName ofType:(NSString *) attributeType;
  If attributeType, and oldAttributeName are invalid the method returns
  without doing anything. 
  */
-@optional
 -(void) updateNoteAttribute: (NSString *) attributeName
                      ofType: (NSString *) attributeType 
                     forNote: (NSString *)noteID
                  withValues: (NSArray *) values;
-
-/**---------------------------------
- * Query behavior
- *--------------------------------**/
 
 /*
  This method returns a property list of all the note's information at the 
@@ -255,7 +208,6 @@ attributeName ofType:(NSString *) attributeType;
  This method does not gurauntee that all the keys are present in the dictionary. 
  
  */
-@required
 - (NSDictionary *) getAllNoteBasicInfo;
 
 /*
@@ -272,9 +224,8 @@ attributeName ofType:(NSString *) attributeType;
  If the noteID does not exist the method returns nil without doing anything.
  */
 
-@optional
 - (NSDictionary *) getNoteAttributeInfo: (NSString *) attributeType
-                                forNote: (NSString *)noteID;
+                                forNote: (NSString *) noteID;
 
 /*
  Returns all the attributes of attributeType for the bulletiboard
@@ -289,8 +240,7 @@ attributeName ofType:(NSString *) attributeType;
  
  If the noteID does not exist the method returns nil without doing anything.
  */
-@optional
-- (NSDictionary *) getBulletinBoardAttributeInfo: (NSString *) attributeType;
+- (NSDictionary *) getCollectionAttributeInfo: (NSString *) attributeType;
 
 
 @end
