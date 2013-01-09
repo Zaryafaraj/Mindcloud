@@ -8,7 +8,7 @@
 
 #import "StackViewController.h"
 #import "NoteView.h"
-#import "BulletinBoardNote.h"
+#import "CollectionNote.h"
 
 @interface StackViewController ()
 

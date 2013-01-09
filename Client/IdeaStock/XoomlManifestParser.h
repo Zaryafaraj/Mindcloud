@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BulletinBoardNote.h"
+#import "CollectionNote.h"
 #import "MindcloudCollection.h"
 #import "CachedCollectionAttributes.h"
 #import "DDXML.h"
@@ -30,7 +30,7 @@
  specified in data
  */
 //TODO maybe I should just return NSData * here too.
-+ (BulletinBoardNote *) xoomlNoteFromXML: (NSData *)data;
++ (CollectionNote *) xoomlNoteFromXML: (NSData *)data;
 
 
 + (DDXMLElement *) xoomlForAssociationToolAttributeWithName: (NSString *) attributeName 
@@ -65,11 +65,11 @@
 /*
  Converst the contents of a note object to Xooml xml data
  */
-+ (NSData *) convertNoteToXooml: (BulletinBoardNote *) note;
++ (NSData *) convertNoteToXooml: (CollectionNote *) note;
 
-+ (NSString *) getImageFileName: (BulletinBoardNote *) note;
++ (NSString *) getImageFileName: (CollectionNote *) note;
 
-+ (NSData *) convertImageNoteToXooml:(BulletinBoardNote *) note;
++ (NSData *) convertImageNoteToXooml:(CollectionNote *) note;
 /*
  Creates the boilerplate Xooml bulletin baord document
  and returns it as NSData

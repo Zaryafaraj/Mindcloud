@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 University of Washington. All rights reserved.
 //
 
-#import "BulletinBoardNote.h"
-#import "ManifestXoomlParser.h"
+#import "CollectionNote.h"
+#import "XoomlManifestParser.h"
 #import "XoomlAttributeHelper.h"
 
-@implementation BulletinBoardNote
+@implementation CollectionNote
 
 @synthesize noteText = _noteText;
 @synthesize noteTextID = _noteID;
@@ -18,29 +18,29 @@
 @synthesize modificationDate = _modificationDate;
 @synthesize image = _image;
 //Constructor for creating an empty note with the creationDate
--(BulletinBoardNote *) initWithCreationDate: (NSString *) date{
-    self = [[BulletinBoardNote alloc] init];
+-(CollectionNote *) initWithCreationDate: (NSString *) date{
+    self = [[CollectionNote alloc] init];
     self.creationDate = date;
     return self;
 }
 
--(BulletinBoardNote *) initEmptyNoteWithID: (NSString *) noteID{
-    self = [[BulletinBoardNote alloc] init];
+-(CollectionNote *) initEmptyNoteWithID: (NSString *) noteID{
+    self = [[CollectionNote alloc] init];
     self.noteTextID = noteID;
     return self;
 }
 
--(BulletinBoardNote *) initEmptyNoteWithID:(NSString *)noteID 
+-(CollectionNote *) initEmptyNoteWithID:(NSString *)noteID 
                                    andDate: (NSString *)date{
-    self = [[BulletinBoardNote alloc] init];
+    self = [[CollectionNote alloc] init];
     self.noteTextID = noteID;
     self.creationDate = date;
     return self;
 }
 
--(BulletinBoardNote *) initWithText: (NSString *) text{
+-(CollectionNote *) initWithText: (NSString *) text{
 
-    self = [[BulletinBoardNote alloc] init];
+    self = [[CollectionNote alloc] init];
     NSString * date = [XoomlAttributeHelper generateCurrentTimeForXooml];
     self.creationDate = date;
     self.modificationDate = date;

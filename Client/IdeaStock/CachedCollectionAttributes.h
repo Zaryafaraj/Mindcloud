@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 
 /**
- * This is a class for holding all the attributes belonging to a bulletin board.
- * These attributes can belong to a single note or the whole bulletinBoard. 
- * 
+ * This is a class for holding all the attributes belonging to a collection.
+ * These attributes can belong to a single note in the collection or the whole collection.
+ * Note that these attributes are the one's that appear in the collection manifest xooml. 
+ * Those note specific attributes that appear in note manifest should not be kept here.
+ 
  * This class can be thought of as a data structure that holds values for different attribute names and types cached in memory instead of looking them up each time in the xml file. 
  * We accept the burden of cache synchronization just to be better at performance.
  * Attributes are the same if they have the same name and type. 
@@ -23,14 +25,7 @@
  *Each attribute can have multiple values but it has at least one value. 
  */
 
-
 @interface CachedCollectionAttributes : NSObject
-
-/*--------------------------------------------------
-
-                    Creation
- 
- -------------------------------------------------*/
 
 /*
  Create empty dictionaries to hold attribute names . Each dictionary is keyed on
@@ -67,13 +62,6 @@
        ToAttribute: (NSString *)attributeName
   forAttributeType: (NSString *) attributeType;
 
-
-/*--------------------------------------------------
-                       
-                        Query
- 
- -------------------------------------------------*/
-
 /*
  returns all the attributes of Type attributeType as an NSArray of
  NSString containing attribute names.
@@ -94,11 +82,6 @@
                   forAttributeType: (NSString *) attributeType;
 
 -(NSDictionary *) getAllAttributes;
-/*--------------------------------------------------
- 
-                        Deletion
- 
- -------------------------------------------------*/
 
 /*
  Removes all the values specified in the values array (which is an array of NSString)
@@ -131,12 +114,6 @@
  of any attribute with any name and type.
  */
 -(void) removeAllOccurancesOfValue: (NSString *) value;
-
-/*--------------------------------------------------
- 
-                    Updating
- 
- -------------------------------------------------*/
 
 /*
  Updates the name of the attribue with attributeName and the type attributeType 

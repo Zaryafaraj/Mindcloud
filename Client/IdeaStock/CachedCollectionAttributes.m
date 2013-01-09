@@ -20,27 +20,12 @@
  for example. attribute["Stack"]["StackName1] returns and array of all the noteIDs that bleong to the attribute stackName1 of type Stack. 
  */
 
-/*--------------------------------------------------
-                        Model
- -------------------------------------------------*/
 
 @property (nonatomic,strong) NSMutableDictionary * attributes;
 
 @end
 
 @implementation CachedCollectionAttributes
-
-/*--------------------------------------------------
-                    Synthesizers
- -------------------------------------------------*/
-
-@synthesize attributes = _attributes;
-
-/*--------------------------------------------------
- 
-                    Creation
-
- -------------------------------------------------*/
 
 -(id) initWithAttributes: (NSArray *)attributeTypes{
     self = [super init];
@@ -81,12 +66,6 @@
     
 }
 
-/*--------------------------------------------------
- 
-                        Query
- 
- -------------------------------------------------*/
-
 -(NSDictionary *) getAllAttributeNamesForAttributeType: (NSString *) attributeType{
     NSDictionary * result = [(self.attributes)[attributeType] copy];
     return result;
@@ -101,12 +80,6 @@
 -(NSDictionary *) getAllAttributes{
     return [self.attributes copy];
 }
-
-/*--------------------------------------------------
- 
-                        Deletion
- 
- -------------------------------------------------*/
 
 -(void) removeValues: (NSArray *) values
         fromAttribute: (NSString *) attributeName
@@ -132,13 +105,6 @@
         }
     }
 }
-
-
-/*--------------------------------------------------
- 
-                        Updating
- 
- -------------------------------------------------*/
 
 -(void) updateAttributeName : (NSString *) attributeName 
                        ofType: (NSString *) attributeType 
@@ -169,6 +135,5 @@
     [(self.attributes)[attributeType][attributeName] addObjectsFromArray:newValues];
     
 }
-
 
 @end

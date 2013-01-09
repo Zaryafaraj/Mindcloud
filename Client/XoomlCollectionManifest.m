@@ -8,7 +8,7 @@
 
 #import "XoomlCollectionManifest.h"
 #import "DDXML.h"
-#import "ManifestXoomlParser.h"
+#import "XoomlManifestParser.h"
 
 
 @interface XoomlCollectionManifest()
@@ -65,7 +65,7 @@
     
     //use this helper method to create xooml
     //for an empty bulletinboard
-    NSData * emptyBulletinBoardDate =[ManifestXoomlParser getEmptyBulletinBoardXooml];
+    NSData * emptyBulletinBoardDate =[XoomlManifestParser getEmptyBulletinBoardXooml];
     
     //call designated initializer
     self = [self initWithData:emptyBulletinBoardDate];
@@ -79,7 +79,7 @@
 }
 
 +(NSData *) getEmptyBulletinBoardData{
-    return [ManifestXoomlParser getEmptyBulletinBoardXooml];
+    return [XoomlManifestParser getEmptyBulletinBoardXooml];
 }
 
 #pragma mark - Query
@@ -89,7 +89,7 @@
 -(DDXMLElement *) getNoteElementFor: (NSString *) noteID{
     //get the note fragment using xpath
     
-    NSString * xPath = [ManifestXoomlParser xPathforNote:noteID];
+    NSString * xPath = [XoomlManifestParser xPathforNote:noteID];
     NSError * err;
     NSArray *notes = [self.document.rootElement nodesForXPath: xPath error: &err];
     
@@ -178,7 +178,7 @@
 
 -(NSDictionary *) getStackingInfo{
     //get All the stackings
-    NSString * xPath = [ManifestXoomlParser xPathForBulletinBoardAttribute:STACKING_TYPE];
+    NSString * xPath = [XoomlManifestParser xPathForBulletinBoardAttribute:STACKING_TYPE];
     
     NSError * err;
     NSMutableArray *attribtues = [[self.document nodesForXPath: xPath error: &err]  mutableCopy];
@@ -232,7 +232,7 @@
 -(NSDictionary *) getGroupingInfo{
     
     //get All the grouping
-    NSString * xPath = [ManifestXoomlParser xPathForBulletinBoardAttribute:GROUPING_TYPE];
+    NSString * xPath = [XoomlManifestParser xPathForBulletinBoardAttribute:GROUPING_TYPE];
     
     
     NSError * err;
@@ -268,7 +268,7 @@
     NSMutableDictionary * answer = [NSMutableDictionary dictionary];
     
     //get all the notes
-    NSString * xPath = [ManifestXoomlParser xPathForAllNotes];
+    NSString * xPath = [XoomlManifestParser xPathForAllNotes];
     NSError * err;
     NSArray *notes = [self.document nodesForXPath: xPath error: &err];
     
@@ -350,7 +350,7 @@ WithReferenceToNote: (NSString *) refNoteID{
     if (!noteNode) return;
     
     
-    DDXMLNode * noteRef = [ManifestXoomlParser xoomlForNoteRef: refNoteID];
+    DDXMLNode * noteRef = [XoomlManifestParser xoomlForNoteRef: refNoteID];
     //see if there already exists a linkage attribute and if so
     //add the noteRef to that element
     for (DDXMLElement * noteChild in [noteNode children]){
@@ -364,7 +364,7 @@ WithReferenceToNote: (NSString *) refNoteID{
     
     //a note linkage with the given name does not exist so we have to 
     //create it 
-    DDXMLElement * linkageElement = [ManifestXoomlParser xoomlForAssociationToolAttributeWithName:linkageName andType:LINKAGE_TYPE];
+    DDXMLElement * linkageElement = [XoomlManifestParser xoomlForAssociationToolAttributeWithName:linkageName andType:LINKAGE_TYPE];
     [linkageElement addChild:noteRef];
     [noteNode addChild:linkageElement];
 }
@@ -384,7 +384,7 @@ WithReferenceToNote: (NSString *) refNoteID{
 -(void) addStackingWithName: (NSString *) stackingName
                   withNotes: (NSArray *) notes{
     
-    NSString * xPath = [ManifestXoomlParser xPathForFragmentAttributeWithName:stackingName andType:STACKING_TYPE];
+    NSString * xPath = [XoomlManifestParser xPathForFragmentAttributeWithName:stackingName andType:STACKING_TYPE];
     
     NSError * err;
     NSMutableArray *stacking = [[self.document nodesForXPath: xPath error: &err] mutableCopy];
@@ -402,9 +402,9 @@ WithReferenceToNote: (NSString *) refNoteID{
     //if the stacking doesn't exist create it
     if (stacking == nil || [stacking count] == 0) {
         
-        DDXMLElement * stackingElement = [ManifestXoomlParser xoomlForFragmentToolAttributeWithName:stackingName andType:STACKING_TYPE];
+        DDXMLElement * stackingElement = [XoomlManifestParser xoomlForFragmentToolAttributeWithName:stackingName andType:STACKING_TYPE];
         for (NSString * noteID in notes){
-            DDXMLNode * note = [ManifestXoomlParser xoomlForNoteRef:noteID];
+            DDXMLNode * note = [XoomlManifestParser xoomlForNoteRef:noteID];
             [stackingElement addChild:note];
         }
         
@@ -414,7 +414,7 @@ WithReferenceToNote: (NSString *) refNoteID{
         
         DDXMLElement * stackingElement = [stacking lastObject];
         for (NSString * noteID in notes){
-            DDXMLNode * note = [ManifestXoomlParser xoomlForNoteRef:noteID];
+            DDXMLNode * note = [XoomlManifestParser xoomlForNoteRef:noteID];
             [stackingElement addChild:note];
         }
     }
@@ -434,9 +434,9 @@ WithReferenceToNote: (NSString *) refNoteID{
  */
 -(void) addGroupingWithName: (NSString *) groupingName
                   withNotes: (NSArray *) notes{
-    DDXMLElement * groupingElement = [ManifestXoomlParser xoomlForFragmentToolAttributeWithName:groupingName andType:GROUPING_TYPE];
+    DDXMLElement * groupingElement = [XoomlManifestParser xoomlForFragmentToolAttributeWithName:groupingName andType:GROUPING_TYPE];
     for (NSString * noteID in notes){
-        DDXMLNode * note = [ManifestXoomlParser xoomlForNoteRef:noteID];
+        DDXMLNode * note = [XoomlManifestParser xoomlForNoteRef:noteID];
         [groupingElement addChild:note];
     }
     [[self.document rootElement] addChild:groupingElement];
@@ -457,7 +457,7 @@ WithReferenceToNote: (NSString *) refNoteID{
      toStacking: (NSString *) stackingName{
     
     //get the xpath for the required attribute
-    NSString * xPath = [ManifestXoomlParser xPathForFragmentAttributeWithName:stackingName andType:STACKING_TYPE];
+    NSString * xPath = [XoomlManifestParser xPathForFragmentAttributeWithName:stackingName andType:STACKING_TYPE];
     
     NSError * err;
     NSArray *attribtues = [self.document nodesForXPath: xPath error: &err];
@@ -471,7 +471,7 @@ WithReferenceToNote: (NSString *) refNoteID{
     }
     
     DDXMLElement * bulletinBoardAttribute = [attribtues lastObject];
-    DDXMLNode * noteRef = [ManifestXoomlParser xoomlForNoteRef:noteID];
+    DDXMLNode * noteRef = [XoomlManifestParser xoomlForNoteRef:noteID];
     [bulletinBoardAttribute addChild:noteRef];
 }
 
@@ -489,7 +489,7 @@ WithReferenceToNote: (NSString *) refNoteID{
 -(void) addNote: (NSString *) noteID
      toGrouping: (NSString *) groupingName{
     //get the xpath for the required attribute
-    NSString * xPath = [ManifestXoomlParser xPathForFragmentAttributeWithName:groupingName andType:GROUPING_TYPE];
+    NSString * xPath = [XoomlManifestParser xPathForFragmentAttributeWithName:groupingName andType:GROUPING_TYPE];
     
     NSError * err;
     NSArray *attribtues = [self.document nodesForXPath: xPath error: &err];
@@ -503,7 +503,7 @@ WithReferenceToNote: (NSString *) refNoteID{
     }
     
     DDXMLElement * bulletinBoardAttribute = [attribtues lastObject];
-    DDXMLNode * noteRef = [ManifestXoomlParser xoomlForNoteRef:noteID];
+    DDXMLNode * noteRef = [XoomlManifestParser xoomlForNoteRef:noteID];
     [bulletinBoardAttribute addChild:noteRef];
 }
 
@@ -519,13 +519,13 @@ WithReferenceToNote: (NSString *) refNoteID{
     if (!noteName || !positionX || !positionY || !isVisible) return;
     
     //create the note node
-    DDXMLElement * noteNode = [ManifestXoomlParser xoomlForBulletinBoardNote:noteId andName:noteName];
+    DDXMLElement * noteNode = [XoomlManifestParser xoomlForBulletinBoardNote:noteId andName:noteName];
     
     
     //create the position attribute
-    DDXMLElement * associationAttribute = [ManifestXoomlParser xoomlForAssociationToolAttributeWithType:POSITION_TYPE];
+    DDXMLElement * associationAttribute = [XoomlManifestParser xoomlForAssociationToolAttributeWithType:POSITION_TYPE];
     //create the position property itself
-    DDXMLNode * noteProperty = [ManifestXoomlParser xoomlForNotePositionX:positionX andPositionY:positionY withVisibility:isVisible];
+    DDXMLNode * noteProperty = [XoomlManifestParser xoomlForNotePositionX:positionX andPositionY:positionY withVisibility:isVisible];
     //put the nodes into the hierarchy
     [associationAttribute addChild:noteProperty];
     [noteNode addChild: associationAttribute];
@@ -569,8 +569,8 @@ WithReferenceToNote: (NSString *) refNoteID{
         DDXMLElement * note = [self getNoteElementFor:noteID];
         
         //create the position attribute
-        DDXMLElement * associationAttribute = [ManifestXoomlParser xoomlForAssociationToolAttributeWithType:POSITION_TYPE];
-        DDXMLNode * noteProperty = [ManifestXoomlParser xoomlForNotePositionX:positionX andPositionY:positionY withVisibility:isVisible];
+        DDXMLElement * associationAttribute = [XoomlManifestParser xoomlForAssociationToolAttributeWithType:POSITION_TYPE];
+        DDXMLNode * noteProperty = [XoomlManifestParser xoomlForNotePositionX:positionX andPositionY:positionY withVisibility:isVisible];
         //put the nodes into the hierarchy
         [associationAttribute addChild:noteProperty];
         [note addChild: associationAttribute];
@@ -663,7 +663,7 @@ WithReferenceToNote: (NSString *) refNoteID{
  */
 -(void) deleteStacking: (NSString *) stackingName{
     
-    NSString * xPath = [ManifestXoomlParser xPathForFragmentAttributeWithName:stackingName andType:STACKING_TYPE];
+    NSString * xPath = [XoomlManifestParser xPathForFragmentAttributeWithName:stackingName andType:STACKING_TYPE];
     
     NSError * err;
     NSMutableArray *stacking = [[self.document nodesForXPath: xPath error: &err] mutableCopy];
@@ -696,7 +696,7 @@ WithReferenceToNote: (NSString *) refNoteID{
       fromStacking: (NSString *) stackingName{
     
     
-    NSString * xPath = [ManifestXoomlParser xPathForFragmentAttributeWithName:stackingName andType:STACKING_TYPE];
+    NSString * xPath = [XoomlManifestParser xPathForFragmentAttributeWithName:stackingName andType:STACKING_TYPE];
     
     
     NSError * err;
@@ -733,7 +733,7 @@ WithReferenceToNote: (NSString *) refNoteID{
  */
 -(void) deleteGrouping: (NSString *) groupingName{
     
-    NSString * xPath = [ManifestXoomlParser xPathForFragmentAttributeWithName:groupingName andType:GROUPING_TYPE];
+    NSString * xPath = [XoomlManifestParser xPathForFragmentAttributeWithName:groupingName andType:GROUPING_TYPE];
     
     NSError * err;
     NSArray *attribtues = [self.document nodesForXPath: xPath error: &err];
@@ -756,7 +756,7 @@ WithReferenceToNote: (NSString *) refNoteID{
 -(void) deleteNote: (NSString *) noteID
       fromGrouping: (NSString *) groupingName{
     
-    NSString * xPath = [ManifestXoomlParser xPathForFragmentAttributeWithName:groupingName andType:GROUPING_TYPE];
+    NSString * xPath = [XoomlManifestParser xPathForFragmentAttributeWithName:groupingName andType:GROUPING_TYPE];
     
     NSError * err;
     NSArray *attribtues = [self.document nodesForXPath: xPath error: &err];
@@ -932,7 +932,7 @@ attributeName ofType:(NSString *) attributeType{
  */
 -(void) updateStackingName: (NSString *) stackingName
                withNewName: (NSString *) newStackingName{
-    NSString * xPath = [ManifestXoomlParser xPathForFragmentAttributeWithName:stackingName andType:STACKING_TYPE];
+    NSString * xPath = [XoomlManifestParser xPathForFragmentAttributeWithName:stackingName andType:STACKING_TYPE];
     
     NSError * err;
     NSArray *attribtues = [self.document nodesForXPath: xPath error: &err];
@@ -952,7 +952,7 @@ attributeName ofType:(NSString *) attributeType{
  */
 -(void) updateGroupingName: (NSString *) groupingName
                withNewName: (NSString *) newGroupingName{
-    NSString * xPath = [ManifestXoomlParser xPathForFragmentAttributeWithName:groupingName andType:GROUPING_TYPE];
+    NSString * xPath = [XoomlManifestParser xPathForFragmentAttributeWithName:groupingName andType:GROUPING_TYPE];
     
     NSError * err;
     NSArray *attribtues = [self.document nodesForXPath: xPath error: &err];

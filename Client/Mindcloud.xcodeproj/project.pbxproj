@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		D703754D1570914A0079A2C7 /* greenchalkboard.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D703754C1570914A0079A2C7 /* greenchalkboard.jpg */; };
 		D703754F157091C40079A2C7 /* skybacground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D703754E157091C40079A2C7 /* skybacground.jpg */; };
-		D709470B1523BDFE008E4AD9 /* BulletinBoardNote.m in Sources */ = {isa = PBXBuildFile; fileRef = D709470A1523BDFE008E4AD9 /* BulletinBoardNote.m */; };
+		D709470B1523BDFE008E4AD9 /* CollectionNote.m in Sources */ = {isa = PBXBuildFile; fileRef = D709470A1523BDFE008E4AD9 /* CollectionNote.m */; };
 		D70947231523DC27008E4AD9 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D70947161523DC27008E4AD9 /* DDXMLElementAdditions.m */; };
 		D70947241523DC27008E4AD9 /* NSString+DDXML.m in Sources */ = {isa = PBXBuildFile; fileRef = D70947191523DC27008E4AD9 /* NSString+DDXML.m */; };
 		D70947251523DC27008E4AD9 /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = D709471C1523DC27008E4AD9 /* DDXMLDocument.m */; };
@@ -119,8 +119,8 @@
 /* Begin PBXFileReference section */
 		D703754C1570914A0079A2C7 /* greenchalkboard.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = greenchalkboard.jpg; sourceTree = "<group>"; };
 		D703754E157091C40079A2C7 /* skybacground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = skybacground.jpg; sourceTree = "<group>"; };
-		D70947091523BDFE008E4AD9 /* BulletinBoardNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletinBoardNote.h; sourceTree = "<group>"; };
-		D709470A1523BDFE008E4AD9 /* BulletinBoardNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BulletinBoardNote.m; sourceTree = "<group>"; };
+		D70947091523BDFE008E4AD9 /* CollectionNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionNote.h; sourceTree = "<group>"; };
+		D709470A1523BDFE008E4AD9 /* CollectionNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionNote.m; sourceTree = "<group>"; };
 		D70947151523DC27008E4AD9 /* DDXMLElementAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElementAdditions.h; sourceTree = "<group>"; };
 		D70947161523DC27008E4AD9 /* DDXMLElementAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLElementAdditions.m; sourceTree = "<group>"; };
 		D70947181523DC27008E4AD9 /* NSString+DDXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DDXML.h"; sourceTree = "<group>"; };
@@ -353,18 +353,10 @@
 		D709472B15242BA4008E4AD9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DB4338A2169D5400000353DA /* Mixins */,
 				DB4338A1169D5169000353DA /* Helpers */,
 				DB43382A169D2D86000353DA /* Models */,
 				DB225ABD164CD5B70094BFC9 /* Parsers */,
-				D75820EF1532C8EC00F2617E /* QueueProducer.h */,
-				D7440EC81574C3E700C53F4A /* DropboxActionController.h */,
-				D71D935015230B820043E573 /* Note.h */,
-				D70947091523BDFE008E4AD9 /* BulletinBoardNote.h */,
-				D709470A1523BDFE008E4AD9 /* BulletinBoardNote.m */,
-				D7AB7DE6152F6DB200FC6BC0 /* CallBackDataModel.h */,
-				D7440ECA157541A500C53F4A /* DropboxAction.h */,
-				D7440ECB157541A500C53F4A /* DropboxAction.m */,
-				DB433829169CF6CC000353DA /* SynchronizedObject.h */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -574,6 +566,9 @@
 		DB43382A169D2D86000353DA /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D71D935015230B820043E573 /* Note.h */,
+				D70947091523BDFE008E4AD9 /* CollectionNote.h */,
+				D709470A1523BDFE008E4AD9 /* CollectionNote.m */,
 				D71D934F15230B3D0043E573 /* BulletinBoard.h */,
 				D7B1431F15268B4C00DC7556 /* CachedCollectionAttributes.h */,
 				D7B1432015268B4C00DC7556 /* CachedCollectionAttributes.m */,
@@ -596,6 +591,19 @@
 				D74E481F1524F3DF00BC8B9D /* XoomlAttributeHelper.m */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		DB4338A2169D5400000353DA /* Mixins */ = {
+			isa = PBXGroup;
+			children = (
+				D75820EF1532C8EC00F2617E /* QueueProducer.h */,
+				D7440EC81574C3E700C53F4A /* DropboxActionController.h */,
+				D7AB7DE6152F6DB200FC6BC0 /* CallBackDataModel.h */,
+				D7440ECA157541A500C53F4A /* DropboxAction.h */,
+				D7440ECB157541A500C53F4A /* DropboxAction.m */,
+				DB433829169CF6CC000353DA /* SynchronizedObject.h */,
+			);
+			name = Mixins;
 			sourceTree = "<group>";
 		};
 		DB4E0AC5163DCD1E00AB82E6 /* Models */ = {
@@ -813,7 +821,7 @@
 				D7A53CFD1522F39500183CB6 /* main.m in Sources */,
 				D7A53D011522F39500183CB6 /* IdeaStockAppDelegate.m in Sources */,
 				D71D934E15230A930043E573 /* DropboxDataModel.m in Sources */,
-				D709470B1523BDFE008E4AD9 /* BulletinBoardNote.m in Sources */,
+				D709470B1523BDFE008E4AD9 /* CollectionNote.m in Sources */,
 				D70947231523DC27008E4AD9 /* DDXMLElementAdditions.m in Sources */,
 				D70947241523DC27008E4AD9 /* NSString+DDXML.m in Sources */,
 				D70947251523DC27008E4AD9 /* DDXMLDocument.m in Sources */,

@@ -11,7 +11,7 @@
 #import "NoteView.h"
 #import "StackView.h"
 #import "StackViewController.h"
-#import "BulletinBoardNote.h"
+#import "CollectionNote.h"
 #import "XoomlAttributeHelper.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "ImageView.h"
@@ -199,7 +199,7 @@
     NSStream * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
     
     NSDictionary * noteProperties =@{@"name": noteName,@"ID": noteID,@"positionX": positionX,@"positionY": positionY,@"isVisible": @"true"};
-    BulletinBoardNote * noteItem = [[BulletinBoardNote alloc] initEmptyNoteWithID:noteTextID andDate:creationDate];
+    CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteTextID andDate:creationDate];
     noteItem.noteText = note.text;
     
     [self.board addNoteContent:noteItem andProperties:noteProperties];
@@ -222,7 +222,7 @@
     NSStream * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
     
     NSDictionary * noteProperties =@{@"name": noteName,@"ID": noteID,@"positionX": positionX,@"positionY": positionY,@"isVisible": @"true"};
-    BulletinBoardNote * noteItem = [[BulletinBoardNote alloc] initEmptyNoteWithID:noteTextID andDate:creationDate];
+    CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteTextID andDate:creationDate];
     noteItem.noteText = note.text;
     NSData * imgData = UIImageJPEGRepresentation(note.image, IMG_COMPRESSION_QUALITY);
     
@@ -318,7 +318,7 @@
     
     
     for(NSString* noteID in [allNotes allKeys]){
-        BulletinBoardNote * noteObj = allNotes[noteID];
+        CollectionNote * noteObj = allNotes[noteID];
         NSDictionary * noteAttributes = [self.board getAllNoteAttributesForNote:noteID];
         NSDictionary * position = noteAttributes[@"position"];
         float positionX = [[position[@"positionX"] lastObject] floatValue];
@@ -1207,7 +1207,7 @@
     
     NoteView * noteView = (NoteView *)note;
     NSString * noteId = noteView.ID;
-    BulletinBoardNote * newNoteObj = [[BulletinBoardNote alloc] initWithText:text];
+    CollectionNote * newNoteObj = [[CollectionNote alloc] initWithText:text];
     [self.board updateNoteContentOf:noteId withContentsOf:newNoteObj];
     
     

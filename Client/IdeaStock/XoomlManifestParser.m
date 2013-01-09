@@ -79,7 +79,7 @@
  
  -------------------------------------------------*/
 
-+ (BulletinBoardNote *) xoomlNoteFromXML:(NSData *)data{
++ (CollectionNote *) xoomlNoteFromXML:(NSData *)data{
     
     //open the XML document
     NSError *err = nil;
@@ -109,7 +109,7 @@
     //TODO handle tool specific note properties by looking up the child nodes of the noteXML here
     
     //get note properties from the attributes
-    BulletinBoardNote * note = [[BulletinBoardNote alloc] init];
+    CollectionNote * note = [[CollectionNote alloc] init];
     note.noteText = [[noteXML attributeForName: NOTE_TEXT] stringValue];
     note.noteTextID = [[noteXML attributeForName: NOTE_ID] stringValue];
     note.creationDate = [[noteXML attributeForName: NOTE_CREATION_DATE] stringValue];
@@ -124,7 +124,7 @@
 }
 
 
-+ (NSData *) convertNoteToXooml: (BulletinBoardNote *) note{
++ (NSData *) convertNoteToXooml: (CollectionNote *) note{
     
     //create the root element (xooml:fragment) and fill out its attributes
     DDXMLElement * root = [[DDXMLElement alloc] initWithName: XOOML_FRAGMENT];
@@ -190,12 +190,12 @@
     
 }
 
-+(NSString *) getImageFileName: (BulletinBoardNote *) note{
++(NSString *) getImageFileName: (CollectionNote *) note{
     return [note.noteTextID stringByAppendingString:@".jpg"];
 
 }
 
-+(NSData *) convertImageNoteToXooml:(BulletinBoardNote *)note{
++(NSData *) convertImageNoteToXooml:(CollectionNote *)note{
     //create the root element (xooml:fragment) and fill out its attributes
     DDXMLElement * root = [[DDXMLElement alloc] initWithName: XOOML_FRAGMENT];
     

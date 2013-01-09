@@ -248,8 +248,8 @@ _needSynchronization;
     
     if ( !noteObj) return ;
     
-    if ([noteObj isKindOfClass:[BulletinBoardNote class]]){
-        NSString * imgName = ((BulletinBoardNote *) noteObj).image;
+    if ([noteObj isKindOfClass:[CollectionNote class]]){
+        NSString * imgName = ((CollectionNote *) noteObj).image;
         if (imgName != nil){
             NSString * imgPath = [FileSystemHelper getPathForImageWithName:imgName forNoteName:noteName inBulletinBoard:self.bulletinBoardName];
             if (imgPath != nil && ![imgPath isEqualToString:@""]){
