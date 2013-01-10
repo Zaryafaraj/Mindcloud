@@ -14,6 +14,7 @@
 #import "CollectionCell.h"
 #import "IIViewDeckController.h"
 #import "XoomlCategoryParser.h"
+#import "CachedCollectionDataSource.h"
 
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
@@ -124,7 +125,8 @@
     if ([segue.identifier isEqualToString:@"bulletinBoardSegue"]){
         
         NSString * name = ((UILabel *)[((UIView *) sender) subviews][0]).text;
-        MindcloudCollection * board = [[MindcloudCollection alloc] initBulletinBoardFromXoomlWithName:name];
+        MindcloudCollection * board =
+        [[MindcloudCollection alloc] initCollection:name withDataSource:[[CachedCollectionDataSource alloc] init]];
         ((CollectionViewController *) segue.destinationViewController).bulletinBoardName = name;
         ((CollectionViewController *) segue.destinationViewController).parent = self;
         ((CollectionViewController *) segue.destinationViewController).board = board;

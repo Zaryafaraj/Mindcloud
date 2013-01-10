@@ -15,6 +15,7 @@
 #import "XoomlAttributeHelper.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "ImageView.h"
+#import "CachedCollectionDataSource.h"
 
 @interface CollectionViewController ()
 
@@ -54,7 +55,7 @@
 -(MindcloudCollection *) board{
     
     if (!_board){
-        _board = [[MindcloudCollection alloc] initBulletinBoardFromXoomlWithName:self.bulletinBoardName];
+        _board = [[MindcloudCollection alloc] initCollection:self.bulletinBoardName withDataSource:[[CachedCollectionDataSource alloc] init]];
     }
     return _board;
 }
@@ -1101,7 +1102,8 @@
     if (self.isRefreshing) return;
     
     self.isRefreshing = YES;
-    self.board = [[MindcloudCollection alloc] initBulletinBoardFromXoomlWithName:self.bulletinBoardName];
+    self.board = [[MindcloudCollection alloc] initCollection:self.bulletinBoardName
+                                               withDataSource:[[CachedCollectionDataSource alloc] init]];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(loadSavedNotes:)
                                                  name:@"BulletinBoardLoaded" 
