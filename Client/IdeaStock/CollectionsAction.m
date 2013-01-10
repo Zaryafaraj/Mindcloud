@@ -97,7 +97,7 @@
 {
     [self.request setHTTPMethod:@"PUT"];
     NSString * url = [self.request.URL absoluteString];
-    url = [url stringByAppendingFormat:@"/%@",self.deleteResource];
+    url = [url stringByAppendingFormat:@"/%@",self.putResource];
     url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     self.request.URL = [NSURL URLWithString:url];
     self.request = [HTTPHelper addPutParams:self.putArguments to:self.request];

@@ -51,7 +51,9 @@
 
 - (NSData *) getCollection: (NSString *) collectionName
 {
-    //Try to get the collection from disk
+    NSData * cachedData = [self getCollectionFromDisk:collectionName];
+    //whatever is cached we try to retreive the collection again
+    
     
 }
 
@@ -72,16 +74,16 @@
     
     NSString * path = [FileSystemHelper getPathForCollectionWithName: collectionName];
     NSError * err;
-    NSString *data = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
+    NSString *data = [NSString stringWithContentsOfFile:path
+                                               encoding:NSUTF8StringEncoding
+                                                  error:&err];
     if (!data){
-        NSLog(@"Failed to read file from disk: %@", err);
         return nil;
     }
     
-    NSLog(@"BulletinBoard : %@ read successful", collectionName);
+    NSLog(@"BulletinBoard : %@ read from disk", collectionName);
     
     return [data dataUsingEncoding:NSUTF8StringEncoding];
-    
 }
 
 -(NSData *) getNoteDataForNote: (NSString *) noteName inCollection:(NSString *) collectionName{
@@ -91,12 +93,12 @@
     NSError * err;
     NSString *data = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
     if (!data){
-        NSLog(@"Failed to read  note file from disk: %@", err);
         return nil;
     }
     
-    NSLog(@"Note: %@ read Successful", noteName);
+    NSLog(@"Note: %@ read from disk", noteName);
     
     return [data dataUsingEncoding:NSUTF8StringEncoding];
 }
+
 @end

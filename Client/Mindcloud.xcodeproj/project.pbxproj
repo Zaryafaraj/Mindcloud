@@ -80,6 +80,7 @@
 		DB3174FE16337636001229FE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3174FD16337636001229FE /* SignInViewController.m */; };
 		DB43382D169D2E09000353DA /* CachedCollectionDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DB43382C169D2E09000353DA /* CachedCollectionDataSource.m */; };
 		DB4338A0169D4B14000353DA /* XoomlManifestParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DB43389F169D4B14000353DA /* XoomlManifestParser.m */; };
+		DB4338A8169E8AAF000353DA /* CollectionAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4338A7169E8AAF000353DA /* CollectionAction.m */; };
 		DB4E0AC9163DCD3D00AB82E6 /* CollectionsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4E0AC8163DCD3D00AB82E6 /* CollectionsModel.m */; };
 		DB54E2771645122F008A5BBB /* ButtonMenu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB54E2761645122F008A5BBB /* ButtonMenu@2x.png */; };
 		DB54E2791645128F008A5BBB /* ButtonMenu@x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB54E2781645128F008A5BBB /* ButtonMenu@x.png */; };
@@ -231,6 +232,8 @@
 		DB43382C169D2E09000353DA /* CachedCollectionDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CachedCollectionDataSource.m; sourceTree = "<group>"; };
 		DB43389F169D4B14000353DA /* XoomlManifestParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlManifestParser.m; sourceTree = "<group>"; };
 		DB4338A4169E112C000353DA /* XoomlManifestParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlManifestParser.h; sourceTree = "<group>"; };
+		DB4338A6169E8AAF000353DA /* CollectionAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionAction.h; sourceTree = "<group>"; };
+		DB4338A7169E8AAF000353DA /* CollectionAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionAction.m; sourceTree = "<group>"; };
 		DB4E0AC7163DCD3D00AB82E6 /* CollectionsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionsModel.h; sourceTree = "<group>"; };
 		DB4E0AC8163DCD3D00AB82E6 /* CollectionsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionsModel.m; sourceTree = "<group>"; };
 		DB54E2761645122F008A5BBB /* ButtonMenu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ButtonMenu@2x.png"; sourceTree = "<group>"; };
@@ -647,6 +650,8 @@
 				DB712C86164EF678008E68C6 /* CategoriesAction.m */,
 				DB712C89164F42D0008E68C6 /* PreviewImageAction.h */,
 				DB712C8A164F42D1008E68C6 /* PreviewImageAction.m */,
+				DB4338A6169E8AAF000353DA /* CollectionAction.h */,
+				DB4338A7169E8AAF000353DA /* CollectionAction.m */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -852,6 +857,7 @@
 				DB712C8B164F42D1008E68C6 /* PreviewImageAction.m in Sources */,
 				DB43382D169D2E09000353DA /* CachedCollectionDataSource.m in Sources */,
 				DB4338A0169D4B14000353DA /* XoomlManifestParser.m in Sources */,
+				DB4338A8169E8AAF000353DA /* CollectionAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

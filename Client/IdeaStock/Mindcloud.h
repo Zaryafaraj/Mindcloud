@@ -11,6 +11,7 @@
 #import "AuthorizationDelegate.h"
 #import "CategoriesAction.h"
 #import "PreviewImageAction.h"
+#import "CollectionAction.h"
 
 @interface Mindcloud : NSObject
 
@@ -55,4 +56,8 @@
                  forCollection: (NSString *) collectionName
                   andImageData: (NSData *) imgData
                   withCallback: (save_preview_callback) callback;
+
+-(void) getCollectionManifestForUser: (NSString *) userName
+                       forCollection:(NSString *) collectionName
+                        withCallback:(get_collection_callback) callback;
 @end

@@ -173,4 +173,15 @@ static Mindcloud * instance;
     action.previewData = imgData;
     [action executePOST];
 }
+
+-(void) getCollectionManifestForUser: (NSString *) userName
+                       forCollection:(NSString *) collectionName
+                        withCallback:(get_collection_callback) callback
+{
+    CollectionAction * action = [[CollectionAction alloc] initWithUserId:userName
+                                                           andCollection:collectionName];
+    action.getCallback = callback;
+    [action executeGET];
+}
+
 @end

@@ -1179,3 +1179,1407 @@ INFO: 2013-01-05 17:01:40,907 -- 200 GET /HealthCheck (::1) 1.07ms
 WARNING: 2013-01-05 17:01:40,944 -- 404 GET /favicon.ico (::1) 0.21ms
 INFO: 2013-01-05 17:02:37,157 -- 200 GET /HealthCheck (::1) 0.54ms
 WARNING: 2013-01-05 17:02:37,194 -- 404 GET /favicon.ico (::1) 0.21ms
+INFO: 2013-01-09 22:15:02,943 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user BA4DC655-8322-433D-9811-E2AB4F1798E0
+ERROR: 2013-01-09 22:15:02,997 -- Uncaught exception GET /Authorize/BA4DC655-8322-433D-9811-E2AB4F1798E0 (::1)
+HTTPRequest(protocol='http', host='localhost:8000', method='GET', uri='/Authorize/BA4DC655-8322-433D-9811-E2AB4F1798E0', version='HTTP/1.1', remote_ip='::1', body='', headers={'Connection': 'keep-alive', 'Accept-Language': 'en-us', 'Accept-Encoding': 'gzip, deflate', 'Host': 'localhost:8000', 'Accept': '*/*', 'User-Agent': 'Mindcloud/1.0 CFNetwork/609 Darwin/12.2.0'})
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 1000, in _stack_context_handle_exception
+    raise_exc_info((type, value, traceback))
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 1118, in wrapper
+    return method(self, *args, **kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 120, in wrapper
+    runner.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Handlers/Bane/AuthorizationHandler.py", line 72, in get
+    account_info = yield gen.Task(Accounts.get_account, account_id)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 366, in run
+    self.yield_point.start(self)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 241, in start
+    self.func(*self.args, **self.kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 120, in wrapper
+    runner.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Storage/Accounts.py", line 46, in get_account
+    account = yield gen.Task(collection.find_one,account)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 366, in run
+    self.yield_point.start(self)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 241, in start
+    self.func(*self.args, **self.kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/cursor.py", line 267, in find_one
+    self.find(spec_or_id, **kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/cursor.py", line 376, in find
+    connection = self.__pool.connection()
+  File "/Library/Python/2.7/site-packages/asyncmongo/pool.py", line 120, in connection
+    con = self.new_connection()
+  File "/Library/Python/2.7/site-packages/asyncmongo/pool.py", line 107, in new_connection
+    return Connection(*self._args, **kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/connection.py", line 67, in __init__
+    self.__connect()
+  File "/Library/Python/2.7/site-packages/asyncmongo/connection.py", line 83, in __connect
+    raise InterfaceError(error)
+InterfaceError: [Errno 61] Connection refused
+ERROR: 2013-01-09 22:15:03,351 -- 500 GET /Authorize/BA4DC655-8322-433D-9811-E2AB4F1798E0 (::1) 408.21ms
+INFO: 2013-01-09 22:15:03,402 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user BA4DC655-8322-433D-9811-E2AB4F1798E0
+INFO: 2013-01-09 22:15:03,403 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user BA4DC655-8322-433D-9811-E2AB4F1798E0
+INFO: 2013-01-09 22:15:35,566 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 26898BF5-3B64-4ECB-AC91-662607FE43B9
+ERROR: 2013-01-09 22:15:35,567 -- Uncaught exception GET /Authorize/26898BF5-3B64-4ECB-AC91-662607FE43B9 (::1)
+HTTPRequest(protocol='http', host='localhost:8000', method='GET', uri='/Authorize/26898BF5-3B64-4ECB-AC91-662607FE43B9', version='HTTP/1.1', remote_ip='::1', body='', headers={'Connection': 'keep-alive', 'Accept-Language': 'en-us', 'Accept-Encoding': 'gzip, deflate', 'Host': 'localhost:8000', 'Accept': '*/*', 'User-Agent': 'Mindcloud/1.0 CFNetwork/609 Darwin/12.2.0'})
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 1000, in _stack_context_handle_exception
+    raise_exc_info((type, value, traceback))
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 1118, in wrapper
+    return method(self, *args, **kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 120, in wrapper
+    runner.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Handlers/Bane/AuthorizationHandler.py", line 72, in get
+    account_info = yield gen.Task(Accounts.get_account, account_id)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 366, in run
+    self.yield_point.start(self)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 241, in start
+    self.func(*self.args, **self.kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 120, in wrapper
+    runner.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Storage/Accounts.py", line 46, in get_account
+    account = yield gen.Task(collection.find_one,account)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 366, in run
+    self.yield_point.start(self)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 241, in start
+    self.func(*self.args, **self.kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/cursor.py", line 267, in find_one
+    self.find(spec_or_id, **kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/cursor.py", line 376, in find
+    connection = self.__pool.connection()
+  File "/Library/Python/2.7/site-packages/asyncmongo/pool.py", line 120, in connection
+    con = self.new_connection()
+  File "/Library/Python/2.7/site-packages/asyncmongo/pool.py", line 107, in new_connection
+    return Connection(*self._args, **kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/connection.py", line 67, in __init__
+    self.__connect()
+  File "/Library/Python/2.7/site-packages/asyncmongo/connection.py", line 83, in __connect
+    raise InterfaceError(error)
+InterfaceError: [Errno 61] Connection refused
+ERROR: 2013-01-09 22:15:35,567 -- 500 GET /Authorize/26898BF5-3B64-4ECB-AC91-662607FE43B9 (::1) 1.77ms
+INFO: 2013-01-09 22:15:35,629 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 26898BF5-3B64-4ECB-AC91-662607FE43B9
+INFO: 2013-01-09 22:15:35,630 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 26898BF5-3B64-4ECB-AC91-662607FE43B9
+INFO: 2013-01-09 22:15:50,067 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user B9E2B7B3-FD7A-4AF7-A81A-3726E6408692
+ERROR: 2013-01-09 22:15:50,068 -- Uncaught exception GET /Authorize/B9E2B7B3-FD7A-4AF7-A81A-3726E6408692 (::1)
+HTTPRequest(protocol='http', host='localhost:8000', method='GET', uri='/Authorize/B9E2B7B3-FD7A-4AF7-A81A-3726E6408692', version='HTTP/1.1', remote_ip='::1', body='', headers={'Connection': 'keep-alive', 'Accept-Language': 'en-us', 'Accept-Encoding': 'gzip, deflate', 'Host': 'localhost:8000', 'Accept': '*/*', 'User-Agent': 'Mindcloud/1.0 CFNetwork/609 Darwin/12.2.0'})
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 1000, in _stack_context_handle_exception
+    raise_exc_info((type, value, traceback))
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 1118, in wrapper
+    return method(self, *args, **kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 120, in wrapper
+    runner.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Handlers/Bane/AuthorizationHandler.py", line 72, in get
+    account_info = yield gen.Task(Accounts.get_account, account_id)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 366, in run
+    self.yield_point.start(self)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 241, in start
+    self.func(*self.args, **self.kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 120, in wrapper
+    runner.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Storage/Accounts.py", line 46, in get_account
+    account = yield gen.Task(collection.find_one,account)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 366, in run
+    self.yield_point.start(self)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 241, in start
+    self.func(*self.args, **self.kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/cursor.py", line 267, in find_one
+    self.find(spec_or_id, **kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/cursor.py", line 376, in find
+    connection = self.__pool.connection()
+  File "/Library/Python/2.7/site-packages/asyncmongo/pool.py", line 120, in connection
+    con = self.new_connection()
+  File "/Library/Python/2.7/site-packages/asyncmongo/pool.py", line 107, in new_connection
+    return Connection(*self._args, **kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/connection.py", line 67, in __init__
+    self.__connect()
+  File "/Library/Python/2.7/site-packages/asyncmongo/connection.py", line 83, in __connect
+    raise InterfaceError(error)
+InterfaceError: [Errno 61] Connection refused
+ERROR: 2013-01-09 22:15:50,069 -- 500 GET /Authorize/B9E2B7B3-FD7A-4AF7-A81A-3726E6408692 (::1) 2.15ms
+INFO: 2013-01-09 22:15:50,128 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user B9E2B7B3-FD7A-4AF7-A81A-3726E6408692
+INFO: 2013-01-09 22:15:50,128 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user B9E2B7B3-FD7A-4AF7-A81A-3726E6408692
+INFO: 2013-01-09 22:16:51,537 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 06FDB7A2-D244-4E83-AF47-B8819B79B3D2
+ERROR: 2013-01-09 22:16:51,538 -- Uncaught exception GET /Authorize/06FDB7A2-D244-4E83-AF47-B8819B79B3D2 (::1)
+HTTPRequest(protocol='http', host='localhost:8000', method='GET', uri='/Authorize/06FDB7A2-D244-4E83-AF47-B8819B79B3D2', version='HTTP/1.1', remote_ip='::1', body='', headers={'Connection': 'keep-alive', 'Accept-Language': 'en-us', 'Accept-Encoding': 'gzip, deflate', 'Host': 'localhost:8000', 'Accept': '*/*', 'User-Agent': 'Mindcloud/1.0 CFNetwork/609 Darwin/12.2.0'})
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 1000, in _stack_context_handle_exception
+    raise_exc_info((type, value, traceback))
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 1118, in wrapper
+    return method(self, *args, **kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 120, in wrapper
+    runner.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Handlers/Bane/AuthorizationHandler.py", line 72, in get
+    account_info = yield gen.Task(Accounts.get_account, account_id)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 366, in run
+    self.yield_point.start(self)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 241, in start
+    self.func(*self.args, **self.kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 120, in wrapper
+    runner.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Storage/Accounts.py", line 46, in get_account
+    account = yield gen.Task(collection.find_one,account)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 366, in run
+    self.yield_point.start(self)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 241, in start
+    self.func(*self.args, **self.kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/cursor.py", line 267, in find_one
+    self.find(spec_or_id, **kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/cursor.py", line 376, in find
+    connection = self.__pool.connection()
+  File "/Library/Python/2.7/site-packages/asyncmongo/pool.py", line 120, in connection
+    con = self.new_connection()
+  File "/Library/Python/2.7/site-packages/asyncmongo/pool.py", line 107, in new_connection
+    return Connection(*self._args, **kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/connection.py", line 67, in __init__
+    self.__connect()
+  File "/Library/Python/2.7/site-packages/asyncmongo/connection.py", line 83, in __connect
+    raise InterfaceError(error)
+InterfaceError: [Errno 61] Connection refused
+ERROR: 2013-01-09 22:16:51,539 -- 500 GET /Authorize/06FDB7A2-D244-4E83-AF47-B8819B79B3D2 (::1) 1.71ms
+INFO: 2013-01-09 22:16:51,602 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 06FDB7A2-D244-4E83-AF47-B8819B79B3D2
+INFO: 2013-01-09 22:16:51,603 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 06FDB7A2-D244-4E83-AF47-B8819B79B3D2
+ERROR: 2013-01-09 22:16:51,625 -- Uncaught exception GET /06FDB7A2-D244-4E83-AF47-B8819B79B3D2/Categories (::1)
+HTTPRequest(protocol='http', host='localhost:8000', method='GET', uri='/06FDB7A2-D244-4E83-AF47-B8819B79B3D2/Categories', version='HTTP/1.1', remote_ip='::1', body='', headers={'Connection': 'keep-alive', 'Accept-Language': 'en-us', 'Accept-Encoding': 'gzip, deflate', 'Host': 'localhost:8000', 'Accept': '*/*', 'User-Agent': 'Mindcloud/1.0 CFNetwork/609 Darwin/12.2.0'})
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 1000, in _stack_context_handle_exception
+    raise_exc_info((type, value, traceback))
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 263, in _nested
+    if exit(*exc):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 161, in __exit__
+    return self.exception_handler(type, value, traceback)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 114, in handle_exception
+    return runner.handle_exception(typ, value, tb)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 388, in handle_exception
+    self.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Handlers/Bane/CategoriesHandler.py", line 22, in get
+    categories = yield gen.Task(StorageServer.get_categories, user_id)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 263, in _nested
+    if exit(*exc):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 161, in __exit__
+    return self.exception_handler(type, value, traceback)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 114, in handle_exception
+    return runner.handle_exception(typ, value, tb)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 388, in handle_exception
+    self.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Storage/StorageServer.py", line 377, in get_categories
+    storage = yield gen.Task(StorageServer.__get_storage, user_id)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 256, in _nested
+    yield vars
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 226, in wrapped
+    callback(*args, **kwargs)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Cache/tornadoasyncmemcache.py", line 444, in _expectvalue_cb
+    callback(None, None, None)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Cache/tornadoasyncmemcache.py", line 411, in _get_expectval_cb
+    self.finish(partial(callback,None))
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Cache/tornadoasyncmemcache.py", line 473, in finish
+    callback()
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Cache/tornadoasyncmemcache.py", line 118, in _gen_cb
+    _cb(response, *args, **kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 382, in inner
+    self.set_result(key, result)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 315, in set_result
+    self.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Storage/StorageServer.py", line 50, in __get_storage
+    account_info = yield gen.Task(Accounts.get_account,user_id)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 366, in run
+    self.yield_point.start(self)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 241, in start
+    self.func(*self.args, **self.kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 120, in wrapper
+    runner.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Storage/Accounts.py", line 46, in get_account
+    account = yield gen.Task(collection.find_one,account)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 366, in run
+    self.yield_point.start(self)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 241, in start
+    self.func(*self.args, **self.kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/cursor.py", line 267, in find_one
+    self.find(spec_or_id, **kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/cursor.py", line 376, in find
+    connection = self.__pool.connection()
+  File "/Library/Python/2.7/site-packages/asyncmongo/pool.py", line 120, in connection
+    con = self.new_connection()
+  File "/Library/Python/2.7/site-packages/asyncmongo/pool.py", line 107, in new_connection
+    return Connection(*self._args, **kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/connection.py", line 67, in __init__
+    self.__connect()
+  File "/Library/Python/2.7/site-packages/asyncmongo/connection.py", line 83, in __connect
+    raise InterfaceError(error)
+InterfaceError: [Errno 61] Connection refused
+ERROR: 2013-01-09 22:16:51,678 -- 500 GET /06FDB7A2-D244-4E83-AF47-B8819B79B3D2/Categories (::1) 74.80ms
+ERROR: 2013-01-09 22:16:51,679 -- Uncaught exception GET /06FDB7A2-D244-4E83-AF47-B8819B79B3D2/Collections (::1)
+HTTPRequest(protocol='http', host='localhost:8000', method='GET', uri='/06FDB7A2-D244-4E83-AF47-B8819B79B3D2/Collections', version='HTTP/1.1', remote_ip='::1', body='', headers={'Connection': 'keep-alive', 'Accept-Language': 'en-us', 'Accept-Encoding': 'gzip, deflate', 'Host': 'localhost:8000', 'Accept': '*/*', 'User-Agent': 'Mindcloud/1.0 CFNetwork/609 Darwin/12.2.0'})
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 1000, in _stack_context_handle_exception
+    raise_exc_info((type, value, traceback))
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 263, in _nested
+    if exit(*exc):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 161, in __exit__
+    return self.exception_handler(type, value, traceback)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 114, in handle_exception
+    return runner.handle_exception(typ, value, tb)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 388, in handle_exception
+    self.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Handlers/Bane/AccountHandler.py", line 28, in get
+    results = yield gen.Task(StorageServer.list_collections, user_id)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 263, in _nested
+    if exit(*exc):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 161, in __exit__
+    return self.exception_handler(type, value, traceback)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 114, in handle_exception
+    return runner.handle_exception(typ, value, tb)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 388, in handle_exception
+    self.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Storage/StorageServer.py", line 109, in list_collections
+    storage = yield gen.Task(StorageServer.__get_storage, user_id)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 256, in _nested
+    yield vars
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 226, in wrapped
+    callback(*args, **kwargs)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Cache/tornadoasyncmemcache.py", line 444, in _expectvalue_cb
+    callback(None, None, None)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Cache/tornadoasyncmemcache.py", line 411, in _get_expectval_cb
+    self.finish(partial(callback,None))
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Cache/tornadoasyncmemcache.py", line 473, in finish
+    callback()
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Cache/tornadoasyncmemcache.py", line 118, in _gen_cb
+    _cb(response, *args, **kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 382, in inner
+    self.set_result(key, result)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 315, in set_result
+    self.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Storage/StorageServer.py", line 50, in __get_storage
+    account_info = yield gen.Task(Accounts.get_account,user_id)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 366, in run
+    self.yield_point.start(self)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 241, in start
+    self.func(*self.args, **self.kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 120, in wrapper
+    runner.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Storage/Accounts.py", line 46, in get_account
+    account = yield gen.Task(collection.find_one,account)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 366, in run
+    self.yield_point.start(self)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 241, in start
+    self.func(*self.args, **self.kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/cursor.py", line 267, in find_one
+    self.find(spec_or_id, **kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/cursor.py", line 376, in find
+    connection = self.__pool.connection()
+  File "/Library/Python/2.7/site-packages/asyncmongo/pool.py", line 120, in connection
+    con = self.new_connection()
+  File "/Library/Python/2.7/site-packages/asyncmongo/pool.py", line 107, in new_connection
+    return Connection(*self._args, **kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/connection.py", line 67, in __init__
+    self.__connect()
+  File "/Library/Python/2.7/site-packages/asyncmongo/connection.py", line 83, in __connect
+    raise InterfaceError(error)
+InterfaceError: [Errno 61] Connection refused
+ERROR: 2013-01-09 22:16:51,680 -- 500 GET /06FDB7A2-D244-4E83-AF47-B8819B79B3D2/Collections (::1) 78.16ms
+ERROR: 2013-01-09 22:16:51,682 -- Uncaught exception POST /06FDB7A2-D244-4E83-AF47-B8819B79B3D2/Categories (::1)
+HTTPRequest(protocol='http', host='localhost:8000', method='POST', uri='/06FDB7A2-D244-4E83-AF47-B8819B79B3D2/Categories', version='HTTP/1.1', remote_ip='::1', body='------------------------------62ae4a76207c\r\nContent-Disposition: form-data; name="file"; filename="categories.xml"\r\nContent-Type: application/xml\r\n\r\n<?xml version="1.0" encoding="UTF-8"?><root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xooml="http://kftf.ischool.washington.edu/xmlns/xooml" xsi:schemaLocation="http://kftf.ischool.washington.edu/xmlns/xooml http://kftf.ischool.washington.edu/XMLschema/0.41/XooML.xsd"></root>\r\n------------------------------62ae4a76207c--', headers={'Content-Length': '489', 'Accept-Language': 'en-us', 'Accept-Encoding': 'gzip, deflate', 'Host': 'localhost:8000', 'Accept': '*/*', 'User-Agent': 'Mindcloud/1.0 CFNetwork/609 Darwin/12.2.0', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data; boundary=----------------------------62ae4a76207c'})
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 1000, in _stack_context_handle_exception
+    raise_exc_info((type, value, traceback))
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 263, in _nested
+    if exit(*exc):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 161, in __exit__
+    return self.exception_handler(type, value, traceback)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 114, in handle_exception
+    return runner.handle_exception(typ, value, tb)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 388, in handle_exception
+    self.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Handlers/Bane/CategoriesHandler.py", line 34, in post
+    user_id, categories_file)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 263, in _nested
+    if exit(*exc):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 161, in __exit__
+    return self.exception_handler(type, value, traceback)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 114, in handle_exception
+    return runner.handle_exception(typ, value, tb)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 388, in handle_exception
+    self.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Storage/StorageServer.py", line 409, in save_categories
+    storage = yield gen.Task(StorageServer.__get_storage, user_id)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 256, in _nested
+    yield vars
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 226, in wrapped
+    callback(*args, **kwargs)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Cache/tornadoasyncmemcache.py", line 444, in _expectvalue_cb
+    callback(None, None, None)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Cache/tornadoasyncmemcache.py", line 411, in _get_expectval_cb
+    self.finish(partial(callback,None))
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Cache/tornadoasyncmemcache.py", line 473, in finish
+    callback()
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Cache/tornadoasyncmemcache.py", line 118, in _gen_cb
+    _cb(response, *args, **kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 382, in inner
+    self.set_result(key, result)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 315, in set_result
+    self.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Storage/StorageServer.py", line 50, in __get_storage
+    account_info = yield gen.Task(Accounts.get_account,user_id)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 366, in run
+    self.yield_point.start(self)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 241, in start
+    self.func(*self.args, **self.kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 120, in wrapper
+    runner.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 343, in run
+    yielded = self.gen.throw(*exc_info)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Storage/Accounts.py", line 46, in get_account
+    account = yield gen.Task(collection.find_one,account)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 366, in run
+    self.yield_point.start(self)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 241, in start
+    self.func(*self.args, **self.kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/cursor.py", line 267, in find_one
+    self.find(spec_or_id, **kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/cursor.py", line 376, in find
+    connection = self.__pool.connection()
+  File "/Library/Python/2.7/site-packages/asyncmongo/pool.py", line 120, in connection
+    con = self.new_connection()
+  File "/Library/Python/2.7/site-packages/asyncmongo/pool.py", line 107, in new_connection
+    return Connection(*self._args, **kwargs)
+  File "/Library/Python/2.7/site-packages/asyncmongo/connection.py", line 67, in __init__
+    self.__connect()
+  File "/Library/Python/2.7/site-packages/asyncmongo/connection.py", line 83, in __connect
+    raise InterfaceError(error)
+InterfaceError: [Errno 61] Connection refused
+ERROR: 2013-01-09 22:16:51,684 -- 500 POST /06FDB7A2-D244-4E83-AF47-B8819B79B3D2/Categories (::1) 2.74ms
+INFO: 2013-01-09 22:19:16,800 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:17,339 -- 200 GET /Authorize/8B53180C-63A9-43C5-A226-D394B0F1F30C (::1) 539.38ms
+INFO: 2013-01-09 22:19:26,219 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - POST : authenticating user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:26,611 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - POST: account 8B53180C-63A9-43C5-A226-D394B0F1F30C added
+INFO: 2013-01-09 22:19:26,611 -- 200 POST /Authorize/8B53180C-63A9-43C5-A226-D394B0F1F30C (::1) 392.84ms
+INFO: 2013-01-09 22:19:26,629 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:26,630 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:26,886 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections (::1) 257.31ms
+INFO: 2013-01-09 22:19:26,889 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:26,892 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:26,893 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:26,894 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:27,340 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 710.29ms
+INFO: 2013-01-09 22:19:27,341 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:27,559 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (::1) 670.52ms
+INFO: 2013-01-09 22:19:27,560 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:27,610 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (::1) 718.22ms
+INFO: 2013-01-09 22:19:27,611 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:27,648 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (::1) 754.72ms
+INFO: 2013-01-09 22:19:27,659 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:27,667 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (::1) 774.05ms
+INFO: 2013-01-09 22:19:27,668 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:28,194 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (::1) 534.62ms
+INFO: 2013-01-09 22:19:28,195 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:28,451 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (::1) 840.56ms
+INFO: 2013-01-09 22:19:28,452 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:28,555 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (::1) 886.97ms
+INFO: 2013-01-09 22:19:28,555 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:28,603 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (::1) 1262.17ms
+INFO: 2013-01-09 22:19:28,696 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (::1) 1135.81ms
+INFO: 2013-01-09 22:19:28,697 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:29,092 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (::1) 639.84ms
+INFO: 2013-01-09 22:19:29,092 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:29,185 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (::1) 990.73ms
+INFO: 2013-01-09 22:19:29,275 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (::1) 719.99ms
+INFO: 2013-01-09 22:19:29,276 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:29,318 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 714.19ms
+INFO: 2013-01-09 22:19:29,318 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:29,406 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (::1) 709.81ms
+INFO: 2013-01-09 22:19:29,407 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:29,876 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (::1) 600.64ms
+INFO: 2013-01-09 22:19:29,938 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (::1) 619.59ms
+INFO: 2013-01-09 22:19:29,938 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:19:29,972 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (::1) 880.17ms
+INFO: 2013-01-09 22:19:30,604 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (::1) 1197.48ms
+INFO: 2013-01-09 22:19:30,709 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (::1) 770.45ms
+INFO: 2013-01-09 22:19:47,339 -- Authentication: authorization __sweep started; pending requests: {}
+INFO: 2013-01-09 22:25:56,497 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:25:56,498 -- 200 GET /Authorize/8B53180C-63A9-43C5-A226-D394B0F1F30C (::1) 1.01ms
+INFO: 2013-01-09 22:25:56,550 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:25:56,552 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:25:56,737 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections (::1) 186.63ms
+INFO: 2013-01-09 22:25:56,740 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:25:56,742 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:25:56,743 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:25:56,744 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:25:59,409 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 2857.14ms
+INFO: 2013-01-09 22:25:59,409 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:25:59,706 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (::1) 2961.95ms
+INFO: 2013-01-09 22:25:59,707 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:25:59,853 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (::1) 3113.04ms
+INFO: 2013-01-09 22:25:59,854 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:26:00,242 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (::1) 535.05ms
+INFO: 2013-01-09 22:26:00,243 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:26:00,752 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (::1) 1343.04ms
+INFO: 2013-01-09 22:26:00,939 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (::1) 1084.93ms
+INFO: 2013-01-09 22:26:00,939 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:26:01,260 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (::1) 1017.14ms
+INFO: 2013-01-09 22:26:01,261 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:26:01,534 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 781.75ms
+INFO: 2013-01-09 22:26:01,535 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:26:01,627 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (::1) 687.34ms
+INFO: 2013-01-09 22:26:01,627 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:26:01,732 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:26:01,732 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris (::1) 471.38ms
+INFO: 2013-01-09 22:26:01,756 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (::1) 5014.14ms
+INFO: 2013-01-09 22:26:01,757 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:26:02,225 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (::1) 690.18ms
+INFO: 2013-01-09 22:26:02,226 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:26:02,290 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (::1) 5547.42ms
+INFO: 2013-01-09 22:26:02,291 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:26:02,431 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (::1) 804.49ms
+INFO: 2013-01-09 22:26:02,550 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:26:02,592 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (::1) 835.03ms
+INFO: 2013-01-09 22:26:02,592 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:26:03,018 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (::1) 726.88ms
+INFO: 2013-01-09 22:26:03,018 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:26:03,058 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:26:03,059 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris (::1) 508.82ms
+INFO: 2013-01-09 22:26:03,158 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (::1) 932.83ms
+INFO: 2013-01-09 22:26:03,299 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (::1) 706.83ms
+INFO: 2013-01-09 22:26:03,300 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:26:03,970 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (::1) 951.97ms
+INFO: 2013-01-09 22:26:03,971 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:26:04,496 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (::1) 1196.24ms
+INFO: 2013-01-09 22:26:04,568 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (::1) 597.70ms
+INFO: 2013-01-09 22:26:05,550 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:26:06,015 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:26:06,015 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris (::1) 465.35ms
+INFO: 2013-01-09 22:27:16,295 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:16,296 -- 200 GET /Authorize/8B53180C-63A9-43C5-A226-D394B0F1F30C (::1) 1.02ms
+INFO: 2013-01-09 22:27:16,351 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:16,352 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:16,747 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections (::1) 395.52ms
+INFO: 2013-01-09 22:27:16,750 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:16,754 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:16,755 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:16,756 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:16,907 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 554.21ms
+INFO: 2013-01-09 22:27:16,907 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:17,373 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (::1) 623.21ms
+INFO: 2013-01-09 22:27:17,374 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:17,429 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (::1) 675.26ms
+INFO: 2013-01-09 22:27:17,430 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:17,452 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (::1) 695.43ms
+INFO: 2013-01-09 22:27:17,453 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:17,473 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (::1) 717.46ms
+INFO: 2013-01-09 22:27:17,473 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:18,033 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (::1) 580.63ms
+INFO: 2013-01-09 22:27:18,034 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:18,208 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (::1) 778.28ms
+INFO: 2013-01-09 22:27:18,209 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:18,230 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (::1) 1322.66ms
+INFO: 2013-01-09 22:27:18,357 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (::1) 982.95ms
+INFO: 2013-01-09 22:27:18,357 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:18,846 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (::1) 637.20ms
+INFO: 2013-01-09 22:27:18,846 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:18,935 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 704.32ms
+INFO: 2013-01-09 22:27:18,935 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:18,997 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (::1) 640.32ms
+INFO: 2013-01-09 22:27:18,998 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:19,141 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (::1) 1107.09ms
+INFO: 2013-01-09 22:27:19,278 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (::1) 1805.33ms
+INFO: 2013-01-09 22:27:19,279 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:19,351 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:19,591 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (::1) 655.34ms
+INFO: 2013-01-09 22:27:19,591 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:19,781 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (::1) 782.76ms
+INFO: 2013-01-09 22:27:19,833 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:27:19,833 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris (::1) 482.56ms
+INFO: 2013-01-09 22:27:19,965 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (::1) 686.48ms
+INFO: 2013-01-09 22:27:19,966 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:20,071 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (::1) 1225.01ms
+INFO: 2013-01-09 22:27:20,469 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (::1) 877.93ms
+INFO: 2013-01-09 22:27:20,507 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (::1) 541.66ms
+INFO: 2013-01-09 22:27:22,351 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:22,887 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:27:22,887 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris (::1) 536.55ms
+INFO: 2013-01-09 22:27:25,351 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:25,858 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:27:25,858 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris (::1) 506.93ms
+INFO: 2013-01-09 22:27:28,350 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:28,914 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:27:28,914 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris (::1) 564.28ms
+INFO: 2013-01-09 22:27:31,352 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:31,859 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:27:31,859 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris (::1) 507.17ms
+INFO: 2013-01-09 22:27:34,351 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:27:34,823 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:27:34,823 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris (::1) 471.93ms
+INFO: 2013-01-09 22:28:35,843 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:35,845 -- 200 GET /Authorize/8B53180C-63A9-43C5-A226-D394B0F1F30C (::1) 1.28ms
+INFO: 2013-01-09 22:28:35,911 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:35,912 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:36,134 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections (::1) 223.07ms
+INFO: 2013-01-09 22:28:36,137 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:36,141 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:36,142 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:36,143 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:36,425 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 512.80ms
+INFO: 2013-01-09 22:28:36,425 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:36,716 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (::1) 578.90ms
+INFO: 2013-01-09 22:28:36,717 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:36,764 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (::1) 622.70ms
+INFO: 2013-01-09 22:28:36,764 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:36,827 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (::1) 685.07ms
+INFO: 2013-01-09 22:28:36,828 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:36,916 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (::1) 773.24ms
+INFO: 2013-01-09 22:28:36,917 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:37,531 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (::1) 614.40ms
+INFO: 2013-01-09 22:28:37,533 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:37,538 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (::1) 710.77ms
+INFO: 2013-01-09 22:28:37,539 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:37,559 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (::1) 795.39ms
+INFO: 2013-01-09 22:28:37,560 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:37,703 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (::1) 1277.64ms
+INFO: 2013-01-09 22:28:38,213 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (::1) 674.65ms
+INFO: 2013-01-09 22:28:38,214 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:38,237 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (::1) 676.98ms
+INFO: 2013-01-09 22:28:38,237 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:38,438 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 727.97ms
+INFO: 2013-01-09 22:28:38,439 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:38,583 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (::1) 1050.46ms
+INFO: 2013-01-09 22:28:38,726 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (::1) 2008.85ms
+INFO: 2013-01-09 22:28:38,726 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:38,831 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (::1) 617.11ms
+INFO: 2013-01-09 22:28:38,910 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:39,065 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (::1) 626.60ms
+INFO: 2013-01-09 22:28:39,066 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:39,338 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (::1) 1100.26ms
+INFO: 2013-01-09 22:28:39,342 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (::1) 615.29ms
+INFO: 2013-01-09 22:28:39,342 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:39,467 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris (::1) 556.67ms
+INFO: 2013-01-09 22:28:39,839 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (::1) 773.50ms
+INFO: 2013-01-09 22:28:40,105 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (::1) 763.10ms
+INFO: 2013-01-09 22:28:41,910 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:42,419 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris (::1) 508.40ms
+INFO: 2013-01-09 22:28:44,910 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:45,458 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris (::1) 547.47ms
+INFO: 2013-01-09 22:28:47,910 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:48,499 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris (::1) 589.39ms
+INFO: 2013-01-09 22:28:51,932 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:51,933 -- 200 GET /Authorize/8B53180C-63A9-43C5-A226-D394B0F1F30C (::1) 1.22ms
+INFO: 2013-01-09 22:28:52,005 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:52,007 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:52,233 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections (::1) 228.47ms
+INFO: 2013-01-09 22:28:52,236 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:52,239 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:52,240 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:52,240 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:52,539 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 532.60ms
+INFO: 2013-01-09 22:28:52,540 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:52,834 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (::1) 598.12ms
+INFO: 2013-01-09 22:28:52,835 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:52,871 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (::1) 631.92ms
+INFO: 2013-01-09 22:28:52,872 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:52,947 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (::1) 706.65ms
+INFO: 2013-01-09 22:28:52,947 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:52,958 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (::1) 718.63ms
+INFO: 2013-01-09 22:28:52,958 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:53,492 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (::1) 544.97ms
+INFO: 2013-01-09 22:28:53,493 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:53,726 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (::1) 1185.76ms
+INFO: 2013-01-09 22:28:53,788 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (::1) 916.33ms
+INFO: 2013-01-09 22:28:53,792 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (::1) 834.10ms
+INFO: 2013-01-09 22:28:53,793 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:53,794 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:53,910 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (::1) 1075.29ms
+INFO: 2013-01-09 22:28:53,911 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:54,394 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (::1) 600.10ms
+INFO: 2013-01-09 22:28:54,395 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:54,456 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (::1) 963.64ms
+INFO: 2013-01-09 22:28:54,480 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 753.28ms
+INFO: 2013-01-09 22:28:54,480 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:54,502 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (::1) 591.08ms
+INFO: 2013-01-09 22:28:54,502 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:54,573 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (::1) 780.30ms
+INFO: 2013-01-09 22:28:54,573 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:54,996 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:55,057 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (::1) 577.35ms
+INFO: 2013-01-09 22:28:55,058 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:55,181 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (::1) 607.28ms
+INFO: 2013-01-09 22:28:55,433 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (::1) 931.22ms
+INFO: 2013-01-09 22:28:55,544 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris (::1) 548.34ms
+INFO: 2013-01-09 22:28:55,635 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (::1) 1240.10ms
+INFO: 2013-01-09 22:28:55,821 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (::1) 762.75ms
+INFO: 2013-01-09 22:28:57,996 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:28:58,516 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris (::1) 520.36ms
+INFO: 2013-01-09 22:29:00,996 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+ERROR: 2013-01-09 22:29:02,657 -- Uncaught exception GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris (::1)
+HTTPRequest(protocol='http', host='localhost:8000', method='GET', uri='/8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris', version='HTTP/1.1', remote_ip='::1', body='', headers={'Connection': 'keep-alive', 'Accept-Language': 'en-us', 'Accept-Encoding': 'gzip, deflate', 'If-None-Match': '"ac2cce23f422dd48cc09c9160e9dc77e90dde6da"', 'Host': 'localhost:8000', 'Accept': '*/*', 'User-Agent': 'Mindcloud/1.0 CFNetwork/609 Darwin/12.2.0'})
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 1000, in _stack_context_handle_exception
+    raise_exc_info((type, value, traceback))
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 256, in _nested
+    yield vars
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 226, in wrapped
+    callback(*args, **kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 382, in inner
+    self.set_result(key, result)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 315, in set_result
+    self.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 345, in run
+    yielded = self.gen.send(next)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/AsynchDropbox/client.py", line 344, in get_file
+    callback(response)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 382, in inner
+    self.set_result(key, result)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 315, in set_result
+    self.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 345, in run
+    yielded = self.gen.send(next)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Helpers/DropboxHelper.py", line 248, in get_file
+    callback(file)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 382, in inner
+    self.set_result(key, result)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 315, in set_result
+    self.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 345, in run
+    yielded = self.gen.send(next)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Storage/StorageServer.py", line 230, in get_collection_manifest
+    callback(response)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 382, in inner
+    self.set_result(key, result)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 315, in set_result
+    self.run()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/gen.py", line 345, in run
+    yielded = self.gen.send(next)
+  File "/Users/afathali/Developer/Mindcloud/Server/MindCloud/Handlers/Bane/CollectionHandler.py", line 33, in get
+    self.finish()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 701, in finish
+    self.request.finish()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/httpserver.py", line 433, in finish
+    self.connection.finish()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/httpserver.py", line 187, in finish
+    self._finish_request()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/httpserver.py", line 223, in _finish_request
+    self.stream.read_until(b("\r\n\r\n"), self._header_callback)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/iostream.py", line 153, in read_until
+    self._try_inline_read()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/iostream.py", line 381, in _try_inline_read
+    self._check_closed()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/iostream.py", line 564, in _check_closed
+    raise IOError("Stream is closed")
+IOError: Stream is closed
+ERROR: 2013-01-09 22:29:02,801 -- Cannot send error response after headers written
+WARNING: 2013-01-09 22:29:02,801 -- uncaught exception
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/simple_httpclient.py", line 323, in cleanup
+    yield
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 229, in wrapped
+    callback(*args, **kwargs)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/simple_httpclient.py", line 447, in _on_chunk_length
+    self._on_body(b('').join(self.chunks))
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/simple_httpclient.py", line 437, in _on_body
+    self._run_callback(response)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/simple_httpclient.py", line 318, in _run_callback
+    final_callback(response)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 226, in wrapped
+    callback(*args, **kwargs)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/contextlib.py", line 35, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 271, in _nested
+    raise_exc_info(exc)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 263, in _nested
+    if exit(*exc):
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/stack_context.py", line 161, in __exit__
+    return self.exception_handler(type, value, traceback)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 1002, in _stack_context_handle_exception
+    self._handle_request_exception(value)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 1065, in _handle_request_exception
+    self.send_error(500, exc_info=sys.exc_info())
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 720, in send_error
+    self.finish()
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 700, in finish
+    self.flush(include_footers=True)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/web.py", line 660, in flush
+    self.request.write(headers + chunk, callback=callback)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/httpserver.py", line 429, in write
+    self.connection.write(chunk, callback=callback)
+  File "/Library/Python/2.7/site-packages/tornado-2.3-py2.7.egg/tornado/httpserver.py", line 177, in write
+    assert self._request, "Request closed"
+AssertionError: Request closed
+INFO: 2013-01-09 22:29:43,741 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:43,742 -- 200 GET /Authorize/8B53180C-63A9-43C5-A226-D394B0F1F30C (::1) 1.20ms
+INFO: 2013-01-09 22:29:43,799 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:43,800 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:44,026 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections (::1) 227.07ms
+INFO: 2013-01-09 22:29:44,029 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:44,031 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:44,032 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:44,032 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:44,314 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 514.08ms
+INFO: 2013-01-09 22:29:44,314 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:44,700 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (::1) 669.10ms
+INFO: 2013-01-09 22:29:44,700 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:44,719 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (::1) 686.67ms
+INFO: 2013-01-09 22:29:44,719 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:44,758 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (::1) 729.02ms
+INFO: 2013-01-09 22:29:44,758 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:44,793 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (::1) 761.19ms
+INFO: 2013-01-09 22:29:44,794 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:45,468 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (::1) 674.64ms
+INFO: 2013-01-09 22:29:45,469 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:45,932 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (::1) 1231.24ms
+INFO: 2013-01-09 22:29:45,932 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:45,971 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (::1) 1656.67ms
+INFO: 2013-01-09 22:29:46,030 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (::1) 1272.31ms
+INFO: 2013-01-09 22:29:46,031 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:46,557 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (::1) 624.94ms
+INFO: 2013-01-09 22:29:46,558 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:46,676 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (::1) 645.42ms
+INFO: 2013-01-09 22:29:46,677 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:46,746 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 774.06ms
+INFO: 2013-01-09 22:29:46,746 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:46,927 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (::1) 1458.86ms
+INFO: 2013-01-09 22:29:47,355 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (::1) 608.84ms
+INFO: 2013-01-09 22:29:47,487 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (::1) 2767.72ms
+INFO: 2013-01-09 22:29:47,568 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (::1) 890.90ms
+INFO: 2013-01-09 22:29:47,739 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (::1) 1181.56ms
+INFO: 2013-01-09 22:29:55,385 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:55,386 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:55,387 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:55,387 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:55,798 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:29:55,893 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:29:55,893 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (::1) 506.31ms
+INFO: 2013-01-09 22:29:55,951 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (::1) 563.74ms
+INFO: 2013-01-09 22:29:56,302 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:29:56,302 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (::1) 504.42ms
+INFO: 2013-01-09 22:29:56,344 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (::1) 958.37ms
+INFO: 2013-01-09 22:29:56,797 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (::1) 1412.07ms
+INFO: 2013-01-09 22:30:21,415 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:30:21,888 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:30:21,888 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (::1) 473.35ms
+INFO: 2013-01-09 22:33:37,412 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:37,413 -- 200 GET /Authorize/8B53180C-63A9-43C5-A226-D394B0F1F30C (fe80::1%lo0) 1.03ms
+INFO: 2013-01-09 22:33:37,471 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:37,472 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:37,658 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections (fe80::1%lo0) 186.99ms
+INFO: 2013-01-09 22:33:37,661 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:37,664 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:37,665 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:37,666 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:38,069 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (fe80::1%lo0) 596.86ms
+INFO: 2013-01-09 22:33:38,069 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:38,288 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (fe80::1%lo0) 627.45ms
+INFO: 2013-01-09 22:33:38,289 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:38,403 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (fe80::1%lo0) 737.30ms
+INFO: 2013-01-09 22:33:38,403 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:38,600 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (fe80::1%lo0) 935.43ms
+INFO: 2013-01-09 22:33:38,601 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:38,673 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (fe80::1%lo0) 1008.90ms
+INFO: 2013-01-09 22:33:38,674 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:38,946 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (fe80::1%lo0) 542.42ms
+INFO: 2013-01-09 22:33:38,946 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:39,345 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (fe80::1%lo0) 1056.04ms
+INFO: 2013-01-09 22:33:39,346 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:39,356 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (fe80::1%lo0) 1286.61ms
+INFO: 2013-01-09 22:33:39,481 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (fe80::1%lo0) 880.61ms
+INFO: 2013-01-09 22:33:39,482 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:39,583 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (fe80::1%lo0) 909.60ms
+INFO: 2013-01-09 22:33:39,584 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:40,088 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (fe80::1%lo0) 732.29ms
+INFO: 2013-01-09 22:33:40,089 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:40,128 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (fe80::1%lo0) 1181.55ms
+INFO: 2013-01-09 22:33:40,197 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (fe80::1%lo0) 613.05ms
+INFO: 2013-01-09 22:33:40,197 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:40,429 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (fe80::1%lo0) 1082.86ms
+INFO: 2013-01-09 22:33:40,429 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:40,470 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:40,706 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (fe80::1%lo0) 617.33ms
+INFO: 2013-01-09 22:33:40,707 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:40,957 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:33:40,958 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 487.41ms
+INFO: 2013-01-09 22:33:40,970 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (fe80::1%lo0) 1487.87ms
+INFO: 2013-01-09 22:33:41,246 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (fe80::1%lo0) 816.68ms
+INFO: 2013-01-09 22:33:41,485 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (fe80::1%lo0) 1287.43ms
+INFO: 2013-01-09 22:33:41,545 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (fe80::1%lo0) 838.04ms
+INFO: 2013-01-09 22:33:45,178 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:45,942 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (fe80::1%lo0) 764.07ms
+INFO: 2013-01-09 22:33:48,840 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:49,355 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:33:49,355 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 515.56ms
+INFO: 2013-01-09 22:33:49,470 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:49,930 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:33:49,931 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 461.01ms
+INFO: 2013-01-09 22:33:52,469 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:53,099 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:33:53,099 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 629.87ms
+INFO: 2013-01-09 22:33:55,470 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:55,946 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:33:55,946 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 476.87ms
+INFO: 2013-01-09 22:33:58,470 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:33:58,941 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:33:58,941 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 471.72ms
+INFO: 2013-01-09 22:34:01,469 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:01,940 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:01,940 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 470.95ms
+INFO: 2013-01-09 22:34:04,469 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:04,936 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:04,936 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 466.76ms
+INFO: 2013-01-09 22:34:07,469 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:07,936 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:07,936 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 467.06ms
+INFO: 2013-01-09 22:34:10,469 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:10,931 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:10,931 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 462.42ms
+INFO: 2013-01-09 22:34:13,470 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:13,954 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:13,955 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 485.14ms
+INFO: 2013-01-09 22:34:16,469 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:17,171 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:17,171 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 702.09ms
+INFO: 2013-01-09 22:34:19,469 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:20,016 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:20,016 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 547.35ms
+INFO: 2013-01-09 22:34:22,469 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:22,917 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:22,918 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 448.89ms
+INFO: 2013-01-09 22:34:25,469 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:25,936 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:25,937 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 467.68ms
+INFO: 2013-01-09 22:34:28,469 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:28,943 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:28,944 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 474.61ms
+INFO: 2013-01-09 22:34:31,469 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:31,931 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:31,931 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 462.16ms
+INFO: 2013-01-09 22:34:34,469 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:34,921 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:34,921 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 452.25ms
+INFO: 2013-01-09 22:34:37,469 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:37,918 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:37,919 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 450.24ms
+INFO: 2013-01-09 22:34:40,470 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:40,954 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:40,954 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 484.87ms
+INFO: 2013-01-09 22:34:43,468 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:43,925 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:43,925 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 457.10ms
+INFO: 2013-01-09 22:34:46,469 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:46,924 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:46,924 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 455.64ms
+INFO: 2013-01-09 22:34:49,468 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:50,197 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:50,197 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 728.85ms
+INFO: 2013-01-09 22:34:52,468 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:53,910 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:53,911 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 1442.87ms
+INFO: 2013-01-09 22:34:55,468 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:55,944 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:55,944 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 476.46ms
+INFO: 2013-01-09 22:34:58,468 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:34:59,052 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:34:59,052 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 584.45ms
+INFO: 2013-01-09 22:35:01,468 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:02,329 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:35:02,330 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 862.15ms
+INFO: 2013-01-09 22:35:04,468 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:04,984 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:35:04,984 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 516.84ms
+INFO: 2013-01-09 22:35:07,467 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:07,983 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:35:07,984 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 516.78ms
+INFO: 2013-01-09 22:35:10,468 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:10,965 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:35:10,966 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 497.52ms
+INFO: 2013-01-09 22:35:13,468 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:13,966 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:35:13,966 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 498.65ms
+INFO: 2013-01-09 22:35:18,419 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:18,420 -- 200 GET /Authorize/8B53180C-63A9-43C5-A226-D394B0F1F30C (fe80::1%lo0) 1.26ms
+INFO: 2013-01-09 22:35:25,336 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:25,338 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:25,592 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections (fe80::1%lo0) 255.58ms
+INFO: 2013-01-09 22:35:25,886 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (fe80::1%lo0) 548.46ms
+INFO: 2013-01-09 22:35:27,557 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:27,559 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:27,560 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:27,561 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:28,209 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (fe80::1%lo0) 651.61ms
+INFO: 2013-01-09 22:35:28,213 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:28,214 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (fe80::1%lo0) 654.96ms
+INFO: 2013-01-09 22:35:28,264 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (fe80::1%lo0) 704.61ms
+INFO: 2013-01-09 22:35:28,409 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (fe80::1%lo0) 848.18ms
+INFO: 2013-01-09 22:35:28,412 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (fe80::1%lo0) 856.28ms
+INFO: 2013-01-09 22:35:29,009 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (fe80::1%lo0) 796.62ms
+INFO: 2013-01-09 22:35:41,352 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:41,353 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:41,354 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:41,354 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:41,989 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (fe80::1%lo0) 636.87ms
+INFO: 2013-01-09 22:35:42,191 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (fe80::1%lo0) 837.99ms
+INFO: 2013-01-09 22:35:42,371 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (fe80::1%lo0) 1016.71ms
+INFO: 2013-01-09 22:35:42,640 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (fe80::1%lo0) 1286.88ms
+INFO: 2013-01-09 22:35:43,854 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:44,439 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:35:44,440 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 586.10ms
+INFO: 2013-01-09 22:35:53,981 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:54,444 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:35:54,444 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 462.91ms
+INFO: 2013-01-09 22:35:55,335 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:55,855 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:35:55,856 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 520.68ms
+INFO: 2013-01-09 22:35:58,335 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:35:58,819 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:35:58,820 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 485.08ms
+INFO: 2013-01-09 22:36:01,334 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:01,852 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:01,853 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 518.85ms
+INFO: 2013-01-09 22:36:04,335 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:04,917 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:04,917 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 582.41ms
+INFO: 2013-01-09 22:36:07,335 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:07,840 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:07,841 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 506.14ms
+INFO: 2013-01-09 22:36:10,335 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:10,844 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:10,844 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 509.44ms
+INFO: 2013-01-09 22:36:13,334 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:13,796 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:13,796 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 462.03ms
+INFO: 2013-01-09 22:36:16,334 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:16,806 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:16,806 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 472.51ms
+INFO: 2013-01-09 22:36:19,334 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:19,800 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:19,800 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 466.91ms
+INFO: 2013-01-09 22:36:22,334 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:22,808 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:22,808 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 474.68ms
+INFO: 2013-01-09 22:36:25,334 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:25,834 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:25,834 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 499.89ms
+INFO: 2013-01-09 22:36:28,334 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:28,809 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:28,810 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 476.24ms
+INFO: 2013-01-09 22:36:31,334 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:31,790 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:31,790 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 456.46ms
+INFO: 2013-01-09 22:36:34,333 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:34,799 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:34,800 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 466.73ms
+INFO: 2013-01-09 22:36:37,334 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:37,855 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:37,855 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 521.07ms
+INFO: 2013-01-09 22:36:40,334 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:40,881 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:40,881 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 547.64ms
+INFO: 2013-01-09 22:36:43,334 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:43,811 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:43,811 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 477.36ms
+INFO: 2013-01-09 22:36:46,334 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:46,861 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:46,862 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 528.34ms
+INFO: 2013-01-09 22:36:49,333 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:49,805 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:49,805 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 472.26ms
+INFO: 2013-01-09 22:36:52,333 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:52,805 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:52,805 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 472.87ms
+INFO: 2013-01-09 22:36:55,332 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:55,843 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:55,844 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 511.25ms
+INFO: 2013-01-09 22:36:58,333 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:36:58,790 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:36:58,790 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 457.38ms
+INFO: 2013-01-09 22:37:01,333 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:01,810 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:01,810 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 476.76ms
+INFO: 2013-01-09 22:37:04,332 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:04,825 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:04,826 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 493.49ms
+INFO: 2013-01-09 22:37:07,333 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:07,846 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:07,846 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 514.03ms
+INFO: 2013-01-09 22:37:10,332 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:10,863 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:10,864 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 531.24ms
+INFO: 2013-01-09 22:37:13,332 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:13,792 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:13,792 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 460.04ms
+INFO: 2013-01-09 22:37:16,333 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:16,856 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:16,857 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 524.41ms
+INFO: 2013-01-09 22:37:19,678 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:20,134 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:20,135 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 456.59ms
+INFO: 2013-01-09 22:37:22,331 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:22,795 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:22,795 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 463.50ms
+INFO: 2013-01-09 22:37:25,332 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:25,802 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:25,803 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 470.97ms
+INFO: 2013-01-09 22:37:28,331 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:28,809 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:28,810 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 478.29ms
+INFO: 2013-01-09 22:37:31,332 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:31,808 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:31,808 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 475.91ms
+INFO: 2013-01-09 22:37:34,332 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:37,109 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:37,109 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 2777.95ms
+INFO: 2013-01-09 22:37:37,331 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:37,793 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:37,794 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 462.45ms
+INFO: 2013-01-09 22:37:40,332 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:40,922 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:40,923 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 591.48ms
+INFO: 2013-01-09 22:37:43,332 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:43,836 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:43,836 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 504.39ms
+INFO: 2013-01-09 22:37:46,332 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:46,881 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:46,881 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 549.55ms
+INFO: 2013-01-09 22:37:49,331 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:49,880 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:49,881 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 549.62ms
+INFO: 2013-01-09 22:37:52,331 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:52,795 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:52,795 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 464.30ms
+INFO: 2013-01-09 22:37:55,332 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:55,802 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:55,802 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 470.48ms
+INFO: 2013-01-09 22:37:58,330 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:37:58,787 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:37:58,787 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 456.96ms
+INFO: 2013-01-09 22:38:01,330 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:01,808 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:01,808 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 478.18ms
+INFO: 2013-01-09 22:38:04,331 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:04,847 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:04,847 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 516.62ms
+INFO: 2013-01-09 22:38:07,332 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:07,822 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:07,822 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 490.62ms
+INFO: 2013-01-09 22:38:10,331 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:10,795 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:10,795 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 464.49ms
+INFO: 2013-01-09 22:38:13,331 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:13,998 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:13,998 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 667.57ms
+INFO: 2013-01-09 22:38:16,331 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:16,801 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:16,801 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 470.88ms
+INFO: 2013-01-09 22:38:19,331 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:19,869 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:19,869 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 538.45ms
+INFO: 2013-01-09 22:38:22,332 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:22,782 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:22,782 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 451.38ms
+INFO: 2013-01-09 22:38:25,330 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:25,877 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:25,877 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 547.59ms
+INFO: 2013-01-09 22:38:28,330 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:28,811 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:28,812 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 481.38ms
+INFO: 2013-01-09 22:38:31,330 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:31,862 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:31,863 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 532.59ms
+INFO: 2013-01-09 22:38:34,330 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:34,797 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:34,797 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 467.93ms
+INFO: 2013-01-09 22:38:37,330 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:37,793 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:37,793 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 462.77ms
+INFO: 2013-01-09 22:38:40,330 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:40,815 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:40,815 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 485.42ms
+INFO: 2013-01-09 22:38:43,329 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:43,801 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:43,801 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 472.48ms
+INFO: 2013-01-09 22:38:46,329 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:46,840 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:46,841 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 511.75ms
+INFO: 2013-01-09 22:38:49,329 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:49,823 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:49,823 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 493.88ms
+INFO: 2013-01-09 22:38:52,330 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:52,815 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:52,815 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 484.94ms
+INFO: 2013-01-09 22:38:55,330 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:55,823 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:55,823 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 493.91ms
+INFO: 2013-01-09 22:38:58,330 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:38:58,861 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:38:58,861 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 531.76ms
+INFO: 2013-01-09 22:39:01,329 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:01,803 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:01,804 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 475.32ms
+INFO: 2013-01-09 22:39:04,329 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:04,845 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:04,845 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 516.80ms
+INFO: 2013-01-09 22:39:07,329 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:07,790 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:07,790 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 461.62ms
+INFO: 2013-01-09 22:39:10,329 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:10,809 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:10,809 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 480.55ms
+INFO: 2013-01-09 22:39:13,329 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:13,797 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:13,798 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 468.84ms
+INFO: 2013-01-09 22:39:16,328 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:16,818 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:16,818 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 490.18ms
+INFO: 2013-01-09 22:39:19,329 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:19,868 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:19,868 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 538.90ms
+INFO: 2013-01-09 22:39:22,329 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:22,849 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:22,849 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 520.42ms
+INFO: 2013-01-09 22:39:25,328 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:25,909 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:25,910 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 582.01ms
+INFO: 2013-01-09 22:39:28,328 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:28,982 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:28,983 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 654.80ms
+INFO: 2013-01-09 22:39:31,328 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:31,849 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:31,850 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 522.14ms
+INFO: 2013-01-09 22:39:34,328 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:34,777 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:34,777 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 449.01ms
+INFO: 2013-01-09 22:39:37,327 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:37,910 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:37,910 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 582.76ms
+INFO: 2013-01-09 22:39:40,329 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:40,794 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:40,794 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 465.84ms
+INFO: 2013-01-09 22:39:43,328 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:43,843 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:43,844 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 515.82ms
+INFO: 2013-01-09 22:39:46,327 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:46,790 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:46,790 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 462.94ms
+INFO: 2013-01-09 22:39:49,327 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:49,807 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:49,808 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 480.54ms
+INFO: 2013-01-09 22:39:52,328 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:52,826 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:52,827 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 499.08ms
+INFO: 2013-01-09 22:39:55,327 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:55,999 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:55,999 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 672.15ms
+INFO: 2013-01-09 22:39:58,327 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:39:58,795 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:39:58,795 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 468.19ms
+INFO: 2013-01-09 22:40:01,327 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:01,800 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:01,801 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 474.11ms
+INFO: 2013-01-09 22:40:04,327 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:04,806 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:04,806 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 479.52ms
+INFO: 2013-01-09 22:40:07,328 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:07,873 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:07,874 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 546.10ms
+INFO: 2013-01-09 22:40:10,327 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:10,801 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:10,802 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 474.46ms
+INFO: 2013-01-09 22:40:13,327 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:13,806 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:13,807 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 479.82ms
+INFO: 2013-01-09 22:40:16,327 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:16,808 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:16,809 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 481.69ms
+INFO: 2013-01-09 22:40:19,326 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:19,835 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:19,836 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 509.51ms
+INFO: 2013-01-09 22:40:22,327 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:22,789 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:22,789 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 462.60ms
+INFO: 2013-01-09 22:40:25,326 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:25,789 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:25,790 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 463.46ms
+INFO: 2013-01-09 22:40:28,326 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:28,816 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:28,817 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 490.77ms
+INFO: 2013-01-09 22:40:31,326 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:31,841 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:31,842 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 516.14ms
+INFO: 2013-01-09 22:40:34,327 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:35,335 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:35,336 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 1009.00ms
+INFO: 2013-01-09 22:40:37,326 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:37,831 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:37,831 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 504.52ms
+INFO: 2013-01-09 22:40:40,326 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:40,790 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:40,790 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 464.27ms
+INFO: 2013-01-09 22:40:43,326 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:43,812 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:43,813 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 487.27ms
+INFO: 2013-01-09 22:40:46,327 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:46,783 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:46,784 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 457.15ms
+INFO: 2013-01-09 22:40:49,326 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:49,788 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:49,788 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 462.44ms
+INFO: 2013-01-09 22:40:52,326 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:52,796 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:52,796 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 470.83ms
+INFO: 2013-01-09 22:40:55,326 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:40:55,839 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:40:55,840 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 513.98ms
+INFO: 2013-01-09 22:45:20,474 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:20,475 -- 200 GET /Authorize/8B53180C-63A9-43C5-A226-D394B0F1F30C (fe80::1%lo0) 1.06ms
+INFO: 2013-01-09 22:45:20,540 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:20,541 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:20,875 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections (fe80::1%lo0) 335.93ms
+INFO: 2013-01-09 22:45:20,879 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:20,881 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:20,882 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:20,883 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:21,193 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (fe80::1%lo0) 652.24ms
+INFO: 2013-01-09 22:45:21,194 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:21,504 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (fe80::1%lo0) 625.28ms
+INFO: 2013-01-09 22:45:21,505 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:21,532 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (fe80::1%lo0) 650.79ms
+INFO: 2013-01-09 22:45:21,532 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:21,624 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (fe80::1%lo0) 741.43ms
+INFO: 2013-01-09 22:45:21,625 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:21,631 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (fe80::1%lo0) 749.01ms
+INFO: 2013-01-09 22:45:21,632 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:22,010 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (fe80::1%lo0) 816.01ms
+INFO: 2013-01-09 22:45:22,356 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (fe80::1%lo0) 731.03ms
+INFO: 2013-01-09 22:45:22,356 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:22,391 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (fe80::1%lo0) 758.92ms
+INFO: 2013-01-09 22:45:22,391 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:22,545 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (fe80::1%lo0) 1040.24ms
+INFO: 2013-01-09 22:45:22,545 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:22,663 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (fe80::1%lo0) 1130.63ms
+INFO: 2013-01-09 22:45:22,663 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:22,962 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (fe80::1%lo0) 951.27ms
+INFO: 2013-01-09 22:45:22,963 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:23,088 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (fe80::1%lo0) 731.45ms
+INFO: 2013-01-09 22:45:23,088 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:23,211 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (fe80::1%lo0) 666.13ms
+INFO: 2013-01-09 22:45:23,212 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:23,480 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (fe80::1%lo0) 1088.99ms
+INFO: 2013-01-09 22:45:23,539 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:24,089 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:45:24,089 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 550.75ms
+INFO: 2013-01-09 22:45:24,380 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (fe80::1%lo0) 1717.01ms
+INFO: 2013-01-09 22:45:24,381 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:24,666 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (fe80::1%lo0) 1577.99ms
+INFO: 2013-01-09 22:45:24,736 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (fe80::1%lo0) 1773.27ms
+INFO: 2013-01-09 22:45:24,736 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:25,307 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (fe80::1%lo0) 2095.44ms
+INFO: 2013-01-09 22:45:25,460 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (fe80::1%lo0) 1079.55ms
+INFO: 2013-01-09 22:45:25,536 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (fe80::1%lo0) 799.98ms
+INFO: 2013-01-09 22:45:26,538 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:45:27,119 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:45:27,119 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 580.59ms
+INFO: 2013-01-09 22:46:55,052 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:55,053 -- 200 GET /Authorize/8B53180C-63A9-43C5-A226-D394B0F1F30C (fe80::1%lo0) 1.17ms
+INFO: 2013-01-09 22:46:55,109 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:55,110 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:55,349 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections (fe80::1%lo0) 240.55ms
+INFO: 2013-01-09 22:46:55,353 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:55,355 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:55,356 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:55,357 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:55,690 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (fe80::1%lo0) 580.31ms
+INFO: 2013-01-09 22:46:55,691 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:55,969 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (fe80::1%lo0) 612.63ms
+INFO: 2013-01-09 22:46:55,969 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:55,985 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (fe80::1%lo0) 629.80ms
+INFO: 2013-01-09 22:46:55,985 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:56,140 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (fe80::1%lo0) 782.94ms
+INFO: 2013-01-09 22:46:56,140 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:56,254 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (fe80::1%lo0) 901.60ms
+INFO: 2013-01-09 22:46:56,255 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:56,743 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (fe80::1%lo0) 602.81ms
+INFO: 2013-01-09 22:46:56,743 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:56,772 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (fe80::1%lo0) 802.90ms
+INFO: 2013-01-09 22:46:56,773 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:56,785 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (fe80::1%lo0) 799.66ms
+INFO: 2013-01-09 22:46:56,785 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:56,986 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (fe80::1%lo0) 1295.07ms
+INFO: 2013-01-09 22:46:57,248 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (fe80::1%lo0) 992.85ms
+INFO: 2013-01-09 22:46:57,248 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:57,415 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (fe80::1%lo0) 629.22ms
+INFO: 2013-01-09 22:46:57,415 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:57,475 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (fe80::1%lo0) 702.12ms
+INFO: 2013-01-09 22:46:57,475 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Wine for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:57,705 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (fe80::1%lo0) 962.23ms
+INFO: 2013-01-09 22:46:57,785 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (fe80::1%lo0) 798.26ms
+INFO: 2013-01-09 22:46:57,785 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:57,910 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (fe80::1%lo0) 661.54ms
+INFO: 2013-01-09 22:46:57,910 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Travel for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:58,109 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:46:58,198 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Wine/Thumbnail (fe80::1%lo0) 723.15ms
+INFO: 2013-01-09 22:46:58,628 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (fe80::1%lo0) 1213.45ms
+INFO: 2013-01-09 22:46:58,641 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:46:58,641 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 532.36ms
+INFO: 2013-01-09 22:46:58,785 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Travel/Thumbnail (fe80::1%lo0) 875.15ms
+INFO: 2013-01-09 22:46:58,902 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (fe80::1%lo0) 1117.20ms
+INFO: 2013-01-09 22:46:58,903 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for UW for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:00,221 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/UW/Thumbnail (fe80::1%lo0) 1318.23ms
+INFO: 2013-01-09 22:47:01,109 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:01,636 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:47:01,636 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 527.43ms
+INFO: 2013-01-09 22:47:04,109 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:04,636 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:47:04,636 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 526.92ms
+INFO: 2013-01-09 22:47:07,109 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:07,589 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:47:07,589 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 480.97ms
+INFO: 2013-01-09 22:47:10,109 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:10,651 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:47:10,651 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 542.75ms
+INFO: 2013-01-09 22:47:13,108 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:13,619 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:47:13,619 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 510.98ms
+INFO: 2013-01-09 22:47:16,108 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:16,669 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:47:16,669 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 561.41ms
+INFO: 2013-01-09 22:47:19,108 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:19,620 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:47:19,620 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 512.62ms
+INFO: 2013-01-09 22:47:22,107 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:22,587 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:47:22,587 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 479.76ms
+INFO: 2013-01-09 22:47:25,107 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:25,641 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:47:25,641 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 533.61ms

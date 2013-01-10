@@ -67,6 +67,9 @@
     // redirect, so each time we reset the data.
     
     [self.receivedData setLength:0];
+    NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+    int code = [httpResponse statusCode];
+    NSLog(@"%d", code);
 }
 
 /*
@@ -124,15 +127,16 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    //enable for debug
     // do something with the data
     // receivedData is declared as a method instance elsewhere
     //enable for debug
-//    NSLog(@"Succeeded! Received %d bytes of data",[self.receivedData length]);
-//    if ([self.receivedData length] > 0)
-//    {
-//        NSString *dataStr = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
-//        //enable for debug
-//        NSLog(@"%@", dataStr);
-//    }
+    NSLog(@"Succeeded! Received %d bytes of data",[self.receivedData length]);
+    if ([self.receivedData length] > 0)
+    {
+        NSString *dataStr = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
+        //enable for debug
+        NSLog(@"%@", dataStr);
+    }
 }
 @end

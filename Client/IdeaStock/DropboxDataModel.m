@@ -71,7 +71,7 @@
     return _restClient;
 }
 
--(void) setDelegate:(id <QueueProducer,DBRestClientDelegate>)delegate{
+-(void) setDelegate:(id) delegate{
     self.restClient.delegate = delegate;
 }
 
@@ -233,7 +233,6 @@ ToCollection: (NSString *) bulletinBoardName{
 
 -(void) updateCollectionWithName: (NSString *) bulletinBoardName 
                andContent: (NSData *) content{
-    [self.actionController setActionInProgress:NO];
     
     
     NSError * err;
@@ -563,7 +562,6 @@ loadMetadataFailedWithError:(NSError *)error {
             NSLog(@"Successfully Uploaded File from %@ to %@", srcPath,destPath);
             [(self.actions)[ACTION_TYPE_UPLOAD_FILE] removeObjectForKey:destPathOrg];
             NSLog(@"Remaining Actions: %@",self.actions);
-            self.actionController.actionInProgress = NO;
             
         }
     }
@@ -607,7 +605,6 @@ loadMetadataFailedWithError:(NSError *)error {
         
         [self.restClient uploadFile:BULLETINBOARD_XOOML_FILE_NAME toPath:path withParentRev:nil fromPath:sourcePath];
         
-        [self.actionController setActionInProgress:NO];
         
         return;
         
@@ -655,7 +652,6 @@ loadMetadataFailedWithError:(NSError *)error {
             
             
             (self.actions)[ACTION_TYPE_UPLOAD_FILE][path] = imageAction;
-            [self.actionController setActionInProgress:YES];
             [self.restClient uploadFile:actionItem.actionFileName toPath:path withParentRev:nil fromPath:imgPath];
         } 
     }
@@ -684,7 +680,6 @@ loadMetadataFailedWithError:(NSError *)error {
             //all the bulletinboard files are downloaded
             //now initialize the bulletinBoard. 
             NSLog(@"All Files Download");
-            [self.actionController setActionInProgress:NO];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"bulletinboardsDownloaded" object:self];
         }        
     }    
@@ -705,7 +700,6 @@ loadMetadataFailedWithError:(NSError *)error {
 
 - (void)restClient:(DBRestClient*)client deletedPath:(NSString *)path{
     NSLog(@"Successfully deleted path : %@", path);
-    self.actionController.actionInProgress = NO;
 }
 
 - (void)restClient:(DBRestClient*)client deletePathFailedWithError:(NSError*)error{
