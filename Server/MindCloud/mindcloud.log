@@ -2583,3 +2583,24 @@ WARNING: 2013-01-09 22:47:22,587 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30
 INFO: 2013-01-09 22:47:25,107 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
 INFO: 2013-01-09 22:47:25,641 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
 WARNING: 2013-01-09 22:47:25,641 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 533.61ms
+INFO: 2013-01-09 22:47:28,108 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:28,598 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:47:28,598 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 490.49ms
+INFO: 2013-01-09 22:47:31,108 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:31,621 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:47:31,621 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 513.37ms
+INFO: 2013-01-09 22:47:34,107 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:34,667 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:47:34,667 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 559.74ms
+INFO: 2013-01-09 22:47:37,107 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:37,647 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:47:37,647 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 539.86ms
+INFO: 2013-01-09 22:47:40,107 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:40,647 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:47:40,647 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 539.88ms
+INFO: 2013-01-09 22:47:43,107 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:43,584 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:47:43,585 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 477.98ms
+INFO: 2013-01-09 22:47:46,107 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-09 22:47:46,619 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-09 22:47:46,620 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 513.24ms
