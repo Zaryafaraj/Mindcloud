@@ -10,16 +10,16 @@
 
 @interface FileSystemHelper : NSObject
 
-+ (NSString *) getPathForBulletinBoardWithName:(NSString *) bulletinBoardName;
++ (NSString *) getPathForCollectionWithName:(NSString *) collectionName;
 
-+ (NSString *) getPathForNoteWithName: (NSString *) noteName inBulletinBoardWithName: (NSString *) bulletinBoardName;        
++ (NSString *) getPathForNoteWithName: (NSString *) noteName inCollectionWithName: (NSString *) bulletinBoardName;        
 
 + (void) createMissingDirectoryForPath: (NSString *) path;
 
-+(NSString *) getPathForImageWithName: (NSString *) imgName
++ (NSString *) getPathForImageWithName: (NSString *) imgName
                           forNoteName: (NSString *) noteName
                       inBulletinBoard: (NSString *) bulletinBoardName;
 
-+(BOOL) doesFileExist: (NSString *) path;
++ (BOOL) doesFileExist: (NSString *) path;
 
 @end

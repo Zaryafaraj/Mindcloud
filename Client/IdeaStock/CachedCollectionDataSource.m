@@ -51,7 +51,8 @@
 
 - (NSData *) getCollection: (NSString *) collectionName
 {
-    return nil;
+    //Try to get the collection from disk
+    
 }
 
 - (NSData *) getNoteForTheCollection: (NSString *) collectionName
@@ -67,9 +68,9 @@
     return nil;
 }
 
--(NSData *) getBulletinBoardData: (NSString *) collectionName{
+-(NSData *) getCollectionFromDisk: (NSString *) collectionName{
     
-    NSString * path = [FileSystemHelper getPathForBulletinBoardWithName: collectionName];
+    NSString * path = [FileSystemHelper getPathForCollectionWithName: collectionName];
     NSError * err;
     NSString *data = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
     if (!data){
@@ -86,7 +87,7 @@
 -(NSData *) getNoteDataForNote: (NSString *) noteName inCollection:(NSString *) collectionName{
     
     
-    NSString * path = [FileSystemHelper getPathForNoteWithName:noteName inBulletinBoardWithName:collectionName];
+    NSString * path = [FileSystemHelper getPathForNoteWithName:noteName inCollectionWithName:collectionName];
     NSError * err;
     NSString *data = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
     if (!data){

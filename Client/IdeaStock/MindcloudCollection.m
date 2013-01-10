@@ -10,7 +10,6 @@
 #import "XoomlManifestParser.h"
 
 #import "XoomlCollectionManifest.h"
-#import "CallBackDataModel.h"
 #import "FileSystemHelper.h"
 #import "DropboxDataModel.h"
 
@@ -144,21 +143,23 @@
     self.bulletinBoardName = collectionName;
     //now ask to download and get the collection
     NSData * collectionData = [self.dataSource getCollection:collectionName];
-    //if the collection has not been downloaded yet
+    //If there is a partial collection on the disk from previous usage use that
+    //temporarily until its updated. Note that getCollection takes care of the
+    //update
     if (collectionData == nil)
     {
         self.manifest = [[XoomlCollectionManifest alloc] iniAsEmpty];
-        
-        //listen for the download to get finished
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(collectionFilesDownloaded:)
-                                                     name:COLLECTION_DOWNLOADED_EVENT
-                                                   object:nil];
     }
     else
     {
         [self loadCollection];
     }
+    
+    //In any case listen for the download to get finished
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(collectionFilesDownloaded:)
+                                                 name:COLLECTION_DOWNLOADED_EVENT
+                                               object:nil];
     return self;
 }
 

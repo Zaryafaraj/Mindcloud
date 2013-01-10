@@ -8,7 +8,6 @@
 
 #import "DropboxDataModel.h"
 #import "FileSystemHelper.h"
-#import "QueueProducer.h"
 #import "DropboxAction.h"
 #import "XoomlManifestParser.h"
 
@@ -110,7 +109,7 @@
     //first write the new content to the disk
     
     NSError * err;
-    NSString * path = [FileSystemHelper getPathForBulletinBoardWithName:bulletinBoardName];
+    NSString * path = [FileSystemHelper getPathForCollectionWithName:bulletinBoardName];
     [FileSystemHelper createMissingDirectoryForPath:path];
     BOOL didWrite = [content writeToFile:path options:NSDataWritingAtomic error:&err];
     if (!didWrite){
@@ -144,7 +143,7 @@ ToCollection: (NSString *) bulletinBoardName{
     
     NSError * err;
     //first write the note to the disk
-    NSString * path = [FileSystemHelper getPathForNoteWithName:noteName inBulletinBoardWithName:bulletinBoardName];
+    NSString * path = [FileSystemHelper getPathForNoteWithName:noteName inCollectionWithName:bulletinBoardName];
     
     [FileSystemHelper createMissingDirectoryForPath:path];
     BOOL didWrite = [note writeToFile:path options:NSDataWritingAtomic error:&err];
@@ -187,7 +186,7 @@ ToCollection: (NSString *) bulletinBoardName{
     
     
     NSError * err;
-    NSString * notePath = [FileSystemHelper getPathForNoteWithName:noteName inBulletinBoardWithName:bulletinBoardName];
+    NSString * notePath = [FileSystemHelper getPathForNoteWithName:noteName inCollectionWithName:bulletinBoardName];
     
     if (!(self.actions)[ACTION_TYPE_CREATE_FOLDER]){
         (self.actions)[ACTION_TYPE_CREATE_FOLDER] = [[NSMutableDictionary alloc] init];
@@ -238,7 +237,7 @@ ToCollection: (NSString *) bulletinBoardName{
     
     
     NSError * err;
-    NSString * path = [FileSystemHelper getPathForBulletinBoardWithName:bulletinBoardName];
+    NSString * path = [FileSystemHelper getPathForCollectionWithName:bulletinBoardName];
     [FileSystemHelper createMissingDirectoryForPath:path];
     
     BOOL didWrite = [content writeToFile:path options:NSDataWritingAtomic error:&err];
@@ -275,7 +274,7 @@ ToCollection: (NSString *) bulletinBoardName{
    inCollection:(NSString *) bulletinBoardName{
     
     NSError *err;
-    NSString *path = [FileSystemHelper getPathForNoteWithName:noteName inBulletinBoardWithName:bulletinBoardName];
+    NSString *path = [FileSystemHelper getPathForNoteWithName:noteName inCollectionWithName:bulletinBoardName];
     [FileSystemHelper createMissingDirectoryForPath:path];
     
     BOOL didWrite = [content writeToFile:path options:NSDataWritingAtomic error:&err];
@@ -315,7 +314,7 @@ ToCollection: (NSString *) bulletinBoardName{
 -(void) removeCollection:(NSString *) boardName{
     
     NSError * err;
-    NSString * path = [FileSystemHelper getPathForBulletinBoardWithName:boardName];
+    NSString * path = [FileSystemHelper getPathForCollectionWithName:boardName];
     path = [path stringByDeletingLastPathComponent];
     NSFileManager * manager = [NSFileManager defaultManager];
     BOOL didDelete = [manager removeItemAtPath:path error:&err];
@@ -336,7 +335,7 @@ ToCollection: (NSString *) bulletinBoardName{
     
     
      NSError *err;
-     NSString * path = [[FileSystemHelper getPathForNoteWithName:noteName inBulletinBoardWithName:bulletinBoardName] stringByDeletingLastPathComponent];
+     NSString * path = [[FileSystemHelper getPathForNoteWithName:noteName inCollectionWithName:bulletinBoardName] stringByDeletingLastPathComponent];
      NSFileManager * manager = [NSFileManager defaultManager];
      BOOL didDelete = [manager removeItemAtPath:path error:&err];
      

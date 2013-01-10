@@ -24,13 +24,10 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *title;
 @property (strong, nonatomic) UIBarButtonItem * deleteButton;
 @property (strong, nonatomic) UIBarButtonItem * expandButton;
-
 @property (weak, nonatomic) IBOutlet UIScrollView *collectionView;
-
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong,nonatomic) UIActivityIndicatorView *endActivityIndicator;
 
-#pragma mark - UI Elements
 @property int noteCount;
 @property (strong, nonatomic) NSArray * intersectingViews;
 @property (weak, nonatomic) UIView<BulletinBoardObject> * highlightedView;

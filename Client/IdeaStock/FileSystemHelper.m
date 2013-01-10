@@ -11,30 +11,36 @@
 @implementation FileSystemHelper
 
 //files are saved in lowercase
-#define BULLETINBOARD_XOOML_FILE_NAME @"xooml.xml"
-#define NOTE_XOOML_FILE_NAME @"xooml.xml"
+#define BULLETINBOARD_XOOML_FILE_NAME @"collection.xml"
+#define NOTE_XOOML_FILE_NAME @"note.xml"
 
-+ (NSString *) getPathForBulletinBoardWithName:(NSString *) bulletinBoardName{
++ (NSString *) getPathForCollectionWithName:(NSString *) collectionName{
     
+    NSString * pathExtension = [[collectionName stringByAppendingString:@"/"]
+                                stringByAppendingString:BULLETINBOARD_XOOML_FILE_NAME];
     
-    NSString * pathExtension = [[bulletinBoardName stringByAppendingString:@"/"] stringByAppendingString:BULLETINBOARD_XOOML_FILE_NAME];
     pathExtension = [pathExtension lowercaseString];
-    NSString *path = [NSTemporaryDirectory() stringByAppendingString:pathExtension];
+    NSString *path = [[NSHomeDirectory() stringByAppendingString:@"/Documents/"]
+                      stringByAppendingString:pathExtension];
     return path;
-
-    
 }
 
-+ (NSString *) getPathForNoteWithName: (NSString *) noteName inBulletinBoardWithName: (NSString *) bulletinBoardName{
-    NSString * bulletinBoardPath = [bulletinBoardName stringByAppendingString:@"/"];
-    NSString * noteExtension = [[[bulletinBoardPath stringByAppendingString:noteName] stringByAppendingString:@"/"] stringByAppendingString:NOTE_XOOML_FILE_NAME];
++ (NSString *) getPathForNoteWithName: (NSString *) noteName
+                 inCollectionWithName: (NSString *) collectionName{
+    
+    NSString * bulletinBoardPath = [collectionName stringByAppendingString:@"/"];
+    NSString * noteExtension = [[[bulletinBoardPath stringByAppendingString:noteName]
+                                 stringByAppendingString:@"/"]
+                                stringByAppendingString:NOTE_XOOML_FILE_NAME];
     
     noteExtension = [noteExtension lowercaseString];
-    NSString * path = [NSTemporaryDirectory() stringByAppendingString:noteExtension];
+    NSString * path = [[NSHomeDirectory() stringByAppendingString: @"/Documents/"]
+                       stringByAppendingString:noteExtension];
     return path;
 }
 
 + (void) createMissingDirectoryForPath: (NSString *) path{
+    
     NSString *lastComponent = [path lastPathComponent];
     BOOL isFile = NO;
     if ([lastComponent isEqualToString:BULLETINBOARD_XOOML_FILE_NAME] ||
@@ -66,27 +72,27 @@
     }
     if (shouldCreateDirectory){
         
-        
-        BOOL didCreate = [fileManager createDirectoryAtPath:directory withIntermediateDirectories:NO attributes:nil error: &err];
+        BOOL didCreate = [fileManager createDirectoryAtPath:directory
+                                withIntermediateDirectories:YES
+                                                 attributes:nil
+                                                      error: &err];
         if(!didCreate){
-            NSLog(@"Failed To create Direcjjjtory: %@",err);
+            NSLog(@"Failed To create Direcjtory: %@",err);
         }
-        
     }
-    
 }
 
 +(NSString *) getPathForImageWithName: (NSString *) imgName
                           forNoteName: (NSString *) noteName
                       inBulletinBoard: (NSString *) bulletinBoardName{
     
-    NSString * imgPath = [FileSystemHelper getPathForNoteWithName:noteName inBulletinBoardWithName:bulletinBoardName];
+    NSString * imgPath = [FileSystemHelper getPathForNoteWithName:noteName
+                                             inCollectionWithName:bulletinBoardName];
     imgPath = [imgPath stringByDeletingLastPathComponent];
     imgName = [imgName lowercaseString];
     imgPath = [imgPath stringByAppendingFormat:@"/%@",imgName];
     
     return imgPath;
-    
 }
 
 +(BOOL) doesFileExist:(NSString *)path

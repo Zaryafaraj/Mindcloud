@@ -9,11 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "CollectionDataSource.h"
 #import <DropboxSDK/DropboxSDK.h>
-#import "CallBackDataModel.h"
-#import "DropboxActionController.h"
-#import "QueueProducer.h"
 
-@interface DropboxDataModel : NSObject <CollectionDataSource,CallBackDataModel,DBRestClientDelegate> 
+@interface DropboxDataModel : NSObject <CollectionDataSource,DBRestClientDelegate> 
 
 
 //action keyed on the action type
@@ -42,7 +39,7 @@
 /*
  This makes sure that no two tasks that can interfere , interfere with each other.
  */
-@property (nonatomic,strong) id<DropboxActionController> actionController;
+@property (nonatomic,strong) id actionController;
 
 -(void) getAllBulletinBoardsAsynch;
 
