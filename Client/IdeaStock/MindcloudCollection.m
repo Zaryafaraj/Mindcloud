@@ -46,6 +46,7 @@
 
 #define SYNCHRONIZATION_PERIOD 2
 
+
 @interface MindcloudCollection()
 
 /*
@@ -77,7 +78,6 @@
  */
 @property (nonatomic,strong) id <CollectionManifestProtocol> manifest;
 
-@property BOOL actionInProgress;
 /*
  determines the number of files that need to be downloaded during initialization
  probably I can make this a local var
@@ -107,7 +107,9 @@
 
 -(CachedCollectionAttributes *) bulletinBoardAttributes{
     if (!_bulletinBoardAttributes){
-        _bulletinBoardAttributes = [self createBulletinBoardAttributeForBulletinBoard];
+        
+        _bulletinBoardAttributes = [[CachedCollectionAttributes alloc]
+                                    initWithAttributes:@[STACKING_TYPE,GROUPING_TYPE]];
     }
     return _bulletinBoardAttributes;
 }
@@ -133,7 +135,6 @@
     return _noteImages;
 }
 
-
 #pragma mark - Initialization
 -(id) initCollection:(NSString *)collectionName
       withDataSource:(id<CollectionDataSource>)dataSource
@@ -141,176 +142,73 @@
     self = [super init];
     self.dataSource = dataSource;
     self.bulletinBoardName = collectionName;
-    
-}
--(id) initBulletinBoardFromXoomlWithDatamodel:(id<CollectionDataSource>)datamodel
-                                      andName:(NSString *)bulletinBoardName{
-    
-    
-    
-    self.dataSource = datamodel;
-    /*
-     if ( [datamodel isKindOfClass:[DropboxDataModel class]]){
-     ((DropboxDataModel *) datamodel).actionController = self;
-     }*/
-    
-    //initialize the data structures
-    self.bulletinBoardName = bulletinBoardName;
-    
-    
-    //if the datamodel requires delegation set your self as the delegate
-    //and return. The initialization cannot be done with synchronous calls
-    if ([datamodel conformsToProtocol:@protocol(CallBackDataModel)]){
-        return self;
+    //now ask to download and get the collection
+    NSData * collectionData = [self.dataSource getCollection:collectionName];
+    //if the collection has not been downloaded yet
+    if (collectionData == nil)
+    {
+        self.manifest = [[XoomlCollectionManifest alloc] iniAsEmpty];
         
+        //listen for the download to get finished
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(collectionFilesDownloaded:)
+                                                     name:COLLECTION_DOWNLOADED_EVENT
+                                                   object:nil];
     }
-    
-    self.dataSource = datamodel;
-    
-    
-    //if the datamodel does not require delegation and is synchronous
-    //we will initialize the innards of the class one by one
-    
-    //First get the xooml file for the bulletinboard as NSData from
-    //the datamodel
-    NSData * bulletinBoardData = [self.dataSource getCollection:bulletinBoardName];
-    
-    //Initialize the bulletinBoard controller to parse and hold the
-    //tree for the bulletin board
-    id bulletinBoardController= [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
-    
-    //Make the bulletinboard controller the datasource and delegate
-    //for the bulletin board so the bulletin board can structural and
-    //data centric questions from it.
-    self.manifest = bulletinBoardController;
-    
-    //Now start to initialize the bulletin board attributes one by one
-    //from the delegate.
-    
-    
-    //Get all the note info for all the notes in the bulletinBoard
-    NSDictionary * noteInfo = [self.manifest getAllNoteBasicInfo];
-    
-    for (NSString * noteID in noteInfo){
-        //for each note create a note Object by reading its separate xooml files
-        //from the data model
-        NSString * noteName = noteInfo[noteID][NOTE_NAME];
-        NSData * noteData = [self.dataSource getNoteForTheCollection:bulletinBoardName WithName:noteName];
-        
-        if (!noteData) return self;
-        
-        
-        [self initiateNoteContent:noteData
-                        forNoteID:noteID
-                          andName:noteName
-                    andProperties:noteInfo];
-        
+    else
+    {
+        [self loadCollection];
     }
-    
-    //initiate Linkages
-    [self initiateLinkages];
-    
-    //initiate stacking
-    [self initiateStacking];
-    
-    //initiate grouping
-    
-    [self initiateGrouping];
-    
-    return self;
-    
-    self.fileCounter = 0;
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(bulletinboardDownloaded:)
-                                                 name:@"bulletinboardsDownloaded"
-                                               object:nil];
-    [(DropboxDataModel <CallBackDataModel> *) self.dataSource getBulletinBoardAsynch:bulletinBoardName];
-    
-    //start synchronization timer
-    [self startTimer];
-    
     return self;
 }
 
+-(void) collectionFilesDownloaded: (NSNotification *) notification{
+    [self loadCollection];
+}
 
-/*
- This methods completely initiates the bulletin board.
- When this method is called it assumes that the bulletinboard data has been downloadded to disk so it uses disk to initiate itself.
- */
-#define NOTE_NAME @"name"
--(void) initiateBulletinBoad{
+-(void) loadCollection{
     
-    NSData * bulletinBoardData = [self getBulletinBoardData];
-    id bulletinBoardController= [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
+    NSData * bulletinBoardData = [self.dataSource getCollection:self.bulletinBoardName];
+    if (!bulletinBoardData)
+    {
+        NSLog(@"Collection Files haven't been downloaded properly");
+        return;
+    }
+    self.manifest = [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
     
-    //Make the bulletinboard controller the datasource and delegate
-    //for the bulletin board so the bulletin board can structural and
-    //data centric questions from it.
-    self.manifest = bulletinBoardController;
-    
-    //Now start to initialize the bulletin board attributes one by one
-    //from the delegate.
-    
+    //get notes from manifest and initalize those
     NSDictionary * noteInfo = [self.manifest getAllNoteBasicInfo];
-    
-    //set up note contents
     for(NSString * noteID in noteInfo){
         
         //for each note create a note Object by reading its separate xooml files
         //from the data model
         NSString * noteName = noteInfo[noteID][NOTE_NAME];
-        NSData * noteData = [self getNoteDataForNote:noteName];
+        NSData * noteData = [self.dataSource getNoteForTheCollection:self.bulletinBoardName
+                                                            WithName:noteName];
+        if (!noteData)
+        {
+            NSLog(@"Could not retreive note data from dataSource");
+        }
+        else
+        {
+            [self initiateNoteContent:noteData
+                            forNoteID:noteID
+                              andName:noteName
+                        andProperties:noteInfo];
+        }
         
-        [self initiateNoteContent:noteData
-                        forNoteID:noteID
-                          andName:noteName
-                    andProperties:noteInfo];
     }
     
-    NSLog(@"Note Content Initiated");
-    NSLog(@"-----------------------");
-    //initiate Linkages
-    NSLog(@"-----------------------");
     [self initiateLinkages];
-    NSLog(@"Linkages initiated");
-    NSLog(@"-----------------------");
-    //initiate stacking
     [self initiateStacking];
-    NSLog(@"Stacking initiated");
-    NSLog(@"-----------------------");
-    //initiate grouping
     [self initiateGrouping];
-    NSLog(@"Grouping initiated");
-    NSLog(@"-----------------------");
-    
-    
-    //send notification to the notification objects
-    //so interested objects can see that the bulletinboard is loaded
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"BulletinBoardLoaded"
+    NSLog(@"Notes Initiated");
+    //Let any listener know that the bulletinboard has been reloaded
+    [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_RELOAD_EVENT
                                                         object:self];
-    
+    //Start the synchronization timer
+    [self startTimer];
 }
-
-/*
- Factory method for the bulletin board attributes
- */
--(CachedCollectionAttributes *) createBulletinBoardAttributeForBulletinBoard{
-    return [[CachedCollectionAttributes alloc] initWithAttributes:@[STACKING_TYPE,GROUPING_TYPE]];
-}
-
-/*
- Factory method for the note bulletin board attributes
- */
--(CachedCollectionAttributes *) createBulletinBoardAttributeForNotes{
-    return [[CachedCollectionAttributes alloc] initWithAttributes:@[NOTE_NAME_TYPE,LINKAGE_TYPE,POSITION_TYPE, VISIBILITY_TYPE]];
-}
-
-
-/*
- Initilizes the bulletin board with the content of a xooml file for a previously
- created bulletinboard.
- */
 
 -(void) initiateNoteContent: (NSData *) noteData
                   forNoteID: (NSString *) noteID
@@ -318,27 +216,24 @@
               andProperties: (NSDictionary *) noteInfos{
     
     id <NoteProtocol> noteObj = [XoomlManifestParser xoomlNoteFromXML:noteData];
+    if (!noteObj) return ;
     
-    if ( !noteObj) return ;
-    
-    if ([noteObj isKindOfClass:[CollectionNote class]]){
-        NSString * imgName = ((CollectionNote *) noteObj).image;
-        if (imgName != nil){
-            NSString * imgPath = [FileSystemHelper getPathForImageWithName:imgName forNoteName:noteName inBulletinBoard:self.bulletinBoardName];
-            if (imgPath != nil && ![imgPath isEqualToString:@""]){
-                (self.noteImages)[noteID] = imgPath;
-            }
+    (self.noteContents)[noteID] = noteObj;
+    //note could have an image or not. If it has an image we have to also add it to note images
+    NSString * imgName = noteObj.image;
+    if (imgName != nil)
+    {
+        NSString * imgPath = [FileSystemHelper getPathForImageWithName:imgName
+                                                           forNoteName:noteName
+                                                       inBulletinBoard:self.bulletinBoardName];
+        if (imgPath != nil && ![imgPath isEqualToString:@""])
+        {
+            (self.noteImages)[noteID] = imgPath;
         }
     }
-    //now set the note object as a noteContent keyed on its id
-    (self.noteContents)[noteID] = noteObj;
     
-    //now initialize the bulletinBoard attributes to hold all the
-    //note specific attributes for that note
-    CachedCollectionAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
-    //get the note specific info from the note basic info
+    //cache the note specific attributes
     NSDictionary * noteInfo = noteInfos[noteID];
-    
     NSString * positionX = noteInfo[POSITION_X];
     if (!positionX ) positionX = DEFAULT_X_POSITION;
     NSString * positionY = noteInfo[POSITION_Y];
@@ -346,182 +241,170 @@
     NSString * isVisible = noteInfo[IS_VISIBLE];
     if (! isVisible) isVisible = DEFAULT_VISIBILITY;
     
-    //Fill out the note specific attributes for that note in the bulletin
-    //board
-    [noteAttribute createAttributeWithName:POSITION_X forAttributeType: POSITION_TYPE andValues:@[positionX]];
-    [noteAttribute createAttributeWithName:POSITION_Y forAttributeType:POSITION_TYPE andValues:@[positionY]];
-    [noteAttribute createAttributeWithName:IS_VISIBLE forAttributeType:VISIBILITY_TYPE andValues:@[isVisible]];
-    [noteAttribute createAttributeWithName:NOTE_NAME forAttributeType: NOTE_NAME_TYPE andValues:@[noteName]];
-    
+    CachedCollectionAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
+    [noteAttribute createAttributeWithName:POSITION_X
+                          forAttributeType: POSITION_TYPE
+                                 andValues:@[positionX]];
+    [noteAttribute createAttributeWithName:POSITION_Y
+                          forAttributeType:POSITION_TYPE
+                                 andValues:@[positionY]];
+    [noteAttribute createAttributeWithName:IS_VISIBLE
+                          forAttributeType:VISIBILITY_TYPE
+                                 andValues:@[isVisible]];
+    [noteAttribute createAttributeWithName:NOTE_NAME
+                          forAttributeType: NOTE_NAME_TYPE
+                                 andValues:@[noteName]];
     (self.noteAttributes)[noteID] = noteAttribute;
-    
 }
 
 
 -(void) initiateLinkages{
-    //For every note in the note content get all the linked notes and
-    //add them to the note attributes only if that referenced notes
-    //in that linkage are exisiting in the note contents.
-    for (NSString * noteID in self.noteContents){
+    //For every note in the note content get all the linked notes and cache them
+    for (NSString * noteID in self.noteContents)
+    {
         NSDictionary *linkageInfo = [self.manifest getNoteAttributeInfo:LINKAGE_TYPE forNote:noteID];
-        for(NSString *linkageName in linkageInfo){
+        for(NSString *linkageName in linkageInfo)
+        {
             NSArray * refIDs = linkageInfo[linkageName];
-            for (NSString * refID in refIDs){
-                if ((self.noteContents)[refID]){
-                    [(self.noteAttributes)[noteID] addValues:@[refID] ToAttribute:linkageName forAttributeType:LINKAGE_TYPE];
+            for (NSString * refID in refIDs)
+            {
+                if ((self.noteContents)[refID])
+                {
+                    [(self.noteAttributes)[noteID] addValues:@[refID]
+                                                 ToAttribute:linkageName
+                                            forAttributeType:LINKAGE_TYPE];
                 }
             }
-            
-            
         }
     }
-    
-    
 }
 
 -(void) initiateStacking{
-    
-    //get the stacking information and fill out the stacking attributes
+    //get the stacking information and cache them
     NSDictionary *stackingInfo = [self.manifest getCollectionAttributeInfo:STACKING_TYPE];
-    for (NSString * stackingName in stackingInfo){
+    for (NSString * stackingName in stackingInfo)
+    {
         NSArray * refIDs = stackingInfo[stackingName];
-        for (NSString * refID in refIDs){
-            if(!(self.noteContents)[refIDs]){
+        for (NSString * refID in refIDs)
+        {
+            if(!(self.noteContents)[refIDs])
+            {
                 [self.bulletinBoardAttributes addValues:@[refID] ToAttribute:stackingName forAttributeType:STACKING_TYPE];
             }
         }
     }
-    
 }
 
 -(void) initiateGrouping{
-    
-    //get the grouping information and fill out the grouping info
+    //get the grouping information and cache them
     NSDictionary *groupingInfo = [self.manifest getCollectionAttributeInfo:GROUPING_TYPE];
-    for (NSString * groupingName in groupingInfo){
+    for (NSString * groupingName in groupingInfo)
+    {
         NSArray * refIDs = groupingInfo[groupingName];
-        for (NSString * refID in refIDs){
-            if(!(self.noteContents)[refIDs]){
+        for (NSString * refID in refIDs)
+        {
+            if(!(self.noteContents)[refIDs])
+            {
                 [self.bulletinBoardAttributes addValues:@[refID] ToAttribute:groupingName forAttributeType:GROUPING_TYPE];
             }
         }
     }
-    
 }
 
-
-
-/*--------------------------------------------------
- 
- Addition
- 
- -------------------------------------------------*/
+#pragma mark - Creation
 
 -(void) addNoteContent: (id <NoteProtocol>) note
          andProperties: (NSDictionary *) properties{
     
-    //get note Name and note ID if they are not present throw an exception
     NSString * noteID = properties[NOTE_ID];
     NSString * noteName = properties[NOTE_NAME];
     if (!noteID || !noteName) [NSException raise:NSInvalidArgumentException
                                           format:@"A Values is missing from the required properties dictionary"];
-    
-    //set the note content for the noteID
     (self.noteContents)[noteID] = note;
     
-    //get other optional properties for the note.
-    //If they are not present use default values
     NSString * positionX = properties[POSITION_X];
-    if (!positionX) positionX = DEFAULT_X_POSITION;
     NSString * positionY = properties[POSITION_Y];
-    if (!positionY) positionY = DEFAULT_Y_POSITION;
     NSString * isVisible = properties[IS_VISIBLE];
-    if(!isVisible) isVisible = DEFAULT_VISIBILITY;
-    
-    //create a dictionary of note properties
+    if (!positionX) positionX = DEFAULT_X_POSITION;
+    if (!positionY) positionY = DEFAULT_Y_POSITION;
+    if (!isVisible) isVisible = DEFAULT_VISIBILITY;
     NSDictionary *noteProperties = @{NOTE_NAME: noteName,
-NOTE_ID: noteID,
-POSITION_X: positionX,
-POSITION_Y: positionY,
-IS_VISIBLE: isVisible};
+                                     NOTE_ID: noteID,
+                                     POSITION_X: positionX,
+                                     POSITION_Y: positionY,
+                                     IS_VISIBLE: isVisible};
     
-    //have the delegate hold the structural information about the note
     [self.manifest addNoteWithID:noteID andProperties:noteProperties];
     
-    //have the notes bulletin board attribute list for the note hold the note
-    //properties
     CachedCollectionAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
-    [noteAttribute createAttributeWithName:NOTE_NAME forAttributeType: NOTE_NAME_TYPE andValues:@[noteName]];
-    [noteAttribute createAttributeWithName:POSITION_X forAttributeType: POSITION_TYPE andValues:@[positionX]];
-    [noteAttribute createAttributeWithName:POSITION_Y forAttributeType:POSITION_TYPE andValues:@[positionY]];
-    [noteAttribute createAttributeWithName:IS_VISIBLE forAttributeType:VISIBILITY_TYPE andValues:@[isVisible]];
-    
+    [noteAttribute createAttributeWithName:NOTE_NAME
+                          forAttributeType:NOTE_NAME_TYPE
+                                 andValues:@[noteName]];
+    [noteAttribute createAttributeWithName:POSITION_X
+                          forAttributeType: POSITION_TYPE
+                                 andValues:@[positionX]];
+    [noteAttribute createAttributeWithName:POSITION_Y
+                          forAttributeType:POSITION_TYPE
+                                 andValues:@[positionY]];
+    [noteAttribute createAttributeWithName:IS_VISIBLE
+                          forAttributeType:VISIBILITY_TYPE
+                                 andValues:@[isVisible]];
     (self.noteAttributes)[noteID] = noteAttribute;
     
-    //update the datamodel
     NSData * noteData = [XoomlManifestParser convertNoteToXooml:note];
     [self.dataSource addNote:noteName withContent:noteData  ToCollection:self.bulletinBoardName];
     
-    self.actionInProgress = YES;
     self.needSynchronization = YES;
 }
 
 - (void) addImageNoteContent:(id <NoteProtocol> )note
                andProperties:properties
                     andImage: (NSData *) img{
-    //get note Name and note ID if they are not present throw an exception
+    
     NSString * noteID = properties[NOTE_ID];
     NSString * noteName = properties[NOTE_NAME];
     if (!noteID || !noteName) [NSException raise:NSInvalidArgumentException
                                           format:@"A Values is missing from the required properties dictionary"];
     
-    //set the note content for the noteID
     (self.noteContents)[noteID] = note;
     
-    //get other optional properties for the note.
-    //If they are not present use default values
     NSString * positionX = properties[POSITION_X];
-    if (!positionX) positionX = DEFAULT_X_POSITION;
     NSString * positionY = properties[POSITION_Y];
-    if (!positionY) positionY = DEFAULT_Y_POSITION;
     NSString * isVisible = properties[IS_VISIBLE];
+    if (!positionY) positionY = DEFAULT_Y_POSITION;
+    if (!positionX) positionX = DEFAULT_X_POSITION;
     if(!isVisible) isVisible = DEFAULT_VISIBILITY;
-    
-    //create a dictionary of note properties
     NSDictionary *noteProperties = @{NOTE_NAME: noteName,
-NOTE_ID: noteID,
-POSITION_X: positionX,
-POSITION_Y: positionY,
-IS_VISIBLE: isVisible};
-    
-    //have the delegate hold the structural information about the note
+                                     NOTE_ID: noteID,
+                                     POSITION_X: positionX,
+                                     POSITION_Y: positionY,
+                                     IS_VISIBLE: isVisible};
     [self.manifest addNoteWithID:noteID andProperties:noteProperties];
     
-    //have the notes bulletin board attribute list for the note hold the note
-    //properties
     CachedCollectionAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
-    [noteAttribute createAttributeWithName:NOTE_NAME forAttributeType: NOTE_NAME_TYPE andValues:@[noteName]];
-    [noteAttribute createAttributeWithName:POSITION_X forAttributeType: POSITION_TYPE andValues:@[positionX]];
-    [noteAttribute createAttributeWithName:POSITION_Y forAttributeType:POSITION_TYPE andValues:@[positionY]];
-    [noteAttribute createAttributeWithName:IS_VISIBLE forAttributeType:VISIBILITY_TYPE andValues:@[isVisible]];
-    
+    [noteAttribute createAttributeWithName:NOTE_NAME
+                          forAttributeType:NOTE_NAME_TYPE
+                                 andValues:@[noteName]];
+    [noteAttribute createAttributeWithName:POSITION_X
+                          forAttributeType:POSITION_TYPE
+                                 andValues:@[positionX]];
+    [noteAttribute createAttributeWithName:POSITION_Y
+                          forAttributeType:POSITION_TYPE
+                                 andValues:@[positionY]];
+    [noteAttribute createAttributeWithName:IS_VISIBLE
+                          forAttributeType:VISIBILITY_TYPE
+                                 andValues:@[isVisible]];
     (self.noteAttributes)[noteID] = noteAttribute;
     
     //just save the noteID that has images not the image itself. This is
     //for performance reasons, anytime that an image is needed we will load
     //it from the disk. The dictionary holds noteID and imageFile Path
-    
     NSData * noteData = [XoomlManifestParser convertImageNoteToXooml:note];
-    
     NSString * imgName = [XoomlManifestParser getImageFileName: note];
-    
-    NSString * imgPath = [FileSystemHelper getPathForImageWithName:imgName forNoteName:noteName inBulletinBoard:self.bulletinBoardName];
-    
+    NSString * imgPath = [FileSystemHelper getPathForImageWithName:imgName
+                                                       forNoteName:noteName
+                                                   inBulletinBoard:self.bulletinBoardName];
     (self.noteImages)[noteID] = imgPath;
-    //just save the noteID that has images not the image itself. This is
-    //for performance reasons, anytime that an image is needed we will load
-    //it from the disk. The dictionary holds noteID and imageFileName
-    
     
     [self.dataSource addImageNote: noteName
                   withNoteContent: noteData
@@ -529,10 +412,7 @@ IS_VISIBLE: isVisible};
                 withImageFileName: imgName
                      toCollection:self.bulletinBoardName];
     
-    
-    self.actionInProgress = YES;
     self.needSynchronization = YES;
-    
 }
 
 -(void) addNoteAttribute: (NSString *) attributeName
@@ -540,19 +420,19 @@ IS_VISIBLE: isVisible};
                  forNote: (NSString *) noteID
                andValues: (NSArray *) values{
     
-    //if the noteID is invalid return
     if(!(self.noteContents)[noteID]) return;
     
     //get the noteattributes for the specified note. If there are no attributes for that
     //note create a new bulletinboard attribute list.
     CachedCollectionAttributes * noteAttributes = (self.noteAttributes)[noteID];
     if(!noteAttributes) noteAttributes = [self createBulletinBoardAttributeForNotes];
+    [noteAttributes createAttributeWithName:attributeName
+                           forAttributeType:attributeType
+                                  andValues:values];
     
-    //add the note attribute to the attribute list of the notes
-    [noteAttributes createAttributeWithName:attributeName forAttributeType:attributeType andValues:values];
-    
-    //have the delegate reflect the changes in its struture
-    [self.manifest addNoteAttribute:attributeName forType:attributeType forNote:noteID withValues:values];
+    [self.manifest addNoteAttribute:attributeName
+                            forType:attributeType
+                            forNote:noteID withValues:values];
     
     self.needSynchronization = YES;
 }
@@ -563,76 +443,73 @@ toAttributeName: (NSString *) attributeName
 forAttributeType: (NSString *) attributeType
          ofNote: (NSString *) sourceNoteId{
     
-    //if the targetNoteID and sourceNoteID are invalid return
     if (!(self.noteContents)[targetNoteID] || !(self.noteContents)[sourceNoteId]) return;
     
     // add the target noteValue to the source notes attribute list
-    [(self.noteAttributes)[sourceNoteId] addValues:@[targetNoteID] ToAttribute:attributeName forAttributeType:attributeType];
+    [(self.noteAttributes)[sourceNoteId] addValues:@[targetNoteID]
+                                       ToAttribute:attributeName
+                                  forAttributeType:attributeType];
     
-    //have the delegate reflect the changes in its struture
-    [self.manifest addNoteAttribute:attributeName forType:attributeType forNote:sourceNoteId withValues:@[targetNoteID]];
+    [self.manifest addNoteAttribute:attributeName
+                            forType:attributeType
+                            forNote:sourceNoteId
+                         withValues:@[targetNoteID]];
     
     self.needSynchronization = YES;
 }
 
 -(void) addBulletinBoardAttribute: (NSString *) attributeName
                  forAttributeType: (NSString *) attributeType{
-    //add the attribtue to the bulletinBoard attribute list
-    [self.bulletinBoardAttributes createAttributeWithName:attributeName forAttributeType:attributeType];
     
-    //have the delegate reflect the change in its structure
-    [self.manifest addCollectionAttribute:attributeName forType:attributeType withValues:@[]];
+    [self.bulletinBoardAttributes createAttributeWithName:attributeName
+                                         forAttributeType:attributeType];
+    
+    [self.manifest addCollectionAttribute:attributeName
+                                  forType:attributeType
+                               withValues:@[]];
 }
 
 -(void) addNoteWithID:(NSString *)noteID
 toBulletinBoardAttribute:(NSString *)attributeName
      forAttributeType:(NSString *)attributeType{
     
-    //if the noteID is invalid return
     if (!(self.noteContents)[noteID]) return;
     
-    //add the noteID to the bulletinboard attribute
-    [self.bulletinBoardAttributes addValues:@[noteID] ToAttribute:attributeName forAttributeType:attributeType];
+    [self.bulletinBoardAttributes addValues:@[noteID]
+                                ToAttribute:attributeName
+                           forAttributeType:attributeType];
     
-    //have the delegate reflect the change in its structure
-    [self.manifest addCollectionAttribute:attributeName forType:attributeType withValues:@[noteID]];
+    [self.manifest addCollectionAttribute:attributeName
+                                  forType:attributeType
+                               withValues:@[noteID]];
     
     self.needSynchronization = YES;
 }
 
-/*--------------------------------------------------
- 
- Deletion
- 
- -------------------------------------------------*/
+#pragma mark - Deletion
 
 -(void) removeNoteWithID:(NSString *)delNoteID{
     
     id <NoteProtocol> note = (self.noteContents)[delNoteID];
-    //if the note does not exist return
     if (!note) return;
     
-    //get Note Name
-    //TODO this smells
-    NSString *noteName = [[(self.noteAttributes)[delNoteID] getAttributeWithName:NOTE_NAME forAttributeType:NOTE_NAME_TYPE] lastObject];
-    //remove the note content
     [self.noteContents removeObjectForKey:delNoteID];
     
-    //remove All the references in the note attributes
+    //remove all the references to the note
     for (NSString * noteID in self.noteAttributes){
         [(self.noteAttributes)[noteID] removeAllOccurancesOfValue:delNoteID];
     }
-    
-    //remove all the references in the bulletinboard attributes
     [self.bulletinBoardAttributes removeAllOccurancesOfValue:delNoteID];
     
-    //remove all the occurances in the xooml file
     [self.manifest deleteNote:delNoteID];
-    [self.dataSource removeNote:noteName FromCollection:self.bulletinBoardName];
     
-    self.actionInProgress = YES;
+    NSString *noteName = [[(self.noteAttributes)[delNoteID]
+                           getAttributeWithName:NOTE_NAME
+                           forAttributeType:NOTE_NAME_TYPE] lastObject];
+    [self.dataSource removeNote:noteName
+                 FromCollection:self.bulletinBoardName];
+    
     self.needSynchronization = true;
-    
 }
 
 -(void) removeNote: (NSString *) targetNoteID
@@ -640,14 +517,17 @@ toBulletinBoardAttribute:(NSString *)attributeName
             ofType: (NSString *) attributeType
   fromAttributesOf: (NSString *) sourceNoteID{
     
-    //if the targetNoteID and sourceNoteID do not exist return
     if (!(self.noteContents)[targetNoteID] || !(self.noteContents)[sourceNoteID]) return;
     
-    //remove the note from note attributes
-    [(self.noteAttributes)[sourceNoteID] removeNote:targetNoteID fromAttribute:attributeName ofType:attributeType fromAttributesOf:sourceNoteID];
+    [(self.noteAttributes)[sourceNoteID] removeNote:targetNoteID
+                                      fromAttribute:attributeName
+                                             ofType:attributeType
+                                   fromAttributesOf:sourceNoteID];
     
-    //reflect the changes in the xooml structure
-    [self.manifest deleteNote:targetNoteID fromNoteAttribute:attributeName ofType:attributeType forNote:sourceNoteID];
+    [self.manifest deleteNote:targetNoteID
+            fromNoteAttribute:attributeName
+                       ofType:attributeType
+                      forNote:sourceNoteID];
     
     self.needSynchronization = YES;
 }
@@ -655,14 +535,15 @@ toBulletinBoardAttribute:(NSString *)attributeName
 -(void) removeNoteAttribute: (NSString *) attributeName
                      ofType: (NSString *) attributeType
                    FromNote: (NSString *) noteID{
-    //if the noteID is not valid return
+    
     if (!(self.noteContents)[noteID]) return;
     
-    //remove the note attribute from the note attribute list
-    [(self.noteAttributes)[noteID] removeAttribute:attributeName forAttributeType:attributeType];
+    [(self.noteAttributes)[noteID] removeAttribute:attributeName
+                                  forAttributeType:attributeType];
     
-    //reflect the change in the xooml structure
-    [self.manifest deleteNoteAttribute:attributeName ofType:attributeType fromNote:noteID];
+    [self.manifest deleteNoteAttribute:attributeName
+                                ofType:attributeType
+                              fromNote:noteID];
     
     self.needSynchronization = YES;
 }
@@ -689,160 +570,159 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 -(void) removeBulletinBoardAttribute:(NSString *)attributeName
                               ofType:(NSString *)attributeType{
     
-    //remove the attribtue from bulletin board attributes
-    [self.bulletinBoardAttributes removeAttribute:attributeName forAttributeType:attributeType];
+    [self.bulletinBoardAttributes removeAttribute:attributeName
+                                 forAttributeType:attributeType];
     
-    
-    //reflect the change in the xooml structure
     [self.manifest deleteCollectionAttribute:attributeName ofType:attributeType];
-    
     
     self.needSynchronization = YES;
 }
 
-/*--------------------------------------------------
- 
- Update
- 
- -------------------------------------------------*/
+#pragma mark - Update
 
 - (void) updateNoteContentOf:(NSString *)noteID
               withContentsOf:(id<NoteProtocol>)newNote{
     
-    //if noteID is inavlid return
     id <NoteProtocol> oldNote = (self.noteContents)[noteID];
     if (!oldNote) return;
     
-    //for attributes in newNote that a value is specified
-    //update to old note to those values
+    //for attributes in newNote that a value is specified; update those
     if (newNote.noteText) oldNote.noteText = newNote.noteText;
     if (newNote.noteTextID) oldNote.noteTextID = newNote.noteTextID;
     if (newNote.creationDate) oldNote.creationDate = newNote.creationDate;
     if (newNote.modificationDate) oldNote.modificationDate = newNote.modificationDate;
     
-    NSData * noteData = [XoomlManifestParser convertNoteToXooml:(self.noteContents)[noteID]];
+    //Old note now is updated; Serialize and send update datasource
+    NSData * noteData = [XoomlManifestParser convertNoteToXooml:oldNote];
     CachedCollectionAttributes * noteAttributes = (self.noteAttributes)[noteID];
-    NSString * noteName = [[noteAttributes getAttributeWithName:NOTE_NAME forAttributeType:NOTE_NAME_TYPE] lastObject];
-    
+    NSString * noteName = [[noteAttributes getAttributeWithName:NOTE_NAME
+                                               forAttributeType:NOTE_NAME_TYPE] lastObject];
     [self.dataSource updateNote:noteName
                     withContent:noteData
                    inCollection:self.bulletinBoardName];
 }
 
-//TODO There may be performance penalities for this way of doing an update
 - (void) renameNoteAttribute: (NSString *) oldAttributeName
                       ofType: (NSString *) attributeType
                      forNote: (NSString *) noteID
                     withName: (NSString *) newAttributeName{
-    //if the note does not exist return
+    
     if (!(self.noteContents)[noteID]) return;
     
-    //update the note bulletin board
-    [(self.noteAttributes)[noteID] updateAttributeName:oldAttributeName ofType:attributeType withNewName:newAttributeName];
+    [(self.noteAttributes)[noteID] updateAttributeName:oldAttributeName
+                                                ofType:attributeType
+                                           withNewName:newAttributeName];
     
-    //reflect the changes in the xooml data model
-    [self.manifest updateNoteAttribute:oldAttributeName ofType:attributeType forNote:noteID withNewName:newAttributeName];
-    
+    [self.manifest updateNoteAttribute:oldAttributeName
+                                ofType:attributeType
+                               forNote:noteID
+                           withNewName:newAttributeName];
     
     self.needSynchronization = YES;
 }
-
 
 -(void) updateNoteAttributes:(NSString *)noteID
               withAttributes:(NSDictionary *)newProperties{
     
     if (!(self.noteContents)[noteID]) return;
     
-    CachedCollectionAttributes * noteAttribute = (self.noteAttributes)[noteID];
-    
     if(newProperties[POSITION_TYPE]){
+        
+        CachedCollectionAttributes * noteAttribute = (self.noteAttributes)[noteID];
         NSDictionary * positionProp = newProperties[POSITION_TYPE];
-        [noteAttribute updateAttribute:POSITION_X ofType:POSITION_TYPE withNewValue:positionProp[POSITION_X]];
-        [noteAttribute updateAttribute:POSITION_Y ofType:POSITION_TYPE withNewValue:positionProp[POSITION_Y]];
+        [noteAttribute updateAttribute:POSITION_X
+                                ofType:POSITION_TYPE
+                          withNewValue:positionProp[POSITION_X]];
+        [noteAttribute updateAttribute:POSITION_Y
+                                ofType:POSITION_TYPE
+                          withNewValue:positionProp[POSITION_Y]];
+        
         [self.manifest updateNote:noteID withProperties:positionProp];
+        
+        self.needSynchronization = YES;
     }
-    
-    
-    self.needSynchronization = YES;
-    
 }
+
 -(void) updateNoteAttribute: (NSString *) attributeName
                      ofType:(NSString *) attributeType
                     forNote: (NSString *) noteID
               withNewValues: (NSArray *) newValues{
     
-    //iif the noteID is not valid return
     if (!(self.noteContents)[noteID]) return;
     
-    //update the note attribute values
-    [(self.noteAttributes)[noteID] updateAttribute:attributeName ofType:attributeType withNewValue:newValues];
+    [(self.noteAttributes)[noteID] updateAttribute:attributeName
+                                            ofType:attributeType
+                                      withNewValue:newValues];
     
-    //reflect the changes in the xooml data model
-    [self.manifest updateNoteAttribute:attributeName ofType:attributeType forNote: noteID withValues:newValues];
+    [self.manifest updateNoteAttribute:attributeName
+                                ofType:attributeType
+                               forNote: noteID
+                            withValues:newValues];
     
     self.needSynchronization = YES;
-    
 }
 
 - (void) renameBulletinBoardAttribute: (NSString *) oldAttributeNAme
                                ofType: (NSString *) attributeType
                              withName: (NSString *) newAttributeName{
     
-    //update the bulletin board attributes
-    [self.bulletinBoardAttributes updateAttributeName: oldAttributeNAme ofType:attributeType withNewName:newAttributeName];
+    [self.bulletinBoardAttributes updateAttributeName: oldAttributeNAme
+                                               ofType:attributeType
+                                          withNewName:newAttributeName];
     
-    //reflect the changes in the xooml data model
-    [self.manifest updateCollectionAttributeName:oldAttributeNAme ofType:attributeType withNewName:newAttributeName];
+    [self.manifest updateCollectionAttributeName:oldAttributeNAme
+                                          ofType:attributeType
+                                     withNewName:newAttributeName];
     
     self.needSynchronization = YES;
 }
 
-/*--------------------------------------------------
- 
- Query
- 
- -------------------------------------------------*/
+#pragma mark - Query
 
 - (NSDictionary *) getAllNotes{
+    
     return [self.noteContents copy];
 }
+
 - (NSDictionary *) getAllNoteAttributesForNote: (NSString *) noteID{
     
-    CachedCollectionAttributes * noteAttributes = (self.noteAttributes)[noteID];
-    return [noteAttributes getAllAttributes];
+    return [(self.noteAttributes)[noteID] getAllAttributes];
 }
 
 - (NSDictionary *) getAllBulletinBoardAttributeNamesOfType: (NSString *) attributeType{
+    
     return [self.bulletinBoardAttributes getAllAttributeNamesForAttributeType:attributeType];
 }
 
 - (NSDictionary *) getAllNoteAttributeNamesOfType: (NSString *) attributeType
                                           forNote: (NSString *) noteID{
     
-    //if the noteID is invalid return
     if (!(self.noteContents)[noteID]) return nil;
     
     return [(self.noteAttributes)[noteID] getAllAttributeNamesForAttributeType:attributeType];
 }
 
 - (id <NoteProtocol>) getNoteContent: (NSString *) noteID{
+    
+    //ToDo: maybe add a clone method to note to return a clone not the obj itself
     return (self.noteContents)[noteID];
 }
 
 - (NSArray *) getAllNotesBelongingToBulletinBoardAttribute: (NSString *) attributeName
                                           forAttributeType: (NSString *) attributeType{
-    return [self.bulletinBoardAttributes getAttributeWithName:attributeName forAttributeType:attributeType];
+    
+    return [self.bulletinBoardAttributes getAttributeWithName:attributeName
+                                             forAttributeType:attributeType];
 }
 
 - (NSArray *) getAllNotesBelongtingToNoteAttribute: (NSString *) attributeName
                                    ofAttributeType: (NSString *) attributeType
                                            forNote: (NSString *) noteID{
     
-    //if the noteID is invalid return
     if (!(self.noteContents)[noteID]) return nil;
     
-    return [(self.noteAttributes)[noteID] getAttributeWithName:attributeName forAttributeType:attributeType];
-    
+    return [(self.noteAttributes)[noteID] getAttributeWithName:attributeName
+                                              forAttributeType:attributeType];
 }
 
 -(NSDictionary *) getAllNoteImages{
@@ -859,39 +739,20 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     return images;
 }
 
-
-/*--------------------------------------------------
- 
- Synchronization
- 
- -------------------------------------------------*/
-
+#pragma mark - Synchronization Helpers
+/*
+ Every SYNCHRONIZATION_PERIOD seconds we try to synchrnoize.
+ If the synchronize flag is set the bulletin board is updated from Xooml Data in manifest
+ */
 +(void) saveBulletinBoard:(id) bulletinBoard{
     
     if ([bulletinBoard isKindOfClass:[MindcloudCollection class]]){
         
         MindcloudCollection * board = (MindcloudCollection *) bulletinBoard;
-        [board.dataSource updateCollectionWithName:board.bulletinBoardName andContent:[board.manifest data]];
-        
+        [board.dataSource updateCollectionWithName:board.bulletinBoardName
+                                        andContent:[board.manifest data]];
     }
-    
 }
-
-
-/*--------------------------------------------------
- 
- Synchronization
- 
- -------------------------------------------------*/
-
-/*
- Every SYNCHRONIZATION_PERIOD seconds we try to synchrnoize.
- If the synchronize flag is set the bulletin board is updated from
- the internal datastructures.
- 
- 
- */
-
 
 -(void) startTimer{
     [NSTimer scheduledTimerWithTimeInterval: SYNCHRONIZATION_PERIOD
@@ -909,100 +770,37 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 {
     [self synchronize:self.timer];
 }
+
 -(void) synchronize:(NSTimer *) timer{
     
-    //    NSLog(@"Periodic Queue: %@",((DropboxDataModel *) self.dataModel).actions);
-    if (self.actionInProgress){
-        NSLog(@"Synchronization postponed due to an unfinished or failed action");
-        return;
-    }
     if (self.needSynchronization){
-        NSLog(@"==================");
-        NSLog(@"Synchronizing");
-        
-        NSLog(@"Synchronization queue: ");
-        NSLog(@"%@", ((DropboxDataModel *) self.dataSource).actions);
         self.needSynchronization = NO;
-        
-        // self.actionInProgress = YES;
         [MindcloudCollection saveBulletinBoard: self];
     }
 }
 
-
-
-/*--------------------------------------------------
- 
- Notification
- 
- -------------------------------------------------*/
-
--(void)bulletinboardDownloaded: (NSNotification *) notification{
-    
-    [self initiateBulletinBoad];
-}
-
-//TODO Update note name is not provided yet
-
-/*--------------------------------------------------
- 
- Query
- 
- -------------------------------------------------*/
-
--(NSData *) getBulletinBoardData{
-    
-    NSString * path = [FileSystemHelper getPathForBulletinBoardWithName:self.bulletinBoardName];
-    NSError * err;
-    NSString *data = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
-    if (!data){
-        NSLog(@"Failed to read file from disk: %@", err);
-        return nil;
-    }
-    
-    NSLog(@"BulletinBoard : %@ read successful", self.bulletinBoardName);
-    
-    return [data dataUsingEncoding:NSUTF8StringEncoding];
-    
-}
-
--(NSData *) getNoteDataForNote: (NSString *) noteName{
-    
-    
-    NSString * path = [FileSystemHelper getPathForNoteWithName:noteName inBulletinBoardWithName:self.bulletinBoardName];
-    NSError * err;
-    NSString *data = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
-    if (!data){
-        NSLog(@"Failed to read  note file from disk: %@", err);
-        return nil;
-    }
-    
-    NSLog(@"Note: %@ read Successful", noteName);
-    
-    return [data dataUsingEncoding:NSUTF8StringEncoding];
-}
-
+#pragma mark - Helpers
 -(NSData *) getImageDataForPath: (NSString *) path{
+    
     NSError * err;
     NSData * data = [NSData dataWithContentsOfFile:path];
     if (!data){
         NSLog(@"Failed to read  image %@ ile from disk: %@", path,err);
         return nil;
     }
-    
-    NSLog(@"image: %@ read Successful", [path lastPathComponent]);
-    
     return data;
-    
 }
 
+-(CachedCollectionAttributes *) createBulletinBoardAttributeForNotes{
+    return [[CachedCollectionAttributes alloc] initWithAttributes:@[NOTE_NAME_TYPE,
+                                                                    LINKAGE_TYPE,
+                                                                    POSITION_TYPE,
+                                                                    VISIBILITY_TYPE]];
+}
 
-/*-------------------------------------------
- 
- Clean up
- -------------------------------------------*/
-
+#pragma mark - cleanup
 -(void) cleanUp{
+    //check out of the notification center
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

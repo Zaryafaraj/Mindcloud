@@ -17,6 +17,7 @@
 @synthesize  creationDate = _creationDate;
 @synthesize modificationDate = _modificationDate;
 @synthesize image = _image;
+
 //Constructor for creating an empty note with the creationDate
 -(CollectionNote *) initWithCreationDate: (NSString *) date{
     self = [[CollectionNote alloc] init];

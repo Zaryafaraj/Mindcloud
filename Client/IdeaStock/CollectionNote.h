@@ -18,4 +18,5 @@
 -(CollectionNote *) initEmptyNoteWithID: (NSString *) noteID;
 
 -(CollectionNote *) initWithText: (NSString *) text;
+
 @end

@@ -7,7 +7,9 @@
 //
 
 #import "CachedCollectionDataSource.h"
+#import "FileSystemHelper.h"
 
+//TODO make sure you create queue and then action in progress for each thing
 @implementation CachedCollectionDataSource
 
 - (void) addNote: (NSString *)noteName 
@@ -63,5 +65,37 @@
             andCollection: (NSString *) bulletinBoardName
 {
     return nil;
+}
+
+-(NSData *) getBulletinBoardData: (NSString *) collectionName{
+    
+    NSString * path = [FileSystemHelper getPathForBulletinBoardWithName: collectionName];
+    NSError * err;
+    NSString *data = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
+    if (!data){
+        NSLog(@"Failed to read file from disk: %@", err);
+        return nil;
+    }
+    
+    NSLog(@"BulletinBoard : %@ read successful", collectionName);
+    
+    return [data dataUsingEncoding:NSUTF8StringEncoding];
+    
+}
+
+-(NSData *) getNoteDataForNote: (NSString *) noteName inCollection:(NSString *) collectionName{
+    
+    
+    NSString * path = [FileSystemHelper getPathForNoteWithName:noteName inBulletinBoardWithName:collectionName];
+    NSError * err;
+    NSString *data = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
+    if (!data){
+        NSLog(@"Failed to read  note file from disk: %@", err);
+        return nil;
+    }
+    
+    NSLog(@"Note: %@ read Successful", noteName);
+    
+    return [data dataUsingEncoding:NSUTF8StringEncoding];
 }
 @end
