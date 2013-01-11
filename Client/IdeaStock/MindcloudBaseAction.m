@@ -69,7 +69,7 @@
     [self.receivedData setLength:0];
     NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
     int code = [httpResponse statusCode];
-    NSLog(@"%d", code);
+    self.lastStatusCode = code;
 }
 
 /*
@@ -131,11 +131,16 @@
     // do something with the data
     // receivedData is declared as a method instance elsewhere
     //enable for debug
-    NSLog(@"Succeeded! Received %d bytes of data",[self.receivedData length]);
+    if (self.lastStatusCode == 200){
+        NSLog(@"Succeeded! Received %d bytes of data",[self.receivedData length]);
+    }
+    else
+    {
+        NSLog(@"Got Response %d",  self.lastStatusCode);
+    }
     if ([self.receivedData length] > 0)
     {
         NSString *dataStr = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
-        //enable for debug
         NSLog(@"%@", dataStr);
     }
 }

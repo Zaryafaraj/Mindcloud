@@ -46,6 +46,14 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     [super connectionDidFinishLoading:connection];
+    
+    if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
+    {
+        NSLog(@"Received status %d", self.lastStatusCode);
+        self.callback(nil);
+        return;
+    }
+    
     NSDictionary * result =  self.getDataAsDictionary;
     if (result)
     {

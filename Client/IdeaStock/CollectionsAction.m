@@ -39,14 +39,29 @@
 {
     [super connectionDidFinishLoading:connection];
     NSDictionary * result = self.getDataAsDictionary;
-    
     if ([self.request.HTTPMethod isEqualToString:@"GET"])
     {
+        
+        if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
+        {
+            NSLog(@"Received status %d", self.lastStatusCode);
+            self.getCallback(nil);
+            return;
+        }
+        
         NSArray * resultArray = result[COLLECTION_KEY];
         self.getCallback(resultArray);
     }
     else if ([self.request.HTTPMethod isEqualToString:@"POST"])
     {
+        
+        if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
+        {
+            NSLog(@"Received status %d", self.lastStatusCode);
+            self.postCallback();
+            return;
+        }
+        
         if ([result[STATUS_KEY] isEqualToString:@"200"])
         {
             self.postCallback();
@@ -54,6 +69,14 @@
     }
     else if ([self.request.HTTPMethod isEqualToString:@"DELETE"])
     {
+        
+        if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
+        {
+            NSLog(@"Received status %d", self.lastStatusCode);
+            self.deleteCallback();
+            return;
+        }
+        
         if ([result[STATUS_KEY] isEqualToString:@"200"])
         {
             self.deleteCallback();
@@ -61,6 +84,14 @@
     }
     else if ([self.request.HTTPMethod isEqualToString:@"PUT"])
     {
+        
+        if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
+        {
+            NSLog(@"Received status %d", self.lastStatusCode);
+            self.putCallback();
+            return;
+        }
+        
         if ([result[STATUS_KEY] isEqualToString:@"200"])
         {
             self.putCallback();
@@ -108,6 +139,5 @@
         NSLog(@"Failed to connect to %@", self.request.URL);
     }
 }
-
 
 @end

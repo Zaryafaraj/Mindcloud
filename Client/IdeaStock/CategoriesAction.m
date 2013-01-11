@@ -35,11 +35,31 @@
     [super connectionDidFinishLoading:connection];
     if (self.getCallback != nil)
     {
-        self.getCallback(self.receivedData);
+        
+        if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
+        {
+            NSLog(@"Received status %d", self.lastStatusCode);
+            self.getCallback(nil);
+            return;
+        }
+        else
+        {
+            self.getCallback(self.receivedData);
+        }
     }
     else if (self.postCallback != nil)
     {
-        self.postCallback();
+        
+        if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
+        {
+            NSLog(@"Received status %d", self.lastStatusCode);
+            self.postCallback();
+            return;
+        }
+        else
+        {
+            self.postCallback();
+        }
     }
 }
 
