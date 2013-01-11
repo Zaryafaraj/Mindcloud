@@ -817,14 +817,6 @@
 
 -(void) saveCategories:(NSTimer *) timer
 {
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    NSString * userId = [UserPropertiesHelper userID];
-    [mindcloud getCollectionManifestForUser:userId
-                              forCollection:@"ParisSSSS"
-                               withCallback:^(NSData * collectionData){
-                                   NSLog(@"HI");
-                                   NSLog(@"%@", collectionData);
-                               }];
     [self saveCategories];
 }
 
