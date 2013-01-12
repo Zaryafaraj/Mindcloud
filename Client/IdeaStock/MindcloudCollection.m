@@ -12,6 +12,7 @@
 #import "XoomlCollectionManifest.h"
 #import "FileSystemHelper.h"
 #import "DropboxDataModel.h"
+#import "EventTypes.h"
 
 #pragma mark - Definitions
 #define POSITION_X @"positionX"
@@ -224,9 +225,8 @@
     NSString * imgName = noteObj.image;
     if (imgName != nil)
     {
-        NSString * imgPath = [FileSystemHelper getPathForImageWithName:imgName
-                                                           forNoteName:noteName
-                                                       inBulletinBoard:self.bulletinBoardName];
+        NSString * imgPath = [FileSystemHelper getPathForNoteImageforNoteName:noteName
+                                                   inBulletinBoard:self.bulletinBoardName];
         if (imgPath != nil && ![imgPath isEqualToString:@""])
         {
             (self.noteImages)[noteID] = imgPath;
@@ -402,9 +402,8 @@
     //it from the disk. The dictionary holds noteID and imageFile Path
     NSData * noteData = [XoomlManifestParser convertImageNoteToXooml:note];
     NSString * imgName = [XoomlManifestParser getImageFileName: note];
-    NSString * imgPath = [FileSystemHelper getPathForImageWithName:imgName
-                                                       forNoteName:noteName
-                                                   inBulletinBoard:self.bulletinBoardName];
+    NSString * imgPath = [FileSystemHelper getPathForNoteImageforNoteName:noteName
+                                                          inBulletinBoard:self.bulletinBoardName];
     (self.noteImages)[noteID] = imgPath;
     
     [self.dataSource addImageNote: noteName

@@ -12,6 +12,9 @@
 #import "CategoriesAction.h"
 #import "PreviewImageAction.h"
 #import "CollectionAction.h"
+#import "CollectionNotesAction.h"
+#import "NoteAction.h"
+#import "NoteImageAction.h"
 
 @interface Mindcloud : NSObject
 
@@ -60,4 +63,19 @@
 -(void) getCollectionManifestForUser: (NSString *) userName
                        forCollection:(NSString *) collectionName
                         withCallback:(get_collection_callback) callback;
+
+-(void) getAllNotesForUser:(NSString *) userID
+             forCollection:(NSString *) collectionName
+                    withCallback: (get_all_notes_callback)callback;
+
+
+-(void) getNoteManifestforUser:(NSString *)userID
+                       forNote: (NSString *) noteName
+                fromCollection:(NSString *) collectionName
+                  withCallback: (get_note_callback) callback;
+
+-(void) getNoteImageForUser: (NSString *) userID
+                       forNote: (NSString *)noteName
+             fromCollection:(NSString *) collectionName
+               withCallback:(get_note_image_callback) callback;
 @end

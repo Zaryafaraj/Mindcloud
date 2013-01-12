@@ -13,6 +13,7 @@
 //files are saved in lowercase
 #define BULLETINBOARD_XOOML_FILE_NAME @"collection.xml"
 #define NOTE_XOOML_FILE_NAME @"note.xml"
+#define NOTE_IMG_FILE_NAME @"note.jpg"
 
 + (NSString *) getPathForCollectionWithName:(NSString *) collectionName{
     
@@ -82,15 +83,13 @@
     }
 }
 
-+(NSString *) getPathForImageWithName: (NSString *) imgName
-                          forNoteName: (NSString *) noteName
-                      inBulletinBoard: (NSString *) bulletinBoardName{
-    
++ (NSString *) getPathForNoteImageforNoteName: (NSString *) noteName
+                              inBulletinBoard: (NSString *) bulletinBoardName;
+{
     NSString * imgPath = [FileSystemHelper getPathForNoteWithName:noteName
                                              inCollectionWithName:bulletinBoardName];
     imgPath = [imgPath stringByDeletingLastPathComponent];
-    imgName = [imgName lowercaseString];
-    imgPath = [imgPath stringByAppendingFormat:@"/%@",imgName];
+    imgPath = [imgPath stringByAppendingFormat:@"/%@",NOTE_IMG_FILE_NAME];
     
     return imgPath;
 }

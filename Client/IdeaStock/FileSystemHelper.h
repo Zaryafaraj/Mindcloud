@@ -16,9 +16,8 @@
 
 + (void) createMissingDirectoryForPath: (NSString *) path;
 
-+ (NSString *) getPathForImageWithName: (NSString *) imgName
-                          forNoteName: (NSString *) noteName
-                      inBulletinBoard: (NSString *) bulletinBoardName;
++ (NSString *) getPathForNoteImageforNoteName: (NSString *) noteName
+                              inBulletinBoard: (NSString *) bulletinBoardName;
 
 + (BOOL) doesFileExist: (NSString *) path;
 

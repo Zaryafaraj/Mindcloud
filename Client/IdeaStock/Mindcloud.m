@@ -184,4 +184,27 @@ static Mindcloud * instance;
     [action executeGET];
 }
 
+-(void) getAllNotesForUser:(NSString *) userID
+             forCollection:(NSString *) collectionName
+                    withCallback: (get_all_notes_callback)callback
+{
+    
+}
+
+-(void) getNoteManifestforUser:(NSString *)userID
+                       forNote: (NSString *) noteName
+                fromCollection:(NSString *) collectionName
+                  withCallback: (get_note_callback) callback
+{
+    
+}
+
+-(void) getNoteImageForUser: (NSString *) userID
+                       forNote: (NSString *)noteName
+             fromCollection:(NSString *) collectionName
+               withCallback:(get_note_image_callback) callback
+{
+    
+}
+
 @end

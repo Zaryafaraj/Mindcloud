@@ -17,8 +17,6 @@
 #define GROUPING @"grouping"
 #define LINKAGE @"linkage"
 #define POSITION @"position"
-#define COLLECTION_DOWNLOADED_EVENT @"collectionFilesDownloaded"
-#define COLLECTION_RELOAD_EVENT @"CollectionReloaded"
 
 @interface MindcloudCollection : NSObject <BulletinBoardProtocol, SynchronizedObject>
 
