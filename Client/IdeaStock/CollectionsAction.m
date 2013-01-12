@@ -104,7 +104,7 @@
     [self.request setHTTPMethod:@"POST"];
     NSData * postFile = [XoomlManifestParser getEmptyBulletinBoardXooml];
     self.request = [HTTPHelper addPostFile:postFile
-                                  withName:@"xooml.xml"
+                                  withName:@"collection.xml"
                                  andParams:self.postArguments
                                         to:self.request];
     

@@ -31,7 +31,6 @@
 
 -(void) connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    //TODO figure out a way to handle 404 and stuff
     [super connectionDidFinishLoading:connection];
     if (self.getCallback)
     {
@@ -45,6 +44,7 @@
             self.postCallback();
             return;
         }
+        
         if ([self.request.HTTPMethod isEqualToString:@"GET"])
         {
             if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
@@ -63,7 +63,7 @@
 {
     [self.request setHTTPMethod:@"POST"];
     self.request = [HTTPHelper addPostFile:self.postData
-                                  withName:@"Note.xml"
+                                  withName:@"collection.xml"
                                  andParams:@{}
                                         to:self.request];
     
