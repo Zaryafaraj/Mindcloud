@@ -7,6 +7,8 @@
 //
 
 #import "CollectionAction.h"
+#import "HTTPHelper.h"
+
 @interface CollectionAction()
 
 @end
@@ -34,14 +36,42 @@
     if (self.getCallback)
     {
         
-        if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
+        if ([self.request.HTTPMethod isEqualToString:@"POST"])
         {
-            NSLog(@"Received status %d", self.lastStatusCode);
-            self.getCallback(nil);
+            if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
+            {
+                NSLog(@"Received status %d", self.lastStatusCode);
+            }
+            self.postCallback();
             return;
         }
-        
-        self.getCallback(self.receivedData);
+        if ([self.request.HTTPMethod isEqualToString:@"GET"])
+        {
+            if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
+            {
+                NSLog(@"Received status %d", self.lastStatusCode);
+                self.getCallback(nil);
+                return;
+            }
+            
+            self.getCallback(self.receivedData);
+        }
+    }
+}
+
+-(void) executePOST
+{
+    [self.request setHTTPMethod:@"POST"];
+    self.request = [HTTPHelper addPostFile:self.postData
+                                  withName:@"Note.xml"
+                                 andParams:@{}
+                                        to:self.request];
+    
+    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:self.request
+                                                                   delegate:self];
+    if (!theConnection)
+    {
+        NSLog(@"Failed to connect to %@", self.request.URL);
     }
 }
 @end

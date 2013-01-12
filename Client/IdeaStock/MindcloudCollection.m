@@ -11,7 +11,6 @@
 
 #import "XoomlCollectionManifest.h"
 #import "FileSystemHelper.h"
-#import "DropboxDataModel.h"
 #import "EventTypes.h"
 
 #pragma mark - Definitions
@@ -149,7 +148,7 @@
     //update
     if (collectionData == nil)
     {
-        self.manifest = [[XoomlCollectionManifest alloc] iniAsEmpty];
+        self.manifest = [[XoomlCollectionManifest alloc] initAsEmpty];
     }
     else
     {
