@@ -12,8 +12,37 @@
 #import "UserPropertiesHelper.h"
 #import "EventTypes.h"
 
-//TODO make sure you create queue and then action in progress for each thing
+@interface CachedCollectionDataSource()
+
+//we make sure that we don't send out an action before another action of the same type on the same
+//resource is in progress, because of unreliable TCP/IP the second action might reach the server faster
+//and we want to avoid it.
+//These indicate whether an action is being in progress
+@property NSMutableDictionary * inProgressNoteUpdates;
+@property NSMutableDictionary * inProgressNoteImageUpdates;
+@property BOOL manifestUpdateInProgress;
+//dictionaries keyed on the note name and valued on noteData that contain the last update note
+//that is waiting. In case a new one comes in while the note update is in progress it just replaces
+//the old one
+@property NSMutableDictionary * noteUpdateQueue;
+@property NSMutableDictionary * noteImageUpdateQueue;
+@property NSMutableDictionary * waitingDeleteNotes;
+@property NSData * waitingUpdateManifestData;
+
+@end
+
 @implementation CachedCollectionDataSource
+
+-(id) init
+{
+    self = [super init];
+    self.inProgressNoteImageUpdates = [NSMutableDictionary dictionary];
+    self.inProgressNoteUpdates = [NSMutableDictionary dictionary];
+    self.noteImageUpdateQueue = [NSMutableDictionary dictionary];
+    self.noteUpdateQueue = [NSMutableDictionary dictionary];
+    self.waitingUpdateManifestData = [NSMutableDictionary dictionary];
+    return self;
+}
 
 #pragma mark - Addition/Update
 
@@ -22,20 +51,52 @@
     ToCollection: (NSString *) collectionName
 {
     
-    [self saveToDiskNoteData:note
-               forCollection:collectionName
-                     andNote:noteName];
+    //If there was a plan to delete this note just cancel it
+    if (self.waitingDeleteNotes[noteName])
+    {
+        self.waitingDeleteNotes[noteName] = @NO;
+    }
     
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    NSString * userID = [UserPropertiesHelper userID];
-    [mindcloud updateNoteForUser:userID
+    if (self.inProgressNoteUpdates[noteName])
+    {
+        self.noteUpdateQueue[noteName] = note;
+        return;
+    }
+    
+    else
+    {
+        self.inProgressNoteUpdates[noteName] = @YES;
+        
+        [self saveToDiskNoteData:note
                    forCollection:collectionName
-                         andNote:noteName
-                        withData:note
-                    withCallback:^(void){
-                        
-                        NSLog(@"Updated Note %@ for Collection %@", noteName, collectionName);
-    }];
+                         andNote:noteName];
+    
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userID = [UserPropertiesHelper userID];
+        [mindcloud updateNoteForUser:userID
+                       forCollection:collectionName
+                             andNote:noteName
+                            withData:note
+                        withCallback:^(void){
+                            self.inProgressNoteUpdates[noteName] = @NO;
+                            NSLog(@"Updated Note %@ for Collection %@", noteName, collectionName);
+                            
+                            if (self.waitingDeleteNotes[noteName])
+                            {
+                                [self removeNote:noteName FromCollection:collectionName];
+                            }
+                            else if (self.noteUpdateQueue[noteName])
+                            {
+                                NSData * latestNoteData = self.noteUpdateQueue[noteName];
+                                [self.noteUpdateQueue removeObjectForKey:noteName];
+                                
+                                [self addNote:noteName
+                                  withContent:latestNoteData
+                                 ToCollection:collectionName];
+                            }
+        }];
+        
+    }
 }
 
 -(void) addImageNote: (NSString *) noteName
@@ -44,34 +105,89 @@
    withImageFileName: (NSString *)imgName
      toCollection: (NSString *) collectionName;
 {
-    [self saveToDiskNoteData:note
-               forCollection:collectionName
-                     andNote:noteName];
+    //If there was a plan to delete this note just cancel it
+    if (self.waitingDeleteNotes[noteName])
+    {
+        self.waitingDeleteNotes[noteName] = @NO;
+    }
     
-    [self saveToDiskNoteImageData:img
-                    forCollection:collectionName
-                          andNote:noteName];
-    
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    NSString * userID = [UserPropertiesHelper userID];
-    [mindcloud updateNoteAndNoteImageForUser:userID forCollection:collectionName andNote:noteName withNoteData:note andImageData:img withCallback:^(void) {
-                    NSLog(@"Updated Note img %@ for Collection %@", noteName, collectionName);
-    }];
+    if (self.inProgressNoteImageUpdates[noteName])
+    {
+        self.noteImageUpdateQueue[noteName] = note;
+        self.noteUpdateQueue[noteName] = img;
+    }
+    else
+    {
+        self.inProgressNoteImageUpdates[noteName] = @YES;
+        
+        [self saveToDiskNoteData:note
+                   forCollection:collectionName
+                         andNote:noteName];
+        
+        [self saveToDiskNoteImageData:img
+                        forCollection:collectionName
+                              andNote:noteName];
+        
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userID = [UserPropertiesHelper userID];
+        [mindcloud updateNoteAndNoteImageForUser:userID
+                                   forCollection:collectionName
+                                         andNote:noteName
+                                    withNoteData:note
+                                    andImageData:img
+                                    withCallback:^(void) {
+                                        
+                                    self.inProgressNoteImageUpdates[noteName] = @NO;
+                                        NSLog(@"Updated Note img %@ for Collection %@", noteName, collectionName);
+                                        
+                                        if (self.waitingDeleteNotes[noteName])
+                                        {
+                                            [self removeNote:noteName FromCollection:collectionName];
+                                        }
+                                        else if (self.noteUpdateQueue[noteName] && self.noteImageUpdateQueue[noteName])
+                                        {
+                                            NSData * latestImg = self.noteImageUpdateQueue[noteName];
+                                            NSData * latestNote = self.noteUpdateQueue[noteName];
+                                            [self.noteUpdateQueue removeObjectForKey:noteName];
+                                            [self.noteImageUpdateQueue removeObjectForKey:noteName];
+                                            [self addImageNote:noteName
+                                               withNoteContent:latestNote
+                                                      andImage:latestImg
+                                             withImageFileName:@"note.jpg"
+                                                  toCollection:collectionName];
+                                        }
+        }];
+    }
 }
 
 -(void) updateCollectionWithName: (NSString *) collectionName
                andContent: (NSData *) content
 {
-    [self saveToDiskCollectionData:content
-                     ForCollection:collectionName];
-    
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    NSString * userID = [UserPropertiesHelper userID];
-    [mindcloud updateCollectionManifestForUser:userID forCollection:collectionName withData:content withCallback:^(void){
-        NSLog(@"Update Manifest for collection %@", collectionName);
-    }];
+    if (self.manifestUpdateInProgress)
+    {
+        self.waitingUpdateManifestData = content;
+    }
+    else
+    {
+        self.manifestUpdateInProgress = YES;
+        
+        [self saveToDiskCollectionData:content
+                         ForCollection:collectionName];
+        
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userID = [UserPropertiesHelper userID];
+        [mindcloud updateCollectionManifestForUser:userID forCollection:collectionName withData:content withCallback:^(void){
+            self.manifestUpdateInProgress = NO;
+            NSLog(@"Update Manifest for collection %@", collectionName);
+            if (self.waitingUpdateManifestData)
+            {
+                NSData * latestData = self.waitingUpdateManifestData;
+                self.waitingUpdateManifestData = nil;
+                [self updateCollectionWithName:collectionName andContent:latestData];
+            }
+        }];
+    }
 }
-
 
 -(void) updateNote: (NSString *) noteName 
        withContent: (NSData *) content
@@ -83,14 +199,31 @@
 - (void) removeNote: (NSString *) noteName
   FromCollection: (NSString *) collectionName
 {
-    [self removeFromDiskNote:noteName fromCollection:collectionName];
-    
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    NSString * userID = [UserPropertiesHelper userID];
-    
-    [mindcloud deleteNoteForUser:userID forCollection:collectionName andNote:noteName withCallback:^(void){
-        NSLog(@"Delete Note failed for note %@ and collection %@", noteName, collectionName);
-    }];
+    //we don't possibly want the delete to reach the server before the add. In that case it will get deleted and added again
+    if (self.inProgressNoteImageUpdates[noteName] || self.inProgressNoteUpdates[noteName])
+    {
+        self.waitingDeleteNotes[noteName] = @YES;
+        //if there were prior actions that wait to be performed on the deleted note just cancel them
+        if (self.noteImageUpdateQueue[noteName])
+        {
+            [self.noteImageUpdateQueue removeObjectForKey:noteName];
+        }
+        if (self.noteUpdateQueue[noteName])
+        {
+            [self.noteUpdateQueue removeObjectForKey:noteName];
+        }
+    }
+    else
+    {
+        [self removeFromDiskNote:noteName fromCollection:collectionName];
+        
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userID = [UserPropertiesHelper userID];
+        
+        [mindcloud deleteNoteForUser:userID forCollection:collectionName andNote:noteName withCallback:^(void){
+            NSLog(@"Deleted Note %@ in collection %@", noteName, collectionName);
+        }];
+    }
 }
 
 #pragma mark retreival
