@@ -15,6 +15,7 @@
 //TODO make sure you create queue and then action in progress for each thing
 @implementation CachedCollectionDataSource
 
+#pragma mark - Addition/Update
 
 - (void) addNote: (NSString *)noteName
      withContent: (NSData *) note 
@@ -67,7 +68,7 @@
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userID = [UserPropertiesHelper userID];
     [mindcloud updateCollectionManifestForUser:userID forCollection:collectionName withData:content withCallback:^(void){
-        NSlog(@"Update Manifest for collection %@", collectionName);
+        NSLog(@"Update Manifest for collection %@", collectionName);
     }];
 }
 
@@ -82,10 +83,17 @@
 - (void) removeNote: (NSString *) noteName
   FromCollection: (NSString *) collectionName
 {
+    [self removeFromDiskNote:noteName fromCollection:collectionName];
     
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userID = [UserPropertiesHelper userID];
+    
+    [mindcloud deleteNoteForUser:userID forCollection:collectionName andNote:noteName withCallback:^(void){
+        NSLog(@"Delete Note failed for note %@ and collection %@", noteName, collectionName);
+    }];
 }
 
-
+#pragma mark retreival
 - (NSData *) getCollection: (NSString *) collectionName
 {
     NSData * cachedData = [self getCollectionFromDisk:collectionName];
@@ -226,19 +234,42 @@
                                                         object:self];
     
 }
+
 - (NSData *) getNoteForTheCollection: (NSString *) collectionName
                                    WithName: (NSString *) noteName
 {
-    return nil;
+    //it is always assumed that the this method is called after a get collection which caches everything
+    //so if we get a cache hit we trust that its most uptodate
+    NSData * noteData = [self getFromDiskNote:noteName fromCollection:collectionName];
+    if (!noteData)
+    {
+        NSLog(@"Could not get Retreive note data from cache, refresh the cache by getting the collection again");
+        return nil;
+    }
+    else
+    {
+        return noteData;
+    }
 }
 
 - (NSData *) getImage: (NSString *) imgName
-              ForNote: (NSString *)noteID 
-            andCollection: (NSString *) bulletinBoardName
+              ForNote: (NSString *) noteName
+        andCollection: (NSString *) collectionName;
 {
-    return nil;
+    NSData * imgData = [self getFromDiskNoteImageForNote:noteName andCollection: collectionName];
+    if (!imgData)
+    {
+        
+        NSLog(@"Could not get Retreive note data from cache, refresh the cache by getting the collection again");
+        return nil;
+    }
+    else
+    {
+        return imgData;
+    }
 }
 
+#pragma mark - Disk Cache helpers
 - (NSData *) getCollectionFromDisk: (NSString *) collectionName{
     
     NSString * path = [FileSystemHelper getPathForCollectionWithName: collectionName];
@@ -299,20 +330,20 @@
     return didWrite;
 }
 
--(BOOL) removeNoteFromDiskForUser:(NSString *) userID
-                    andCollection:(NSString *) collectionName
-                          forNote:(NSString *) noteName
+-(BOOL) removeFromDiskNote: (NSString *) noteName
+            fromCollection: (NSString *) collectionName;
 {
-    
+    BOOL result = [FileSystemHelper removeNote:noteName fromCollection:collectionName];
+    return result;
 }
 
--(BOOL) removeCollectionFromDiskForUser:(NSString *) userID
-                          andCollection:(NSString *) collectionName
+-(BOOL) removeFromDiskCollection:(NSString *) collectionName
 {
-    
+    BOOL result = [FileSystemHelper removeCollection:collectionName];
+    return result;
 }
 
--(NSData *) getNoteDataForNote: (NSString *) noteName inCollection:(NSString *) collectionName
+-(NSData *) getFromDiskNote: (NSString *) noteName fromCollection:(NSString *) collectionName
 {
     
     NSString * path = [FileSystemHelper getPathForNoteWithName:noteName inCollectionWithName:collectionName];
@@ -327,5 +358,21 @@
     return [data dataUsingEncoding:NSUTF8StringEncoding];
 }
 
+-(NSData *) getFromDiskNoteImageForNote:(NSString *) noteName
+                          andCollection: (NSString *) collectionName
+{
+    
+    NSString * path = [FileSystemHelper getPathForNoteImageforNoteName:noteName
+                                                       inBulletinBoard:collectionName];
+    
+    NSData * data = [NSData dataWithContentsOfFile:path];
+    if (!data){
+        return nil;
+    }
+    
+    NSLog(@"Note img: %@ read from disk", noteName);
+    
+    return data;
+}
 
 @end
