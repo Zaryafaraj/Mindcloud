@@ -117,9 +117,9 @@ static Mindcloud * instance;
                 withNewName: (NSString *) newCollectionName
                withCallback: (rename_collection_callback) callback
 {
-    CollectionsAction * action = [[CollectionsAction alloc] initWithUserID:userId];
+    CollectionAction * action = [[CollectionAction alloc] initWithUserId:userId
+                                                           andCollection:collectionName];
     action.putCallback = callback;
-    action.deleteResource = collectionName;
     action.putArguments = @{@"collectionName" : newCollectionName};
     [action executePUT];
 }
@@ -128,9 +128,11 @@ static Mindcloud * instance;
                    withName:(NSString *)collectionName
                withCallback:(delete_collection_callback) callback
 {
-    CollectionsAction * action = [[CollectionsAction alloc] initWithUserID:userId];
+    
+    CollectionAction * action = [[CollectionAction alloc] initWithUserId:userId
+                                                           andCollection:collectionName];
     action.deleteCallback = callback;
-    action.deleteResource = collectionName;
+    
     [action executeDELETE];
 }
 

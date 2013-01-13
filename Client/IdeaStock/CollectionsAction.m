@@ -67,36 +67,6 @@
             self.postCallback();
         }
     }
-    else if ([self.request.HTTPMethod isEqualToString:@"DELETE"])
-    {
-        
-        if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
-        {
-            NSLog(@"Received status %d", self.lastStatusCode);
-            self.deleteCallback();
-            return;
-        }
-        
-        if ([result[STATUS_KEY] isEqualToString:@"200"])
-        {
-            self.deleteCallback();
-        }
-    }
-    else if ([self.request.HTTPMethod isEqualToString:@"PUT"])
-    {
-        
-        if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
-        {
-            NSLog(@"Received status %d", self.lastStatusCode);
-            self.putCallback();
-            return;
-        }
-        
-        if ([result[STATUS_KEY] isEqualToString:@"200"])
-        {
-            self.putCallback();
-        }
-    }
 }
 
 -(void) executePOST
@@ -115,29 +85,5 @@
     }
 }
 
--(void) executeDELETE
-{
-    NSString * url = [self.request.URL absoluteString];
-    url = [url stringByAppendingFormat:@"/%@",self.deleteResource];
-    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    self.request.URL = [NSURL URLWithString:url];
-    [super executeDELETE];
-}
-
--(void) executePUT
-{
-    [self.request setHTTPMethod:@"PUT"];
-    NSString * url = [self.request.URL absoluteString];
-    url = [url stringByAppendingFormat:@"/%@",self.putResource];
-    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    self.request.URL = [NSURL URLWithString:url];
-    self.request = [HTTPHelper addPutParams:self.putArguments to:self.request];
-    
-    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:self.request delegate:self];
-    if (!theConnection)
-    {
-        NSLog(@"Failed to connect to %@", self.request.URL);
-    }
-}
 
 @end

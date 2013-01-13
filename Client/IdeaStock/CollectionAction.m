@@ -32,30 +32,49 @@
 -(void) connectionDidFinishLoading:(NSURLConnection *)connection
 {
     [super connectionDidFinishLoading:connection];
-    if (self.getCallback)
-    {
         
-        if ([self.request.HTTPMethod isEqualToString:@"POST"])
+    if ([self.request.HTTPMethod isEqualToString:@"POST"])
+    {
+        if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
         {
-            if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
-            {
-                NSLog(@"Received status %d", self.lastStatusCode);
-            }
-            self.postCallback();
+            NSLog(@"Received status %d", self.lastStatusCode);
+        }
+        self.postCallback();
+        return;
+    }
+    
+    if ([self.request.HTTPMethod isEqualToString:@"GET"])
+    {
+        if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
+        {
+            NSLog(@"Received status %d", self.lastStatusCode);
+            self.getCallback(nil);
             return;
         }
         
-        if ([self.request.HTTPMethod isEqualToString:@"GET"])
+        self.getCallback(self.receivedData);
+    }
+    
+    if ([self.request.HTTPMethod isEqualToString:@"DELETE"])
+    {
+        
+        if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
         {
-            if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
-            {
-                NSLog(@"Received status %d", self.lastStatusCode);
-                self.getCallback(nil);
-                return;
-            }
-            
-            self.getCallback(self.receivedData);
+            NSLog(@"Received status %d", self.lastStatusCode);
         }
+        
+        self.deleteCallback();
+    }
+        
+    if ([self.request.HTTPMethod isEqualToString:@"PUT"])
+    {
+        
+        if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
+        {
+            NSLog(@"Received status %d", self.lastStatusCode);
+        }
+        
+        self.putCallback();
     }
 }
 
@@ -74,4 +93,17 @@
         NSLog(@"Failed to connect to %@", self.request.URL);
     }
 }
+
+-(void) executePUT
+{
+    self.request = [HTTPHelper addPutParams:self.putArguments
+                                         to:self.request];
+    
+    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:self.request delegate:self];
+    if (!theConnection)
+    {
+        NSLog(@"Failed to connect to %@", self.request.URL);
+    }
+}
+
 @end
