@@ -78,4 +78,29 @@
                        forNote: (NSString *)noteName
              fromCollection:(NSString *) collectionName
                withCallback:(get_note_image_callback) callback;
+
+-(void) updateCollectionManifestForUser: (NSString *) userID
+                          forCollection: (NSString *) collectionName
+                               withData:(NSData *) data
+                           withCallback:(update_collection_callback) callback;
+
+-(void) updateNoteForUser: (NSString *) userID
+            forCollection: (NSString *) collectionName
+                  andNote: (NSString *) noteName
+                 withData: (NSData *) data
+             withCallback:(add_note_callback) callback;
+
+-(void) updateNoteAndNoteImageForUser: (NSString *) userID
+                        forCollection: (NSString *) collectionName
+                              andNote: (NSString *) noteName
+                         withNoteData: (NSData *) noteData
+                         andImageData: (NSData *) imageData
+                         withCallback: (add_note_image_callback) callback;
+
+-(void) deleteNoteForUser:(NSString *) userID
+            forCollection: (NSString *) collectionName
+                  andNote:(NSString *) noteName
+             withCallback: (delete_note_callback) callback;
+    
+
 @end

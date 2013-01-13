@@ -196,7 +196,11 @@ static Mindcloud * instance;
                 fromCollection:(NSString *) collectionName
                   withCallback: (get_note_callback) callback
 {
-    
+    NoteAction * action = [[NoteAction alloc] initWithUserId: userID
+                                               andCollection:collectionName
+                                                     andNote:noteName];
+    action.getCallback = callback;
+    [action executeGET];
 }
 
 -(void) getNoteImageForUser: (NSString *) userID
@@ -204,7 +208,85 @@ static Mindcloud * instance;
              fromCollection:(NSString *) collectionName
                withCallback:(get_note_image_callback) callback
 {
+    NoteImageAction * action = [[NoteImageAction alloc] initWithUserId:userID
+                                                         andCollection:collectionName
+                                                               andNote:noteName];
     
+    action.getCallback = callback;
+    [action executeGET];
+}
+
+
+-(void) updateCollectionManifestForUser: (NSString *) userID
+                          forCollection: (NSString *) collectionName
+                               withData:(NSData *) data
+                           withCallback:(update_collection_callback) callback
+{
+    CollectionAction * action = [[CollectionAction alloc] initWithUserId:userID
+                                                           andCollection:collectionName];
+    
+    action.postCallback = callback;
+    action.postData = data;
+    [action executePOST];
+}
+
+#define NOTE_NAME_KEY @"noteName"
+
+-(void) updateNoteForUser: (NSString *) userID
+            forCollection: (NSString *) collectionName
+                  andNote: (NSString *) noteName
+                 withData: (NSData *) data
+             withCallback:(add_note_callback) callback
+{
+    CollectionNotesAction * action = [[CollectionNotesAction alloc] initWithUserID:userID
+                                                                 andCollectionName:collectionName];
+    action.postCallback = callback;
+    action.postArguments = @{NOTE_NAME_KEY:noteName};
+    action.postData = data;
+    
+    [action executePOST];
+}
+
+-(void) updateNoteAndNoteImageForUser: (NSString *) userID
+                        forCollection: (NSString *) collectionName
+                              andNote: (NSString *) noteName
+                         withNoteData: (NSData *) noteData
+                         andImageData: (NSData *) imageData
+                         withCallback: (add_note_image_callback) callback
+{
+    
+    CollectionNotesAction * action = [[CollectionNotesAction alloc] initWithUserID:userID
+                                                                 andCollectionName:collectionName];
+    action.postCallback = ^(void){
+        //now upload image
+        NoteImageAction * imgAction = [[NoteImageAction alloc] initWithUserId:userID
+                                                                andCollection:collectionName
+                                                                      andNote:noteName];
+        imgAction.postData = imageData;
+        imgAction.postCallback = callback;
+        
+        [imgAction executePOST];
+    };
+    
+    action.postArguments = @{NOTE_NAME_KEY:noteName};
+    action.postData = noteData;
+    
+    [action executePOST];
+    
+}
+
+-(void) deleteNoteForUser:(NSString *) userID
+            forCollection: (NSString *) collectionName
+                  andNote:(NSString *) noteName
+             withCallback: (delete_note_callback) callback
+{
+    NoteAction * action = [[NoteAction alloc] initWithUserId:userID
+                                               andCollection:collectionName
+                                                     andNote:noteName];
+    
+    action.deleteCallback = callback;
+    
+    [action executeDELETE];
 }
 
 @end
