@@ -21,4 +21,9 @@
 
 + (BOOL) doesFileExist: (NSString *) path;
 
++ (BOOL) removeCollection:(NSString *) collectionName;
+
++ (BOOL) removeNote:(NSString *) noteName
+     fromCollection:(NSString *) collectionName;
+
 @end

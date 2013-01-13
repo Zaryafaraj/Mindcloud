@@ -94,6 +94,33 @@
     return imgPath;
 }
 
++(BOOL) removeCollection:(NSString *) collectionName
+{
+    NSString * collectionPath = [FileSystemHelper getPathForCollectionWithName:collectionName];
+    NSError * err;
+    BOOL result = [[NSFileManager defaultManager] removeItemAtPath:collectionPath error:&err];
+    if (!result)
+    {
+        NSLog(@"Failed to remove collection %@ from filesystem", collectionName);
+    }
+    return result;
+}
+
++ (BOOL) removeNote:(NSString *) noteName
+     fromCollection:(NSString *) collectionName
+{
+    NSString * notePath = [FileSystemHelper getPathForNoteWithName:noteName
+                                              inCollectionWithName:collectionName];
+    NSError * err;
+    BOOL result = [[NSFileManager defaultManager] removeItemAtPath:notePath error:&err];
+    if (!result)
+    {
+        NSLog(@"Failed to remove note %@ from collection %@ from filesystem",noteName, collectionName);
+    }
+    return result;
+    
+}
+
 +(BOOL) doesFileExist:(NSString *)path
 {
     return [[NSFileManager defaultManager] fileExistsAtPath:path];

@@ -21,6 +21,20 @@
     ToCollection: (NSString *) collectionName
 {
     
+    [self saveToDiskNoteData:note
+               forCollection:collectionName
+                     andNote:noteName];
+    
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userID = [UserPropertiesHelper userID];
+    [mindcloud updateNoteForUser:userID
+                   forCollection:collectionName
+                         andNote:noteName
+                        withData:note
+                    withCallback:^(void){
+                        
+                        NSLog(@"Updated Note %@ for Collection %@", noteName, collectionName);
+    }];
 }
 
 -(void) addImageNote: (NSString *) noteName
@@ -29,21 +43,40 @@
    withImageFileName: (NSString *)imgName
      toCollection: (NSString *) collectionName;
 {
+    [self saveToDiskNoteData:note
+               forCollection:collectionName
+                     andNote:noteName];
     
+    [self saveToDiskNoteImageData:img
+                    forCollection:collectionName
+                          andNote:noteName];
+    
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userID = [UserPropertiesHelper userID];
+    [mindcloud updateNoteAndNoteImageForUser:userID forCollection:collectionName andNote:noteName withNoteData:note andImageData:img withCallback:^(void) {
+                    NSLog(@"Updated Note img %@ for Collection %@", noteName, collectionName);
+    }];
 }
 
 -(void) updateCollectionWithName: (NSString *) collectionName
                andContent: (NSData *) content
 {
+    [self saveToDiskCollectionData:content
+                     ForCollection:collectionName];
     
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userID = [UserPropertiesHelper userID];
+    [mindcloud updateCollectionManifestForUser:userID forCollection:collectionName withData:content withCallback:^(void){
+        NSlog(@"Update Manifest for collection %@", collectionName);
+    }];
 }
 
 
 -(void) updateNote: (NSString *) noteName 
-       withContent: (NSData *) conetent
+       withContent: (NSData *) content
    inCollection:(NSString *) collectionName
 {
-    
+    [self addNote:noteName withContent:content ToCollection:collectionName];
 }
 
 - (void) removeNote: (NSString *) noteName
@@ -264,6 +297,19 @@
         NSLog(@"Failed to write the file to %@", path);
     }
     return didWrite;
+}
+
+-(BOOL) removeNoteFromDiskForUser:(NSString *) userID
+                    andCollection:(NSString *) collectionName
+                          forNote:(NSString *) noteName
+{
+    
+}
+
+-(BOOL) removeCollectionFromDiskForUser:(NSString *) userID
+                          andCollection:(NSString *) collectionName
+{
+    
 }
 
 -(NSData *) getNoteDataForNote: (NSString *) noteName inCollection:(NSString *) collectionName
