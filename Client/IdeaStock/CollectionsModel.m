@@ -320,7 +320,10 @@
 -(void) setImageData:(NSData *)imgData
        forCollection:(NSString *)collectionName
 {
-    self.collectionImages[collectionName] = imgData;
+    if (imgData)
+    {
+        self.collectionImages[collectionName] = imgData;
+    }
 }
 
 -(NSData *)getImageDataForCollection:(NSString *)collectionName
