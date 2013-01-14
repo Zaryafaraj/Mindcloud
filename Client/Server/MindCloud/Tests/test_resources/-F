@@ -1,0 +1,42 @@
+== Info: Could not resolve host: XooML.xml;filename=Xooml.xml; nodename nor servname provided, or not known
+== Info: Closing connection #0
+== Info: About to connect() to localhost port 8000 (#0)
+== Info:   Trying ::1...
+== Info: connected
+== Info: Connected to localhost (::1) port 8000 (#0)
+=> Send header, 323 bytes (0x143)
+0000: 50 4f 53 54 20 2f 30 34 42 30 38 43 42 37 2d 31 POST /04B08CB7-1
+0010: 37 44 35 2d 34 39 33 41 2d 38 45 44 31 2d 45 30 7D5-493A-8ED1-E0
+0020: 38 36 46 44 43 31 33 32 37 45 2f 43 6f 6c 6c 65 86FDC1327E/Colle
+0030: 63 74 69 6f 6e 73 20 48 54 54 50 2f 31 2e 31 0d ctions HTTP/1.1.
+0040: 0a 55 73 65 72 2d 41 67 65 6e 74 3a 20 63 75 72 .User-Agent: cur
+0050: 6c 2f 37 2e 32 34 2e 30 20 28 78 38 36 5f 36 34 l/7.24.0 (x86_64
+0060: 2d 61 70 70 6c 65 2d 64 61 72 77 69 6e 31 32 2e -apple-darwin12.
+0070: 30 29 20 6c 69 62 63 75 72 6c 2f 37 2e 32 34 2e 0) libcurl/7.24.
+0080: 30 20 4f 70 65 6e 53 53 4c 2f 30 2e 39 2e 38 72 0 OpenSSL/0.9.8r
+0090: 20 7a 6c 69 62 2f 31 2e 32 2e 35 0d 0a 48 6f 73  zlib/1.2.5..Hos
+00a0: 74 3a 20 6c 6f 63 61 6c 68 6f 73 74 3a 38 30 30 t: localhost:800
+00b0: 30 0d 0a 41 63 63 65 70 74 3a 20 2a 2f 2a 0d 0a 0..Accept: */*..
+00c0: 43 6f 6e 74 65 6e 74 2d 4c 65 6e 67 74 68 3a 20 Content-Length: 
+00d0: 31 35 37 0d 0a 45 78 70 65 63 74 3a 20 31 30 30 157..Expect: 100
+00e0: 2d 63 6f 6e 74 69 6e 75 65 0d 0a 43 6f 6e 74 65 -continue..Conte
+00f0: 6e 74 2d 54 79 70 65 3a 20 6d 75 6c 74 69 70 61 nt-Type: multipa
+0100: 72 74 2f 66 6f 72 6d 2d 64 61 74 61 3b 20 62 6f rt/form-data; bo
+0110: 75 6e 64 61 72 79 3d 2d 2d 2d 2d 2d 2d 2d 2d 2d undary=---------
+0120: 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d ----------------
+0130: 2d 2d 2d 39 62 65 62 65 32 34 38 63 37 65 34 0d ---9bebe248c7e4.
+0140: 0a 0d 0a                                        ...
+<= Recv header, 25 bytes (0x19)
+0000: 48 54 54 50 2f 31 2e 31 20 31 30 30 20 28 43 6f HTTP/1.1 100 (Co
+0010: 6e 74 69 6e 75 65 29 0d 0a                      ntinue)..
+=> Send data, 157 bytes (0x9d)
+0000: 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d ----------------
+0010: 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 39 62 --------------9b
+0020: 65 62 65 32 34 38 63 37 65 34 0d 0a 43 6f 6e 74 ebe248c7e4..Cont
+0030: 65 6e 74 2d 44 69 73 70 6f 73 69 74 69 6f 6e 3a ent-Disposition:
+0040: 20 66 6f 72 6d 2d 64 61 74 61 3b 20 6e 61 6d 65  form-data; name
+0050: 3d 22 63 6f 6c 6c 65 63 74 69 6f 6e 4e 61 6d 65 ="collectionName
+0060: 22 0d 0a 0d 0a 61 6c 69 74 65 73 36 35 0d 0a 2d "....alites65..-
+0070: 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d ----------------
+0080: 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 39 62 65 -------------9be
+0090: 62 65 32 34 38 63 37 65 34 2d 2d 0d 0a          be248c7e4--..
