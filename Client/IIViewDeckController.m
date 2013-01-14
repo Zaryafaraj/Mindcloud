@@ -87,6 +87,7 @@ __typeof__(h) __h = (h);                                    \
 #import <QuartzCore/QuartzCore.h>
 #import <objc/message.h>
 #import "WrapController.h"
+#import "CollectionViewController.h"
 
 #define DURATION_FAST 0.3
 #define DURATION_SLOW 0.3
@@ -1974,7 +1975,10 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 #ifdef __IPHONE_5_0
 
 - (void)vdc_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)animated completion:(void (^)(void))completion {
-    UIViewController* controller = self.viewDeckController && (self.viewDeckController.navigationControllerBehavior == IIViewDeckNavigationControllerIntegrated || ![self.viewDeckController.centerController isKindOfClass:[UINavigationController class]]) ? self.viewDeckController : self;
+    NSLog(@"HELLO");
+    
+    BOOL isTrue = self.viewDeckController && (self.viewDeckController.navigationControllerBehavior == IIViewDeckNavigationControllerContained || ![self.viewDeckController.centerController isKindOfClass:[UINavigationController class]]);
+    UIViewController* controller = isTrue ? self.viewDeckController : self;
     [controller vdc_presentViewController:viewControllerToPresent animated:animated completion:completion]; // when we get here, the vdc_ method is actually the old, real method
 }
 

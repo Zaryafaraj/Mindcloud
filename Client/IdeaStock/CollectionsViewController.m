@@ -27,6 +27,8 @@
         mainScreen.categoriesController = categoriesScreen;
         self = [super initWithCenterViewController: mainScreen
                                 leftViewController: categoriesScreen];
+        self.viewDeckController.navigationControllerBehavior = IIViewDeckNavigationControllerIntegrated;
+        
         CGRect screenRect = [[UIScreen mainScreen] bounds];
         if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
         {

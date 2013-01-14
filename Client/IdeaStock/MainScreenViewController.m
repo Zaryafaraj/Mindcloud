@@ -216,6 +216,7 @@
     return finalName;
 }
 
+
 -(void) deleteCollection
 {
     NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
@@ -259,6 +260,7 @@
 {
     self.isInCategorizeMode = NO;
     self.isEditing = NO;
+    [self.collectionView setAllowsMultipleSelection:NO];
     [self disableEditButtons];
     self.toolbar.items = self.navigateToolbar;
     [self.categoriesController exitEditMode];
@@ -280,7 +282,9 @@
 #pragma mark - UI Events
 
 - (IBAction)cancelPressed:(id)sender {
+    
     self.isEditing = NO;
+    [self.collectionView setAllowsMultipleSelection:NO];
     self.toolbar.items = self.navigateToolbar;
     NSArray * selectedItem = [self.collectionView indexPathsForSelectedItems];
     for (NSIndexPath * selIndex in selectedItem)
@@ -294,6 +298,8 @@
 }
 
 - (IBAction)editPressed:(id)sender {
+    
+    [self.collectionView setAllowsMultipleSelection:YES];
     self.isEditing = YES;
     self.toolbar.items = self.editToolbar;
 }
@@ -428,7 +434,7 @@
 -(void) viewDidLoad{
     
     [super viewDidLoad];
-    [self.collectionView setAllowsMultipleSelection:YES];
+    [self.collectionView setAllowsMultipleSelection:NO];
     [self manageToolbars];
     self.isEditing = NO;
     self.toolbar.items = self.navigateToolbar;
@@ -552,6 +558,24 @@
     [self configureCategoriesPanel];
 }
 
+#pragma mark - Operation Helpers
+
+- (NSString *) getSelectedCollectionName
+{
+    
+    NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
+    if ([selectedItems count] == 0)
+    {
+        return nil;
+    }
+    else
+    {
+        CollectionCell * selectedItem = (CollectionCell *) [self.collectionView cellForItemAtIndexPath:selectedItems[0]];
+        NSString * collectionName = selectedItem.text;
+        return collectionName;
+    }
+}
+
 #pragma mark - Bulletinboard Delegates
 -(void) finishedWorkingWithBulletinBoard{
     [self dismissModalViewControllerAnimated:YES];
@@ -605,13 +629,36 @@
     return cell;
 }
 
-
+-(BOOL) collectionView:(UICollectionView *) collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
 -(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     //enable the edit bar buttons
-    for (UIBarButtonItem * button in self.toolbar.items)
+    if (self.isEditing)
     {
-        button.enabled = YES;
+        for (UIBarButtonItem * button in self.toolbar.items)
+        {
+            button.enabled = YES;
+        }
+    }
+    else
+    {
+        //present the collection view
+        NSString * name = [self getSelectedCollectionName];
+        
+        if (!name) return;
+        
+        CollectionViewController * collectionView = [self.storyboard instantiateViewControllerWithIdentifier:@"CollectionView"];
+        collectionView.bulletinBoardName = name;
+        collectionView.parent = self;
+        MindcloudCollection * board =
+        [[MindcloudCollection alloc] initCollection:name withDataSource:[[CachedCollectionDataSource alloc] init]];
+        collectionView.board = board;
+        
+        collectionView.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:collectionView animated:YES completion:^(void){}];
     }
     
 }
@@ -627,7 +674,7 @@
 
 -(BOOL) collectionView:(UICollectionView *) collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return self.isEditing;
+    return YES;
 }
 
 -(CGSize) collectionView:(UICollectionView *)collectionView
