@@ -70,7 +70,7 @@ class CollectionHandler(tornado.web.RequestHandler):
     @gen.engine
     def post(self, user_id, collection_name):
 
-        self.__log.info('%s - POST: post collection %s for user %s' % (str(self.__class__), collection_name, user_id))
+        self.__log.info('%s-POST: post collection %s for user %s' % (str(self.__class__), collection_name, user_id))
 
         collection_name = urllib2.unquote(collection_name)
         if len(self.request.files) > 0:
