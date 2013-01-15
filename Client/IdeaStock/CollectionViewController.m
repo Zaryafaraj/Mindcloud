@@ -21,12 +21,9 @@
 
 #pragma mark - UI Elements
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *title;
 @property (strong, nonatomic) UIBarButtonItem * deleteButton;
 @property (strong, nonatomic) UIBarButtonItem * expandButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *collectionView;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (strong,nonatomic) UIActivityIndicatorView *endActivityIndicator;
 
 @property int noteCount;
 @property (strong, nonatomic) NSArray * intersectingViews;
@@ -37,39 +34,34 @@
 
 @end
 
-#pragma mark - UI Properties
+#pragma mark - Definitions
+
 #define NOTE_WIDTH 200
 #define NOTE_HEIGHT 200
 #define STACKING_SCALING_WIDTH 1.1
 #define STACKING_SCALING_HEIGHT 1.05
+#define POSITION_X_TYPE @"positionX"
+#define POSITION_Y_TYPE @"positionY"
+#define POSITION_TYPE @"position"
+#define STACKING_TYPE @"stacking"
+//0 is the max
+#define IMG_COMPRESSION_QUALITY 0.5
+#define EXPAND_COL_SIZE 5
+#define SEPERATOR_RATIO 0.1
+#define EXIT_OFFSET_RATIO 0.1
+#define OVERLAP_RATIO 0.35
+#define CHECK_TIME 0
 
 @implementation CollectionViewController
 
-@synthesize board = _board;
-@synthesize activityIndicator = _activityIndicator;
-@synthesize endActivityIndicator = _endActivityIndicator;
-
+#pragma mark - getter/setters
 -(MindcloudCollection *) board{
     
     if (!_board){
-        _board = [[MindcloudCollection alloc] initCollection:self.bulletinBoardName withDataSource:[[CachedCollectionDataSource alloc] init]];
+        _board = [[MindcloudCollection alloc] initCollection:self.bulletinBoardName
+                                              withDataSource:[[CachedCollectionDataSource alloc] init]];
     }
     return _board;
-}
-
--(void) setActivityIndicator:(UIActivityIndicatorView *)activityIndicator{
-    _activityIndicator = activityIndicator;
-    self.endActivityIndicator = activityIndicator;
-}
-
-#pragma mark - Initializers
-- (id) initWithNibName:(NSString *) nibNameOrNil bundle:(NSBundle *) nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
 }
 
 #pragma mark - UI Helpers
@@ -92,6 +84,7 @@
     self.toolbar.items = newToolbarItems;
 }
 
+#pragma mark - Stacking Actions
 /*
  If ID is nil the methods will create a unique UUID itself and will also write
  to the datamodel. 
@@ -164,27 +157,44 @@
     }    
 }
 
-- (NSMutableArray *) getAllNormalNotesInViews: (NSArray *) views{
-    NSMutableArray * ans = [[NSMutableArray alloc] init];
-    for (UIView * view in views){
-        if ([view isKindOfClass: [NoteView class]]){
-            [ans addObject:view];
+-(NSString *) normalizeStackingWithItems: (NSArray *)items andMainView: (UIView *) mainView{
+    NSString * stackingID = [XoomlAttributeHelper generateUUID];
+    
+    NSMutableArray * stackingNoteIDs = [[NSMutableArray alloc] init];
+    for( UIView * view in items){
+        if ([view isKindOfClass:[NoteView class]]){
+            [stackingNoteIDs addObject:((NoteView *) view).ID];
         }
         else if ([view isKindOfClass:[StackView class]]){
-            [view removeFromSuperview];
-            [ans addObjectsFromArray:((StackView *) view).views];
+            NSString * oldStackingID = ((StackView *)view).ID;
+            [self.board removeBulletinBoardAttribute:oldStackingID ofType:STACKING_TYPE];
+            for (UIView * note in ((StackView *)view).views){
+                NSString *stackingNoteID = ((NoteView *)note).ID;
+                [stackingNoteIDs addObject:stackingNoteID]; }
         }
     }
-    return ans;
+    
+    NSString * topItemID;
+    if ([mainView isKindOfClass:[NoteView class]]){
+        topItemID = ((NoteView *) mainView).ID;
+    }
+    else if ([mainView isKindOfClass:[StackView class]]){
+        topItemID = ((StackView *)mainView).mainView.ID;
+    }
+    
+    if (topItemID == nil) return stackingID ;
+    [stackingNoteIDs removeObject:topItemID];
+    [stackingNoteIDs insertObject:topItemID atIndex:0];
+    
+    for(NSString * noteID in stackingNoteIDs){
+        
+        [self.board addNoteWithID:noteID toBulletinBoardAttribute:stackingID forAttributeType:STACKING_TYPE];
+    }
+    
+    return stackingID;
 }
 
-
-#pragma mark - Model Manipulation
-#define POSITION_X_TYPE @"positionX"
-#define POSITION_Y_TYPE @"positionY"
-#define POSITION_TYPE @"position"
-#define STACKING_TYPE @"stacking"
-
+#pragma mark - Note Actions
 -(NSString *) addNoteToModel: (NoteView *) note{
     
     NSString * noteTextID = [XoomlAttributeHelper generateUUID];
@@ -206,8 +216,6 @@
     return noteID;
 }
 
-//0 is the max
-#define IMG_COMPRESSION_QUALITY 0.5
 -(NSString *) addImageNoteToModel: (ImageView *) note{
     
     NSString * noteTextID = [XoomlAttributeHelper generateUUID];
@@ -248,47 +256,22 @@
     [self.board updateNoteAttributes:noteID withAttributes:newProperties]; 
 }
 
--(NSString *) normalizeStackingWithItems: (NSArray *)items andMainView: (UIView *) mainView{
-    NSString * stackingID = [XoomlAttributeHelper generateUUID];
-    
-    NSMutableArray * stackingNoteIDs = [[NSMutableArray alloc] init];
-    for( UIView * view in items){
-        if ([view isKindOfClass:[NoteView class]]){
-            [stackingNoteIDs addObject:((NoteView *) view).ID];
+
+- (NSMutableArray *) getAllNormalNotesInViews: (NSArray *) views{
+    NSMutableArray * ans = [[NSMutableArray alloc] init];
+    for (UIView * view in views){
+        if ([view isKindOfClass: [NoteView class]]){
+            [ans addObject:view];
         }
         else if ([view isKindOfClass:[StackView class]]){
-            NSString * oldStackingID = ((StackView *)view).ID;
-            [self.board removeBulletinBoardAttribute:oldStackingID ofType:STACKING_TYPE];
-            for (UIView * note in ((StackView *)view).views){
-                NSString *stackingNoteID = ((NoteView *)note).ID;
-                [stackingNoteIDs addObject:stackingNoteID];
-            }
+            [view removeFromSuperview];
+            [ans addObjectsFromArray:((StackView *) view).views];
         }
     }
-    
-    NSString * topItemID;
-    if ([mainView isKindOfClass:[NoteView class]]){
-        topItemID = ((NoteView *) mainView).ID;
-    }
-    else if ([mainView isKindOfClass:[StackView class]]){
-        topItemID = ((StackView *)mainView).mainView.ID;
-    }
-    
-    if (topItemID == nil) return stackingID ;
-    [stackingNoteIDs removeObject:topItemID];
-    [stackingNoteIDs insertObject:topItemID atIndex:0];
-    
-    for(NSString * noteID in stackingNoteIDs){
-        
-        [self.board addNoteWithID:noteID toBulletinBoardAttribute:stackingID forAttributeType:STACKING_TYPE];
-    }
-    
-    return stackingID;
+    return ans;
 }
 
-/*-----------------------------------------------------------
- Notification
- -----------------------------------------------------------*/
+#pragma mark - Notifications
 
 -(void) loadSavedNotes: (NSNotification *) notificatoin{
     
@@ -298,9 +281,7 @@
     [self layoutNotes];
 }
 
-/*-----------------------------------------------------------
- Layout Methods
- -----------------------------------------------------------*/
+#pragma mark - Layout
 
 -(void) layoutNotes{
     
@@ -335,9 +316,7 @@
             positionY = self.collectionView.frame.origin.y;
         }
         
-        
-        CGRect noteFrame = CGRectMake(positionX, positionY, NOTE_WIDTH, NOTE_HEIGHT);
-        NoteView * note ;
+        CGRect noteFrame = CGRectMake(positionX, positionY, NOTE_WIDTH, NOTE_HEIGHT); NoteView * note ;
         
         if (allImgs[noteID]){
             UIImage * img = [[UIImage alloc] initWithData:allImgs[noteID]];
@@ -412,8 +391,7 @@
     
         self.isRefreshing = NO;
 }
-#define EXPAND_COL_SIZE 5
-#define SEPERATOR_RATIO 0.1
+
 -(CGSize) getRectSizeForStack: (StackView *) stack{
     
     int notesInStack = [stack.views count];
@@ -484,7 +462,6 @@
     return CGRectMake(startX, startY, rectSize.width, rectSize.height);
 }
 
-#define EXIT_OFFSET_RATIO 0.1
 -(void) clearRectangle: (CGRect) rect{
     for (UIView * subView in self.collectionView.subviews){
         if ([subView conformsToProtocol:@protocol(BulletinBoardObject)]){
@@ -633,14 +610,6 @@
     }
 }
 
--(NSArray *) intersectingViews{
-    if (!_intersectingViews){
-        _intersectingViews = [[NSArray alloc] init];
-    }
-    return _intersectingViews;
-}
-
-#define OVERLAP_RATIO 0.35
 -(BOOL) does: (UIView *) view1 OverlapWithView: (UIView *) view2{
     
     CGPoint view1Center = CGPointMake(view1.frame.origin.x + (view1.frame.size.width/2), 
@@ -674,9 +643,7 @@
     return ans;
 }
 
-/*-----------------------------------------------------------
- Gesture Events
- -----------------------------------------------------------*/
+#pragma mark - Gesture Events
 
 -(void) screenTapped: (UITapGestureRecognizer *) sender{
     if (self.editMode){
@@ -817,7 +784,6 @@
     
 }
 
-#define CHECK_TIME 0
 -(void) objectPanned: (UIPanGestureRecognizer *) sender{
     
     if( sender.state == UIGestureRecognizerStateChanged ||
@@ -912,7 +878,7 @@
     stackViewer.delegate = self;
     stackViewer.notes = ((StackView *) sender.view).views;
     stackViewer.openStack = (StackView *) sender.view;
-    [self presentModalViewController:stackViewer animated:YES];
+    [self presentViewController:stackViewer animated:YES completion:^{}];
 }
 
 -(void) objectPinched: (UIPinchGestureRecognizer *) sender{
@@ -931,37 +897,12 @@
     }
 }
 
-/*-----------------------------------------------------------
- UI Events
- -----------------------------------------------------------*/
+#pragma mark - UI Events
 
 -(void) viewWillAppear:(BOOL)animated{
     /*  UIImage * image = [UIImage imageNamed:@"greenchalkboard.jpg"];
      UIColor * color = [UIColor colorWithPatternImage:image];*/
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
-}
-
-- (IBAction)cameraPressed:(id)sender {
-    
-    //check to see if camera is available
-    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
-        return;
-    }
-    
-    NSArray * mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
-    if (![mediaTypes containsObject:(NSString *) kUTTypeImage]) return;
-    
-    UIImagePickerController * imagePicker = [[UIImagePickerController alloc] init];
-    imagePicker.delegate = self;
-    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    imagePicker.mediaTypes = @[(NSString *) kUTTypeImage];
-    imagePicker.allowsEditing = YES;
-    
-    [self presentModalViewController:imagePicker animated:YES];
-    
-    //configure it 
-    //present it 
-    //have the delegate deal with events
 }
 
 -(void) viewDidLoad
@@ -979,7 +920,6 @@
     self.toolbar.items = [toolBarItems copy];
     
     [super viewDidLoad];
-    self.title.title = self.bulletinBoardName;
     CGSize size =  CGSizeMake(self.collectionView.bounds.size.width, self.collectionView.bounds.size.height);
     [self.collectionView setContentSize:size];
     
@@ -995,6 +935,79 @@
                                                  name:@"BulletinBoardLoaded" 
                                                object:self.board];
 }
+
+-(BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+	return YES;
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    
+    for (UIView * view in self.collectionView.subviews){
+        
+        float positionX = view.frame.origin.x;
+        float positionY = view.frame.origin.y;
+        BOOL changed = NO;
+        if ( positionX + view.frame.size.width > self.collectionView.frame.origin.x + self.collectionView.frame.size.width ){
+            positionX = self.collectionView.frame.origin.x + self.collectionView.frame.size.width - NOTE_WIDTH;
+            changed = YES;
+        }
+        if ( positionY + view.frame.size.height > self.collectionView.frame.origin.x + self.collectionView.frame.size.height){
+            positionY = self.collectionView.frame.origin.x + self.collectionView.frame.size.height - NOTE_HEIGHT;
+            changed = YES;
+        }
+        if (positionX <  self.collectionView.frame.origin.x){
+            positionX = self.collectionView.frame.origin.x;
+            changed = YES;
+        }
+        if (positionY < self.collectionView.frame.origin.y){
+            positionY = self.collectionView.frame.origin.y;
+            changed = YES;
+        }
+        
+        if(changed){
+            view.frame = CGRectMake(positionX, positionY, view.frame.size.width, view.frame.size.height);
+        }
+    }
+    
+}
+
+-(void) viewDidUnload
+{
+    //[DropBoxAssociativeBulletinBoard saveBulletinBoard:self.board];
+    
+    [self.board cleanUp];
+    
+    [self setTitle:nil];
+    [self setView:nil];
+    [self setCollectionView:nil];
+    [self setToolbar:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+}
+
+#pragma mark - UI Actions
+
+- (IBAction)cameraPressed:(id)sender {
+    
+    //check to see if camera is available
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+        return;
+    }
+    
+    NSArray * mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
+    if (![mediaTypes containsObject:(NSString *) kUTTypeImage]) return;
+    
+    UIImagePickerController * imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.delegate = self;
+    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePicker.mediaTypes = @[(NSString *) kUTTypeImage];
+    imagePicker.allowsEditing = YES;
+    
+    [self presentViewController:imagePicker animated:YES completion:^{}];
+}
+
 
 -(IBAction) expandPressed:(id) sender {
     if (!self.editMode) return;
@@ -1057,42 +1070,15 @@
     
     
 }
-- (void) close{
-    [self.endActivityIndicator stopAnimating];
-    [self.parent finishedWorkingWithBulletinBoard];
-}
+
 -(IBAction)backPressed:(id) sender {
     
     //save the bulletinboard
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    /*[DropBoxAssociativeBulletinBoard saveBulletinBoard:self.board];
-    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    NSLog(@"size: %f",self.activityIndicator.frame.size.width);
-    self.activityIndicator.color = [UIColor blackColor];*/
-    [self.collectionView addSubview:self.endActivityIndicator];
-    [self.endActivityIndicator startAnimating];
-    
-
-    [self performSelector:@selector(close) withObject:nil afterDelay:2 ];
-    
+    [self.parent finishedWorkingWithBulletinBoard];
 }
 
--(void) viewDidUnload
-{
-    //[DropBoxAssociativeBulletinBoard saveBulletinBoard:self.board];
-    
-    [self.board cleanUp];
-    
-    [self setTitle:nil];
-    [self setView:nil];
-    [self setCollectionView:nil];
-    [self setToolbar:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self setActivityIndicator:nil];
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-}
 
 - (IBAction)refreshPressed:(id)sender {
     
@@ -1107,48 +1093,10 @@
                                                object:self.board];
 }
 
--(BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-	return YES;
-}
 
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    
-    for (UIView * view in self.collectionView.subviews){
-        
-        float positionX = view.frame.origin.x;
-        float positionY = view.frame.origin.y;
-        BOOL changed = NO;
-        if ( positionX + view.frame.size.width > self.collectionView.frame.origin.x + self.collectionView.frame.size.width ){
-            positionX = self.collectionView.frame.origin.x + self.collectionView.frame.size.width - NOTE_WIDTH;
-            changed = YES;
-        }
-        if ( positionY + view.frame.size.height > self.collectionView.frame.origin.x + self.collectionView.frame.size.height){
-            positionY = self.collectionView.frame.origin.x + self.collectionView.frame.size.height - NOTE_HEIGHT;
-            changed = YES;
-        }
-        if (positionX <  self.collectionView.frame.origin.x){
-            positionX = self.collectionView.frame.origin.x;
-            changed = YES;
-        }
-        if (positionY < self.collectionView.frame.origin.y){
-            positionY = self.collectionView.frame.origin.y;
-            changed = YES;
-        }
-        
-        if(changed){
-            view.frame = CGRectMake(positionX, positionY, view.frame.size.width, view.frame.size.height);
-        }
-    }
-    
-}
-
-/*-----------------------------------------------------------
- Stack Delegate Protocol
- -----------------------------------------------------------*/
-
+#pragma mark - stack delegate methods
 -(void) returnedstackViewController:(StackViewController *)sender{
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:^(void){}];
 }
 
 -(void) unstackItem:(UIView *) item
@@ -1198,19 +1146,13 @@
     }
 }
 
-/*-----------------------------------------------------------
- Note Delegate Protocol
- -----------------------------------------------------------*/
-
+#pragma mark - note delegate
 - (void) note: (id)note changedTextTo: (NSString *) text{
     
     NoteView * noteView = (NoteView *)note;
     NSString * noteId = noteView.ID;
     CollectionNote * newNoteObj = [[CollectionNote alloc] initWithText:text];
     [self.board updateNoteContentOf:noteId withContentsOf:newNoteObj];
-    
-    
-    
 }
 
 -(void) resignFirstResponders{
@@ -1222,14 +1164,9 @@
     }
 }
 
-/*--------------------------------------------------------------
- 
-                            imagePickerController delegate
- 
- --------------------------------------------------------------*/
-
+#pragma mark - image delegate
 -(void) imagePickerControllerDidCancel:(UIImagePickerController *)picker{
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:^(void){}];
 }
 
 
@@ -1264,4 +1201,5 @@
     [self addImageNoteToModel: note];
 
 }
+
 @end

@@ -333,18 +333,7 @@
                                 </constraints>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" minimumZoomScale="0.20000000000000001" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="QXW-F8-5QD">
-                                <subviews>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="zuS-Ma-FGe">
-                                        <color key="color" cocoaTouchSystemColor="darkTextColor"/>
-                                    </activityIndicatorView>
-                                </subviews>
                                 <color key="backgroundColor" red="0.96406502660000004" green="0.98895901009999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="zuS-Ma-FGe" secondAttribute="bottom" constant="457" id="7tE-0Z-GXu"/>
-                                    <constraint firstItem="zuS-Ma-FGe" firstAttribute="top" secondItem="QXW-F8-5QD" secondAttribute="top" constant="455" id="QKK-ZY-Nrf"/>
-                                    <constraint firstAttribute="trailing" secondItem="zuS-Ma-FGe" secondAttribute="trailing" constant="365" id="VZZ-CO-EiL"/>
-                                    <constraint firstItem="zuS-Ma-FGe" firstAttribute="centerX" secondItem="QXW-F8-5QD" secondAttribute="centerX" type="default" id="uat-mu-47o"/>
-                                </constraints>
                             </scrollView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" barStyle="blackOpaque" translatesAutoresizingMaskIntoConstraints="NO" id="CU7-1N-ESK">
                                 <items>
@@ -393,7 +382,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="activityIndicator" destination="zuS-Ma-FGe" id="QgH-8g-G9l"/>
                         <outlet property="collectionView" destination="QXW-F8-5QD" id="umS-Mv-vac"/>
                         <outlet property="toolbar" destination="CU7-1N-ESK" id="BfB-Yf-6q1"/>
                     </connections>
@@ -515,7 +503,12 @@
         <class className="MainScreenViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainScreenViewController.h"/>
             <relationships>
+                <relationship kind="action" name="addPressed:"/>
+                <relationship kind="action" name="cancelPressed:"/>
+                <relationship kind="action" name="categorizedPressed:"/>
                 <relationship kind="action" name="deletePressed:"/>
+                <relationship kind="action" name="refreshPressed:"/>
+                <relationship kind="action" name="renamePressed:"/>
                 <relationship kind="outlet" name="cancelButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="categorizeButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="collectionView" candidateClass="UICollectionView"/>
@@ -533,6 +526,9 @@
         <class className="StackViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StackViewController.h"/>
             <relationships>
+                <relationship kind="action" name="backPressed:"/>
+                <relationship kind="action" name="deletePressed:"/>
+                <relationship kind="action" name="unstackPressed:"/>
                 <relationship kind="outlet" name="stackView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
             </relationships>
@@ -545,9 +541,6 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

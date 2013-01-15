@@ -578,7 +578,7 @@
 
 #pragma mark - Bulletinboard Delegates
 -(void) finishedWorkingWithBulletinBoard{
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - CollectionView Delegates

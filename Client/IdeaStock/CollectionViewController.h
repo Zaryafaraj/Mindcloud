@@ -12,14 +12,14 @@
 #import "NoteViewDelegate.h"
 #import "MindcloudCollection.h"
 
-@interface CollectionViewController : UIViewController <UIScrollViewDelegate,StackViewDelegate, NoteViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface CollectionViewController : UIViewController <UIScrollViewDelegate,
+                                                        StackViewDelegate,
+                                                        NoteViewDelegate,
+                                                        UIImagePickerControllerDelegate,
+                                                        UINavigationControllerDelegate>
 
 @property (strong,nonatomic) NSString * bulletinBoardName;
-
 @property (strong, nonatomic) MindcloudCollection * board;
-
 @property (weak,nonatomic) MainScreenViewController * parent;
-
-
 
 @end
