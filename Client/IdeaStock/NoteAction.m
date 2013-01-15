@@ -16,6 +16,7 @@
 {
     self = [super init];
     NSString * resourcePath = [NSString stringWithFormat:@"%@/Collections/%@/Notes/%@", userID, collectionName, noteName];
+    resourcePath = [resourcePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     NSURL * url = [NSURL URLWithString:
                    [self.baseURL stringByAppendingString:resourcePath]];

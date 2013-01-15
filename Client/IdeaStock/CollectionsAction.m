@@ -25,8 +25,11 @@
 {
     self = [super init];
     NSString * resourcePath = [NSString stringWithFormat:@"%@/Collections", userID];
+    resourcePath = [resourcePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
     NSURL * url = [NSURL URLWithString:
                    [self.baseURL stringByAppendingString:resourcePath]];
+    
     NSMutableURLRequest * theRequest = [NSMutableURLRequest requestWithURL:url
                                         cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                            timeoutInterval:60.0];
