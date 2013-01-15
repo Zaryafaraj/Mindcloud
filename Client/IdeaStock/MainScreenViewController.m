@@ -121,18 +121,6 @@
 
 #pragma mark - UI Events Helpers
 
--(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"bulletinBoardSegue"]){
-        
-        NSString * name = ((UILabel *)[((UIView *) sender) subviews][0]).text;
-        MindcloudCollection * board =
-        [[MindcloudCollection alloc] initCollection:name withDataSource:[[CachedCollectionDataSource alloc] init]];
-        ((CollectionViewController *) segue.destinationViewController).bulletinBoardName = name;
-        ((CollectionViewController *) segue.destinationViewController).parent = self;
-        ((CollectionViewController *) segue.destinationViewController).board = board;
-    }
-}
-
 -(void) disableEditButtons
 {
     
@@ -654,7 +642,7 @@
         collectionView.bulletinBoardName = name;
         collectionView.parent = self;
         MindcloudCollection * board =
-        [[MindcloudCollection alloc] initCollection:name withDataSource:[[CachedCollectionDataSource alloc] init]];
+        [[MindcloudCollection alloc] initCollection:name withDataSource:[CachedCollectionDataSource getInstance]];
         collectionView.board = board;
         
         collectionView.modalPresentationStyle = UIModalPresentationFullScreen;

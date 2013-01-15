@@ -59,7 +59,7 @@
     
     if (!_board){
         _board = [[MindcloudCollection alloc] initCollection:self.bulletinBoardName
-                                              withDataSource:[[CachedCollectionDataSource alloc] init]];
+                                              withDataSource:[CachedCollectionDataSource getInstance]];
     }
     return _board;
 }

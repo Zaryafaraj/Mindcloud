@@ -13,7 +13,6 @@
 #import "EventTypes.h"
 
 @interface CachedCollectionDataSource()
-
 //we make sure that we don't send out an action before another action of the same type on the same
 //resource is in progress, because of unreliable TCP/IP the second action might reach the server faster
 //and we want to avoid it.
@@ -32,6 +31,17 @@
 @end
 
 @implementation CachedCollectionDataSource
+
+//singleTone
++(id) getInstance
+{
+    static CachedCollectionDataSource * instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[CachedCollectionDataSource alloc] init];
+    });
+    return instance;
+}
 
 -(id) init
 {

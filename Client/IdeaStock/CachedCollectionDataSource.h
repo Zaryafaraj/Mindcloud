@@ -11,4 +11,7 @@
 
 @interface CachedCollectionDataSource : NSObject<CollectionDataSource>
 
+//always use this factory method to instantiate class
++(id) getInstance;
+
 @end
