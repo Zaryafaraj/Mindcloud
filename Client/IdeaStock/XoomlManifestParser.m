@@ -16,14 +16,8 @@
 
 @implementation XoomlManifestParser
 
-
-/*===========================================================*/
-
-/*--------------------------------------------------
- 
-                        Definations
- 
- -------------------------------------------------*/
+#define MINDCLOUD_NAMESPACE  @"http://www.mindcloud.net/xmlns/mindcloud"
+#define MINDCLOUD_SCHEMA_LOCATION @"http://www.mindcloud.net/xmlschema/mindcloud.xsd"
 
 #define NOTE_ID  @"ID"
 #define NOTE_TEXT  @"displayText"
@@ -70,14 +64,6 @@
 #define NOTE_POSITION_ELEMENT_NAME @"is:position"
 #define REF_ID @"refID"
 
-/*===========================================================*/
-
-
-/*--------------------------------------------------
- 
- XooML Writing
- 
- -------------------------------------------------*/
 
 + (CollectionNote *) xoomlNoteFromXML:(NSData *)data{
     
@@ -265,32 +251,16 @@
 
 + (NSData *) getEmptyBulletinBoardXooml{
     //create the root element (xooml:fragment) and fill out its attributes
-    DDXMLElement * root = 
-    [[DDXMLElement alloc] initWithName: XOOML_FRAGMENT];
+    
+    DDXMLElement * root = [[DDXMLElement alloc] initWithName: XOOML_FRAGMENT];
     
     [root addNamespace: [DDXMLNode namespaceWithName:@"xsi" stringValue: XSI_NAMESPACE]];
     [root addNamespace: [DDXMLNode namespaceWithName:@"xooml" stringValue: XOOML_NAMESPACE]];
-    [root addNamespace: [DDXMLNode namespaceWithName:@"is" stringValue:IDEA_STOCK_NAMESPACE]];
+    [root addNamespace: [DDXMLNode namespaceWithName:@"mindcloud" stringValue: MINDCLOUD_NAMESPACE]];
+    [root addAttribute: [DDXMLNode attributeWithName:@"xooml:schemaLocation" stringValue: XOOML_SCHEMA_LOCATION]];
+    [root addAttribute: [DDXMLNode attributeWithName:@"mindcloud:schemaLocation" stringValue: MINDCLOUD_SCHEMA_LOCATION]];
     
-    [root addAttribute: [DDXMLNode attributeWithName:@"xsi:schemaLocation" stringValue: XOOML_SCHEMA_LOCATION]];
-    [root addAttribute: [DDXMLNode attributeWithName:@"schemaVersion" stringValue: XOOML_SCHEMA_VERSION]];
-    [root addAttribute: [DDXMLNode attributeWithName:@"defaultApplication" stringValue:@""]];
-    [root addAttribute: [DDXMLNode attributeWithName:@"relatedItem" stringValue:@""]];
-    
-    
-    
-    //TODO remove this planz compatibility issues, this is a bug with planz
-    DDXMLElement * planzHeader = [[DDXMLElement alloc] initWithName:@"xooml:fragmentToolAttributes"];
-    [planzHeader addAttribute:[DDXMLNode attributeWithName:@"xmlns" stringValue:@"http://kftf.ischool.washington.edu/xmlns/planz"]];
-    [planzHeader addAttribute:[DDXMLNode attributeWithName:@"toolVersion" stringValue:@"1.0.7"]];
-    [planzHeader addAttribute:[DDXMLNode attributeWithName:@"toolName" stringValue:@"Planz"]];
-    [planzHeader addAttribute:[DDXMLNode attributeWithName:@"startDate" stringValue:@"1/1/0001 12:00 AM"]];
-    [planzHeader addAttribute:[DDXMLNode attributeWithName:@"dueDate" stringValue:@"1/1/0001 12:00 AM"]];
-    [planzHeader addAttribute:[DDXMLNode attributeWithName:@"showAssociationMarkedDone" stringValue:@"False"]];
-    [planzHeader addAttribute:[DDXMLNode attributeWithName:@"showAssociationMarkedDefer" stringValue:@"False"]];
-
-    [root addChild:planzHeader];
-    //because I can't use the method [[DDXMLDocument alloc] initWithRootElement:] 
+    //because I can't use the method [[DDXMLDocument alloc] initWithRootElement:]
     //since its not available in KissXML , I have to provide this hack
     //Make a string from the root element add XML headers to it, convert it to
     //data and initialize the document with that NSData

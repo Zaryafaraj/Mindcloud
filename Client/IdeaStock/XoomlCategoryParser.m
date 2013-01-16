@@ -78,7 +78,7 @@
         return nil;
     }
     
-    NSString * categoryXpath = @"//xooml:fragment";
+    NSString * categoryXpath = @"/xooml:fragment/xooml:fragment";
     NSArray * categories = [document nodesForXPath:categoryXpath error:&err];
     NSMutableDictionary * categoriesTemp = [NSMutableDictionary dictionary];
     for(DDXMLElement * node in categories)
