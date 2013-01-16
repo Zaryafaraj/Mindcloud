@@ -23,7 +23,7 @@ class AccountHandler(tornado.web.RequestHandler):
     @gen.engine
     def get(self, user_id):
 
-        self.__log.info('%s - GET: retrieving collection list for user %s' % (str(self.__class__), user_id))
+        self.__log.info('Bane-AccountHandler - GET: retrieving collection list for user %s' % user_id)
 
         results = yield gen.Task(StorageServer.list_collections, user_id)
         json_str = json.dumps({'Collections': results})
@@ -34,7 +34,7 @@ class AccountHandler(tornado.web.RequestHandler):
     @gen.engine
     def post(self, user_id):
 
-        self.__log.info('%s - POST:  adding collection for user %s' % (str(self.__class__), user_id))
+        self.__log.info('Bane-AccountHandler - POST:  adding collection for user %s' % user_id)
 
         #if we have a file
         file = None

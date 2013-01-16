@@ -2616,3 +2616,72 @@ WARNING: 2013-01-09 22:47:55,617 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30
 INFO: 2013-01-09 22:47:58,107 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection ParisSSSS for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
 INFO: 2013-01-09 22:47:58,616 -- StorageServer - could not retrieve manifest file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
 WARNING: 2013-01-09 22:47:58,616 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/ParisSSSS (fe80::1%lo0) 509.37ms
+INFO: 2013-01-15 21:32:59,594 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:32:59,992 -- 200 GET /Authorize/8B53180C-63A9-43C5-A226-D394B0F1F30C (::1) 398.68ms
+INFO: 2013-01-15 21:33:00,143 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:33:00,144 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:33:01,098 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 954.13ms
+INFO: 2013-01-15 21:33:01,750 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections (::1) 1607.28ms
+INFO: 2013-01-15 21:33:01,754 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for a for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:33:01,757 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for b for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:33:01,758 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for c for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:33:01,758 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Food Recipies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:33:02,230 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 1086.37ms
+INFO: 2013-01-15 21:33:02,231 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Good Movies for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:33:02,300 -- StorageServer - could not retreive thumbnail file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-15 21:33:02,300 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/c/Thumbnail (::1) 542.83ms
+INFO: 2013-01-15 21:33:02,301 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Seattle for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:33:02,371 -- StorageServer - could not retreive thumbnail file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-15 21:33:02,371 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/b/Thumbnail (::1) 614.30ms
+INFO: 2013-01-15 21:33:02,372 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Paris for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:33:02,527 -- StorageServer - could not retreive thumbnail file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-15 21:33:02,528 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/a/Thumbnail (::1) 774.20ms
+INFO: 2013-01-15 21:33:02,528 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Games for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:33:02,959 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Good%20Movies/Thumbnail (::1) 728.59ms
+INFO: 2013-01-15 21:33:03,152 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Paris/Thumbnail (::1) 779.94ms
+INFO: 2013-01-15 21:33:03,209 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Games/Thumbnail (::1) 680.94ms
+INFO: 2013-01-15 21:33:03,411 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Seattle/Thumbnail (::1) 1109.87ms
+INFO: 2013-01-15 21:33:03,757 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Food%20Recipies/Thumbnail (::1) 1998.55ms
+INFO: 2013-01-15 21:33:03,757 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for Sushi for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:33:04,792 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/Sushi/Thumbnail (::1) 1034.81ms
+INFO: 2013-01-15 21:35:11,700 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:35:11,701 -- 200 GET /Authorize/8B53180C-63A9-43C5-A226-D394B0F1F30C (::1) 1.44ms
+INFO: 2013-01-15 21:35:11,758 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:35:11,759 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:35:11,965 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections (::1) 207.04ms
+INFO: 2013-01-15 21:35:13,398 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 1639.34ms
+INFO: 2013-01-15 21:35:14,216 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 815.31ms
+INFO: 2013-01-15 21:35:50,892 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - POST:  adding collection for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:35:50,899 -- <class 'Handlers.Bane.CollectionImageHandler.CollectionImageHandler'> - GET: get collection img for 1 for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:35:51,422 -- StorageServer - could not retreive thumbnail file for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+WARNING: 2013-01-15 21:35:51,422 -- 404 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/1/Thumbnail (::1) 522.68ms
+INFO: 2013-01-15 21:35:51,900 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections (::1) 1007.72ms
+INFO: 2013-01-15 21:35:53,461 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection 1 for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:35:54,112 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/1 (::1) 650.94ms
+INFO: 2013-01-15 21:35:54,564 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 807.94ms
+INFO: 2013-01-15 21:35:56,453 -- <class 'Handlers.Bane.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection 1 for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:35:56,483 -- SharingController - No sharing record found for user 8B53180C-63A9-43C5-A226-D394B0F1F30C and collection 1
+INFO: 2013-01-15 21:35:57,480 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/1/Notes (::1) 1027.53ms
+INFO: 2013-01-15 21:36:01,260 -- <class 'Handlers.Bane.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection 1 for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:36:02,346 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/1/Notes (::1) 1086.59ms
+INFO: 2013-01-15 21:36:03,555 -- <class 'Handlers.Bane.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection 1 for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:36:04,599 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/1/Notes (::1) 1044.12ms
+INFO: 2013-01-15 21:36:06,577 -- <class 'Handlers.Bane.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection 1 for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:36:07,671 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/1/Notes (::1) 1094.68ms
+INFO: 2013-01-15 21:36:09,616 -- <class 'Handlers.Bane.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection 1 for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:36:11,153 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/1/Notes (::1) 1537.37ms
+INFO: 2013-01-15 21:36:12,641 -- <class 'Handlers.Bane.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection 1 for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:36:13,660 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/1/Notes (::1) 1019.52ms
+INFO: 2013-01-15 21:36:15,192 -- <class 'Handlers.Bane.CollectionNotesHandler.CollectionNotesHandler'> - POST: Save note for collection 1 for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:36:16,478 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/1/Notes (::1) 1285.63ms
+INFO: 2013-01-15 21:36:54,154 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection 1 for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:36:54,156 -- <class 'Handlers.Bane.CollectionHandler.CollectionHandler'> - GET: Get collection 1 for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 21:36:54,711 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/1 (::1) 555.44ms
+INFO: 2013-01-15 21:36:54,736 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections/1 (::1) 582.31ms
+INFO: 2013-01-15 23:18:19,814 -- <class 'Handlers.Bane.AuthorizationHandler.AuthorizationHandler'> - GET : get user info for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 23:18:19,815 -- 200 GET /Authorize/8B53180C-63A9-43C5-A226-D394B0F1F30C (::1) 1.12ms
+INFO: 2013-01-15 23:18:19,870 -- <class 'Handlers.Bane.AccountHandler.AccountHandler'> - GET: retrieving collection list for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 23:18:19,871 -- <class 'Handlers.Bane.CategoriesHandler.CategoriesHandler'> - GET: Get categories for user 8B53180C-63A9-43C5-A226-D394B0F1F30C
+INFO: 2013-01-15 23:18:20,126 -- 304 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Collections (::1) 256.10ms
+INFO: 2013-01-15 23:18:21,490 -- 200 GET /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 1618.94ms
+INFO: 2013-01-15 23:18:22,721 -- 200 POST /8B53180C-63A9-43C5-A226-D394B0F1F30C/Categories (::1) 1228.61ms

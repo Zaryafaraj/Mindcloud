@@ -50,7 +50,6 @@
     self.inProgressNoteUpdates = [NSMutableDictionary dictionary];
     self.noteImageUpdateQueue = [NSMutableDictionary dictionary];
     self.noteUpdateQueue = [NSMutableDictionary dictionary];
-    self.waitingUpdateManifestData = [NSMutableDictionary dictionary];
     return self;
 }
 
@@ -173,6 +172,11 @@
 -(void) updateCollectionWithName: (NSString *) collectionName
                andContent: (NSData *) content
 {
+    if ([content length] == 0)
+    {
+        return;
+    }
+    
     if (self.manifestUpdateInProgress)
     {
         self.waitingUpdateManifestData = content;

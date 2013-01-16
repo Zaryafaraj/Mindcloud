@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xooml="http://kftf.ischool.washington.edu/xmlns/xooml" xsi:schemaLocation="http://kftf.ischool.washington.edu/xmlns/xooml http://kftf.ischool.washington.edu/XMLschema/0.41/XooML.xsd">
-</root>
+<xooml:fragment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xmlns:xooml="http://kftf.ischool.washington.edu/xmlns/xooml"
+                xmlns:mindcloud="http://www.mindcloud.net/xmlns/mindcloud"
+                xooml:schemaLocation="http://kftf.ischool.washington.edu/XMLschema/0.41/XooML.xsd"
+                mindcloud:schemaLocation="http://www.mindcloud.net/xmlschema/mindcloud.xsd">
+</xooml:fragment>

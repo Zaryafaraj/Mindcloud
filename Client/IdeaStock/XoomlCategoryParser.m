@@ -16,6 +16,8 @@
 #define XOOML_NAMESPACE @"http://kftf.ischool.washington.edu/xmlns/xooml"
 //TODO change this to point to the real schema location
 #define XOOML_SCHEMA_LOCATION @"http://kftf.ischool.washington.edu/xmlns/xooml http://kftf.ischool.washington.edu/XMLschema/0.41/XooML.xsd"
+#define MINDCLOUD_NAMESPACE  @"http://www.mindcloud.net/xmlns/mindcloud"
+#define MINDCLOUD_SCHEMA_LOCATION @"http://www.mindcloud.net/xmlschema/mindcloud.xsd"
 
 #define XOOML_FRAGMENT @"xooml:fragment"
 #define SCHEMA_VERSION @"schemaVersion"
@@ -26,11 +28,13 @@
 
 +(NSData *) serializeToXooml:(id<CategoryModelProtocol>) model
 {
-    DDXMLElement * root = [[DDXMLElement alloc] initWithName: @"root"];
+    DDXMLElement * root = [[DDXMLElement alloc] initWithName: XOOML_FRAGMENT];
     
     [root addNamespace: [DDXMLNode namespaceWithName:@"xsi" stringValue: XSI_NAMESPACE]];
     [root addNamespace: [DDXMLNode namespaceWithName:@"xooml" stringValue: XOOML_NAMESPACE]];
-    [root addAttribute: [DDXMLNode attributeWithName:@"xsi:schemaLocation" stringValue: XOOML_SCHEMA_LOCATION]];
+    [root addNamespace: [DDXMLNode namespaceWithName:@"mindcloud" stringValue: MINDCLOUD_NAMESPACE]];
+    [root addAttribute: [DDXMLNode attributeWithName:@"xooml:schemaLocation" stringValue: XOOML_SCHEMA_LOCATION]];
+    [root addAttribute: [DDXMLNode attributeWithName:@"mindcloud:schemaLocation" stringValue: MINDCLOUD_SCHEMA_LOCATION]];
     
     NSArray * categories = [model getAllSerializableCategories];
     for (NSString * categoryName in categories)
