@@ -360,32 +360,26 @@
 }
 
 
-/*--------------------------------------------------
- 
- XooML xPath Methods 
- 
- -------------------------------------------------*/
-
 + (NSString *) xPathforNote: (NSString *) noteID{
-    return [NSString stringWithFormat:@"//xooml:association[@ID = \"%@\"]",noteID];
+    return [NSString stringWithFormat:@"/xooml:fragment/xooml:association[@ID = \"%@\"]",noteID];
 }
 
 //xooml:fragmentToolAttributes[@type = "stacking" and @name="Stacking1"]
 + (NSString *) xPathForFragmentAttributeWithName: (NSString *) attributeName
                                          andType: (NSString *) attributeType{
-    return [NSString stringWithFormat:@"//xooml:fragmentToolAttributes[@type = \"%@\" and @name=\"%@\"]", attributeType, attributeName];
+    return [NSString stringWithFormat:@"/xooml:fragment/xooml:fragmentNamespaceData[@type = \"%@\" and @name=\"%@\"]", attributeType, attributeName];
 }
 ////xooml:fragmentToolAttributes[@type = "stacking"]
-+ (NSString *) xPathForBulletinBoardAttribute: (NSString *) attributeType{
-    return [NSString stringWithFormat:@"//xooml:fragmentToolAttributes[@type = \"%@\"]", attributeType];
++ (NSString *) xPathForCollectionAttribute: (NSString *) attributeType{
+    return [NSString stringWithFormat:@"/xooml:fragment/xooml:fragmentNamespaceData[@type = \"%@\"]", attributeType];
 }
 
 + (NSString *) xPathForAllNotes{
-    return @"//xooml:association";
+    return @"/xooml:fragment/xooml:association";
 }
 
 + (NSString *) xPathForBulletinBoard{
-    return @"//xooml:fragment";
+    return @"/xooml:fragment";
 }
 
 @end

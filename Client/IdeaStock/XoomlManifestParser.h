@@ -76,11 +76,6 @@
  */
 + (NSData *) getEmptyBulletinBoardXooml;
 
-/*--------------------------------------------------
- 
-                    XooML xPath Methods 
- 
- -------------------------------------------------*/
 /*
  Returns the xPath for accessing a note with noteID
  */
@@ -89,7 +84,7 @@
 /*
  Returns the xpath for accessing a bulletin board attribute of specified type
  */
-+ (NSString *) xPathForBulletinBoardAttribute: (NSString *) attributeType;
++ (NSString *) xPathForCollectionAttribute: (NSString *) attributeType;
 /*
  Returns the xPath for accessing a framgment attribute with name and type
  specified. 

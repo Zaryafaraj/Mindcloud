@@ -178,7 +178,7 @@
 
 -(NSDictionary *) getStackingInfo{
     //get All the stackings
-    NSString * xPath = [XoomlManifestParser xPathForBulletinBoardAttribute:STACKING_TYPE];
+    NSString * xPath = [XoomlManifestParser xPathForCollectionAttribute:STACKING_TYPE];
     
     NSError * err;
     NSMutableArray *attribtues = [[self.document nodesForXPath: xPath error: &err]  mutableCopy];
@@ -232,7 +232,7 @@
 -(NSDictionary *) getGroupingInfo{
     
     //get All the grouping
-    NSString * xPath = [XoomlManifestParser xPathForBulletinBoardAttribute:GROUPING_TYPE];
+    NSString * xPath = [XoomlManifestParser xPathForCollectionAttribute:GROUPING_TYPE];
     
     
     NSError * err;
