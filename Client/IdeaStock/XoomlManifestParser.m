@@ -79,7 +79,7 @@
     }
     
     //get the note fragment using xpath
-    NSString * xPath = @"//xooml:association";
+    NSString * xPath = @"/xooml:fragment/xooml:association";
     NSArray *notes = [document nodesForXPath: xPath error: &err];
     if (notes == nil){
         NSLog(@"Error reading the content from XML");
@@ -98,8 +98,6 @@
     CollectionNote * note = [[CollectionNote alloc] init];
     note.noteText = [[noteXML attributeForName: NOTE_TEXT] stringValue];
     note.noteTextID = [[noteXML attributeForName: NOTE_ID] stringValue];
-    note.creationDate = [[noteXML attributeForName: NOTE_CREATION_DATE] stringValue];
-    note.modificationDate = [[noteXML attributeForName:NOTE_MODIFICATION_DATE] stringValue];
     
     NSString * imagePath = [[noteXML attributeForName:ASSOCIATED_ITEM] stringValue];
     if (imagePath != nil && ![imagePath isEqualToString:@""]){
@@ -134,9 +132,7 @@
     [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:DISPLAY_TEXT stringValue:note.noteText]];
     [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:OPEM_WITH_DEFAULT stringValue:@""]];
     [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:CREATED_BY stringValue:APP_NAME]];
-    [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:CREATED_ON stringValue:note.creationDate]];
     [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:MODIFIED_BY stringValue:APP_NAME]];
-    [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:MODIFIED_ON stringValue:note.modificationDate]];
 
     DDXMLElement * planzHeader = [[DDXMLElement alloc] initWithName:@"xooml:fragmentToolAttributes"];
     [planzHeader addAttribute:[DDXMLNode attributeWithName:@"xmlns" stringValue:@"http://kftf.ischool.washington.edu/xmlns/planz"]];
@@ -205,9 +201,7 @@
     [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:DISPLAY_TEXT stringValue:note.noteText]];
     [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:OPEM_WITH_DEFAULT stringValue:@""]];
     [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:CREATED_BY stringValue:APP_NAME]];
-    [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:CREATED_ON stringValue:note.creationDate]];
     [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:MODIFIED_BY stringValue:APP_NAME]];
-    [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:MODIFIED_ON stringValue:note.modificationDate]];
     
     
     DDXMLElement * planzHeader = [[DDXMLElement alloc] initWithName:@"xooml:fragmentToolAttributes"];

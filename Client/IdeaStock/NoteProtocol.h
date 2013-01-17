@@ -23,10 +23,6 @@
 
 @property (nonatomic,strong) NSString * noteTextID;
 
-@property (nonatomic,strong) NSString * creationDate;
-
-@property (nonatomic,strong) NSString * modificationDate;
-
 @property (nonatomic,strong) NSString * image;
 
 - (NSString *) description;

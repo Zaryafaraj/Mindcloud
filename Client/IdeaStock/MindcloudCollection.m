@@ -588,8 +588,6 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     //for attributes in newNote that a value is specified; update those
     if (newNote.noteText) oldNote.noteText = newNote.noteText;
     if (newNote.noteTextID) oldNote.noteTextID = newNote.noteTextID;
-    if (newNote.creationDate) oldNote.creationDate = newNote.creationDate;
-    if (newNote.modificationDate) oldNote.modificationDate = newNote.modificationDate;
     
     //Old note now is updated; Serialize and send update datasource
     NSData * noteData = [XoomlManifestParser convertNoteToXooml:oldNote];

@@ -14,14 +14,11 @@
 
 @synthesize noteText = _noteText;
 @synthesize noteTextID = _noteID;
-@synthesize  creationDate = _creationDate;
-@synthesize modificationDate = _modificationDate;
 @synthesize image = _image;
 
 //Constructor for creating an empty note with the creationDate
 -(CollectionNote *) initWithCreationDate: (NSString *) date{
     self = [[CollectionNote alloc] init];
-    self.creationDate = date;
     return self;
 }
 
@@ -35,16 +32,12 @@
                                    andDate: (NSString *)date{
     self = [[CollectionNote alloc] init];
     self.noteTextID = noteID;
-    self.creationDate = date;
     return self;
 }
 
 -(CollectionNote *) initWithText: (NSString *) text{
 
     self = [[CollectionNote alloc] init];
-    NSString * date = [XoomlAttributeHelper generateCurrentTimeForXooml];
-    self.creationDate = date;
-    self.modificationDate = date;
     self.noteTextID = [XoomlAttributeHelper generateUUID];
     self.noteText = text;
     return  self;
