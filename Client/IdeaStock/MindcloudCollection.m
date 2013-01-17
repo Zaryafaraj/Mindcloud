@@ -7,7 +7,7 @@
 //
 
 #import "MindcloudCollection.h"
-#import "XoomlManifestParser.h"
+#import "XoomlCollectionParser.h"
 
 #import "XoomlCollectionManifest.h"
 #import "FileSystemHelper.h"
@@ -216,7 +216,7 @@
                     andName: (NSString *) noteName
               andProperties: (NSDictionary *) noteInfos{
     
-    id <NoteProtocol> noteObj = [XoomlManifestParser xoomlNoteFromXML:noteData];
+    id <NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
     if (!noteObj) return ;
     
     (self.noteContents)[noteID] = noteObj;
@@ -351,7 +351,7 @@
                                  andValues:@[isVisible]];
     (self.noteAttributes)[noteID] = noteAttribute;
     
-    NSData * noteData = [XoomlManifestParser convertNoteToXooml:note];
+    NSData * noteData = [XoomlCollectionParser convertNoteToXooml:note];
     [self.dataSource addNote:noteName withContent:noteData  ToCollection:self.bulletinBoardName];
     
     self.needSynchronization = YES;
@@ -399,8 +399,8 @@
     //just save the noteID that has images not the image itself. This is
     //for performance reasons, anytime that an image is needed we will load
     //it from the disk. The dictionary holds noteID and imageFile Path
-    NSData * noteData = [XoomlManifestParser convertImageNoteToXooml:note];
-    NSString * imgName = [XoomlManifestParser getImageFileName: note];
+    NSData * noteData = [XoomlCollectionParser convertImageNoteToXooml:note];
+    NSString * imgName = [XoomlCollectionParser getXoomlImageReference: note];
     NSString * imgPath = [FileSystemHelper getPathForNoteImageforNoteName:noteName
                                                           inBulletinBoard:self.bulletinBoardName];
     (self.noteImages)[noteID] = imgPath;
@@ -590,7 +590,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     if (newNote.noteTextID) oldNote.noteTextID = newNote.noteTextID;
     
     //Old note now is updated; Serialize and send update datasource
-    NSData * noteData = [XoomlManifestParser convertNoteToXooml:oldNote];
+    NSData * noteData = [XoomlCollectionParser convertNoteToXooml:oldNote];
     CachedCollectionAttributes * noteAttributes = (self.noteAttributes)[noteID];
     NSString * noteName = [[noteAttributes getAttributeWithName:NOTE_NAME
                                                forAttributeType:NOTE_NAME_TYPE] lastObject];

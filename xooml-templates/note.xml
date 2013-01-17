@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xooml:fragment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:xooml="http://kftf.ischool.washington.edu/xmlns/xooml" 
-    xmlns:mindcloud="http://www.mindcloud.net/xmlns/mindcloud" 
-    xooml:schemaLocation="http://kftf.ischool.washington.edu/XMLschema/0.41/XooML.xsd" 
-    mindcloud:schemaLocation="http://www.mindcloud.net/xmlschema/mindcloud.xsd">
-
+<xooml:fragment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xooml="http://kftf.ischool.washington.edu/xmlns/xooml" xmlns:mindcloud="http://www.mindcloud.net/xmlns/mindcloud" xooml:schemaLocation="http://kftf.ischool.washington.edu/XMLschema/0.41/XooML.xsd" mindcloud:schemaLocation="http://www.mindcloud.net/xmlschema/mindcloud.xsd">
   <!--Note Declaration -->
-  <xooml:association ID="1517F5AA-C57C-4251-9220-6C2580205A7C" itemDescribed="Note1" displayName="The Text of the note goes here"/>
+  <xooml:association ID="1517F5AA-C57C-4251-9220-6C2580205A7C" 
+      itemDescribed="Note1" 
+      displayName="The Text of the note goes here" 
+      associatedXooMLFragment="note.jpg"/>
 </xooml:fragment>

@@ -7,7 +7,7 @@
 //
 
 #import "CollectionNote.h"
-#import "XoomlManifestParser.h"
+#import "XoomlCollectionParser.h"
 #import "XoomlAttributeHelper.h"
 
 @implementation CollectionNote
