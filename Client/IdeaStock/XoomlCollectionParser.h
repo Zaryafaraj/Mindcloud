@@ -74,6 +74,10 @@
  */
 + (DDXMLNode *) xoomlForNoteRef: (NSString *) refID;
 
+/*
+ Creates the container that holds mindcloud specific properties for xooml
+ */
++ (DDXMLElement * ) xoomlForNoteAttributeContainer;
 
 /*
  Returns the xPath for accessing a note with noteID
@@ -91,5 +95,7 @@
                                          andType: (NSString *) attributeType;
 
 + (NSString *) xPathForAllNotes;
+
++ (NSString *) xPathForCollectionAttributeContainer;
 
 @end

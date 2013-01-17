@@ -45,6 +45,7 @@
 #define POSITION_Y @"positionY"
 
 #define FRAGMENT_NAMESPACE_DATA @"xooml:fragmentNamespaceData"
+#define ASSOCIATION_NAMESPACE_DATA @"xooml:associationNamespaceData"
 #define REF_ID @"refID"
 
 #pragma mark - Note.xml
@@ -112,7 +113,8 @@
     return [xmlString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-+(NSString *) getImageFileName: (CollectionNote *) note{
++ (NSString *) getXoomlImageReference: (CollectionNote *) note
+{
     return [note.noteTextID stringByAppendingString:@".jpg"];
 }
 
@@ -126,7 +128,7 @@
     [root addAttribute: [DDXMLNode attributeWithName:@"xooml:schemaLocation" stringValue: XOOML_SCHEMA_LOCATION]];
     [root addAttribute: [DDXMLNode attributeWithName:@"mindcloud:schemaLocation" stringValue: MINDCLOUD_SCHEMA_LOCATION]];
     
-    NSString *imageName = [XoomlCollectionParser getImageFileName:note];    //create the association note and its attributes
+    NSString *imageName = [XoomlCollectionParser getXoomlImageReference:note];    //create the association note and its attributes
     
     
     DDXMLElement * xoomlAssociation = [[DDXMLElement alloc] initWithName: XOOML_ASSOCIATION];
@@ -156,6 +158,8 @@
     [root addNamespace: [DDXMLNode namespaceWithName:@"mindcloud" stringValue: MINDCLOUD_NAMESPACE]];
     [root addAttribute: [DDXMLNode attributeWithName:@"xooml:schemaLocation" stringValue: XOOML_SCHEMA_LOCATION]];
     [root addAttribute: [DDXMLNode attributeWithName:@"mindcloud:schemaLocation" stringValue: MINDCLOUD_SCHEMA_LOCATION]];
+    DDXMLElement * collectionAttributeContainer = [[DDXMLElement alloc] initWithName: FRAGMENT_NAMESPACE_DATA];
+    [root addChild:collectionAttributeContainer];
     
     NSString *xmlString = [root description];
     NSString *xmlHeader = XML_HEADER;
@@ -207,6 +211,9 @@
     [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:NOTE_ID stringValue:noteID]];
     [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:ASSOCIATED_ITEM stringValue:name]];
     
+    DDXMLElement * xoomlAssociationNamespace = [[DDXMLElement alloc] initWithName: ASSOCIATION_NAMESPACE_DATA];
+    [xoomlAssociation addChild:xoomlAssociationNamespace];
+    
     return xoomlAssociation;
 }
 
@@ -217,6 +224,12 @@
     DDXMLNode * attribute = [DDXMLElement attributeWithName:REF_ID stringValue:refID];
     [noteRef addAttribute: attribute];  
     return noteRef;
+}
+
++ (DDXMLElement * ) xoomlForNoteAttributeContainer
+{
+    DDXMLElement * xoomlAssociationNamespace = [[DDXMLElement alloc] initWithName: ASSOCIATION_NAMESPACE_DATA];
+    return xoomlAssociationNamespace;
 }
 
 + (DDXMLNode *) xoomlForNotePositionX: (NSString *) positionX
@@ -235,13 +248,14 @@
 }
 
 //xooml:fragmentToolAttributes[@type = "stacking" and @name="Stacking1"]
-+ (NSString *) xPathForFragmentAttributeWithName: (NSString *) attributeName
-                                         andType: (NSString *) attributeType{
-    return [NSString stringWithFormat:@"/xooml:fragment/xooml:fragmentNamespaceData[@type = \"%@\" and @name=\"%@\"]", attributeType, attributeName];
++ (NSString *) xPathForCollectionAttributeWithName: (NSString *) attributeName
+                                         andType: (NSString *) attributeType;
+{
+    return [NSString stringWithFormat:@"/xooml:fragment/xooml:fragmentNamespaceData/mindcloud:collectionAttribute[@type = \"%@\" and @name=\"%@\"]", attributeType, attributeName];
 }
 ////xooml:fragmentToolAttributes[@type = "stacking"]
 + (NSString *) xPathForCollectionAttribute: (NSString *) attributeType{
-    return [NSString stringWithFormat:@"/xooml:fragment/xooml:fragmentNamespaceData[@type = \"%@\"]", attributeType];
+    return [NSString stringWithFormat:@"/xooml:fragment/xooml:fragmentNamespaceData/mindcloud:collectionAttribute[@type = \"%@\"]", attributeType];
 }
 
 + (NSString *) xPathForAllNotes{
@@ -250,6 +264,11 @@
 
 + (NSString *) xPathForBulletinBoard{
     return @"/xooml:fragment";
+}
+
++ (NSString *) xPathForCollectionAttributeContainer
+{
+    return @"/xooml:fragment/xooml:fragmentNamespaceData";
 }
 
 @end

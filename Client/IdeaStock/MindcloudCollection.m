@@ -200,9 +200,7 @@
         
     }
     
-    [self initiateLinkages];
     [self initiateStacking];
-    [self initiateGrouping];
     NSLog(@"Notes Initiated");
     //Let any listener know that the bulletinboard has been reloaded
     [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_RELOAD_EVENT
