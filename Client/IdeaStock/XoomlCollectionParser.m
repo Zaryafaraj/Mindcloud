@@ -40,7 +40,7 @@
 #define ATTRIBUTE_NAME @"name"
 
 #define ASSOCIATED_ITEM @"aassociatedXooMLFragment"
-#define ASSOCIATED_XOOML_FRAGMENT @"associatedXooMLFragment"
+#define ASSOCIATED_XOOML_FRAGMENT @"associatedXoomlFragment"
 #define POSITION_X @"positionX"
 #define POSITION_Y @"positionY"
 

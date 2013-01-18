@@ -106,4 +106,4 @@ class CollectionHandler(tornado.web.RequestHandler):
 
         else:
             self.set_status(StorageResponse.BAD_REQUEST)
-        self.finish()
+            self.finish()
