@@ -21,28 +21,6 @@
 @implementation XoomlCollectionManifest
 
 #pragma mark - XML Keys
-#define XOOML_NOTE_TOOL_ATTRIBUTE @"xooml:associationToolAttributes"
-#define ATTRIBUTE_NAME @"name"
-#define ATTRIBUTE_TYPE @"type"
-#define LINKAGE_TYPE @"linkage"
-#define STACKING_TYPE @"stacking"
-#define GROUPING_TYPE @"grouping"
-#define REF_ID @"refID"
-#define NOTE_NAME_KEY @"name"
-#define NOTE_POSITION_X_KEY @"positionX"
-#define NOTE_POSITION_Y_KEY @"positionY"
-#define NOTE_IS_VISIBLE @"isVisible"
-#define NOTE_LINKAGE_KEY @"linkage"
-#define POSITION_TYPE @"position"
-#define XOOML_POSITION_X @"positionX"
-#define XOOML_POSITION_Y @"positionY"
-#define XOOML_IS_VISIBLE @"isVisible"
-#define XOOML_NOTE_NAME @"associatedXoomlFragment"
-#define XOOML_ID @"ID"
-#define XOOML_NOTE_ID @"ID"
-#define NOTE_ID_KEY @"ID"
-#define ATTRIBUTE_TYPE @"type"
-#define ASSOCIATION_NAMESPACE_DATA @"associationNamespaceData"
 
 #pragma mark - Initialization
 -(id) initWithData:(NSData *) data{
@@ -103,7 +81,7 @@
         //There is apparently a bug in KissXML xPath
         //I will search for the note manuallyss if the bug occurs
         for(DDXMLElement * node in self.document.rootElement.children){
-            if([[[node attributeForName:XOOML_ID] stringValue] isEqualToString:noteID]){
+            if([[[node attributeForName:ATTRIBUTE_ID] stringValue] isEqualToString:noteID]){
                 return node;
             }
         }
@@ -222,24 +200,24 @@
     //for every note
     for(DDXMLElement * note in notes){
         //get the note attributes if they don't exist set them to nil
-        NSString * noteID = [[note attributeForName:XOOML_NOTE_ID] stringValue];
-        NSString * noteName = [[note attributeForName:XOOML_NOTE_NAME] stringValue];
+        NSString * noteID = [[note attributeForName:NOTE_ID] stringValue];
+        NSString * noteName = [[note attributeForName:NOTE_ID] stringValue];
         NSString * notePositionX = nil;
         NSString * notePositionY = nil;
         for(DDXMLElement * noteChild in [note children]){
             if ([[[noteChild attributeForName:ATTRIBUTE_TYPE] stringValue] isEqualToString:POSITION_TYPE]){
                 
                 DDXMLElement * positionNode = (DDXMLElement *)[noteChild childAtIndex:0];
-                notePositionX = [[positionNode attributeForName:XOOML_POSITION_X] stringValue];
-                notePositionY = [[positionNode attributeForName:XOOML_POSITION_Y] stringValue];
+                notePositionX = [[positionNode attributeForName:POSITION_X] stringValue];
+                notePositionY = [[positionNode attributeForName:POSITION_Y] stringValue];
                 break;
             }
         }
         //for every note create a sub answer with all that notes properties
         NSMutableDictionary * subAnswer = [NSMutableDictionary dictionary];
         subAnswer[NOTE_NAME_KEY] = noteName;
-        if (notePositionX) subAnswer[NOTE_POSITION_X_KEY] = notePositionX;
-        if (notePositionY) subAnswer[NOTE_POSITION_Y_KEY] = notePositionY;
+        if (notePositionX) subAnswer[POSITION_X] = notePositionX;
+        if (notePositionY) subAnswer[POSITION_Y] = notePositionY;
         //set the answer object for the note with noteID as that subAnswer dictionary
         //which now contains all key value pairs of properties. 
         answer[noteID] = subAnswer;
@@ -419,8 +397,8 @@ WithReferenceToNote: (NSString *) refNoteID
     //get the required attributes from the properties dictionary
     //if they are missing return
     NSString * noteName = properties[NOTE_NAME_KEY];
-    NSString * positionX = properties[NOTE_POSITION_X_KEY];
-    NSString * positionY = properties[NOTE_POSITION_Y_KEY];
+    NSString * positionX = properties[POSITION_X];
+    NSString * positionY = properties[POSITION_Y];
     NSString * isVisible = properties[NOTE_IS_VISIBLE];
     if (!noteName || !positionX || !positionY || !isVisible) return;
     
@@ -708,8 +686,8 @@ attributeName ofType:(NSString *) attributeType{
     if (!note) return;
     
     NSString * newName = [newProperties[NOTE_NAME_KEY] lastObject];
-    NSString * newPositionX = [newProperties[NOTE_POSITION_X_KEY] lastObject];
-    NSString * newPositionY = [newProperties[NOTE_POSITION_Y_KEY]lastObject];
+    NSString * newPositionX = [newProperties[POSITION_X] lastObject];
+    NSString * newPositionY = [newProperties[POSITION_Y]lastObject];
     NSString * newIsVisible = [newProperties[NOTE_IS_VISIBLE] lastObject];
     //if its the name of the note that we want to change change it on the 
     //note itself
@@ -729,12 +707,12 @@ attributeName ofType:(NSString *) attributeType{
                     //if there is no position element this note is invalid and can't be
                     //updated
                     if (newPositionX){
-                        [element removeAttributeForName:XOOML_POSITION_X];
-                        [element addAttribute:[DDXMLNode attributeWithName:XOOML_POSITION_X stringValue:newPositionX]];
+                        [element removeAttributeForName:POSITION_X];
+                        [element addAttribute:[DDXMLNode attributeWithName:POSITION_X stringValue:newPositionX]];
                     }
                     if(newPositionY){
-                        [element removeAttributeForName:XOOML_POSITION_Y];
-                        [element addAttribute:[DDXMLNode attributeWithName:XOOML_POSITION_Y stringValue:newPositionY]];
+                        [element removeAttributeForName:POSITION_Y];
+                        [element addAttribute:[DDXMLNode attributeWithName:POSITION_Y stringValue:newPositionY]];
                     }
                     if(newIsVisible){
                         [element removeAttributeForName:XOOML_IS_VISIBLE];
