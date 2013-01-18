@@ -160,6 +160,8 @@
                                              selector:@selector(collectionFilesDownloaded:)
                                                  name:COLLECTION_DOWNLOADED_EVENT
                                                object:nil];
+    //Start the synchronization timer
+    [self startTimer];
     return self;
 }
 
@@ -205,8 +207,6 @@
     //Let any listener know that the bulletinboard has been reloaded
     [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_RELOAD_EVENT
                                                         object:self];
-    //Start the synchronization timer
-    [self startTimer];
 }
 
 -(void) initiateNoteContent: (NSData *) noteData
@@ -768,6 +768,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 
 -(void) synchronize:(NSTimer *) timer{
     
+    NSLog(@"Yellow");
     if (self.needSynchronization){
         self.needSynchronization = NO;
         [MindcloudCollection saveBulletinBoard: self];

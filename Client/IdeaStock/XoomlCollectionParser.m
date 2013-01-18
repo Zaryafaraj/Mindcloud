@@ -211,9 +211,6 @@
     [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:NOTE_ID stringValue:noteID]];
     [xoomlAssociation addAttribute:[DDXMLNode attributeWithName:ASSOCIATED_ITEM stringValue:name]];
     
-    DDXMLElement * xoomlAssociationNamespace = [[DDXMLElement alloc] initWithName: ASSOCIATION_NAMESPACE_DATA];
-    [xoomlAssociation addChild:xoomlAssociationNamespace];
-    
     return xoomlAssociation;
 }
 
