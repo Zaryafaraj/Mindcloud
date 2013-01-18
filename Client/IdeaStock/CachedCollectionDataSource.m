@@ -453,8 +453,9 @@
 {
     NSString * path = [FileSystemHelper getPathForNoteWithName:noteName
                                           inCollectionWithName:collectionName];
-    
-    BOOL didWrite = [data writeToFile:path atomically:NO];
+    [FileSystemHelper createMissingDirectoryForPath:path];
+    NSError * err;
+    BOOL didWrite = [data writeToFile:path options:NSDataWritingAtomic error:&err];
     if(!didWrite)
     {
         NSLog(@"Failed to write the file to %@", path);
