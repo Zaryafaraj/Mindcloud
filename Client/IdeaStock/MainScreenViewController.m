@@ -14,7 +14,7 @@
 #import "CollectionCell.h"
 #import "IIViewDeckController.h"
 #import "XoomlCategoryParser.h"
-#import "CachedCollectionDataSource.h"
+#import "CachedMindCloudDataSource.h"
 
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
@@ -642,7 +642,7 @@
         collectionView.bulletinBoardName = name;
         collectionView.parent = self;
         MindcloudCollection * board =
-        [[MindcloudCollection alloc] initCollection:name withDataSource:[CachedCollectionDataSource getInstance]];
+        [[MindcloudCollection alloc] initCollection:name withDataSource:[CachedMindCloudDataSource getInstance:name]];
         collectionView.board = board;
         
         collectionView.modalPresentationStyle = UIModalPresentationFullScreen;

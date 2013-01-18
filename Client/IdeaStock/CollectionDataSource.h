@@ -14,7 +14,7 @@
  * The protocol for the datamodel. Includes essential behaviors for working 
  with bulletin boards and notes. 
  */
-@protocol CollectionDataSource <NSObject>
+@protocol MindcloudDataSource <NSObject>
 
 
 /*
@@ -27,6 +27,7 @@
  This method assumes that the content passed to it as NSData is verified 
  and is valid.
  */
+
 - (void) addNote: (NSString *)noteName 
      withContent: (NSData *) note 
  ToCollection: (NSString *) collectionName;

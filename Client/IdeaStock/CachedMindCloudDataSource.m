@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 University of Washington. All rights reserved.
 //
 
-#import "CachedCollectionDataSource.h"
+#import "CachedMindCloudDataSource.h"
 #import "FileSystemHelper.h"
 #import "Mindcloud.h"
 #import "UserPropertiesHelper.h"
 #import "EventTypes.h"
 
-@interface CachedCollectionDataSource()
+@interface CachedMindCloudDataSource()
 //we make sure that we don't send out an action before another action of the same type on the same
 //resource is in progress, because of unreliable TCP/IP the second action might reach the server faster
 //and we want to avoid it.
@@ -30,17 +30,22 @@
 
 @end
 
-@implementation CachedCollectionDataSource
-
+@implementation CachedMindCloudDataSource
 //singleTone
-+(id) getInstance
++(id) getInstance:(NSString *) collectionName
 {
-    static CachedCollectionDataSource * instance = nil;
+    
+    static NSMutableDictionary * instances = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        instance = [[CachedCollectionDataSource alloc] init];
+        instances = [NSMutableDictionary dictionary];
     });
-    return instance;
+    
+    if (!instances[collectionName])
+    {
+        instances[collectionName] = [[CachedMindCloudDataSource alloc] init];
+    }
+    return instances[collectionName];
 }
 
 -(id) init
@@ -460,6 +465,7 @@
     {
         NSLog(@"Failed to write the file to %@", path);
     }
+    NSLog(@"Note save to %@", path);
     return didWrite;
 }
 
@@ -469,6 +475,7 @@
 {
     NSString * path = [FileSystemHelper getPathForNoteImageforNoteName:noteName
                                                        inBulletinBoard:collectionName];
+    [FileSystemHelper createMissingDirectoryForPath:path];
     
     BOOL didWrite = [data writeToFile:path atomically:NO];
     if(!didWrite)
@@ -498,6 +505,7 @@
     NSError * err;
     NSString *data = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
     if (!data){
+        NSLog(@"Failed to read note %@", err);
         return nil;
     }
     

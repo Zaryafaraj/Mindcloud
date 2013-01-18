@@ -71,7 +71,7 @@
  The datasource is connected to the mindcloud servers and can be viewed as the expensive
  permenant storage
  */
-@property (nonatomic,strong) id<CollectionDataSource> dataSource;
+@property (nonatomic,strong) id<MindcloudDataSource> dataSource;
 /*
  The manifest of the loaded collection
  */
@@ -136,7 +136,7 @@
 
 #pragma mark - Initialization
 -(id) initCollection:(NSString *)collectionName
-      withDataSource:(id<CollectionDataSource>)dataSource
+      withDataSource:(id<MindcloudDataSource>)dataSource
 {
     self = [super init];
     self.dataSource = dataSource;

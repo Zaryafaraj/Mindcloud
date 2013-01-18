@@ -24,5 +24,5 @@
  Reads and fills up a bulletin board from the external structure of the datamodel
  */
 - (id) initCollection: (NSString *) collectionName
-       withDataSource: (id <CollectionDataSource>) dataSource;
+       withDataSource: (id <MindcloudDataSource>) dataSource;
 @end

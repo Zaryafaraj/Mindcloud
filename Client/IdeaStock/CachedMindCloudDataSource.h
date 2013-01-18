@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "CollectionDataSource.h"
 
-@interface CachedCollectionDataSource : NSObject<CollectionDataSource>
+@interface CachedMindCloudDataSource : NSObject<MindcloudDataSource>
 
 //always use this factory method to instantiate class
-+(id) getInstance;
++(id) getInstance: (NSString *) collectionName;
 
 @end
