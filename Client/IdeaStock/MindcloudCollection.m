@@ -750,7 +750,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 }
 
 -(void) startTimer{
-    [NSTimer scheduledTimerWithTimeInterval: SYNCHRONIZATION_PERIOD
+    self.timer = [NSTimer scheduledTimerWithTimeInterval: SYNCHRONIZATION_PERIOD
                                      target:self
                                    selector:@selector(synchronize:)
                                    userInfo:nil
@@ -797,6 +797,8 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 #pragma mark - cleanup
 -(void) cleanUp{
     //check out of the notification center
+    NSLog(@"Finishing up");
+    [self stopTimer];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

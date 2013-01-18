@@ -976,7 +976,6 @@
 {
     //[DropBoxAssociativeBulletinBoard saveBulletinBoard:self.board];
     
-    [self.board cleanUp];
     
     [self setTitle:nil];
     [self setView:nil];
@@ -1076,6 +1075,7 @@
     //save the bulletinboard
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
+    [self.board cleanUp];
     [self.parent finishedWorkingWithBulletinBoard];
 }
 

@@ -39,7 +39,7 @@
 #define ATTRIBUTE_TYPE @"type"
 #define ATTRIBUTE_NAME @"name"
 
-#define ASSOCIATED_ITEM @"aassociatedXooMLFragment"
+#define ASSOCIATED_ITEM @"aassociatedXoomlFragment"
 #define ASSOCIATED_XOOML_FRAGMENT @"associatedXoomlFragment"
 #define POSITION_X @"positionX"
 #define POSITION_Y @"positionY"
