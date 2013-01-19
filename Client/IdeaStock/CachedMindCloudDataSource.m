@@ -27,6 +27,7 @@
 @property NSMutableDictionary * noteImageUpdateQueue;
 @property NSMutableDictionary * waitingDeleteNotes;
 @property NSData * waitingUpdateManifestData;
+@property NSMutableDictionary * hasCachedVersion;
 
 @end
 
@@ -55,6 +56,7 @@
     self.inProgressNoteUpdates = [NSMutableDictionary dictionary];
     self.noteImageUpdateQueue = [NSMutableDictionary dictionary];
     self.noteUpdateQueue = [NSMutableDictionary dictionary];
+    self.hasCachedVersion = [NSMutableDictionary dictionary];
     return self;
 }
 
@@ -249,34 +251,40 @@
 - (NSData *) getCollection: (NSString *) collectionName
 {
     NSData * cachedData = [self getCollectionFromDisk:collectionName];
-    //whatever is cached we try to retreive the collection again
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    NSString * userID = [UserPropertiesHelper userID];
-    [mindcloud getCollectionManifestForUser:userID
-                              forCollection:collectionName
-                               withCallback:^(NSData * collectionData){
-                                   if (collectionData)
-                                   {
-                                       
-                                        BOOL didWrite = [self saveToDiskCollectionData:collectionData
-                                                                       ForCollection:collectionName];
-                                        //get the rest of the notes
-                                        if (didWrite)
-                                        {
-                                        [self getAllNotes:collectionName];
+    if (!self.hasCachedVersion[collectionName])
+    {
+        //whatever is cached we try to retreive the collection again
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userID = [UserPropertiesHelper userID];
+        [mindcloud getCollectionManifestForUser:userID
+                                  forCollection:collectionName
+                                   withCallback:^(NSData * collectionData){
+                                       if (collectionData)
+                                       {
+                                           
+                                          NSLog(@"Collection Retreived");
+                                           BOOL didWrite = [self saveToDiskCollectionData:collectionData
+                                                                           ForCollection:collectionName];
+                                            //get the rest of the notes
+                                            if (didWrite)
+                                            {
+                                            [self getAllNotes:collectionName];
+                                            }
                                         }
-                                    }
-                               }];
+                                   }];
+    }
     return cachedData;
 }
 
 - (void) getAllNotes:(NSString *) collectionName
 {
+    NSLog(@"GETALLNOTE");
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userID = [UserPropertiesHelper userID];
     [mindcloud getAllNotesForUser:userID
                     forCollection:collectionName
                      withCallback:^(NSArray * allNotes){
+                         NSLog(@"ALL NOTES %@", allNotes);
                                int index = 0;
                                [self getRemainingNoteAtIndex: index
                                                    fromArray: allNotes
@@ -327,7 +335,7 @@
        }
        else
        {
-           [self downloadComplete];
+           [self downloadComplete:collectionName];
        }
    }
 }
@@ -372,18 +380,19 @@
         else
         {
             //This means we have downloaded everything
-            [self downloadComplete];
+            [self downloadComplete:collectionName];
         }
     }
     
 }
 
--(void) downloadComplete
+-(void) downloadComplete:(NSString *) collectionName
 {
-    NSLog(@"Download Completed");
+    NSLog(@"Download Completed for %@", collectionName);
     //tell the notification center that download has been completed
     [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_DOWNLOADED_EVENT
                                                         object:self];
+    self.hasCachedVersion[collectionName] = @YES;
     
 }
 
@@ -444,7 +453,8 @@
     
     NSString * path = [FileSystemHelper getPathForCollectionWithName: collectionName];
     [FileSystemHelper createMissingDirectoryForPath:path];
-    BOOL didWrite = [data writeToFile:path atomically:NO];
+    NSError * err;
+    BOOL didWrite = [data writeToFile:path options:NSDataWritingAtomic error:&err];
     if(!didWrite)
     {
         NSLog(@"Failed to write the file to %@", path);
@@ -477,7 +487,8 @@
                                                        inBulletinBoard:collectionName];
     [FileSystemHelper createMissingDirectoryForPath:path];
     
-    BOOL didWrite = [data writeToFile:path atomically:NO];
+    NSError * err;
+    BOOL didWrite = [data writeToFile:path options:NSDataWritingAtomic error:&err];
     if(!didWrite)
     {
         NSLog(@"Failed to write the file to %@", path);
@@ -503,7 +514,7 @@
     
     NSString * path = [FileSystemHelper getPathForNoteWithName:noteName inCollectionWithName:collectionName];
     NSError * err;
-    NSString *data = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
+    NSString *data = [NSString stringWithContentsOfFile:path  encoding:NSUTF8StringEncoding error:&err];
     if (!data){
         NSLog(@"Failed to read note %@", err);
         return nil;
@@ -529,6 +540,14 @@
     NSLog(@"Note img: %@ read from disk", noteName);
     
     return data;
+}
+
+#pragma mark - Cached Object methods
+
+-(void) refreshCacheForKey:(NSString *)collectionName
+{
+    self.hasCachedVersion[collectionName] = @NO;
+    [self getCollection:collectionName];
 }
 
 @end

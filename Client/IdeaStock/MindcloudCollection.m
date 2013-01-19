@@ -152,7 +152,7 @@
     }
     else
     {
-        [self loadCollection];
+        [self loadCollection:collectionData];
     }
     
     //In any case listen for the download to get finished
@@ -166,12 +166,46 @@
 }
 
 -(void) collectionFilesDownloaded: (NSNotification *) notification{
-    [self loadCollection];
+    NSData * bulletinBoardData = [self.dataSource getCollection:self.bulletinBoardName];
+    if (!bulletinBoardData)
+    {
+        NSLog(@"Collection Files haven't been downloaded properly");
+        return;
+    }
+    self.manifest = [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
+    
+    //get notes from manifest and initalize those
+    NSDictionary * noteInfo = [self.manifest getAllNoteBasicInfo];
+    for(NSString * noteID in noteInfo){
+        
+        //for each note create a note Object by reading its separate xooml files
+        //from the data model
+        NSString * noteName = noteInfo[noteID][NOTE_NAME];
+        NSData * noteData = [self.dataSource getNoteForTheCollection:self.bulletinBoardName
+                                                            WithName:noteName];
+        if (!noteData)
+        {
+            NSLog(@"Could not retreive note data from dataSource");
+        }
+        else
+        {
+            [self initiateNoteContent:noteData
+                            forNoteID:noteID
+                              andName:noteName
+                        andProperties:noteInfo];
+        }
+        
+    }
+    
+    [self initiateStacking];
+    NSLog(@"Notes Initiated");
+    //Let any listener know that the bulletinboard has been reloaded
+    [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_RELOAD_EVENT
+                                                        object:self];
 }
 
--(void) loadCollection{
+-(void) loadCollection:(NSData *) bulletinBoardData{
     
-    NSData * bulletinBoardData = [self.dataSource getCollection:self.bulletinBoardName];
     if (!bulletinBoardData)
     {
         NSLog(@"Collection Files haven't been downloaded properly");
@@ -768,7 +802,6 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 
 -(void) synchronize:(NSTimer *) timer{
     
-    NSLog(@"Yellow");
     if (self.needSynchronization){
         self.needSynchronization = NO;
         [MindcloudCollection saveBulletinBoard: self];
