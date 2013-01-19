@@ -1975,7 +1975,6 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 #ifdef __IPHONE_5_0
 
 - (void)vdc_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)animated completion:(void (^)(void))completion {
-    NSLog(@"HELLO");
     
     BOOL isTrue = self.viewDeckController && (self.viewDeckController.navigationControllerBehavior == IIViewDeckNavigationControllerContained || ![self.viewDeckController.centerController isKindOfClass:[UINavigationController class]]);
     UIViewController* controller = isTrue ? self.viewDeckController : self;

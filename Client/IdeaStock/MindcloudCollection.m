@@ -830,7 +830,6 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 #pragma mark - cleanup
 -(void) cleanUp{
     //check out of the notification center
-    NSLog(@"Finishing up");
     [self stopTimer];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

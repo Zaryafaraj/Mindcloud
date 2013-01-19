@@ -278,13 +278,11 @@
 
 - (void) getAllNotes:(NSString *) collectionName
 {
-    NSLog(@"GETALLNOTE");
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userID = [UserPropertiesHelper userID];
     [mindcloud getAllNotesForUser:userID
                     forCollection:collectionName
                      withCallback:^(NSArray * allNotes){
-                         NSLog(@"ALL NOTES %@", allNotes);
                                int index = 0;
                                [self getRemainingNoteAtIndex: index
                                                    fromArray: allNotes
@@ -395,9 +393,9 @@
 {
     NSLog(@"Download Completed for %@", collectionName);
     //tell the notification center that download has been completed
+    self.hasCachedVersion[collectionName] = @YES;
     [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_DOWNLOADED_EVENT
                                                         object:self];
-    self.hasCachedVersion[collectionName] = @YES;
     
 }
 
@@ -480,7 +478,6 @@
     {
         NSLog(@"Failed to write the file to %@", path);
     }
-    NSLog(@"Note save to %@", path);
     return didWrite;
 }
 
