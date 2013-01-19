@@ -201,7 +201,7 @@
     for(DDXMLElement * note in notes){
         //get the note attributes if they don't exist set them to nil
         NSString * noteID = [[note attributeForName:NOTE_ID] stringValue];
-        NSString * noteName = [[note attributeForName:NOTE_ID] stringValue];
+        NSString * noteName = [[note attributeForName:ASSOCIATED_XOOML_FRAGMENT] stringValue];
         NSString * notePositionX = nil;
         NSString * notePositionY = nil;
         for(DDXMLElement * noteChild in [note children]){

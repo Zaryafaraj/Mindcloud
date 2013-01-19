@@ -190,6 +190,10 @@ static Mindcloud * instance;
              forCollection:(NSString *) collectionName
                     withCallback: (get_all_notes_callback)callback
 {
+    CollectionNotesAction * action = [[CollectionNotesAction alloc] initWithUserID:userID andCollectionName:collectionName];
+    
+    action.getCallback = callback;
+    [action executeGET];
     
 }
 

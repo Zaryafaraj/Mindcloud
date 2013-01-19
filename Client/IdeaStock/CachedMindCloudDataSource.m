@@ -356,9 +356,14 @@
                                   forNote:noteName
                            fromCollection:collectionName withCallback:^(NSData * noteData){
                                
-                               BOOL didWrite = [self saveToDiskNoteImageData:noteData
-                                                          forCollection:collectionName
-                                                                andNote:noteName];
+                               BOOL didWrite = YES;
+                               if (noteData)
+                               {
+                                   didWrite = [self saveToDiskNoteImageData:noteData
+                                                              forCollection:collectionName
+                                                                    andNote:noteName];
+                               }
+                               //if there is no data there is nothing to write so continue
                                if (didWrite)
                                {
                                    [self getRemainingNoteImagesAtIndex:index
@@ -517,6 +522,7 @@
     NSString *data = [NSString stringWithContentsOfFile:path  encoding:NSUTF8StringEncoding error:&err];
     if (!data){
         NSLog(@"Failed to read note %@", err);
+        NSLog(@"%@", path);
         return nil;
     }
     
