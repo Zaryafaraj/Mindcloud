@@ -16,6 +16,7 @@
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "ImageView.h"
 #import "CachedMindCloudDataSource.h"
+#import "EventTypes.h"
 
 @interface CollectionViewController ()
 
@@ -932,8 +933,9 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(loadSavedNotes:)
-                                                 name:@"BulletinBoardLoaded" 
+                                                 name:COLLECTION_RELOAD_EVENT
                                                object:self.board];
+    [self layoutNotes];
 }
 
 -(BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -1089,7 +1091,7 @@
                                                withDataSource:[[CachedMindCloudDataSource alloc] init]];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(loadSavedNotes:)
-                                                 name:@"BulletinBoardLoaded" 
+                                                 name:COLLECTION_RELOAD_EVENT
                                                object:self.board];
 }
 

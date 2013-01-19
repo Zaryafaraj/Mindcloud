@@ -152,7 +152,7 @@
     }
     else
     {
-        [self loadCollection:collectionData];
+        [self loadOfflineCollection:collectionData];
     }
     
     //In any case listen for the download to get finished
@@ -198,13 +198,12 @@
     }
     
     [self initiateStacking];
-    NSLog(@"Notes Initiated");
     //Let any listener know that the bulletinboard has been reloaded
     [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_RELOAD_EVENT
                                                         object:self];
 }
 
--(void) loadCollection:(NSData *) bulletinBoardData{
+-(void) loadOfflineCollection:(NSData *) bulletinBoardData{
     
     if (!bulletinBoardData)
     {
@@ -237,10 +236,6 @@
     }
     
     [self initiateStacking];
-    NSLog(@"Notes Initiated");
-    //Let any listener know that the bulletinboard has been reloaded
-    [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_RELOAD_EVENT
-                                                        object:self];
 }
 
 -(void) initiateNoteContent: (NSData *) noteData
