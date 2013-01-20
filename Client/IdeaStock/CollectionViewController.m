@@ -34,14 +34,11 @@
 @property (nonatomic) BOOL editMode;
 @property int panCounter ;
 @property BOOL isRefreshing;
-@property (nonatomic) CollectionLayoutHelper * layoutHelper;
 
 @end
 
 #pragma mark - Definitions
 
-#define NOTE_WIDTH 200
-#define NOTE_HEIGHT 200
 #define POSITION_X_TYPE @"positionX"
 #define POSITION_Y_TYPE @"positionY"
 #define POSITION_TYPE @"position"
@@ -60,15 +57,6 @@
                                               withDataSource:[CachedMindCloudDataSource getInstance:self.bulletinBoardName]];
     }
     return _board;
-}
-
--(CollectionLayoutHelper *) layoutHelper
-{
-    if (!_layoutHelper)
-    {
-        _layoutHelper = [[CollectionLayoutHelper alloc] initWithNoteWidth:NOTE_WIDTH andHeight:NOTE_HEIGHT];
-    }
-    return _layoutHelper;
 }
 
 #pragma mark - Contextual Toolbar
@@ -232,7 +220,7 @@
     
     NSMutableArray * allNotes = [self getAllNormalNotesInViews:items];
     
-    CGRect stackFrame = [self.layoutHelper getStackingFrameForStackingWithTopView:mainView];
+    CGRect stackFrame = [CollectionLayoutHelper getStackingFrameForStackingWithTopView:mainView];
     
     BOOL isNewStack = ID == nil ? YES : NO;
     NSString * stackingID = isNewStack ? [self mergeItems: items
@@ -352,7 +340,7 @@ intoStackingWithMainView: (UIView *) mainView
     NSArray * items = stack.views;
     [self removeNotesFromStackView:stack];
     [CollectionAnimationHelper animateStackViewRemoval:stack];
-    [self.layoutHelper expandNotes:items inRect:rect withMoveNoteFunction:^(NoteView * noteView){
+    [CollectionLayoutHelper expandNotes:items inRect:rect withMoveNoteFunction:^(NoteView * noteView){
         [self updateNoteLocation:noteView];
     }];
 }
@@ -370,7 +358,7 @@ intoStackingWithMainView: (UIView *) mainView
         float positionX = [[position[@"positionX"] lastObject] floatValue];
         float positionY = [[position[@"positionY"] lastObject] floatValue];
         
-        [self.layoutHelper adjustNotePositionsForX:&positionX
+        [CollectionLayoutHelper adjustNotePositionsForX:&positionX
                                               andY:&positionY
                                             inView: self.collectionView];
         
@@ -397,7 +385,7 @@ intoStackingWithMainView: (UIView *) mainView
     for(NSString * stackingID in stackings){
         NSMutableArray * views = [[NSMutableArray alloc] init];
         NSArray * noteRefIDs = stackings[stackingID];
-        UIView * mainView = [self.layoutHelper gatherNoteViewFor:noteRefIDs fromCollectionView: self.collectionView into:views];
+        UIView * mainView = [CollectionLayoutHelper gatherNoteViewFor:noteRefIDs fromCollectionView: self.collectionView into:views];
         [self stackNotes:views into:mainView withID:stackingID];
     }
 }
@@ -560,7 +548,7 @@ intoStackingWithMainView: (UIView *) mainView
         self.panCounter++;
         if (self.panCounter > CHECK_TIME ){
             self.panCounter = 0;
-            NSArray * intersectingViews = [self.layoutHelper checkForOverlapWithView:sender.view
+            NSArray * intersectingViews = [CollectionLayoutHelper checkForOverlapWithView:sender.view
                                                                     inCollectionView:self.collectionView];
             if ( [intersectingViews count] != [self.intersectingViews count] || [intersectingViews count] == 1){
                 for (UIView * view in self.intersectingViews){
@@ -701,49 +689,19 @@ intoStackingWithMainView: (UIView *) mainView
 	return YES;
 }
 
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    
-    for (UIView * view in self.collectionView.subviews){
-        
-        float positionX = view.frame.origin.x;
-        float positionY = view.frame.origin.y;
-        BOOL changed = NO;
-        if ( positionX + view.frame.size.width > self.collectionView.frame.origin.x + self.collectionView.frame.size.width ){
-            positionX = self.collectionView.frame.origin.x + self.collectionView.frame.size.width - NOTE_WIDTH;
-            changed = YES;
-        }
-        if ( positionY + view.frame.size.height > self.collectionView.frame.origin.x + self.collectionView.frame.size.height){
-            positionY = self.collectionView.frame.origin.x + self.collectionView.frame.size.height - NOTE_HEIGHT;
-            changed = YES;
-        }
-        if (positionX <  self.collectionView.frame.origin.x){
-            positionX = self.collectionView.frame.origin.x;
-            changed = YES;
-        }
-        if (positionY < self.collectionView.frame.origin.y){
-            positionY = self.collectionView.frame.origin.y;
-            changed = YES;
-        }
-        
-        if(changed){
-            view.frame = CGRectMake(positionX, positionY, view.frame.size.width, view.frame.size.height);
-        }
-    }
-    
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [CollectionLayoutHelper layoutViewsForOrientationChange:self.collectionView];
 }
 
 -(void) viewDidUnload
 {
-    //[DropBoxAssociativeBulletinBoard saveBulletinBoard:self.board];
-    
-    
     [self setTitle:nil];
     [self setView:nil];
     [self setCollectionView:nil];
     [self setToolbar:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 #pragma mark - UI Actions
@@ -776,11 +734,11 @@ intoStackingWithMainView: (UIView *) mainView
     
     if ([self.highlightedView isKindOfClass:[StackView class]])
     {
-        CGRect fittingRect = [self.layoutHelper findFittingRectangle: (StackView *) self.highlightedView
+        CGRect fittingRect = [CollectionLayoutHelper findFittingRectangle: (StackView *) self.highlightedView
                               inView:self.collectionView];
         
         //move stuff that is in the rectangle out of it
-        [self.layoutHelper clearRectangle: fittingRect
+        [CollectionLayoutHelper clearRectangle: fittingRect
                          inCollectionView:self.collectionView
                      withMoveNoteFunction:^(NoteView * note){
                          [self updateNoteLocation:note];

@@ -18,15 +18,7 @@
 @end
 @implementation CollectionLayoutHelper
 
--(id) initWithNoteWidth:(float)noteWidth andHeight:(float)noteHeight
-{
-    self = [super init];
-    self.noteHeight = noteHeight;
-    self.noteWidth = noteWidth;
-    return self;
-}
-
--(void) adjustNotePositionsForX:(float *) positionX
++(void) adjustNotePositionsForX:(float *) positionX
                            andY:(float *) positionY
                          inView:(UIView *) collectionView
 {
@@ -34,11 +26,11 @@
         float maxWidth = collectionView.frame.origin.x + collectionView.frame.size.width;
         float maxHeight = collectionView.frame.origin.y + collectionView.frame.size.height;
     
-        if ( *positionX + self.noteWidth > maxWidth ){
-            *positionX = collectionView.frame.origin.x + collectionView.frame.size.width - self.noteWidth;
+        if ( *positionX + NOTE_WIDTH > maxWidth ){
+            *positionX = collectionView.frame.origin.x + collectionView.frame.size.width - NOTE_WIDTH;
         }
-        if ( *positionY + self.noteHeight> maxHeight){
-            *positionY = collectionView.frame.origin.x + collectionView.frame.size.height - self.noteHeight;
+        if ( *positionY + NOTE_HEIGHT> maxHeight){
+            *positionY = collectionView.frame.origin.x + collectionView.frame.size.height - NOTE_HEIGHT;
         }
         if (*positionX <  collectionView.frame.origin.x){
             *positionX = collectionView.frame.origin.x;
@@ -48,7 +40,7 @@
         }
 }
 
--(BOOL) doesView: (UIView *) view1
++(BOOL) doesView: (UIView *) view1
  OverlapWithView: (UIView *) view2
 {
     
@@ -61,14 +53,14 @@
     CGFloat dy = view1Center.y - view2Center.y;
     
     float distance = sqrt(dx*dx + dy*dy);
-    if ( distance < OVERLAP_RATIO * self.noteWidth){
+    if ( distance < OVERLAP_RATIO * NOTE_WIDTH){
         return YES;
     }
     return NO;
 }
 
 
--(UIView *) gatherNoteViewFor:(NSArray *) noteRefIDs
++(UIView *) gatherNoteViewFor:(NSArray *) noteRefIDs
            fromCollectionView:(UIView *) collectionView
                          into:(NSMutableArray *) views
 {
@@ -92,7 +84,7 @@
 }
 
 
--(CGSize) getRectSizeForStack: (StackView *) stack
++(CGSize) getRectSizeForStack: (StackView *) stack
              inCollectionView:(UIView *) collectionView{
     
     int notesInStack = [stack.views count];
@@ -116,7 +108,7 @@
     return CGSizeMake(rectWidth, rectHeight);
 }
 
--(CGRect) findFittingRectangle: (StackView *) stack
++(CGRect) findFittingRectangle: (StackView *) stack
                         inView:(UIView *) collectionView{
     
     //find the size
@@ -159,7 +151,7 @@
     return CGRectMake(startX, startY, rectSize.width, rectSize.height);
 }
 
--(NSArray *) checkForOverlapWithView: (UIView *) senderView
++(NSArray *) checkForOverlapWithView: (UIView *) senderView
                     inCollectionView: (UIView *) collectionView{
     NSMutableArray * ans = [[NSMutableArray alloc] init];
     for (UIView * view in collectionView.subviews){
@@ -175,7 +167,7 @@
     return ans;
 }
 
-- (CGRect) getStackingFrameForStackingWithTopView: (UIView *) mainView
++ (CGRect) getStackingFrameForStackingWithTopView: (UIView *) mainView
 {
     
     __block BOOL first = YES;
@@ -195,7 +187,7 @@
     return stackFrame;
 }
 
--(void) clearRectangle:(CGRect) rect
++(void) clearRectangle:(CGRect) rect
       inCollectionView:(UIView *)collectionView
   withMoveNoteFunction:(update_note_location_function) updateNote
 {
@@ -285,7 +277,7 @@
     }
 }
 
--(void) expandNotes:(NSArray *) items
++(void) expandNotes:(NSArray *) items
              inRect:(CGRect) rect
 withMoveNoteFunction:(update_note_location_function) updateNote
 {
@@ -317,4 +309,34 @@ withMoveNoteFunction:(update_note_location_function) updateNote
     }
 }
 
++(void) layoutViewsForOrientationChange:(UIView *) collectionView
+{
+    
+    for (UIView * view in collectionView.subviews){
+        
+        float positionX = view.frame.origin.x;
+        float positionY = view.frame.origin.y;
+        BOOL changed = NO;
+        if ( positionX + view.frame.size.width > collectionView.frame.origin.x + collectionView.frame.size.width ){
+            positionX = collectionView.frame.origin.x + collectionView.frame.size.width - NOTE_WIDTH;
+            changed = YES;
+        }
+        if ( positionY + view.frame.size.height > collectionView.frame.origin.x + collectionView.frame.size.height){
+            positionY = collectionView.frame.origin.x + collectionView.frame.size.height - NOTE_HEIGHT;
+            changed = YES;
+        }
+        if (positionX <  collectionView.frame.origin.x){
+            positionX = collectionView.frame.origin.x;
+            changed = YES;
+        }
+        if (positionY < collectionView.frame.origin.y){
+            positionY = collectionView.frame.origin.y;
+            changed = YES;
+        }
+        
+        if(changed){
+            view.frame = CGRectMake(positionX, positionY, view.frame.size.width, view.frame.size.height);
+        }
+    }
+}
 @end
