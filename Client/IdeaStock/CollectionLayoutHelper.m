@@ -174,4 +174,147 @@
     [ans addObject:senderView];
     return ans;
 }
+
+- (CGRect) getStackingFrameForStackingWithTopView: (UIView *) mainView
+{
+    
+    __block BOOL first = YES;
+    
+    CGRect stackFrame;
+    if (first){
+        if ([mainView isKindOfClass:[NoteView class]]){
+            stackFrame = CGRectMake(mainView.frame.origin.x - ((STACKING_SCALING_WIDTH -1)/4) * mainView.frame.origin.x,
+                                    mainView.frame.origin.y - ((STACKING_SCALING_HEIGHT -1)/4) * mainView.frame.origin.y,
+                                    mainView.bounds.size.width * STACKING_SCALING_WIDTH,
+                                    mainView.bounds.size.height * STACKING_SCALING_HEIGHT );
+        }
+        else if ([mainView isKindOfClass:[StackView class]]){
+            stackFrame = mainView.frame;
+        }
+    }
+    return stackFrame;
+}
+
+-(void) clearRectangle:(CGRect) rect
+      inCollectionView:(UIView *)collectionView
+  withMoveNoteFunction:(update_note_location_function) updateNote
+{
+    for (UIView * subView in collectionView.subviews){
+        if ([subView conformsToProtocol:@protocol(BulletinBoardObject)]){
+            if (CGRectIntersectsRect(subView.frame, rect)){
+                
+                float newStartX = subView.frame.origin.x;
+                float newStartY = subView.frame.origin.y;
+                
+                float offsetX = EXIT_OFFSET_RATIO * subView.frame.size.width;
+                float offsetY = EXIT_OFFSET_RATIO * subView.frame.size.height;
+                
+                //find the closest point for the view to exit
+                float rectMid = rect.origin.x + rect.size.width/2;
+                if (subView.frame.origin.x < rectMid){
+                    //view is in the left side of the rect 
+                    //find the distance to move the view come out of the rect
+                    //it will first try to see if the view fits the screen if it exits from the right side rect
+                    //if this is not possible it tries the lower side of the rect and if that doesnt work either
+                    //it should definetly fit the top side ( given that the rect is not bigger than the screen)
+                    //we try each case in order
+                    
+                    //first the left side. This distance is the distance between the left edge of the rect and the right edge of view
+                    float distanceToExitX = (subView.frame.origin.x + subView.frame.size.width + offsetX) - rect.origin.x;
+                    
+                    //check to see if traveling this distance makes the subView fall out of screen on the left side
+                    if ( subView.frame.origin.x - distanceToExitX > collectionView.bounds.origin.x){
+                        //the view doesn't fall out of the screen so move make its starting point there 
+                        newStartX = subView.frame.origin.x - distanceToExitX;
+                    }
+                    else{
+                        //the view falls out of the screen if we move left, try moving down
+                        //the distance is between the top edge of the subview and low buttom of the rect
+                        float distanceToExitY = (rect.origin.y + rect.size.height + offsetY) - (subView.frame.origin.y);
+                        if (subView.frame.origin.y + subView.frame.size.height +distanceToExitY < collectionView.bounds.origin.y + collectionView.bounds.size.height){
+                            //the view can be fit outside the lower edge of the rect
+                            newStartY = subView.frame.origin.y + distanceToExitY;
+                        }
+                        else {
+                            //the view cannot be fit in the left side of rect or the down side of the rect, surely it can fit in the upper side of the rect
+                            //find the distance to exit from the top side. the distance is between the low edge of the view and the top edge of the rect
+                            distanceToExitY = (subView.frame.origin.y + subView.frame.size.height + offsetY) - rect.origin.y;
+                            newStartY = subView.frame.origin.y - distanceToExitY;
+                        }
+                    }
+                    
+                }
+                
+                
+                //we follow the same algorithm if the view is in the right side of the rect
+                else {
+                    
+                    //try the rightside. The distance is between the right edge of rect and left edge of view
+                    float distanceToExitX = (rect.origin.x + rect.size.width + offsetX) - (subView.frame.origin.x );
+                    if (subView.frame.origin.x + subView.frame.size.width + distanceToExitX < collectionView.bounds.origin.x + collectionView.bounds.size.width){
+                        //fits in the right side 
+                        newStartX = subView.frame.origin.x + distanceToExitX;
+                    }
+                    else{
+                        //try the lower side
+                        float distanceToExitY = (rect.origin.y + rect.size.height + offsetY) - (subView.frame.origin.y);
+                        if (subView.frame.origin.y +subView.frame.size.height + distanceToExitY < collectionView.bounds.origin.y + collectionView.bounds.size.height){
+                            newStartY = subView.frame.origin.y + distanceToExitY;
+                        }
+                        else{
+                            //use the top side
+                            distanceToExitY = (subView.frame.origin.y + subView.frame.size.height + offsetY) - rect.origin.y;
+                            newStartY = subView.frame.origin.y - distanceToExitY;
+                        }
+                    }
+                }
+                
+                [UIView animateWithDuration:0.25 animations:^{subView.frame = CGRectMake(newStartX, newStartY, subView.frame.size.width, subView.frame.size.height);}];
+                if ([subView isKindOfClass:[NoteView class]]){
+                    updateNote((NoteView *) subView);
+                }
+                else if ([subView isKindOfClass:[StackView class]]){
+                    StackView * stack = (StackView *) subView;
+                    for(NoteView * stackNoteView in stack.views){
+                        stackNoteView.frame = stack.frame;
+                        updateNote(stackNoteView);
+                    }
+                }
+            }
+        }
+    }
+}
+
+-(void) expandNotes:(NSArray *) items
+             inRect:(CGRect) rect
+withMoveNoteFunction:(update_note_location_function) updateNote
+{
+    
+    [((NoteView *) [items lastObject]) resetSize];
+    float noteWidth = ((NoteView *)[items lastObject]).frame.size.width  ;
+    float noteHeight = ((NoteView *)[items lastObject]).frame.size.height;
+    float seperator = SEPERATOR_RATIO * MAX(noteWidth, noteHeight);
+    
+    float startX = rect.origin.x + seperator;
+    float startY = rect.origin.y + seperator;
+    
+    int rowCount = 0;
+    int colCount = 0;
+    for (NoteView * view in items){
+        CGRect noteRect = CGRectMake(startX, startY, view.frame.size.width, view.frame.size.height);
+        [CollectionAnimationHelper expandNote: view InRect:noteRect];
+        rowCount++;
+        if (rowCount >= EXPAND_COL_SIZE){
+            rowCount = 0;
+            colCount++;
+            startX = rect.origin.x + seperator * (colCount+1);
+            startY += noteHeight/3;
+        }
+        else{
+            startX += noteWidth/3;
+        }
+        updateNote(view);
+    }
+}
+
 @end

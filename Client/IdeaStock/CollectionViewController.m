@@ -18,6 +18,7 @@
 #import "CachedMindCloudDataSource.h"
 #import "EventTypes.h"
 #import "CollectionLayoutHelper.h"
+#import "CollectionAnimationHelper.h"
 
 @interface CollectionViewController ()
 
@@ -41,8 +42,6 @@
 
 #define NOTE_WIDTH 200
 #define NOTE_HEIGHT 200
-#define STACKING_SCALING_WIDTH 1.1
-#define STACKING_SCALING_HEIGHT 1.05
 #define POSITION_X_TYPE @"positionX"
 #define POSITION_Y_TYPE @"positionY"
 #define POSITION_TYPE @"position"
@@ -72,7 +71,7 @@
     return _layoutHelper;
 }
 
-#pragma mark - UI Helpers
+#pragma mark - Contextual Toolbar
 
 -(void) removeContextualToolbarItems:(UIView *) contextView{
     
@@ -94,7 +93,9 @@
 }
 
 #pragma mark - Note Actions
--(NSString *) addNoteToModel: (NoteView *) note{
+
+-(NSString *) addNoteToModel: (NoteView *) note
+{
     
     NSString * noteTextID = [XoomlAttributeHelper generateUUID];
     NSString * creationDate = [XoomlAttributeHelper generateCurrentTimeForXooml];
@@ -105,8 +106,13 @@
     NSString * positionX = [NSString stringWithFormat:@"%f", note.frame.origin.x];
     NSStream * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
     
-    NSDictionary * noteProperties =@{@"name": noteName,@"ID": noteID,@"positionX": positionX,@"positionY": positionY,@"isVisible": @"true"};
-    CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteTextID andDate:creationDate];
+    NSDictionary * noteProperties =@{@"name": noteName,
+                                    @"ID": noteID,
+                                    @"positionX": positionX,
+                                    @"positionY": positionY,
+                                    @"isVisible": @"true"};
+    CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteTextID
+                                                                    andDate:creationDate];
     noteItem.noteText = note.text;
     
     [self.board addNoteContent:noteItem andProperties:noteProperties];
@@ -115,7 +121,8 @@
     return noteID;
 }
 
--(NSString *) addImageNoteToModel: (ImageView *) note{
+-(NSString *) addImageNoteToModel: (ImageView *) note
+{
     
     NSString * noteTextID = [XoomlAttributeHelper generateUUID];
     NSString * creationDate = [XoomlAttributeHelper generateCurrentTimeForXooml];
@@ -126,19 +133,27 @@
     NSString * positionX = [NSString stringWithFormat:@"%f", note.frame.origin.x];
     NSStream * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
     
-    NSDictionary * noteProperties =@{@"name": noteName,@"ID": noteID,@"positionX": positionX,@"positionY": positionY,@"isVisible": @"true"};
-    CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteTextID andDate:creationDate];
+    NSDictionary * noteProperties =@{@"name": noteName,
+                                    @"ID": noteID,
+                                    @"positionX": positionX,
+                                    @"positionY": positionY,
+                                    @"isVisible": @"true"};
+    
+    CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteTextID
+                                                                    andDate:creationDate];
     noteItem.noteText = note.text;
+    note.ID = noteID;
     NSData * imgData = UIImageJPEGRepresentation(note.image, IMG_COMPRESSION_QUALITY);
     
-    [self.board addImageNoteContent:noteItem andProperties:noteProperties andImage: imgData];
-    
-    note.ID = noteID;
+    [self.board addImageNoteContent:noteItem
+                      andProperties:noteProperties
+                           andImage: imgData];
     
     return noteID;
 }
 
--(void) updateNoteLocation:(NoteView *) view{
+-(void) updateNoteLocation:(NoteView *) view
+{
     NSString * noteID = view.ID;
     float positionFloat = view.frame.origin.x;
     NSString * positionX = [NSString stringWithFormat:@"%f",positionFloat];
@@ -149,14 +164,14 @@
     NSArray * positionYArr = @[positionY];
     NSDictionary * position = @{POSITION_X_TYPE: positionXArr,
                                POSITION_Y_TYPE: positionYArr};
-    
     NSDictionary * newProperties = @{POSITION_TYPE: position};
     
-    [self.board updateNoteAttributes:noteID withAttributes:newProperties]; 
+    [self.board updateNoteAttributes:noteID
+                      withAttributes:newProperties];
 }
 
-
-- (NSMutableArray *) getAllNormalNotesInViews: (NSArray *) views{
+- (NSMutableArray *) getAllNormalNotesInViews: (NSArray *) views
+{
     NSMutableArray * ans = [[NSMutableArray alloc] init];
     for (UIView * view in views){
         if ([view isKindOfClass: [NoteView class]]){
@@ -173,10 +188,7 @@
 #pragma mark - Notifications
 
 -(void) loadSavedNotes: (NSNotification *) notificatoin{
-    
-
-    NSLog(@"Reading Bulletinboard data from the filesytem");
-    NSLog(@"----------------------------");
+    NSLog(@"Reloading collection");
     [self clearView];
     [self layoutNotes];
 }
@@ -209,90 +221,56 @@
     return note;
 }
 
-
 /*
  If ID is nil the methods will create a unique UUID itself and will also write
- to the datamodel. 
- If ID is not nil the stacking this means that stacking is formed from the datamodel
+ to the datamodel.The nil id means that this is a fresh stacking
+ If ID is not nil it means that stacking is formed from the datamodel of an existing stacking
  */
-//TODO bad function design , this should be broken down into two things
--(void) stackNotes: (NSArray *) items into: (UIView *) mainView withID: (NSString *) ID{
-    __block BOOL first = YES;
-    
-    CGRect stackFrame;
-    if (first){
-        if ([mainView isKindOfClass:[NoteView class]]){
-            stackFrame = CGRectMake(mainView.frame.origin.x - ((STACKING_SCALING_WIDTH -1)/4) * mainView.frame.origin.x,
-                                    mainView.frame.origin.y - ((STACKING_SCALING_HEIGHT -1)/4) * mainView.frame.origin.y,
-                                    mainView.bounds.size.width * STACKING_SCALING_WIDTH,
-                                    mainView.bounds.size.height * STACKING_SCALING_HEIGHT );
-        }
-        else if ([mainView isKindOfClass:[StackView class]]){
-            stackFrame = mainView.frame;
-        }
-    }
+-(void) stackNotes: (NSArray *) items
+              into: (UIView *) mainView
+            withID: (NSString *) ID{
     
     NSMutableArray * allNotes = [self getAllNormalNotesInViews:items];
-    NSString * stackingID ;
     
-    if (!ID){
-        stackingID = [self normalizeStackingWithItems: (NSArray *)items 
-                                          andMainView: (UIView *) mainView];
-    }
-    else{
-        stackingID = ID;
-    }
+    CGRect stackFrame = [self.layoutHelper getStackingFrameForStackingWithTopView:mainView];
+    
+    BOOL isNewStack = ID == nil ? YES : NO;
+    NSString * stackingID = isNewStack ? [self mergeItems: items
+                                 intoStackingWithMainView: mainView] :ID;
+    
     StackView * stack = [[StackView alloc] initWithViews:allNotes
                                              andMainView:(NoteView *)mainView
-                                               withFrame:
-                         stackFrame];
-    [UIView animateWithDuration:0.5 animations:^{mainView.alpha = 0;}];
-    [mainView removeFromSuperview];
-    mainView.alpha = 1;
-    stack.alpha =0;
+                                               withFrame:stackFrame];
     stack.ID = stackingID;
-    UIPanGestureRecognizer * gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(objectPanned:)];
-    UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
-    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stackTapped:)];
-    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
-    [stack addGestureRecognizer:gr];
-    [stack addGestureRecognizer:pgr];
-    [stack addGestureRecognizer:tgr];
-    [stack addGestureRecognizer:lpgr];
-    [self.collectionView addSubview:stack];
-    [UIView animateWithDuration:0.5 animations:^{stack.alpha = 1;}];
     
-    
-    for (UIView * view in items){
-        if (view != mainView){
-            [UIView animateWithDuration:0.5
-                                  delay:0 options:UIViewAnimationCurveEaseOut
-                             animations:^{
-                                 [view setFrame:mainView.frame];
-                             }
-                             completion:^(BOOL finished){
-                                 if ([view isKindOfClass:[NoteView class]]){
-                                     if (!ID){
-                                         [self updateNoteLocation:(NoteView *) view];
-                                     }
-                                 }
-                                 [view removeFromSuperview];
-                            }];
-        }
-    }    
+    [self addGestureRecognizersToStack:stack];
+    [CollectionAnimationHelper animateStackCreationForStackView:stack
+                                                   WithMainView:mainView
+                                                  andStackItems:items
+                                               inCollectionView:self.collectionView
+                                                          isNew:isNewStack
+                                           withMoveNoteFunction:^(NoteView * note){
+        [self updateNoteLocation:note];
+    }];
 }
 
--(NSString *) normalizeStackingWithItems: (NSArray *)items andMainView: (UIView *) mainView{
+-(NSString *) mergeItems: (NSArray *)items
+intoStackingWithMainView: (UIView *) mainView
+{
     NSString * stackingID = [XoomlAttributeHelper generateUUID];
     
-    NSMutableArray * stackingNoteIDs = [[NSMutableArray alloc] init];
-    for( UIView * view in items){
+    NSMutableArray * stackingNoteIDs = [NSMutableArray array];
+    for(UIView * view in items)
+    {
         if ([view isKindOfClass:[NoteView class]]){
+            
             [stackingNoteIDs addObject:((NoteView *) view).ID];
         }
         else if ([view isKindOfClass:[StackView class]]){
+            
             NSString * oldStackingID = ((StackView *)view).ID;
-            [self.board removeBulletinBoardAttribute:oldStackingID ofType:STACKING_TYPE];
+            [self.board removeBulletinBoardAttribute:oldStackingID
+                                              ofType:STACKING_TYPE];
             for (UIView * note in ((StackView *)view).views){
                 NSString *stackingNoteID = ((NoteView *)note).ID;
                 [stackingNoteIDs addObject:stackingNoteID]; }
@@ -307,30 +285,17 @@
         topItemID = ((StackView *)mainView).mainView.ID;
     }
     
-    if (topItemID == nil) return stackingID ;
+    if (topItemID == nil) return stackingID;
+    //make sure that the top of the stack is at index 0
     [stackingNoteIDs removeObject:topItemID];
     [stackingNoteIDs insertObject:topItemID atIndex:0];
     
     for(NSString * noteID in stackingNoteIDs){
-        
-        [self.board addNoteWithID:noteID toBulletinBoardAttribute:stackingID forAttributeType:STACKING_TYPE];
+        [self.board addNoteWithID:noteID
+         toBulletinBoardAttribute:stackingID
+                 forAttributeType:STACKING_TYPE];
     }
-    
     return stackingID;
-}
-
-#pragma mark - animations
--(void) animateNoteAddition:(NoteView *)note
-{
-    note.transform = CGAffineTransformScale(note.transform, 10, 10);
-    note.alpha = 0;
-    
-    [UIView animateWithDuration:0.25 animations:^{
-        note.transform = CGAffineTransformScale(note.transform, 0.1, 0.1);
-        note.alpha = 1;
-    }];
-    
-    [self.collectionView addSubview:note];
 }
 
 #pragma mark - Gesture recoginizers
@@ -345,155 +310,51 @@
     [note addGestureRecognizer:pgr];
 }
 
-
-
--(void) clearRectangle: (CGRect) rect
+-(void) addGestureRecognizersToStack:(StackView *) stack
 {
-    for (UIView * subView in self.collectionView.subviews){
-        if ([subView conformsToProtocol:@protocol(BulletinBoardObject)]){
-            if (CGRectIntersectsRect(subView.frame, rect)){
-                
-                float newStartX = subView.frame.origin.x;
-                float newStartY = subView.frame.origin.y;
-                
-                float offsetX = EXIT_OFFSET_RATIO * subView.frame.size.width;
-                float offsetY = EXIT_OFFSET_RATIO * subView.frame.size.height;
-                
-                //find the closest point for the view to exit
-                float rectMid = rect.origin.x + rect.size.width/2;
-                if (subView.frame.origin.x < rectMid){
-                    //view is in the left side of the rect 
-                    //find the distance to move the view come out of the rect
-                    //it will first try to see if the view fits the screen if it exits from the right side rect
-                    //if this is not possible it tries the lower side of the rect and if that doesnt work either
-                    //it should definetly fit the top side ( given that the rect is not bigger than the screen)
-                    //we try each case in order
-                    
-                    //first the left side. This distance is the distance between the left edge of the rect and the right edge of view
-                    float distanceToExitX = (subView.frame.origin.x + subView.frame.size.width + offsetX) - rect.origin.x;
-                    
-                    //check to see if traveling this distance makes the subView fall out of screen on the left side
-                    if ( subView.frame.origin.x - distanceToExitX > self.collectionView.bounds.origin.x){
-                        //the view doesn't fall out of the screen so move make its starting point there 
-                        newStartX = subView.frame.origin.x - distanceToExitX;
-                    }
-                    else{
-                        //the view falls out of the screen if we move left, try moving down
-                        //the distance is between the top edge of the subview and low buttom of the rect
-                        float distanceToExitY = (rect.origin.y + rect.size.height + offsetY) - (subView.frame.origin.y);
-                        if (subView.frame.origin.y + subView.frame.size.height +distanceToExitY < self.collectionView.bounds.origin.y + self.collectionView.bounds.size.height){
-                            //the view can be fit outside the lower edge of the rect
-                            newStartY = subView.frame.origin.y + distanceToExitY;
-                        }
-                        else {
-                            //the view cannot be fit in the left side of rect or the down side of the rect, surely it can fit in the upper side of the rect
-                            //find the distance to exit from the top side. the distance is between the low edge of the view and the top edge of the rect
-                            distanceToExitY = (subView.frame.origin.y + subView.frame.size.height + offsetY) - rect.origin.y;
-                            newStartY = subView.frame.origin.y - distanceToExitY;
-                        }
-                    }
-                    
-                }
-                
-                
-                //we follow the same algorithm if the view is in the right side of the rect
-                else {
-                    
-                    //try the rightside. The distance is between the right edge of rect and left edge of view
-                    float distanceToExitX = (rect.origin.x + rect.size.width + offsetX) - (subView.frame.origin.x );
-                    if (subView.frame.origin.x + subView.frame.size.width + distanceToExitX < self.collectionView.bounds.origin.x + self.collectionView.bounds.size.width){
-                        //fits in the right side 
-                        newStartX = subView.frame.origin.x + distanceToExitX;
-                    }
-                    else{
-                        //try the lower side
-                        float distanceToExitY = (rect.origin.y + rect.size.height + offsetY) - (subView.frame.origin.y);
-                        if (subView.frame.origin.y +subView.frame.size.height + distanceToExitY < self.collectionView.bounds.origin.y + self.collectionView.bounds.size.height){
-                            newStartY = subView.frame.origin.y + distanceToExitY;
-                        }
-                        else{
-                            //use the top side
-                            distanceToExitY = (subView.frame.origin.y + subView.frame.size.height + offsetY) - rect.origin.y;
-                            newStartY = subView.frame.origin.y - distanceToExitY;
-                        }
-                    }
-                }
-                
-                [UIView animateWithDuration:0.25 animations:^{subView.frame = CGRectMake(newStartX, newStartY, subView.frame.size.width, subView.frame.size.height);}];
-                if ([subView isKindOfClass:[NoteView class]]){
-                    [self updateNoteLocation: (NoteView *) subView];
-                }
-                else if ([subView isKindOfClass:[StackView class]]){
-                    StackView * stack = (StackView *) subView;
-                    for(NoteView * stackNoteView in stack.views){
-                        stackNoteView.frame = stack.frame;
-                        [self updateNoteLocation:stackNoteView];
-                    }
-                }
-                
-            }
+    UIPanGestureRecognizer * gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(objectPanned:)];
+    UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
+    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stackTapped:)];
+    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
+    [stack addGestureRecognizer:gr];
+    [stack addGestureRecognizer:pgr];
+    [stack addGestureRecognizer:tgr];
+    [stack addGestureRecognizer:lpgr];
+}
+
+-(void) removeNotesFromStackView: (StackView *) stack
+{
+    
+    NSArray * items = stack.views;
+    [self removeNotesFromStackView: stack];
+    //now find the size of the seperator from any note
+    
+    for (NoteView * view in items){
+        //make your self responsible for actions happening to note not the stack view
+        view.delegate = self;
+        for (UIGestureRecognizer * gr in view.gestureRecognizers){
+            [view removeGestureRecognizer:gr];
         }
+        [self addGestureRecognizersToNote:view];
+        
+        [view resetSize];
+        [view removeFromSuperview];
+        [self.collectionView addSubview:view];
+        
+        //put it in the collection views frame
+        CGRect viewTempFrame = CGRectMake(stack.frame.origin.x, stack.frame.origin.y, view.frame.size.width, view.frame.size.height);
+        view.frame = viewTempFrame;
     }
 }
 
 -(void) layoutStackView: (StackView *) stack inRect: (CGRect) rect{
     
     NSArray * items = stack.views;
-    
-    //now find the size of the seperator from any note
-    [((NoteView *) [items lastObject]) resetSize];
-    float noteWidth = ((NoteView *)[items lastObject]).frame.size.width  ;
-    float noteHeight = ((NoteView *)[items lastObject]).frame.size.height;
-    
-    //remove all existing gesture recognizers and add the new ones. 
-    //finally position all the notes in the center of the stackView
-    for (NoteView * view in items){
-        for (UIGestureRecognizer * gr in view.gestureRecognizers){
-            [view removeGestureRecognizer:gr];
-        }
-        UIPanGestureRecognizer * gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(objectPanned:)];
-        UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
-        UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
-        
-        [view addGestureRecognizer:lpgr];
-        [view addGestureRecognizer:gr];
-        [view addGestureRecognizer:pgr];
-        
-        view.delegate = self;
-        [view resetSize];
-        [view removeFromSuperview];
-        [self.collectionView addSubview:view];
-        CGRect viewTempFrame = CGRectMake(stack.frame.origin.x, stack.frame.origin.y, view.frame.size.width, view.frame.size.height);
-        view.frame = viewTempFrame;
-        
-        
-    }
-    
-    //now remove the stack itself
-    [UIView animateWithDuration:0.25 animations:^{ stack.alpha = 0 ;} completion:^(BOOL finished){[stack removeFromSuperview];}];
-    
-    
-    float seperator = SEPERATOR_RATIO * MAX(noteWidth, noteHeight);
-    
-    float startX = rect.origin.x + seperator;
-    float startY = rect.origin.y + seperator;
-    
-    int rowCount = 0;
-    int colCount = 0;
-    for (NoteView * view in items){
-        [UIView animateWithDuration:0.5 animations:^{view.frame = CGRectMake(startX, startY, view.frame.size.width, view.frame.size.height);}];
-        rowCount++;
-        if (rowCount >= EXPAND_COL_SIZE){
-            rowCount = 0;
-            colCount++;
-            startX = rect.origin.x + seperator * (colCount+1);
-            startY += noteHeight/3;
-        }
-        else{
-            startX += noteWidth/3;
-        }
-        [self updateNoteLocation:view];   
-    }
+    [self removeNotesFromStackView:stack];
+    [CollectionAnimationHelper animateStackViewRemoval:stack];
+    [self.layoutHelper expandNotes:items inRect:rect withMoveNoteFunction:^(NoteView * noteView){
+        [self updateNoteLocation:noteView];
+    }];
 }
 
 
@@ -520,7 +381,8 @@
         note.ID = noteID;
         note.delegate = self;
         
-        [self animateNoteAddition:note];
+        [CollectionAnimationHelper animateNoteAddition:note
+                                      toCollectionView:self.collectionView];
         [self addGestureRecognizersToNote:note];
     }
     
@@ -799,8 +661,6 @@
 #pragma mark - UI Events
 
 -(void) viewWillAppear:(BOOL)animated{
-    /*  UIImage * image = [UIImage imageNamed:@"greenchalkboard.jpg"];
-     UIColor * color = [UIColor colorWithPatternImage:image];*/
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
 }
 
@@ -920,7 +780,11 @@
                               inView:self.collectionView];
         
         //move stuff that is in the rectangle out of it
-        [self clearRectangle: fittingRect];
+        [self.layoutHelper clearRectangle: fittingRect
+                         inCollectionView:self.collectionView
+                     withMoveNoteFunction:^(NoteView * note){
+                         [self updateNoteLocation:note];
+                     }];
         
         //layout stack in the empty rect
         [self layoutStackView:(StackView *) self.highlightedView inRect:fittingRect ];
