@@ -204,13 +204,21 @@
         NSString * noteName = [[note attributeForName:ASSOCIATED_XOOML_FRAGMENT] stringValue];
         NSString * notePositionX = nil;
         NSString * notePositionY = nil;
+        BOOL found = NO;
         for(DDXMLElement * noteChild in [note children]){
-            if ([[[noteChild attributeForName:ATTRIBUTE_TYPE] stringValue] isEqualToString:POSITION_TYPE]){
-                
-                DDXMLElement * positionNode = (DDXMLElement *)[noteChild childAtIndex:0];
-                notePositionX = [[positionNode attributeForName:POSITION_X] stringValue];
-                notePositionY = [[positionNode attributeForName:POSITION_Y] stringValue];
-                break;
+            if ([noteChild.name isEqualToString:ASSOCIATION_NAMESPACE_DATA])
+            {
+                for (DDXMLElement * noteDescendant in [noteChild children])
+                {
+                    if ([[[noteDescendant attributeForName:ATTRIBUTE_TYPE] stringValue] isEqualToString:POSITION_TYPE]){
+                        
+                        notePositionX = [[noteDescendant attributeForName:POSITION_X] stringValue];
+                        notePositionY = [[noteDescendant attributeForName:POSITION_Y] stringValue];
+                        found = YES;
+                        break;
+                    }
+                }
+                if (found) break;
             }
         }
         //for every note create a sub answer with all that notes properties

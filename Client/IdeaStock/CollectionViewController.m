@@ -17,6 +17,7 @@
 #import "ImageView.h"
 #import "CachedMindCloudDataSource.h"
 #import "EventTypes.h"
+#import "CollectionLayoutHelper.h"
 
 @interface CollectionViewController ()
 
@@ -32,6 +33,7 @@
 @property (nonatomic) BOOL editMode;
 @property int panCounter ;
 @property BOOL isRefreshing;
+@property (nonatomic) CollectionLayoutHelper * layoutHelper;
 
 @end
 
@@ -47,10 +49,6 @@
 #define STACKING_TYPE @"stacking"
 //0 is the max
 #define IMG_COMPRESSION_QUALITY 0.5
-#define EXPAND_COL_SIZE 5
-#define SEPERATOR_RATIO 0.1
-#define EXIT_OFFSET_RATIO 0.1
-#define OVERLAP_RATIO 0.35
 #define CHECK_TIME 0
 
 @implementation CollectionViewController
@@ -65,7 +63,17 @@
     return _board;
 }
 
+-(CollectionLayoutHelper *) layoutHelper
+{
+    if (!_layoutHelper)
+    {
+        _layoutHelper = [[CollectionLayoutHelper alloc] initWithNoteWidth:NOTE_WIDTH andHeight:NOTE_HEIGHT];
+    }
+    return _layoutHelper;
+}
+
 #pragma mark - UI Helpers
+
 -(void) removeContextualToolbarItems:(UIView *) contextView{
     
     NSMutableArray * newToolbarItems = [self.toolbar.items mutableCopy];
@@ -85,7 +93,123 @@
     self.toolbar.items = newToolbarItems;
 }
 
-#pragma mark - Stacking Actions
+#pragma mark - Note Actions
+-(NSString *) addNoteToModel: (NoteView *) note{
+    
+    NSString * noteTextID = [XoomlAttributeHelper generateUUID];
+    NSString * creationDate = [XoomlAttributeHelper generateCurrentTimeForXooml];
+    NSString * noteID = [XoomlAttributeHelper generateUUID];
+    
+    NSString * noteName = [NSString stringWithFormat:@"Note%d",self.noteCount];
+    self.noteCount++;
+    NSString * positionX = [NSString stringWithFormat:@"%f", note.frame.origin.x];
+    NSStream * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
+    
+    NSDictionary * noteProperties =@{@"name": noteName,@"ID": noteID,@"positionX": positionX,@"positionY": positionY,@"isVisible": @"true"};
+    CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteTextID andDate:creationDate];
+    noteItem.noteText = note.text;
+    
+    [self.board addNoteContent:noteItem andProperties:noteProperties];
+    note.ID = noteID;
+    
+    return noteID;
+}
+
+-(NSString *) addImageNoteToModel: (ImageView *) note{
+    
+    NSString * noteTextID = [XoomlAttributeHelper generateUUID];
+    NSString * creationDate = [XoomlAttributeHelper generateCurrentTimeForXooml];
+    NSString * noteID = [XoomlAttributeHelper generateUUID];
+    
+    NSString * noteName = [NSString stringWithFormat:@"Note%d",self.noteCount];
+    self.noteCount++;
+    NSString * positionX = [NSString stringWithFormat:@"%f", note.frame.origin.x];
+    NSStream * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
+    
+    NSDictionary * noteProperties =@{@"name": noteName,@"ID": noteID,@"positionX": positionX,@"positionY": positionY,@"isVisible": @"true"};
+    CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteTextID andDate:creationDate];
+    noteItem.noteText = note.text;
+    NSData * imgData = UIImageJPEGRepresentation(note.image, IMG_COMPRESSION_QUALITY);
+    
+    [self.board addImageNoteContent:noteItem andProperties:noteProperties andImage: imgData];
+    
+    note.ID = noteID;
+    
+    return noteID;
+}
+
+-(void) updateNoteLocation:(NoteView *) view{
+    NSString * noteID = view.ID;
+    float positionFloat = view.frame.origin.x;
+    NSString * positionX = [NSString stringWithFormat:@"%f",positionFloat];
+    positionFloat = view.frame.origin.y;
+    NSString * positionY = [NSString stringWithFormat:@"%f",positionFloat];
+    
+    NSArray * positionXArr = @[positionX];
+    NSArray * positionYArr = @[positionY];
+    NSDictionary * position = @{POSITION_X_TYPE: positionXArr,
+                               POSITION_Y_TYPE: positionYArr};
+    
+    NSDictionary * newProperties = @{POSITION_TYPE: position};
+    
+    [self.board updateNoteAttributes:noteID withAttributes:newProperties]; 
+}
+
+
+- (NSMutableArray *) getAllNormalNotesInViews: (NSArray *) views{
+    NSMutableArray * ans = [[NSMutableArray alloc] init];
+    for (UIView * view in views){
+        if ([view isKindOfClass: [NoteView class]]){
+            [ans addObject:view];
+        }
+        else if ([view isKindOfClass:[StackView class]]){
+            [view removeFromSuperview];
+            [ans addObjectsFromArray:((StackView *) view).views];
+        }
+    }
+    return ans;
+}
+
+#pragma mark - Notifications
+
+-(void) loadSavedNotes: (NSNotification *) notificatoin{
+    
+
+    NSLog(@"Reading Bulletinboard data from the filesytem");
+    NSLog(@"----------------------------");
+    [self clearView];
+    [self layoutNotes];
+}
+
+#pragma mark - Layout Helpers
+
+-(void) clearView
+{
+    for(UIView * view in self.collectionView.subviews){
+        [view removeFromSuperview];
+    }
+}
+
+-(NoteView *) getNoteViewForNote: (NSString *) noteID
+                            ForX:(float) positionX
+                            andY:(float) positionY
+{
+    
+    NSDictionary * allImgs = [self.board getAllNoteImages];
+    CGRect noteFrame = CGRectMake(positionX, positionY, NOTE_WIDTH, NOTE_HEIGHT);
+    NoteView * note ;
+    if (allImgs[noteID]){
+        UIImage * img = [[UIImage alloc] initWithData:allImgs[noteID]];
+        note = [[ImageView alloc] initWithFrame:noteFrame 
+                                                andImage:img];
+    }
+    else{
+        note = [[NoteView alloc] initWithFrame:noteFrame];
+    }
+    return note;
+}
+
+
 /*
  If ID is nil the methods will create a unique UUID itself and will also write
  to the datamodel. 
@@ -195,275 +319,36 @@
     return stackingID;
 }
 
-#pragma mark - Note Actions
--(NSString *) addNoteToModel: (NoteView *) note{
+#pragma mark - animations
+-(void) animateNoteAddition:(NoteView *)note
+{
+    note.transform = CGAffineTransformScale(note.transform, 10, 10);
+    note.alpha = 0;
     
-    NSString * noteTextID = [XoomlAttributeHelper generateUUID];
-    NSString * creationDate = [XoomlAttributeHelper generateCurrentTimeForXooml];
-    NSString * noteID = [XoomlAttributeHelper generateUUID];
+    [UIView animateWithDuration:0.25 animations:^{
+        note.transform = CGAffineTransformScale(note.transform, 0.1, 0.1);
+        note.alpha = 1;
+    }];
     
-    NSString * noteName = [NSString stringWithFormat:@"Note%d",self.noteCount];
-    self.noteCount++;
-    NSString * positionX = [NSString stringWithFormat:@"%f", note.frame.origin.x];
-    NSStream * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
-    
-    NSDictionary * noteProperties =@{@"name": noteName,@"ID": noteID,@"positionX": positionX,@"positionY": positionY,@"isVisible": @"true"};
-    CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteTextID andDate:creationDate];
-    noteItem.noteText = note.text;
-    
-    [self.board addNoteContent:noteItem andProperties:noteProperties];
-    note.ID = noteID;
-    
-    return noteID;
+    [self.collectionView addSubview:note];
 }
 
--(NSString *) addImageNoteToModel: (ImageView *) note{
+#pragma mark - Gesture recoginizers
+-(void) addGestureRecognizersToNote:(NoteView *)note
+{
+    UIPanGestureRecognizer * gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(objectPanned:)];
+    UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
+    UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
     
-    NSString * noteTextID = [XoomlAttributeHelper generateUUID];
-    NSString * creationDate = [XoomlAttributeHelper generateCurrentTimeForXooml];
-    NSString * noteID = [XoomlAttributeHelper generateUUID];
-    
-    NSString * noteName = [NSString stringWithFormat:@"Note%d",self.noteCount];
-    self.noteCount++;
-    NSString * positionX = [NSString stringWithFormat:@"%f", note.frame.origin.x];
-    NSStream * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
-    
-    NSDictionary * noteProperties =@{@"name": noteName,@"ID": noteID,@"positionX": positionX,@"positionY": positionY,@"isVisible": @"true"};
-    CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteTextID andDate:creationDate];
-    noteItem.noteText = note.text;
-    NSData * imgData = UIImageJPEGRepresentation(note.image, IMG_COMPRESSION_QUALITY);
-    
-    [self.board addImageNoteContent:noteItem andProperties:noteProperties andImage: imgData];
-    
-    note.ID = noteID;
-    
-    return noteID;
-}
-
--(void) updateNoteLocation:(NoteView *) view{
-    NSString * noteID = view.ID;
-    float positionFloat = view.frame.origin.x;
-    NSString * positionX = [NSString stringWithFormat:@"%f",positionFloat];
-    positionFloat = view.frame.origin.y;
-    NSString * positionY = [NSString stringWithFormat:@"%f",positionFloat];
-    
-    NSArray * positionXArr = @[positionX];
-    NSArray * positionYArr = @[positionY];
-    NSDictionary * position = @{POSITION_X_TYPE: positionXArr,
-                               POSITION_Y_TYPE: positionYArr};
-    
-    NSDictionary * newProperties = @{POSITION_TYPE: position};
-    
-    [self.board updateNoteAttributes:noteID withAttributes:newProperties]; 
+    [note addGestureRecognizer:lpgr];
+    [note addGestureRecognizer:gr];
+    [note addGestureRecognizer:pgr];
 }
 
 
-- (NSMutableArray *) getAllNormalNotesInViews: (NSArray *) views{
-    NSMutableArray * ans = [[NSMutableArray alloc] init];
-    for (UIView * view in views){
-        if ([view isKindOfClass: [NoteView class]]){
-            [ans addObject:view];
-        }
-        else if ([view isKindOfClass:[StackView class]]){
-            [view removeFromSuperview];
-            [ans addObjectsFromArray:((StackView *) view).views];
-        }
-    }
-    return ans;
-}
 
-#pragma mark - Notifications
-
--(void) loadSavedNotes: (NSNotification *) notificatoin{
-    
-
-    NSLog(@"Reading Bulletinboard data from the filesytem");
-    NSLog(@"----------------------------");
-    [self layoutNotes];
-}
-
-#pragma mark - Layout
-
--(void) layoutNotes{
-    
-    NSLog(@"Laying out Notes");
-    for(UIView * view in self.collectionView.subviews){
-        [view removeFromSuperview];
-    }
-    NSDictionary * allNotes = [self.board getAllNotes];
-    NSDictionary * allImgs = [self.board getAllNoteImages];
-    NSLog(@"Read %d image", [allImgs count]);
-    self.noteCount = [allNotes count];
-    NSLog(@"Read %d notes",[allNotes count]);
-    
-    
-    for(NSString* noteID in [allNotes allKeys]){
-        CollectionNote * noteObj = allNotes[noteID];
-        NSDictionary * noteAttributes = [self.board getAllNoteAttributesForNote:noteID];
-        NSDictionary * position = noteAttributes[@"position"];
-        float positionX = [[position[@"positionX"] lastObject] floatValue];
-        float positionY = [[position[@"positionY"] lastObject] floatValue];
-        
-        if ( positionX + NOTE_WIDTH > self.collectionView.frame.origin.x + self.collectionView.frame.size.width ){
-            positionX = self.collectionView.frame.origin.x + self.collectionView.frame.size.width - NOTE_WIDTH;
-        }
-        if ( positionY + NOTE_HEIGHT > self.collectionView.frame.origin.x + self.collectionView.frame.size.height){
-            positionY = self.collectionView.frame.origin.x + self.collectionView.frame.size.height - NOTE_HEIGHT;
-        }
-        if (positionX <  self.collectionView.frame.origin.x){
-            positionX = self.collectionView.frame.origin.x;
-        }
-        if (positionY < self.collectionView.frame.origin.y){
-            positionY = self.collectionView.frame.origin.y;
-        }
-        
-        CGRect noteFrame = CGRectMake(positionX, positionY, NOTE_WIDTH, NOTE_HEIGHT); NoteView * note ;
-        
-        if (allImgs[noteID]){
-            UIImage * img = [[UIImage alloc] initWithData:allImgs[noteID]];
-            note = [[ImageView alloc] initWithFrame:noteFrame 
-                                                    andImage:img];
-        }
-        else{
-            note = [[NoteView alloc] initWithFrame:noteFrame];
-        }
-
-        if (noteObj.noteText) note.text = noteObj.noteText;
-        note.transform = CGAffineTransformScale(note.transform, 10, 10);
-        note.alpha = 0;
-        note.ID = noteID;
-        note.delegate = self;
-        
-        [UIView animateWithDuration:0.25 animations:^{
-            note.transform = CGAffineTransformScale(note.transform, 0.1, 0.1);
-            note.alpha = 1;
-        }];
-        
-        [self.collectionView addSubview:note];
-        UIPanGestureRecognizer * gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(objectPanned:)];
-        UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
-        UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
-        
-        [note addGestureRecognizer:lpgr];
-        [note addGestureRecognizer:gr];
-        [note addGestureRecognizer:pgr];
-        
-        
-    }
-    
-    [self layoutStackings];
-}
-
--(void) layoutStackings{
-    NSLog(@"Laying Stackings");
-    NSDictionary * stackings =[self.board getAllBulletinBoardAttributeNamesOfType:STACKING_TYPE];
-    for (UIView * view in self.collectionView.subviews){
-        NSLog(@"%@",view);
-        if ([view isKindOfClass:[StackView class]]){
-            NSLog(@"Removing Stacking");
-            [view removeFromSuperview ];
-        }
-    }
-    NSLog(@"Stackings loaded : %@", stackings);
-    int count = 1;
-    for(NSString * stackingID in stackings){
-        NSLog(@"%d",count);
-        count++;
-        NSMutableArray * views = [[NSMutableArray alloc] init];
-        NSArray * noteRefIDs = stackings[stackingID];
-        NSSet * noteRefs = [[NSSet alloc] initWithArray:noteRefIDs];
-        UIView * mainView;
-        for (UIView * view in self.collectionView.subviews){
-            if ([view isKindOfClass:[NoteView class]]){
-                NSString * noteID = ((NoteView *) view).ID;
-                if ([noteRefs containsObject:noteID]){
-                    [views addObject:view];
-                    if ([noteID isEqualToString:noteRefIDs[0]]){
-                        mainView = view;
-                    }
-                }
-            }
-        }
-        
-        
-        
-        [self stackNotes:views into:mainView withID:stackingID];
-    }
-    
-        self.isRefreshing = NO;
-}
-
--(CGSize) getRectSizeForStack: (StackView *) stack{
-    
-    int notesInStack = [stack.views count];
-    
-    //get the number of rows in expanded state
-    int numberOfRows = notesInStack / EXPAND_COL_SIZE;
-    if (notesInStack % EXPAND_COL_SIZE != 0 ) numberOfRows++;
-    
-    //get a single note size from the main note in stack
-    NoteView * dummyNote = ((NoteView *)[stack.views lastObject]);
-    [dummyNote resetSize];
-    float noteWidth = dummyNote.bounds.size.width ;
-    float noteHeight = dummyNote.bounds.size.height ;
-    
-    //calculate the rectangle size before adding seperators
-    int rowItems = notesInStack >= EXPAND_COL_SIZE ? EXPAND_COL_SIZE : notesInStack;
-    float seperatorSpace = MAX(noteWidth,noteHeight) * SEPERATOR_RATIO;
-    float rectWidth = noteWidth + ( (noteWidth/3) * (rowItems - 1)) + ((numberOfRows) * seperatorSpace);
-    float rectHeight= (2* seperatorSpace) + noteHeight + ( (noteHeight/3) * (numberOfRows - 1));
-    
-    //add seperator sizes
-    // float biggerSize = MAX(rectWidth, rectHeight);
-    // float seperatorSize = SEPERATOR_RATIO * biggerSize;
-    //rectWidth += (EXPAND_COL_SIZE + 1) * seperatorSize;
-    //rectHeight += (numberOfRows + 1) * seperatorSize;
-    
-    return CGSizeMake(rectWidth, rectHeight);
-}
-
--(CGRect) findFittingRectangle: (StackView *) stack{
-    
-    //find the size
-    CGSize rectSize = [self getRectSizeForStack:stack];
-    
-    //now find the starting position
-    float stackMiddleX = stack.frame.origin.x + stack.frame.size.width/2;
-    float stackMiddleY = stack.frame.origin.y + stack.frame.size.height/2;
-    
-    //first find the starting x
-    float startX = 0;
-    float startY = 0;
-    if (stackMiddleX + rectSize.width/2 > self.collectionView.bounds.origin.x + self.collectionView.bounds.size.width){
-        //rect goes out of the right side of screen so fit it in a way that the right side of rect is on the right side of 
-        //the screen
-        startX = (self.collectionView.bounds.origin.x + self.collectionView.bounds.size.width) - rectSize.width;
-    }
-    else if (stackMiddleX - rectSize.width/2 < self.collectionView.bounds.origin.x){
-        //rect goes out of the left side of screen so fit it in a way that the left side of rect is on the left side of 
-        //the screen
-        startX = self.collectionView.bounds.origin.x;
-    }
-    else{
-        //rect fits around the stack 
-        startX = stackMiddleX - rectSize.width/2;
-    }
-    
-    //do the same thing to find starting y
-    if (stackMiddleY + rectSize.height/2 > self.collectionView.bounds.origin.y + self.collectionView.bounds.size.height){
-        startY  = (self.collectionView.bounds.origin.y + self.collectionView.bounds.size.height) - rectSize.height;
-    }
-    else if (stackMiddleY - rectSize.height/2 < self.collectionView.bounds.origin.y){
-        startY = self.collectionView.bounds.origin.y;
-    }
-    else {
-        startY = stackMiddleY - rectSize.height/2;
-    }
-    
-    return CGRectMake(startX, startY, rectSize.width, rectSize.height);
-}
-
--(void) clearRectangle: (CGRect) rect{
+-(void) clearRectangle: (CGRect) rect
+{
     for (UIView * subView in self.collectionView.subviews){
         if ([subView conformsToProtocol:@protocol(BulletinBoardObject)]){
             if (CGRectIntersectsRect(subView.frame, rect)){
@@ -611,38 +496,50 @@
     }
 }
 
--(BOOL) does: (UIView *) view1 OverlapWithView: (UIView *) view2{
+
+#pragma mark - layout methods
+
+-(void) layoutNotes{
     
-    CGPoint view1Center = CGPointMake(view1.frame.origin.x + (view1.frame.size.width/2), 
-                                        view1.frame.origin.y + (view1.frame.size.height/2) );
-    CGPoint view2Center = CGPointMake(view2.frame.origin.x + (view2.frame.size.width/2), 
-                                      view2.frame.origin.y + (view2.frame.size.height/2) );
-    
-    CGFloat dx = view1Center.x - view2Center.x;
-    CGFloat dy = view1Center.y - view2Center.y;
-    
-    float distance = sqrt(dx*dx + dy*dy);
-    if ( distance < OVERLAP_RATIO * NOTE_WIDTH){
-        return YES;
+    NSDictionary * allNotes = [self.board getAllNotes];
+    for(NSString* noteID in [allNotes allKeys]){
+        CollectionNote * noteObj = allNotes[noteID];
+        NSDictionary * noteAttributes = [self.board getAllNoteAttributesForNote:noteID];
+        NSDictionary * position = noteAttributes[@"position"];
+        float positionX = [[position[@"positionX"] lastObject] floatValue];
+        float positionY = [[position[@"positionY"] lastObject] floatValue];
+        
+        [self.layoutHelper adjustNotePositionsForX:&positionX
+                                              andY:&positionY
+                                            inView: self.collectionView];
+        
+        NoteView * note = [self getNoteViewForNote:noteID
+                                              ForX:positionX
+                                              andY:positionY];
+        if (noteObj.noteText) note.text = noteObj.noteText;
+        note.ID = noteID;
+        note.delegate = self;
+        
+        [self animateNoteAddition:note];
+        [self addGestureRecognizersToNote:note];
     }
-    return NO;
-                    
-}
     
--(NSArray *) checkForOverlapWithView: (UIView *) senderView{
-    NSMutableArray * ans = [[NSMutableArray alloc] init];
-    for (UIView * view in self.collectionView.subviews){
-        if (view != senderView && [view conformsToProtocol:@protocol(BulletinBoardObject)]){
-            
-            if ([self does:view OverlapWithView:senderView]){
-                [ans addObject:view];
-                
-            }
-        }
-    }
-    [ans addObject:senderView];
-    return ans;
+    [self layoutStackings];
 }
+
+
+-(void) layoutStackings{
+    NSDictionary * stackings =[self.board getAllBulletinBoardAttributeNamesOfType:STACKING_TYPE];
+    
+    //Find out which notes belong to the stacking and put them there
+    for(NSString * stackingID in stackings){
+        NSMutableArray * views = [[NSMutableArray alloc] init];
+        NSArray * noteRefIDs = stackings[stackingID];
+        UIView * mainView = [self.layoutHelper gatherNoteViewFor:noteRefIDs fromCollectionView: self.collectionView into:views];
+        [self stackNotes:views into:mainView withID:stackingID];
+    }
+}
+
 
 #pragma mark - Gesture Events
 
@@ -801,7 +698,8 @@
         self.panCounter++;
         if (self.panCounter > CHECK_TIME ){
             self.panCounter = 0;
-            NSArray * intersectingViews = [self checkForOverlapWithView:sender.view];
+            NSArray * intersectingViews = [self.layoutHelper checkForOverlapWithView:sender.view
+                                                                    inCollectionView:self.collectionView];
             if ( [intersectingViews count] != [self.intersectingViews count] || [intersectingViews count] == 1){
                 for (UIView * view in self.intersectingViews){
                     view.alpha = 1;
@@ -1016,19 +914,24 @@
     if (![self.highlightedView isKindOfClass:[StackView class]]) return;
     
     
-    CGRect fittingRect = [self findFittingRectangle: (StackView *) self.highlightedView];
-    
-    //move stuff that is in the rectangle out of it
-    [self clearRectangle: fittingRect];
-    
-    //layout stack in the empty rect
-    [self layoutStackView:(StackView *) self.highlightedView inRect:fittingRect ];
-    
-    //clean up
-    [self removeContextualToolbarItems:self.highlightedView];
-    [self.board removeBulletinBoardAttribute:((StackView *)self.highlightedView).ID ofType:STACKING_TYPE];
-    self.highlightedView = nil;
-    self.editMode = NO;
+    if ([self.highlightedView isKindOfClass:[StackView class]])
+    {
+        CGRect fittingRect = [self.layoutHelper findFittingRectangle: (StackView *) self.highlightedView
+                              inView:self.collectionView];
+        
+        //move stuff that is in the rectangle out of it
+        [self clearRectangle: fittingRect];
+        
+        //layout stack in the empty rect
+        [self layoutStackView:(StackView *) self.highlightedView inRect:fittingRect ];
+        
+        //clean up
+        [self removeContextualToolbarItems:self.highlightedView];
+        [self.board removeBulletinBoardAttribute:((StackView *)self.highlightedView).ID ofType:STACKING_TYPE];
+        self.highlightedView = nil;
+        self.editMode = NO;
+        
+    }
     
     
 }

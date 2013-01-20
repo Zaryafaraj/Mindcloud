@@ -99,6 +99,7 @@
 		DB99FFC1160E72D40042ED2A /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC0160E72D40042ED2A /* DropboxSDK.framework */; };
 		DB99FFC3160E73230042ED2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC2160E73230042ED2A /* QuartzCore.framework */; };
 		DB99FFCC160E8ABB0042ED2A /* MindcloudBaseAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFCB160E8ABB0042ED2A /* MindcloudBaseAction.m */; };
+		DBB9313E16AB7B78005652AA /* CollectionLayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */; };
 		DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */; };
 		DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF25C160EA1D800C81C25 /* Mindcloud.m */; };
 		DBC7C4C316327F1900BF3F2D /* CollectionsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC7C4C216327F1900BF3F2D /* CollectionsAction.m */; };
@@ -266,6 +267,8 @@
 		DB99FFCB160E8ABB0042ED2A /* MindcloudBaseAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudBaseAction.m; sourceTree = "<group>"; };
 		DBA5B8EE1648CAFA00C68212 /* UIEditableTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIEditableTableViewDelegate.h; sourceTree = "<group>"; };
 		DBB9313916AA90BA005652AA /* CachedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CachedObject.h; sourceTree = "<group>"; };
+		DBB9313C16AB7B77005652AA /* CollectionLayoutHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionLayoutHelper.h; sourceTree = "<group>"; };
+		DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionLayoutHelper.m; sourceTree = "<group>"; };
 		DBBAF257160E9E5000C81C25 /* AuthenticationAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthenticationAction.h; sourceTree = "<group>"; };
 		DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthenticationAction.m; sourceTree = "<group>"; };
 		DBBAF25B160EA1D800C81C25 /* Mindcloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mindcloud.h; sourceTree = "<group>"; };
@@ -497,6 +500,7 @@
 		D7BF466315472E0D00F06412 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				DBB9313B16AB7B5B005652AA /* Helpers */,
 				DB4E0AC5163DCD1E00AB82E6 /* Models */,
 				DB31750116337E70001229FE /* Controllers */,
 				DB31750016337E53001229FE /* Views */,
@@ -684,6 +688,15 @@
 				DB99FFBE160E66870042ED2A /* StringUtils.m */,
 				DBEE54B41640F16300BD9F93 /* HTTPHelper.h */,
 				DBEE54B51640F16300BD9F93 /* HTTPHelper.m */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		DBB9313B16AB7B5B005652AA /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				DBB9313C16AB7B77005652AA /* CollectionLayoutHelper.h */,
+				DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -876,6 +889,7 @@
 				DB03C357169FEB0000C38FD7 /* CollectionNotesAction.m in Sources */,
 				DB03C35B169FEE6C00C38FD7 /* NoteAction.m in Sources */,
 				DB03C35E169FF1F800C38FD7 /* NoteImageAction.m in Sources */,
+				DBB9313E16AB7B78005652AA /* CollectionLayoutHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
