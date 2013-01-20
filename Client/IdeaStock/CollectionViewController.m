@@ -13,12 +13,12 @@
 #import "StackViewController.h"
 #import "CollectionNote.h"
 #import "XoomlAttributeHelper.h"
-#import <MobileCoreServices/UTCoreTypes.h>
 #import "ImageView.h"
 #import "CachedMindCloudDataSource.h"
 #import "EventTypes.h"
 #import "CollectionLayoutHelper.h"
 #import "CollectionAnimationHelper.h"
+#import "MultimediaHelper.h"
 
 @interface CollectionViewController ()
 
@@ -652,31 +652,18 @@ intoStackingWithMainView: (UIView *) mainView
 
 - (IBAction)cameraPressed:(id)sender {
     
-    //check to see if camera is available
-    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
-        return;
+    UIImagePickerController * imagePicker = [MultimediaHelper getCameraController];
+    if (imagePicker)
+    {
+        [self presentViewController:imagePicker animated:YES completion:^{}];
+        imagePicker.delegate = self;
     }
-    
-    NSArray * mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
-    if (![mediaTypes containsObject:(NSString *) kUTTypeImage]) return;
-    
-    UIImagePickerController * imagePicker = [[UIImagePickerController alloc] init];
-    imagePicker.delegate = self;
-    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    imagePicker.mediaTypes = @[(NSString *) kUTTypeImage];
-    imagePicker.allowsEditing = YES;
-    
-    [self presentViewController:imagePicker animated:YES completion:^{}];
 }
 
 
 -(IBAction) expandPressed:(id) sender {
-    if (!self.editMode) return;
     
-    if (![self.highlightedView isKindOfClass:[StackView class]]) return;
-    
-    
-    if ([self.highlightedView isKindOfClass:[StackView class]])
+    if ([self.highlightedView isKindOfClass:[StackView class]] && self.editMode)
     {
         CGRect fittingRect = [CollectionLayoutHelper findFittingRectangle: (StackView *) self.highlightedView
                               inView:self.collectionView];
@@ -694,56 +681,57 @@ intoStackingWithMainView: (UIView *) mainView
         //clean up
         [self removeContextualToolbarItems:self.highlightedView];
         [self.board removeBulletinBoardAttribute:((StackView *)self.highlightedView).ID ofType:STACKING_TYPE];
+        
         self.highlightedView = nil;
         self.editMode = NO;
-        
+    }
+}
+
+-(void) deleteStack:(StackView *) stack
+{
+    
+    [self.board removeBulletinBoardAttribute:stack.ID ofType:STACKING_TYPE];
+    
+    for (UIView * view in stack.views){
+        [view removeFromSuperview];
+        [self.board removeNoteWithID:((NoteView *)view).ID];
     }
     
+    [CollectionAnimationHelper animateDeleteView:stack fromCollectionView:self.collectionView withCallbackAfterFinish:^(void){
+        [stack removeFromSuperview];
+        self.editMode = NO;
+        self.highlightedView = nil;
+    }];
+}
+
+-(void) deleteNote:(NoteView *) note
+{
+    [self.board removeNoteWithID:(note.ID)];
     
+    [CollectionAnimationHelper animateDeleteView:note fromCollectionView:self.collectionView withCallbackAfterFinish:^(void){
+        [note removeFromSuperview];
+        self.editMode = NO;
+        self.highlightedView = nil;
+    }];
 }
 
 -(IBAction) deletePressed:(id) sender {
-    if(!self.editMode) return;
     
+    if(!self.editMode) return;
     
     [self removeContextualToolbarItems:self.highlightedView];
     
     if ([self.highlightedView isKindOfClass:[StackView class]]){
-        
-        [self.board removeBulletinBoardAttribute:((StackView *) self.highlightedView).ID ofType:STACKING_TYPE];
-        
-        for (UIView * view in ((StackView *) self.highlightedView).views){
-            [view removeFromSuperview];
-            [self.board removeNoteWithID:((NoteView *)view).ID];
-        }
-        
-        [UIView animateWithDuration:0.5 animations:^{
-            self.highlightedView.transform = CGAffineTransformScale(self.highlightedView.transform, 0.05, 0.05);
-        }completion:^ (BOOL didFinish){
-            [self.highlightedView removeFromSuperview];
-            self.editMode = NO;
-            self.highlightedView = nil;
-        }];
+        [self deleteStack:(StackView *) self.highlightedView];
     }
     else if ([self.highlightedView isKindOfClass:[NoteView class]]){
         
-        [UIView animateWithDuration:0.5 animations:^{
-            self.highlightedView.transform = CGAffineTransformScale(self.highlightedView.transform, 0.05, 0.05);
-        }completion:^ (BOOL didFinish){
-            [self.highlightedView removeFromSuperview];
-            [self.board removeNoteWithID:(self.highlightedView.ID)];
-            self.editMode = NO;
-            self.highlightedView = nil;
-        }];
+        [self deleteNote:(NoteView *) self.highlightedView];
     }
-    
-    
-    
 }
 
 -(IBAction)backPressed:(id) sender {
     
-    //save the bulletinboard
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [self.board cleanUp];
@@ -764,7 +752,6 @@ intoStackingWithMainView: (UIView *) mainView
                                                object:self.board];
 }
 
-
 #pragma mark - stack delegate methods
 -(void) returnedstackViewController:(StackViewController *)sender{
     [self dismissViewControllerAnimated:YES completion:^(void){}];
@@ -784,36 +771,17 @@ intoStackingWithMainView: (UIView *) mainView
             [noteItem removeGestureRecognizer:gr];
         }
         
-        UIPanGestureRecognizer * gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(objectPanned:)];
-        UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
-        UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
-        
-        [noteItem addGestureRecognizer:lpgr];
-        [noteItem addGestureRecognizer:gr];
-        [noteItem addGestureRecognizer:pgr];
+        [self addGestureRecognizersToNote:noteItem];
         
         noteItem.delegate = self;
-        [noteItem resetSize];
-        
-        [noteItem resetSize];
-        float offset = SEPERATOR_RATIO * noteItem.frame.size.width;
-        CGRect tempRect = CGRectMake (self.collectionView.frame.origin.x + offset,
-                                      self.collectionView.frame.origin.y + self.collectionView.frame.size.height - (noteItem.frame.size.height + offset),
-                                      noteItem.frame.size.width,
-                                      noteItem.frame.size.height);
-        noteItem.frame = tempRect;
-        [self.collectionView addSubview:noteItem];
-        [UIView animateWithDuration:0.5 animations:^{ noteItem.alpha = 1;} completion:^(BOOL isFinished){
-            CGRect finalRect = CGRectMake(stackView.frame.origin.x + (count * offset * 2), 
-                                          stackView.frame.origin.y + (count * offset * 2), 
-                                          noteItem.frame.size.width,
-                                          noteItem.frame.size.height);
-            [UIView animateWithDuration:1 animations:^{noteItem.frame = finalRect;}];
-            
+        [CollectionLayoutHelper removeNote:noteItem
+                                 fromStack:(StackView *)stackView
+                          InCollectionView:self.collectionView
+                          withCountInStack:count
+                               andCallback:^(void){
             [self.board removeNote:noteItem.ID fromBulletinBoardAttribute:((StackView*) stackView).ID ofType:STACKING_TYPE];
             [self updateNoteLocation:noteItem];
         }];
-        
     }
 }
 

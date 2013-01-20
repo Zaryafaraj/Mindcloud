@@ -422,4 +422,29 @@ withMoveNoteFunction:(update_note_location_function) updateNote
                             backIntoScreenBoundsInRect:newFrame];
         }
 }
+
++(void) removeNote:(NoteView *) noteItem
+           fromStack:(StackView *) stack
+    InCollectionView: (UIView *) collectionView withCountInStack:(int) count
+         andCallback:(layout_unstack_finished)callback
+{
+    
+        [noteItem resetSize];
+        float offset = SEPERATOR_RATIO * noteItem.frame.size.width;
+        CGRect tempRect = CGRectMake (collectionView.frame.origin.x + offset,
+                                      collectionView.frame.origin.y + collectionView.frame.size.height - (noteItem.frame.size.height + offset),
+                                      noteItem.frame.size.width,
+                                      noteItem.frame.size.height);
+        noteItem.frame = tempRect;
+        [collectionView addSubview:noteItem];
+        CGRect finalRect = CGRectMake(stack.frame.origin.x + (count * offset * 2),
+                                          stack.frame.origin.y + (count * offset * 2),
+                                          noteItem.frame.size.width,
+                                          noteItem.frame.size.height);
+    [CollectionAnimationHelper animateUnstack:noteItem
+                                    fromStack:stack
+                                 inCollection:collectionView
+                                withFinalRect:finalRect
+                           withFinishCallback:callback];
+}
 @end

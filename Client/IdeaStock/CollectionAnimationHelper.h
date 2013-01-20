@@ -30,4 +30,13 @@
 +(void) animateMoveNote:(UIView *) view
 backIntoScreenBoundsInRect:(CGRect) frame;
 
++(void) animateDeleteView:(UIView *) view
+       fromCollectionView:(UIView *) collectionView
+  withCallbackAfterFinish:(animate_delete_finished) callback;
+
++(void) animateUnstack:(NoteView *) noteView
+             fromStack:(StackView *) stack
+          inCollection:(UIView *) collectionView
+         withFinalRect:(CGRect) finalRect
+    withFinishCallback:(animate_unstack_finished) callback;
 @end

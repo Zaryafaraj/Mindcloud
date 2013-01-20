@@ -80,5 +80,29 @@ backIntoScreenBoundsInRect:(CGRect) frame
                 view.frame = frame;
             }];
 }
+
++(void) animateDeleteView:(UIView *) view
+       fromCollectionView:(UIView *) collectionView
+  withCallbackAfterFinish:(animate_delete_finished) callback;
+{
+    [UIView animateWithDuration:0.5 animations:^{
+        view.transform = CGAffineTransformScale(view.transform, 0.05, 0.05);
+    }completion:^ (BOOL didFinish){
+        callback();
+    }];
+}
+
++(void) animateUnstack:(NoteView *) noteView
+             fromStack:(StackView *) stack
+          inCollection:(UIView *) collectionView
+         withFinalRect:(CGRect) finalRect
+    withFinishCallback:(animate_unstack_finished) callback
+{
+    
+        [UIView animateWithDuration:0.5 animations:^{ noteView.alpha = 1;} completion:^(BOOL isFinished){
+            [UIView animateWithDuration:1 animations:^{noteView.frame = finalRect;}];
+            callback();
+        }];
+}
 @end
 

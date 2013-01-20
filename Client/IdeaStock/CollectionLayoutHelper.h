@@ -55,6 +55,11 @@ withMoveNoteFunction:(update_note_location_function) updateNote;
                 AddedToPoint: (CGPoint) location
                         InCollectionView:(UIView *) collectionView;
 
++(void) removeNote:(NoteView *) noteItem
+           fromStack:(StackView *) stack
+    InCollectionView: (UIView *) collectionView withCountInStack:(int) count
+         andCallback:(layout_unstack_finished)callback;
+
 +(void) updateViewLocationForView:(UIView *) view
                  inCollectionView:(UIView *) collectionView;
 @end
