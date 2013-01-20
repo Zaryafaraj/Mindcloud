@@ -66,10 +66,19 @@
     }    
 }
 
-+(void) expandNote: (UIView *) note
++(void) animateExpandNote: (UIView *) note
             InRect:(CGRect) noteRect
 {
     [UIView animateWithDuration:0.5 animations:^{note.frame = noteRect;}];
+}
+
++(void) animateMoveNote:(UIView *) view
+backIntoScreenBoundsInRect:(CGRect) frame
+{
+    
+            [UIView animateWithDuration:0.1 animations:^{
+                view.frame = frame;
+            }];
 }
 @end
 

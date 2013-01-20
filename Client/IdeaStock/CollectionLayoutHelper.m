@@ -294,7 +294,7 @@ withMoveNoteFunction:(update_note_location_function) updateNote
     int colCount = 0;
     for (NoteView * view in items){
         CGRect noteRect = CGRectMake(startX, startY, view.frame.size.width, view.frame.size.height);
-        [CollectionAnimationHelper expandNote: view InRect:noteRect];
+        [CollectionAnimationHelper animateExpandNote: view InRect:noteRect];
         rowCount++;
         if (rowCount >= EXPAND_COL_SIZE){
             rowCount = 0;
@@ -338,5 +338,88 @@ withMoveNoteFunction:(update_note_location_function) updateNote
             view.frame = CGRectMake(positionX, positionY, view.frame.size.width, view.frame.size.height);
         }
     }
+}
+
++(CGRect) getFrameForNewNote:(UIView *) view
+                AddedToPoint: (CGPoint) location
+                        InCollectionView:(UIView *) collectionView
+{
+    
+    CGRect frame = CGRectMake(location.x, location.y, NOTE_WIDTH, NOTE_HEIGHT);
+    
+    
+    BOOL frameChanged = NO;
+    CGFloat newOriginX = frame.origin.x;
+    CGFloat newOriginY = frame.origin.y;
+    
+    
+    if (frame.origin.x < collectionView.frame.origin.x){
+        frameChanged = YES;
+        newOriginX = collectionView.frame.origin.x;
+    }
+    if (frame.origin.y < collectionView.frame.origin.y){
+        frameChanged = YES;
+        newOriginY = collectionView.frame.origin.y;
+    }
+    if (frame.origin.x + frame.size.width > 
+        collectionView.frame.origin.x + collectionView.frame.size.width){
+        frameChanged = YES;
+        newOriginX = collectionView.frame.origin.x + collectionView.frame.size.width - frame.size.width;
+    }
+    if (frame.origin.y + frame.size.height > 
+        collectionView.frame.origin.y + collectionView.frame.size.height){
+        frameChanged = YES;
+        newOriginY = collectionView.frame.origin.y + collectionView.frame.size.height - frame.size.height - 50;
+    }
+    
+    if (view.frame.origin.x + view.frame.size.width >
+        collectionView.frame.origin.x + collectionView.frame.size.width){
+        frameChanged = YES;
+        newOriginX = collectionView.frame.origin.x + collectionView.frame.size.width - view.frame.size.width;
+    }
+    if (view.frame.origin.y + view.frame.size.height >
+        collectionView.frame.origin.y + collectionView.frame.size.height){
+        frameChanged = YES;
+        newOriginY = collectionView.frame.origin.y + collectionView.frame.size.height - view.frame.size.height - 50;
+    }
+    if (frameChanged){
+            frame = CGRectMake(newOriginX, newOriginY,frame.size.width, frame.size.height);
+
+    }
+    return frame;
+}
+
++(void) updateViewLocationForView:(UIView *) view
+                 inCollectionView:(UIView *) collectionView
+{
+    
+        BOOL frameChanged = NO;
+        CGFloat newOriginX = view.frame.origin.x;
+        CGFloat newOriginY = view.frame.origin.y;
+    
+        if (view.frame.origin.x < collectionView.frame.origin.x){
+            frameChanged = YES;
+            newOriginX = collectionView.frame.origin.x;
+        }
+        if (view.frame.origin.y < collectionView.frame.origin.y){
+            frameChanged = YES;
+            newOriginY = collectionView.frame.origin.y;
+        }
+        if (view.frame.origin.x + view.frame.size.width > 
+            collectionView.frame.origin.x + collectionView.frame.size.width){
+            frameChanged = YES;
+            newOriginX = collectionView.frame.origin.x + collectionView.frame.size.width - view.frame.size.width;
+        }
+        if (view.frame.origin.y + view.frame.size.height > 
+            collectionView.frame.origin.y + collectionView.frame.size.height){
+            frameChanged = YES;
+            newOriginY = collectionView.frame.origin.y + collectionView.frame.size.height - view.frame.size.height - 50;
+        }
+        
+        if (frameChanged){
+            CGRect newFrame = CGRectMake(newOriginX, newOriginY, view.frame.size.width, view.frame.size.height);
+            [CollectionAnimationHelper animateMoveNote:view
+                            backIntoScreenBoundsInRect:newFrame];
+        }
 }
 @end

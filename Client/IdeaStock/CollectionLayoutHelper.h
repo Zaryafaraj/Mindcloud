@@ -50,4 +50,11 @@
 withMoveNoteFunction:(update_note_location_function) updateNote;
 
 +(void) layoutViewsForOrientationChange:(UIView *) collectionView;
+
++(CGRect) getFrameForNewNote:(UIView *) view
+                AddedToPoint: (CGPoint) location
+                        InCollectionView:(UIView *) collectionView;
+
++(void) updateViewLocationForView:(UIView *) view
+                 inCollectionView:(UIView *) collectionView;
 @end

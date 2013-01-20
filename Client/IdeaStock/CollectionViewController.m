@@ -310,6 +310,14 @@ intoStackingWithMainView: (UIView *) mainView
     [stack addGestureRecognizer:lpgr];
 }
 
+-(void) addCollectionViewGestureRecognizersToCollectionView: (UIView *) collectionView
+{
+    UITapGestureRecognizer * gr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mainScreenDoubleTapped:)];
+    gr.numberOfTapsRequired = 2;
+    UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenTapped:)];
+    [collectionView addGestureRecognizer:gr];
+    [collectionView addGestureRecognizer:tgr];
+}
 -(void) removeNotesFromStackView: (StackView *) stack
 {
     
@@ -411,8 +419,6 @@ intoStackingWithMainView: (UIView *) mainView
         self.highlightedView = nil;
         
     }
-    
-    
     [self resignFirstResponders];
 }
 
@@ -421,70 +427,56 @@ intoStackingWithMainView: (UIView *) mainView
     if (self.editMode) return;
     
     CGPoint location = [sender locationOfTouch:0 inView:self.collectionView];
-    CGRect frame = CGRectMake(location.x, location.y, NOTE_WIDTH, NOTE_HEIGHT);
-    
-    
-    BOOL frameChanged = NO;
-    CGFloat newOriginX = frame.origin.x;
-    CGFloat newOriginY = frame.origin.y;
-    
-    
-    if (frame.origin.x < self.collectionView.frame.origin.x){
-        frameChanged = YES;
-        newOriginX = self.collectionView.frame.origin.x;
-    }
-    if (frame.origin.y < self.collectionView.frame.origin.y){
-        frameChanged = YES;
-        newOriginY = self.collectionView.frame.origin.y;
-    }
-    if (frame.origin.x + frame.size.width > 
-        self.collectionView.frame.origin.x + self.collectionView.frame.size.width){
-        frameChanged = YES;
-        newOriginX = self.collectionView.frame.origin.x + self.collectionView.frame.size.width - frame.size.width;
-    }
-    if (frame.origin.y + frame.size.height > 
-        self.collectionView.frame.origin.y + self.collectionView.frame.size.height){
-        frameChanged = YES;
-        newOriginY = self.collectionView.frame.origin.y + self.collectionView.frame.size.height - frame.size.height - 50;
-    }
-    
-    if (sender.view.frame.origin.x + sender.view.frame.size.width > 
-        self.collectionView.frame.origin.x + self.collectionView.frame.size.width){
-        frameChanged = YES;
-        newOriginX = self.collectionView.frame.origin.x + self.collectionView.frame.size.width - sender.view.frame.size.width;
-    }
-    if (sender.view.frame.origin.y + sender.view.frame.size.height > 
-        self.collectionView.frame.origin.y + self.collectionView.frame.size.height){
-        frameChanged = YES;
-        newOriginY = self.collectionView.frame.origin.y + self.collectionView.frame.size.height - sender.view.frame.size.height - 50;
-    }
-    if (frameChanged){
-            frame = CGRectMake(newOriginX, newOriginY,frame.size.width, frame.size.height);
-
-    }
-    
+    CGRect frame = [CollectionLayoutHelper getFrameForNewNote:sender.view
+                                                 AddedToPoint:location
+                                             InCollectionView:self.collectionView];
     NoteView * note = [[NoteView alloc] initWithFrame:frame];
-    note.transform = CGAffineTransformScale(note.transform, 10, 10);
-    note.alpha = 0;
     note.delegate = self;
     
-    [UIView animateWithDuration:0.25 animations:^{
-        note.transform = CGAffineTransformScale(note.transform, 0.1, 0.1);
-        note.alpha = 1;
-    }];
+    [CollectionAnimationHelper animateNoteAddition:note
+                                  toCollectionView:self.collectionView];
     
     [self.collectionView addSubview:note];
-    UIPanGestureRecognizer * gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(objectPanned:)];
-    UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
-    UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
-    
-    [note addGestureRecognizer:lpgr];
-    [note addGestureRecognizer:gr];
-    [note addGestureRecognizer:pgr];
+    [self addGestureRecognizersToNote:note];
     
     [self addNoteToModel:note];
 }
 
+-(void) editModeFinishedForNoteView:(UIView *) view
+{
+    
+    self.editMode = NO;
+    self.highlightedView = nil;
+    [self removeContextualToolbarItems:view];
+    
+    if ([view conformsToProtocol:@protocol(BulletinBoardObject)]){
+        ((UIView <BulletinBoardObject> * ) view).highlighted = NO;
+    }
+    
+    if ([view isKindOfClass:[NoteView class]]){
+        [self updateNoteLocation:(NoteView *) view];
+    }
+    else if ([view isKindOfClass:[StackView class]]){
+        StackView * stack = (StackView *) view;
+        for(NoteView * stackNoteView in stack.views){
+            stackNoteView.frame = stack.frame;
+            [self updateNoteLocation:stackNoteView];
+        }
+    }
+}
+
+-(void) editModeStartedForNoteView:(UIView *) view
+{
+    
+    self.editMode = YES;
+    self.highlightedView = (UIView <BulletinBoardObject> *) view;
+    
+    [self addContextualToolbarItems:view];
+    
+    if ([view conformsToProtocol:@protocol(BulletinBoardObject)]){
+        ((UIView <BulletinBoardObject> * ) view).highlighted = YES;
+    }
+}
 -(void) objectPressed: (UILongPressGestureRecognizer *) sender{
     
     
@@ -496,40 +488,59 @@ intoStackingWithMainView: (UIView *) mainView
             self.highlightedView = (UIView <BulletinBoardObject> *) sender.view;
             [self addContextualToolbarItems:self.highlightedView];
             self.highlightedView.highlighted = YES;
-            
         }
         else if (self.editMode){
-            self.editMode = NO;
-            self.highlightedView = nil;
-            [self removeContextualToolbarItems:sender.view];
-            
-            if ([sender.view conformsToProtocol:@protocol(BulletinBoardObject)]){
-                ((UIView <BulletinBoardObject> * ) sender.view).highlighted = NO;
-            }
-            
-            if ([sender.view isKindOfClass:[NoteView class]]){
-                [self updateNoteLocation:(NoteView *) sender.view];
-            }
-            else if ([sender.view isKindOfClass:[StackView class]]){
-                StackView * stack = (StackView *) sender.view;
-                for(NoteView * stackNoteView in stack.views){
-                    stackNoteView.frame = stack.frame;
-                    [self updateNoteLocation:stackNoteView];
-                }
+            [self editModeFinishedForNoteView:sender.view];
+        }
+        else{
+            [self editModeStartedForNoteView:sender.view];
+        }
+    }
+}
+
+-(void) updateIntersectingViewsWithView:(UIView *)view
+{
+        self.panCounter = 0;
+        NSArray * intersectingViews = [CollectionLayoutHelper checkForOverlapWithView: view
+                                                                inCollectionView:self.collectionView];
+        if ( [intersectingViews count] != [self.intersectingViews count] ||
+            [intersectingViews count] == 1){
+            for (UIView * view in self.intersectingViews){
+                view.alpha = 1;
             }
         }
         else{
-            self.editMode = YES;
-            self.highlightedView = (UIView <BulletinBoardObject> *) sender.view;
-            
-            [self addContextualToolbarItems:sender.view];
-            
-            if ([sender.view conformsToProtocol:@protocol(BulletinBoardObject)]){
-                ((UIView <BulletinBoardObject> * ) sender.view).highlighted = YES;
+            for (UIView * view in intersectingViews){
+                
+                view.alpha = 0.5;
             }
         }
+        self.intersectingViews = intersectingViews;   
+}
+
+-(void) panFinishedForView:(UIView *)view
+{
+    [CollectionLayoutHelper updateViewLocationForView:view
+                                     inCollectionView:self.collectionView];
+
+    for (UIView * intersectingView in self.intersectingViews){
+        intersectingView.alpha = 1;
+    } 
+    
+    if ([self.intersectingViews count] > 1 ){
+        [self stackNotes:self.intersectingViews into:view withID:nil];
     }
     
+    if([view isKindOfClass:[NoteView class]]){
+        [self updateNoteLocation:(NoteView *) view];
+    }
+    else if ([view isKindOfClass:[StackView class]]){
+        StackView * stack = (StackView *) view;
+        for(NoteView * stackNoteView in stack.views){
+            stackNoteView.frame = stack.frame;
+            [self updateNoteLocation:stackNoteView];
+        }
+    }
 }
 
 -(void) objectPanned: (UIPanGestureRecognizer *) sender{
@@ -545,81 +556,16 @@ intoStackingWithMainView: (UIView *) mainView
         
         if (self.editMode) return;
         
+        //every time user pans self.pancounter we check for to intersecting views
         self.panCounter++;
         if (self.panCounter > CHECK_TIME ){
-            self.panCounter = 0;
-            NSArray * intersectingViews = [CollectionLayoutHelper checkForOverlapWithView:sender.view
-                                                                    inCollectionView:self.collectionView];
-            if ( [intersectingViews count] != [self.intersectingViews count] || [intersectingViews count] == 1){
-                for (UIView * view in self.intersectingViews){
-                    view.alpha = 1;
-                }
-            }
-            else{
-                for (UIView * view in intersectingViews){
-                    
-                    view.alpha = 0.5;
-                }
-            }
-            self.intersectingViews = intersectingViews;   
+            [self updateIntersectingViewsWithView:sender.view];
         }
     }
-    
     
     if (sender.state == UIGestureRecognizerStateEnded){
-        BOOL frameChanged = NO;
-        CGFloat newOriginX = sender.view.frame.origin.x;
-        CGFloat newOriginY = sender.view.frame.origin.y;
-        
-        if (sender.view.frame.origin.x < self.collectionView.frame.origin.x){
-            frameChanged = YES;
-            newOriginX = self.collectionView.frame.origin.x;
-        }
-        if (sender.view.frame.origin.y < self.collectionView.frame.origin.y){
-            frameChanged = YES;
-            newOriginY = self.collectionView.frame.origin.y;
-        }
-        if (sender.view.frame.origin.x + sender.view.frame.size.width > 
-            self.collectionView.frame.origin.x + self.collectionView.frame.size.width){
-            frameChanged = YES;
-            newOriginX = self.collectionView.frame.origin.x + self.collectionView.frame.size.width - sender.view.frame.size.width;
-        }
-        if (sender.view.frame.origin.y + sender.view.frame.size.height > 
-            self.collectionView.frame.origin.y + self.collectionView.frame.size.height){
-            frameChanged = YES;
-            newOriginY = self.collectionView.frame.origin.y + self.collectionView.frame.size.height - sender.view.frame.size.height - 50;
-        }
-        
-        if (frameChanged){
-            [UIView animateWithDuration:0.1 animations:^{
-                sender.view.frame = CGRectMake(newOriginX, newOriginY, sender.view.frame.size.width, sender.view.frame.size.height);
-            }];
-        }
-        
-        
-        
-        for (UIView * view in self.intersectingViews){
-            view.alpha = 1;
-        } 
-        
-        if ([self.intersectingViews count] > 1 ){
-            [self stackNotes:self.intersectingViews into:sender.view withID:nil];
-        }
-        
-        if([sender.view isKindOfClass:[NoteView class]]){
-            [self updateNoteLocation:(NoteView *) sender.view];
-        }
-        else if ([sender.view isKindOfClass:[StackView class]]){
-            StackView * stack = (StackView *) sender.view;
-            for(NoteView * stackNoteView in stack.views){
-                stackNoteView.frame = stack.frame;
-                [self updateNoteLocation:stackNoteView];
-            }
-        }
-        
-        return;
+        [self panFinishedForView:sender.view];
     }
-    
 }
 
 -(void) stackTapped: (UIPanGestureRecognizer *) sender{
@@ -632,16 +578,13 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) objectPinched: (UIPinchGestureRecognizer *) sender{
     
-//    if (self.editMode) return;
     if (sender.state == UIGestureRecognizerStateChanged ||
         sender.state == UIGestureRecognizerStateEnded){
-        NSLog(@"JERE");
         CGFloat scale = sender.scale;
         if ([sender.view conformsToProtocol: @protocol(BulletinBoardObject)]){
             UIView <BulletinBoardObject> * view = (NoteView *) sender.view;
             [view scale:scale];
         }
-        
         sender.scale = 1 ;
     }
 }
@@ -652,9 +595,8 @@ intoStackingWithMainView: (UIView *) mainView
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
 }
 
--(void) viewDidLoad
+-(void) configureToolbar
 {
-    
     int len = [[self.toolbar items] count];
     self.deleteButton = [self.toolbar items][len - 1];
     self.expandButton = [self.toolbar items][len - 2];
@@ -665,22 +607,24 @@ intoStackingWithMainView: (UIView *) mainView
         [toolBarItems addObject:[self.toolbar items][i]];
     }
     self.toolbar.items = [toolBarItems copy];
-    
+}
+
+-(void) viewDidLoad
+{
     [super viewDidLoad];
-    CGSize size =  CGSizeMake(self.collectionView.bounds.size.width, self.collectionView.bounds.size.height);
+    [self configureToolbar];
+    
+    CGSize size =  CGSizeMake(self.collectionView.bounds.size.width,
+                              self.collectionView.bounds.size.height);
     [self.collectionView setContentSize:size];
     
-    UITapGestureRecognizer * gr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mainScreenDoubleTapped:)];
-    gr.numberOfTapsRequired = 2;
-    UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenTapped:)];
-    [self.collectionView addGestureRecognizer:gr];
-    [self.collectionView addGestureRecognizer:tgr];
-    self.collectionView.delegate = self;
+    [self addCollectionViewGestureRecognizersToCollectionView: self.collectionView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(loadSavedNotes:)
                                                  name:COLLECTION_RELOAD_EVENT
                                                object:self.board];
+    self.collectionView.delegate = self;
     [self layoutNotes];
 }
 

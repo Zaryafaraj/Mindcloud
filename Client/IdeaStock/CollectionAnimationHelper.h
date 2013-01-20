@@ -25,7 +25,9 @@
                                    isNew:(BOOL) isNewStack
                     withMoveNoteFunction:(update_note_location_function) updateNote;
 
-+(void) expandNote: (UIView *) note
++(void) animateExpandNote: (UIView *) note
             InRect:(CGRect) noteRect;
++(void) animateMoveNote:(UIView *) view
+backIntoScreenBoundsInRect:(CGRect) frame;
 
 @end
