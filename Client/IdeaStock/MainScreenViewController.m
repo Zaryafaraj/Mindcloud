@@ -523,12 +523,6 @@
 }
 
 
--(void) ApplicationHasGoneInBackground:(NSNotification *) notification
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self saveCategories];
-    [self stopTimer];
-}
 -(void) viewDidUnload{
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -544,6 +538,15 @@
 -(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self configureCategoriesPanel];
+}
+
+#pragma mark - Notifications
+
+-(void) ApplicationHasGoneInBackground:(NSNotification *) notification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self saveCategories];
+    [self stopTimer];
 }
 
 #pragma mark - Operation Helpers
@@ -565,7 +568,16 @@
 }
 
 #pragma mark - Bulletinboard Delegates
--(void) finishedWorkingWithBulletinBoard{
+
+-(void) finishedWorkingWithBulletinBoardWithUpdatedThumbnail:(NSData *) imgData
+{
+    NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
+    CollectionCell * selectedItem = (CollectionCell *) [self.collectionView cellForItemAtIndexPath:selectedItems[0]];
+    NSString * collectionName = selectedItem.text;
+    [self.model setImageData:imgData forCollection:collectionName];
+    selectedItem.img = [UIImage imageWithData:imgData];
+    [self.collectionView deselectItemAtIndexPath:selectedItems[0] animated:NO];
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

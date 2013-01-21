@@ -69,6 +69,11 @@
     [self layoutNotes];
 }
 
+-(void) ApplicationHasGoneInBackground:(NSNotification *) notification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - UI helpers
 
 -(void) clearView
@@ -299,6 +304,9 @@
                                              selector:@selector(loadSavedNotes:)
                                                  name:COLLECTION_RELOAD_EVENT
                                                object:self.board];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(ApplicationHasGoneInBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     self.collectionView.delegate = self;
 }
 
@@ -397,9 +405,9 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [self saveCollectionThumbnail];
+    NSData * thumbnailData = [self saveCollectionThumbnail];
     [self.board cleanUp];
-    [self.parent finishedWorkingWithBulletinBoard];
+    [self.parent finishedWorkingWithBulletinBoardWithUpdatedThumbnail:thumbnailData];
 }
 
 - (IBAction)refreshPressed:(id)sender {
@@ -718,14 +726,16 @@ intoStackingWithMainView: (UIView *) mainView
 }
 
 #pragma mark - Collection Actions
--(void) saveCollectionThumbnail
+-(NSData *) saveCollectionThumbnail
 {
     NSData * thumbnailData = [MultimediaHelper captureScreenshotOfView:self.collectionView.superview];
     if (thumbnailData)
     {
         [self.board saveThumbnail:thumbnailData];
     }
+    return thumbnailData;
 }
+
 #pragma mark - Gesture recoginizers
 
 -(void) addGestureRecognizersToNote:(NoteView *)note

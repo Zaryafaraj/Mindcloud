@@ -20,7 +20,7 @@ UIEditableTableViewDelegate>
 
 @property (atomic) BOOL actionInProgress;
 @property (weak, nonatomic) CategoriesViewController * categoriesController;
-//maybe better to make this private
--(void) finishedWorkingWithBulletinBoard;
+
+-(void) finishedWorkingWithBulletinBoardWithUpdatedThumbnail:(NSData *) imgData;
 
 @end

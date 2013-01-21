@@ -39,7 +39,7 @@
     CGSize imageSize = CGSizeMake(sizeX, sizeY);
     //app works only on ios version 4 and up which is the earliest ios on ipad so this
     //should not be a problem
-    UIGraphicsBeginImageContextWithOptions(imageSize, YES, 0);
+    UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();
     for (UIView * subView in view.subviews)
     {
