@@ -299,6 +299,10 @@
                                                  name:COLLECTION_RELOAD_EVENT
                                                object:self.board];
     self.collectionView.delegate = self;
+}
+
+-(void) viewDidAppear:(BOOL)animated
+{
     [self layoutNotes];
 }
 
