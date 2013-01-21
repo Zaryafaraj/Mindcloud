@@ -27,10 +27,6 @@
                            andY:(float *) positionY
                          inView:(UIView *) collectionView;
 
-+(UIView *) gatherNoteViewFor:(NSArray *) noteRefIDs
-           fromCollectionView:(UIView *) collectionView
-                         into:(NSMutableArray *) views;
-
 +(CGRect) findFittingRectangle: (StackView *) stack inView:(UIView *) collectionView;
 
 +(NSArray *) checkForOverlapWithView: (UIView *) senderView

@@ -60,54 +60,6 @@
 }
 
 
-+(UIView *) gatherNoteViewFor:(NSArray *) noteRefIDs
-           fromCollectionView:(UIView *) collectionView
-                         into:(NSMutableArray *) views
-{
-    NSSet * noteRefs = [[NSSet alloc] initWithArray:noteRefIDs];
-    UIView * mainView;
-    for (UIView * view in collectionView.subviews){
-        if ([view isKindOfClass:[NoteView class]]){
-            NSString * noteID = ((NoteView *) view).ID;
-            if ([noteRefs containsObject:noteID]){
-                [views addObject:view];
-                //make sure that the latest note added will be shown on the top of the stacking
-                if ([noteID isEqualToString:noteRefIDs[0]]){
-                    mainView = view;
-                }
-            }
-        }
-    }
-    
-    //return the head of the views
-    return mainView;
-}
-
-
-+(CGSize) getRectSizeForStack: (StackView *) stack
-             inCollectionView:(UIView *) collectionView{
-    
-    int notesInStack = [stack.views count];
-    
-    //get the number of rows in expanded state
-    int numberOfRows = notesInStack / EXPAND_COL_SIZE;
-    if (notesInStack % EXPAND_COL_SIZE != 0 ) numberOfRows++;
-    
-    //get a single note size from the main note in stack
-    NoteView * dummyNote = ((NoteView *)[stack.views lastObject]);
-    [dummyNote resetSize];
-    float noteWidth = dummyNote.bounds.size.width ;
-    float noteHeight = dummyNote.bounds.size.height ;
-    
-    //calculate the rectangle size before adding seperators
-    int rowItems = notesInStack >= EXPAND_COL_SIZE ? EXPAND_COL_SIZE : notesInStack;
-    float seperatorSpace = MAX(noteWidth,noteHeight) * SEPERATOR_RATIO;
-    float rectWidth = noteWidth + ( (noteWidth/3) * (rowItems - 1)) + ((numberOfRows) * seperatorSpace);
-    float rectHeight= (2* seperatorSpace) + noteHeight + ( (noteHeight/3) * (numberOfRows - 1));
-    
-    return CGSizeMake(rectWidth, rectHeight);
-}
-
 +(CGRect) findFittingRectangle: (StackView *) stack
                         inView:(UIView *) collectionView{
     
@@ -149,6 +101,30 @@
     }
     
     return CGRectMake(startX, startY, rectSize.width, rectSize.height);
+}
+
++(CGSize) getRectSizeForStack: (StackView *) stack
+             inCollectionView:(UIView *) collectionView{
+    
+    int notesInStack = [stack.views count];
+    
+    //get the number of rows in expanded state
+    int numberOfRows = notesInStack / EXPAND_COL_SIZE;
+    if (notesInStack % EXPAND_COL_SIZE != 0 ) numberOfRows++;
+    
+    //get a single note size from the main note in stack
+    NoteView * dummyNote = ((NoteView *)[stack.views lastObject]);
+    [dummyNote resetSize];
+    float noteWidth = dummyNote.bounds.size.width ;
+    float noteHeight = dummyNote.bounds.size.height ;
+    
+    //calculate the rectangle size before adding seperators
+    int rowItems = notesInStack >= EXPAND_COL_SIZE ? EXPAND_COL_SIZE : notesInStack;
+    float seperatorSpace = MAX(noteWidth,noteHeight) * SEPERATOR_RATIO;
+    float rectWidth = noteWidth + ( (noteWidth/3) * (rowItems - 1)) + ((numberOfRows) * seperatorSpace);
+    float rectHeight= (2* seperatorSpace) + noteHeight + ( (noteHeight/3) * (numberOfRows - 1));
+    
+    return CGSizeMake(rectWidth, rectHeight);
 }
 
 +(NSArray *) checkForOverlapWithView: (UIView *) senderView
@@ -260,8 +236,9 @@
                         }
                     }
                 }
-                
-                [UIView animateWithDuration:0.25 animations:^{subView.frame = CGRectMake(newStartX, newStartY, subView.frame.size.width, subView.frame.size.height);}];
+                CGRect frame = CGRectMake(newStartX, newStartY, subView.frame.size.width, subView.frame.size.height);
+                [CollectionAnimationHelper animateMoveNoteOutOfExpansion:subView
+                                                                 toFrame:frame];
                 if ([subView isKindOfClass:[NoteView class]]){
                     updateNote((NoteView *) subView);
                 }

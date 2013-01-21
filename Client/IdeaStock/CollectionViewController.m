@@ -449,7 +449,7 @@
     for(NSString * stackingID in stackings){
         NSMutableArray * views = [[NSMutableArray alloc] init];
         NSArray * noteRefIDs = stackings[stackingID];
-        UIView * mainView = [CollectionLayoutHelper gatherNoteViewFor:noteRefIDs fromCollectionView: self.collectionView into:views];
+        UIView * mainView = [self storeNotesViewsForNotes:noteRefIDs into:views];
         [self stackNotes:views into:mainView withID:stackingID];
     }
 }
@@ -558,6 +558,27 @@
         note = [[NoteView alloc] initWithFrame:noteFrame];
     }
     return note;
+}
+
+-(UIView *) storeNotesViewsForNotes:(NSArray *) noteRefIDs
+                         into:(NSMutableArray *) views
+{
+    NSSet * noteRefs = [[NSSet alloc] initWithArray:noteRefIDs];
+    UIView * mainView;
+    for (UIView * view in self.collectionView.subviews){
+        if ([view isKindOfClass:[NoteView class]]){
+            NSString * noteID = ((NoteView *) view).ID;
+            if ([noteRefs containsObject:noteID]){
+                [views addObject:view];
+                //make sure that the latest note added will be shown on the top of the stacking
+                if ([noteID isEqualToString:noteRefIDs[0]]){
+                    mainView = view;
+                }
+            }
+        }
+    }
+    //return the head of the views
+    return mainView;
 }
 
 -(void) deleteNote:(NoteView *) note

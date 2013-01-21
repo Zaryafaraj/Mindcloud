@@ -104,5 +104,12 @@ backIntoScreenBoundsInRect:(CGRect) frame
             callback();
         }];
 }
+
++(void) animateMoveNoteOutOfExpansion:(UIView *) note
+                              toFrame:(CGRect) frame
+{
+    
+    [UIView animateWithDuration:0.25 animations:^{note.frame = frame;}];
+}
 @end
 

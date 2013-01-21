@@ -27,6 +27,10 @@
 
 +(void) animateExpandNote: (UIView *) note
             InRect:(CGRect) noteRect;
+
++(void) animateMoveNoteOutOfExpansion:(UIView *) note
+                              toFrame:(CGRect) frame;
+
 +(void) animateMoveNote:(UIView *) view
 backIntoScreenBoundsInRect:(CGRect) frame;
 
