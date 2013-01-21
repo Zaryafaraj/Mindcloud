@@ -829,4 +829,10 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+#pragma mark - thumbnail
+-(void) saveThumbnail:(NSData *)thumbnailData
+{
+    [self.dataSource updateThumbnail:thumbnailData forCollection:self.bulletinBoardName];
+}
+
 @end

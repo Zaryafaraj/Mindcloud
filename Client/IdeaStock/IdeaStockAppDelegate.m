@@ -7,7 +7,6 @@
 //
 
 #import "IdeaStockAppDelegate.h"
-#import <DropboxSDK/DropboxSDK.h>
 #import "UserPropertiesHelper.h"
 #import "Mindcloud.h"
 #import "CollectionsViewController.h"

@@ -23,9 +23,7 @@
 		D71EA17F154BA19600496663 /* pile boardBig.png in Resources */ = {isa = PBXBuildFile; fileRef = D71EA17D154BA19600496663 /* pile boardBig.png */; };
 		D71EA185154CD3FB00496663 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D71EA184154CD3FB00496663 /* CollectionViewController.m */; };
 		D731B4C11535F17B0015C325 /* MockDropBoxDatamodel.m in Sources */ = {isa = PBXBuildFile; fileRef = D731B4C01535F17B0015C325 /* MockDropBoxDatamodel.m */; };
-		D74CF0C415266DD900DDEF0F /* BulletinboardXoomlTemplate.xml in Resources */ = {isa = PBXBuildFile; fileRef = D74CF0C315266DD900DDEF0F /* BulletinboardXoomlTemplate.xml */; };
 		D74E48201524F3DF00BC8B9D /* XoomlAttributeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D74E481F1524F3DF00BC8B9D /* XoomlAttributeHelper.m */; };
-		D7947AB7152E35B10054CB23 /* NoteXooMLTemplate.xml in Resources */ = {isa = PBXBuildFile; fileRef = D7947AB6152E35B10054CB23 /* NoteXooMLTemplate.xml */; };
 		D7A53CF11522F39500183CB6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53CF01522F39500183CB6 /* UIKit.framework */; };
 		D7A53CF31522F39500183CB6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53CF21522F39500183CB6 /* Foundation.framework */; };
 		D7A53CF51522F39500183CB6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53CF41522F39500183CB6 /* CoreGraphics.framework */; };
@@ -38,7 +36,6 @@
 		D7A53D191522F39500183CB6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D7A53D171522F39500183CB6 /* InfoPlist.strings */; };
 		D7A53D281522F4E100183CB6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53D271522F4E100183CB6 /* Security.framework */; };
 		D7AB7DEE152FB52C00FC6BC0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53D271522F4E100183CB6 /* Security.framework */; };
-		D7B1431C152680B600DC7556 /* IdeaStockSchema.xsd in Resources */ = {isa = PBXBuildFile; fileRef = D7B1431B152680B500DC7556 /* IdeaStockSchema.xsd */; };
 		D7B1432115268B4C00DC7556 /* CachedCollectionAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B1432015268B4C00DC7556 /* CachedCollectionAttributes.m */; };
 		D7B1432D1526A50400DC7556 /* MindcloudCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B1432C1526A50400DC7556 /* MindcloudCollection.m */; };
 		D7BF465D154728DD00F06412 /* MainStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7BF465C154728DD00F06412 /* MainStoryBoard.storyboard */; };
@@ -97,7 +94,6 @@
 		DB7AC5E41643A9AF007756E6 /* WrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5E21643A9AF007756E6 /* WrapController.m */; };
 		DB99FFB5160E5C5D0042ED2A /* UserPropertiesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */; };
 		DB99FFBF160E66870042ED2A /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFBE160E66870042ED2A /* StringUtils.m */; };
-		DB99FFC1160E72D40042ED2A /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC0160E72D40042ED2A /* DropboxSDK.framework */; };
 		DB99FFC3160E73230042ED2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC2160E73230042ED2A /* QuartzCore.framework */; };
 		DB99FFCC160E8ABB0042ED2A /* MindcloudBaseAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFCB160E8ABB0042ED2A /* MindcloudBaseAction.m */; };
 		DBB9313E16AB7B78005652AA /* CollectionLayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */; };
@@ -153,11 +149,9 @@
 		D71EA184154CD3FB00496663 /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
 		D731B4BF1535F17B0015C325 /* MockDropBoxDatamodel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MockDropBoxDatamodel.h; path = IdeaStockTests/MockDropBoxDatamodel.h; sourceTree = SOURCE_ROOT; };
 		D731B4C01535F17B0015C325 /* MockDropBoxDatamodel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MockDropBoxDatamodel.m; path = IdeaStockTests/MockDropBoxDatamodel.m; sourceTree = SOURCE_ROOT; };
-		D74CF0C315266DD900DDEF0F /* BulletinboardXoomlTemplate.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BulletinboardXoomlTemplate.xml; sourceTree = "<group>"; };
 		D74E481E1524F3DF00BC8B9D /* XoomlAttributeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlAttributeHelper.h; sourceTree = "<group>"; };
 		D74E481F1524F3DF00BC8B9D /* XoomlAttributeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlAttributeHelper.m; sourceTree = "<group>"; };
 		D78970D41569E376002EC56F /* NoteViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteViewDelegate.h; sourceTree = "<group>"; };
-		D7947AB6152E35B10054CB23 /* NoteXooMLTemplate.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = NoteXooMLTemplate.xml; sourceTree = "<group>"; };
 		D7A53CEC1522F39500183CB6 /* Mindcloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mindcloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7A53CF01522F39500183CB6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D7A53CF21522F39500183CB6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -173,7 +167,6 @@
 		D7A53D161522F39500183CB6 /* MindcloudTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MindcloudTests-Info.plist"; sourceTree = "<group>"; };
 		D7A53D181522F39500183CB6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D7A53D271522F4E100183CB6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		D7B1431B152680B500DC7556 /* IdeaStockSchema.xsd */ = {isa = PBXFileReference; explicitFileType = text.xml; fileEncoding = 4; path = IdeaStockSchema.xsd; sourceTree = "<group>"; };
 		D7B1431F15268B4C00DC7556 /* CachedCollectionAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CachedCollectionAttributes.h; sourceTree = "<group>"; };
 		D7B1432015268B4C00DC7556 /* CachedCollectionAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CachedCollectionAttributes.m; sourceTree = "<group>"; };
 		D7B1432B1526A50400DC7556 /* MindcloudCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudCollection.h; sourceTree = "<group>"; };
@@ -265,7 +258,6 @@
 		DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPropertiesHelper.m; sourceTree = "<group>"; };
 		DB99FFBD160E66870042ED2A /* StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtils.h; sourceTree = "<group>"; };
 		DB99FFBE160E66870042ED2A /* StringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringUtils.m; sourceTree = "<group>"; };
-		DB99FFC0160E72D40042ED2A /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		DB99FFC2160E73230042ED2A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DB99FFCA160E8ABB0042ED2A /* MindcloudBaseAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudBaseAction.h; sourceTree = "<group>"; };
 		DB99FFCB160E8ABB0042ED2A /* MindcloudBaseAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudBaseAction.m; sourceTree = "<group>"; };
@@ -303,7 +295,6 @@
 				D7A53CF11522F39500183CB6 /* UIKit.framework in Frameworks */,
 				D7A53CF31522F39500183CB6 /* Foundation.framework in Frameworks */,
 				D7A53CF51522F39500183CB6 /* CoreGraphics.framework in Frameworks */,
-				DB99FFC1160E72D40042ED2A /* DropboxSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,12 +372,8 @@
 			isa = PBXGroup;
 			children = (
 				DB99FFC2160E73230042ED2A /* QuartzCore.framework */,
-				DB99FFC0160E72D40042ED2A /* DropboxSDK.framework */,
 				DBDD1ABD15CF215A00F55223 /* libxml2.dylib */,
 				D7DD09DF1572112000918BDF /* MobileCoreServices.framework */,
-				D7947AB6152E35B10054CB23 /* NoteXooMLTemplate.xml */,
-				D7B1431B152680B500DC7556 /* IdeaStockSchema.xsd */,
-				D74CF0C315266DD900DDEF0F /* BulletinboardXoomlTemplate.xml */,
 				D7A53D271522F4E100183CB6 /* Security.framework */,
 				D7A53CF61522F39500183CB6 /* Mindcloud */,
 				D7A53D141522F39500183CB6 /* MindcloudTests */,
@@ -786,9 +773,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7A53CFB1522F39500183CB6 /* InfoPlist.strings in Resources */,
-				D74CF0C415266DD900DDEF0F /* BulletinboardXoomlTemplate.xml in Resources */,
-				D7B1431C152680B600DC7556 /* IdeaStockSchema.xsd in Resources */,
-				D7947AB7152E35B10054CB23 /* NoteXooMLTemplate.xml in Resources */,
 				D7BF465D154728DD00F06412 /* MainStoryBoard.storyboard in Resources */,
 				D7EC3C65154B7BD300230C0C /* green board.png in Resources */,
 				D7E88ACB154B8FFA003C773F /* blue board.png in Resources */,

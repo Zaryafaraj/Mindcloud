@@ -96,4 +96,6 @@ If the boardName or noteName are invalid the method returns without doing anythi
               ForNote: (NSString *)noteID 
             andCollection: (NSString *) bulletinBoardName;
 
+-(void) updateThumbnail:(NSData *)thumbnailData
+          forCollection:(NSString *)collectionName;
 @end

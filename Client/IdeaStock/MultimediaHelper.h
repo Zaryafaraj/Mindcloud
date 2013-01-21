@@ -11,4 +11,7 @@
 @interface MultimediaHelper : NSObject
 
 +(UIImagePickerController *) getCameraController;
+
++(NSData *) captureScreenshotOfView:(UIView *)view;
+
 @end

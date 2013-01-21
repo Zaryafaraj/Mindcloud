@@ -234,6 +234,9 @@ fromBulletinBoardAttribute: (NSString *) attributeName
  */
 -(void) cleanUp;
 
+-(void) saveThumbnail:(NSData *) thumbnailData;
+
 + (void) saveBulletinBoard: (id) bulletinBoard;
+
 
 @end

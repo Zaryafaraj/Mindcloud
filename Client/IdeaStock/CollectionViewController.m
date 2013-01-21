@@ -396,10 +396,10 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
+    [self saveCollectionThumbnail];
     [self.board cleanUp];
     [self.parent finishedWorkingWithBulletinBoard];
 }
-
 
 - (IBAction)refreshPressed:(id)sender {
     
@@ -716,6 +716,15 @@ intoStackingWithMainView: (UIView *) mainView
     }];
 }
 
+#pragma mark - Collection Actions
+-(void) saveCollectionThumbnail
+{
+    NSData * thumbnailData = [MultimediaHelper captureScreenshotOfView:self.collectionView];
+    if (thumbnailData)
+    {
+        [self.board saveThumbnail:thumbnailData];
+    }
+}
 #pragma mark - Gesture recoginizers
 
 -(void) addGestureRecognizersToNote:(NoteView *)note
@@ -743,7 +752,7 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) addCollectionViewGestureRecognizersToCollectionView: (UIView *) collectionView
 {
-    UITapGestureRecognizer * gr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mainScreenDoubleTapped:)];
+    UITapGestureRecognizer * gr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenDoubleTapped:)];
     gr.numberOfTapsRequired = 2;
     UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenTapped:)];
     [collectionView addGestureRecognizer:gr];

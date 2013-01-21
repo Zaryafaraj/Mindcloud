@@ -8,8 +8,11 @@
 
 #import "MultimediaHelper.h"
 #import <MobileCoreServices/UTCoreTypes.h>
+#import <QuartzCore/QuartzCore.h>
 
 @implementation MultimediaHelper
+#define THUMBNAIL_WIDTH 250
+#define THUMBNAIL_HEIGHT 250
 
 +(UIImagePickerController *) getCameraController
 {
@@ -27,5 +30,19 @@
     imagePicker.mediaTypes = @[(NSString *) kUTTypeImage];
     imagePicker.allowsEditing = YES;
     return imagePicker;
+}
+
++ (NSData *) captureScreenshotOfView:(UIView *)view
+{
+    CGSize imageSize = view.bounds.size;
+    //app works only on ios version 4 and up which is the earliest ios on ipad so this
+    //should not be a problem
+    UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [view.layer renderInContext:context];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    NSData * imgData = UIImageJPEGRepresentation(image, 1);
+    return imgData;
 }
 @end

@@ -247,6 +247,20 @@
     }
 }
 
+-(void) updateThumbnail:(NSData *)thumbnailData
+          forCollection:(NSString *)collectionName
+{
+    
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userID = [UserPropertiesHelper userID];
+    [mindcloud setPreviewImageForUser:userID
+                        forCollection:collectionName
+                         andImageData:thumbnailData
+                         withCallback:^(void){
+        NSLog(@"Thumbnail Saved");
+    }];
+}
+
 #pragma mark retreival
 - (NSData *) getCollection: (NSString *) collectionName
 {
@@ -552,5 +566,7 @@
     self.hasCachedVersion[collectionName] = @NO;
     [self getCollection:collectionName];
 }
+
+
 
 @end
