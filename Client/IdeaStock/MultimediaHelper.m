@@ -34,12 +34,18 @@
 
 + (NSData *) captureScreenshotOfView:(UIView *)view
 {
-    CGSize imageSize = view.bounds.size;
+    CGFloat sizeX = MAX(view.bounds.size.width, view.bounds.size.height);
+    CGFloat sizeY = MIN(view.bounds.size.width, view.bounds.size.height);
+    CGSize imageSize = CGSizeMake(sizeX, sizeY);
     //app works only on ios version 4 and up which is the earliest ios on ipad so this
     //should not be a problem
-    UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
+    UIGraphicsBeginImageContextWithOptions(imageSize, YES, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    [view.layer renderInContext:context];
+    for (UIView * subView in view.subviews)
+    {
+        if (![subView isKindOfClass:[UIToolbar class]])
+            [subView.layer renderInContext:context];
+    }
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     NSData * imgData = UIImageJPEGRepresentation(image, 1);

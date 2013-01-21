@@ -27,6 +27,7 @@
 @property (strong, nonatomic) UIBarButtonItem * deleteButton;
 @property (strong, nonatomic) UIBarButtonItem * expandButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *collectionView;
+//@property (strong, nonatomic) IBOutlet UIView *screenShotView;
 
 @property int noteCount;
 @property (strong, nonatomic) NSArray * intersectingViews;
@@ -719,7 +720,7 @@ intoStackingWithMainView: (UIView *) mainView
 #pragma mark - Collection Actions
 -(void) saveCollectionThumbnail
 {
-    NSData * thumbnailData = [MultimediaHelper captureScreenshotOfView:self.collectionView];
+    NSData * thumbnailData = [MultimediaHelper captureScreenshotOfView:self.collectionView.superview];
     if (thumbnailData)
     {
         [self.board saveThumbnail:thumbnailData];
