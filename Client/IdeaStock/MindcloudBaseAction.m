@@ -131,6 +131,7 @@
     // do something with the data
     // receivedData is declared as a method instance elsewhere
     //enable for debug
+    /*
     if (self.lastStatusCode == 200){
         NSLog(@"Succeeded! Received %d bytes of data",[self.receivedData length]);
     }
@@ -142,6 +143,6 @@
     {
         NSString *dataStr = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
         NSLog(@"%@", dataStr);
-    }
+    }*/
 }
 @end

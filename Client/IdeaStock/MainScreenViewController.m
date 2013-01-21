@@ -141,7 +141,7 @@
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
     [mindcloud addCollectionFor:userId withName:name withCallback:^{
-        NSLog(@"Collection %@ added", name);
+        //NSLog(@"Collection %@ added", name);
     }];
     NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
     [self.model addCollection:name toCategory:self.currentCategory];
@@ -613,10 +613,13 @@
                                 forCollection:collectionName
                                  withCallback:^(NSData * imgData)
              {
-                 [self.model setImageData: imgData forCollection: collectionName];
-                 if ([colCell.text isEqualToString:collectionName])
+                 if (imgData)
                  {
-                     colCell.img = [UIImage imageWithData:imgData];
+                     [self.model setImageData: imgData forCollection: collectionName];
+                     if ([colCell.text isEqualToString:collectionName])
+                     {
+                         colCell.img = [UIImage imageWithData:imgData];
+                     }
                  }
              }];
         }
