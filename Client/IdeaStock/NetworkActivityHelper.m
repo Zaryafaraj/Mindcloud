@@ -18,7 +18,6 @@ static int counter;
     }
     
     counter++;
-    NSLog(@"%d", counter);
 }
 
 +(void) removeActivityInProgress
@@ -29,6 +28,5 @@ static int counter;
     {
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }
-    NSLog(@"%d", counter);
 }
 @end
