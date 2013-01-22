@@ -11,50 +11,22 @@
 
 @interface StackView()
 
-/*========================================================================*/
-
-
-/*------------------------------------------------
- UI properties
- -------------------------------------------------*/
-
-
 @property (strong,nonatomic) UIImage * normalImage;
 @property (strong, nonatomic) UIImage * highlightedImage;
 @property CGRect originalFrame;
 
-/*------------------------------------------------
- layout properties
- -------------------------------------------------*/
-
-
 @end
-
-/*========================================================================*/
-
 
 @implementation StackView
 
-
-/*------------------------------------------------
- Synthesizers
- -------------------------------------------------*/
-
-@synthesize views = _views;
-@synthesize mainView = _mainView;
 @synthesize text = _text;
 @synthesize highlighted = _highlighted;
 @synthesize normalImage = _normalImage;
 @synthesize highlightedImage = _highlightedImage;
 @synthesize ID = _ID;
-@synthesize originalFrame = _originalFrame;
 
 
 
-#define STARTING_POS_OFFSET_X 0.05
-#define STARTING_POS_OFFSET_Y 0.2
-#define TEXT_WIDHT_RATIO 0.8
-#define TEXT_HEIGHT_RATIO 0.70
 
 -(UIImage *) normalImage{
     if (!_normalImage){
@@ -62,33 +34,8 @@
     }
     return _normalImage;
 }
-#define IMG_OFFSET_X_RATE 0.009
-#define IMG_OFFSET_Y_RATE 0.118
-#define IMG_SIZE_WIDTH_RATIO 0.89
-#define IMG_SIZE_HEIGHT_RATIO 0.86
-
--(void) layImage: (UIImage *) img{
-    for (UIView * view in self.subviews){
-        if ([view isKindOfClass:[UIImageView class]]){
-            
-            for(UIView * lastImage in view.subviews){
-                if ([lastImage isKindOfClass:[UIImageView class]]){
-                    [lastImage removeFromSuperview];
-                }
-            }
-            UIImageView * newImage = [[UIImageView alloc] initWithImage:img];
-            newImage.frame = CGRectMake(view.frame.origin.x + view.frame.size.width * IMG_OFFSET_X_RATE,
-                                        view.frame.origin.y + view.frame.size.height * IMG_OFFSET_Y_RATE,
-                                        view.frame.size.width * IMG_SIZE_WIDTH_RATIO,
-                                        view.frame.size.height * IMG_SIZE_HEIGHT_RATIO);
 
 
-            
-            [view addSubview:newImage];
-
-        }
-    }
-}
 -(UIImage *) highlightedImage{
     if (!_highlightedImage){
         _highlightedImage = [UIImage imageNamed:@"stackSelected.png"];
@@ -102,7 +49,6 @@
     UIImageView * img;
     for (UIView * subView in self.subviews){
         if (highlighted){
-            
             if ([subView isKindOfClass:[UIImageView class]]){
                 [((UIImageView *) subView) setImage:self.highlightedImage];
 
@@ -115,7 +61,6 @@
                     
                     [subView setTransform:CGAffineTransformMakeScale(1.3, 1.4)];
                     [img setTransform:CGAffineTransformMakeScale(0.9, 0.8)];
-
                 }];                              
             }
         }
@@ -148,72 +93,102 @@
     }
 }
 
+#pragma mark - initializer
 
-/*========================================================================*/
+#define STARTING_POS_OFFSET_X 0.05
+#define STARTING_POS_OFFSET_Y 0.2
+#define TEXT_WIDHT_RATIO 0.8
+#define TEXT_HEIGHT_RATIO 0.70
+#define IMG_OFFSET_X_RATE 0.009
+#define IMG_OFFSET_Y_RATE 0.118
+#define IMG_SIZE_WIDTH_RATIO 0.89
+#define IMG_SIZE_HEIGHT_RATIO 0.86
+#define TEXT_FONT @"Cochin"
+#define TEXT_SIZE 17.0
 
-
-/*------------------------------------------------
- Initializers
- -------------------------------------------------*/
-
--(id) initWithViews: (NSMutableArray *) views 
+-(id) initWithViews: (NSMutableArray *) views
         andMainView: (NoteView *) mainView 
-          withFrame:(CGRect) frame{
-    
-    
+          withFrame:(CGRect) frame
+{
     self = [super initWithFrame:frame];
-    if (self){
-        
+    
+    if (self)
+    {
         self.views = views;
+        
+        //set image of the stack
         UIImage * image = self.normalImage;
         UIImageView * imageView = [[UIImageView alloc]initWithImage:image];
         imageView.frame = self.bounds;
+        
+        //set text placeholder of the stack
         CGRect textFrame = CGRectMake(self.bounds.origin.x + self.bounds.size.width * STARTING_POS_OFFSET_X ,
                                       self.bounds.origin.y + self.bounds.size.height * STARTING_POS_OFFSET_Y,
-                                      self.bounds.size.width * TEXT_WIDHT_RATIO, self.bounds.size.height * TEXT_HEIGHT_RATIO);
+                                      self.bounds.size.width * TEXT_WIDHT_RATIO,
+                                      self.bounds.size.height * TEXT_HEIGHT_RATIO);
         UITextView * textView = [[UITextView alloc] initWithFrame:textFrame];
-        textView.font = [UIFont fontWithName:@"Cochin" size:17.0];
-        
+        textView.font = [UIFont fontWithName:TEXT_FONT size:TEXT_SIZE];
         [textView setBackgroundColor:[UIColor clearColor]];
-        
         textView.editable = NO;
+        
         [self addSubview:imageView];
         [self addSubview:textView];
         
-        if ([mainView isKindOfClass:[ImageView class]]){
-            [self layImage:((ImageView *) mainView).image];
-            self.mainView = mainView;
-            return self;
-        }
-        else {
-            
-            ImageView * topView = nil;
-            for (UIView * view in self.views){
-                if ([view isKindOfClass:[ImageView class]]){
-                    topView = (ImageView *)view;
-                    break;
-                }
-            }
-            
-            if (topView != nil){
-                [self layImage:topView.image];
-                self.mainView = topView;
-                return self;;
-            }
-            
-        }
-        //the plain mainView is ont top
+        [self setTopViewForMainView:mainView];
+        
         self.text= mainView.text;
         self.originalFrame = self.frame;
         self.mainView = mainView;
     }
     return self;    
-    
 }
 
-/*------------------------------------------------
- Layout Methods
- -------------------------------------------------*/
+-(void) setTopViewForMainView:(NoteView *) mainView
+{
+    if ([mainView isKindOfClass:[ImageView class]]){
+        [self layImage:((ImageView *) mainView).image];
+        self.mainView = mainView;
+    }
+    else
+    {
+        ImageView * topView = nil;
+        for (UIView * view in self.views){
+            if ([view isKindOfClass:[ImageView class]]){
+                topView = (ImageView *)view;
+                break;
+            }
+        }
+        
+        if (topView != nil){
+            [self layImage:topView.image];
+            self.mainView = topView;
+        }
+    }
+}
+
+#pragma mark - layout
+-(void) layImage: (UIImage *) img{
+    for (UIView * view in self.subviews){
+        if ([view isKindOfClass:[UIImageView class]]){
+            
+            for(UIView * lastImage in view.subviews){
+                if ([lastImage isKindOfClass:[UIImageView class]]){
+                    [lastImage removeFromSuperview];
+                }
+            }
+            UIImageView * newImage = [[UIImageView alloc] initWithImage:img];
+            newImage.frame = CGRectMake(view.frame.origin.x + view.frame.size.width * IMG_OFFSET_X_RATE,
+                                        view.frame.origin.y + view.frame.size.height * IMG_OFFSET_Y_RATE,
+                                        view.frame.size.width * IMG_SIZE_WIDTH_RATIO,
+                                        view.frame.size.height * IMG_SIZE_HEIGHT_RATIO);
+
+
+            
+            [view addSubview:newImage];
+
+        }
+    }
+}
 
 -(void) scale:(CGFloat) scaleFactor{
     
@@ -254,8 +229,6 @@
             
         }
     }
-    
-    
 }
 
 
@@ -300,10 +273,7 @@
 }
 
 
-/*-----------------------------------------------------------
- Keyboard methods
- -----------------------------------------------------------*/
-
+#pragma mark - keyboard
 -(void) resignFirstResponder{
     for (UIView * subView in self.subviews){
         if ([subView isKindOfClass:[UITextView class]]){

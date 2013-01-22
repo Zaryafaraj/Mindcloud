@@ -12,22 +12,11 @@
 
 @interface StackViewController ()
 
-/*========================================================================*/
-
-
-/*-----------------------------------------------------------
-                        UI Properties
- -----------------------------------------------------------*/
-
 @property (weak, nonatomic) IBOutlet UIScrollView *stackView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (strong,nonatomic) UIBarButtonItem * deleteButton;
 @property (strong,nonatomic) UIBarButtonItem * removeButton;
 @property (weak,nonatomic) UIView * lastOverlappedView;
-
-/*-----------------------------------------------------------
-                        Modal Properties
- -----------------------------------------------------------*/
 
 @property (nonatomic) BOOL isInEditMode; 
 @property (weak, nonatomic) NoteView * highLightedNote;
@@ -254,20 +243,16 @@
 /*-----------------------------------------------------------
                             Layout methods
  -----------------------------------------------------------*/
-
+-(void) addPageToStackViewWithCurrentPageCount:(int) page
+{
+    CGSize size = CGSizeMake(self.stackView.frame.size.width * (page+1), self.stackView.frame.size.height);
+    [self.stackView setContentSize:size];
+}
 -(void) layoutNotes: (BOOL) animated{
-    
-    int pageNotes = ROW_COUNT * COL_COUNT;
-    int totalNotes = [self.notes count];
-    int totalPages = totalNotes/pageNotes;
-    if ( totalNotes % pageNotes > 0 ) totalPages++;
-    
     
     int page = 0;
     int col = 0;
     int row = 0;
-    
-    
     float pageWidth = self.stackView.frame.size.width;
     float pageHeight = self.stackView.frame.size.height;
     float noteWidth = (pageWidth / COL_COUNT ) * 0.82;
@@ -275,14 +260,17 @@
     float colSeperator = noteWidth / 7;
     float rowSeperator = noteHeight / 5;
     
-    BOOL needResizing = NO;
+    BOOL needsNewPage = NO;
+    //for every note we calculate its starting position and also the column and
+    //the row of the next note. If the column and row of the note required a
+    //new page we extend the stack view to that
     for (UIView * view in self.notes){
-        
-        if (needResizing){
-            needResizing = NO;
-            CGSize size = CGSizeMake(self.stackView.frame.size.width * (page+1), self.stackView.frame.size.height);
-            [self.stackView setContentSize:size];
+        if (needsNewPage){
+            needsNewPage = NO;
+            [self addPageToStackViewWithCurrentPageCount:page];
         }
+        
+        //find the set the starting to position
         CGFloat startX = (page * pageWidth) + (col * noteWidth) + ((col+1) * colSeperator);
         CGFloat startY = (row * noteHeight) + ((row + 1) * rowSeperator);
         CGRect viewFrame = CGRectMake(startX, startY, noteWidth, noteHeight);
@@ -297,7 +285,7 @@
             if ( row >= ROW_COUNT){
                 row = 0 ;
                 page++;
-                needResizing = YES;
+                needsNewPage = YES;
             }
         }
     }
@@ -386,11 +374,15 @@
     [toolbar removeLastObject];
     
     self.toolbar.items = [toolbar copy];
-    [self layoutNotes:NO];
     
     UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenTapped:)];
     [self.stackView addGestureRecognizer:tgr];
     [self.stackView setBackgroundColor:[UIColor clearColor]];
+}
+
+-(void) viewDidAppear:(BOOL)animated
+{
+    [self layoutNotes:NO];
 }
 
 -(void)viewDidUnload
