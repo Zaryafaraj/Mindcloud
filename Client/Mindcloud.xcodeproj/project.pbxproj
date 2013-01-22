@@ -76,6 +76,7 @@
 		DB3174F916336DEB001229FE /* cJOfLC.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DB3174F816336DEA001229FE /* cJOfLC.jpeg */; };
 		DB3174FB1633744F001229FE /* dropbox_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3174FA1633744F001229FE /* dropbox_icon.png */; };
 		DB3174FE16337636001229FE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3174FD16337636001229FE /* SignInViewController.m */; };
+		DB42E73616AE58500021D6FA /* NetworkActivityHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB42E73516AE58500021D6FA /* NetworkActivityHelper.m */; };
 		DB43382D169D2E09000353DA /* CachedMindCloudDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DB43382C169D2E09000353DA /* CachedMindCloudDataSource.m */; };
 		DB4338A0169D4B14000353DA /* XoomlCollectionParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DB43389F169D4B14000353DA /* XoomlCollectionParser.m */; };
 		DB4338A8169E8AAF000353DA /* CollectionAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4338A7169E8AAF000353DA /* CollectionAction.m */; };
@@ -227,6 +228,8 @@
 		DB3174FC16337636001229FE /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		DB3174FD16337636001229FE /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		DB31750216337ED7001229FE /* AuthorizationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthorizationDelegate.h; sourceTree = "<group>"; };
+		DB42E73416AE58500021D6FA /* NetworkActivityHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkActivityHelper.h; sourceTree = "<group>"; };
+		DB42E73516AE58500021D6FA /* NetworkActivityHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkActivityHelper.m; sourceTree = "<group>"; };
 		DB433829169CF6CC000353DA /* SynchronizedObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SynchronizedObject.h; sourceTree = "<group>"; };
 		DB43382B169D2E09000353DA /* CachedMindCloudDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CachedMindCloudDataSource.h; sourceTree = "<group>"; };
 		DB43382C169D2E09000353DA /* CachedMindCloudDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CachedMindCloudDataSource.m; sourceTree = "<group>"; };
@@ -696,6 +699,8 @@
 				DBB9314016ABDEA4005652AA /* CollectionAnimationHelper.m */,
 				DB4FF4CC16ACA8DB00DC6DAA /* MultimediaHelper.h */,
 				DB4FF4CD16ACA8DB00DC6DAA /* MultimediaHelper.m */,
+				DB42E73416AE58500021D6FA /* NetworkActivityHelper.h */,
+				DB42E73516AE58500021D6FA /* NetworkActivityHelper.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -888,6 +893,7 @@
 				DBB9313E16AB7B78005652AA /* CollectionLayoutHelper.m in Sources */,
 				DBB9314116ABDEA4005652AA /* CollectionAnimationHelper.m in Sources */,
 				DB4FF4CE16ACA8DB00DC6DAA /* MultimediaHelper.m in Sources */,
+				DB42E73616AE58500021D6FA /* NetworkActivityHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

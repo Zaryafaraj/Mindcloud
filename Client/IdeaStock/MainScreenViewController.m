@@ -15,6 +15,7 @@
 #import "IIViewDeckController.h"
 #import "XoomlCategoryParser.h"
 #import "CachedMindCloudDataSource.h"
+#import "NetworkActivityHelper.h"
 
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
@@ -434,6 +435,7 @@
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
     self.model = [[CollectionsModel alloc] init];
+    
     [mindcloud getAllCollectionsFor:userId
                        WithCallback:^(NSArray * collection)
      {
@@ -607,12 +609,18 @@
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
         NSData * previewImageData = [self.model getImageDataForCollection: collectionName];
+        
+        
         if (previewImageData == nil)
         {
+            [NetworkActivityHelper addActivityInProgress];
+            
             [mindcloud getPreviewImageForUser:userID
                                 forCollection:collectionName
                                  withCallback:^(NSData * imgData)
              {
+                 
+                 [NetworkActivityHelper removeActivityInProgress];
                  if (imgData)
                  {
                      [self.model setImageData: imgData forCollection: collectionName];

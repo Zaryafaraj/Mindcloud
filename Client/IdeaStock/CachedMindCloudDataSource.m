@@ -11,6 +11,7 @@
 #import "Mindcloud.h"
 #import "UserPropertiesHelper.h"
 #import "EventTypes.h"
+#import "NetworkActivityHelper.h"
 
 @interface CachedMindCloudDataSource()
 //we make sure that we don't send out an action before another action of the same type on the same
@@ -270,6 +271,7 @@
         //whatever is cached we try to retreive the collection again
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
+        [NetworkActivityHelper addActivityInProgress];
         [mindcloud getCollectionManifestForUser:userID
                                   forCollection:collectionName
                                    withCallback:^(NSData * collectionData){
@@ -410,6 +412,7 @@
     self.hasCachedVersion[collectionName] = @YES;
     [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_DOWNLOADED_EVENT
                                                         object:self];
+    [NetworkActivityHelper removeActivityInProgress];
     
 }
 
