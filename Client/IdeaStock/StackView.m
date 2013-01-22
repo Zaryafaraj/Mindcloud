@@ -47,6 +47,8 @@
     
     _highlighted = highlighted;
     UIImageView * img;
+    //Make sure that when the stack view is highlighted all the underlying views like image and text get
+    //resized too
     for (UIView * subView in self.subviews){
         if (highlighted){
             if ([subView isKindOfClass:[UIImageView class]]){
@@ -58,7 +60,6 @@
                     }
                 }
                 [UIView animateWithDuration:0.20 animations:^{
-                    
                     [subView setTransform:CGAffineTransformMakeScale(1.3, 1.4)];
                     [img setTransform:CGAffineTransformMakeScale(0.9, 0.8)];
                 }];                              
@@ -73,13 +74,11 @@
                         img = (UIImageView *) imgView;
                     }
                 }
-
                 [UIView animateWithDuration:0.20 animations:^{
                     [subView setTransform:CGAffineTransformIdentity];
                     [img setTransform:CGAffineTransformIdentity];
                 }];
             }
-            
         }
     }
 }
@@ -106,6 +105,8 @@
 #define TEXT_FONT @"Cochin"
 #define TEXT_SIZE 17.0
 
+//what we have is a main stack view, a layer of image view under it which is the image of the stack, and another layer
+//underneath it which is the image that stands on top of the stack image
 -(id) initWithViews: (NSMutableArray *) views
         andMainView: (NoteView *) mainView 
           withFrame:(CGRect) frame
@@ -145,6 +146,8 @@
 
 -(void) setTopViewForMainView:(NoteView *) mainView
 {
+    //if the stack has an image note that always has the priority to be
+    //the top view over the mainView that was passed as the designated view to the stack
     if ([mainView isKindOfClass:[ImageView class]]){
         [self layImage:((ImageView *) mainView).image];
         self.mainView = mainView;
@@ -158,34 +161,38 @@
                 break;
             }
         }
-        
         if (topView != nil){
             [self layImage:topView.image];
             self.mainView = topView;
+        }
+        else
+        {
+            self.mainView = mainView;
         }
     }
 }
 
 #pragma mark - layout
+//lays the img on top of the stack view as its image
 -(void) layImage: (UIImage *) img{
+    
+    //remove the last image view that was on top
     for (UIView * view in self.subviews){
         if ([view isKindOfClass:[UIImageView class]]){
-            
             for(UIView * lastImage in view.subviews){
                 if ([lastImage isKindOfClass:[UIImageView class]]){
                     [lastImage removeFromSuperview];
                 }
             }
+            //now add the new image
             UIImageView * newImage = [[UIImageView alloc] initWithImage:img];
             newImage.frame = CGRectMake(view.frame.origin.x + view.frame.size.width * IMG_OFFSET_X_RATE,
                                         view.frame.origin.y + view.frame.size.height * IMG_OFFSET_Y_RATE,
                                         view.frame.size.width * IMG_SIZE_WIDTH_RATIO,
                                         view.frame.size.height * IMG_SIZE_HEIGHT_RATIO);
 
-
-            
             [view addSubview:newImage];
-
+            break;
         }
     }
 }
@@ -208,7 +215,10 @@
     
     for (UIView * subView in self.subviews){
         if ([subView isKindOfClass:[UIImageView class]]){
-            subView.frame = CGRectMake(subView.frame.origin.x, subView.frame.origin.y, subView.frame.size.width * scaleFactor, subView.frame.size.height * scaleFactor);
+            subView.frame = CGRectMake(subView.frame.origin.x,
+                                       subView.frame.origin.y,
+                                       subView.frame.size.width * scaleFactor,
+                                       subView.frame.size.height * scaleFactor);
         }
         else if ([subView isKindOfClass:[UITextView class]]){
             //doing this to make the text clearer instead of resizing an existing UITextView
@@ -222,7 +232,6 @@
             
             textView.text = oldText;
             
-            //posisble memory leakage?
             [subView removeFromSuperview];
             
             [self addSubview:textView];
@@ -247,6 +256,9 @@
         }
     }
 }
+
+//removes the main view from the stack and sets the next view as the main view and top
+//of the stack if no item has higher priority for being the top of the stack
 -(void) setNextMainView{
     
     [self removeMainViewImage];
@@ -266,8 +278,6 @@
         [self setText:topView.text];
         return;
     }
-    
-
     self.mainView = [self.views lastObject];
     [self setText:((NoteView *)[self.views lastObject]).text];
 }
