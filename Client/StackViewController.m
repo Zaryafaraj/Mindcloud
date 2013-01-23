@@ -25,56 +25,29 @@
 @property (nonatomic) int currentPage;
 @property (nonatomic) int unstackCounter;
 
-
 @end
-
-/*========================================================================*/
-
 
 @implementation StackViewController
 
-/*-----------------------------------------------------------
-                      Synthesizers
- -----------------------------------------------------------*/
-
-@synthesize stackView = _stackView;
-@synthesize isLocked = _isLocked;
-@synthesize highLightedNote = _highLightedNote;
-@synthesize isInEditMode = _isInEditMode;
-@synthesize lastFrame = _lastFrame;
-@synthesize currentPage = _currentPage;
-@synthesize lastOverlappedView = _lastOverlappedView;
-@synthesize toolbar = _toolbar;
-@synthesize deleteButton = _deleteButton;
-@synthesize removeButton = _removeButton;
-@synthesize openStack = _openStack;
-@synthesize unstackCounter = _unstackCounter;
+#pragma mark - synthesizer
 @synthesize notes = _notes;
-@synthesize delegate = _delegate;
 
 -(void) setNotes:(NSMutableArray *)notes{
-    _notes = notes;
     
+    _notes = notes;
     //remove the gesture recognizor from all the notes
     for(NoteView * view in _notes){
         for (UIGestureRecognizer * gr in [view gestureRecognizers]){
             [view removeGestureRecognizer:gr];
             [view resetSize];
-            
         }
-        
-        UILongPressGestureRecognizer * pgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(notePressed:)];
+        UILongPressGestureRecognizer * pgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                           action:@selector(notePressed:)];
         [view addGestureRecognizer:pgr];
-
     }
 }
 
-/*========================================================================*/
-
-/*-----------------------------------------------------------
-                        Initializers
- -----------------------------------------------------------*/
-
+#pragma mark - initializer
 -(id) initWithNibName:(NSString *) nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     
@@ -85,10 +58,7 @@
     return self;
 }
 
-/*-----------------------------------------------------------
-                        Timer Methods
- -----------------------------------------------------------*/
-
+#pragma mark - Timer
 -(void) fireTimer:(NSTimer *) timer{
     self.isLocked = false;
 }
@@ -97,105 +67,112 @@
     self.lastOverlappedView = nil;
 }
 
-/*-----------------------------------------------------------
-                        Gesture Events
- -----------------------------------------------------------*/
-
-#define OVERLAP_PERIOD 2
--(void) notePanned: (UIPanGestureRecognizer *) sender{
-    
-    if (sender.state == UIGestureRecognizerStateEnded || sender.state ==UIGestureRecognizerStateChanged){
-        
-        CGPoint newStart = [sender locationInView:self.stackView];
-        CGRect newRect = CGRectMake(newStart.x, newStart.y, sender.view.bounds.size.width, sender.view.bounds.size.height);
-        
-        if ([self checkScrollToNextPage: newRect forView: sender.view]){
-            if ( newRect.origin.x > sender.view.frame.origin.x){
-                newRect = CGRectMake(newRect.origin.x + self.stackView.frame.size.width, newRect.origin.y, newRect.size.width, newRect.size.height)  ;
-            }
-            else {
-                newRect = CGRectMake(newRect.origin.x - self.stackView.frame.size.width, newRect.origin.y, newRect.size.width, newRect.size.height)  ;
-            }
-        }
-        
-        [sender.view setFrame:newRect];
-        UIView * overlappingView = [self checkForOverlapWithView:sender.view];
-        if (overlappingView){
-            self.lastOverlappedView = overlappingView;
-            [NSTimer scheduledTimerWithTimeInterval:OVERLAP_PERIOD target:self selector:@selector(fireOverlapTimer:) userInfo:nil repeats:NO];
-            CGRect tempFrame = overlappingView.frame;
-            [UIView animateWithDuration:0.25 animations:^{ overlappingView.frame = self.lastFrame;}];
-            self.lastFrame = tempFrame;
-        }
-        
-    }
-    if (sender.state == UIGestureRecognizerStateEnded){
-        [UIView animateWithDuration:0.25 animations:^{sender.view.frame = self.lastFrame;}];
-    }
-}
-
+#pragma mark - gesture events
+#define OVERLAP_PERIOD 2 
 -(void) notePressed: (UILongPressGestureRecognizer *) sender{
+    
     if (sender.state == UIGestureRecognizerStateBegan){
         
-        ((NoteView *) sender.view).highlighted = !((NoteView *) sender.view).highlighted;
-        if ( ((NoteView *) sender.view).highlighted){
-            if (self.highLightedNote) {
-                [self removeToolbarItems];
-                self.highLightedNote.highlighted = NO;
-                
-            }
-            self.lastFrame = sender.view.frame;
-            UIPanGestureRecognizer * pgr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(notePanned:)];
-            [sender.view addGestureRecognizer:pgr];
-
-            self.highLightedNote = (NoteView *) sender.view;
-            self.isInEditMode = YES;
-            [self addToolbarItems];
-        }
-        else{
-            self.highLightedNote = nil;
-            self.isInEditMode = NO;
-            [self removeToolbarItems];
-            for (UIGestureRecognizer * gr in [sender.view gestureRecognizers]){
-                if ([gr isKindOfClass:[UIPanGestureRecognizer class]]){
-                    [sender.view removeGestureRecognizer:gr];
-                }
-            }
-        }
+        [self pressGestureStarted:sender];
     }
     else if (sender.state == UIGestureRecognizerStateChanged){
-        CGPoint newStart = [sender locationInView:self.stackView];
         
-        CGRect newRect = CGRectMake(newStart.x, newStart.y, sender.view.bounds.size.width, sender.view.bounds.size.height);
-        
-        if ([self checkScrollToNextPage: newRect forView: sender.view]){
-            if ( newRect.origin.x > sender.view.frame.origin.x){
-                newRect = CGRectMake(newRect.origin.x + self.stackView.frame.size.width, newRect.origin.y, newRect.size.width, newRect.size.height)  ;
-            }
-            else {
-                newRect = CGRectMake(newRect.origin.x - self.stackView.frame.size.width, newRect.origin.y, newRect.size.width, newRect.size.height)  ;
-            }
-        }
-
-        [sender.view setFrame:newRect];
-        UIView * overlappingView = [self checkForOverlapWithView:sender.view];
-        if (overlappingView){
-            self.lastOverlappedView = overlappingView;
-            [NSTimer scheduledTimerWithTimeInterval:OVERLAP_PERIOD target:self selector:@selector(fireOverlapTimer:) userInfo:nil repeats:NO];
-            CGRect tempFrame = overlappingView.frame;
-            [UIView animateWithDuration:0.25 animations:^{ overlappingView.frame = self.lastFrame;}];
-            self.lastFrame = tempFrame;
-        }
-        
+        [self pressGestureChanged:sender];
     }
     else if (sender.state == UIGestureRecognizerStateEnded){
         [UIView animateWithDuration:0.25 animations:^{sender.view.frame = self.lastFrame;}];
     }
+}
+
+-(void) pressGestureStarted:(UILongPressGestureRecognizer *) sender
+{
     
+    ((NoteView *) sender.view).highlighted = !((NoteView *) sender.view).highlighted;
+    if ( ((NoteView *) sender.view).highlighted){
+        //high light the note and add the ability to pan it
+        if (self.highLightedNote) {
+            [self removeToolbarItems];
+            self.highLightedNote.highlighted = NO;
+            
+        }
+        self.lastFrame = sender.view.frame;
+        UIPanGestureRecognizer * pgr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(notePanned:)];
+        [sender.view addGestureRecognizer:pgr];
+
+        self.highLightedNote = (NoteView *) sender.view;
+        self.isInEditMode = YES;
+        [self addToolbarItems];
+    }
+    else{
+        //remove highlighting on the note and remove the ability for panning it
+        self.highLightedNote = nil;
+        self.isInEditMode = NO;
+        [self removeToolbarItems];
+        for (UIGestureRecognizer * gr in [sender.view gestureRecognizers]){
+            if ([gr isKindOfClass:[UIPanGestureRecognizer class]]){
+                [sender.view removeGestureRecognizer:gr];
+            }
+        }
+    }
+}
+
+-(void) pressGestureChanged:(UILongPressGestureRecognizer *) sender
+{
+    [self changePositionForHighlighted:sender];
+    [self checkForOverlapsForHighlighted:sender];
+}
+
+-(void) checkForOverlapsForHighlighted:(UIGestureRecognizer *)sender
+{
+    //when we check for the overlapping view we make sure that we skip the
+    //last overlapping view because if we it wiggles. Also we want to make sure that
+    //we give enough time to the user to make sure he has the right intention to
+    //replace the current overla[[ing view so after a period of overlap_period we
+    //reset the overlapping view to nil to allow it to be caught in
+    //the  checkForOverlapWithView method
+    UIView * overlappingView = [self checkForOverlapWithView:sender.view];
+    if (overlappingView){
+        self.lastOverlappedView = overlappingView;
+        [NSTimer scheduledTimerWithTimeInterval:OVERLAP_PERIOD
+                                         target:self
+                                       selector:@selector(fireOverlapTimer:) userInfo:nil
+                                        repeats:NO];
+        //swap the frames of overlapping frame and the current frame
+        CGRect tempFrame = overlappingView.frame;
+        [UIView animateWithDuration:0.25 animations:^{ overlappingView.frame = self.lastFrame;}];
+        self.lastFrame = tempFrame;
+    }
+}
+-(void) changePositionForHighlighted:(UIGestureRecognizer *) sender
+{
+    //just adjust the position and scroll to the next page if necessary
+    CGPoint newStart = [sender locationInView:self.stackView];
+    CGRect newRect = CGRectMake(newStart.x, newStart.y, sender.view.bounds.size.width, sender.view.bounds.size.height);
+    if ([self checkScrollToNextPage: newRect forView: sender.view]){
+        if ( newRect.origin.x > sender.view.frame.origin.x){
+            newRect = CGRectMake(newRect.origin.x + self.stackView.frame.size.width, newRect.origin.y, newRect.size.width, newRect.size.height)  ;
+        }
+        else {
+            newRect = CGRectMake(newRect.origin.x - self.stackView.frame.size.width, newRect.origin.y, newRect.size.width, newRect.size.height)  ;
+        }
+    }
+    [sender.view setFrame:newRect];
+}
+-(void) notePanned: (UIPanGestureRecognizer *) sender{
+    
+    if (sender.state == UIGestureRecognizerStateEnded || sender.state ==UIGestureRecognizerStateChanged){
+        [self changePositionForHighlighted:sender];
+        [self checkForOverlapsForHighlighted:sender];
+    }
+    if (sender.state == UIGestureRecognizerStateEnded){
+        [UIView animateWithDuration:0.25 animations:^{
+            sender.view.frame = self.lastFrame;}];
+    }
 }
 
 -(void) screenTapped: (UITapGestureRecognizer *) sender{
 
+    //tap is used for cancelation of the typing or pressing
     if (self.isInEditMode){
         self.isInEditMode = NO;
         self.highLightedNote.highlighted = NO;
@@ -220,10 +197,7 @@
     }
 }
 
-/*-----------------------------------------------------------
- UI Action Helper
- -----------------------------------------------------------*/
-
+#pragma mark - toolbar
 #define ROW_COUNT 2
 #define COL_COUNT 2
 -(void) addToolbarItems{
@@ -240,9 +214,7 @@
     self.toolbar.items = currentItems;
 }
 
-/*-----------------------------------------------------------
-                            Layout methods
- -----------------------------------------------------------*/
+#pragma mark - layout
 -(void) addPageToStackViewWithCurrentPageCount:(int) page
 {
     CGSize size = CGSizeMake(self.stackView.frame.size.width * (page+1), self.stackView.frame.size.height);
@@ -307,9 +279,13 @@
 #define FLIP_PERIOD 1.5
 -(BOOL) checkScrollToNextPage: (CGRect) rect forView: (UIView *) view{
     
-    BOOL movingRight = rect.origin.x > view.frame.origin.x ? YES : NO;
+    //get the total pages in the stacking
     int totalPages = self.stackView.contentSize.width / self.stackView.frame.size.width;
     totalPages-- ;
+    //figure out the direction of movement
+    BOOL movingRight = rect.origin.x > view.frame.origin.x ? YES : NO;
+    
+    //figure out the corners
     int leftCornerPage = rect.origin.x/ self.stackView.frame.size.width;
     int rightCornerPage = (rect.origin.x + rect.size.width)/self.stackView.frame.size.width;
     int middleCornerPage = (rect.origin.x + rect.size.width/2)/self.stackView.frame.size.width;
@@ -330,7 +306,6 @@
                                         repeats:NO];
         
         CGPoint offset = CGPointMake(self.stackView.frame.size.width + self.stackView.contentOffset.x, self.stackView.contentOffset.y);
-      //  NSLog(@"content size after offset : %f", self.stackView.contentSize.width);
         [self.stackView setContentOffset:offset animated:YES];
         return YES;
     }
@@ -349,24 +324,24 @@
                                         repeats:NO];
         CGPoint offset = CGPointMake(self.stackView.contentOffset.x- self.stackView.frame.size.width, self.stackView.contentOffset.y);
         [self.stackView setContentOffset:offset animated:YES];
-    //    NSLog(@"content size after offset : %f", self.stackView.contentSize.width);
         return YES;
         
     }
     return NO;
 }
 
-/*-----------------------------------------------------------
-                            UI Events
- -----------------------------------------------------------*/
+#pragma mark - UI Events
+
 -(void)viewDidLoad
 {
     [super viewDidLoad];
     [self.stackView setContentSize:self.stackView.bounds.size];
-    NSLog(@"Notes here: %d", [self.notes count]);
+    NSLog(@"Notes in stacking: %d", [self.notes count]);
     for (NoteView * view in self.notes){
         view.delegate = self;
     }
+    
+    //figure out the toolbar
     NSMutableArray * toolbar = [self.toolbar.items mutableCopy];
     self.deleteButton = [toolbar lastObject];
     [toolbar removeLastObject];
@@ -375,6 +350,7 @@
     
     self.toolbar.items = [toolbar copy];
     
+    //add the initial gesture recoginzer
     UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenTapped:)];
     [self.stackView addGestureRecognizer:tgr];
     [self.stackView setBackgroundColor:[UIColor clearColor]];
@@ -387,10 +363,9 @@
 
 -(void)viewDidUnload
 {
+    [super viewDidUnload];
     [self setStackView:nil];
     [self setToolbar:nil];
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 -(IBAction)backPressed:(id)sender{
@@ -444,10 +419,7 @@
 	return YES;
 }
 
-/*-----------------------------------------------------------
-                        Note Delegate Protocol
- -----------------------------------------------------------*/
-
+#pragma mark - textbox delegate
 -(void) note:(id)note changedTextTo:(NSString *)text{
     [self.openStack setText: text];
     [self.delegate note:note changedTextTo:text];
