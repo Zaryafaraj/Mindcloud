@@ -96,6 +96,23 @@ If the boardName or noteName are invalid the method returns without doing anythi
               ForNote: (NSString *)noteID 
             andCollection: (NSString *) bulletinBoardName;
 
--(void) updateThumbnail:(NSData *)thumbnailData
+
+-(NSArray *) getAllCollections;
+
+-(void) addCollectionWithName:(NSString *) collectionName;
+
+-(void) renameCollectionWithName:(NSString *) collectionName
+                              to:(NSString *) newCollectionName;
+
+-(void) deleteCollectionFor:(NSString *) collectionName;
+
+-(void) getCategories;
+
+-(void) saveCategories:(NSString *) withData:(NSData *) categoriesData;
+
+-(void) getThumbnailForCollection:(NSString *) collectionName;
+
+-(void) setThumbnail:(NSData *)thumbnailData
           forCollection:(NSString *)collectionName;
+
 @end

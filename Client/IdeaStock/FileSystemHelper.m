@@ -15,14 +15,21 @@
 #define NOTE_XOOML_FILE_NAME @"note.xml"
 #define NOTE_IMG_FILE_NAME @"note.jpg"
 
++(NSString *) getPathForAllCollections
+{
+    NSString * path = [NSHomeDirectory() stringByAppendingString:@"/Documents/Cache/"];
+    [self createMissingDirectoryForPath:path];
+    return path;
+}
 + (NSString *) getPathForCollectionWithName:(NSString *) collectionName{
     
     NSString * pathExtension = [[collectionName stringByAppendingString:@"/"]
                                 stringByAppendingString:BULLETINBOARD_XOOML_FILE_NAME];
     
     pathExtension = [pathExtension lowercaseString];
-    NSString *path = [[NSHomeDirectory() stringByAppendingString:@"/Documents/"]
+    NSString *path = [[NSHomeDirectory() stringByAppendingString:@"/Documents/Cache/"]
                       stringByAppendingString:pathExtension];
+    [self createMissingDirectoryForPath:path];
     return path;
 }
 
@@ -35,8 +42,9 @@
                                 stringByAppendingString:NOTE_XOOML_FILE_NAME];
     
     noteExtension = [noteExtension lowercaseString];
-    NSString * path = [[NSHomeDirectory() stringByAppendingString: @"/Documents/"]
+    NSString * path = [[NSHomeDirectory() stringByAppendingString: @"/Documents/Cache/"]
                        stringByAppendingString:noteExtension];
+    [self createMissingDirectoryForPath:path];
     return path;
 }
 
@@ -91,8 +99,11 @@
     imgPath = [imgPath stringByDeletingLastPathComponent];
     imgPath = [imgPath stringByAppendingFormat:@"/%@",NOTE_IMG_FILE_NAME];
     
+    [self createMissingDirectoryForPath:imgPath];
     return imgPath;
 }
+
+
 
 +(BOOL) removeCollection:(NSString *) collectionName
 {

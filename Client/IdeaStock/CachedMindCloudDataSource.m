@@ -61,6 +61,65 @@
     return self;
 }
 
+-(NSArray *) getAllCollections
+{
+    
+    //try cache
+    NSMutableArray * tempAnswer = [[self getAllCollectionsFromDisk] mutableCopy];
+    //for debugging on a mac
+    [tempAnswer removeObject:@".DS_Store"];
+    //return an immutable object
+    tempAnswer = [tempAnswer copy];
+    //in any case do another refresh
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userId = [UserPropertiesHelper userID];
+    [mindcloud getAllCollectionsFor:userId
+                       WithCallback:^(NSArray * collection)
+     {
+         NSLog(@"Collections Refreshed");
+         NSLog(@"%@", collection);
+         [[NSNotificationCenter defaultCenter] postNotificationName:ALL_COLLECTIONS_LIST_DOWNLOADED_EVENT
+                                                             object:self
+                                                           userInfo:@{@"result" : collection}];
+     }];
+    return tempAnswer;
+}
+
+-(void) addCollectionWithName:(NSString *) collectionName
+{
+    
+}
+
+-(void) renameCollectionWithName:(NSString *) collectionName
+                              to:(NSString *) newCollectionName
+{
+    
+}
+
+-(void) deleteCollectionFor:(NSString *) collectionName
+{
+    
+}
+
+-(void) getCategories
+{
+    
+}
+
+-(void) saveCategories:(NSString *) withData:(NSData *) categoriesData
+{
+    
+}
+
+-(void) getThumbnailForCollection:(NSString *) collectionName
+{
+    
+}
+
+-(void) setThumbnailForCollection:(NSString *) collectionName
+{
+    
+}
 #pragma mark - Addition/Update
 
 - (void) addNote: (NSString *)noteName
@@ -248,7 +307,7 @@
     }
 }
 
--(void) updateThumbnail:(NSData *)thumbnailData
+-(void) setThumbnail:(NSData *)thumbnailData
           forCollection:(NSString *)collectionName
 {
     
@@ -451,6 +510,13 @@
 }
 
 #pragma mark - Disk Cache helpers
+
+-(NSArray *) getAllCollectionsFromDisk
+{
+    NSString * path = [FileSystemHelper getPathForAllCollections];
+    NSError * err;
+    return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&err];
+}
 - (NSData *) getCollectionFromDisk: (NSString *) collectionName{
     
     NSString * path = [FileSystemHelper getPathForCollectionWithName: collectionName];

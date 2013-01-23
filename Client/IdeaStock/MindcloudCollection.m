@@ -832,7 +832,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 #pragma mark - thumbnail
 -(void) saveThumbnail:(NSData *)thumbnailData
 {
-    [self.dataSource updateThumbnail:thumbnailData forCollection:self.bulletinBoardName];
+    [self.dataSource setThumbnail:thumbnailData forCollection:self.bulletinBoardName];
 }
 
 @end

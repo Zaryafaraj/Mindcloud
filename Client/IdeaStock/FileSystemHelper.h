@@ -10,6 +10,8 @@
 
 @interface FileSystemHelper : NSObject
 
++ (NSString *) getPathForAllCollections;
+
 + (NSString *) getPathForCollectionWithName:(NSString *) collectionName;
 
 + (NSString *) getPathForNoteWithName: (NSString *) noteName inCollectionWithName: (NSString *) bulletinBoardName;        

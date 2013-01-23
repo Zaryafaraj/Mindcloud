@@ -16,6 +16,9 @@
 #import "XoomlCategoryParser.h"
 #import "CachedMindCloudDataSource.h"
 #import "NetworkActivityHelper.h"
+#import "EventTypes.h"
+#import "CollectionDataSource.h"
+#import "CachedMindCloudDataSource.h"
 
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
@@ -41,6 +44,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
 @property BOOL shouldSaveCategories;
 @property (atomic,strong) NSTimer * timer;
+@property (strong, nonatomic) id<MindcloudDataSource> dataSource;
 @end
 
 @implementation MainScreenViewController
@@ -93,6 +97,15 @@
 {
     _currentCategory = currentCategory;
     self.pageTitle.text = _currentCategory;
+}
+
+-(id<MindcloudDataSource>) dataSource
+{
+    if (!_dataSource)
+    {
+        _dataSource = [[CachedMindCloudDataSource alloc] init];
+    }
+    return _dataSource;
 }
 
 #pragma mark - Timer
@@ -432,20 +445,22 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(ApplicationHasGoneInBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(allCollectionsReceived:)
+                                                 name: ALL_COLLECTIONS_LIST_DOWNLOADED_EVENT
+                                               object:nil];
+    
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
     self.model = [[CollectionsModel alloc] init];
     
-    [mindcloud getAllCollectionsFor:userId
-                       WithCallback:^(NSArray * collection)
-     {
-         NSLog(@"Collections Retrieved");
-         NSLog(@"%@", collection);
-         self.model = [[CollectionsModel alloc] initWithCollections:collection];
-         [self.collectionView reloadData];
-         [self.categoriesController.table reloadData];
-         [self configureCategoriesPanel];
-     }];
+    //temproary use this tell you get further notification
+    NSArray * allCollections = [self.dataSource getAllCollections];
+    self.model = [[CollectionsModel alloc] initWithCollections:allCollections];
+    [self.collectionView reloadData];
+    [self.categoriesController.table reloadData];
+    
+    [self configureCategoriesPanel];
     [mindcloud getCategories:userId withCallback:^(NSData * categories)
      {
          NSLog(@"Categories Retrieved");
@@ -458,6 +473,14 @@
          [self saveCategories];
      }];
     [self startTimer];
+}
+
+-(void) allCollectionsReceived:(NSNotification *) notification
+{
+    NSArray* allCollections = notification.userInfo[@"result"];
+    self.model = [[CollectionsModel alloc] initWithCollections:allCollections];
+    [self.collectionView reloadData];
+    [self.categoriesController.table reloadData];
 }
 
 -(void) configureCategoriesPanel

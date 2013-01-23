@@ -13,5 +13,6 @@
 #define COLLECTION_DOWNLOADED_EVENT @"collectionFilesDownloaded"
 #define COLLECTION_DOWNLOADED_EVENT @"collectionFilesDownloaded"
 #define COLLECTION_RELOAD_EVENT @"CollectionReloaded"
+#define ALL_COLLECTIONS_LIST_DOWNLOADED_EVENT @"allCollectionListDownloaded"
 
 @end
