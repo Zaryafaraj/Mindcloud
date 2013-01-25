@@ -113,6 +113,14 @@
 -(void) deleteCollectionFor:(NSString *) collectionName
 {
     
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userId = [UserPropertiesHelper userID];
+    [mindcloud deleteCollectionFor:userId
+                          withName:collectionName
+                      withCallback:^{
+                          //NSLog(@"Collection %@ Deleted", collectionName);
+                      }];
+    [self deleteCollectionFromDisk:collectionName];
 }
 
 -(void) getCategories
@@ -576,6 +584,12 @@
     [[NSFileManager defaultManager] removeItemAtPath:oldDirectoryPath error:&error];
 }
 
+-(void) deleteCollectionFromDisk:(NSString *)collectionName
+{
+    NSString * path = [[FileSystemHelper getPathForCollectionWithName:collectionName] stringByDeletingLastPathComponent];
+    NSError * error;
+    [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+}
 - (BOOL) saveToDiskCollectionData:(NSData *) data
                      ForCollection:(NSString *) collectionName
 {

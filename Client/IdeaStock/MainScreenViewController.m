@@ -216,13 +216,7 @@
         CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItem];
         NSString * collectionName = selectedCell.text;
         [self.model removeCollection:collectionName fromCategory:self.currentCategory];
-        Mindcloud * mindcloud = [Mindcloud getMindCloud];
-        NSString * userId = [UserPropertiesHelper userID];
-        [mindcloud deleteCollectionFor:userId
-                              withName:collectionName
-                          withCallback:^{
-                              NSLog(@"Collection %@ Deleted", collectionName);
-                          }];
+        [self.dataSource deleteCollectionFor:collectionName];
     }
     [self.collectionView performBatchUpdates:^{
         [self.collectionView deleteItemsAtIndexPaths:selectedItems];
