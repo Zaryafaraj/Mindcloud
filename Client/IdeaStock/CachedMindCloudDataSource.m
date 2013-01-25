@@ -88,6 +88,12 @@
 -(void) addCollectionWithName:(NSString *) collectionName
 {
     
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userId = [UserPropertiesHelper userID];
+    [mindcloud addCollectionFor:userId withName:collectionName withCallback:^{
+        //NSLog(@"Collection %@ added", name);
+    }];
+    [self createCollectionToDisk:collectionName];
 }
 
 -(void) renameCollectionWithName:(NSString *) collectionName
@@ -531,6 +537,12 @@
     NSLog(@"BulletinBoard : %@ read from disk", collectionName);
     
     return [data dataUsingEncoding:NSUTF8StringEncoding];
+}
+
+-(void) createCollectionToDisk:(NSString *) collectionName
+{
+    NSString * path = [FileSystemHelper getPathForCollectionWithName:collectionName];
+    [FileSystemHelper createMissingDirectoryForPath:path];
 }
 
 - (BOOL) saveToDiskCollectionData:(NSData *) data

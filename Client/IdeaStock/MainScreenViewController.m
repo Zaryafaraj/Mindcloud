@@ -152,11 +152,7 @@
 -(void) addCollection: (NSString *) name
 {
     name = [self validateName: name];
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    NSString * userId = [UserPropertiesHelper userID];
-    [mindcloud addCollectionFor:userId withName:name withCallback:^{
-        //NSLog(@"Collection %@ added", name);
-    }];
+    [self.dataSource addCollectionWithName:name];
     NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
     [self.model addCollection:name toCategory:self.currentCategory];
     [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
