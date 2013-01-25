@@ -99,7 +99,15 @@
 -(void) renameCollectionWithName:(NSString *) collectionName
                               to:(NSString *) newCollectionName
 {
-    
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userId = [UserPropertiesHelper userID];
+    [mindcloud renameCollectionFor:userId
+                          withName:collectionName
+                       withNewName:newCollectionName
+                      withCallback:^{
+                          ;
+                      }];
+    [self renameCollectionOnDisk:collectionName to:newCollectionName];
 }
 
 -(void) deleteCollectionFor:(NSString *) collectionName
@@ -541,8 +549,31 @@
 
 -(void) createCollectionToDisk:(NSString *) collectionName
 {
-    NSString * path = [FileSystemHelper getPathForCollectionWithName:collectionName];
+    NSString * path = [[FileSystemHelper getPathForCollectionWithName:collectionName] stringByDeletingLastPathComponent];
     [FileSystemHelper createMissingDirectoryForPath:path];
+}
+
+-(void) renameCollectionOnDisk:(NSString *) oldName to:(NSString *) newName
+{
+    NSString *oldDirectoryPath = [[FileSystemHelper getPathForCollectionWithName:oldName] stringByDeletingLastPathComponent];
+    
+    NSArray *tempArrayForContentsOfDirectory =[[NSFileManager defaultManager] contentsOfDirectoryAtPath:oldDirectoryPath error:nil];
+    
+    NSString *newDirectoryPath = [[oldDirectoryPath stringByDeletingLastPathComponent]stringByAppendingPathComponent:newName];
+    
+    NSError *error = nil;
+    [[NSFileManager defaultManager] createDirectoryAtPath:newDirectoryPath withIntermediateDirectories:YES attributes:nil error:&error];
+    
+    for (int i = 0; i < [tempArrayForContentsOfDirectory count]; i++)
+    {
+        
+        NSString *newFilePath = [newDirectoryPath stringByAppendingPathComponent:[tempArrayForContentsOfDirectory objectAtIndex:i]];
+        
+        NSString *oldFilePath = [oldDirectoryPath stringByAppendingPathComponent:[tempArrayForContentsOfDirectory objectAtIndex:i]];
+        
+        [[NSFileManager defaultManager] moveItemAtPath:oldFilePath toPath:newFilePath error:&error];
+    }
+    [[NSFileManager defaultManager] removeItemAtPath:oldDirectoryPath error:&error];
 }
 
 - (BOOL) saveToDiskCollectionData:(NSData *) data

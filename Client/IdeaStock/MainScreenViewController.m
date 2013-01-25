@@ -169,15 +169,8 @@
         if ([newName isEqualToString:currentName]) continue;
         
         NSString * actualNewName = [self validateName:newName];
+        [self.dataSource renameCollectionWithName:currentName to:newName];
         
-        Mindcloud * mindcloud = [Mindcloud getMindCloud];
-        NSString * userId = [UserPropertiesHelper userID];
-        [mindcloud renameCollectionFor:userId
-                              withName:currentName
-                           withNewName:actualNewName
-                          withCallback:^{
-                              NSLog(@"collection %@ renamed to %@", currentName, newName);
-                          }];
         [self.model renameCollection:currentName
                           inCategory:self.currentCategory
                      toNewCollection:actualNewName];
