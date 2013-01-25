@@ -886,11 +886,7 @@
     if (self.shouldSaveCategories)
     {
         NSData * categoriesData = [XoomlCategoryParser serializeToXooml:self.model];
-        Mindcloud * mindcloud = [Mindcloud getMindCloud];
-        NSString * userId = [UserPropertiesHelper userID];
-        [mindcloud saveCategories:userId withData:categoriesData andCallback:^{
-            NSLog(@"Categories Synchronized");
-        }];
+        [self.dataSource saveCategories:categoriesData];
         self.shouldSaveCategories = NO;
     }
 }

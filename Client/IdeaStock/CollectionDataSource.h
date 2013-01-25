@@ -108,7 +108,7 @@ If the boardName or noteName are invalid the method returns without doing anythi
 
 -(NSDictionary *) getCategories;
 
--(void) saveCategories:(NSString *) withData:(NSData *) categoriesData;
+-(void) saveCategories:(NSData *) categoriesData;
 
 -(void) getThumbnailForCollection:(NSString *) collectionName;
 

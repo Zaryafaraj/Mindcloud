@@ -145,9 +145,16 @@
     return categoriesDict;
 }
 
--(void) saveCategories:(NSString *) withData:(NSData *) categoriesData
+-(void) saveCategories:(NSData *) categoriesData
 {
-    
+    [self writeCategoriesToDisk:categoriesData];
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userId = [UserPropertiesHelper userID];
+    [mindcloud saveCategories:userId
+                     withData:categoriesData
+                  andCallback:^{
+        NSLog(@"Categories synchronized");
+    }];
 }
 
 -(void) getThumbnailForCollection:(NSString *) collectionName
