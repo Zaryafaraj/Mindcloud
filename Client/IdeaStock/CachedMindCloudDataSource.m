@@ -12,6 +12,7 @@
 #import "UserPropertiesHelper.h"
 #import "EventTypes.h"
 #import "NetworkActivityHelper.h"
+#import "XoomlCategoryParser.h"
 
 @interface CachedMindCloudDataSource()
 //we make sure that we don't send out an action before another action of the same type on the same
@@ -76,8 +77,10 @@
     [mindcloud getAllCollectionsFor:userId
                        WithCallback:^(NSArray * collection)
      {
-         NSLog(@"Collections Refreshed");
-         NSLog(@"%@", collection);
+         for (NSString * collectionName in collection)
+         {
+             [self createCollectionToDisk:collectionName];
+         }
          [[NSNotificationCenter defaultCenter] postNotificationName:ALL_COLLECTIONS_LIST_DOWNLOADED_EVENT
                                                              object:self
                                                            userInfo:@{@"result" : collection}];
@@ -123,9 +126,23 @@
     [self deleteCollectionFromDisk:collectionName];
 }
 
--(void) getCategories
+-(NSDictionary *) getCategories
 {
-    
+    NSData * categoriesData = [self readCategoriesFromDisk];
+    NSDictionary * categoriesDict = [XoomlCategoryParser deserializeXooml:categoriesData];
+    //return the cached one and update the cache
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userId = [UserPropertiesHelper userID];
+    [mindcloud getCategories:userId withCallback:^(NSData * categories)
+     {
+         NSLog(@"Categories Retrieved");
+         NSDictionary * dict = [XoomlCategoryParser deserializeXooml:categories];
+         [[NSNotificationCenter defaultCenter] postNotificationName:CATEGORIES_RECEIVED_EVENT
+                                                             object:self
+                                                           userInfo:@{@"result" : dict}];
+         [self writeCategoriesToDisk:categories];
+     }];
+    return categoriesDict;
 }
 
 -(void) saveCategories:(NSString *) withData:(NSData *) categoriesData
@@ -590,6 +607,21 @@
     NSError * error;
     [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
 }
+
+-(NSData *) readCategoriesFromDisk
+{
+    NSString * path = [FileSystemHelper getPathForCategories];
+    NSError * error;
+    NSData * categoriesData =[NSData dataWithContentsOfFile:path options:NSDataReadingMappedIfSafe error:&error];
+    return categoriesData;
+}
+
+-(void) writeCategoriesToDisk:(NSData *) categoriesData
+{
+    NSString * path = [FileSystemHelper getPathForCategories];
+    [categoriesData writeToFile:path atomically:NO];
+}
+
 - (BOOL) saveToDiskCollectionData:(NSData *) data
                      ForCollection:(NSString *) collectionName
 {

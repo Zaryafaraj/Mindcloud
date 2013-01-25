@@ -14,10 +14,19 @@
 #define BULLETINBOARD_XOOML_FILE_NAME @"collection.xml"
 #define NOTE_XOOML_FILE_NAME @"note.xml"
 #define NOTE_IMG_FILE_NAME @"note.jpg"
+#define CATEGORIES_FILE_NAME @"categories.xml"
 
 +(NSString *) getPathForAllCollections
 {
     NSString * path = [NSHomeDirectory() stringByAppendingString:@"/Documents/Cache/"];
+    [self createMissingDirectoryForPath:path];
+    return path;
+}
+
++(NSString *) getPathForCategories
+{
+    NSString * path = [NSHomeDirectory() stringByAppendingString:@"/Documents/Cache/"];
+    path = [path stringByAppendingString:CATEGORIES_FILE_NAME];
     [self createMissingDirectoryForPath:path];
     return path;
 }
@@ -53,7 +62,8 @@
     NSString *lastComponent = [path lastPathComponent];
     BOOL isFile = NO;
     if ([lastComponent isEqualToString:BULLETINBOARD_XOOML_FILE_NAME] ||
-        [lastComponent isEqualToString:NOTE_XOOML_FILE_NAME]){
+        [lastComponent isEqualToString:NOTE_XOOML_FILE_NAME] ||
+        [lastComponent isEqualToString:CATEGORIES_FILE_NAME]){
         isFile = true;;
     }
     

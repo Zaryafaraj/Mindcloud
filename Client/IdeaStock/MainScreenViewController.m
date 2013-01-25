@@ -424,28 +424,22 @@
                                                  name: ALL_COLLECTIONS_LIST_DOWNLOADED_EVENT
                                                object:nil];
     
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    NSString * userId = [UserPropertiesHelper userID];
-    self.model = [[CollectionsModel alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(categoriesReceived:)
+                                                 name: CATEGORIES_RECEIVED_EVENT
+                                               object:nil];
     
     //temproary use this tell you get further notification
     NSArray * allCollections = [self.dataSource getAllCollections];
-    self.model = [[CollectionsModel alloc] initWithCollections:allCollections];
-    [self.collectionView reloadData];
-    [self.categoriesController.table reloadData];
     
+    self.model = [[CollectionsModel alloc] initWithCollections:allCollections];
+    
+    NSDictionary* dict = [self.dataSource getCategories];
+    [self.model applyCategories:dict];
+    [self.categoriesController.table reloadData];
+    //to synchronize the categories with reality
     [self configureCategoriesPanel];
-    [mindcloud getCategories:userId withCallback:^(NSData * categories)
-     {
-         NSLog(@"Categories Retrieved");
-         NSDictionary * dict = [XoomlCategoryParser deserializeXooml:categories];
-         [self.model applyCategories:dict];
-         [self.collectionView reloadData];
-         [self.categoriesController.table reloadData];
-         //to synchronize the categories with reality
-         self.shouldSaveCategories = YES;
-         [self saveCategories];
-     }];
+    [self.collectionView reloadData];
     [self startTimer];
 }
 
@@ -457,6 +451,18 @@
     [self.categoriesController.table reloadData];
 }
 
+-(void) categoriesReceived:(NSNotification *) notification
+{
+    
+    NSDictionary * dict = notification.userInfo[@"result"];
+    [self.model applyCategories:dict];
+    [self.collectionView reloadData];
+    [self.categoriesController.table reloadData];
+    //to synchronize the categories with reality
+    self.shouldSaveCategories = YES;
+    [self saveCategories];
+    [self configureCategoriesPanel];
+}
 -(void) configureCategoriesPanel
 {
     //make sure that viewDecks ledges are correct

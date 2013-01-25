@@ -12,6 +12,8 @@
 
 + (NSString *) getPathForAllCollections;
 
++ (NSString *) getPathForCategories;
+
 + (NSString *) getPathForCollectionWithName:(NSString *) collectionName;
 
 + (NSString *) getPathForNoteWithName: (NSString *) noteName inCollectionWithName: (NSString *) bulletinBoardName;        
