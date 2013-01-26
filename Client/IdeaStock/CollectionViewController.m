@@ -42,6 +42,7 @@
 
 #define POSITION_X_TYPE @"positionX"
 #define POSITION_Y_TYPE @"positionY"
+#define NOTE_SCALE_TYPE @"scale"
 #define POSITION_TYPE @"position"
 #define STACKING_TYPE @"stacking"
 //0 is the max
@@ -278,6 +279,11 @@
         if ([sender.view conformsToProtocol: @protocol(BulletinBoardObject)]){
             UIView <BulletinBoardObject> * view = (NoteView *) sender.view;
             [view scale:scale];
+            if (sender.state == UIGestureRecognizerStateEnded)
+            {
+                CGFloat scaleOffset = view.scaleOffset;
+                [self updateScaleForNote:view.ID withScale:scaleOffset];
+            }
         }
         sender.scale = 1 ;
     }
@@ -432,8 +438,13 @@
         CollectionNote * noteObj = allNotes[noteID];
         NSDictionary * noteAttributes = [self.board getAllNoteAttributesForNote:noteID];
         NSDictionary * position = noteAttributes[@"position"];
+        //because of the way that noteAttribute class is each attribute has a type, a name, and a value
+        //in case of the scaling its called scaling of the type scalling.
+        //A prime example of overdesigning shit
+        NSDictionary * scaleAttr = noteAttributes[@"scale"];
         float positionX = [[position[@"positionX"] lastObject] floatValue];
         float positionY = [[position[@"positionY"] lastObject] floatValue];
+        float scale = [[scaleAttr[@"scale"] lastObject] floatValue];
         
         [CollectionLayoutHelper adjustNotePositionsForX:&positionX
                                               andY:&positionY
@@ -441,7 +452,8 @@
         
         NoteView * note = [self getNoteViewForNote:noteID
                                               ForX:positionX
-                                              andY:positionY];
+                                              andY:positionY
+                                          andScale:scale];
         if (noteObj.noteText) note.text = noteObj.noteText;
         note.ID = noteID;
         note.delegate = self;
@@ -508,12 +520,15 @@
     NSString * noteName = [NSString stringWithFormat:@"Note%d",self.noteCount];
     self.noteCount++;
     NSString * positionX = [NSString stringWithFormat:@"%f", note.frame.origin.x];
-    NSStream * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
+    NSString * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
+    NSString * scale = [NSString stringWithFormat:@"%f", note.scaleOffset];
+    
     
     NSDictionary * noteProperties =@{@"name": noteName,
                                     @"ID": noteID,
                                     @"positionX": positionX,
                                     @"positionY": positionY,
+                                    @"scale" : scale,
                                     @"isVisible": @"true"};
     return noteProperties;
 }
@@ -533,6 +548,14 @@
     NSDictionary * newProperties = @{POSITION_TYPE: position};
     
     [self.board updateNoteAttributes:noteID
+                      withAttributes:newProperties];
+}
+
+-(void) updateScaleForNote:(NSString *) noteId withScale:(CGFloat) scaleOffset
+{
+    NSString * scale = [NSString stringWithFormat:@"%f", scaleOffset];
+    NSDictionary * newProperties = @{NOTE_SCALE_TYPE : scale};
+    [self.board updateNoteAttributes:noteId
                       withAttributes:newProperties];
 }
 
@@ -557,6 +580,7 @@
 -(NoteView *) getNoteViewForNote: (NSString *) noteID
                             ForX:(float) positionX
                             andY:(float) positionY
+                        andScale:(float) scale
 {
     
     NSDictionary * allImgs = [self.board getAllNoteImages];
@@ -566,9 +590,11 @@
         UIImage * img = [[UIImage alloc] initWithData:allImgs[noteID]];
         note = [[ImageView alloc] initWithFrame:noteFrame 
                                                 andImage:img];
+        [note scale:scale];
     }
     else{
         note = [[NoteView alloc] initWithFrame:noteFrame];
+        [note scale:scale];
     }
     return note;
 }

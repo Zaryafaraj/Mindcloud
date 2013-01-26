@@ -17,8 +17,10 @@
 #define POSITION_X @"positionX"
 #define POSITION_Y @"positionY"
 #define IS_VISIBLE @"isVisible"
+#define SCALE_VALUE @"scale"
 
 #define POSITION_TYPE @"position"
+#define SCALE_TYPE @"scale"
 #define VISIBILITY_TYPE @"visibility"
 #define LINKAGE_TYPE @"linkage"
 #define STACKING_TYPE @"stacking"
@@ -267,6 +269,8 @@
     if (!positionY) positionY = DEFAULT_Y_POSITION;
     NSString * isVisible = noteInfo[IS_VISIBLE];
     if (! isVisible) isVisible = DEFAULT_VISIBILITY;
+    NSString * scale = noteInfo[SCALING];
+    if (!scale) scale = @"1.0";
     
     CachedCollectionAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
     [noteAttribute createAttributeWithName:POSITION_X
@@ -281,6 +285,9 @@
     [noteAttribute createAttributeWithName:NOTE_NAME
                           forAttributeType: NOTE_NAME_TYPE
                                  andValues:@[noteName]];
+    [noteAttribute createAttributeWithName:SCALING
+                          forAttributeType:SCALE_TYPE
+                                 andValues:@[scale]];
     (self.noteAttributes)[noteID] = noteAttribute;
 }
 
@@ -352,6 +359,7 @@
     NSString * positionX = properties[POSITION_X];
     NSString * positionY = properties[POSITION_Y];
     NSString * isVisible = properties[IS_VISIBLE];
+    NSString * scale = properties[SCALE_TYPE];
     if (!positionX) positionX = DEFAULT_X_POSITION;
     if (!positionY) positionY = DEFAULT_Y_POSITION;
     if (!isVisible) isVisible = DEFAULT_VISIBILITY;
@@ -359,7 +367,8 @@
                                      NOTE_ID: noteID,
                                      POSITION_X: positionX,
                                      POSITION_Y: positionY,
-                                     IS_VISIBLE: isVisible};
+                                     IS_VISIBLE: isVisible,
+                                     SCALE_TYPE: scale};
     
     [self.manifest addNoteWithID:noteID andProperties:noteProperties];
     
@@ -398,6 +407,7 @@
     NSString * positionX = properties[POSITION_X];
     NSString * positionY = properties[POSITION_Y];
     NSString * isVisible = properties[IS_VISIBLE];
+    NSString * scale = properties[SCALE_TYPE];
     if (!positionY) positionY = DEFAULT_Y_POSITION;
     if (!positionX) positionX = DEFAULT_X_POSITION;
     if(!isVisible) isVisible = DEFAULT_VISIBILITY;
@@ -405,7 +415,8 @@
                                      NOTE_ID: noteID,
                                      POSITION_X: positionX,
                                      POSITION_Y: positionY,
-                                     IS_VISIBLE: isVisible};
+                                     IS_VISIBLE: isVisible,
+                                     SCALE_TYPE: scale};
     [self.manifest addNoteWithID:noteID andProperties:noteProperties];
     
     CachedCollectionAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
@@ -665,6 +676,18 @@ fromBulletinBoardAttribute: (NSString *) attributeName
         
         self.needSynchronization = YES;
     }
+    if (newProperties[SCALE_TYPE])
+    {
+        CachedCollectionAttributes * noteAttributes = (self.noteAttributes)[noteID];
+        [noteAttributes updateAttribute:SCALE_VALUE
+                                 ofType:SCALE_TYPE
+                           withNewValue:@[newProperties[SCALE_TYPE]]];
+        
+        [self.manifest updateNote:noteID
+                   withProperties:newProperties];
+        
+        self.needSynchronization = YES;
+    }
 }
 
 -(void) updateNoteAttribute: (NSString *) attributeName
@@ -817,9 +840,9 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 
 -(CachedCollectionAttributes *) createBulletinBoardAttributeForNotes{
     return [[CachedCollectionAttributes alloc] initWithAttributes:@[NOTE_NAME_TYPE,
-                                                                    LINKAGE_TYPE,
                                                                     POSITION_TYPE,
-                                                                    VISIBILITY_TYPE]];
+                                                                    VISIBILITY_TYPE,
+                                                                    SCALING]];
 }
 
 #pragma mark - cleanup

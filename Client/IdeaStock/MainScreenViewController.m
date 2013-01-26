@@ -622,11 +622,13 @@
 -(void) finishedWorkingWithBulletinBoardWithUpdatedThumbnail:(NSData *) imgData
 {
     NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
-    CollectionCell * selectedItem = (CollectionCell *) [self.collectionView cellForItemAtIndexPath:selectedItems[0]];
-    NSString * collectionName = selectedItem.text;
-    [self.model setImageData:imgData forCollection:collectionName];
-    selectedItem.img = [UIImage imageWithData:imgData];
-    [self.collectionView deselectItemAtIndexPath:selectedItems[0] animated:NO];
+    if ([selectedItems count] > 0){
+        CollectionCell * selectedItem = (CollectionCell *) [self.collectionView cellForItemAtIndexPath:selectedItems[0]];
+        NSString * collectionName = selectedItem.text;
+        [self.model setImageData:imgData forCollection:collectionName];
+        selectedItem.img = [UIImage imageWithData:imgData];
+        [self.collectionView deselectItemAtIndexPath:selectedItems[0] animated:NO];
+    }
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define MINDCLOUD_BASE_URL @"http://localhost:8000/"
+#define MINDCLOUD_BASE_URL @"http://192.168.1.6:8000/"
 //@"http://ec2-54-235-217-101.compute-1.amazonaws.com:8000/"
 #define STATUS_KEY @"status"
 

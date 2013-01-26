@@ -29,6 +29,16 @@
 @synthesize highLightedImage = _highLightedImage;
 @synthesize normalImage = _normalImage;
 @synthesize ID = _ID;
+@synthesize scaleOffset = _scaleOffset;
+
+-(CGFloat)scaleOffset
+{
+    if (_scaleOffset <= 0)
+    {
+        _scaleOffset = 1;
+    }
+    return _scaleOffset;
+}
 
 -(void) setDelegate:(id<NoteViewDelegate>) delegate{
     _delegate = delegate;
@@ -175,6 +185,7 @@
     BOOL isValid = [self isScalingValid:scaleFactor];
     if (!isValid) return;
     
+    self.scaleOffset *= scaleFactor;
     self.frame = CGRectMake(self.frame.origin.x,
                             self.frame.origin.y, 
                             self.frame.size.width * scaleFactor,

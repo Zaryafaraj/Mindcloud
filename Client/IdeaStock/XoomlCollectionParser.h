@@ -18,6 +18,7 @@
 #define MINDCLOUD_NOTE_ATTRIBUTE @"mindcloud:noteAttribute"
 #define MINDCLOUD_REFERENCE @"mindcloud:reference"
 #define MINDCLOUD_NOTE_POSITION_ATTRIBUTE_TYPE @"position"
+#define MINDCLOUD_NOTE_SCALE_ATTRIBUTE_TYPE @"scale"
 #define NOTE_ID  @"ID"
 #define NOTE_TEXT  @"displayName"
 
@@ -39,6 +40,7 @@
 #define ASSOCIATED_XOOML_FRAGMENT @"associatedXoomlFragment"
 #define POSITION_X @"positionX"
 #define POSITION_Y @"positionY"
+#define SCALING @"scale"
 
 #define FRAGMENT_NAMESPACE_DATA @"xooml:fragmentNamespaceData"
 #define ASSOCIATION_NAMESPACE_DATA @"xooml:associationNamespaceData"
@@ -51,6 +53,7 @@
 #define NOTE_IS_VISIBLE @"isVisible"
 #define NOTE_LINKAGE_KEY @"linkage"
 #define POSITION_TYPE @"position"
+#define SCALING_TYPE @"scale"
 #define XOOML_IS_VISIBLE @"isVisible"
 #define XOOML_NOTE_NAME @"associatedXoomlFragment"
 
@@ -101,6 +104,8 @@
 + (DDXMLNode *) xoomlForNotePositionX: (NSString *) positionX
                          andPositionY: (NSString *) positionY
                        withVisibility: (NSString *) isVisible;
+
++ (DDXMLNode *) xoomlForNoteScale:(NSString *) scale;
 /*
  Xooml for an attribtue related to a collection as it appears in the manifest
  */

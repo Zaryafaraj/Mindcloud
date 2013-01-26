@@ -206,6 +206,13 @@
     return standardAttribute;
 }
 
++ (DDXMLNode *) xoomlForNoteScale:(NSString *) scale
+{
+    
+    DDXMLElement * standardAttribute = [self xoomlForCollectionNoteAttributeWithType:MINDCLOUD_NOTE_SCALE_ATTRIBUTE_TYPE];
+    [standardAttribute addAttribute:[DDXMLNode attributeWithName:SCALING stringValue:scale]];
+    return standardAttribute;
+}
 #pragma mark - XPaths
 + (NSString *) xPathforNote: (NSString *) noteID{
     return [NSString stringWithFormat:@"/xooml:fragment/xooml:association[@ID = \"%@\"]",noteID];

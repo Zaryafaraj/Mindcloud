@@ -69,6 +69,7 @@
     NSMutableArray * tempAnswer = [[self getAllCollectionsFromDisk] mutableCopy];
     //for debugging on a mac
     [tempAnswer removeObject:@".DS_Store"];
+    [tempAnswer removeObject:@"categories.xml"];
     //return an immutable object
     tempAnswer = [tempAnswer copy];
     //in any case do another refresh

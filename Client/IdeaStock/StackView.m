@@ -24,9 +24,17 @@
 @synthesize normalImage = _normalImage;
 @synthesize highlightedImage = _highlightedImage;
 @synthesize ID = _ID;
+@synthesize scaleOffset = _scaleOffset;
 
 
-
+-(CGFloat)scaleOffset
+{
+    if (_scaleOffset <= 0)
+    {
+        _scaleOffset = 1;
+    }
+    return _scaleOffset;
+}
 
 -(UIImage *) normalImage{
     if (!_normalImage){
@@ -207,6 +215,8 @@
         self.frame.size.height * scaleFactor < self.originalFrame.size.height * 0.9){
         return;
     }
+    
+    self.scaleOffset *= scaleFactor;
     self.frame = CGRectMake(self.frame.origin.x,
                             self.frame.origin.y, 
                             self.frame.size.width * scaleFactor,

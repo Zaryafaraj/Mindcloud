@@ -204,21 +204,23 @@
         NSString * noteName = [[note attributeForName:ASSOCIATED_XOOML_FRAGMENT] stringValue];
         NSString * notePositionX = nil;
         NSString * notePositionY = nil;
-        BOOL found = NO;
+        NSString * noteScaling = nil;
         for(DDXMLElement * noteChild in [note children]){
             if ([noteChild.name isEqualToString:ASSOCIATION_NAMESPACE_DATA])
             {
                 for (DDXMLElement * noteDescendant in [noteChild children])
                 {
-                    if ([[[noteDescendant attributeForName:ATTRIBUTE_TYPE] stringValue] isEqualToString:POSITION_TYPE]){
+                    NSString * attributeName = [[noteDescendant attributeForName:ATTRIBUTE_TYPE] stringValue];
+                    if ([attributeName isEqualToString:POSITION_TYPE]){
                         
                         notePositionX = [[noteDescendant attributeForName:POSITION_X] stringValue];
                         notePositionY = [[noteDescendant attributeForName:POSITION_Y] stringValue];
-                        found = YES;
-                        break;
+                    }
+                    if ([attributeName isEqualToString:SCALING_TYPE])
+                    {
+                        noteScaling = [[noteDescendant attributeForName:SCALING] stringValue];
                     }
                 }
-                if (found) break;
             }
         }
         //for every note create a sub answer with all that notes properties
@@ -226,6 +228,7 @@
         subAnswer[NOTE_NAME_KEY] = noteName;
         if (notePositionX) subAnswer[POSITION_X] = notePositionX;
         if (notePositionY) subAnswer[POSITION_Y] = notePositionY;
+        if (noteScaling) subAnswer[SCALING] = noteScaling;
         //set the answer object for the note with noteID as that subAnswer dictionary
         //which now contains all key value pairs of properties. 
         answer[noteID] = subAnswer;
@@ -408,16 +411,21 @@ WithReferenceToNote: (NSString *) refNoteID
     NSString * positionX = properties[POSITION_X];
     NSString * positionY = properties[POSITION_Y];
     NSString * isVisible = properties[NOTE_IS_VISIBLE];
-    if (!noteName || !positionX || !positionY || !isVisible) return;
+    NSString * scale = properties[SCALING];
+    if (!noteName || !positionX || !positionY || !isVisible || !scale) return;
     
     //create the note node
     DDXMLElement * noteNode = [XoomlCollectionParser xoomlForCollectionNote:noteId andName:noteName];
     
     //create the position property itself
-    DDXMLNode * noteProperty = [XoomlCollectionParser xoomlForNotePositionX:positionX andPositionY:positionY withVisibility:isVisible];
+    DDXMLNode * notePositionProperty = [XoomlCollectionParser xoomlForNotePositionX:positionX andPositionY:positionY withVisibility:isVisible];
     DDXMLElement * noteAttributeContainer = [XoomlCollectionParser xoomlForNoteAttributeContainer];
+    
+    DDXMLNode * noteScaleProperty = [XoomlCollectionParser xoomlForNoteScale:scale];
     //put the nodes into the hierarchy
-    [noteAttributeContainer addChild:noteProperty];
+    [noteAttributeContainer addChild:notePositionProperty];
+    [noteAttributeContainer addChild:noteScaleProperty];
+    
     [noteNode addChild:noteAttributeContainer];
     
     DDXMLElement * root = [self.document rootElement];
@@ -697,6 +705,7 @@ attributeName ofType:(NSString *) attributeType{
     NSString * newPositionX = [newProperties[POSITION_X] lastObject];
     NSString * newPositionY = [newProperties[POSITION_Y]lastObject];
     NSString * newIsVisible = [newProperties[NOTE_IS_VISIBLE] lastObject];
+    NSString * scale = newProperties[SCALING];
     //if its the name of the note that we want to change change it on the 
     //note itself
     if (newName){
@@ -726,7 +735,13 @@ attributeName ofType:(NSString *) attributeType{
                         [element removeAttributeForName:XOOML_IS_VISIBLE];
                         [element addAttribute:[DDXMLNode attributeWithName:XOOML_IS_VISIBLE stringValue:newIsVisible]];
                     }
-                    return;   
+                }
+                else if ([[[element attributeForName:ATTRIBUTE_TYPE] stringValue] isEqualToString:SCALING_TYPE])
+                {
+                    if(scale){
+                        [element removeAttributeForName:SCALING];
+                        [element addAttribute:[DDXMLNode attributeWithName:SCALING stringValue:scale]];
+                    }
                 }
             }
         }
