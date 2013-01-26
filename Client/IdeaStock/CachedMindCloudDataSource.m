@@ -167,12 +167,11 @@
                         forCollection:collectionName
                          withCallback:^(NSData * imgData){
                              
+                             NSDictionary * userDict;
                              if (imgData)
                              {
                                  [self saveThumbnailToDisk:imgData forCollection:collectionName];
-                             }
-                             //in any case send out the notification
-                             NSDictionary * userDict =
+                             userDict =
                              @{
                              @"result":
                                 @{
@@ -180,9 +179,21 @@
                                   @"data" : imgData
                                 }
                              };
+                             }
+                             else
+                             {
+                                 userDict =
+                                 @{
+                                     @"result":
+                                     @{
+                                     @"collectionName" : collectionName
+                                      }
+                                 };
+                             }
                              [[NSNotificationCenter defaultCenter] postNotificationName:THUMBNAIL_RECEIVED_EVENT
                                                                                  object:self
                                                                                userInfo:userDict];
+                             //in any case send out the notification
                          }];
     return thumbnailData;
  }

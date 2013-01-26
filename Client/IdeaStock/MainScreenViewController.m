@@ -478,7 +478,8 @@
     //if there is no image on the server use our default image
     if (!imgData)
     {
-        imgData = [NSData dataWithContentsOfFile:@"felt-red-ipad-background.jpg"];
+        UIImage * defaultImage = [UIImage imageNamed: @"felt-red-ipad-background.jpg"];
+        imgData = UIImageJPEGRepresentation(defaultImage, 1);
     }
     
     [self.model setImageData:imgData forCollection:collectionName];
