@@ -16,7 +16,9 @@
 
 + (NSString *) getPathForCollectionWithName:(NSString *) collectionName;
 
-+ (NSString *) getPathForNoteWithName: (NSString *) noteName inCollectionWithName: (NSString *) bulletinBoardName;        
++ (NSString *) getPathForNoteWithName: (NSString *) noteName inCollectionWithName: (NSString *) bulletinBoardName;
+
++ (NSString *) getPathForThumbnailForCollectionWithName:(NSString *) collectionName;
 
 + (void) createMissingDirectoryForPath: (NSString *) path;
 

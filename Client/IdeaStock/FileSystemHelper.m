@@ -15,6 +15,7 @@
 #define NOTE_XOOML_FILE_NAME @"note.xml"
 #define NOTE_IMG_FILE_NAME @"note.jpg"
 #define CATEGORIES_FILE_NAME @"categories.xml"
+#define THUMBNAIL_FILE_NAME @"thumbnail.jpg"
 
 +(NSString *) getPathForAllCollections
 {
@@ -42,6 +43,14 @@
     return path;
 }
 
++ (NSString *) getPathForThumbnailForCollectionWithName:(NSString *) collectionName
+{
+    NSString * pathExtension = [collectionName stringByAppendingString:@"/"];
+    NSString * path = [[[NSHomeDirectory() stringByAppendingString:@"/Documents/Cache/"]
+                       stringByAppendingString:pathExtension]
+                       stringByAppendingString:THUMBNAIL_FILE_NAME];
+    return path;
+}
 + (NSString *) getPathForNoteWithName: (NSString *) noteName
                  inCollectionWithName: (NSString *) collectionName{
     

@@ -157,14 +157,49 @@
     }];
 }
 
--(void) getThumbnailForCollection:(NSString *) collectionName
+-(NSData *) getThumbnailForCollection:(NSString *) collectionName
 {
     
-}
+    NSData * thumbnailData = [self getThumbnailFromDiskForCollection:collectionName];
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userID = [UserPropertiesHelper userID];
+    [mindcloud getPreviewImageForUser:userID
+                        forCollection:collectionName
+                         withCallback:^(NSData * imgData){
+                             
+                             if (imgData)
+                             {
+                                 [self saveThumbnailToDisk:imgData forCollection:collectionName];
+                             }
+                             //in any case send out the notification
+                             NSDictionary * userDict =
+                             @{
+                             @"result":
+                                @{
+                                @"collectionName" : collectionName,
+                                  @"data" : imgData
+                                }
+                             };
+                             [[NSNotificationCenter defaultCenter] postNotificationName:THUMBNAIL_RECEIVED_EVENT
+                                                                                 object:self
+                                                                               userInfo:userDict];
+                         }];
+    return thumbnailData;
+ }
 
--(void) setThumbnailForCollection:(NSString *) collectionName
+-(void) setThumbnail:(NSData *)thumbnailData
+          forCollection:(NSString *)collectionName
 {
     
+    [self saveThumbnailToDisk:thumbnailData forCollection:collectionName];
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userID = [UserPropertiesHelper userID];
+    [mindcloud setPreviewImageForUser:userID
+                        forCollection:collectionName
+                         andImageData:thumbnailData
+                         withCallback:^(void){
+                             ;
+    }];
 }
 #pragma mark - Addition/Update
 
@@ -353,19 +388,6 @@
     }
 }
 
--(void) setThumbnail:(NSData *)thumbnailData
-          forCollection:(NSString *)collectionName
-{
-    
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    NSString * userID = [UserPropertiesHelper userID];
-    [mindcloud setPreviewImageForUser:userID
-                        forCollection:collectionName
-                         andImageData:thumbnailData
-                         withCallback:^(void){
-        NSLog(@"Thumbnail Saved");
-    }];
-}
 
 #pragma mark retreival
 - (NSData *) getCollection: (NSString *) collectionName
@@ -629,6 +651,18 @@
     [categoriesData writeToFile:path atomically:NO];
 }
 
+-(NSData *) getThumbnailFromDiskForCollection:(NSString *) collectionName
+{
+    NSString * path = [FileSystemHelper getPathForThumbnailForCollectionWithName:collectionName];
+    NSData * result = [NSData dataWithContentsOfFile:path];
+    return result;
+}
+
+-(void) saveThumbnailToDisk:(NSData *) imgData forCollection:(NSString *) collectionName
+{
+    NSString * path = [FileSystemHelper getPathForThumbnailForCollectionWithName:collectionName];
+    [imgData writeToFile:path atomically:NO];
+}
 - (BOOL) saveToDiskCollectionData:(NSData *) data
                      ForCollection:(NSString *) collectionName
 {

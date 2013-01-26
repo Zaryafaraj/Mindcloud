@@ -429,6 +429,11 @@
                                                  name: CATEGORIES_RECEIVED_EVENT
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(thumbnailReceived:)
+                                                 name: THUMBNAIL_RECEIVED_EVENT
+                                               object:nil];
+    
     //temproary use this tell you get further notification
     NSArray * allCollections = [self.dataSource getAllCollections];
     
@@ -462,6 +467,28 @@
     self.shouldSaveCategories = YES;
     [self saveCategories];
     [self configureCategoriesPanel];
+}
+
+-(void) thumbnailReceived:(NSNotification *) notification
+{
+    
+    NSDictionary * dict = notification.userInfo[@"result"];
+    NSString * collectionName = dict[@"collectionName"];
+    NSData * imgData = dict[@"data"];
+    //if there is no image on the server use our default image
+    if (!imgData)
+    {
+        imgData = [NSData dataWithContentsOfFile:@"felt-red-ipad-background.jpg"];
+    }
+    
+    [self.model setImageData:imgData forCollection:collectionName];
+    
+    NSIndexPath * updatedItem = [self getIndexPathForCollectionIfVisible:collectionName];
+    if (updatedItem)
+    {
+        [self.collectionView reloadItemsAtIndexPaths:@[updatedItem]];
+    }
+    [NetworkActivityHelper removeActivityInProgress];
 }
 -(void) configureCategoriesPanel
 {
@@ -572,6 +599,23 @@
     }
 }
 
+- (NSIndexPath *) getIndexPathForCollectionIfVisible:(NSString *) collectionName
+{
+    for (NSIndexPath * index in self.collectionView.indexPathsForVisibleItems)
+    {
+        UICollectionViewCell * cell = [self.collectionView cellForItemAtIndexPath:index];
+        if ([cell isKindOfClass:[CollectionCell class]])
+        {
+            CollectionCell * answer = (CollectionCell *) cell;
+            if ([answer.text isEqualToString:collectionName])
+            {
+                return index;
+            }
+        }
+    }
+    return nil;
+}
+
 #pragma mark - Bulletinboard Delegates
 
 -(void) finishedWorkingWithBulletinBoardWithUpdatedThumbnail:(NSData *) imgData
@@ -609,30 +653,22 @@
         
         //we lazily load images and make sure we cache them
         //so any time that a cell is asked for we retrieve and cache the imag
-        Mindcloud * mindcloud = [Mindcloud getMindCloud];
-        NSString * userID = [UserPropertiesHelper userID];
         NSData * previewImageData = [self.model getImageDataForCollection: collectionName];
         
         
         if (previewImageData == nil)
         {
             [NetworkActivityHelper addActivityInProgress];
+            NSData * imgData = [self.dataSource getThumbnailForCollection:collectionName];
             
-            [mindcloud getPreviewImageForUser:userID
-                                forCollection:collectionName
-                                 withCallback:^(NSData * imgData)
+             if (imgData)
              {
-                 
-                 [NetworkActivityHelper removeActivityInProgress];
-                 if (imgData)
+                 [self.model setImageData: imgData forCollection: collectionName];
+                 if ([colCell.text isEqualToString:collectionName])
                  {
-                     [self.model setImageData: imgData forCollection: collectionName];
-                     if ([colCell.text isEqualToString:collectionName])
-                     {
-                         colCell.img = [UIImage imageWithData:imgData];
-                     }
+                     colCell.img = [UIImage imageWithData:imgData];
                  }
-             }];
+             }
         }
         else
         {

@@ -15,5 +15,6 @@
 #define COLLECTION_RELOAD_EVENT @"CollectionReloaded"
 #define ALL_COLLECTIONS_LIST_DOWNLOADED_EVENT @"allCollectionListDownloaded"
 #define CATEGORIES_RECEIVED_EVENT @"categoriesReceivedEvent"
+#define THUMBNAIL_RECEIVED_EVENT @"thumbnailReceivedEvent"
 
 @end

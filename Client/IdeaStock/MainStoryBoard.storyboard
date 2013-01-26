@@ -468,8 +468,6 @@
         <class className="CategoriesViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CategoriesViewController.h"/>
             <relationships>
-                <relationship kind="action" name="editPressed:"/>
-                <relationship kind="action" name="renamePressed:"/>
                 <relationship kind="outlet" name="table" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="viewToolbar" candidateClass="UIToolbar"/>
             </relationships>
