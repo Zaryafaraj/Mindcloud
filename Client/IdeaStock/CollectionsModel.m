@@ -94,6 +94,10 @@
         {
             [self.collections[cateogry] removeObject:collection];
         }
+        if (self.collectionImages[collection])
+        {
+            [self.collectionImages removeObjectForKey:collection];
+        }
     }
     
     //if the deleted from all we need to delete it from the corresponding category
@@ -210,6 +214,13 @@
                     
                 }
             }
+        }
+        //rename the image
+        if (self.collectionImages[collection])
+        {
+            NSData * tempImgData = self.collectionImages[collection];
+            [self.collectionImages removeObjectForKey:collection];
+            self.collectionImages[newCollection] = tempImgData;
         }
     }
 }
