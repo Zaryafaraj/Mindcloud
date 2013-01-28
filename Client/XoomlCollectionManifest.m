@@ -293,24 +293,24 @@ WithReferenceToNote: (NSString *) refNoteID
 -(void) addStackingWithName: (NSString *) stackingName
                   withNotes: (NSArray *) notes{
     
-    NSString * xPath = [XoomlCollectionParser xPathForCollectionAttributeWithName:stackingName
-                                                                          andType:STACKING_TYPE];
+    NSString * xPath = [XoomlCollectionParser xPathForCollectionAttributeContainer];
     
     NSError * err;
-    NSMutableArray *stacking = [[self.document nodesForXPath: xPath error: &err] mutableCopy];
+    NSMutableArray *allAttributes = [[self.document nodesForXPath: xPath error: &err] mutableCopy];
+    DDXMLElement * attribtues = [allAttributes lastObject];
     
-//    //KISS XML BUG
-//    if ([stacking count] == 0){
-//        for (DDXMLElement * node in self.document.rootElement.children){
-//            if ([[[node attributeForName:ATTRIBUTE_TYPE] stringValue] isEqualToString:STACKING_TYPE] &&
-//                [[[node attributeForName:ATTRIBUTE_NAME] stringValue] isEqualToString:stackingName]){
-//                [stacking addObject:node];
-//                break;
-//            }
-//        }
-//    }
+//    //KISS XML BUG; still there as of Jan 27 2013. We need to do some work manually
+    DDXMLElement * stacking = nil;
+    for (DDXMLElement * node in attribtues.children)
+    {
+        if ([[[node attributeForName:ATTRIBUTE_TYPE] stringValue] isEqualToString:STACKING_TYPE] &&
+            [[[node attributeForName:ATTRIBUTE_NAME] stringValue] isEqualToString:stackingName]){
+            stacking = node;
+            break;
+        }
+    }
     //if the stacking doesn't exist create it
-    if (stacking == nil || [stacking count] == 0) {
+    if (stacking == nil) {
         
         DDXMLElement * stackingElement = [XoomlCollectionParser xoomlForCollectionAttributeWithName:stackingName
                                                                                             andType:STACKING_TYPE];
@@ -320,18 +320,13 @@ WithReferenceToNote: (NSString *) refNoteID
         }
         
         //get the fragment
-        NSString * containerXPath = [XoomlCollectionParser xPathForCollectionAttributeContainer];
-        NSMutableArray *container = [[self.document nodesForXPath: containerXPath error: &err] mutableCopy];
-        
-        DDXMLElement * containerElement = [container lastObject];
-        [containerElement addChild:stackingElement];
+        [attribtues addChild:stackingElement];
     }
     else{
         
-        DDXMLElement * stackingElement = [stacking lastObject];
         for (NSString * noteID in notes){
             DDXMLNode * note = [XoomlCollectionParser xoomlForNoteRef:noteID];
-            [stackingElement addChild:note];
+            [stacking addChild:note];
         }
     }
 }
