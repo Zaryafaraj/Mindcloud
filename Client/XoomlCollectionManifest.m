@@ -128,16 +128,14 @@
 
 -(NSDictionary *) getStackingInfo{
     //get All the stackings
-    NSString * xPath = [XoomlCollectionParser xPathForCollectionAttribute:STACKING_TYPE];
+    DDXMLElement * collectionAttribute = [self getCollectionAttributesElement];
     
-    NSError * err;
-    NSMutableArray *attribtues = [[self.document nodesForXPath: xPath error: &err]  mutableCopy];
+    if (collectionAttribute == nil) return nil;
     
-    //if the stacking attribute does not exist return
-    if (attribtues == nil) return nil; 
+    NSMutableArray *attribtues = [NSMutableArray array];
     
     if ([attribtues count] == 0){
-        for (DDXMLElement * node in self.document.rootElement.children){
+        for (DDXMLElement * node in collectionAttribute.children){
             if ([[[node attributeForName:ATTRIBUTE_TYPE] stringValue] isEqualToString:STACKING_TYPE]){
                 [attribtues addObject:node];
             }
@@ -278,6 +276,32 @@ WithReferenceToNote: (NSString *) refNoteID
     return;
 }
 
+-(DDXMLElement *) getCollectionAttributesElement
+{
+    NSString * xPath = [XoomlCollectionParser xPathForCollectionAttributeContainer];
+    
+    NSError * err;
+    NSMutableArray *allAttributes = [[self.document nodesForXPath: xPath error: &err] mutableCopy];
+    DDXMLElement * attribtues = [allAttributes lastObject];
+    return attribtues;
+}
+
+-(DDXMLElement *) getStackingElementForStackingWithName:(NSString *) stackingName
+{
+    
+    DDXMLElement * attributes = [self getCollectionAttributesElement];
+    //KISS XML BUG; still there as of Jan 27 2013. We need to do some work manually
+    DDXMLElement * stacking = nil;
+    for (DDXMLElement * node in attributes.children)
+    {
+        if ([[[node attributeForName:ATTRIBUTE_TYPE] stringValue] isEqualToString:STACKING_TYPE] &&
+            [[[node attributeForName:ATTRIBUTE_NAME] stringValue] isEqualToString:stackingName]){
+            stacking = node;
+            break;
+        }
+    }
+    return stacking;
+}
 /*
  Adds a stacking property with stackingName and the notes that are specified
  in the array note. 
@@ -293,22 +317,7 @@ WithReferenceToNote: (NSString *) refNoteID
 -(void) addStackingWithName: (NSString *) stackingName
                   withNotes: (NSArray *) notes{
     
-    NSString * xPath = [XoomlCollectionParser xPathForCollectionAttributeContainer];
-    
-    NSError * err;
-    NSMutableArray *allAttributes = [[self.document nodesForXPath: xPath error: &err] mutableCopy];
-    DDXMLElement * attribtues = [allAttributes lastObject];
-    
-//    //KISS XML BUG; still there as of Jan 27 2013. We need to do some work manually
-    DDXMLElement * stacking = nil;
-    for (DDXMLElement * node in attribtues.children)
-    {
-        if ([[[node attributeForName:ATTRIBUTE_TYPE] stringValue] isEqualToString:STACKING_TYPE] &&
-            [[[node attributeForName:ATTRIBUTE_NAME] stringValue] isEqualToString:stackingName]){
-            stacking = node;
-            break;
-        }
-    }
+    DDXMLElement * stacking = [self getStackingElementForStackingWithName:stackingName];
     //if the stacking doesn't exist create it
     if (stacking == nil) {
         
@@ -319,8 +328,9 @@ WithReferenceToNote: (NSString *) refNoteID
             [stackingElement addChild:note];
         }
         
+        DDXMLElement * attributes = [self getCollectionAttributesElement];
         //get the fragment
-        [attribtues addChild:stackingElement];
+        [attributes addChild:stackingElement];
     }
     else{
         
@@ -363,20 +373,7 @@ WithReferenceToNote: (NSString *) refNoteID
      toStacking: (NSString *) stackingName{
     
     //get the xpath for the required attribute
-    NSString * xPath = [XoomlCollectionParser xPathForCollectionAttributeWithName:stackingName andType:STACKING_TYPE];
-    
-    NSError * err;
-    NSArray *attribtues = [self.document nodesForXPath: xPath error: &err];
-    if (attribtues == nil){
-        NSLog(@"Error reading the content from XML");
-        return;
-    }
-    if ([attribtues count] == 0 ){
-        NSLog(@"Fragment attribute is no avail :D");
-        return;
-    }
-    
-    DDXMLElement * bulletinBoardAttribute = [attribtues lastObject];
+    DDXMLElement * bulletinBoardAttribute = [self getStackingElementForStackingWithName:stackingName];
     DDXMLNode * noteRef = [XoomlCollectionParser xoomlForNoteRef:noteID];
     [bulletinBoardAttribute addChild:noteRef];
 }
@@ -504,25 +501,9 @@ WithReferenceToNote: (NSString *) refNoteID
  */
 -(void) deleteStacking: (NSString *) stackingName{
     
-    NSString * xPath = [XoomlCollectionParser xPathForCollectionAttributeWithName:stackingName andType:STACKING_TYPE];
+    DDXMLElement * bulletinBoardAttribute = [self getStackingElementForStackingWithName:stackingName];
+    if (bulletinBoardAttribute == nil) return;
     
-    NSError * err;
-    NSMutableArray *stacking = [[self.document nodesForXPath: xPath error: &err] mutableCopy];
-    
-    //KISS XML BUG
-    if ([stacking count] == 0){
-        for (DDXMLElement * node in self.document.rootElement.children){
-            if ([[[node attributeForName:ATTRIBUTE_TYPE] stringValue] isEqualToString:STACKING_TYPE] &&
-                [[[node attributeForName:ATTRIBUTE_NAME] stringValue] isEqualToString:stackingName]){
-                [stacking addObject:node];
-                break;
-            }
-        }
-    }
-    //if the stacking attribute does not exist return
-    if (stacking == nil || [stacking count] == 0) return;
-    
-    DDXMLElement * bulletinBoardAttribute = [stacking lastObject];
     DDXMLElement * attributeParent = (DDXMLElement *)[bulletinBoardAttribute parent];
     [attributeParent removeChildAtIndex:[bulletinBoardAttribute index]];
 }
@@ -537,24 +518,9 @@ WithReferenceToNote: (NSString *) refNoteID
       fromStacking: (NSString *) stackingName{
     
     
-    NSString * xPath = [XoomlCollectionParser xPathForCollectionAttributeWithName:stackingName andType:STACKING_TYPE];
+    DDXMLElement * bulletinBoardAttribute = [self getStackingElementForStackingWithName:stackingName];
     
-    
-    NSError * err;
-    NSMutableArray *attribtues = [[self.document nodesForXPath: xPath error: &err] mutableCopy];
-    if ([attribtues count] == 0){
-        for (DDXMLElement * node in self.document.rootElement.children){
-            if ([[[node attributeForName:ATTRIBUTE_TYPE] stringValue] isEqualToString:STACKING_TYPE] &&
-                [[[node attributeForName:ATTRIBUTE_NAME] stringValue] isEqualToString:stackingName]){
-                [attribtues addObject:node];
-                break;
-            }
-        }
-    }
-    //if the stacking attribute does not exist return
-    if (attribtues == nil || [attribtues count] == 0) return;
-    
-    DDXMLElement * bulletinBoardAttribute = [attribtues lastObject];
+    if (bulletinBoardAttribute == nil) return;
     
     for (DDXMLElement * element in [bulletinBoardAttribute children]){
         if ( [[[element attributeForName:REF_ID] stringValue] isEqualToString:noteID]){
@@ -667,15 +633,9 @@ attributeName ofType:(NSString *) attributeType{
  */
 -(void) updateStackingName: (NSString *) stackingName
                withNewName: (NSString *) newStackingName{
-    NSString * xPath = [XoomlCollectionParser xPathForCollectionAttributeWithName:stackingName andType:STACKING_TYPE];
     
-    NSError * err;
-    NSArray *attribtues = [self.document nodesForXPath: xPath error: &err];
-    
-    //if the stacking attribute does not exist return
-    if (attribtues == nil || [attribtues count] == 0) return;
-    
-    DDXMLElement * bulletinBoardAttribute = [attribtues lastObject];
+    DDXMLElement * bulletinBoardAttribute = [self getStackingElementForStackingWithName:stackingName];
+    if (bulletinBoardAttribute == nil) return;
     [[bulletinBoardAttribute attributeForName:ATTRIBUTE_NAME] setStringValue:newStackingName];
 }
 

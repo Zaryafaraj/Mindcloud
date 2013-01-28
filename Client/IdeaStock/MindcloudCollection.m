@@ -506,19 +506,22 @@ forAttributeType: (NSString *) attributeType
                                withValues:@[]];
 }
 
--(void) addNoteWithID:(NSString *)noteID
+-(void) addNotesWithIDs:(NSArray *)noteIDs
 toBulletinBoardAttribute:(NSString *)attributeName
      forAttributeType:(NSString *)attributeType{
     
-    if (!(self.noteContents)[noteID]) return;
+    //validate that all the notes exist
+    for (NSString * noteId in noteIDs){
+        if (!self.noteContents[noteId]) return;
+    }
     
-    [self.bulletinBoardAttributes addValues:@[noteID]
+    [self.bulletinBoardAttributes addValues: noteIDs
                                 ToAttribute:attributeName
                            forAttributeType:attributeType];
     
     [self.manifest addCollectionAttribute:attributeName
                                   forType:attributeType
-                               withValues:@[noteID]];
+                               withValues:noteIDs];
     
     self.needSynchronization = YES;
 }

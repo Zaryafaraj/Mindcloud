@@ -636,6 +636,7 @@
  If ID is nil the methods will create a unique UUID itself and will also write
  to the datamodel.The nil id means that this is a fresh stacking
  If ID is not nil it means that stacking is formed from the datamodel of an existing stacking
+ SO FAR WE NEVER PASS ANY ID INTO THIS.; so we treat every stacking as new stacking
  */
 -(void) stackNotes: (NSArray *) items
               into: (UIView *) mainView
@@ -701,11 +702,10 @@ intoStackingWithMainView: (UIView *) mainView
     [stackingNoteIDs removeObject:topItemID];
     [stackingNoteIDs insertObject:topItemID atIndex:0];
     
-    for(NSString * noteID in stackingNoteIDs){
-        [self.board addNoteWithID:noteID
-         toBulletinBoardAttribute:stackingID
-                 forAttributeType:STACKING_TYPE];
-    }
+    [self.board addNotesWithIDs:stackingNoteIDs
+     toBulletinBoardAttribute:stackingID
+             forAttributeType:STACKING_TYPE];
+    
     return stackingID;
 }
 

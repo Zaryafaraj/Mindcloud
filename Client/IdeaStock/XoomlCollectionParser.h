@@ -133,14 +133,8 @@
 + (NSString *) xPathforNote: (NSString *) noteID;
 
 /*
- Returns the xpath for accessing a bulletin board attribute of specified type
- */
-+ (NSString *) xPathForCollectionAttribute: (NSString *) attributeType;
-/*
  for accessing a collection attribute element
  */
-+ (NSString *) xPathForCollectionAttributeWithName: (NSString *) attributeName
-                                         andType: (NSString *) attributeType;
 
 + (NSString *) xPathForAllNotes;
 

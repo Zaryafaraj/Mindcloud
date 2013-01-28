@@ -86,7 +86,7 @@ forAttributeType: (NSString *) attributeType
  
  If the attributeName does not exist. The method creates it and addes the noteID to it. 
  */
--(void) addNoteWithID: (NSString *) noteID
+-(void) addNotesWithIDs: (NSArray *) noteIDs
 toBulletinBoardAttribute: (NSString *) attributeName
       forAttributeType: (NSString *) attributeType;
 
