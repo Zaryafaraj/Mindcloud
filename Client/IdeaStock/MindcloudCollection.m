@@ -318,14 +318,10 @@
     NSDictionary *stackingInfo = [self.manifest getCollectionAttributeInfo:STACKING_TYPE];
     for (NSString * stackingName in stackingInfo)
     {
-        NSArray * refIDs = stackingInfo[stackingName];
-        for (NSString * refID in refIDs)
-        {
-            if(!(self.noteContents)[refIDs])
-            {
-                [self.bulletinBoardAttributes addValues:@[refID] ToAttribute:stackingName forAttributeType:STACKING_TYPE];
-            }
-        }
+        NSString * stackModel = stackingInfo[stackingName];
+        [self.bulletinBoardAttributes addValues:@[stackModel]
+                                    ToAttribute:stackingName
+                               forAttributeType:STACKING_TYPE];
     }
 }
 
@@ -503,7 +499,7 @@ forAttributeType: (NSString *) attributeType
     
     [self.manifest addCollectionAttribute:attributeName
                                   forType:attributeType
-                               withValues:@[]];
+                                withModel:nil];
 }
 
 -(void) addNotesWithIDs:(NSArray *)noteIDs
@@ -712,18 +708,18 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     self.needSynchronization = YES;
 }
 
-- (void) renameBulletinBoardAttribute: (NSString *) oldAttributeNAme
-                               ofType: (NSString *) attributeType
-                             withName: (NSString *) newAttributeName{
+-(void) updateBulletinBoardAttribute: (NSString *) oldAttributeName
+                               ofType: (NSString *) attributeType 
+                        withNewModel: (id)  model
+{
     
-    [self.bulletinBoardAttributes updateAttributeName: oldAttributeNAme
-                                               ofType:attributeType
-                                          withNewName:newAttributeName];
+    [self.bulletinBoardAttributes updateAttribute:oldAttributeName
+                                           ofType:attributeType
+                                     withNewValue:@[model]];
     
-    [self.manifest updateCollectionAttributeName:oldAttributeNAme
+    [self.manifest updateCollectionAttributeName:oldAttributeName
                                           ofType:attributeType
-                                     withNewName:newAttributeName];
-    
+                                    withNewModel:model];
     self.needSynchronization = YES;
 }
 

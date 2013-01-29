@@ -282,7 +282,13 @@
             if (sender.state == UIGestureRecognizerStateEnded)
             {
                 CGFloat scaleOffset = view.scaleOffset;
-                [self updateScaleForNote:view.ID withScale:scaleOffset];
+                NSString * mainViewId = view.ID;
+                //for stack view the main note is the representative of scaling
+                if ([view isKindOfClass:[StackView class]])
+                {
+                    mainViewId = ((StackView *)view).mainView.ID;
+                }
+                [self updateScaleForNote: mainViewId withScale:scaleOffset];
             }
         }
         sender.scale = 1 ;
@@ -713,7 +719,7 @@ intoStackingWithMainView: (UIView *) mainView
 {
     
     NSArray * items = stack.views;
-    [self removeNotesFromStackView: stack];
+    [self.board removeBulletinBoardAttribute:stack.ID ofType:STACKING_TYPE];
     //now find the size of the seperator from any note
     
     for (NoteView * view in items){

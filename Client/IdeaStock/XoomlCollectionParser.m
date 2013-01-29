@@ -165,6 +165,7 @@
     [attributeRoot addAttribute: [DDXMLNode attributeWithName:ATTRIBUTE_ID stringValue: [XoomlAttributeHelper generateUUID]]];
     [attributeRoot addAttribute: [DDXMLNode attributeWithName:ATTRIBUTE_TYPE stringValue:attributeType]];
     [attributeRoot addAttribute: [DDXMLNode attributeWithName:ATTRIBUTE_NAME stringValue:attributeName]];
+    [attributeRoot addAttribute: [DDXMLNode attributeWithName:SCALING stringValue:@"1.000"]];
     return  attributeRoot;
 }
 

@@ -179,9 +179,9 @@ fromBulletinBoardAttribute: (NSString *) attributeName
  
  If oldAttributeName and attributeType are not valid, the method returns without doing anything.
  */
--(void) renameBulletinBoardAttribute: (NSString *) oldAttributeNAme
+-(void) updateBulletinBoardAttribute: (NSString *) oldAttributeNAme
                                ofType: (NSString *) attributeType 
-                             withName: (NSString *) newAttributeName;
+                        withNewModel: (id)  newAttributeName;
 
 
 -(void) updateNoteAttributes: (NSString *) noteID

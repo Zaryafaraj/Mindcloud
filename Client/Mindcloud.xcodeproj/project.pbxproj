@@ -64,6 +64,8 @@
 		DB3174F916336DEB001229FE /* cJOfLC.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DB3174F816336DEA001229FE /* cJOfLC.jpeg */; };
 		DB3174FB1633744F001229FE /* dropbox_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3174FA1633744F001229FE /* dropbox_icon.png */; };
 		DB3174FE16337636001229FE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3174FD16337636001229FE /* SignInViewController.m */; };
+		DB3FD53016B77FA400024AC6 /* XoomlStackingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD52F16B77FA400024AC6 /* XoomlStackingModel.m */; };
+		DB3FD53416B7A4D900024AC6 /* XoomlNoteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD53316B7A4D900024AC6 /* XoomlNoteModel.m */; };
 		DB40DEDF16AE619100ECAC54 /* Felt-Blue.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB40DEDB16AE618F00ECAC54 /* Felt-Blue.jpg */; };
 		DB40DEE016AE619100ECAC54 /* Leather.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB40DEDC16AE619000ECAC54 /* Leather.jpg */; };
 		DB40DEE116AE619100ECAC54 /* Felt-Green.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB40DEDD16AE619000ECAC54 /* Felt-Green.jpg */; };
@@ -203,6 +205,10 @@
 		DB3174FC16337636001229FE /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		DB3174FD16337636001229FE /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		DB31750216337ED7001229FE /* AuthorizationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthorizationDelegate.h; sourceTree = "<group>"; };
+		DB3FD52E16B77FA400024AC6 /* XoomlStackingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlStackingModel.h; sourceTree = "<group>"; };
+		DB3FD52F16B77FA400024AC6 /* XoomlStackingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlStackingModel.m; sourceTree = "<group>"; };
+		DB3FD53216B7A4D900024AC6 /* XoomlNoteModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlNoteModel.h; sourceTree = "<group>"; };
+		DB3FD53316B7A4D900024AC6 /* XoomlNoteModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlNoteModel.m; sourceTree = "<group>"; };
 		DB40DEDB16AE618F00ECAC54 /* Felt-Blue.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Felt-Blue.jpg"; sourceTree = "<group>"; };
 		DB40DEDC16AE619000ECAC54 /* Leather.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Leather.jpg; sourceTree = "<group>"; };
 		DB40DEDD16AE619000ECAC54 /* Felt-Green.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Felt-Green.jpg"; sourceTree = "<group>"; };
@@ -555,6 +561,10 @@
 				D71D934B152301F10043E573 /* CollectionDataSource.h */,
 				DB43382B169D2E09000353DA /* CachedMindCloudDataSource.h */,
 				DB43382C169D2E09000353DA /* CachedMindCloudDataSource.m */,
+				DB3FD52E16B77FA400024AC6 /* XoomlStackingModel.h */,
+				DB3FD52F16B77FA400024AC6 /* XoomlStackingModel.m */,
+				DB3FD53216B7A4D900024AC6 /* XoomlNoteModel.h */,
+				DB3FD53316B7A4D900024AC6 /* XoomlNoteModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -842,6 +852,8 @@
 				DBB9314116ABDEA4005652AA /* CollectionAnimationHelper.m in Sources */,
 				DB4FF4CE16ACA8DB00DC6DAA /* MultimediaHelper.m in Sources */,
 				DB42E73616AE58500021D6FA /* NetworkActivityHelper.m in Sources */,
+				DB3FD53016B77FA400024AC6 /* XoomlStackingModel.m in Sources */,
+				DB3FD53416B7A4D900024AC6 /* XoomlNoteModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
