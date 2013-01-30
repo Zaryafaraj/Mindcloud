@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "CollectionNote.h"
 #import "MindcloudCollection.h"
-#import "CachedCollectionAttributes.h"
 #import "DDXML.h"
 
 #define MINDCLOUD_NAMESPACE  @"http://www.mindcloud.net/xmlns/mindcloud"

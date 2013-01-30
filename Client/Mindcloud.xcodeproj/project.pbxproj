@@ -34,7 +34,6 @@
 		D7A53D191522F39500183CB6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D7A53D171522F39500183CB6 /* InfoPlist.strings */; };
 		D7A53D281522F4E100183CB6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53D271522F4E100183CB6 /* Security.framework */; };
 		D7AB7DEE152FB52C00FC6BC0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53D271522F4E100183CB6 /* Security.framework */; };
-		D7B1432115268B4C00DC7556 /* CachedCollectionAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B1432015268B4C00DC7556 /* CachedCollectionAttributes.m */; };
 		D7B1432D1526A50400DC7556 /* MindcloudCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B1432C1526A50400DC7556 /* MindcloudCollection.m */; };
 		D7BF465D154728DD00F06412 /* MainStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7BF465C154728DD00F06412 /* MainStoryBoard.storyboard */; };
 		D7BF46661547303700F06412 /* MainScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BF46651547303700F06412 /* MainScreenViewController.m */; };
@@ -155,8 +154,6 @@
 		D7A53D161522F39500183CB6 /* MindcloudTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MindcloudTests-Info.plist"; sourceTree = "<group>"; };
 		D7A53D181522F39500183CB6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D7A53D271522F4E100183CB6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		D7B1431F15268B4C00DC7556 /* CachedCollectionAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CachedCollectionAttributes.h; sourceTree = "<group>"; };
-		D7B1432015268B4C00DC7556 /* CachedCollectionAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CachedCollectionAttributes.m; sourceTree = "<group>"; };
 		D7B1432B1526A50400DC7556 /* MindcloudCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudCollection.h; sourceTree = "<group>"; };
 		D7B1432C1526A50400DC7556 /* MindcloudCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudCollection.m; sourceTree = "<group>"; };
 		D7BF465C154728DD00F06412 /* MainStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryBoard.storyboard; sourceTree = "<group>"; };
@@ -553,8 +550,6 @@
 				D70947091523BDFE008E4AD9 /* CollectionNote.h */,
 				D709470A1523BDFE008E4AD9 /* CollectionNote.m */,
 				D71D934F15230B3D0043E573 /* BulletinBoardProtocol.h */,
-				D7B1431F15268B4C00DC7556 /* CachedCollectionAttributes.h */,
-				D7B1432015268B4C00DC7556 /* CachedCollectionAttributes.m */,
 				D7F85EB21528D80300F16D25 /* XoomlCollectionManifest.h */,
 				D7F85EB31528D80300F16D25 /* XoomlCollectionManifest.m */,
 				D7F85EAE1528D29E00F16D25 /* CollectionManifestProtocol.h */,
@@ -815,7 +810,6 @@
 				D70947261523DC27008E4AD9 /* DDXMLElement.m in Sources */,
 				D70947271523DC27008E4AD9 /* DDXMLNode.m in Sources */,
 				D74E48201524F3DF00BC8B9D /* XoomlAttributeHelper.m in Sources */,
-				D7B1432115268B4C00DC7556 /* CachedCollectionAttributes.m in Sources */,
 				D7B1432D1526A50400DC7556 /* MindcloudCollection.m in Sources */,
 				D7F85EB41528D80300F16D25 /* XoomlCollectionManifest.m in Sources */,
 				D7DEF2C41530D37800D13CF4 /* FileSystemHelper.m in Sources */,

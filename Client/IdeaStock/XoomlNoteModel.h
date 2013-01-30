@@ -10,9 +10,9 @@
 
 @interface XoomlNoteModel : NSObject
 @property (readonly, strong) NSString * noteName;
-@property (readonly, strong) NSString * positionX;
-@property (readonly, strong) NSString * positionY;
-@property (readonly, strong) NSString * scaling;
+@property (nonatomic, strong) NSString * positionX;
+@property (nonatomic, strong) NSString * positionY;
+@property (nonatomic, strong) NSString * scaling;
 
 -(id) initWithName:(NSString *) noteName
       andPositionX:(NSString *) positionX

@@ -10,11 +10,15 @@
 
 @interface XoomlStackingModel : NSObject
 
-@property (readonly, strong, nonatomic) NSArray * refIds;
-@property (readonly)  NSString * scale;
-@property (readonly, strong, nonatomic) NSString * name;
+@property (readonly, strong, nonatomic) NSSet * refIds;
+@property NSString * scale;
+@property (strong, nonatomic) NSString * name;
 
 -(id) initWithName:(NSString *) name
             andScale:(NSString *) scale
-           andRefIds: (NSArray *) refIds;
+         andRefIds: (NSSet *) refIds;
+
+-(void) addNotes:(NSSet *) notes;
+
+-(void) deleteNotes:(NSSet *) notes;
 @end

@@ -135,6 +135,9 @@
     return [result copy];
 }
 
+/*
+ Returns NSDictionary of NoteModel
+ */
 -(NSDictionary *) getAllNotesBasicInfo{
     
     NSMutableDictionary * answer = [NSMutableDictionary dictionary];
@@ -418,7 +421,7 @@
 }
 
 
--(void) updateStackingNamed:(NSString *) stackingName
+-(void) updateStacking:(NSString *) stackingName
                withNewModel:(XoomlStackingModel *) model
 {
     DDXMLElement * bulletinBoardAttribute = [self getStackingElementForStackingWithName:stackingName];
@@ -432,13 +435,9 @@
         NSString * scaleString = model.scale;
         [[bulletinBoardAttribute attributeForName:SCALING] setStringValue: scaleString];
     }
+    //we are not going to update the notes
 }
 
--(void) updateStacking:(NSString *) stackingName
-          withNewModel:(XoomlStackingModel *) stackingModel
-{
-    
-}
 
 -(NSString *) description{
     NSData * xml = self.data;

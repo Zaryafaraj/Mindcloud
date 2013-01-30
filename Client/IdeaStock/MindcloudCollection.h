@@ -10,7 +10,6 @@
 #import "BulletinBoardProtocol.h"
 #import "CollectionDataSource.h"
 #import "CollectionManifestProtocol.h"
-#import "CachedCollectionAttributes.h"
 #import "SynchronizedObject.h"
 
 #define STACKING @"stacking"

@@ -55,14 +55,10 @@
  The noteIDs in this dictionary determine whether a note belongs to this bulletin board or not.
  */
 @property (nonatomic,strong) NSMutableDictionary * noteContents;
+
+@property (nonatomic, strong) NSMutableDictionary * collectionAttributes;
 /*
- holds all the attributes that belong to the bulletin board level: for example stack groups.
- */
-@property (nonatomic,strong) CachedCollectionAttributes * bulletinBoardAttributes;
-/*
- This is an NSDictionary of BulletinBoardAttributes. Its keyed on the noteIDs.
- For each noteID,  this contains all of the note level attributes that are
- associated with that particular note.
+ keyed on noteId and valued on XoomlNoteModel
  */
 @property (nonatomic,strong) NSMutableDictionary * noteAttributes;
 /*
@@ -100,19 +96,14 @@
 @implementation MindcloudCollection
 
 #pragma mark - synthesis
-@synthesize noteAttributes = _noteAttributes;
-@synthesize bulletinBoardAttributes = _bulletinBoardAttributes;
-@synthesize noteContents = _noteContents;
 @synthesize bulletinBoardName = _bulletinBoardName;
-@synthesize noteImages = _noteImages;
 
--(CachedCollectionAttributes *) bulletinBoardAttributes{
-    if (!_bulletinBoardAttributes){
-        
-        _bulletinBoardAttributes = [[CachedCollectionAttributes alloc]
-                                    initWithAttributes:@[STACKING_TYPE,GROUPING_TYPE]];
+-(NSMutableDictionary *) collectionAttributes
+{
+    if (!_collectionAttributes){
+        _collectionAttributes = [NSMutableDictionary dictionary];
     }
-    return _bulletinBoardAttributes;
+    return _collectionAttributes;
 }
 
 -(NSMutableDictionary *)noteAttributes{
@@ -177,14 +168,14 @@
     self.manifest = [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
     
     //get notes from manifest and initalize those
-    NSDictionary * noteInfo = [self.manifest getAllNoteBasicInfo];
+    NSDictionary * noteInfo = [self.manifest getAllNotesBasicInfo];
     for(NSString * noteID in noteInfo){
         
+        XoomlNoteModel * noteModel = noteInfo[noteID];
         //for each note create a note Object by reading its separate xooml files
         //from the data model
-        NSString * noteName = noteInfo[noteID][NOTE_NAME];
         NSData * noteData = [self.dataSource getNoteForTheCollection:self.bulletinBoardName
-                                                            WithName:noteName];
+                                                            WithName:noteModel.noteName];
         if (!noteData)
         {
             NSLog(@"Could not retreive note data from dataSource");
@@ -193,10 +184,8 @@
         {
             [self initiateNoteContent:noteData
                             forNoteID:noteID
-                              andName:noteName
-                        andProperties:noteInfo];
+                            withModel:noteModel];
         }
-        
     }
     
     [self initiateStacking];
@@ -215,12 +204,13 @@
     self.manifest = [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
     
     //get notes from manifest and initalize those
-    NSDictionary * noteInfo = [self.manifest getAllNoteBasicInfo];
+    NSDictionary * noteInfo = [self.manifest getAllNotesBasicInfo];
     for(NSString * noteID in noteInfo){
         
         //for each note create a note Object by reading its separate xooml files
         //from the data model
-        NSString * noteName = noteInfo[noteID][NOTE_NAME];
+        XoomlNoteModel * noteModel = noteInfo[noteID];
+        NSString * noteName = noteModel.noteName;
         NSData * noteData = [self.dataSource getNoteForTheCollection:self.bulletinBoardName
                                                             WithName:noteName];
         if (!noteData)
@@ -231,8 +221,7 @@
         {
             [self initiateNoteContent:noteData
                             forNoteID:noteID
-                              andName:noteName
-                        andProperties:noteInfo];
+                            withModel:noteModel];
         }
         
     }
@@ -242,9 +231,9 @@
 
 -(void) initiateNoteContent: (NSData *) noteData
                   forNoteID: (NSString *) noteID
-                    andName: (NSString *) noteName
-              andProperties: (NSDictionary *) noteInfos{
-    
+                  withModel:(XoomlNoteModel *) noteModel
+{
+
     id <NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
     if (!noteObj) return ;
     
@@ -253,7 +242,7 @@
     NSString * imgName = noteObj.image;
     if (imgName != nil)
     {
-        NSString * imgPath = [FileSystemHelper getPathForNoteImageforNoteName:noteName
+        NSString * imgPath = [FileSystemHelper getPathForNoteImageforNoteName:noteModel.noteName
                                                    inBulletinBoard:self.bulletinBoardName];
         if (imgPath != nil && ![imgPath isEqualToString:@""])
         {
@@ -262,179 +251,70 @@
     }
     
     //cache the note specific attributes
-    NSDictionary * noteInfo = noteInfos[noteID];
-    NSString * positionX = noteInfo[POSITION_X];
+    NSString * positionX = noteModel.positionX;
     if (!positionX ) positionX = DEFAULT_X_POSITION;
-    NSString * positionY = noteInfo[POSITION_Y];
+    NSString * positionY = noteModel.positionY;
     if (!positionY) positionY = DEFAULT_Y_POSITION;
-    NSString * isVisible = noteInfo[IS_VISIBLE];
-    if (! isVisible) isVisible = DEFAULT_VISIBILITY;
-    NSString * scale = noteInfo[SCALING];
+    NSString * scale = noteModel.scaling;
     if (!scale) scale = @"1.0";
     
-    CachedCollectionAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
-    [noteAttribute createAttributeWithName:POSITION_X
-                          forAttributeType: POSITION_TYPE
-                                 andValues:@[positionX]];
-    [noteAttribute createAttributeWithName:POSITION_Y
-                          forAttributeType:POSITION_TYPE
-                                 andValues:@[positionY]];
-    [noteAttribute createAttributeWithName:IS_VISIBLE
-                          forAttributeType:VISIBILITY_TYPE
-                                 andValues:@[isVisible]];
-    [noteAttribute createAttributeWithName:NOTE_NAME
-                          forAttributeType: NOTE_NAME_TYPE
-                                 andValues:@[noteName]];
-    [noteAttribute createAttributeWithName:SCALING
-                          forAttributeType:SCALE_TYPE
-                                 andValues:@[scale]];
-    (self.noteAttributes)[noteID] = noteAttribute;
-}
-
-
--(void) initiateLinkages{
-    //For every note in the note content get all the linked notes and cache them
-    for (NSString * noteID in self.noteContents)
-    {
-        NSDictionary *linkageInfo = [self.manifest getNoteAttributeInfo:LINKAGE_TYPE forNote:noteID];
-        for(NSString *linkageName in linkageInfo)
-        {
-            NSArray * refIDs = linkageInfo[linkageName];
-            for (NSString * refID in refIDs)
-            {
-                if ((self.noteContents)[refID])
-                {
-                    [(self.noteAttributes)[noteID] addValues:@[refID]
-                                                 ToAttribute:linkageName
-                                            forAttributeType:LINKAGE_TYPE];
-                }
-            }
-        }
-    }
+    self.noteAttributes[noteID] = noteModel;
 }
 
 -(void) initiateStacking{
     //get the stacking information and cache them
-    NSDictionary *stackingInfo = [self.manifest getCollectionAttributeInfo:STACKING_TYPE];
+    NSDictionary *stackingInfo = [self.manifest getAllStackingsInfo];
     for (NSString * stackingName in stackingInfo)
     {
         NSString * stackModel = stackingInfo[stackingName];
-        [self.bulletinBoardAttributes addValues:@[stackModel]
-                                    ToAttribute:stackingName
-                               forAttributeType:STACKING_TYPE];
-    }
-}
-
--(void) initiateGrouping{
-    //get the grouping information and cache them
-    NSDictionary *groupingInfo = [self.manifest getCollectionAttributeInfo:GROUPING_TYPE];
-    for (NSString * groupingName in groupingInfo)
-    {
-        NSArray * refIDs = groupingInfo[groupingName];
-        for (NSString * refID in refIDs)
-        {
-            if(!(self.noteContents)[refIDs])
-            {
-                [self.bulletinBoardAttributes addValues:@[refID] ToAttribute:groupingName forAttributeType:GROUPING_TYPE];
-            }
-        }
+        self.collectionAttributes[stackingName] = stackModel;
     }
 }
 
 #pragma mark - Creation
 
 -(void) addNoteContent: (id <NoteProtocol>) note
-         andProperties: (NSDictionary *) properties{
-    
-    NSString * noteID = properties[NOTE_ID];
-    NSString * noteName = properties[NOTE_NAME];
+         andModel:(XoomlNoteModel *) noteModel
+         forNoteWithID:(NSString *) noteID
+{
+    NSString * noteName = noteModel.noteName;
     if (!noteID || !noteName) [NSException raise:NSInvalidArgumentException
                                           format:@"A Values is missing from the required properties dictionary"];
     (self.noteContents)[noteID] = note;
     
-    NSString * positionX = properties[POSITION_X];
-    NSString * positionY = properties[POSITION_Y];
-    NSString * isVisible = properties[IS_VISIBLE];
-    NSString * scale = properties[SCALE_TYPE];
-    if (!positionX) positionX = DEFAULT_X_POSITION;
-    if (!positionY) positionY = DEFAULT_Y_POSITION;
-    if (!isVisible) isVisible = DEFAULT_VISIBILITY;
-    NSDictionary *noteProperties = @{NOTE_NAME: noteName,
-                                     NOTE_ID: noteID,
-                                     POSITION_X: positionX,
-                                     POSITION_Y: positionY,
-                                     IS_VISIBLE: isVisible,
-                                     SCALE_TYPE: scale};
     
-    [self.manifest addNoteWithID:noteID andProperties:noteProperties];
+    [self.manifest addNoteWithID:noteID andModel:noteModel];
     
-    CachedCollectionAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
-    [noteAttribute createAttributeWithName:NOTE_NAME
-                          forAttributeType:NOTE_NAME_TYPE
-                                 andValues:@[noteName]];
-    [noteAttribute createAttributeWithName:POSITION_X
-                          forAttributeType: POSITION_TYPE
-                                 andValues:@[positionX]];
-    [noteAttribute createAttributeWithName:POSITION_Y
-                          forAttributeType:POSITION_TYPE
-                                 andValues:@[positionY]];
-    [noteAttribute createAttributeWithName:IS_VISIBLE
-                          forAttributeType:VISIBILITY_TYPE
-                                 andValues:@[isVisible]];
-    (self.noteAttributes)[noteID] = noteAttribute;
+    self.noteAttributes[noteID] = noteModel;
     
     NSData * noteData = [XoomlCollectionParser convertNoteToXooml:note];
-    [self.dataSource addNote:noteName withContent:noteData  ToCollection:self.bulletinBoardName];
+    [self.dataSource addNote:noteName
+                 withContent:noteData
+                ToCollection:self.bulletinBoardName];
     
     self.needSynchronization = YES;
 }
 
-- (void) addImageNoteContent:(id <NoteProtocol> )note
-               andProperties:properties
-                    andImage: (NSData *) img{
-    
-    NSString * noteID = properties[NOTE_ID];
-    NSString * noteName = properties[NOTE_NAME];
+-(void) addImageNoteContent:(id <NoteProtocol> )noteItem
+              andModel:(XoomlNoteModel *) noteModel
+                   andImage: (NSData *) img
+                    forNote:(NSString *) noteID
+{
+    NSString * noteName = noteModel.noteName;
     if (!noteID || !noteName) [NSException raise:NSInvalidArgumentException
                                           format:@"A Values is missing from the required properties dictionary"];
     
-    (self.noteContents)[noteID] = note;
+    (self.noteContents)[noteID] = noteItem;
     
-    NSString * positionX = properties[POSITION_X];
-    NSString * positionY = properties[POSITION_Y];
-    NSString * isVisible = properties[IS_VISIBLE];
-    NSString * scale = properties[SCALE_TYPE];
-    if (!positionY) positionY = DEFAULT_Y_POSITION;
-    if (!positionX) positionX = DEFAULT_X_POSITION;
-    if(!isVisible) isVisible = DEFAULT_VISIBILITY;
-    NSDictionary *noteProperties = @{NOTE_NAME: noteName,
-                                     NOTE_ID: noteID,
-                                     POSITION_X: positionX,
-                                     POSITION_Y: positionY,
-                                     IS_VISIBLE: isVisible,
-                                     SCALE_TYPE: scale};
-    [self.manifest addNoteWithID:noteID andProperties:noteProperties];
+    [self.manifest addNoteWithID:noteID andModel:noteModel];
     
-    CachedCollectionAttributes * noteAttribute = [self createBulletinBoardAttributeForNotes];
-    [noteAttribute createAttributeWithName:NOTE_NAME
-                          forAttributeType:NOTE_NAME_TYPE
-                                 andValues:@[noteName]];
-    [noteAttribute createAttributeWithName:POSITION_X
-                          forAttributeType:POSITION_TYPE
-                                 andValues:@[positionX]];
-    [noteAttribute createAttributeWithName:POSITION_Y
-                          forAttributeType:POSITION_TYPE
-                                 andValues:@[positionY]];
-    [noteAttribute createAttributeWithName:IS_VISIBLE
-                          forAttributeType:VISIBILITY_TYPE
-                                 andValues:@[isVisible]];
-    (self.noteAttributes)[noteID] = noteAttribute;
+    self.noteAttributes[noteID] = noteModel;
     
     //just save the noteID that has images not the image itself. This is
     //for performance reasons, anytime that an image is needed we will load
     //it from the disk. The dictionary holds noteID and imageFile Path
-    NSData * noteData = [XoomlCollectionParser convertImageNoteToXooml:note];
-    NSString * imgName = [XoomlCollectionParser getXoomlImageReference: note];
+    NSData * noteData = [XoomlCollectionParser convertImageNoteToXooml:noteItem];
+    NSString * imgName = [XoomlCollectionParser getXoomlImageReference: noteItem];
     NSString * imgPath = [FileSystemHelper getPathForNoteImageforNoteName:noteName
                                                           inBulletinBoard:self.bulletinBoardName];
     (self.noteImages)[noteID] = imgPath;
@@ -448,168 +328,86 @@
     self.needSynchronization = YES;
 }
 
--(void) addNoteAttribute: (NSString *) attributeName
-        forAttributeType: (NSString *) attributeType
-                 forNote: (NSString *) noteID
-               andValues: (NSArray *) values{
-    
-    if(!(self.noteContents)[noteID]) return;
-    
-    //get the noteattributes for the specified note. If there are no attributes for that
-    //note create a new bulletinboard attribute list.
-    CachedCollectionAttributes * noteAttributes = (self.noteAttributes)[noteID];
-    if(!noteAttributes) noteAttributes = [self createBulletinBoardAttributeForNotes];
-    [noteAttributes createAttributeWithName:attributeName
-                           forAttributeType:attributeType
-                                  andValues:values];
-    
-    [self.manifest addNoteAttribute:attributeName
-                            forType:attributeType
-                            forNote:noteID withValues:values];
-    
-    self.needSynchronization = YES;
-}
-
-
--(void) addNote: (NSString *) targetNoteID
-toAttributeName: (NSString *) attributeName
-forAttributeType: (NSString *) attributeType
-         ofNote: (NSString *) sourceNoteId{
-    
-    if (!(self.noteContents)[targetNoteID] || !(self.noteContents)[sourceNoteId]) return;
-    
-    // add the target noteValue to the source notes attribute list
-    [(self.noteAttributes)[sourceNoteId] addValues:@[targetNoteID]
-                                       ToAttribute:attributeName
-                                  forAttributeType:attributeType];
-    
-    [self.manifest addNoteAttribute:attributeName
-                            forType:attributeType
-                            forNote:sourceNoteId
-                         withValues:@[targetNoteID]];
-    
-    self.needSynchronization = YES;
-}
-
--(void) addBulletinBoardAttribute: (NSString *) attributeName
-                 forAttributeType: (NSString *) attributeType{
-    
-    [self.bulletinBoardAttributes createAttributeWithName:attributeName
-                                         forAttributeType:attributeType];
-    
-    [self.manifest addCollectionAttribute:attributeName
-                                  forType:attributeType
-                                withModel:nil];
-}
-
--(void) addNotesWithIDs:(NSArray *)noteIDs
-toBulletinBoardAttribute:(NSString *)attributeName
-     forAttributeType:(NSString *)attributeType{
-    
+-(void) addNotesWithIDs: (NSArray *) noteIDs
+             toStacking:(NSString *) stackingName
+{
     //validate that all the notes exist
     for (NSString * noteId in noteIDs){
         if (!self.noteContents[noteId]) return;
     }
     
-    [self.bulletinBoardAttributes addValues: noteIDs
-                                ToAttribute:attributeName
-                           forAttributeType:attributeType];
+    NSSet * noteRefs = [NSSet setWithArray:noteIDs];
+    XoomlStackingModel * stackingModel = self.collectionAttributes[stackingName];
+    if (!stackingModel)
+    {
+        stackingModel = [[XoomlStackingModel alloc] initWithName:stackingName
+                                                        andScale:@"1.0"
+                                                       andRefIds:noteRefs];
+        self.collectionAttributes[stackingName] = stackingModel;
+    }
+    else
+    {
+        [stackingModel addNotes:noteRefs];
+    }
     
-    [self.manifest addCollectionAttribute:attributeName
-                                  forType:attributeType
-                               withValues:noteIDs];
+    [self.manifest addStacking:stackingName withModel:stackingModel];
     
     self.needSynchronization = YES;
 }
 
 #pragma mark - Deletion
 
+-(void) removeNoteFromAllStackings:(NSString *) noteId
+{
+    for (NSString * stacking in self.collectionAttributes)
+    {
+        XoomlStackingModel * stackingModel = self.collectionAttributes[stacking];
+        if ([stackingModel.refIds containsObject:noteId])
+        {
+            [stackingModel deleteNotes:[NSSet setWithObject:noteId]];
+        }
+    }
+}
 -(void) removeNoteWithID:(NSString *)delNoteID{
     
     id <NoteProtocol> note = (self.noteContents)[delNoteID];
     if (!note) return;
     
+    XoomlNoteModel * noteModel = self.noteAttributes[delNoteID];
+    NSString *noteName = noteModel.noteName;
     [self.noteContents removeObjectForKey:delNoteID];
-    
-    //remove all the references to the note
-    for (NSString * noteID in self.noteAttributes){
-        [(self.noteAttributes)[noteID] removeAllOccurancesOfValue:delNoteID];
-    }
-    [self.bulletinBoardAttributes removeAllOccurancesOfValue:delNoteID];
+    [self.noteAttributes removeObjectForKey:delNoteID];
+    [self removeNoteFromAllStackings:delNoteID];
     
     [self.manifest deleteNote:delNoteID];
     
-    NSString *noteName = [[(self.noteAttributes)[delNoteID]
-                           getAttributeWithName:NOTE_NAME
-                           forAttributeType:NOTE_NAME_TYPE] lastObject];
     [self.dataSource removeNote:noteName
                  FromCollection:self.bulletinBoardName];
     
     self.needSynchronization = true;
 }
 
--(void) removeNote: (NSString *) targetNoteID
-     fromAttribute: (NSString *) attributeName
-            ofType: (NSString *) attributeType
-  fromAttributesOf: (NSString *) sourceNoteID{
-    
-    if (!(self.noteContents)[targetNoteID] || !(self.noteContents)[sourceNoteID]) return;
-    
-    [(self.noteAttributes)[sourceNoteID] removeNote:targetNoteID
-                                      fromAttribute:attributeName
-                                             ofType:attributeType
-                                   fromAttributesOf:sourceNoteID];
-    
-    [self.manifest deleteNote:targetNoteID
-            fromNoteAttribute:attributeName
-                       ofType:attributeType
-                      forNote:sourceNoteID];
-    
-    self.needSynchronization = YES;
-}
-
--(void) removeNoteAttribute: (NSString *) attributeName
-                     ofType: (NSString *) attributeType
-                   FromNote: (NSString *) noteID{
-    
-    if (!(self.noteContents)[noteID]) return;
-    
-    [(self.noteAttributes)[noteID] removeAttribute:attributeName
-                                  forAttributeType:attributeType];
-    
-    [self.manifest deleteNoteAttribute:attributeName
-                                ofType:attributeType
-                              fromNote:noteID];
-    
-    self.needSynchronization = YES;
-}
-
--(void) removeNote: (NSString *) noteID
-fromBulletinBoardAttribute: (NSString *) attributeName
-            ofType: (NSString *) attributeType{
-    
+-(void) removeNote:(NSString *) noteID
+      fromStacking:(NSString *) stackingName
+{
     //if the noteId is not valid return
     if (!(self.noteContents)[noteID]) return;
     
-    //remove the note reference from the bulletin board attribute
-    [self.bulletinBoardAttributes removeValues: @[noteID]
-                                 fromAttribute: attributeName
-                              forAttributeType: attributeType];
+    XoomlStackingModel * stacking = self.collectionAttributes[stackingName];
+    [stacking deleteNotes:[NSSet setWithObject:noteID]];
     
     //reflect the change in the xooml structure
-    [self.manifest deleteNote:noteID fromCollectionAttribute:attributeName ofType:attributeType];
-    
+    [self.manifest removeNotes:@[noteID] fromStacking:stackingName];
     
     self.needSynchronization = YES;
 }
 
--(void) removeBulletinBoardAttribute:(NSString *)attributeName
-                              ofType:(NSString *)attributeType{
+-(void) removeStacking:(NSString *) stackingName
+{
+
+    [self.collectionAttributes removeObjectForKey:stackingName];
     
-    [self.bulletinBoardAttributes removeAttribute:attributeName
-                                 forAttributeType:attributeType];
-    
-    [self.manifest deleteCollectionAttribute:attributeName ofType:attributeType];
+    [self.manifest deleteStacking:stackingName];
     
     self.needSynchronization = YES;
 }
@@ -619,7 +417,7 @@ fromBulletinBoardAttribute: (NSString *) attributeName
 - (void) updateNoteContentOf:(NSString *)noteID
               withContentsOf:(id<NoteProtocol>)newNote{
     
-    id <NoteProtocol> oldNote = (self.noteContents)[noteID];
+    id <NoteProtocol> oldNote = self.noteContents[noteID];
     if (!oldNote) return;
     
     //for attributes in newNote that a value is specified; update those
@@ -628,147 +426,87 @@ fromBulletinBoardAttribute: (NSString *) attributeName
     
     //Old note now is updated; Serialize and send update datasource
     NSData * noteData = [XoomlCollectionParser convertNoteToXooml:oldNote];
-    CachedCollectionAttributes * noteAttributes = (self.noteAttributes)[noteID];
-    NSString * noteName = [[noteAttributes getAttributeWithName:NOTE_NAME
-                                               forAttributeType:NOTE_NAME_TYPE] lastObject];
+    XoomlNoteModel * noteModel = self.noteAttributes[noteID];
+    NSString * noteName = noteModel.noteName;
+    
     [self.dataSource updateNote:noteName
                     withContent:noteData
                    inCollection:self.bulletinBoardName];
 }
 
-- (void) renameNoteAttribute: (NSString *) oldAttributeName
-                      ofType: (NSString *) attributeType
-                     forNote: (NSString *) noteID
-                    withName: (NSString *) newAttributeName{
-    
-    if (!(self.noteContents)[noteID]) return;
-    
-    [(self.noteAttributes)[noteID] updateAttributeName:oldAttributeName
-                                                ofType:attributeType
-                                           withNewName:newAttributeName];
-    
-    [self.manifest updateNoteAttribute:oldAttributeName
-                                ofType:attributeType
-                               forNote:noteID
-                           withNewName:newAttributeName];
-    
-    self.needSynchronization = YES;
-}
-
--(void) updateNoteAttributes:(NSString *)noteID
-              withAttributes:(NSDictionary *)newProperties{
-    
-    if (!(self.noteContents)[noteID]) return;
-    
-    if(newProperties[POSITION_TYPE]){
-        
-        CachedCollectionAttributes * noteAttribute = (self.noteAttributes)[noteID];
-        NSDictionary * positionProp = newProperties[POSITION_TYPE];
-        [noteAttribute updateAttribute:POSITION_X
-                                ofType:POSITION_TYPE
-                          withNewValue:positionProp[POSITION_X]];
-        [noteAttribute updateAttribute:POSITION_Y
-                                ofType:POSITION_TYPE
-                          withNewValue:positionProp[POSITION_Y]];
-        
-        [self.manifest updateNote:noteID withProperties:positionProp];
-        
-        self.needSynchronization = YES;
-    }
-    if (newProperties[SCALE_TYPE])
-    {
-        CachedCollectionAttributes * noteAttributes = (self.noteAttributes)[noteID];
-        [noteAttributes updateAttribute:SCALE_VALUE
-                                 ofType:SCALE_TYPE
-                           withNewValue:@[newProperties[SCALE_TYPE]]];
-        
-        [self.manifest updateNote:noteID
-                   withProperties:newProperties];
-        
-        self.needSynchronization = YES;
-    }
-}
-
--(void) updateNoteAttribute: (NSString *) attributeName
-                     ofType:(NSString *) attributeType
-                    forNote: (NSString *) noteID
-              withNewValues: (NSArray *) newValues{
-    
-    if (!(self.noteContents)[noteID]) return;
-    
-    [(self.noteAttributes)[noteID] updateAttribute:attributeName
-                                            ofType:attributeType
-                                      withNewValue:newValues];
-    
-    [self.manifest updateNoteAttribute:attributeName
-                                ofType:attributeType
-                               forNote: noteID
-                            withValues:newValues];
-    
-    self.needSynchronization = YES;
-}
-
--(void) updateBulletinBoardAttribute: (NSString *) oldAttributeName
-                               ofType: (NSString *) attributeType 
-                        withNewModel: (id)  model
+-(void) updateNoteAttributes: (NSString *) noteID
+                   withModel: (XoomlNoteModel *) noteModel
 {
+
+    if (!(self.noteContents)[noteID]) return;
     
-    [self.bulletinBoardAttributes updateAttribute:oldAttributeName
-                                           ofType:attributeType
-                                     withNewValue:@[model]];
+    if(noteModel.positionX && noteModel.positionY)
+    {
+        
+        XoomlNoteModel * oldNoteModel = self.noteAttributes[noteID];
+        oldNoteModel.positionX = noteModel.positionX;
+        oldNoteModel.positionY = noteModel.positionY;
+        
+        [self.manifest changeNotePosition:noteID
+                                      toX:noteModel.positionX
+                                     andY:noteModel.positionY];
     
-    [self.manifest updateCollectionAttributeName:oldAttributeName
-                                          ofType:attributeType
-                                    withNewModel:model];
+        self.needSynchronization = YES;
+    }
+    if (noteModel.scaling)
+    {
+        
+        XoomlNoteModel * oldNoteModel = self.noteAttributes[noteID];
+        oldNoteModel.scaling = noteModel.scaling;
+        
+        [self.manifest updateNote:noteID withNewModel:noteModel];
+        
+        self.needSynchronization = YES;
+    }
+}
+
+//this is ugly as it isn't consistent and doesn't update the notes in the stacking
+//its for performance reasons
+-(void) updateStacking:(NSString *) stackingName
+          withNewModel:(XoomlStackingModel *) stackingModel
+{
+    XoomlStackingModel * oldStackingModel =  self.collectionAttributes[stackingName];
+    if (stackingModel.scale)
+    {
+        oldStackingModel.scale = stackingModel.scale;
+    }
+    if (stackingModel.name)
+    {
+        oldStackingModel.name = stackingModel.name;
+    }
+    
+    [self.manifest updateStacking:stackingName
+                     withNewModel:stackingModel];
+    
     self.needSynchronization = YES;
 }
 
 #pragma mark - Query
 
-- (NSDictionary *) getAllNotes{
+- (NSDictionary *) getAllNotesContents{
     
     return [self.noteContents copy];
 }
 
-- (NSDictionary *) getAllNoteAttributesForNote: (NSString *) noteID{
-    
-    return [(self.noteAttributes)[noteID] getAllAttributes];
+-(XoomlNoteModel *) getNoteModelFor: (NSString *) noteID
+{
+    return self.noteAttributes[noteID] ;
 }
 
-- (NSDictionary *) getAllBulletinBoardAttributeNamesOfType: (NSString *) attributeType{
-    
-    return [self.bulletinBoardAttributes getAllAttributeNamesForAttributeType:attributeType];
-}
-
-- (NSDictionary *) getAllNoteAttributeNamesOfType: (NSString *) attributeType
-                                          forNote: (NSString *) noteID{
-    
-    if (!(self.noteContents)[noteID]) return nil;
-    
-    return [(self.noteAttributes)[noteID] getAllAttributeNamesForAttributeType:attributeType];
+-(NSDictionary *) getAllStackings
+{
+    return [self.collectionAttributes copy];
 }
 
 - (id <NoteProtocol>) getNoteContent: (NSString *) noteID{
     
     //ToDo: maybe add a clone method to note to return a clone not the obj itself
     return (self.noteContents)[noteID];
-}
-
-- (NSArray *) getAllNotesBelongingToBulletinBoardAttribute: (NSString *) attributeName
-                                          forAttributeType: (NSString *) attributeType{
-    
-    return [self.bulletinBoardAttributes getAttributeWithName:attributeName
-                                             forAttributeType:attributeType];
-}
-
-- (NSArray *) getAllNotesBelongtingToNoteAttribute: (NSString *) attributeName
-                                   ofAttributeType: (NSString *) attributeType
-                                           forNote: (NSString *) noteID{
-    
-    if (!(self.noteContents)[noteID]) return nil;
-    
-    return [(self.noteAttributes)[noteID] getAttributeWithName:attributeName
-                                              forAttributeType:attributeType];
 }
 
 -(NSDictionary *) getAllNoteImages{
@@ -835,13 +573,6 @@ fromBulletinBoardAttribute: (NSString *) attributeName
         return nil;
     }
     return data;
-}
-
--(CachedCollectionAttributes *) createBulletinBoardAttributeForNotes{
-    return [[CachedCollectionAttributes alloc] initWithAttributes:@[NOTE_NAME_TYPE,
-                                                                    POSITION_TYPE,
-                                                                    VISIBILITY_TYPE,
-                                                                    SCALING]];
 }
 
 #pragma mark - cleanup
