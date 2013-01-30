@@ -450,7 +450,7 @@
         [self.manifest changeNotePosition:noteID
                                       toX:noteModel.positionX
                                      andY:noteModel.positionY];
-    
+
         self.needSynchronization = YES;
     }
     if (noteModel.scaling)

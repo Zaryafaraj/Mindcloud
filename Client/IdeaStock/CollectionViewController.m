@@ -391,7 +391,8 @@
         
         //clean up
         [self removeContextualToolbarItems:self.highlightedView];
-        [self.board removeBulletinBoardAttribute:((StackView *)self.highlightedView).ID ofType:STACKING_TYPE];
+        NSString * stackingID = ((StackView *)self.highlightedView).ID;
+        [self.board removeStacking:stackingID];
         
         self.highlightedView = nil;
         self.editMode = NO;
@@ -439,18 +440,14 @@
 
 -(void) layoutNotes{
     
-    NSDictionary * allNotes = [self.board getAllNotes];
-    for(NSString* noteID in [allNotes allKeys]){
+    NSDictionary * allNotes = [self.board getAllNotesContents];
+    for(NSString* noteID in allNotes){
         CollectionNote * noteObj = allNotes[noteID];
-        NSDictionary * noteAttributes = [self.board getAllNoteAttributesForNote:noteID];
-        NSDictionary * position = noteAttributes[@"position"];
-        //because of the way that noteAttribute class is each attribute has a type, a name, and a value
-        //in case of the scaling its called scaling of the type scalling.
-        //A prime example of overdesigning shit
-        NSDictionary * scaleAttr = noteAttributes[@"scale"];
-        float positionX = [[position[@"positionX"] lastObject] floatValue];
-        float positionY = [[position[@"positionY"] lastObject] floatValue];
-        float scale = [[scaleAttr[@"scale"] lastObject] floatValue];
+        XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteID];
+        
+        float positionX = [noteModel.positionX floatValue];
+        float positionY = [noteModel.positionY floatValue];
+        float scale = [noteModel.scaling floatValue];
         
         [CollectionLayoutHelper adjustNotePositionsForX:&positionX
                                               andY:&positionY
@@ -474,13 +471,14 @@
 
 
 -(void) layoutStackings{
-    NSDictionary * stackings =[self.board getAllBulletinBoardAttributeNamesOfType:STACKING_TYPE];
+    NSDictionary * stackings =[self.board getAllStackings];
     
     //Find out which notes belong to the stacking and put them there
     for(NSString * stackingID in stackings){
         NSMutableArray * views = [[NSMutableArray alloc] init];
-        NSArray * noteRefIDs = stackings[stackingID];
-        UIView * mainView = [self storeNotesViewsForNotes:noteRefIDs into:views];
+        XoomlStackingModel * stackingModel = stackings[stackingID];
+        NSArray * noteRefIds = [stackingModel.refIds allObjects];
+        UIView * mainView = [self storeNotesViewsForNotes:noteRefIds into:views];
         [self stackNotes:views into:mainView withID:stackingID];
     }
 }
@@ -490,13 +488,15 @@
 -(NSString *) addNoteToModel: (NoteView *) note
 {
     
-    NSDictionary * noteProperties = [self createNoteProperties:note];
-    NSString * noteID = noteProperties[@"ID"];
+    NSString * noteID = [XoomlAttributeHelper generateUUID];
+    XoomlNoteModel * noteModel = [self createXoomlNoteModel:note];
     CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteID];
     noteItem.noteText = note.text;
     note.ID = noteID;
     
-    [self.board addNoteContent:noteItem andProperties:noteProperties];
+    [self.board addNoteContent:noteItem
+                      andModel:noteModel
+                 forNoteWithID:noteID];
     
     return noteID;
 }
@@ -504,8 +504,8 @@
 -(NSString *) addImageNoteToModel: (ImageView *) note
 {
     
-    NSDictionary * noteProperties = [self createNoteProperties:note];
-    NSString * noteID = noteProperties[@"ID"];
+    NSString * noteID = [XoomlAttributeHelper generateUUID];
+    XoomlNoteModel * noteModel = [self createXoomlNoteModel:note];
     CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteID];
     noteItem.noteText = note.text;
     note.ID = noteID;
@@ -513,15 +513,15 @@
     NSData * imgData = UIImageJPEGRepresentation(note.image, IMG_COMPRESSION_QUALITY);
     
     [self.board addImageNoteContent:noteItem
-                      andProperties:noteProperties
-                           andImage:imgData];
+                           andModel:noteModel
+                           andImage:imgData
+                            forNote:noteID];
     return noteID;
 }
 
--(NSDictionary *) createNoteProperties: (NoteView *) note
+-(XoomlNoteModel *) createXoomlNoteModel: (NoteView *) note
 {
     
-    NSString * noteID = [XoomlAttributeHelper generateUUID];
     
     NSString * noteName = [NSString stringWithFormat:@"Note%d",self.noteCount];
     self.noteCount++;
@@ -529,14 +529,11 @@
     NSString * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
     NSString * scale = [NSString stringWithFormat:@"%f", note.scaleOffset];
     
+    return [[XoomlNoteModel alloc] initWithName:noteName
+                            andPositionX:positionX
+                            andPositionY:positionY
+                              andScaling:scale];
     
-    NSDictionary * noteProperties =@{@"name": noteName,
-                                    @"ID": noteID,
-                                    @"positionX": positionX,
-                                    @"positionY": positionY,
-                                    @"scale" : scale,
-                                    @"isVisible": @"true"};
-    return noteProperties;
 }
 
 -(void) updateNoteLocation:(NoteView *) view
@@ -547,22 +544,20 @@
     positionFloat = view.frame.origin.y;
     NSString * positionY = [NSString stringWithFormat:@"%f",positionFloat];
     
-    NSArray * positionXArr = @[positionX];
-    NSArray * positionYArr = @[positionY];
-    NSDictionary * position = @{POSITION_X_TYPE: positionXArr,
-                               POSITION_Y_TYPE: positionYArr};
-    NSDictionary * newProperties = @{POSITION_TYPE: position};
+    //scaling 0 means don't update the scaling
+    XoomlNoteModel * noteModel = [[XoomlNoteModel alloc] initWithName:view.ID
+                                                         andPositionX:positionX
+                                                         andPositionY:positionY
+                                                           andScaling:@"0"];
+    [self.board updateNoteAttributes:noteID withModel:noteModel];
     
-    [self.board updateNoteAttributes:noteID
-                      withAttributes:newProperties];
 }
 
 -(void) updateScaleForNote:(NSString *) noteId withScale:(CGFloat) scaleOffset
 {
     NSString * scale = [NSString stringWithFormat:@"%f", scaleOffset];
-    NSDictionary * newProperties = @{NOTE_SCALE_TYPE : scale};
-    [self.board updateNoteAttributes:noteId
-                      withAttributes:newProperties];
+    XoomlNoteModel * model = [[XoomlNoteModel alloc] initWithName:noteId andPositionX:@"0" andPositionY:@"0" andScaling:scale];
+    [self.board updateNoteAttributes:noteId withModel:model];
 }
 
 /*
@@ -687,8 +682,7 @@ intoStackingWithMainView: (UIView *) mainView
         else if ([view isKindOfClass:[StackView class]]){
             
             NSString * oldStackingID = ((StackView *)view).ID;
-            [self.board removeBulletinBoardAttribute:oldStackingID
-                                              ofType:STACKING_TYPE];
+            [self.board removeStacking:oldStackingID];
             for (UIView * note in ((StackView *)view).views){
                 NSString *stackingNoteID = ((NoteView *)note).ID;
                 [stackingNoteIDs addObject:stackingNoteID]; }
@@ -708,9 +702,7 @@ intoStackingWithMainView: (UIView *) mainView
     [stackingNoteIDs removeObject:topItemID];
     [stackingNoteIDs insertObject:topItemID atIndex:0];
     
-    [self.board addNotesWithIDs:stackingNoteIDs
-     toBulletinBoardAttribute:stackingID
-             forAttributeType:STACKING_TYPE];
+    [self.board addNotesWithIDs:stackingNoteIDs toStacking:stackingID];
     
     return stackingID;
 }
@@ -719,7 +711,7 @@ intoStackingWithMainView: (UIView *) mainView
 {
     
     NSArray * items = stack.views;
-    [self.board removeBulletinBoardAttribute:stack.ID ofType:STACKING_TYPE];
+    [self.board removeStacking:stack.ID];
     //now find the size of the seperator from any note
     
     for (NoteView * view in items){
@@ -742,8 +734,7 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) deleteStack:(StackView *) stack
 {
-    
-    [self.board removeBulletinBoardAttribute:stack.ID ofType:STACKING_TYPE];
+    [self.board removeStacking:stack.ID];
     
     for (UIView * view in stack.views){
         [view removeFromSuperview];
@@ -850,7 +841,8 @@ intoStackingWithMainView: (UIView *) mainView
                           InCollectionView:self.collectionView
                           withCountInStack:count
                                andCallback:^(void){
-            [self.board removeNote:noteItem.ID fromBulletinBoardAttribute:((StackView*) stackView).ID ofType:STACKING_TYPE];
+            NSString * stackName =((StackView*) stackView).ID;
+            [self.board removeNote:noteItem.ID fromStacking:stackName];
             [self updateNoteLocation:noteItem];
         }];
     }
