@@ -544,20 +544,19 @@
     positionFloat = view.frame.origin.y;
     NSString * positionY = [NSString stringWithFormat:@"%f",positionFloat];
     
-    //scaling 0 means don't update the scaling
-    XoomlNoteModel * noteModel = [[XoomlNoteModel alloc] initWithName:view.ID
-                                                         andPositionX:positionX
-                                                         andPositionY:positionY
-                                                           andScaling:@"0"];
-    [self.board updateNoteAttributes:noteID withModel:noteModel];
+    XoomlNoteModel * oldModel = [self.board getNoteModelFor:view.ID];
+    oldModel.positionX = positionX;
+    oldModel.positionY = positionY;
+    [self.board updateNoteAttributes:noteID withModel:oldModel];
     
 }
 
 -(void) updateScaleForNote:(NSString *) noteId withScale:(CGFloat) scaleOffset
 {
     NSString * scale = [NSString stringWithFormat:@"%f", scaleOffset];
-    XoomlNoteModel * model = [[XoomlNoteModel alloc] initWithName:noteId andPositionX:@"0" andPositionY:@"0" andScaling:scale];
-    [self.board updateNoteAttributes:noteId withModel:model];
+    XoomlNoteModel * oldModel = [self.board getNoteModelFor:noteId];
+    oldModel.scaling = scale;
+    [self.board updateNoteAttributes:noteId withModel:oldModel];
 }
 
 /*
