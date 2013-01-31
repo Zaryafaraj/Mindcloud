@@ -419,6 +419,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     NSData * thumbnailData = [self saveCollectionThumbnail];
+    [self.board synchronize];
     [self.board cleanUp];
     [self.parent finishedWorkingWithBulletinBoardWithUpdatedThumbnail:thumbnailData];
 }

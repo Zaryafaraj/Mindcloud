@@ -45,7 +45,7 @@
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
 
-#define SYNCHRONIZATION_PERIOD 2
+#define SYNCHRONIZATION_PERIOD 200
 
 
 @interface MindcloudCollection()
