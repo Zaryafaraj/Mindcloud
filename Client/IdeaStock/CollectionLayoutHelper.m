@@ -146,21 +146,8 @@
 + (CGRect) getStackingFrameForStackingWithTopView: (UIView *) mainView
 {
     
-    __block BOOL first = YES;
-    
-    CGRect stackFrame;
-    if (first){
-        if ([mainView isKindOfClass:[NoteView class]]){
-            stackFrame = CGRectMake(mainView.frame.origin.x - ((STACKING_SCALING_WIDTH -1)/4) * mainView.frame.origin.x,
-                                    mainView.frame.origin.y - ((STACKING_SCALING_HEIGHT -1)/4) * mainView.frame.origin.y,
-                                    mainView.bounds.size.width * STACKING_SCALING_WIDTH,
-                                    mainView.bounds.size.height * STACKING_SCALING_HEIGHT );
-        }
-        else if ([mainView isKindOfClass:[StackView class]]){
-            stackFrame = mainView.frame;
-        }
-    }
-    return stackFrame;
+    CGRect frame = CGRectMake( mainView.frame.origin.x, mainView.frame.origin.y, STACK_WIDTH, STACK_HEIGHT);
+    return frame;
 }
 
 +(void) clearRectangle:(CGRect) rect
@@ -317,14 +304,10 @@ withMoveNoteFunction:(update_note_location_function) updateNote
     }
 }
 
-+(CGRect) getFrameForNewNote:(UIView *) view
-                AddedToPoint: (CGPoint) location
-                        InCollectionView:(UIView *) collectionView
++(CGRect) adjustFrame:(CGRect) frame
+              forView: (UIView *) view
+      forBoundsOfView:(UIView *) collectionView
 {
-    
-    CGRect frame = CGRectMake(location.x, location.y, NOTE_WIDTH, NOTE_HEIGHT);
-    
-    
     BOOL frameChanged = NO;
     CGFloat newOriginX = frame.origin.x;
     CGFloat newOriginY = frame.origin.y;
@@ -364,6 +347,17 @@ withMoveNoteFunction:(update_note_location_function) updateNote
 
     }
     return frame;
+    
+}
++(CGRect) getFrameForNewNote:(UIView *) view
+                AddedToPoint: (CGPoint) location
+                        InCollectionView:(UIView *) collectionView
+{
+    
+    CGRect frame = CGRectMake(location.x, location.y, NOTE_WIDTH, NOTE_HEIGHT);
+    return [self adjustFrame:frame forView:view forBoundsOfView:collectionView];
+    
+    
 }
 
 +(void) updateViewLocationForView:(UIView *) view
