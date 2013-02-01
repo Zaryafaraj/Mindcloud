@@ -248,7 +248,7 @@
     } 
     
     if ([self.intersectingViews count] > 1 ){
-        [self stackNotes:self.intersectingViews into:view withID:nil];
+        [self stackNotes:self.intersectingViews into:view withID:nil withScale:1];
     }
     
     if([view isKindOfClass:[NoteView class]]){
@@ -283,12 +283,15 @@
             {
                 CGFloat scaleOffset = view.scaleOffset;
                 NSString * mainViewId = view.ID;
-                //for stack view the main note is the representative of scaling
                 if ([view isKindOfClass:[StackView class]])
                 {
-                    mainViewId = ((StackView *)view).mainView.ID;
+                    
+                    [self updateScaleForStack:mainViewId withScale:scaleOffset];
                 }
-                [self updateScaleForNote: mainViewId withScale:scaleOffset];
+                else
+                {
+                    [self updateScaleForNote: mainViewId withScale:scaleOffset];
+                }
             }
         }
         sender.scale = 1 ;
@@ -480,7 +483,8 @@
         XoomlStackingModel * stackingModel = stackings[stackingID];
         NSArray * noteRefIds = [stackingModel.refIds allObjects];
         UIView * mainView = [self storeNotesViewsForNotes:noteRefIds into:views];
-        [self stackNotes:views into:mainView withID:stackingID];
+        CGFloat scale = [stackingModel.scale floatValue];
+        [self stackNotes:views into:mainView withID:stackingID withScale:scale];
     }
 }
 
@@ -560,6 +564,15 @@
     [self.board updateNoteAttributes:noteId withModel:oldModel];
 }
 
+-(void) updateScaleForStack:(NSString *) stackID withScale:(CGFloat) scaleOffset
+{
+    
+    NSString * scale = [NSString stringWithFormat:@"%f", scaleOffset];
+    XoomlStackingModel * oldModel = [self.board getStackModelFor:stackID];
+    oldModel.scale = scale;
+    [self.board updateStacking:stackID withNewModel:oldModel];
+}
+
 /*
  As a side effect removes any note in a stackView
  */
@@ -637,12 +650,12 @@
  If ID is nil the methods will create a unique UUID itself and will also write
  to the datamodel.The nil id means that this is a fresh stacking
  If ID is not nil it means that stacking is formed from the datamodel of an existing stacking
- SO FAR WE NEVER PASS ANY ID INTO THIS.; so we treat every stacking as new stacking
  */
 -(void) stackNotes: (NSArray *) items
               into: (UIView *) mainView
-            withID: (NSString *) ID{
-    
+            withID: (NSString *) ID
+         withScale:(CGFloat) scale
+{
     NSMutableArray * allNotes = [self getAllNormalNotesInViews:items];
     
     CGRect stackFrame = [CollectionLayoutHelper getStackingFrameForStackingWithTopView:mainView];
@@ -654,6 +667,10 @@
     StackView * stack = [[StackView alloc] initWithViews:allNotes
                                              andMainView:(NoteView *)mainView
                                                withFrame:stackFrame];
+    if (scale)
+    {
+        [stack scale:scale];
+    }
     stack.ID = stackingID;
     
     [self addGestureRecognizersToStack:stack];

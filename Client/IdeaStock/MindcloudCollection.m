@@ -45,7 +45,7 @@
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
 
-#define SYNCHRONIZATION_PERIOD 200
+#define SYNCHRONIZATION_PERIOD 2
 
 
 @interface MindcloudCollection()
@@ -491,6 +491,10 @@
     return self.noteAttributes[noteID] ;
 }
 
+-(XoomlStackingModel *) getStackModelFor:(NSString *) stackID
+{
+    return self.collectionAttributes[stackID];
+}
 -(NSDictionary *) getAllStackings
 {
     return [self.collectionAttributes copy];

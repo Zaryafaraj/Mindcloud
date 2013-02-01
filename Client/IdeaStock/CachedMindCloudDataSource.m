@@ -136,12 +136,18 @@
     NSString * userId = [UserPropertiesHelper userID];
     [mindcloud getCategories:userId withCallback:^(NSData * categories)
      {
-         NSLog(@"Categories Retrieved");
-         NSDictionary * dict = [XoomlCategoryParser deserializeXooml:categories];
-         [[NSNotificationCenter defaultCenter] postNotificationName:CATEGORIES_RECEIVED_EVENT
-                                                             object:self
-                                                           userInfo:@{@"result" : dict}];
-         [self writeCategoriesToDisk:categories];
+         if (categories)
+         {
+             NSLog(@"Categories Retrieved");
+             NSDictionary * dict = [XoomlCategoryParser deserializeXooml:categories];
+             [[NSNotificationCenter defaultCenter] postNotificationName:CATEGORIES_RECEIVED_EVENT
+                                                                 object:self
+                                                               userInfo:@{@"result" : dict}];
+             [self writeCategoriesToDisk:categories];
+         }
+         else{
+             NSLog(@"No Categories Received");
+         }
      }];
     return categoriesDict;
 }
