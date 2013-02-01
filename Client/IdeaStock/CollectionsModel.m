@@ -276,7 +276,7 @@
     NSMutableArray * uncategorizedArray = [NSMutableArray array];
     for (NSString * collection in uncategorizedCollections)
     {
-        if (uncategorizedCollections[collection] == @YES)
+        if ([uncategorizedCollections[collection] isEqual:@YES])
         {
             [uncategorizedArray addObject:collection];
         }

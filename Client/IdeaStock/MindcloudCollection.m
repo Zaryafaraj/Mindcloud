@@ -250,13 +250,6 @@
         }
     }
     
-    //cache the note specific attributes
-    NSString * positionX = noteModel.positionX;
-    if (!positionX ) positionX = DEFAULT_X_POSITION;
-    NSString * positionY = noteModel.positionY;
-    if (!positionY) positionY = DEFAULT_Y_POSITION;
-    NSString * scale = noteModel.scaling;
-    if (!scale) scale = @"1.0";
     
     self.noteAttributes[noteID] = noteModel;
 }

@@ -50,7 +50,8 @@
     for (UIView * view in items){
         if (view != mainView){
             [UIView animateWithDuration:0.5
-                                  delay:0 options:UIViewAnimationCurveEaseOut
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
                                  [view setFrame:mainView.frame];
                              }

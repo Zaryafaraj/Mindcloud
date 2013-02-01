@@ -128,7 +128,7 @@
         }
         XoomlStackingModel * model = [[XoomlStackingModel alloc] initWithName:name
                                                            andScale:scaleString
-                                                          andRefIds:refNotesArray];
+                                                                    andRefIds:[NSSet setWithArray:refNotesArray]];
         result[name] =  model;
     }
     
@@ -199,7 +199,7 @@
 
 -(DDXMLElement *) getStackingElementForStackingWithName:(NSString *) stackingName
 {
-    
+
     DDXMLElement * attributes = [self getCollectionAttributesElement];
     //KISS XML BUG; still there as of Jan 27 2013. We need to do some work manually
     DDXMLElement * stacking = nil;

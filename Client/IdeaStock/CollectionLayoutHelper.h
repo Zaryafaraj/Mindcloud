@@ -28,7 +28,6 @@
                            andY:(float *) positionY
                          inView:(UIView *) collectionView;
 
-+(CGRect) findFittingRectangle: (StackView *) stack inView:(UIView *) collectionView;
 
 +(NSArray *) checkForOverlapWithView: (UIView *) senderView
                     inCollectionView: (UIView *) collectionView;
