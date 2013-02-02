@@ -27,7 +27,9 @@
 @property (strong, nonatomic) UIBarButtonItem * deleteButton;
 @property (strong, nonatomic) UIBarButtonItem * expandButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *collectionView;
-//@property (strong, nonatomic) IBOutlet UIView *screenShotView;
+@property (weak, nonatomic) NSMutableDictionary * noteViews;
+@property (weak, nonatomic) NSMutableDictionary * imageNoteViews;
+@property (weak, nonatomic) NSMutableDictionary * stackViews;
 
 @property int noteCount;
 @property (strong, nonatomic) NSArray * intersectingViews;
@@ -70,6 +72,20 @@
     [self layoutNotes];
 }
 
+-(void) noteImageReady:(NSNotification *) notification{
+    NSDictionary * userInfo = [notification userInfo];
+    NSString * collectionName = userInfo[@"collectionName"];
+    if ([collectionName isEqual:self.bulletinBoardName])
+    {
+        NSString * noteId = userInfo[@"noteId"];
+        if (self.imageNoteViews[noteId])
+        {
+            ImageView * imgView =  self.imageNoteViews[noteId];
+            NSData * imgData = [self.board getImageForNote:noteId];
+            imgView.image = [UIImage imageWithData:imgData];
+        }
+    }
+}
 -(void) ApplicationHasGoneInBackground:(NSNotification *) notification
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -126,6 +142,11 @@
                                                  AddedToPoint:location
                                              InCollectionView:self.collectionView];
     NoteView * note = [[NoteView alloc] initWithFrame:frame];
+    NSString * noteID = [XoomlAttributeHelper generateUUID];
+    note.ID = noteID;
+    //use weak ref to avoid leakage
+    __weak NoteView * noteRef = note;
+    self.noteViews[note.ID] = noteRef;
     note.delegate = self;
     
     [CollectionAnimationHelper animateNoteAddition:note
@@ -134,7 +155,7 @@
     [self.collectionView addSubview:note];
     [self addGestureRecognizersToNote:note];
     
-    [self addNoteToModel:note];
+    [self addNoteToModel:note withID:noteID];
 }
 
 -(void) objectPressed: (UILongPressGestureRecognizer *) sender{
@@ -490,10 +511,9 @@
 
 #pragma mark - Note Actions
 
--(NSString *) addNoteToModel: (NoteView *) note
+-(NSString *) addNoteToModel: (NoteView *) note withID:(NSString *) noteID
 {
     
-    NSString * noteID = [XoomlAttributeHelper generateUUID];
     XoomlNoteModel * noteModel = [self createXoomlNoteModel:note];
     CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteID];
     noteItem.noteText = note.text;
@@ -506,10 +526,9 @@
     return noteID;
 }
 
--(NSString *) addImageNoteToModel: (ImageView *) note
+-(NSString *) addImageNoteToModel: (ImageView *) note withId:(NSString *) noteID
 {
     
-    NSString * noteID = [XoomlAttributeHelper generateUUID];
     XoomlNoteModel * noteModel = [self createXoomlNoteModel:note];
     CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteID];
     noteItem.noteText = note.text;
@@ -597,17 +616,23 @@
                         andScale:(float) scale
 {
     
-    NSDictionary * allImgs = [self.board getAllNoteImages];
+    NSData * imgData = [self.board getImageForNote:noteID];
     CGRect noteFrame = CGRectMake(positionX, positionY, NOTE_WIDTH, NOTE_HEIGHT);
     NoteView * note ;
-    if (allImgs[noteID]){
-        UIImage * img = [[UIImage alloc] initWithData:allImgs[noteID]];
+    if (imgData){
+        UIImage * img = [[UIImage alloc] initWithData:imgData];
         note = [[ImageView alloc] initWithFrame:noteFrame 
                                                 andImage:img];
+        note.ID = noteID;
+        __weak NoteView * noteRef = note;
+        self.imageNoteViews[note.ID] = noteRef;
         [note scale:scale];
     }
     else{
         note = [[NoteView alloc] initWithFrame:noteFrame];
+        note.ID = noteID;
+        __weak NoteView * noteRef = note;
+        self.noteViews[note.ID] = noteRef;
         [note scale:scale];
     }
     return note;
@@ -643,6 +668,9 @@
         self.editMode = NO;
         self.highlightedView = nil;
     }];
+    
+    [self.noteViews removeObjectForKey:note.ID];
+    [self.imageNoteViews removeObjectForKey:note.ID];
 }
 
 #pragma mark - Stack Actions
@@ -667,6 +695,10 @@
     StackView * stack = [[StackView alloc] initWithViews:allNotes
                                              andMainView:(NoteView *)mainView
                                                withFrame:stackFrame];
+    stack.ID = stackingID;
+    __weak StackView * stackRef = stack;
+    self.stackViews[stackingID] = stackRef;
+    
     if (scale)
     {
         [stack scale:scale];
@@ -763,6 +795,7 @@ intoStackingWithMainView: (UIView *) mainView
         self.editMode = NO;
         self.highlightedView = nil;
     }];
+    [self.stackViews removeObjectForKey:stack.ID];
 }
 
 #pragma mark - Collection Actions
@@ -901,13 +934,18 @@ intoStackingWithMainView: (UIView *) mainView
     
     ImageView * note = [[ImageView alloc] initWithFrame:frame 
                                                andImage:image];
+    NSString * noteID = [XoomlAttributeHelper generateUUID];
+    note.ID = noteID;
     note.delegate = self;
+    
+    __weak ImageView * imageViewRef = note;
+    self.imageNoteViews[noteID] =imageViewRef;
     
     [self addGestureRecognizersToNote:note];
     [CollectionAnimationHelper animateNoteAddition:note toCollectionView:self.collectionView];
     [self.collectionView addSubview:note];
     
-    [self addImageNoteToModel: note];
+    [self addImageNoteToModel:note withId:noteID];
 }
 
 @end

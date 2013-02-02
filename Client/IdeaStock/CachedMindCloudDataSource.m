@@ -445,10 +445,12 @@
                     forCollection:collectionName
                      withCallback:^(NSArray * allNotes){
                                int index = 0;
-                               [self getRemainingNoteAtIndex: index
+                         
+    //we are not going to download all the images in the beginning beccause we don't know what are they
+                         [self getRemainingNoteAtIndex: index
                                                    fromArray: allNotes
                                                forCollection: collectionName
-                                                 chainImages:YES ];
+                                                 chainImages:NO ];
     }];
     
 }
@@ -507,10 +509,10 @@
     if (index < [allNotes count])
     {
         
+        index++;
+        NSString * noteName = allNotes[index];
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
-        NSString * noteName = allNotes[index];
-        index++;
         [mindcloud getNoteImageForUser:userID
                                   forNote:noteName
                            fromCollection:collectionName withCallback:^(NSData * noteData){
@@ -578,21 +580,39 @@
     }
 }
 
-- (NSData *) getImage: (NSString *) imgName
-              ForNote: (NSString *) noteName
+- (NSData *) getImageForNote: (NSString *) noteName
         andCollection: (NSString *) collectionName;
 {
+    //we retreive the images all the time. Only methods that sure there is an image should call this to stop making extra calls to the server
     NSData * imgData = [self getFromDiskNoteImageForNote:noteName andCollection: collectionName];
-    if (!imgData)
-    {
-        
-        NSLog(@"Could not get Retreive note data from cache, refresh the cache by getting the collection again");
-        return nil;
-    }
-    else
-    {
-        return imgData;
-    }
+    
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userID = [UserPropertiesHelper userID];
+    [mindcloud getNoteImageForUser:userID
+                              forNote:noteName
+                       fromCollection:collectionName withCallback:^(NSData * noteData){
+                           
+                           if (noteData)
+                           {
+                               [self saveToDiskNoteImageData:noteData
+                                                forCollection:collectionName
+                                                      andNote:noteName];
+                               
+                               NSDictionary * userDict =
+                               @{
+                               @"result":
+                                    @{
+                                    @"collectionName" : collectionName,
+                                    @"noteName" : noteName
+                                    }
+                                 };
+                                 
+                                   [[NSNotificationCenter defaultCenter] postNotificationName:IMAGE_DOWNLOADED_EVENT
+                                                                                       object:self
+                                                                                     userInfo:userDict];
+                           }
+                       }];
+    return imgData;
 }
 
 #pragma mark - Disk Cache helpers

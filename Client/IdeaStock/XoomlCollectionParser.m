@@ -50,7 +50,7 @@
     NSString * imagePath = [[noteXML attributeForName:ASSOCIATED_ITEM] stringValue];
     if (imagePath != nil && ![imagePath isEqualToString:@""]){
         note.image = imagePath;
-    }
+}
     return note;
 }
 

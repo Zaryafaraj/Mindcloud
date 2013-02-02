@@ -46,6 +46,8 @@
 
 -(NSDictionary *) getAllNotesContents;
 
+-(NSData *) getImageForNote:(NSString *) noteID;
+
 -(NSDictionary *) getAllNoteImages;
 
 -(XoomlNoteModel *) getNoteModelFor: (NSString *) noteID;

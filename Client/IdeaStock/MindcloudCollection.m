@@ -76,6 +76,11 @@
 @property (nonatomic,strong) id <CollectionManifestProtocol> manifest;
 
 /*
+ Keyed on noteName - valued on noteID. All the noteImages for which we have sent 
+ a request but we are waiting for response
+ */
+@property (nonatomic, strong) NSMutableDictionary * waitingNoteImages;
+/*
  determines the number of files that need to be downloaded during initialization
  probably I can make this a local var
  */
@@ -97,6 +102,15 @@
 
 #pragma mark - synthesis
 @synthesize bulletinBoardName = _bulletinBoardName;
+
+-(NSMutableDictionary *) waitingNoteImages
+{
+    if (!_waitingNoteImages)
+    {
+        _waitingNoteImages = [NSMutableDictionary dictionary];
+    }
+    return _waitingNoteImages;
+}
 
 -(NSMutableDictionary *) collectionAttributes
 {
@@ -152,6 +166,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(collectionFilesDownloaded:)
                                                  name:COLLECTION_DOWNLOADED_EVENT
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(noteImageDownloaded:)
+                                                 name:IMAGE_DOWNLOADED_EVENT
                                                object:nil];
     //Start the synchronization timer
     [self startTimer];
@@ -242,18 +261,42 @@
     NSString * imgName = noteObj.image;
     if (imgName != nil)
     {
-        NSString * imgPath = [FileSystemHelper getPathForNoteImageforNoteName:noteModel.noteName
-                                                   inBulletinBoard:self.bulletinBoardName];
-        if (imgPath != nil && ![imgPath isEqualToString:@""])
-        {
-            (self.noteImages)[noteID] = imgPath;
-        }
+        [self.dataSource getImageForNote:noteModel.noteName andCollection:self.bulletinBoardName];
+        [self.waitingNoteImages setObject:noteID forKey:noteModel.noteName];
     }
     
     
     self.noteAttributes[noteID] = noteModel;
 }
 
+-(void) noteImageDownloaded:(NSNotification *) notification
+{
+    
+    NSDictionary * dict = notification.userInfo[@"result"];
+    NSString * collectionName = dict[@"collectionName"];
+    NSString * noteName = dict[@"noteName"];
+    NSString * imgPath = [FileSystemHelper getPathForNoteImageforNoteName:noteName
+                                               inBulletinBoard:self.bulletinBoardName];
+    if (imgPath != nil && ![imgPath isEqualToString:@""])
+    {
+        NSString * noteID = self.waitingNoteImages[noteName];
+        if (noteID)
+        {
+            (self.noteImages)[noteID] = imgPath;
+            [self.waitingNoteImages removeObjectForKey:noteName];
+            //send out a notification
+            NSDictionary * userInfo = @{@"result" :
+                                            @{@"collectionName":collectionName,
+                                              @"noteId":noteID}
+                                        };
+            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_IMAGE_READY_EVENT
+                                                                object:self
+                                                              userInfo:userInfo];
+            
+        }
+        
+    }
+}
 -(void) initiateStacking{
     //get the stacking information and cache them
     NSDictionary *stackingInfo = [self.manifest getAllStackingsInfo];
@@ -506,6 +549,12 @@
     return (self.noteContents)[noteID];
 }
 
+-(NSData *) getImageForNote:(NSString *) noteID
+{
+    NSString * imgPath = self.noteImages[NOTE_ID];
+    NSData * imgData = [self getImageDataForPath:imgPath];
+    return imgData;
+}
 -(NSDictionary *) getAllNoteImages{
     
     NSMutableDictionary * images = [[NSMutableDictionary alloc] init];

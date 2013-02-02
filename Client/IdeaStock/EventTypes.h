@@ -16,5 +16,7 @@
 #define ALL_COLLECTIONS_LIST_DOWNLOADED_EVENT @"allCollectionListDownloaded"
 #define CATEGORIES_RECEIVED_EVENT @"categoriesReceivedEvent"
 #define THUMBNAIL_RECEIVED_EVENT @"thumbnailReceivedEvent"
+#define IMAGE_DOWNLOADED_EVENT @"imageDownloaded"
+#define NOTE_IMAGE_READY_EVENT @"noteImageReadyEvent"
 
 @end
