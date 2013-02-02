@@ -738,7 +738,6 @@
 {
     NSString * path = [FileSystemHelper getPathForNoteImageforNoteName:noteName
                                                        inBulletinBoard:collectionName];
-    [FileSystemHelper createMissingDirectoryForPath:path];
     
     NSError * err;
     BOOL didWrite = [data writeToFile:path options:NSDataWritingAtomic error:&err];

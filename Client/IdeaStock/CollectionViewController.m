@@ -37,6 +37,7 @@
 @property (nonatomic) BOOL editMode;
 @property int panCounter ;
 @property BOOL isRefreshing;
+@property BOOL shouldRefresh;
 
 @end
 
@@ -328,6 +329,7 @@
 -(void) viewDidLoad
 {
     [super viewDidLoad];
+    self.shouldRefresh = YES;
     [self configureToolbar];
     
     CGSize size =  CGSizeMake(self.collectionView.bounds.size.width,
@@ -348,7 +350,12 @@
 
 -(void) viewDidAppear:(BOOL)animated
 {
-    [self layoutNotes];
+    [super viewDidAppear:animated];
+    if (self.shouldRefresh)
+    {
+        [self layoutNotes];
+        self.shouldRefresh = NO;
+    }
 }
 
 -(void) configureToolbar
@@ -944,7 +951,6 @@ intoStackingWithMainView: (UIView *) mainView
     
     [self addGestureRecognizersToNote:note];
     [CollectionAnimationHelper animateNoteAddition:note toCollectionView:self.collectionView];
-    [self.collectionView addSubview:note];
     
     [self addImageNoteToModel:note withId:noteID];
 }

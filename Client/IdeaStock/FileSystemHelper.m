@@ -13,7 +13,7 @@
 //files are saved in lowercase
 #define BULLETINBOARD_XOOML_FILE_NAME @"collection.xml"
 #define NOTE_XOOML_FILE_NAME @"note.xml"
-#define NOTE_IMG_FILE_NAME @"note.jpg"
+#define NOTE_IMG_FILE_NAME @"img.jpg"
 #define CATEGORIES_FILE_NAME @"categories.xml"
 #define THUMBNAIL_FILE_NAME @"thumbnail.jpg"
 
@@ -116,9 +116,9 @@
     NSString * imgPath = [FileSystemHelper getPathForNoteWithName:noteName
                                              inCollectionWithName:bulletinBoardName];
     imgPath = [imgPath stringByDeletingLastPathComponent];
+    [self createMissingDirectoryForPath:imgPath];
     imgPath = [imgPath stringByAppendingFormat:@"/%@",NOTE_IMG_FILE_NAME];
     
-    [self createMissingDirectoryForPath:imgPath];
     return imgPath;
 }
 
