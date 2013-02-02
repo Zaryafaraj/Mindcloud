@@ -552,6 +552,9 @@
 -(NSData *) getImageForNote:(NSString *) noteID
 {
     NSString * imgPath = self.noteImages[NOTE_ID];
+    
+    if (!imgPath) return nil;
+    
     NSData * imgData = [self getImageDataForPath:imgPath];
     return imgData;
 }

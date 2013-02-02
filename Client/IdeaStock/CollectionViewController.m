@@ -535,6 +535,7 @@
     note.ID = noteID;
     
     NSData * imgData = UIImageJPEGRepresentation(note.image, IMG_COMPRESSION_QUALITY);
+    noteItem.name = noteModel.noteName;
     
     [self.board addImageNoteContent:noteItem
                            andModel:noteModel

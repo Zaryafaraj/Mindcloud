@@ -25,6 +25,8 @@
 
 @property (nonatomic,strong) NSString * image;
 
+@property (nonatomic, strong) NSString * name;
+
 - (NSString *) description;
 
 @end

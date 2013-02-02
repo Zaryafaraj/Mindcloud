@@ -82,7 +82,7 @@
 
 + (NSString *) getXoomlImageReference: (CollectionNote *) note
 {
-    return [note.noteTextID stringByAppendingString:@".jpg"];
+    return @"img.jpg";
 }
 
 +(NSData *) convertImageNoteToXooml:(CollectionNote *)note{
