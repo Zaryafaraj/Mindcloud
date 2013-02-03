@@ -46,6 +46,8 @@
 
 -(NSDictionary *) getAllNotesContents;
 
+-(BOOL) doesNoteHaveImage:(NSString *) noteId;
+
 -(NSData *) getImageForNote:(NSString *) noteID;
 
 -(NSDictionary *) getAllNoteImages;

@@ -86,6 +86,8 @@
             ImageView * imgView =  self.imageNoteViews[noteId];
             NSData * imgData = [self.board getImageForNote:noteId];
             imgView.image = [UIImage imageWithData:imgData];
+            NSLog(@"ImageRealoaded");
+            
         }
     }
 }
@@ -639,10 +641,11 @@
                         andScale:(float) scale
 {
     
-    NSData * imgData = [self.board getImageForNote:noteID];
+    BOOL isImageNote = [self.board doesNoteHaveImage:noteID];
     CGRect noteFrame = CGRectMake(positionX, positionY, NOTE_WIDTH, NOTE_HEIGHT);
     NoteView * note ;
-    if (imgData){
+    if (isImageNote){
+        NSData * imgData = [self.board getImageForNote:noteID];
         UIImage * img = [[UIImage alloc] initWithData:imgData];
         note = [[ImageView alloc] initWithFrame:noteFrame 
                                                 andImage:img];

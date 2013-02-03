@@ -81,6 +81,13 @@
  a request but we are waiting for response
  */
 @property (nonatomic, strong) NSMutableDictionary * waitingNoteImages;
+
+/*
+ Most of the times that we start from empty cache we only know that certain notes have image but 
+ we don't know what the actual image is, this helps us to determine the image notes before we download the 
+ image
+ */
+@property (nonatomic, strong) NSMutableSet * imageNotes;
 /*
  determines the number of files that need to be downloaded during initialization
  probably I can make this a local var
@@ -140,6 +147,15 @@
         _noteImages = [NSMutableDictionary dictionary];
     }
     return _noteImages;
+}
+
+-(NSMutableSet *) imageNotes
+{
+    if (!_imageNotes)
+    {
+        _imageNotes = [NSMutableSet set];
+    }
+    return _imageNotes;
 }
 
 #pragma mark - Initialization
@@ -262,9 +278,13 @@
     NSString * imgName = noteObj.image;
     if (imgName != nil)
     {
+        [self.imageNotes addObject:noteID];
         NSString * imagePath = [self.dataSource getImagePathForNote:noteModel.noteName
                                                       andCollection:self.bulletinBoardName];
-        self.noteImages[noteID] = imagePath;
+        if (imagePath)
+        {
+            self.noteImages[noteID] = imagePath;
+        }
         [self.waitingNoteImages setObject:noteID forKey:noteModel.noteName];
     }
     
@@ -561,6 +581,12 @@
     NSData * imgData = [self getImageDataForPath:imgPath];
     return imgData;
 }
+
+-(BOOL) doesNoteHaveImage:(NSString *)noteId
+{
+    return [self.imageNotes containsObject:noteId] ? YES:NO;
+}
+
 -(NSDictionary *) getAllNoteImages{
     
     NSMutableDictionary * images = [[NSMutableDictionary alloc] init];

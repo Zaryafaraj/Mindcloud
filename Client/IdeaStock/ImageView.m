@@ -25,7 +25,17 @@
 #define IMG_SIZE_WIDTH_RATIO 0.865
 #define IMG_SIZE_HEIGHT_RATIO 0.82
 
--(id) initWithFrame:(CGRect)frame 
+-(void) setImage:(UIImage *)image
+{
+    _image = image;
+    [self.imageView setImage:image];
+}
+
+-(UIImage *) image
+{
+    return _image;
+}
+-(id) initWithFrame:(CGRect)frame
            andImage:(UIImage *)image{
     self = [super initWithFrame:frame];
     if (self){
@@ -51,7 +61,6 @@
     
     return self;
 }
-
 
 -(id) initWithFrame:(CGRect)frame 
            andImage:(UIImage *)image 
