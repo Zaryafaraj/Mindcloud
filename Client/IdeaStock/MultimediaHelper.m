@@ -13,7 +13,7 @@
 @implementation MultimediaHelper
 #define THUMBNAIL_WIDTH 250
 #define THUMBNAIL_HEIGHT 250
-
+#define IMG_COMPRESSION_QUALITY 1
 +(UIImagePickerController *) getCameraController
 {
     
@@ -48,7 +48,13 @@
     }
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    NSData * imgData = UIImageJPEGRepresentation(image, 1);
+    NSData * imgData = UIImageJPEGRepresentation(image, IMG_COMPRESSION_QUALITY);
+    return imgData;
+}
+
++(NSData *) getThumbnailDataforUIImage:(UIImage *) image
+{
+    NSData * imgData = UIImageJPEGRepresentation(image, IMG_COMPRESSION_QUALITY);
     return imgData;
 }
 @end

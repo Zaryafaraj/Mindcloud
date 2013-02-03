@@ -30,7 +30,7 @@
 @property (strong, nonatomic) NSMutableDictionary * noteViews;
 @property (strong, nonatomic) NSMutableDictionary * imageNoteViews;
 @property (strong, nonatomic) NSMutableDictionary * stackViews;
-
+@property (strong, nonatomic) UIImage * lastImageTaken;
 @property int noteCount;
 @property (strong, nonatomic) NSArray * intersectingViews;
 @property (weak, nonatomic) UIView<BulletinBoardObject> * highlightedView;
@@ -824,7 +824,24 @@ intoStackingWithMainView: (UIView *) mainView
 #pragma mark - Collection Actions
 -(NSData *) saveCollectionThumbnail
 {
-    NSData * thumbnailData = [MultimediaHelper captureScreenshotOfView:self.collectionView.superview];
+    //If we take a new picture, we use that as thumbnail data
+    //If we already had a picture in the collection and we didn't take a new one
+    //we don't save any thumbnail data
+    //otherwise we capture a screenshot of the screen
+    NSData * thumbnailData = nil;
+    if (self.lastImageTaken)
+    {
+        thumbnailData = [MultimediaHelper getThumbnailDataforUIImage:self.lastImageTaken];
+    }
+    else if ([self.imageNoteViews count] > 0)
+    {
+        thumbnailData = nil;
+    }
+    else
+    {
+        thumbnailData = [MultimediaHelper captureScreenshotOfView:self.collectionView.superview];
+    }
+    
     if (thumbnailData)
     {
         [self.board saveThumbnail:thumbnailData];
@@ -955,7 +972,8 @@ intoStackingWithMainView: (UIView *) mainView
                               NOTE_WIDTH,
                               NOTE_HEIGHT);
     
-    ImageView * note = [[ImageView alloc] initWithFrame:frame 
+    self.lastImageTaken = image;
+    ImageView * note = [[ImageView alloc] initWithFrame:frame
                                                andImage:image];
     NSString * noteID = [XoomlAttributeHelper generateUUID];
     note.ID = noteID;

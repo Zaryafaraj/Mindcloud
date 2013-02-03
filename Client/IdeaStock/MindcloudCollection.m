@@ -62,9 +62,10 @@
  */
 @property (nonatomic,strong) NSMutableDictionary * noteAttributes;
 /*
- Keyed on noteID and values are UIImages;
+ Keyed on noteID and values are image paths;
  */
 @property (nonatomic,strong) NSMutableDictionary * noteImages;
+
 /*
  The datasource is connected to the mindcloud servers and can be viewed as the expensive
  permenant storage
