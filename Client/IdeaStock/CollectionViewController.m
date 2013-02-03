@@ -27,9 +27,9 @@
 @property (strong, nonatomic) UIBarButtonItem * deleteButton;
 @property (strong, nonatomic) UIBarButtonItem * expandButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *collectionView;
-@property (weak, nonatomic) NSMutableDictionary * noteViews;
-@property (weak, nonatomic) NSMutableDictionary * imageNoteViews;
-@property (weak, nonatomic) NSMutableDictionary * stackViews;
+@property (strong, nonatomic) NSMutableDictionary * noteViews;
+@property (strong, nonatomic) NSMutableDictionary * imageNoteViews;
+@property (strong, nonatomic) NSMutableDictionary * stackViews;
 
 @property int noteCount;
 @property (strong, nonatomic) NSArray * intersectingViews;
@@ -65,6 +65,7 @@
     return _board;
 }
 
+
 #pragma mark - Notifications
 
 -(void) loadSavedNotes: (NSNotification *) notificatoin{
@@ -75,10 +76,11 @@
 
 -(void) noteImageReady:(NSNotification *) notification{
     NSDictionary * userInfo = [notification userInfo];
-    NSString * collectionName = userInfo[@"collectionName"];
+    NSDictionary * resultDict = userInfo[@"result"];
+    NSString * collectionName = resultDict[@"collectionName"];
     if ([collectionName isEqual:self.bulletinBoardName])
     {
-        NSString * noteId = userInfo[@"noteId"];
+        NSString * noteId = resultDict[@"noteId"];
         if (self.imageNoteViews[noteId])
         {
             ImageView * imgView =  self.imageNoteViews[noteId];
@@ -326,11 +328,18 @@
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
 }
 
+-(void) initateDataStructures
+{
+    self.imageNoteViews = [NSMutableDictionary dictionary];
+    self.noteViews = [NSMutableDictionary dictionary];
+    self.stackViews = [NSMutableDictionary dictionary];
+}
 -(void) viewDidLoad
 {
     [super viewDidLoad];
     self.shouldRefresh = YES;
     [self configureToolbar];
+    [self initateDataStructures];
     
     CGSize size =  CGSizeMake(self.collectionView.bounds.size.width,
                               self.collectionView.bounds.size.height);
@@ -344,10 +353,16 @@
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(noteImageReady:)
+                                                 name:NOTE_IMAGE_READY_EVENT
+                                               object:self.board];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(ApplicationHasGoneInBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     self.collectionView.delegate = self;
 }
 
+//maybe in view will appear
 -(void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];

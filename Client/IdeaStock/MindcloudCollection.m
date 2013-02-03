@@ -262,6 +262,7 @@
     if (imgName != nil)
     {
         [self.dataSource getImageForNote:noteModel.noteName andCollection:self.bulletinBoardName];
+        [self.dataSource ]
         [self.waitingNoteImages setObject:noteID forKey:noteModel.noteName];
     }
     

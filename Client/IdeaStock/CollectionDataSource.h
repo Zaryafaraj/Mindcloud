@@ -92,7 +92,7 @@ If the boardName or noteName are invalid the method returns without doing anythi
                                    WithName: (NSString *) noteName;
 
 
-- (NSData *) getImageForNote: (NSString *)noteID 
+- (NSString *) getImagePathForNote: (NSString *)noteID
             andCollection: (NSString *) bulletinBoardName;
 
 

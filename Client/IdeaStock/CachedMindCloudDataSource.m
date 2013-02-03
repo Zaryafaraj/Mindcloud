@@ -29,7 +29,16 @@
 @property NSMutableDictionary * noteImageUpdateQueue;
 @property NSMutableDictionary * waitingDeleteNotes;
 @property NSData * waitingUpdateManifestData;
-@property NSMutableDictionary * hasCachedVersion;
+/*
+ The idea is that we cache item each time the app is run; ( app going to the background doesn't count). These two dictionaries make sure that we only refresh the cache once
+ */
+
+//keyed on collectionName
+@property NSMutableDictionary * thumbnailHasUpdatedCache;
+@property NSMutableDictionary * collectionHasUpdatedCache;
+//keyed on (collectionName + noteName + imgName) and valued on yes/no
+@property NSMutableDictionary * imageHasUpdatedCache;
+@property BOOL isCategoriesUpdated;
 
 @end
 
@@ -58,7 +67,10 @@
     self.inProgressNoteUpdates = [NSMutableDictionary dictionary];
     self.noteImageUpdateQueue = [NSMutableDictionary dictionary];
     self.noteUpdateQueue = [NSMutableDictionary dictionary];
-    self.hasCachedVersion = [NSMutableDictionary dictionary];
+    self.collectionHasUpdatedCache = [NSMutableDictionary dictionary];
+    self.imageHasUpdatedCache = [NSMutableDictionary dictionary];
+    self.thumbnailHasUpdatedCache = [NSMutableDictionary dictionary];
+    self.isCategoriesUpdated = NO;
     return self;
 }
 
@@ -132,23 +144,27 @@
     NSData * categoriesData = [self readCategoriesFromDisk];
     NSDictionary * categoriesDict = [XoomlCategoryParser deserializeXooml:categoriesData];
     //return the cached one and update the cache
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    NSString * userId = [UserPropertiesHelper userID];
-    [mindcloud getCategories:userId withCallback:^(NSData * categories)
-     {
-         if (categories)
+    if (!self.isCategoriesUpdated)
+    {
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userId = [UserPropertiesHelper userID];
+        [mindcloud getCategories:userId withCallback:^(NSData * categories)
          {
-             NSLog(@"Categories Retrieved");
-             NSDictionary * dict = [XoomlCategoryParser deserializeXooml:categories];
-             [[NSNotificationCenter defaultCenter] postNotificationName:CATEGORIES_RECEIVED_EVENT
-                                                                 object:self
-                                                               userInfo:@{@"result" : dict}];
-             [self writeCategoriesToDisk:categories];
-         }
-         else{
-             NSLog(@"No Categories Received");
-         }
-     }];
+             if (categories)
+             {
+                 NSLog(@"Categories Retrieved");
+                 NSDictionary * dict = [XoomlCategoryParser deserializeXooml:categories];
+                 [self writeCategoriesToDisk:categories];
+                 self.isCategoriesUpdated = YES;
+                 [[NSNotificationCenter defaultCenter] postNotificationName:CATEGORIES_RECEIVED_EVENT
+                                                                     object:self
+                                                                   userInfo:@{@"result" : dict}];
+             }
+             else{
+                 NSLog(@"No Categories Received");
+             }
+         }];
+    }
     return categoriesDict;
 }
 
@@ -168,40 +184,45 @@
 {
     
     NSData * thumbnailData = [self getThumbnailFromDiskForCollection:collectionName];
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    NSString * userID = [UserPropertiesHelper userID];
-    [mindcloud getPreviewImageForUser:userID
-                        forCollection:collectionName
-                         withCallback:^(NSData * imgData){
-                             
-                             NSDictionary * userDict;
-                             if (imgData)
-                             {
-                                 [self saveThumbnailToDisk:imgData forCollection:collectionName];
-                             userDict =
-                             @{
-                             @"result":
-                                @{
-                                @"collectionName" : collectionName,
-                                  @"data" : imgData
-                                }
-                             };
-                             }
-                             else
-                             {
+    if (!self.thumbnailHasUpdatedCache[collectionName])
+    {
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userID = [UserPropertiesHelper userID];
+        [mindcloud getPreviewImageForUser:userID
+                            forCollection:collectionName
+                             withCallback:^(NSData * imgData){
+                                 
+                                 NSDictionary * userDict;
+                                 if (imgData)
+                                 {
+                                     [self saveThumbnailToDisk:imgData forCollection:collectionName];
+                                     self.thumbnailHasUpdatedCache[collectionName] = @YES;
                                  userDict =
                                  @{
-                                     @"result":
-                                     @{
-                                     @"collectionName" : collectionName
-                                      }
+                                 @"result":
+                                    @{
+                                    @"collectionName" : collectionName,
+                                      @"data" : imgData
+                                    }
                                  };
-                             }
-                             [[NSNotificationCenter defaultCenter] postNotificationName:THUMBNAIL_RECEIVED_EVENT
-                                                                                 object:self
-                                                                               userInfo:userDict];
-                             //in any case send out the notification
-                         }];
+                                 }
+                                 else
+                                 {
+                                     userDict =
+                                     @{
+                                         @"result":
+                                         @{
+                                         @"collectionName" : collectionName
+                                          }
+                                     };
+                                 }
+                                 [[NSNotificationCenter defaultCenter] postNotificationName:THUMBNAIL_RECEIVED_EVENT
+                                                                                     object:self
+                                                                                   userInfo:userDict];
+                                 //in any case send out the notification
+                             }];
+            
+    }
     return thumbnailData;
  }
 
@@ -411,7 +432,7 @@
 - (NSData *) getCollection: (NSString *) collectionName
 {
     NSData * cachedData = [self getCollectionFromDisk:collectionName];
-    if (!self.hasCachedVersion[collectionName])
+    if (!self.collectionHasUpdatedCache[collectionName])
     {
         //whatever is cached we try to retreive the collection again
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
@@ -556,7 +577,7 @@
 {
     NSLog(@"Download Completed for %@", collectionName);
     //tell the notification center that download has been completed
-    self.hasCachedVersion[collectionName] = @YES;
+    self.collectionHasUpdatedCache[collectionName] = @YES;
     [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_DOWNLOADED_EVENT
                                                         object:self];
     [NetworkActivityHelper removeActivityInProgress];
@@ -580,39 +601,59 @@
     }
 }
 
-- (NSData *) getImageForNote: (NSString *) noteName
+-(NSString *) getImageCacheKeyForCollection:(NSString *) collectionName
+                                    andNote:(NSString *)noteName
+{
+    
+    NSString * imageCacheKey = [NSString stringWithFormat:@"%@%@", collectionName, noteName];
+    return imageCacheKey;
+}
+- (NSString *) getImagePathForNote: (NSString *) noteName
         andCollection: (NSString *) collectionName;
 {
     //we retreive the images all the time. Only methods that sure there is an image should call this to stop making extra calls to the server
     NSData * imgData = [self getFromDiskNoteImageForNote:noteName andCollection: collectionName];
-    
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    NSString * userID = [UserPropertiesHelper userID];
-    [mindcloud getNoteImageForUser:userID
-                              forNote:noteName
-                       fromCollection:collectionName withCallback:^(NSData * noteData){
-                           
-                           if (noteData)
-                           {
-                               [self saveToDiskNoteImageData:noteData
-                                                forCollection:collectionName
-                                                      andNote:noteName];
+    NSString * path = nil;
+    if (imgData)
+    {
+        
+        path = [FileSystemHelper getPathForNoteImageforNoteName:noteName
+                                                           inBulletinBoard:collectionName];
+    }
+    NSString * imageCacheKey = [self getImageCacheKeyForCollection:collectionName
+                                                           andNote:noteName];
+    if (!self.imageHasUpdatedCache[imageCacheKey])
+    {
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userID = [UserPropertiesHelper userID];
+        [mindcloud getNoteImageForUser:userID
+                                  forNote:noteName
+                           fromCollection:collectionName withCallback:^(NSData * noteData){
                                
-                               NSDictionary * userDict =
-                               @{
-                               @"result":
-                                    @{
-                                    @"collectionName" : collectionName,
-                                    @"noteName" : noteName
-                                    }
-                                 };
-                                 
-                                   [[NSNotificationCenter defaultCenter] postNotificationName:IMAGE_DOWNLOADED_EVENT
-                                                                                       object:self
-                                                                                     userInfo:userDict];
-                           }
-                       }];
-    return imgData;
+                               if (noteData)
+                               {
+                                   [self saveToDiskNoteImageData:noteData
+                                                    forCollection:collectionName
+                                                          andNote:noteName];
+                                   self.imageHasUpdatedCache[imageCacheKey] = @YES;
+                                   
+                                   NSDictionary * userDict =
+                                   @{
+                                   @"result":
+                                        @{
+                                        @"collectionName" : collectionName,
+                                        @"noteName" : noteName
+                                        }
+                                     };
+                                     
+                                       [[NSNotificationCenter defaultCenter] postNotificationName:IMAGE_DOWNLOADED_EVENT
+                                                                                           object:self
+                                                                                         userInfo:userDict];
+                               }
+                           }];
+        
+    }
+    return path;
 }
 
 #pragma mark - Disk Cache helpers
@@ -701,6 +742,7 @@
     NSString * path = [FileSystemHelper getPathForThumbnailForCollectionWithName:collectionName];
     [imgData writeToFile:path atomically:NO];
 }
+
 - (BOOL) saveToDiskCollectionData:(NSData *) data
                      ForCollection:(NSString *) collectionName
 {
@@ -796,13 +838,10 @@
 }
 
 #pragma mark - Cached Object methods
-
 -(void) refreshCacheForKey:(NSString *)collectionName
 {
-    self.hasCachedVersion[collectionName] = @NO;
+    self.collectionHasUpdatedCache[collectionName] = @NO;
     [self getCollection:collectionName];
 }
-
-
 
 @end
