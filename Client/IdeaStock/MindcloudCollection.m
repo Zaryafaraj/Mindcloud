@@ -261,8 +261,9 @@
     NSString * imgName = noteObj.image;
     if (imgName != nil)
     {
-        [self.dataSource getImageForNote:noteModel.noteName andCollection:self.bulletinBoardName];
-        [self.dataSource ]
+        NSString * imagePath = [self.dataSource getImagePathForNote:noteModel.noteName
+                                                      andCollection:self.bulletinBoardName];
+        self.noteImages[noteID] = imagePath;
         [self.waitingNoteImages setObject:noteID forKey:noteModel.noteName];
     }
     
@@ -552,7 +553,7 @@
 
 -(NSData *) getImageForNote:(NSString *) noteID
 {
-    NSString * imgPath = self.noteImages[NOTE_ID];
+    NSString * imgPath = self.noteImages[noteID];
     
     if (!imgPath) return nil;
     
