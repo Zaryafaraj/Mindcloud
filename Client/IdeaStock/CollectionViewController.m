@@ -19,6 +19,7 @@
 #import "CollectionLayoutHelper.h"
 #import "CollectionAnimationHelper.h"
 #import "MultimediaHelper.h"
+#import "NamingHelper.h"
 
 @interface CollectionViewController ()
 
@@ -490,6 +491,7 @@
 -(void) layoutNotes{
     
     NSDictionary * allNotes = [self.board getAllNotesContents];
+    self.noteCount = [allNotes count];
     for(NSString* noteID in allNotes){
         CollectionNote * noteObj = allNotes[noteID];
         XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteID];
@@ -571,9 +573,13 @@
 -(XoomlNoteModel *) createXoomlNoteModel: (NoteView *) note
 {
     
+    if (self.noteCount < 0 ) self.noteCount = 1;
     
     NSString * noteName = [NSString stringWithFormat:@"Note%d",self.noteCount];
     self.noteCount++;
+    
+    noteName = [NamingHelper getBestNameFor:noteName
+                              amongAllNAmes:[self.board getAllNoteNames]];
     NSString * positionX = [NSString stringWithFormat:@"%f", note.frame.origin.x];
     NSString * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
     NSString * scale = [NSString stringWithFormat:@"%f", note.scaleOffset];
@@ -688,6 +694,7 @@
 -(void) deleteNote:(NoteView *) note
 {
     [self.board removeNoteWithID:(note.ID)];
+    self.noteCount--;
     
     [CollectionAnimationHelper animateDeleteView:note fromCollectionView:self.collectionView withCallbackAfterFinish:^(void){
         [note removeFromSuperview];
@@ -812,6 +819,7 @@ intoStackingWithMainView: (UIView *) mainView
     [self.board removeStacking:stack.ID];
     
     for (UIView * view in stack.views){
+        self.noteCount--;
         [view removeFromSuperview];
         [self.board removeNoteWithID:((NoteView *)view).ID];
     }

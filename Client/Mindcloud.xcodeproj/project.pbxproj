@@ -85,6 +85,7 @@
 		DB99FFBF160E66870042ED2A /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFBE160E66870042ED2A /* StringUtils.m */; };
 		DB99FFC3160E73230042ED2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC2160E73230042ED2A /* QuartzCore.framework */; };
 		DB99FFCC160E8ABB0042ED2A /* MindcloudBaseAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFCB160E8ABB0042ED2A /* MindcloudBaseAction.m */; };
+		DB9CA54C16BF8F2D0030B3F7 /* NamingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9CA54B16BF8F2D0030B3F7 /* NamingHelper.m */; };
 		DBB9313E16AB7B78005652AA /* CollectionLayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */; };
 		DBB9314116ABDEA4005652AA /* CollectionAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB9314016ABDEA4005652AA /* CollectionAnimationHelper.m */; };
 		DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */; };
@@ -241,6 +242,8 @@
 		DB99FFC2160E73230042ED2A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DB99FFCA160E8ABB0042ED2A /* MindcloudBaseAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudBaseAction.h; sourceTree = "<group>"; };
 		DB99FFCB160E8ABB0042ED2A /* MindcloudBaseAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudBaseAction.m; sourceTree = "<group>"; };
+		DB9CA54A16BF8F2D0030B3F7 /* NamingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NamingHelper.h; sourceTree = "<group>"; };
+		DB9CA54B16BF8F2D0030B3F7 /* NamingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NamingHelper.m; sourceTree = "<group>"; };
 		DBA5B8EE1648CAFA00C68212 /* UIEditableTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIEditableTableViewDelegate.h; sourceTree = "<group>"; };
 		DBB9313916AA90BA005652AA /* CachedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CachedObject.h; sourceTree = "<group>"; };
 		DBB9313C16AB7B77005652AA /* CollectionLayoutHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionLayoutHelper.h; sourceTree = "<group>"; };
@@ -652,6 +655,8 @@
 				DB99FFBE160E66870042ED2A /* StringUtils.m */,
 				DBEE54B41640F16300BD9F93 /* HTTPHelper.h */,
 				DBEE54B51640F16300BD9F93 /* HTTPHelper.m */,
+				DB9CA54A16BF8F2D0030B3F7 /* NamingHelper.h */,
+				DB9CA54B16BF8F2D0030B3F7 /* NamingHelper.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -848,6 +853,7 @@
 				DB42E73616AE58500021D6FA /* NetworkActivityHelper.m in Sources */,
 				DB3FD53016B77FA400024AC6 /* XoomlStackingModel.m in Sources */,
 				DB3FD53416B7A4D900024AC6 /* XoomlNoteModel.m in Sources */,
+				DB9CA54C16BF8F2D0030B3F7 /* NamingHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

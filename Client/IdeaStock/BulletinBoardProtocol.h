@@ -54,6 +54,8 @@
 
 -(XoomlNoteModel *) getNoteModelFor: (NSString *) noteID;
 
+-(NSArray *) getAllNoteNames;
+
 -(XoomlStackingModel *) getStackModelFor:(NSString *) stackID;
 
 -(NSDictionary *) getAllStackings;

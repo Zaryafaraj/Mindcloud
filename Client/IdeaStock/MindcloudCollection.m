@@ -557,6 +557,18 @@
     return self.noteAttributes[noteID] ;
 }
 
+-(NSArray *) getAllNoteNames
+{
+    NSMutableArray * result = [NSMutableArray array];
+    for (NSString * noteId in self.noteAttributes)
+    {
+        XoomlNoteModel * noteModel = self.noteAttributes[noteId];
+        NSString * noteName = noteModel.noteName;
+        [result addObject:noteName];
+    }
+    return [result copy];
+}
+
 -(XoomlStackingModel *) getStackModelFor:(NSString *) stackID
 {
     return self.collectionAttributes[stackID];
