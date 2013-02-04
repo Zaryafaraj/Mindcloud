@@ -21,6 +21,7 @@ UIEditableTableViewDelegate>
 @property (atomic) BOOL actionInProgress;
 @property (weak, nonatomic) CategoriesViewController * categoriesController;
 
--(void) finishedWorkingWithBulletinBoardWithUpdatedThumbnail:(NSData *) imgData;
+-(void) finishedWorkingWithCollection:(NSString * ) collectionName
+                    withThumbnailData:(NSData *) imgData;
 
 @end

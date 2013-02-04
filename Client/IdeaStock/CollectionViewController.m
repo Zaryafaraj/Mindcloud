@@ -470,7 +470,7 @@
     NSData * thumbnailData = [self saveCollectionThumbnail];
     [self.board synchronize];
     [self.board cleanUp];
-    [self.parent finishedWorkingWithBulletinBoardWithUpdatedThumbnail:thumbnailData];
+    [self.parent finishedWorkingWithCollection:self.bulletinBoardName withThumbnailData:thumbnailData];
 }
 
 - (IBAction)refreshPressed:(id)sender {
