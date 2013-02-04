@@ -620,6 +620,7 @@
 
 #pragma mark - Bulletinboard Delegates
 
+
 -(void) finishedWorkingWithBulletinBoardWithUpdatedThumbnail:(NSData *) imgData
 {
     NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];

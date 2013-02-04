@@ -79,17 +79,14 @@
     
     //try cache
     NSMutableArray * tempAnswer = [[self getAllCollectionsFromDisk] mutableCopy];
-    //for debugging on a mac
-    [tempAnswer removeObject:@".DS_Store"];
-    [tempAnswer removeObject:@"categories.xml"];
-    //return an immutable object
-    tempAnswer = [tempAnswer copy];
     //in any case do another refresh
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
     [mindcloud getAllCollectionsFor:userId
                        WithCallback:^(NSArray * collection)
      {
+         //make sure to remove stale items from cache
+         [self consolidateCache:collection];
          for (NSString * collectionName in collection)
          {
              [self createCollectionToDisk:collectionName];
@@ -662,7 +659,13 @@
 {
     NSString * path = [FileSystemHelper getPathForAllCollections];
     NSError * err;
-    return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&err];
+    NSArray * firstAnser =  [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path
+                                                                                error:&err];
+    NSMutableArray * tempAnswer = [firstAnser mutableCopy];
+    //for debugging on a mac
+    [tempAnswer removeObject:@".DS_Store"];
+    [tempAnswer removeObject:@"categories.xml"];
+    return [tempAnswer copy];
 }
 - (NSData *) getCollectionFromDisk: (NSString *) collectionName{
     
@@ -837,6 +840,18 @@
     return data;
 }
 
+-(void) consolidateCache:(NSArray *) currentCollections
+{
+    NSSet * availableCollections = [NSSet setWithArray:currentCollections];
+    NSArray * cachedCollections = [self getAllCollectionsFromDisk];
+    for(NSString * collectionName in cachedCollections)
+    {
+        if (![availableCollections containsObject:collectionName])
+        {
+            [self deleteCollectionFromDisk:collectionName];
+        }
+    }
+}
 #pragma mark - Cached Object methods
 -(void) refreshCacheForKey:(NSString *)collectionName
 {
