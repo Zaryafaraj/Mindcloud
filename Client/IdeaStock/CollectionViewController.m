@@ -39,6 +39,7 @@
 @property int panCounter ;
 @property BOOL isRefreshing;
 @property BOOL shouldRefresh;
+@property UIActionSheet * activeImageSheet;
 
 @end
 
@@ -87,7 +88,6 @@
             ImageView * imgView =  self.imageNoteViews[noteId];
             NSData * imgData = [self.board getImageForNote:noteId];
             imgView.image = [UIImage imageWithData:imgData];
-            NSLog(@"ImageRealoaded");
             
         }
     }
@@ -412,12 +412,26 @@
 
 - (IBAction)cameraPressed:(id)sender {
     
-    UIImagePickerController * imagePicker = [MultimediaHelper getCameraController];
-    if (imagePicker)
+    UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil
+                                                         delegate:self
+                                                cancelButtonTitle:nil
+                                           destructiveButtonTitle:nil
+                                                otherButtonTitles:@"Camera", @"Library", nil];
+    //make sure an actionsheet is not presented on top of another not dismissed one
+    if (self.activeImageSheet)
     {
-        [self presentViewController:imagePicker animated:YES completion:^{}];
-        imagePicker.delegate = self;
+        [self.activeImageSheet dismissWithClickedButtonIndex:-1 animated:NO];
+        self.activeImageSheet = nil;
     }
+    [action showFromBarButtonItem:sender animated:NO];
+    self.activeImageSheet = action;
+
+//    UIImagePickerController * imagePicker = [MultimediaHelper getCameraController];
+//    if (imagePicker)
+//    {
+//        [self presentViewController:imagePicker animated:YES completion:^{}];
+//        imagePicker.delegate = self;
+//    }
 }
 
 
@@ -466,6 +480,8 @@
 -(IBAction)backPressed:(id) sender {
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [self.activeImageSheet dismissWithClickedButtonIndex:-1 animated:NO];
     
     NSData * thumbnailData = [self saveCollectionThumbnail];
     [self.board synchronize];

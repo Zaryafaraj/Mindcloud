@@ -16,7 +16,8 @@
                                                         StackViewDelegate,
                                                         NoteViewDelegate,
                                                         UIImagePickerControllerDelegate,
-                                                        UINavigationControllerDelegate>
+                                                        UINavigationControllerDelegate,
+                                                        UIActionSheetDelegate>
 
 @property (strong,nonatomic) NSString * bulletinBoardName;
 @property (strong, nonatomic) MindcloudCollection * board;
