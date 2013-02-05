@@ -1019,7 +1019,10 @@ intoStackingWithMainView: (UIView *) mainView
 -(void) imagePickerController:(UIImagePickerController *)picker
         didFinishPickingImage:(UIImage *)image
                   editingInfo:(NSDictionary *)editingInfo{
-    [self dismissModalViewControllerAnimated:YES];
+    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera)
+    {
+        [self dismissViewControllerAnimated:YES completion:^(void){}];
+    }
     
     CGRect frame = CGRectMake(self.collectionView.frame.origin.x,
                               self.collectionView.frame.origin.y,
