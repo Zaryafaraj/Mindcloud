@@ -12,6 +12,8 @@
 
 +(UIImagePickerController *) getCameraController;
 
++(UIImagePickerController *) getLibraryController;
+
 +(NSData *) getThumbnailDataforUIImage:(UIImage *) image;
 +(NSData *) captureScreenshotOfView:(UIView *)view;
 

@@ -40,6 +40,8 @@
 @property BOOL isRefreshing;
 @property BOOL shouldRefresh;
 @property UIActionSheet * activeImageSheet;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *cameraButton;
+@property (strong, nonatomic) UIPopoverController * lastPopOver;
 
 @end
 
@@ -412,6 +414,8 @@
 
 - (IBAction)cameraPressed:(id)sender {
     
+    if (self.lastPopOver) return;
+    
     UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil
                                                          delegate:self
                                                 cancelButtonTitle:nil
@@ -425,13 +429,6 @@
     }
     [action showFromBarButtonItem:sender animated:NO];
     self.activeImageSheet = action;
-
-//    UIImagePickerController * imagePicker = [MultimediaHelper getCameraController];
-//    if (imagePicker)
-//    {
-//        [self presentViewController:imagePicker animated:YES completion:^{}];
-//        imagePicker.delegate = self;
-//    }
 }
 
 
@@ -983,9 +980,39 @@ intoStackingWithMainView: (UIView *) mainView
     }
 }
 
+#pragma mark - action sheet delegate
+
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    UIImagePickerController * imagePicker = nil;
+    if (buttonIndex == 0)
+    {
+        imagePicker= [MultimediaHelper getCameraController];
+        if (imagePicker)
+        {
+            [self presentViewController:imagePicker animated:YES completion:^{}];
+            imagePicker.delegate = self;
+        }
+    }
+    else if (buttonIndex == 1)
+    {
+        imagePicker = [MultimediaHelper getLibraryController];
+        imagePicker.delegate = self;
+        UIPopoverController * presenter =
+            [[UIPopoverController alloc] initWithContentViewController:imagePicker];
+        self.lastPopOver = presenter;
+        self.lastPopOver.delegate = self;
+        [presenter presentPopoverFromBarButtonItem:self.cameraButton
+                          permittedArrowDirections:UIPopoverArrowDirectionAny
+                                          animated:YES];
+    }
+}
+
 #pragma mark - image delegate
 -(void) imagePickerControllerDidCancel:(UIImagePickerController *)picker{
     [self dismissViewControllerAnimated:YES completion:^(void){}];
+    [self.lastPopOver dismissPopoverAnimated:YES];
+    self.lastPopOver = nil;
 }
 
 
@@ -1013,6 +1040,14 @@ intoStackingWithMainView: (UIView *) mainView
     [CollectionAnimationHelper animateNoteAddition:note toCollectionView:self.collectionView];
     
     [self addImageNoteToModel:note withId:noteID];
+    [self.lastPopOver dismissPopoverAnimated:YES];
+    self.lastPopOver = nil;
+}
+
+#pragma mark - popover delegate
+-(void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    self.lastPopOver = nil;
 }
 
 @end

@@ -32,6 +32,15 @@
     return imagePicker;
 }
 
++(UIImagePickerController *) getLibraryController
+{
+    UIImagePickerController * imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    imagePicker.mediaTypes = @[(NSString *) kUTTypeImage];
+    imagePicker.allowsEditing = YES;
+    return imagePicker;
+}
+
 + (NSData *) captureScreenshotOfView:(UIView *)view
 {
     CGFloat sizeX = MAX(view.bounds.size.width, view.bounds.size.height);
