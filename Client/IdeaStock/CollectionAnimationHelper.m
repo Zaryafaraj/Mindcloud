@@ -77,9 +77,13 @@
 backIntoScreenBoundsInRect:(CGRect) frame
 {
     
-            [UIView animateWithDuration:0.1 animations:^{
+    [UIView animateWithDuration:0.1
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
                 view.frame = frame;
-            }];
+    }
+                     completion:nil];
 }
 
 +(void) animateDeleteView:(UIView *) view

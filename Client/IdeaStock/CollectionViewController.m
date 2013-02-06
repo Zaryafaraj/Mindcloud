@@ -392,11 +392,6 @@
     self.toolbar.items = [toolBarItems copy];
 }
 
--(BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-	return YES;
-}
-
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [CollectionLayoutHelper layoutViewsForOrientationChange:self.collectionView];
