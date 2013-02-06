@@ -421,7 +421,9 @@
 
 #pragma mark - textbox delegate
 -(void) note:(id)note changedTextTo:(NSString *)text{
-    [self.openStack setText: text];
+    if (!self.highLightedNote){
+        [self.openStack setText: text];
+    }
     [self.delegate note:note changedTextTo:text];
 }
 
