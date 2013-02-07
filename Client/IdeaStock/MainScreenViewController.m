@@ -488,7 +488,10 @@
     NSIndexPath * updatedItem = [self getIndexPathForCollectionIfVisible:collectionName];
     if (updatedItem)
     {
-        [self.collectionView reloadItemsAtIndexPaths:@[updatedItem]];
+        //[self.collectionView reloadItemsAtIndexPaths:@[updatedItem]];
+        UICollectionViewCell * cell = [self.collectionView cellForItemAtIndexPath:updatedItem];
+        CollectionCell * actualCell = (CollectionCell *) cell;
+        actualCell.img =[UIImage imageWithData:imgData];
     }
     [NetworkActivityHelper removeActivityInProgress];
 }
