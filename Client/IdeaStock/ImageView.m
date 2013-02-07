@@ -93,6 +93,7 @@
                                       self.imageView.superview.frame.origin.y + self.imageView.superview.frame.size.height * IMG_OFFSET_Y_RATE,
                                       self.imageView.superview.frame.size.width * IMG_SIZE_WIDTH_RATIO,
                                       self.imageView.superview.frame.size.height * IMG_SIZE_HEIGHT_RATIO);
+    self.scaleOffset = 1;
 }
 
 -(void)resizeToRect:(CGRect)rect Animate:(BOOL)animate{

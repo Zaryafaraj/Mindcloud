@@ -165,6 +165,7 @@
                                        self.bounds.size.width * TEXT_WIDHT_RATIO, self.bounds.size.height * TEXT_HEIGHT_RATIO);
         }
     }
+    self.scaleOffset = 1;
 }
 
 -(BOOL) isScalingValid: (CGFloat) scaleFactor;

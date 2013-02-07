@@ -438,7 +438,8 @@
         [CollectionLayoutHelper clearRectangle: fittingRect
                          inCollectionView:self.collectionView
                      withMoveNoteFunction:^(NoteView * note){
-                         [self updateNoteLocation:note];
+                         [note resetSize];
+                         [self updateScalingAndPositionAccordingToNoteView:note];
                      }];
         
         //layout stack in the empty rect
@@ -622,6 +623,22 @@
     [self.board updateNoteAttributes:noteId withModel:oldModel];
 }
 
+-(void) updateScalingAndPositionAccordingToNoteView:(NoteView *) view
+{
+    
+    NSString * noteID = view.ID;
+    float positionFloat = view.frame.origin.x;
+    NSString * positionX = [NSString stringWithFormat:@"%f",positionFloat];
+    positionFloat = view.frame.origin.y;
+    NSString * positionY = [NSString stringWithFormat:@"%f",positionFloat];
+    NSString * scale = [NSString stringWithFormat:@"%f", view.scaleOffset];
+    
+    XoomlNoteModel * oldModel = [self.board getNoteModelFor:view.ID];
+    oldModel.positionX = positionX;
+    oldModel.positionY = positionY;
+    oldModel.scaling = scale;
+    [self.board updateNoteAttributes:noteID withModel:oldModel];
+}
 -(void) updateScaleForStack:(NSString *) stackID withScale:(CGFloat) scaleOffset
 {
     
