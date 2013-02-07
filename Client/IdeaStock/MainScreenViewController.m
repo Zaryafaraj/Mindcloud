@@ -675,6 +675,10 @@
                      colCell.img = [UIImage imageWithData:imgData];
                  }
              }
+            else
+            {
+                colCell.img = [UIImage imageNamed:@"felt-red-ipad-background.jpg"];
+            }
         }
         else
         {
