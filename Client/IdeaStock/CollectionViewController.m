@@ -945,8 +945,8 @@ intoStackingWithMainView: (UIView *) mainView
     [self dismissViewControllerAnimated:YES completion:^(void){}];
 }
 
--(void) unstackItem:(UIView *) item
-           fromView: (UIView *) stackView 
+-(void) unstackItem:(NoteView *) item
+           fromView: (StackView *) stackView
       withPastCount: (int) count{
     
     if ( [item isKindOfClass:[NoteView class]]){
@@ -973,6 +973,11 @@ intoStackingWithMainView: (UIView *) mainView
             [self updateScalingAndPositionAccordingToNoteView:noteItem];
         }];
     }
+}
+
+-(void) stackViewDeletedNote:(NoteView *)note
+{
+    [self deleteNote:note];
 }
 
 #pragma mark - note delegate

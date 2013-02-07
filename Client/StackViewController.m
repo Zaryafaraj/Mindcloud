@@ -376,6 +376,7 @@
 -(IBAction)deletePressed:(id)sender {
     
     
+    [self.delegate stackViewDeletedNote:self.highLightedNote];
     [UIView animateWithDuration:0.5 animations:^{
         self.highLightedNote.transform = CGAffineTransformScale(self.highLightedNote.transform, 0.05, 0.05);
     }completion:^ (BOOL didFinish){

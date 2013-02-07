@@ -29,9 +29,11 @@
 
 - (void)returnedstackViewController: (StackViewController *) sender;
 
-- (void)unstackItem : (UIView *) item 
-            fromView: (UIView *) stackView 
+- (void)unstackItem : (NoteView *) item
+            fromView: (StackView *) stackView
        withPastCount: (int) count;
+
+-(void) stackViewDeletedNote:(NoteView *) note;
 
 
 @end
