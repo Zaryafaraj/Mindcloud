@@ -289,28 +289,6 @@
     [root addChild:noteNode];
 }
 
--(void) changeNotePosition:(NSString *) noteID
-                       toX:(NSString *) newPositionX
-                      andY:(NSString *) newPositionY
-{
-
-    NSString * positionX = newPositionX;
-    NSString * positionY = newPositionY;
-    NSString * isVisible = @"true";
-    
-    //get the note to add the position to
-    DDXMLElement * note = [self getNoteElementFor:noteID];
-    
-    //create the position attribute
-    DDXMLNode * noteProperty = [XoomlCollectionParser xoomlForNotePositionX:positionX
-                                                               andPositionY:positionY withVisibility:isVisible];
-    DDXMLElement * noteAttributeContainer = [XoomlCollectionParser xoomlForNoteAttributeContainer];
-    //put the nodes into the hierarchy
-    [noteAttributeContainer addChild:noteProperty];
-    [note addChild:noteAttributeContainer];
-    return;
-}
-
 -(void) addStacking:(NSString *) stackingName
           withModel:(XoomlStackingModel *)model
 {

@@ -19,10 +19,6 @@
 -(void) addNoteWithID: (NSString *) ID
               andModel: (XoomlNoteModel *)properties;
 
--(void) changeNotePosition:(NSString *) noteName
-                       toX:(NSString *) positionX
-                      andY:(NSString *) positionY;
-
 //doesn't update the notes
 -(void) addStacking:(NSString *) stackingName
           withModel:(XoomlStackingModel *)model;

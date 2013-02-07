@@ -45,7 +45,7 @@
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
 
-#define SYNCHRONIZATION_PERIOD 200
+#define SYNCHRONIZATION_PERIOD 2
 
 
 @interface MindcloudCollection()
@@ -499,29 +499,12 @@
 
     if (!(self.noteContents)[noteID]) return;
     
-    if(noteModel.positionX && noteModel.positionY)
-    {
-        
-        XoomlNoteModel * oldNoteModel = self.noteAttributes[noteID];
-        oldNoteModel.positionX = noteModel.positionX;
-        oldNoteModel.positionY = noteModel.positionY;
-        
-        [self.manifest changeNotePosition:noteID
-                                      toX:noteModel.positionX
-                                     andY:noteModel.positionY];
-
-        self.needSynchronization = YES;
-    }
-    if (noteModel.scaling)
-    {
-        
-        XoomlNoteModel * oldNoteModel = self.noteAttributes[noteID];
-        oldNoteModel.scaling = noteModel.scaling;
-        
-        [self.manifest updateNote:noteID withNewModel:noteModel];
-        
-        self.needSynchronization = YES;
-    }
+    XoomlNoteModel * oldNoteModel = self.noteAttributes[noteID];
+    oldNoteModel.scaling = noteModel.scaling;
+    
+    [self.manifest updateNote:noteID withNewModel:noteModel];
+    
+    self.needSynchronization = YES;
 }
 
 //this is ugly as it isn't consistent and doesn't update the notes in the stacking
