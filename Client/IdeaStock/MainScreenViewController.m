@@ -212,15 +212,22 @@
 -(void) deleteCollection
 {
     NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
+    //I think there is a bug in ios that will cause some of the index paths to be invalid
+    //we check for the valid index paths and batch update only those
+    NSMutableArray * validSelectedItems = [NSMutableArray array];
     for (NSIndexPath * selectedItem in selectedItems)
     {
         CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItem];
         NSString * collectionName = selectedCell.text;
-        [self.model removeCollection:collectionName fromCategory:self.currentCategory];
-        [self.dataSource deleteCollectionFor:collectionName];
+        if (collectionName)
+        {
+            [self.model removeCollection:collectionName fromCategory:self.currentCategory];
+            [self.dataSource deleteCollectionFor:collectionName];
+            [validSelectedItems addObject:selectedItem];
+        }
     }
     [self.collectionView performBatchUpdates:^{
-        [self.collectionView deleteItemsAtIndexPaths:selectedItems];
+        [self.collectionView deleteItemsAtIndexPaths:validSelectedItems];
     }completion:nil];
 }
 

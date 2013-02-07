@@ -515,6 +515,19 @@ class DropboxClient(object):
         http = AsyncHTTPClient()
         response = yield gen.Task(http.fetch, url, method='POST', headers=headers,
             body=urllib.urlencode(params))
+        #for 503 retry three times
+        counter = 0
+        while response.code == 503 and counter < 3:
+            counter_closure = counter
+            response = yield gen.Task(http.fetch, url, method='POST', headers=headers,
+                body=urllib.urlencode(params))
+            counter_closure+=1
+            counter = counter_closure
+            print counter
+
+        if response.code == 503:
+            response = yield gen.Task(http.fetch, url, method='POST', headers=headers,
+                body=urllib.urlencode(params))
         callback(response)
 
 
