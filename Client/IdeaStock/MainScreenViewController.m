@@ -212,22 +212,26 @@
 -(void) deleteCollection
 {
     NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
-    //I think there is a bug in ios that will cause some of the index paths to be invalid
-    //we check for the valid index paths and batch update only those
-    NSMutableArray * validSelectedItems = [NSMutableArray array];
+    NSMutableArray * deletedCollections = [NSMutableArray array];
     for (NSIndexPath * selectedItem in selectedItems)
     {
-        CollectionCell * selectedCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:selectedItem];
-        NSString * collectionName = selectedCell.text;
+        NSString * collectionName = [self.model getCollectionAt:selectedItem.item forCategory:self.currentCategory];
         if (collectionName)
         {
-            [self.model removeCollection:collectionName fromCategory:self.currentCategory];
             [self.dataSource deleteCollectionFor:collectionName];
-            [validSelectedItems addObject:selectedItem];
+            [deletedCollections addObject:collectionName];
+            
         }
     }
+    
+    //we now delete the model so we don't mess it up when we are querying it for collectionNames
+    for(NSString * collectionName in deletedCollections)
+    {
+        [self.model removeCollection:collectionName fromCategory:self.currentCategory];
+    }
+    
     [self.collectionView performBatchUpdates:^{
-        [self.collectionView deleteItemsAtIndexPaths:validSelectedItems];
+        [self.collectionView deleteItemsAtIndexPaths:selectedItems];
     }completion:nil];
 }
 
@@ -384,15 +388,6 @@
     self.activeSheet = action;
 }
 
--(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex != 0) return;
-    [self deleteCollection];
-    self.shouldSaveCategories = YES;
-    //make sure after deletion DELETE and RENAME buttons are disabled
-    [self disableEditButtons];
-    
-}
 
 - (IBAction)refreshPressed:(id)sender {
     
@@ -841,6 +836,17 @@
     {
         return UITableViewCellEditingStyleNone;
     }
+}
+
+#pragma mark - action sheet delegate
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex != 0) return;
+    [self deleteCollection];
+    self.shouldSaveCategories = YES;
+    //make sure after deletion DELETE and RENAME buttons are disabled
+    [self disableEditButtons];
+    
 }
 
 #pragma mark - Table view delegate
