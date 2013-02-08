@@ -19,6 +19,6 @@
         andMainView: (NoteView *) mainView
           withFrame: (CGRect) frame;
 
--(void) setNextMainView;
+-(void) setNextMainViewWithNoteToRemove:(NoteView *) noteView;
 
 @end

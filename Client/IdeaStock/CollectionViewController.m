@@ -952,9 +952,7 @@ intoStackingWithMainView: (UIView *) mainView
     if ( [item isKindOfClass:[NoteView class]]){
         NoteView * noteItem = (NoteView *) item;
         
-        if (((StackView *) stackView).mainView == noteItem){
-            [((StackView *) stackView) setNextMainView];
-        }
+        [stackView setNextMainViewWithNoteToRemove:noteItem];
         for (UIGestureRecognizer * gr in noteItem.gestureRecognizers){
             [noteItem removeGestureRecognizer:gr];
         }

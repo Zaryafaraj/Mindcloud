@@ -147,7 +147,6 @@
         
         self.text= mainView.text;
         self.originalFrame = self.frame;
-        self.mainView = mainView;
     }
     return self;    
 }
@@ -265,45 +264,67 @@
 }
 
 
--(void) removeMainViewImage{
-    
-    if ([self.mainView isKindOfClass:[ImageView class]]){
-        for (UIView * view in self.subviews){
-            if ([view isKindOfClass:[UIImageView class]]){
-                for (UIView * lastImg in view.subviews){
-                    if ([lastImg isKindOfClass:[UIImageView class]]){
-                        [lastImg removeFromSuperview];
-                        return;
-                    }
+-(BOOL) removeMainViewImage
+{
+    for (UIView * view in self.subviews)
+    {
+        if ([view isKindOfClass:[UIImageView class]])
+        {
+            for (UIView * lastImg in view.subviews)
+            {
+                if ([lastImg isKindOfClass:[UIImageView class]])
+                {
+                    [lastImg removeFromSuperview];
+                    return YES;
                 }
             }
         }
     }
+    return NO;
 }
 
 //removes the main view from the stack and sets the next view as the main view and top
 //of the stack if no item has higher priority for being the top of the stack
--(void) setNextMainView{
-    
-    [self removeMainViewImage];
-    [self.views removeObject:self.mainView];
-    
+-(void) setNextMainViewWithNoteToRemove:(NoteView *) noteView
+{
+    //First if the note is the mainView and its a image type, remove it as the image of stack
+    //Then figure out if there is another image to become the mainview if not choose the last
+    //note
+    //If the note
+    //if note is not the main view don't bother
+    if (noteView != self.mainView)
+    {
+        return;
+    }
+    //if its the main view then remove it as the mainView
+    [noteView removeFromSuperview];
+    [self.views removeObject:noteView];
+    //in addition if it had an image remove that as the top of the stack image
+    if ([noteView isKindOfClass:[ImageView class]])
+    {
+        [self removeMainViewImage];
+    }
+
+    //we now need to find a substitue for it
+    //if we have any image notes use that
     ImageView * topView = nil;
     for (UIView * view in self.views){
         if ([view isKindOfClass:[ImageView class]]){
             topView = (ImageView *) view;
+            [self layImage:topView.image];
+            self.mainView = topView;
+            [self setText:topView.text];
             break;
         }
         
     }
-    if (topView != nil){
-        [self layImage:topView.image];
-        self.mainView = topView;
-        [self setText:topView.text];
-        return;
+    //if we still couldnt find it then just select the last noteView and make that the
+    //mainView
+    if (topView == nil)
+    {
+        self.mainView = [self.views lastObject];
+        [self setText:((NoteView *)[self.views lastObject]).text];
     }
-    self.mainView = [self.views lastObject];
-    [self setText:((NoteView *)[self.views lastObject]).text];
 }
 
 
