@@ -229,6 +229,20 @@
                                        subView.frame.origin.y,
                                        subView.frame.size.width * scaleFactor,
                                        subView.frame.size.height * scaleFactor);
+            //if we have an image on top of the stack that will be the subview of this image view which is the stack image
+            for(UIView * stackTop in subView.subviews)
+            {
+                if ([stackTop isKindOfClass:[UIImageView class]])
+                {
+                    stackTop.frame = CGRectMake(subView.frame.origin.x + subView.frame.size.width * IMG_OFFSET_X_RATE,
+                                                subView.frame.origin.y + subView.frame.size.height * IMG_OFFSET_Y_RATE,
+                                                subView.frame.size.width * IMG_SIZE_WIDTH_RATIO,
+                                                subView.frame.size.height * IMG_SIZE_HEIGHT_RATIO);
+                    
+                }
+                    
+            }
+            
         }
         else if ([subView isKindOfClass:[UITextView class]]){
             //doing this to make the text clearer instead of resizing an existing UITextView
