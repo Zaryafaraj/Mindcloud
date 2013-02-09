@@ -254,7 +254,7 @@
             [textView setBackgroundColor:[UIColor clearColor]];
             
             textView.text = oldText;
-            
+            textView.editable = NO;
             [subView removeFromSuperview];
             
             [self addSubview:textView];

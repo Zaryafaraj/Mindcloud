@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "NoteView.h"
 
-@interface StackView : UIView <BulletinBoardObject>
+@interface StackView : UIView <BulletinBoardObject,UITextViewDelegate>
 
 @property (strong,nonatomic) NSMutableArray * views;
 
