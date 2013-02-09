@@ -702,7 +702,7 @@
                          into:(NSMutableArray *) views
 {
     NSSet * noteRefs = [[NSSet alloc] initWithArray:noteRefIDs];
-    UIView * mainView;
+    UIView * mainViewCandidate;
     for (UIView * view in self.collectionView.subviews){
         if ([view isKindOfClass:[NoteView class]]){
             NSString * noteID = ((NoteView *) view).ID;
@@ -710,12 +710,14 @@
                 [views addObject:view];
                 //make sure that the latest note added will be shown on the top of the stacking
                 if ([noteID isEqualToString:noteRefIDs[0]]){
-                    mainView = view;
+                    mainViewCandidate = view;
                 }
             }
         }
     }
-    //return the head of the views
+    //find the best mainView
+    UIView * mainView = [self findMainViewForIntersectingViews:views
+                                                 withCandidate:mainViewCandidate];
     return mainView;
 }
 
