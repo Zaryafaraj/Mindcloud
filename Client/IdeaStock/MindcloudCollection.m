@@ -480,11 +480,20 @@
     if (!oldNote) return;
     
     //for attributes in newNote that a value is specified; update those
+    
     if (newNote.noteText) oldNote.noteText = newNote.noteText;
     if (newNote.noteTextID) oldNote.noteTextID = newNote.noteTextID;
     
-    //Old note now is updated; Serialize and send update datasource
-    NSData * noteData = [XoomlCollectionParser convertNoteToXooml:oldNote];
+    NSData * noteData = nil;
+    if (self.noteImages[noteID])
+    {
+        noteData = [XoomlCollectionParser convertImageNoteToXooml:oldNote];
+    }
+    else
+    {
+        noteData = [XoomlCollectionParser convertNoteToXooml:oldNote];
+    }
+    
     XoomlNoteModel * noteModel = self.noteAttributes[noteID];
     NSString * noteName = noteModel.noteName;
     
