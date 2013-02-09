@@ -401,15 +401,12 @@ withMoveNoteFunction:(update_note_location_function) updateNote
 {
     
         [noteItem resetSize];
-        float offset = SEPERATOR_RATIO * noteItem.frame.size.width;
-        CGRect tempRect = CGRectMake (collectionView.frame.origin.x + offset,
-                                      collectionView.frame.origin.y + collectionView.frame.size.height - (noteItem.frame.size.height + offset),
-                                      noteItem.frame.size.width,
-                                      noteItem.frame.size.height);
-        noteItem.frame = tempRect;
+        float offsetX = SEPERATOR_RATIO * noteItem.frame.size.width;
+        float offsetY = SEPERATOR_RATIO * noteItem.frame.size.height;
+        noteItem.frame = stack.frame;
         [collectionView addSubview:noteItem];
-        CGRect finalRect = CGRectMake(stack.frame.origin.x + (count * offset * 2),
-                                          stack.frame.origin.y + (count * offset * 2),
+        CGRect finalRect = CGRectMake(stack.frame.origin.x + (count * offsetX),
+                                          stack.frame.origin.y + (count * offsetY),
                                           noteItem.frame.size.width,
                                           noteItem.frame.size.height);
     [CollectionAnimationHelper animateUnstack:noteItem

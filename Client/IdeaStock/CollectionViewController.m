@@ -1017,7 +1017,11 @@ intoStackingWithMainView: (UIView *) mainView
                                andCallback:^(void){
             NSString * stackName =((StackView*) stackView).ID;
             [self.board removeNote:noteItem.ID fromStacking:stackName];
-            [noteItem resetSize];
+                                   float noteX = noteItem.frame.origin.x;
+                                   float noteY = noteItem.frame.origin.y;
+            [CollectionLayoutHelper adjustNotePositionsForX:&noteX
+                                                       andY:&noteY
+                                                     inView:self.collectionView];
             [self updateScalingAndPositionAccordingToNoteView:noteItem];
         }];
     }
