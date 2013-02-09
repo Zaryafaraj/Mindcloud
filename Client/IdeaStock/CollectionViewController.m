@@ -277,7 +277,9 @@
     } 
     
     if ([self.intersectingViews count] > 1 ){
-        [self stackNotes:self.intersectingViews into:view withID:nil withScale:1];
+        UIView * mainView = [self findMainViewForIntersectingViews: self.intersectingViews
+                                                     withCandidate:view];
+        [self stackNotes:self.intersectingViews into:mainView withID:nil withScale:1];
     }
     
     if([view isKindOfClass:[NoteView class]]){
@@ -732,6 +734,54 @@
 }
 
 #pragma mark - Stack Actions
+
+-(UIView *) findMainViewForIntersectingViews:(NSArray *) views withCandidate:(UIView *) candidate
+{
+    //if the candidate is an image view or is a stack with an image view on top
+    //the candidate is the mainView
+    if ([candidate isKindOfClass:[ImageView class]]) return candidate;
+    if ([candidate isKindOfClass:[StackView class]])
+    {
+        UIView * topOfStack = ((StackView *) candidate).mainView;
+        if ([topOfStack isKindOfClass:[ImageView class]])
+        {
+            return topOfStack;
+        }
+    }
+    else
+    {
+        UIView * mainView = nil;
+        UIView * mainViewCandidate = nil;
+        //if there is any image view in the intersecting items then thats the mainView
+        for (UIView * view in views)
+        {
+            if ([view isKindOfClass:[ImageView class]])
+            {
+                mainView = view;
+                return mainView;
+            }
+            //if not then any stackView that has top item which is imageview could be the top of stack
+            else if ([view isKindOfClass:[StackView class]])
+            {
+                UIView * topOfStack = ((StackView *) view).mainView;
+                if ([topOfStack isKindOfClass:[ImageView class]])
+                {
+                    mainViewCandidate = topOfStack;
+                }
+            }
+        }
+        //if we found a better candidate return that, otherwise the first candidate is the mainview
+        if (mainViewCandidate != nil)
+        {
+            return mainViewCandidate;
+        }
+        else
+        {
+            return candidate;
+        }
+    }
+    return candidate;
+}
 /*
  If ID is nil the methods will create a unique UUID itself and will also write
  to the datamodel.The nil id means that this is a fresh stacking
