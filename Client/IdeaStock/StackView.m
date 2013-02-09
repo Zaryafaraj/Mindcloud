@@ -206,8 +206,8 @@
 
 -(void) scale:(CGFloat) scaleFactor{
     
-    if ( self.frame.size.width * scaleFactor > self.originalFrame.size.width * 3||
-        self.frame.size.height * scaleFactor > self.originalFrame.size.height * 3){
+    if ( self.frame.size.width * scaleFactor > self.originalFrame.size.width * 2||
+        self.frame.size.height * scaleFactor > self.originalFrame.size.height * 2){
         return;
     }
     if ( self.frame.size.width * scaleFactor < self.originalFrame.size.width * 0.9||
