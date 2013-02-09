@@ -478,6 +478,7 @@
     
     [self.activeImageSheet dismissWithClickedButtonIndex:-1 animated:NO];
     
+    [self.lastPopOver dismissPopoverAnimated:YES];
     NSData * thumbnailData = [self saveCollectionThumbnail];
     [self.board synchronize];
     [self.board cleanUp];
