@@ -398,7 +398,7 @@
   FromCollection: (NSString *) collectionName
 {
     //we don't possibly want the delete to reach the server before the add. In that case it will get deleted and added again
-    if ([self.inProgressNoteImageUpdates[noteName] isEqual:@YES] || [self.inProgressNoteUpdates[noteName] isEqual:@NO])
+    if ([self.inProgressNoteImageUpdates[noteName] isEqual:@YES] || [self.inProgressNoteUpdates[noteName] isEqual:@YES])
     {
         self.waitingDeleteNotes[noteName] = @YES;
         //if there were prior actions that wait to be performed on the deleted note just cancel them

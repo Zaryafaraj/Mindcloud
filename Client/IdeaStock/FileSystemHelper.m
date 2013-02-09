@@ -36,7 +36,6 @@
     NSString * pathExtension = [[collectionName stringByAppendingString:@"/"]
                                 stringByAppendingString:BULLETINBOARD_XOOML_FILE_NAME];
     
-    pathExtension = [pathExtension lowercaseString];
     NSString *path = [[NSHomeDirectory() stringByAppendingString:@"/Documents/Cache/"]
                       stringByAppendingString:pathExtension];
     [self createMissingDirectoryForPath:path];
@@ -59,7 +58,6 @@
                                  stringByAppendingString:@"/"]
                                 stringByAppendingString:NOTE_XOOML_FILE_NAME];
     
-    noteExtension = [noteExtension lowercaseString];
     NSString * path = [[NSHomeDirectory() stringByAppendingString: @"/Documents/Cache/"]
                        stringByAppendingString:noteExtension];
     [self createMissingDirectoryForPath:path];
@@ -91,7 +89,7 @@
     BOOL shouldCreateDirectory = YES;
     if (rootDirectories){
         for (NSString * dir in rootDirectories){
-            if ([dir isEqualToString:directoryName] || [dir isEqualToString:[directoryName lowercaseString]]){
+            if ([dir isEqualToString:directoryName] || [dir isEqualToString:directoryName]){
                 
                 shouldCreateDirectory =NO;
                 break;
