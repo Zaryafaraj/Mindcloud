@@ -35,5 +35,7 @@
 
 -(void) stackViewDeletedNote:(NoteView *) note;
 
+-(void) stack:(StackView *) stack IsEmptyForViewController:(StackViewController * ) sender;
+
 
 @end

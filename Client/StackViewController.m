@@ -388,7 +388,10 @@
         self.editing = NO;
         self.highLightedNote = nil;
         [self layoutNotes: YES];
-
+        if ([self.notes count] == 0)
+        {
+            [self.delegate stack:self.openStack IsEmptyForViewController:self];
+        }
     }];
     
 }
@@ -407,10 +410,13 @@
     self.highLightedNote = nil;
     [self layoutNotes: YES];
     [UIView animateWithDuration:0.5 animations:^{self.highLightedNote.alpha = 0;} completion:^(BOOL finished){
-     
-        
-        
     }];
+    
+    if ([self.notes count] == 0)
+    {
+        [self.delegate stack:self.openStack IsEmptyForViewController:self];
+    }
+    
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

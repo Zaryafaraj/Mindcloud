@@ -978,6 +978,12 @@ intoStackingWithMainView: (UIView *) mainView
     [self deleteNote:note];
 }
 
+-(void) stack:(StackView *)stack IsEmptyForViewController:(StackViewController *)sender
+{
+    [self deleteStack:stack];
+    [self dismissViewControllerAnimated:YES completion:^{}];
+}
+
 #pragma mark - note delegate
 - (void) note: (id)note changedTextTo: (NSString *) text{
     
