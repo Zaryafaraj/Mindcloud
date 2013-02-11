@@ -31,6 +31,7 @@
 
 #pragma mark - synthesizer
 @synthesize notes = _notes;
+@synthesize activeView = _activeView;
 
 -(void) setNotes:(NSMutableArray *)notes{
     

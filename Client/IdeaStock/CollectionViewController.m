@@ -59,6 +59,7 @@
 
 @implementation CollectionViewController
 
+@synthesize activeView = _activeField;
 #pragma mark - getter/setters
 
 -(MindcloudCollection *) board{
@@ -373,7 +374,7 @@
                                                object:self.view.window];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardDisappeard:)
+                                             selector:@selector(keyboardDisappeared:)
                                                  name:UIKeyboardDidHideNotification
                                                object:self.view.window];
     self.collectionView.delegate = self;
@@ -1137,7 +1138,42 @@ intoStackingWithMainView: (UIView *) mainView
 #pragma mark - keyboard notification
 -(void) keyboardAppeared:(NSNotification *) notification
 {
-    
+    //no need to figure out keyboard positioning if stack view is presented
+    if (self.presentedViewController == nil)
+    {
+        NSDictionary * info = [notification userInfo];
+        CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+        
+        float keyboardHeight = MIN(kbSize.height, kbSize.width);
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardHeight, 0.0);
+        self.collectionView.contentInset = contentInsets;
+        self.collectionView.scrollIndicatorInsets = contentInsets;
+        
+        CGRect aRect = self.collectionView.frame;
+        CGRect noteViewFrame = self.activeView.frame;
+        CGPoint noteViewRightcorner = CGPointMake(noteViewFrame.origin.x + noteViewFrame.size.width,
+                                                  noteViewFrame.origin.y + noteViewFrame.size.height);
+        aRect.size.height -= keyboardHeight;
+        if (!CGRectContainsPoint(aRect,noteViewRightcorner))
+        {
+            CGFloat addedVisibleSpaceY = keyboardHeight;
+            CGPoint scrollPoint = CGPointMake(0.0, self.collectionView.frame.origin.y + addedVisibleSpaceY);
+            [self.collectionView setContentOffset:scrollPoint animated:YES];
+        }
+    }
+}
+
+-(void) keyboardDisappeared:(NSNotification *) notification
+{
+    //no need to figure out keyboard positioning if stack view is presented
+    if (self.presentedViewController == nil)
+    {
+        CGPoint scrollPoint = CGPointMake(0.0, 0.0);
+        [self.collectionView setContentOffset:scrollPoint animated:YES];
+//        UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+//        self.collectionView.contentInset = contentInsets;
+//        self.collectionView.scrollIndicatorInsets = contentInsets;
+    }
 }
 
 @end

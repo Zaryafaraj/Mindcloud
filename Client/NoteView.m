@@ -283,11 +283,15 @@
 -(void) textViewDidEndEditing:(UITextView *)textView{
     NSString * text = textView.text;
     [self.delegate note:self changedTextTo:text];
+    self.delegate.activeView = nil;
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView{
     if ([textView.text isEqualToString:@"Tap To Edit Note"]){
         textView.text = @"";
     }
+    self.delegate.activeView = self;
 }
+
+
 @end

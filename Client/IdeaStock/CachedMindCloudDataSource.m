@@ -91,9 +91,12 @@
          {
              [self createCollectionToDisk:collectionName];
          }
-         [[NSNotificationCenter defaultCenter] postNotificationName:ALL_COLLECTIONS_LIST_DOWNLOADED_EVENT
-                                                             object:self
-                                                           userInfo:@{@"result" : collection}];
+         if (collection != nil)
+         {
+             [[NSNotificationCenter defaultCenter] postNotificationName:ALL_COLLECTIONS_LIST_DOWNLOADED_EVENT
+                                                                 object:self
+                                                               userInfo:@{@"result" : collection}];
+         }
      }];
     return tempAnswer;
 }

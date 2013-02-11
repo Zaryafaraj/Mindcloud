@@ -10,6 +10,7 @@
 
 @protocol NoteViewDelegate 
 
+@property (nonatomic, strong) UIView * activeView;
 -(void) note:(id) note changedTextTo: (NSString *)text;
 
 @end
