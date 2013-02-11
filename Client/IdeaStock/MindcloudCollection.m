@@ -89,6 +89,19 @@
  */
 @property (nonatomic, strong) NSMutableSet * imageNotes;
 /*
+ Each collection may have an original thumbnail. When the collection is loaded if it has a
+ thumbnail we set this to the ID of the thumbmnail note else we leave it as nil. 
+ In the course of working with the collection if the original thumbnail gets deleted
+ we set this to nil again. Any new image that is added is a candidate for being the thumbnail
+ we save that in the thumbnail stack and make sure deletion to candidates remove them. 
+ At the end we see original thumbnail should still be the thumbnail by checking 
+ original. If it should we do nothing, if not we select the top of stack
+ and return it. If no new thing had happened we just return the stack
+ */
+@property NSString * originalThumbnail;
+@property (nonatomic, strong) NSMutableArray * thumbnailStack;
+
+/*
  determines the number of files that need to be downloaded during initialization
  probably I can make this a local var
  */
@@ -158,6 +171,15 @@
     return _imageNotes;
 }
 
+-(NSMutableArray *) thumbnailStack
+{
+    if (!_thumbnailStack)
+    {
+        _thumbnailStack = [NSMutableArray array];
+    }
+    return _thumbnailStack;
+}
+
 #pragma mark - Initialization
 -(id) initCollection:(NSString *)collectionName
       withDataSource:(id<MindcloudDataSource>)dataSource
@@ -203,6 +225,7 @@
     }
     self.manifest = [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
     
+    self.originalThumbnail = [self.manifest getCollectionThumbnailNoteId];
     //get notes from manifest and initalize those
     NSDictionary * noteInfo = [self.manifest getAllNotesBasicInfo];
     for(NSString * noteID in noteInfo){
@@ -239,6 +262,7 @@
     }
     self.manifest = [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
     
+    self.originalThumbnail = [self.manifest getCollectionThumbnailNoteId];
     //get notes from manifest and initalize those
     NSDictionary * noteInfo = [self.manifest getAllNotesBasicInfo];
     for(NSString * noteID in noteInfo){
@@ -284,6 +308,7 @@
         if (imagePath)
         {
             self.noteImages[noteID] = imagePath;
+            [self.thumbnailStack addObject:noteID];
         }
         [self.waitingNoteImages setObject:noteID forKey:noteModel.noteName];
     }
@@ -377,6 +402,9 @@
     NSString * imgPath = [FileSystemHelper getPathForNoteImageforNoteName:noteName
                                                           inBulletinBoard:self.bulletinBoardName];
     (self.noteImages)[noteID] = imgPath;
+    [self.thumbnailStack addObject:noteID];
+    self.originalThumbnail = nil;
+    [self.manifest updateThumbnailWithImageOfNote:noteID];
     
     [self.dataSource addImageNote: noteName
                   withNoteContent: noteData
@@ -436,6 +464,26 @@
     NSString *noteName = noteModel.noteName;
     [self.noteContents removeObjectForKey:delNoteID];
     [self.noteAttributes removeObjectForKey:delNoteID];
+    if (self.noteImages[delNoteID])
+    {
+        
+        [self.noteImages removeObjectForKey:delNoteID];
+        if (delNoteID != nil && [self.originalThumbnail isEqualToString:delNoteID])
+        {
+            //its no longer the original thumbnail
+            self.originalThumbnail = nil;
+        }
+        [self.thumbnailStack removeObject:delNoteID];
+        if ([self.thumbnailStack count] > 0)
+        {
+            NSString * lastThumbnailNoteId = [self.thumbnailStack lastObject];
+            [self.manifest updateThumbnailWithImageOfNote:lastThumbnailNoteId];
+        }
+        else
+        {
+            [self.manifest deleteThumbnailForNote:delNoteID];
+        }
+    }
     [self removeNoteFromAllStackings:delNoteID];
     
     [self.manifest deleteNote:delNoteID];
@@ -664,10 +712,29 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - thumbnail
+#pragma - thumbnail related actions
 -(void) saveThumbnail:(NSData *)thumbnailData
 {
     [self.dataSource setThumbnail:thumbnailData forCollection:self.bulletinBoardName];
 }
+
+#pragma mark - thumbnail delegate
+
+-(BOOL) isUpdateThumbnailNeccessary
+{
+    return self.originalThumbnail == nil ? YES : NO;
+}
+
+-(NSData *) getLastThumbnailImage
+{
+    if([self.thumbnailStack count] == 0) return nil;
+    
+    NSString * thumbnailNoteId = [self.thumbnailStack lastObject];
+    NSString * thumbnailPath = self.noteImages[thumbnailNoteId];
+    if (thumbnailPath == nil) return nil;
+    NSData * thumbnailData = [ self getImageDataForPath:thumbnailPath];
+    return thumbnailData;
+}
+
 
 @end

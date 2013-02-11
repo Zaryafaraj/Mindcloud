@@ -422,4 +422,59 @@
     return [[NSString alloc] initWithData:xml encoding:NSUTF8StringEncoding];
 }
 
+
+#pragma mark - thumbnail
+-(NSString *) getCollectionThumbnailNoteId
+{
+    DDXMLElement * thumbnailAttribute = [self getThumbnailAttribute];
+    if (thumbnailAttribute == nil)
+    {
+        return nil;
+    }
+    else
+    {
+        NSString * noteId = [[thumbnailAttribute attributeForName:REF_ID] stringValue];
+        return noteId;
+    }
+}
+
+-(DDXMLElement *) getThumbnailAttribute
+{
+    
+    DDXMLElement * collectionAttribute = [self getCollectionAttributesElement];
+    
+    if (collectionAttribute == nil) return nil;
+    
+    for(DDXMLElement * node in collectionAttribute.children)
+    {
+        if([[node name] isEqualToString:MINDCLOUD_COLLECTION_THUMBNAIL])
+        {
+            return node;
+        }
+    }
+    return nil;
+}
+-(void) updateThumbnailWithImageOfNote:(NSString *)noteId
+{
+    DDXMLElement * thumbnailAttribute = [self getThumbnailAttribute];
+    if (thumbnailAttribute == nil)
+    {
+        DDXMLElement * thumbnailElement = [XoomlCollectionParser xoomlForThumbnailWithNoteRef:noteId];
+        DDXMLElement * fragmentNamespaceData = [self getCollectionAttributesElement];
+        [fragmentNamespaceData addChild:thumbnailElement];
+    }
+    else
+    {
+        [[thumbnailAttribute attributeForName:REF_ID] setStringValue:noteId];
+    }
+}
+
+-(void) deleteThumbnailForNote:(NSString *)noteId
+{
+    DDXMLElement * thumbnailAttribute = [self getThumbnailAttribute];
+    if (thumbnailAttribute == nil) return;
+    
+    DDXMLElement * thumbnailParent = (DDXMLElement *)[thumbnailAttribute parent];
+    [thumbnailParent removeChildAtIndex:[thumbnailAttribute index]];
+}
 @end

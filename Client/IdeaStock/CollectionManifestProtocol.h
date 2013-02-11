@@ -33,15 +33,20 @@
 
 -(void) deleteStacking:(NSString *) stackingName;
 
+-(void) deleteThumbnailForNote:(NSString *) noteId;
 -(void) updateNote: (NSString *) noteID
      withNewModel: (XoomlNoteModel *)  noteModel;
 
 -(void) updateStacking:(NSString *) stackingName
           withNewModel:(XoomlStackingModel *) stackingModel;
 
+-(void) updateThumbnailWithImageOfNote:(NSString *) noteId;
+
 - (NSDictionary *) getAllNotesBasicInfo;
 
 - (NSDictionary *) getAllStackingsInfo;
+
+- (NSString *) getCollectionThumbnailNoteId;
 
 -(id) initWithData: (NSData *) data;
 

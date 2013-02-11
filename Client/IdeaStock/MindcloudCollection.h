@@ -11,13 +11,14 @@
 #import "CollectionDataSource.h"
 #import "CollectionManifestProtocol.h"
 #import "SynchronizedObject.h"
+#import "ThumbnailManagerProtocol.h"
 
 #define STACKING @"stacking"
 #define GROUPING @"grouping"
 #define LINKAGE @"linkage"
 #define POSITION @"position"
 
-@interface MindcloudCollection : NSObject <BulletinBoardProtocol, SynchronizedObject>
+@interface MindcloudCollection : NSObject <BulletinBoardProtocol,ThumbnailManagerProtocol, SynchronizedObject>
 
 /*
  Reads and fills up a bulletin board from the external structure of the datamodel

@@ -18,6 +18,7 @@
 #define MINDCLOUD_REFERENCE @"mindcloud:reference"
 #define MINDCLOUD_NOTE_POSITION_ATTRIBUTE_TYPE @"position"
 #define MINDCLOUD_NOTE_SCALE_ATTRIBUTE_TYPE @"scale"
+#define MINDCLOUD_COLLECTION_THUMBNAIL @"mindcloud:thumbnail"
 #define NOTE_ID  @"ID"
 #define NOTE_TEXT  @"displayName"
 
@@ -126,6 +127,7 @@
  */
 + (DDXMLElement * ) xoomlForNoteAttributeContainer;
 
++ (DDXMLElement *) xoomlForThumbnailWithNoteRef:(NSString *) noteId;
 /*
  Returns the xPath for accessing a note with noteID
  */
@@ -138,5 +140,7 @@
 + (NSString *) xPathForAllNotes;
 
 + (NSString *) xPathForCollectionAttributeContainer;
+
++ (NSString *) xPathForThumbnail;
 
 @end

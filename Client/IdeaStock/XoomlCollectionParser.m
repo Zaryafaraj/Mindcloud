@@ -169,7 +169,13 @@
     return  attributeRoot;
 }
 
-+ (DDXMLElement *) xoomlForCollectionNote: (NSString *) noteID 
++ (DDXMLElement *) xoomlForThumbnailWithNoteRef:(NSString *) noteId
+{
+    DDXMLElement * node = [DDXMLNode elementWithName:MINDCLOUD_COLLECTION_THUMBNAIL];
+    [node addAttribute:[DDXMLNode attributeWithName:REF_ID stringValue:noteId]];
+    return node;
+}
++ (DDXMLElement *) xoomlForCollectionNote: (NSString *) noteID
                                  andName: (NSString *) name
 {
     
@@ -224,6 +230,11 @@
                                          andType: (NSString *) attributeType;
 {
     return [NSString stringWithFormat:@"/xooml:fragment/xooml:fragmentNamespaceData/mindcloud:collectionAttribute[@type = \"%@\" and @name=\"%@\"]", attributeType, attributeName];
+}
+
++(NSString *) xPathForThumbnail
+{
+    return [NSString stringWithFormat:@"/xooml:fragment/xooml:fragmentNamespaceData/mindcloud:thumbnail"];
 }
 ////xooml:fragmentToolAttributes[@type = "stacking"]
 + (NSString *) xPathForCollectionAttribute: (NSString *) attributeType{

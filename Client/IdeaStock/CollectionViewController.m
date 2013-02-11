@@ -31,7 +31,8 @@
 @property (strong, nonatomic) NSMutableDictionary * noteViews;
 @property (strong, nonatomic) NSMutableDictionary * imageNoteViews;
 @property (strong, nonatomic) NSMutableDictionary * stackViews;
-@property (strong, nonatomic) UIImage * lastImageTaken;
+//@property (strong, nonatomic) UIImage * lastImageTaken;
+//@property (strong, nonatomic) NSString * lastImageTakenNoteId;
 @property int noteCount;
 @property (strong, nonatomic) NSArray * intersectingViews;
 @property (weak, nonatomic) UIView<BulletinBoardObject> * highlightedView;
@@ -366,6 +367,15 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(ApplicationHasGoneInBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardAppeared:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:self.view.window];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDisappeard:)
+                                                 name:UIKeyboardDidHideNotification
+                                               object:self.view.window];
     self.collectionView.delegate = self;
 }
 
@@ -918,21 +928,14 @@ intoStackingWithMainView: (UIView *) mainView
     //we don't save any thumbnail data
     //otherwise we capture a screenshot of the screen
     NSData * thumbnailData = nil;
-    if (self.lastImageTaken)
+    if ([self.board isUpdateThumbnailNeccessary])
     {
-        thumbnailData = [MultimediaHelper getThumbnailDataforUIImage:self.lastImageTaken];
-    }
-    else if ([self.imageNoteViews count] > 0)
-    {
-        thumbnailData = nil;
-    }
-    else
-    {
-        thumbnailData = [MultimediaHelper captureScreenshotOfView:self.collectionView.superview];
-    }
-    
-    if (thumbnailData)
-    {
+        
+        thumbnailData = [self.board getLastThumbnailImage];
+        if (thumbnailData == nil)
+        {
+            thumbnailData = [MultimediaHelper captureScreenshotOfView:self.collectionView.superview];
+        }
         [self.board saveThumbnail:thumbnailData];
     }
     return thumbnailData;
@@ -1108,7 +1111,6 @@ intoStackingWithMainView: (UIView *) mainView
                               NOTE_WIDTH,
                               NOTE_HEIGHT);
     
-    self.lastImageTaken = image;
     ImageView * note = [[ImageView alloc] initWithFrame:frame
                                                andImage:image];
     NSString * noteID = [XoomlAttributeHelper generateUUID];
@@ -1130,6 +1132,12 @@ intoStackingWithMainView: (UIView *) mainView
 -(void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
     self.lastPopOver = nil;
+}
+
+#pragma mark - keyboard notification
+-(void) keyboardAppeared:(NSNotification *) notification
+{
+    
 }
 
 @end
