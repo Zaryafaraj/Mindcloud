@@ -99,6 +99,7 @@
 
 -(void) executePUT
 {
+    [self.request setHTTPMethod:@"PUT"];
     self.request = [HTTPHelper addPutParams:self.putArguments
                                          to:self.request];
     
