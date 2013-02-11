@@ -14,4 +14,6 @@
 andNeedsAuthenting:(BOOL) needAuthenticating
                      withURL: (NSString *) url;
 
+-(void) authorizationFailed;
+
 @end

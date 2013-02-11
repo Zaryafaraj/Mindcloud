@@ -29,4 +29,12 @@ static int counter;
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }
 }
+
+/*
+ To stop annoying wheel going on and on every 3 minutes we reset it.
+ */
++(void) disableActivityIndicator
+{
+    
+}
 @end

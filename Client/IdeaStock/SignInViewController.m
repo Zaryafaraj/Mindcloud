@@ -62,6 +62,13 @@
  Delegations
  =========================*/
 
+-(void) authorizationFailed
+{
+    //retry again
+    NSString * userID = [UserPropertiesHelper userID];
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    [mindcloud authorize:userID withDelegate:self];
+}
 -(void) didFinishAuthorizing:(NSString *)userID
           andNeedsAuthenting:(BOOL)needAuthenticating
                      withURL:(NSString *)url

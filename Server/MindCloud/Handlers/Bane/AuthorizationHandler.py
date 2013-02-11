@@ -117,6 +117,7 @@ class AuthorizationHandler(tornado.web.RequestHandler):
             self.finish()
         else:
             self.set_status(401)
+            self.finish()
 
     @tornado.web.asynchronous
     @gen.engine

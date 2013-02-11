@@ -79,14 +79,23 @@ static Mindcloud * instance;
     MindcloudBaseAction * action = [[AuthenticationAction alloc] initWithUserId:userId
                                                                     andCallback:^(NSDictionary * results)
                                     {
-                                        //if someone has registered to recieve notification
-                                        //call them
-                                        if (self.authenticationDelegate)
+                                        if (results == nil)
                                         {
-                                        //we are done, no more steps needed
-                                        [self.authenticationDelegate didFinishAuthorizing:userId andNeedsAuthenting:NO withURL:nil];
+                                            [self.authenticationDelegate authorizationFailed];
+                                            return;
                                         }
-                                        NSLog(@"Account Authorized and Saved in Mindcloud");
+                                        else
+                                        {
+                                            //if someone has registered to recieve notification
+                                            //call them
+                                            if (self.authenticationDelegate)
+                                            {
+                                            //we are done, no more steps needed
+                                            [self.authenticationDelegate didFinishAuthorizing:userId andNeedsAuthenting:NO withURL:nil];
+                                            }
+                                            NSLog(@"Account Authorized and Saved in Mindcloud");
+                                                
+                                        }
                                     }];
     
     [action executePOST];
