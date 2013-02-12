@@ -495,7 +495,6 @@
         CollectionCell * actualCell = (CollectionCell *) cell;
         actualCell.img =[UIImage imageWithData:imgData];
     }
-    [NetworkActivityHelper removeActivityInProgress];
 }
 -(void) configureCategoriesPanel
 {
@@ -669,7 +668,6 @@
         
         if (previewImageData == nil)
         {
-            [NetworkActivityHelper addActivityInProgress];
             NSData * imgData = [self.dataSource getThumbnailForCollection:collectionName];
             
              if (imgData)

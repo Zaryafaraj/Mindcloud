@@ -10,6 +10,7 @@
 
 @implementation NetworkActivityHelper
 static int counter;
+
 +(void) addActivityInProgress
 {
     if (counter == 0)
@@ -26,15 +27,9 @@ static int counter;
     counter--;
     if (counter <= 0)
     {
+        counter = 0;
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }
 }
 
-/*
- To stop annoying wheel going on and on every 3 minutes we reset it.
- */
-+(void) disableActivityIndicator
-{
-    
-}
 @end

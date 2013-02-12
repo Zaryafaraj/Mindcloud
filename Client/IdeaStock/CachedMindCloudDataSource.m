@@ -186,6 +186,8 @@
     NSData * thumbnailData = [self getThumbnailFromDiskForCollection:collectionName];
     if (!self.thumbnailHasUpdatedCache[collectionName])
     {
+        
+        [NetworkActivityHelper addActivityInProgress];
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
         [mindcloud getPreviewImageForUser:userID
@@ -219,6 +221,7 @@
                                  [[NSNotificationCenter defaultCenter] postNotificationName:THUMBNAIL_RECEIVED_EVENT
                                                                                      object:self
                                                                                    userInfo:userDict];
+                                [NetworkActivityHelper removeActivityInProgress];
                                  //in any case send out the notification
                              }];
             
@@ -444,15 +447,15 @@
                                        if (collectionData)
                                        {
                                            
-                                          NSLog(@"Collection Retreived");
-                                           BOOL didWrite = [self saveToDiskCollectionData:collectionData
-                                                                           ForCollection:collectionName];
+                                            [self saveToDiskCollectionData:collectionData
+                                                            ForCollection:collectionName];
                                             //get the rest of the notes
-                                            if (didWrite)
-                                            {
                                             [self getAllNotes:collectionName];
-                                            }
                                         }
+                                       else
+                                       {
+                                           [NetworkActivityHelper removeActivityInProgress];
+                                       }
                                    }];
     }
     return cachedData;
@@ -492,17 +495,13 @@
                                  forNote:noteName
                           fromCollection:collectionName withCallback:^(NSData * noteData){
                               
-                              BOOL didWrite = [self saveToDiskNoteData:noteData
-                                                         forCollection:collectionName
-                                                               andNote:noteName];
-                              if (didWrite)
-                              {
-                                  [self getRemainingNoteAtIndex:index
-                                                      fromArray:allNotes
-                                                  forCollection:collectionName
-                                                    chainImages:chain];
-                              }
-                              
+                              [self saveToDiskNoteData:noteData
+                                         forCollection:collectionName
+                                               andNote:noteName];
+                              [self getRemainingNoteAtIndex:index
+                                                  fromArray:allNotes
+                                              forCollection:collectionName
+                                                chainImages:chain];
        }];
        
    }
@@ -538,21 +537,13 @@
                                   forNote:noteName
                            fromCollection:collectionName withCallback:^(NSData * noteData){
                                
-                               BOOL didWrite = YES;
-                               if (noteData)
-                               {
-                                   didWrite = [self saveToDiskNoteImageData:noteData
-                                                              forCollection:collectionName
-                                                                    andNote:noteName];
-                               }
-                               //if there is no data there is nothing to write so continue
-                               if (didWrite)
-                               {
-                                   [self getRemainingNoteImagesAtIndex:index
-                                                             fromArray:allNotes
-                                                         forCollection:collectionName
-                                                            chainNotes:chain];
-                               }
+                               [self saveToDiskNoteImageData:noteData
+                                                          forCollection:collectionName
+                                                                andNote:noteName];
+                               [self getRemainingNoteImagesAtIndex:index
+                                                         fromArray:allNotes
+                                                     forCollection:collectionName
+                                                        chainNotes:chain];
                            }];
     }
     else
