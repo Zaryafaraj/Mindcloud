@@ -12,6 +12,7 @@
 #import "XoomlCollectionManifest.h"
 #import "FileSystemHelper.h"
 #import "EventTypes.h"
+#import "CollectionRecorder.h"
 
 #pragma mark - Definitions
 #define POSITION_X @"positionX"
@@ -117,6 +118,10 @@
  */
 @property NSTimer * timer;
 
+/*
+ To record any possible conflicting items for synchronization
+ */
+@property (strong, atomic) CollectionRecorder * recorder;
 @end
 
 @implementation MindcloudCollection
@@ -185,6 +190,7 @@
       withDataSource:(id<MindcloudDataSource>)dataSource
 {
     self = [super init];
+    self.recorder = [[CollectionRecorder alloc] init];
     self.dataSource = dataSource;
     self.bulletinBoardName = collectionName;
     //now ask to download and get the collection
@@ -436,6 +442,7 @@
     else
     {
         [stackingModel addNotes:noteRefs];
+        [self.recorder recordUpdateStack:stackingName];
     }
     
     [self.manifest addStacking:stackingName withModel:stackingModel];
@@ -453,6 +460,7 @@
         if ([stackingModel.refIds containsObject:noteId])
         {
             [stackingModel deleteNotes:[NSSet setWithObject:noteId]];
+            [self.recorder recordUpdateStack:stacking];
         }
     }
 }
@@ -492,6 +500,7 @@
     [self.dataSource removeNote:noteName
                  FromCollection:self.bulletinBoardName];
     
+    [self.recorder recordDeleteNote:noteName];
     self.needSynchronization = true;
 }
 
@@ -506,6 +515,7 @@
     
     //reflect the change in the xooml structure
     [self.manifest removeNotes:@[noteID] fromStacking:stackingName];
+    [self.recorder recordUpdateStack:stackingName];
     
     self.needSynchronization = YES;
 }
@@ -516,6 +526,7 @@
     [self.collectionAttributes removeObjectForKey:stackingName];
     
     [self.manifest deleteStacking:stackingName];
+    [self.recorder recordDeleteStack:stackingName];
     
     self.needSynchronization = YES;
 }
@@ -549,6 +560,7 @@
     [self.dataSource updateNote:noteName
                     withContent:noteData
                    inCollection:self.bulletinBoardName];
+    [self.recorder recordUpdateNote:noteID];
 }
 
 -(void) updateNoteAttributes: (NSString *) noteID
@@ -561,7 +573,7 @@
     oldNoteModel.scaling = noteModel.scaling;
     
     [self.manifest updateNote:noteID withNewModel:noteModel];
-    
+    [self.recorder recordUpdateNote:noteID];
     self.needSynchronization = YES;
 }
 
@@ -583,6 +595,7 @@
     [self.manifest updateStacking:stackingName
                      withNewModel:stackingModel];
     
+    [self.recorder recordUpdateStack:stackingName];
     self.needSynchronization = YES;
 }
 
@@ -666,6 +679,7 @@
         MindcloudCollection * board = (MindcloudCollection *) bulletinBoard;
         [board.dataSource updateCollectionWithName:board.bulletinBoardName
                                         andContent:[board.manifest data]];
+        [board.recorder reset];
     }
 }
 
@@ -711,6 +725,7 @@
     //check out of the notification center
     [self stopTimer];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.recorder reset];
 }
 
 #pragma - thumbnail related actions

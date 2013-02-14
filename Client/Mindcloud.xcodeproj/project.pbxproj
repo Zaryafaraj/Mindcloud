@@ -88,6 +88,7 @@
 		DB9CA54C16BF8F2D0030B3F7 /* NamingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9CA54B16BF8F2D0030B3F7 /* NamingHelper.m */; };
 		DBB9313E16AB7B78005652AA /* CollectionLayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */; };
 		DBB9314116ABDEA4005652AA /* CollectionAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB9314016ABDEA4005652AA /* CollectionAnimationHelper.m */; };
+		DBBA28A916CC7996007C7B4A /* CollectionRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28A816CC7996007C7B4A /* CollectionRecorder.m */; };
 		DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */; };
 		DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF25C160EA1D800C81C25 /* Mindcloud.m */; };
 		DBC7C4C316327F1900BF3F2D /* CollectionsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC7C4C216327F1900BF3F2D /* CollectionsAction.m */; };
@@ -252,6 +253,8 @@
 		DBB9313F16ABDEA4005652AA /* CollectionAnimationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionAnimationHelper.h; sourceTree = "<group>"; };
 		DBB9314016ABDEA4005652AA /* CollectionAnimationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionAnimationHelper.m; sourceTree = "<group>"; };
 		DBB9314216ABDFF5005652AA /* FunctionTypeDefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FunctionTypeDefs.h; sourceTree = "<group>"; };
+		DBBA28A716CC7996007C7B4A /* CollectionRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionRecorder.h; sourceTree = "<group>"; };
+		DBBA28A816CC7996007C7B4A /* CollectionRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionRecorder.m; sourceTree = "<group>"; };
 		DBBAF257160E9E5000C81C25 /* AuthenticationAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthenticationAction.h; sourceTree = "<group>"; };
 		DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthenticationAction.m; sourceTree = "<group>"; };
 		DBBAF25B160EA1D800C81C25 /* Mindcloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mindcloud.h; sourceTree = "<group>"; };
@@ -343,6 +346,7 @@
 		D709472B15242BA4008E4AD9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DBBA28A616CC7983007C7B4A /* Sharing */,
 				DB03C35F169FFD2B00C38FD7 /* Types */,
 				DB4338A2169D5400000353DA /* Mixins */,
 				DB4338A1169D5169000353DA /* Helpers */,
@@ -678,6 +682,15 @@
 			name = Helpers;
 			sourceTree = "<group>";
 		};
+		DBBA28A616CC7983007C7B4A /* Sharing */ = {
+			isa = PBXGroup;
+			children = (
+				DBBA28A716CC7996007C7B4A /* CollectionRecorder.h */,
+				DBBA28A816CC7996007C7B4A /* CollectionRecorder.m */,
+			);
+			name = Sharing;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -856,6 +869,7 @@
 				DB3FD53016B77FA400024AC6 /* XoomlStackingModel.m in Sources */,
 				DB3FD53416B7A4D900024AC6 /* XoomlNoteModel.m in Sources */,
 				DB9CA54C16BF8F2D0030B3F7 /* NamingHelper.m in Sources */,
+				DBBA28A916CC7996007C7B4A /* CollectionRecorder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
