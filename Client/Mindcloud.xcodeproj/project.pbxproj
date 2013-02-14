@@ -91,6 +91,14 @@
 		DBBA28A916CC7996007C7B4A /* CollectionRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28A816CC7996007C7B4A /* CollectionRecorder.m */; };
 		DBBA28AC16CC88C6007C7B4A /* ManifestMerger.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28AB16CC88C6007C7B4A /* ManifestMerger.m */; };
 		DBBA28B216CC8B91007C7B4A /* NotificationContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28B116CC8B91007C7B4A /* NotificationContainer.m */; };
+		DBBA28B516CCC3EC007C7B4A /* UpdateNoteNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28B416CCC3EC007C7B4A /* UpdateNoteNotification.m */; };
+		DBBA28B816CCC574007C7B4A /* UpdateStackNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28B716CCC573007C7B4A /* UpdateStackNotification.m */; };
+		DBBA28BB16CCC5FD007C7B4A /* DeleteNoteNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28BA16CCC5FD007C7B4A /* DeleteNoteNotification.m */; };
+		DBBA28BE16CCC62F007C7B4A /* AddNoteNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28BD16CCC62F007C7B4A /* AddNoteNotification.m */; };
+		DBBA28C116CCC6A8007C7B4A /* AddStackingNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28C016CCC6A8007C7B4A /* AddStackingNotification.m */; };
+		DBBA28C416CCC81D007C7B4A /* DeleteStackingNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28C316CCC81D007C7B4A /* DeleteStackingNotification.m */; };
+		DBBA28C716CCC84F007C7B4A /* UpdateNoteContentNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28C616CCC84E007C7B4A /* UpdateNoteContentNotification.m */; };
+		DBBA28CA16CCC8CC007C7B4A /* UpdateNoteImageNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28C916CCC8CC007C7B4A /* UpdateNoteImageNotification.m */; };
 		DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */; };
 		DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF25C160EA1D800C81C25 /* Mindcloud.m */; };
 		DBC7C4C316327F1900BF3F2D /* CollectionsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC7C4C216327F1900BF3F2D /* CollectionsAction.m */; };
@@ -261,6 +269,22 @@
 		DBBA28AB16CC88C6007C7B4A /* ManifestMerger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManifestMerger.m; sourceTree = "<group>"; };
 		DBBA28B016CC8B91007C7B4A /* NotificationContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationContainer.h; sourceTree = "<group>"; };
 		DBBA28B116CC8B91007C7B4A /* NotificationContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationContainer.m; sourceTree = "<group>"; };
+		DBBA28B316CCC3EC007C7B4A /* UpdateNoteNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateNoteNotification.h; sourceTree = "<group>"; };
+		DBBA28B416CCC3EC007C7B4A /* UpdateNoteNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateNoteNotification.m; sourceTree = "<group>"; };
+		DBBA28B616CCC573007C7B4A /* UpdateStackNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateStackNotification.h; sourceTree = "<group>"; };
+		DBBA28B716CCC573007C7B4A /* UpdateStackNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateStackNotification.m; sourceTree = "<group>"; };
+		DBBA28B916CCC5FD007C7B4A /* DeleteNoteNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteNoteNotification.h; sourceTree = "<group>"; };
+		DBBA28BA16CCC5FD007C7B4A /* DeleteNoteNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteNoteNotification.m; sourceTree = "<group>"; };
+		DBBA28BC16CCC62F007C7B4A /* AddNoteNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNoteNotification.h; sourceTree = "<group>"; };
+		DBBA28BD16CCC62F007C7B4A /* AddNoteNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNoteNotification.m; sourceTree = "<group>"; };
+		DBBA28BF16CCC6A8007C7B4A /* AddStackingNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddStackingNotification.h; sourceTree = "<group>"; };
+		DBBA28C016CCC6A8007C7B4A /* AddStackingNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddStackingNotification.m; sourceTree = "<group>"; };
+		DBBA28C216CCC81D007C7B4A /* DeleteStackingNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteStackingNotification.h; sourceTree = "<group>"; };
+		DBBA28C316CCC81D007C7B4A /* DeleteStackingNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteStackingNotification.m; sourceTree = "<group>"; };
+		DBBA28C516CCC84E007C7B4A /* UpdateNoteContentNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateNoteContentNotification.h; sourceTree = "<group>"; };
+		DBBA28C616CCC84E007C7B4A /* UpdateNoteContentNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateNoteContentNotification.m; sourceTree = "<group>"; };
+		DBBA28C816CCC8CC007C7B4A /* UpdateNoteImageNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateNoteImageNotification.h; sourceTree = "<group>"; };
+		DBBA28C916CCC8CC007C7B4A /* UpdateNoteImageNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateNoteImageNotification.m; sourceTree = "<group>"; };
 		DBBAF257160E9E5000C81C25 /* AuthenticationAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthenticationAction.h; sourceTree = "<group>"; };
 		DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthenticationAction.m; sourceTree = "<group>"; };
 		DBBAF25B160EA1D800C81C25 /* Mindcloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mindcloud.h; sourceTree = "<group>"; };
@@ -697,6 +721,22 @@
 				DBBA28AB16CC88C6007C7B4A /* ManifestMerger.m */,
 				DBBA28B016CC8B91007C7B4A /* NotificationContainer.h */,
 				DBBA28B116CC8B91007C7B4A /* NotificationContainer.m */,
+				DBBA28B316CCC3EC007C7B4A /* UpdateNoteNotification.h */,
+				DBBA28B416CCC3EC007C7B4A /* UpdateNoteNotification.m */,
+				DBBA28B616CCC573007C7B4A /* UpdateStackNotification.h */,
+				DBBA28B716CCC573007C7B4A /* UpdateStackNotification.m */,
+				DBBA28B916CCC5FD007C7B4A /* DeleteNoteNotification.h */,
+				DBBA28BA16CCC5FD007C7B4A /* DeleteNoteNotification.m */,
+				DBBA28BC16CCC62F007C7B4A /* AddNoteNotification.h */,
+				DBBA28BD16CCC62F007C7B4A /* AddNoteNotification.m */,
+				DBBA28BF16CCC6A8007C7B4A /* AddStackingNotification.h */,
+				DBBA28C016CCC6A8007C7B4A /* AddStackingNotification.m */,
+				DBBA28C216CCC81D007C7B4A /* DeleteStackingNotification.h */,
+				DBBA28C316CCC81D007C7B4A /* DeleteStackingNotification.m */,
+				DBBA28C516CCC84E007C7B4A /* UpdateNoteContentNotification.h */,
+				DBBA28C616CCC84E007C7B4A /* UpdateNoteContentNotification.m */,
+				DBBA28C816CCC8CC007C7B4A /* UpdateNoteImageNotification.h */,
+				DBBA28C916CCC8CC007C7B4A /* UpdateNoteImageNotification.m */,
 			);
 			name = Sharing;
 			sourceTree = "<group>";
@@ -882,6 +922,14 @@
 				DBBA28A916CC7996007C7B4A /* CollectionRecorder.m in Sources */,
 				DBBA28AC16CC88C6007C7B4A /* ManifestMerger.m in Sources */,
 				DBBA28B216CC8B91007C7B4A /* NotificationContainer.m in Sources */,
+				DBBA28B516CCC3EC007C7B4A /* UpdateNoteNotification.m in Sources */,
+				DBBA28B816CCC574007C7B4A /* UpdateStackNotification.m in Sources */,
+				DBBA28BB16CCC5FD007C7B4A /* DeleteNoteNotification.m in Sources */,
+				DBBA28BE16CCC62F007C7B4A /* AddNoteNotification.m in Sources */,
+				DBBA28C116CCC6A8007C7B4A /* AddStackingNotification.m in Sources */,
+				DBBA28C416CCC81D007C7B4A /* DeleteStackingNotification.m in Sources */,
+				DBBA28C716CCC84F007C7B4A /* UpdateNoteContentNotification.m in Sources */,
+				DBBA28CA16CCC8CC007C7B4A /* UpdateNoteImageNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
