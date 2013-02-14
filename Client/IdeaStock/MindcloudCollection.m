@@ -212,7 +212,6 @@
                                                  name:IMAGE_DOWNLOADED_EVENT
                                                object:nil];
     //Start the synchronization timer
-    [self startTimer];
     return self;
 }
 
@@ -251,6 +250,8 @@
     //Let any listener know that the bulletinboard has been reloaded
     [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_RELOAD_EVENT
                                                         object:self];
+    
+    [self startTimer];
 }
 
 -(void) loadOfflineCollection:(NSData *) bulletinBoardData{
