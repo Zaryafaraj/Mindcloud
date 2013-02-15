@@ -7,7 +7,19 @@
 //
 
 #import "DeleteNoteNotification.h"
-
+@interface DeleteNoteNotification()
+@property (atomic, strong) NSString * noteId;
+@end
 @implementation DeleteNoteNotification
 
+-(id) initWithNoteId:(NSString *)noteId
+{
+    self = [super init];
+    self.noteId = noteId;
+    return self;
+}
+-(NSString *) getNoteId
+{
+    return self.noteId;
+}
 @end

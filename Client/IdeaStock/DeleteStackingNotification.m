@@ -8,6 +8,22 @@
 
 #import "DeleteStackingNotification.h"
 
+@interface DeleteStackingNotification()
+
+@property (atomic, strong) NSString * stackingId;
+
+@end
 @implementation DeleteStackingNotification
 
+-(id) initWithStackingId:(NSString *)stackingId
+{
+    self = [super init];
+    self.stackingId = stackingId;
+    return self;
+}
+
+-(NSString *) getStackingId
+{
+    return self.stackingId;
+}
 @end

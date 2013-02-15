@@ -7,6 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UpdateNoteNotification.h"
+#import "DeleteNoteNotification.h"
+#import "AddNoteNotification.h"
+#import "AddStackingNotification.h"
+#import "DeleteStackingNotification.h"
+#import "UpdateStackNotification.h"
 
 @interface NotificationContainer : NSObject
 
@@ -28,4 +34,12 @@
 //array of delete stacking Notification objects
 -(NSArray *) getDeleteStackingNotifications;
 
+-(void) addUpdateNoteNotification: (UpdateNoteNotification *) notification;
+-(void) addDeleteNoteNotification: (DeleteNoteNotification *) notificatoin;
+-(void) addAddNoteNotification: (AddNoteNotification *) notification;
+-(void) addAddStackingNotification: (AddStackingNotification *) notification;
+-(void) addUpdateStackingNotification: (UpdateStackNotification *) notification;
+-(void) addDeleteStackingNotification:(DeleteStackingNotification *) notification;
+
+-(void) clear;
 @end
