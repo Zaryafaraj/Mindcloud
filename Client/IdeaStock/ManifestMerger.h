@@ -16,9 +16,7 @@
            andServerManifest:(id <CollectionManifestProtocol>) serverManifest
            andActionRecorder:(CollectionRecorder *) recorder;
 
--(void) mergeManifests;
-
--(id <CollectionManifestProtocol>) getMergedManifest;
+-(id<CollectionManifestProtocol>) mergeManifests;
 
 -(NotificationContainer *) getNotifications;
 

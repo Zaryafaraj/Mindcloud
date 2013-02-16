@@ -64,6 +64,30 @@
     return [self.updatedStacks copy];
 }
 
+-(BOOL) hasStackingBeenTouched:(NSString *)stackingId
+{
+    
+    BOOL hasBeenTouched = NO;
+    if ([self.updatedStacks containsObject:stackingId] ||
+        [self.deletedStacks containsObject:stackingId])
+    {
+        hasBeenTouched = YES;
+    }
+    return hasBeenTouched;
+}
+
+
+-(BOOL) hasNoteBeenTouched:(NSString *)noteId
+{
+    BOOL hasBeenTouched = NO;
+    if ([self.updatedNotes containsObject:noteId] ||
+        [self.deletedNotes containsObject:noteId])
+    {
+        hasBeenTouched = YES;
+    }
+    return hasBeenTouched;
+}
+
 -(void) reset
 {
     [self.deletedNotes removeAllObjects];

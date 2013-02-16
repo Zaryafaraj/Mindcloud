@@ -39,6 +39,13 @@
     return self;
 }
 
+-(id) initWithDocument:(DDXMLDocument *) document
+{
+    self = [super init];
+    self.document = document;
+    return self;
+}
+
 -(id) initAsEmpty{
     
     NSData * emptyBulletinBoardDate =[XoomlCollectionParser getEmptyCollectionXooml];
@@ -476,5 +483,11 @@
     
     DDXMLElement * thumbnailParent = (DDXMLElement *)[thumbnailAttribute parent];
     [thumbnailParent removeChildAtIndex:[thumbnailAttribute index]];
+}
+
+
+-(DDXMLDocument *) document
+{
+    return _document;
 }
 @end

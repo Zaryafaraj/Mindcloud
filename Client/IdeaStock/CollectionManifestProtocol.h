@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "XoomlNoteModel.h"
 #import "XoomlStackingModel.h"
+#import "DDXMLDocument.h"
 
 /*
  A higher level representation of the manifest of a collection.
@@ -52,7 +53,10 @@
 
 -(id) initAsEmpty;
 
+
 - (NSData *) data;
+
+-(DDXMLDocument *) document;
 
 @end
 

@@ -29,4 +29,6 @@
 /*Convinience method*/
 + (NSData *) getEmptyBulletinBoardData;
 
+-(id) initWithDocument:(DDXMLDocument *) document;
+
 @end

@@ -20,5 +20,7 @@
 -(NSSet *) getUpdatedNotes;
 -(NSSet *) getUpdatedStacks;
 
+-(BOOL) hasStackingBeenTouched:(NSString *) stackingId;
+-(BOOL) hasNoteBeenTouched:(NSString *) noteId;
 -(void) reset;
 @end

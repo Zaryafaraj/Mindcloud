@@ -383,6 +383,7 @@
                  withContent:noteData
                 ToCollection:self.bulletinBoardName];
     
+    [self.recorder recordUpdateNote:noteID];
     self.needSynchronization = YES;
 }
 
@@ -419,6 +420,7 @@
                 withImageFileName: imgName
                      toCollection:self.bulletinBoardName];
     
+    [self.recorder recordUpdateNote:noteID];
     self.needSynchronization = YES;
 }
 
@@ -438,6 +440,7 @@
                                                         andScale:@"1.0"
                                                        andRefIds:noteRefs];
         self.collectionAttributes[stackingName] = stackingModel;
+        [self.recorder recordUpdateStack:stackingName];
     }
     else
     {
