@@ -58,5 +58,6 @@
 
 -(DDXMLDocument *) document;
 
+-(id) copy;
 @end
 

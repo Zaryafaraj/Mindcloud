@@ -46,6 +46,13 @@
     return self;
 }
 
+-(id) copy
+{
+    NSData * currentData = self.data;
+    XoomlCollectionManifest * copied = [[XoomlCollectionManifest alloc] initWithData:currentData];
+    return copied;
+}
+
 -(id) initAsEmpty{
     
     NSData * emptyBulletinBoardDate =[XoomlCollectionParser getEmptyCollectionXooml];
@@ -58,7 +65,7 @@
 
 #pragma mark - Serialization
 -(NSData *) data{
-    return [self.document XMLData];
+    return [[self.document XMLData] copy];
 }
 
 +(NSData *) getEmptyBulletinBoardData{

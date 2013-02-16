@@ -214,6 +214,11 @@
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(mergeFinished:)
+                                                 name:MANIFEST_MERGE_FINISHED_EVENT
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteImageDownloaded:)
                                                  name:IMAGE_DOWNLOADED_EVENT
                                                object:nil];
@@ -228,32 +233,34 @@
         NSLog(@"Collection Files haven't been downloaded properly");
         return;
     }
-    self.manifest = [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
+    id<CollectionManifestProtocol> serverManifest = [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
+    id<CollectionManifestProtocol> clientManifest = [self.manifest copy];
     
-    self.originalThumbnail = [self.manifest getCollectionThumbnailNoteId];
-    //get notes from manifest and initalize those
-    NSDictionary * noteInfo = [self.manifest getAllNotesBasicInfo];
-    for(NSString * noteID in noteInfo){
-        
-        XoomlNoteModel * noteModel = noteInfo[noteID];
-        //for each note create a note Object by reading its separate xooml files
-        //from the data model
-        NSData * noteData = [self.dataSource getNoteForTheCollection:self.bulletinBoardName
-                                                            WithName:noteModel.noteName];
-        if (!noteData)
-        {
-            NSLog(@"Could not retreive note data from dataSource");
-        }
-        else
-        {
-            [self initiateNoteContent:noteData
-                            forNoteID:noteID
-                            withModel:noteModel];
-        }
-    }
-    
-    [self initiateStacking];
-    //Let any listener know that the bulletinboard has been reloaded
+//
+//    self.originalThumbnail = [self.manifest getCollectionThumbnailNoteId];
+//    //get notes from manifest and initalize those
+//    NSDictionary * noteInfo = [self.manifest getAllNotesBasicInfo];
+//    for(NSString * noteID in noteInfo){
+//        
+//        XoomlNoteModel * noteModel = noteInfo[noteID];
+//        //for each note create a note Object by reading its separate xooml files
+//        //from the data model
+//        NSData * noteData = [self.dataSource getNoteForTheCollection:self.bulletinBoardName
+//                                                            WithName:noteModel.noteName];
+//        if (!noteData)
+//        {
+//            NSLog(@"Could not retreive note data from dataSource");
+//        }
+//        else
+//        {
+//            [self initiateNoteContent:noteData
+//                            forNoteID:noteID
+//                            withModel:noteModel];
+//        }
+//    }
+//    
+//    [self initiateStacking];
+//    //Let any listener know that the bulletinboard has been reloaded
     [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_RELOAD_EVENT
                                                         object:self];
     

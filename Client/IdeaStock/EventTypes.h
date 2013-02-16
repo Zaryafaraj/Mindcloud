@@ -18,5 +18,6 @@
 #define THUMBNAIL_RECEIVED_EVENT @"thumbnailReceivedEvent"
 #define IMAGE_DOWNLOADED_EVENT @"imageDownloaded"
 #define NOTE_IMAGE_READY_EVENT @"noteImageReadyEvent"
+#define MANIFEST_MERGE_FINISHED_EVENT @"manifestMergeFinished"
 
 @end
