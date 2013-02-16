@@ -93,15 +93,17 @@
         //accepting server side
         if (![self.recorder hasNoteBeenTouched:noteId])
         {
+            //case 1
             finalNotes[noteId] = serverNotes[noteId];
             DDXMLElement * noteElement = finalNotes[noteId];
             AddNoteNotification * notification = [self createAddNoteNotification:noteElement];
             [self.notifications addAddNoteNotification:notification];
         }
+        //for case 2 we don't do anything
     }
     
     //if there is something in the client that isn't in the server.there are two possibilities:
-    //1- It has been in the server but got deleted by someone else --> we should not keep it
+    //1- It has been in the server but got deleted --> we should not keep it
     //2- It has never been in the server and got added to the client --> we should keep it
     for(NSString * noteId in notesUniqueToClient)
     {
@@ -189,7 +191,7 @@
         {
             finalStackings[stackingId] = clientStackings[stackingId];
         }
-        //accepting server side
+        //accepting server side, which is deleting the client side
         else
         {
             DDXMLElement * stackingElement = clientStackings[stackingId];
@@ -324,7 +326,7 @@
         [refNotes2 addObject:refID];
     }
     
-    if (![refNotes1 isEqual:refNotes2])
+    if (![refNotes1 isEqualToSet:refNotes2])
     {
         return NO;
     }
