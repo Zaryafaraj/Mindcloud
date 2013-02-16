@@ -13,6 +13,8 @@
 #import "FileSystemHelper.h"
 #import "EventTypes.h"
 #import "CollectionRecorder.h"
+#import "MergerThread.h"
+#import "MergeResult.h"
 
 #pragma mark - Definitions
 #define POSITION_X @"positionX"
@@ -226,46 +228,6 @@
     return self;
 }
 
--(void) collectionFilesDownloaded: (NSNotification *) notification{
-    NSData * bulletinBoardData = [self.dataSource getCollection:self.bulletinBoardName];
-    if (!bulletinBoardData)
-    {
-        NSLog(@"Collection Files haven't been downloaded properly");
-        return;
-    }
-    id<CollectionManifestProtocol> serverManifest = [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
-    id<CollectionManifestProtocol> clientManifest = [self.manifest copy];
-    
-//
-//    self.originalThumbnail = [self.manifest getCollectionThumbnailNoteId];
-//    //get notes from manifest and initalize those
-//    NSDictionary * noteInfo = [self.manifest getAllNotesBasicInfo];
-//    for(NSString * noteID in noteInfo){
-//        
-//        XoomlNoteModel * noteModel = noteInfo[noteID];
-//        //for each note create a note Object by reading its separate xooml files
-//        //from the data model
-//        NSData * noteData = [self.dataSource getNoteForTheCollection:self.bulletinBoardName
-//                                                            WithName:noteModel.noteName];
-//        if (!noteData)
-//        {
-//            NSLog(@"Could not retreive note data from dataSource");
-//        }
-//        else
-//        {
-//            [self initiateNoteContent:noteData
-//                            forNoteID:noteID
-//                            withModel:noteModel];
-//        }
-//    }
-//    
-//    [self initiateStacking];
-//    //Let any listener know that the bulletinboard has been reloaded
-    [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_RELOAD_EVENT
-                                                        object:self];
-    
-    [self startTimer];
-}
 
 -(void) loadOfflineCollection:(NSData *) bulletinBoardData{
     
@@ -331,6 +293,58 @@
     self.noteAttributes[noteID] = noteModel;
 }
 
+-(void) initiateStacking{
+    //get the stacking information and cache them
+    NSDictionary *stackingInfo = [self.manifest getAllStackingsInfo];
+    for (NSString * stackingName in stackingInfo)
+    {
+        NSString * stackModel = stackingInfo[stackingName];
+        self.collectionAttributes[stackingName] = stackModel;
+    }
+}
+#pragma mark - Notifications
+
+-(void) collectionFilesDownloaded: (NSNotification *) notification{
+    NSData * bulletinBoardData = [self.dataSource getCollection:self.bulletinBoardName];
+    if (!bulletinBoardData)
+    {
+        NSLog(@"Collection Files haven't been downloaded properly");
+        return;
+    }
+    id<CollectionManifestProtocol> serverManifest = [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
+    id<CollectionManifestProtocol> clientManifest = [self.manifest copy];
+    MergerThread * mergerThread = [MergerThread getInstance];
+    //when the merge is finished we will be notified
+    [mergerThread submitClientManifest:clientManifest
+                     andServerManifest:serverManifest
+                     andActionRecorder:self.recorder
+                     ForCollectionName:self.bulletinBoardName];
+    
+
+}
+
+-(void) mergeFinished:(NSNotification *) notification
+{
+    MergeResult * mergeResult = notification.userInfo[@"result"];
+    
+    if (!mergeResult) return;
+    
+    if (![mergeResult.collectionName isEqualToString:self.bulletinBoardName]) return;
+    
+    NotificationContainer * notifications = mergeResult.notifications;
+    [self updateCollectionForAddNoteNotifications:notifications.getAddNoteNotifications];
+    [self updateCollectionForUpdateNoteNotifications:notifications.getUpdateNoteNotifications];
+    [self updateCollectionForDeleteNoteNotifications: notifications.getDeleteNoteNotifications];
+    [self updateCollectionForAddStackingNotifications:notifications.getAddStackingNotifications];
+    [self updateCollectionForUpdateStackingNotifications:notifications.getUpdateStackingNotifications];
+    [self updateCollectionForDeleteStackingNotifications:notifications.getDeleteStackingNotifications];
+    
+    self.manifest = mergeResult.finalManifest;
+    //rest because we have updated ourselves
+    [self.recorder reset];
+    
+    [self startTimer];
+}
 -(void) noteImageDownloaded:(NSNotification *) notification
 {
     
@@ -359,16 +373,6 @@
         
     }
 }
--(void) initiateStacking{
-    //get the stacking information and cache them
-    NSDictionary *stackingInfo = [self.manifest getAllStackingsInfo];
-    for (NSString * stackingName in stackingInfo)
-    {
-        NSString * stackModel = stackingInfo[stackingName];
-        self.collectionAttributes[stackingName] = stackModel;
-    }
-}
-
 #pragma mark - Creation
 
 -(void) addNoteContent: (id <NoteProtocol>) note
@@ -677,6 +681,37 @@
     return images;
 }
 
+#pragma mark - merge helpers
+-(void) updateCollectionForAddNoteNotifications:(NSArray *) notifications
+{
+    
+}
+
+-(void) updateCollectionForUpdateNoteNotifications:(NSArray *) notifications
+{
+    
+}
+
+-(void) updateCollectionForDeleteNoteNotifications:(NSArray *) notifications
+{
+    
+}
+
+-(void) updateCollectionForAddStackingNotifications:(NSArray *) notifications
+{
+    
+}
+
+-(void) updateCollectionForUpdateStackingNotifications:(NSArray *) notifications
+{
+    
+}
+
+-(void) updateCollectionForDeleteStackingNotifications:(NSArray *) notifications
+{
+    
+}
+
 #pragma mark - Synchronization Helpers
 /*
  Every SYNCHRONIZATION_PERIOD seconds we try to synchrnoize.
@@ -694,6 +729,9 @@
 }
 
 -(void) startTimer{
+    
+    if (self.timer.isValid) return;
+    
     self.timer = [NSTimer scheduledTimerWithTimeInterval: SYNCHRONIZATION_PERIOD
                                      target:self
                                    selector:@selector(synchronize:)
