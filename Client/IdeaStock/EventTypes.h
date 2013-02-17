@@ -25,6 +25,7 @@
 #define STACK_UPDATED_EVENT @"stackUpdated"
 #define STACK_DELETED_EVENT @"stackDeleted"
 #define STACK_ADDED_EVENT @"stackAdded"
+#define NOTE_CONTENT_UPDATED_EVENT @"noteContentUpdated"
 
 #define LISTENER_DOWNLOADED_NOTE @"listenerDownloadedNote"
 #define LISTENER_DOWNLOADED_IMAGE @"listenerDownloadedImage"

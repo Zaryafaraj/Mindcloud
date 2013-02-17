@@ -38,7 +38,7 @@ dispatch_queue_t queue;
 }
 
 -(void) submitClientManifest:(id<CollectionManifestProtocol>) clientManifest
-andServerManifest:(id<CollectionManifestProtocol>) serverManifest
+           andServerManifest:(id<CollectionManifestProtocol>) serverManifest
            andActionRecorder:(CollectionRecorder *) recorder
            ForCollectionName:(NSString *)collectionName
 {
@@ -48,8 +48,8 @@ andServerManifest:(id<CollectionManifestProtocol>) serverManifest
         id<CollectionManifestProtocol> result = merger.mergeManifests;
         NotificationContainer * notifications = merger.getNotifications;
         MergeResult * mergeResult = [[MergeResult alloc] initWithNotifications:notifications
-                                                         andFinalManifest:result
-                                                        andCollectionName:collectionName];
+                                                              andFinalManifest:result
+                                                             andCollectionName:collectionName];
         //now merge with the main queue
         dispatch_async(dispatch_get_main_queue(), ^{
             

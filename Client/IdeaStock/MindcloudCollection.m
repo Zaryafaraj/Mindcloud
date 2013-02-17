@@ -81,24 +81,24 @@
 @property (nonatomic,strong) id <CollectionManifestProtocol> manifest;
 
 /*
- Keyed on noteName - valued on noteID. All the noteImages for which we have sent 
+ Keyed on noteName - valued on noteID. All the noteImages for which we have sent
  a request but we are waiting for response
  */
 @property (nonatomic, strong) NSMutableDictionary * waitingNoteImages;
 
 /*
- Most of the times that we start from empty cache we only know that certain notes have image but 
- we don't know what the actual image is, this helps us to determine the image notes before we download the 
+ Most of the times that we start from empty cache we only know that certain notes have image but
+ we don't know what the actual image is, this helps us to determine the image notes before we download the
  image
  */
 @property (nonatomic, strong) NSMutableSet * downloadableImageNotes;
 /*
  Each collection may have an original thumbnail. When the collection is loaded if it has a
- thumbnail we set this to the ID of the thumbmnail note else we leave it as nil. 
+ thumbnail we set this to the ID of the thumbmnail note else we leave it as nil.
  In the course of working with the collection if the original thumbnail gets deleted
  we set this to nil again. Any new image that is added is a candidate for being the thumbnail
- we save that in the thumbnail stack and make sure deletion to candidates remove them. 
- At the end we see original thumbnail should still be the thumbnail by checking 
+ we save that in the thumbnail stack and make sure deletion to candidates remove them.
+ At the end we see original thumbnail should still be the thumbnail by checking
  original. If it should we do nothing, if not we select the top of stack
  and return it. If no new thing had happened we just return the stack
  */
@@ -255,7 +255,7 @@
                   forNoteID: (NSString *) noteID
                   withModel:(XoomlNoteModel *) noteModel
 {
-
+    
     id <NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
     if (!noteObj) return ;
     
@@ -306,7 +306,7 @@
                      andActionRecorder:self.recorder
                      ForCollectionName:self.bulletinBoardName];
     
-
+    
 }
 
 -(void) mergeFinished:(NSNotification *) notification
@@ -339,7 +339,7 @@
     NSString * collectionName = dict[@"collectionName"];
     NSString * noteName = dict[@"noteName"];
     NSString * imgPath = [FileSystemHelper getPathForNoteImageforNoteName:noteName
-                                               inBulletinBoard:self.bulletinBoardName];
+                                                          inBulletinBoard:self.bulletinBoardName];
     if (imgPath != nil && ![imgPath isEqualToString:@""])
     {
         NSString * noteID = self.waitingNoteImages[noteName];
@@ -373,28 +373,41 @@
         id<NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
         NSString * noteId = [noteObj noteTextID];
         
-        //this means that the manifest have been processed before
-        //and this is the last piece of missing information to update the UI
-        if (self.notesExpectedToBeDownloaded[noteId])
+        //check to see whether this is an update
+        if (self.noteContents[noteId])
         {
-            XoomlNoteModel * noteModel = self.notesExpectedToBeDownloaded[noteId];
-            self.noteAttributes[noteId] = noteModel;
+            //just update the content
             self.noteContents[noteId] = noteObj;
-            [self.notesExpectedToBeDownloaded removeObjectForKey:noteId];
-            
             NSDictionary * userInfo =  @{@"result" :  @[noteId]};
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_ADDED_EVENT
-                                                            object:self
-                                                          userInfo:userInfo];
+            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_CONTENT_UPDATED_EVENT
+                                                                object:self
+                                                              userInfo:userInfo];
         }
-        //this means that the manfiest has not been processed yet and we have to wait for it
-        //just put yourself here and when the manifest is processed it will pick this up
         else
         {
             
-            self.notesAlreadyDownloaded[noteId] = noteObj;
+            //this means that the manifest have been processed before
+            //and this is the last piece of missing information to update the UI
+            if (self.notesExpectedToBeDownloaded[noteId])
+            {
+                XoomlNoteModel * noteModel = self.notesExpectedToBeDownloaded[noteId];
+                self.noteAttributes[noteId] = noteModel;
+                self.noteContents[noteId] = noteObj;
+                [self.notesExpectedToBeDownloaded removeObjectForKey:noteId];
+                
+                NSDictionary * userInfo =  @{@"result" :  @[noteId]};
+                [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_ADDED_EVENT
+                                                                    object:self
+                                                                  userInfo:userInfo];
+            }
+            //this means that the manfiest has not been processed yet and we have to wait for it
+            //just put yourself here and when the manifest is processed it will pick this up
+            else
+            {
+                
+                self.notesAlreadyDownloaded[noteId] = noteObj;
+            }
         }
-        
     }
 }
 
@@ -405,18 +418,36 @@
 
 -(void) listenerDeletedNote:(NSNotification *) notification
 {
-    
+    //nothing to do here, since the manifest update will remove this note and update the UI
+//    NSLog(@"Note Deleted");
 }
 
 -(void) listenerDownloadedManifest:(NSNotification *) notification
 {
+    NSDictionary * result = notification.userInfo[@"result"];
+    NSString * collectionName = result[@"collectionName"];
+    NSData * manifestData = [self.dataSource getCollection:collectionName];
+    if (!manifestData)
+    {
+        NSLog(@"Collection File didn't download properly");
+        return;
+    }
+    id<CollectionManifestProtocol> serverManifest = [[XoomlCollectionManifest alloc]
+                                                     initWithData:manifestData];
     
+    id<CollectionManifestProtocol> clientManifest = [self.manifest copy];
+    MergerThread * mergerThread = [MergerThread getInstance];
+    //when the merge is finished we will be notified
+    [mergerThread submitClientManifest:clientManifest
+                     andServerManifest:serverManifest
+                     andActionRecorder:self.recorder
+                     ForCollectionName:self.bulletinBoardName];
 }
 
 #pragma mark - Creation
 
 -(void) addNoteContent: (id <NoteProtocol>) note
-         andModel:(XoomlNoteModel *) noteModel
+              andModel:(XoomlNoteModel *) noteModel
          forNoteWithID:(NSString *) noteID
 {
     NSString * noteName = noteModel.noteName;
@@ -439,7 +470,7 @@
 }
 
 -(void) addImageNoteContent:(id <NoteProtocol> )noteItem
-              andModel:(XoomlNoteModel *) noteModel
+                   andModel:(XoomlNoteModel *) noteModel
                    andImage: (NSData *) img
                     forNote:(NSString *) noteID
 {
@@ -590,7 +621,7 @@
 
 -(void) removeStacking:(NSString *) stackingName
 {
-
+    
     [self.collectionAttributes removeObjectForKey:stackingName];
     
     [self.manifest deleteStacking:stackingName];
@@ -634,7 +665,7 @@
 -(void) updateNoteAttributes: (NSString *) noteID
                    withModel: (XoomlNoteModel *) noteModel
 {
-
+    
     if (!(self.noteContents)[noteID]) return;
     
     XoomlNoteModel * oldNoteModel = self.noteAttributes[noteID];
@@ -806,9 +837,9 @@
         [deletedNotes addObject:notification.getNoteId];
     }
     [self removeNotesFromAllStackings:deletedNotes];
-
+    
     NSDictionary * userInfo =  @{@"result" :  deletedNotes.allObjects};
-
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_DELETED_EVENT
                                                         object:self
                                                       userInfo:userInfo];
@@ -849,7 +880,7 @@
     }
     
     NSDictionary * userInfo =  @{@"result" :  deletedStackings};
-
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:STACK_DELETED_EVENT
                                                         object:self
                                                       userInfo:userInfo];
@@ -876,10 +907,10 @@
     if (self.timer.isValid) return;
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval: SYNCHRONIZATION_PERIOD
-                                     target:self
-                                   selector:@selector(synchronize:)
-                                   userInfo:nil
-                                    repeats:YES];
+                                                  target:self
+                                                selector:@selector(synchronize:)
+                                                userInfo:nil
+                                                 repeats:YES];
 }
 
 -(void) stopTimer{

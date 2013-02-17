@@ -19,6 +19,7 @@
 
 @implementation AddNoteNotification
 -(id) initWithNoteId:(NSString *)noteId
+             andName:(NSString *)noteName
         andPositionX:(NSString *)positionX
         andPositionY:(NSString *)positionY
           andScaling:(NSString *)scaling
@@ -28,6 +29,7 @@
     self.positionX = positionX;
     self.positionY = positionY;
     self.scaling = scaling;
+    self.noteName = noteName;
     return self;
 }
 
