@@ -297,6 +297,7 @@
 		DBDB105616D032C200B5F7AE /* MergerThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MergerThread.m; sourceTree = "<group>"; };
 		DBDB105816D0388200B5F7AE /* MergeResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MergeResult.h; sourceTree = "<group>"; };
 		DBDB105916D0388200B5F7AE /* MergeResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MergeResult.m; sourceTree = "<group>"; };
+		DBDB105C16D0738200B5F7AE /* CollectionContentNotificationHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionContentNotificationHandler.h; sourceTree = "<group>"; };
 		DBDD1ABD15CF215A00F55223 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		DBE13373163E13AE00EF0AF7 /* CollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionCell.h; path = ../CollectionCell.h; sourceTree = "<group>"; };
 		DBE13374163E13AE00EF0AF7 /* CollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionCell.m; path = ../CollectionCell.m; sourceTree = "<group>"; };
@@ -747,6 +748,7 @@
 				DBDB105616D032C200B5F7AE /* MergerThread.m */,
 				DBDB105816D0388200B5F7AE /* MergeResult.h */,
 				DBDB105916D0388200B5F7AE /* MergeResult.m */,
+				DBDB105C16D0738200B5F7AE /* CollectionContentNotificationHandler.h */,
 			);
 			name = Sharing;
 			sourceTree = "<group>";

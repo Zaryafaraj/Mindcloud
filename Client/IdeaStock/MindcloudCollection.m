@@ -43,6 +43,7 @@
 #define ADD_BULLETIN_BOARD_ACTION @"addBulletinBoard"
 #define UPDATE_BULLETIN_BOARD_ACTION @"updateBulletinBoard"
 #define ADD_NOTE_ACTION @"addNote"
+
 #define UPDATE_NOTE_ACTION @"updateNote"
 #define ADD_IMAGE_NOTE_ACTION @"addImage"
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
@@ -90,7 +91,7 @@
  we don't know what the actual image is, this helps us to determine the image notes before we download the 
  image
  */
-@property (nonatomic, strong) NSMutableSet * imageNotes;
+@property (nonatomic, strong) NSMutableSet * downloadableImageNotes;
 /*
  Each collection may have an original thumbnail. When the collection is loaded if it has a
  thumbnail we set this to the ID of the thumbmnail note else we leave it as nil. 
@@ -169,13 +170,13 @@
     return _noteImages;
 }
 
--(NSMutableSet *) imageNotes
+-(NSMutableSet *) downloadableImageNotes
 {
-    if (!_imageNotes)
+    if (!_downloadableImageNotes)
     {
-        _imageNotes = [NSMutableSet set];
+        _downloadableImageNotes = [NSMutableSet set];
     }
-    return _imageNotes;
+    return _downloadableImageNotes;
 }
 
 -(NSMutableArray *) thumbnailStack
@@ -278,7 +279,7 @@
     NSString * imgName = noteObj.image;
     if (imgName != nil)
     {
-        [self.imageNotes addObject:noteID];
+        [self.downloadableImageNotes addObject:noteID];
         NSString * imagePath = [self.dataSource getImagePathForNote:noteModel.noteName
                                                       andCollection:self.bulletinBoardName];
         if (imagePath)
@@ -679,7 +680,7 @@
 
 -(BOOL) doesNoteHaveImage:(NSString *)noteId
 {
-    return [self.imageNotes containsObject:noteId] ? YES:NO;
+    return [self.downloadableImageNotes containsObject:noteId] ? YES:NO;
 }
 
 -(NSDictionary *) getAllNoteImages{
@@ -703,15 +704,42 @@
     NSMutableArray * addedNotes = [NSMutableArray array];
     for(AddNoteNotification * notification in notifications)
     {
-        //try to read the note contents from the disk. There are two scenarios :
-        //1- Note has been downloaded and is ready --> in this case we just consume it here
-        //2- Note has not been downloaded --> we will leave the noteContent and name empty and
-        //when we get a notification we will update it
-        XoomlNoteModel * noteModel = [[XoomlNoteModel alloc] initWithName:@"unNamed"
+        XoomlNoteModel * noteModel = [[XoomlNoteModel alloc] initWithName:notification.getNoteName
                                                              andPositionX:notification.getPositionX
                                                              andPositionY:notification.getPositionY
                                                                andScaling:notification.getScale];
         self.noteAttributes[notification.getNoteId] = noteModel;
+        //try to read the note contents from the disk. There are two scenarios :
+        //1- Note has been downloaded and is ready --> in this case we just consume it here
+        //2- Note has not been downloaded --> we will leave the noteContent and name empty and
+        //when we get a notification we will update it
+        NSData * noteData = [self.dataSource getNoteForTheCollection:self.bulletinBoardName
+                                                            WithName:notification.getNoteName];
+        if (noteData != nil)
+        {
+            id <NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
+            if (!noteObj) return;
+            
+            self.noteContents[notification.getNoteId] = noteObj;
+            NSString * imgName = noteObj.image;
+            if (imgName != nil)
+            {
+                [self.downloadableImageNotes addObject:notification.getNoteId];
+            }
+            NSString * imagePath = [self.dataSource getImagePathForNote:noteModel.noteName
+                                                          andCollection:self.bulletinBoardName];
+            if (imagePath)
+            {
+                self.noteImages[notification.getNoteId] = imagePath;
+                [self.thumbnailStack addObject:notification.getNoteId];
+            }
+            [self.waitingNoteImages setObject:notification.getNoteId forKey:noteModel.noteName];
+            
+        }
+        else
+        {
+            //we have to wait for the note to get downloaded and send us notifications
+        }
     }
 }
 
