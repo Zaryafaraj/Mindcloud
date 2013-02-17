@@ -20,7 +20,7 @@
                                withNoteImageData:(NSData *) imageData;
 
 -(void) noteDeleteReceivedForCollectionName:(NSString *) collectionName
-                               andNoteNamed:(NSString *) collectionName;
+                               andNoteNamed:(NSString *) noteName;
 
 -(void) collectionManifestReceivedForCollectionName:(NSString *) collectionName;
 

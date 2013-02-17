@@ -852,4 +852,78 @@
     [self getCollection:collectionName];
 }
 
+
+#pragma mark - NotificationHandler
+
+-(void) noteUpdateReceivedForCollectionNamed:(NSString *)collectionName
+                                andNoteNamed:(NSString *)noteName
+                                withNoteData:(NSData *)noteData
+{
+    
+    //first save it to disk
+    [self saveToDiskNoteData:noteData
+               forCollection:collectionName
+                     andNote:noteName];
+    
+    //send out a notification that the note is available to use
+    NSDictionary * result = @{@"collectionName" : collectionName,
+                              @"noteName" : noteName};
+    
+    NSDictionary * userInfo = @{@"result" : result};
+    [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DOWNLOADED_NOTE
+                                                        object:self
+                                                      userInfo:userInfo];
+}
+
+-(void) noteImageUpdateReceivedForCollectionName:(NSString *)collectionName
+                                    andNoteNamed:(NSString *)noteName
+                               withNoteImageData:(NSData *)imageData
+{
+    [self saveToDiskNoteImageData:imageData
+                    forCollection:collectionName
+                          andNote:noteName];
+    
+    NSString * imageCacheKey = [self getImageCacheKeyForCollection:collectionName
+                                                           andNote:noteName];
+    
+    self.imageHasUpdatedCache[imageCacheKey] = @YES;
+                                
+    NSDictionary * result = @{@"collectionName" : collectionName,
+                              @"noteName" : noteName};
+    
+    NSDictionary * userInfo = @{@"result" : result};
+    [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DOWNLOADED_IMAGE
+                                                        object:self
+                                                      userInfo:userInfo];
+}
+
+-(void) noteDeleteReceivedForCollectionName:(NSString *)collectionName
+                               andNoteNamed:(NSString *)noteName
+{
+    [self removeFromDiskNote:noteName
+              fromCollection:collectionName];
+    
+    NSDictionary * result = @{@"collectionName" : collectionName,
+                              @"noteName" : noteName};
+    
+    NSDictionary * userInfo = @{@"result" : result};
+    [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DELETED_NOTE
+                                                        object:self
+                                                      userInfo:userInfo];
+}
+
+-(void) collectionManifestReceivedForCollectionName:(NSString *)collectionName
+                                           withData:(NSData *) manifestData
+{
+    [self saveToDiskCollectionData:manifestData
+                     ForCollection:collectionName];
+    
+    self.collectionHasUpdatedCache[collectionName] = @YES;
+    NSDictionary * result = @{@"collectionName" : collectionName};
+    
+    NSDictionary * userInfo = @{@"result" : result};
+    [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DOWNLOADED_MANIFEST
+                                                        object:self
+                                                      userInfo:userInfo];
+}
 @end

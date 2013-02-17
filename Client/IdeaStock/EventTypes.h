@@ -25,6 +25,10 @@
 #define STACK_UPDATED_EVENT @"stackUpdated"
 #define STACK_DELETED_EVENT @"stackDeleted"
 #define STACK_ADDED_EVENT @"stackAdded"
-#define NOTE_CONTENT_DOWNLOADED_EVENT @"noteContentDownloadedEvent"
+
+#define LISTENER_DOWNLOADED_NOTE @"listenerDownloadedNote"
+#define LISTENER_DOWNLOADED_IMAGE @"listenerDownloadedImage"
+#define LISTENER_DELETED_NOTE @"listenerDeletedImage"
+#define LISTENER_DOWNLOADED_MANIFEST @"listenerDownloadedManifest"
 
 @end
