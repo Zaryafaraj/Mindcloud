@@ -125,6 +125,15 @@
  To record any possible conflicting items for synchronization
  */
 @property (strong, atomic) CollectionRecorder * recorder;
+
+/*
+ Related to listeners
+ All the notes that the listener download but are waiting for the manifest
+ */
+//keyed on noteId and valued on noteContent -> id<NoteProtocol>
+@property (strong, atomic) NSMutableDictionary * notesAlreadyDownloaded;
+//keyed on noteId and valued on noteModel -> XoomlNoteModel
+@property (strong, atomic) NSMutableDictionary * notesExpectedToBeDownloaded;
 @end
 
 @implementation MindcloudCollection
@@ -132,68 +141,23 @@
 #pragma mark - synthesis
 @synthesize bulletinBoardName = _bulletinBoardName;
 
--(NSMutableDictionary *) waitingNoteImages
-{
-    if (!_waitingNoteImages)
-    {
-        _waitingNoteImages = [NSMutableDictionary dictionary];
-    }
-    return _waitingNoteImages;
-}
-
--(NSMutableDictionary *) collectionAttributes
-{
-    if (!_collectionAttributes){
-        _collectionAttributes = [NSMutableDictionary dictionary];
-    }
-    return _collectionAttributes;
-}
-
--(NSMutableDictionary *)noteAttributes{
-    if(!_noteAttributes){
-        _noteAttributes = [NSMutableDictionary dictionary];
-    }
-    return _noteAttributes;
-}
-
--(NSMutableDictionary *) noteContents{
-    if (!_noteContents){
-        _noteContents = [NSMutableDictionary dictionary];
-    }
-    return _noteContents;
-}
-
--(NSMutableDictionary *) noteImages{
-    if (!_noteImages){
-        _noteImages = [NSMutableDictionary dictionary];
-    }
-    return _noteImages;
-}
-
--(NSMutableSet *) downloadableImageNotes
-{
-    if (!_downloadableImageNotes)
-    {
-        _downloadableImageNotes = [NSMutableSet set];
-    }
-    return _downloadableImageNotes;
-}
-
--(NSMutableArray *) thumbnailStack
-{
-    if (!_thumbnailStack)
-    {
-        _thumbnailStack = [NSMutableArray array];
-    }
-    return _thumbnailStack;
-}
-
 #pragma mark - Initialization
 -(id) initCollection:(NSString *)collectionName
       withDataSource:(id<MindcloudDataSource>)dataSource
 {
     self = [super init];
     self.recorder = [[CollectionRecorder alloc] init];
+    self.thumbnailStack = [NSMutableArray array];
+    self.downloadableImageNotes = [NSMutableSet set];
+    self.noteImages = [NSMutableDictionary dictionary];
+    self.noteContents = [NSMutableDictionary dictionary];
+    self.noteAttributes = [NSMutableDictionary dictionary];
+    self.collectionAttributes = [NSMutableDictionary dictionary];
+    self.waitingNoteImages = [NSMutableDictionary dictionary];
+    self.notesAlreadyDownloaded = [NSMutableDictionary dictionary];
+    self.notesExpectedToBeDownloaded = [NSMutableDictionary dictionary];
+    
+    
     self.dataSource = dataSource;
     self.bulletinBoardName = collectionName;
     //now ask to download and get the collection
@@ -224,6 +188,27 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteImageDownloaded:)
                                                  name:IMAGE_DOWNLOADED_EVENT
+                                               object:nil];
+    
+    
+    //notifications for listener updates
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(listenerDownloadedNote:)
+                                                 name:LISTENER_DOWNLOADED_NOTE
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(listenerDownloadedNoteImage:)
+                                                 name:LISTENER_DOWNLOADED_IMAGE
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(listenerDeletedNote:)
+                                                 name:LISTENER_DELETED_NOTE
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(listenerDownloadedManifest:)
+                                                 name:LISTENER_DOWNLOADED_MANIFEST
                                                object:nil];
     //Start the synchronization timer
     return self;
@@ -370,11 +355,64 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_IMAGE_READY_EVENT
                                                                 object:self
                                                               userInfo:userInfo];
+        }
+    }
+}
+
+
+-(void) listenerDownloadedNote:(NSNotification *) notification
+{
+    NSDictionary * result = notification.userInfo[@"result"];
+    NSString * collectionName = result[@"collectionName"];
+    NSString * noteName = result[@"noteName"];
+    if ([collectionName isEqualToString:self.bulletinBoardName])
+    {
+        
+        NSData * noteData = [self.dataSource getNoteForTheCollection:collectionName
+                                                            WithName:noteName];
+        id<NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
+        NSString * noteId = [noteObj noteTextID];
+        
+        //this means that the manifest have been processed before
+        //and this is the last piece of missing information to update the UI
+        if (self.notesExpectedToBeDownloaded[noteId])
+        {
+            XoomlNoteModel * noteModel = self.notesExpectedToBeDownloaded[noteId];
+            self.noteAttributes[noteId] = noteModel;
+            self.noteContents[noteId] = noteObj;
+            [self.notesExpectedToBeDownloaded removeObjectForKey:noteId];
             
+            NSDictionary * userInfo =  @{@"result" :  @[noteId]};
+            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_ADDED_EVENT
+                                                            object:self
+                                                          userInfo:userInfo];
+        }
+        //this means that the manfiest has not been processed yet and we have to wait for it
+        //just put yourself here and when the manifest is processed it will pick this up
+        else
+        {
+            
+            self.notesAlreadyDownloaded[noteId] = noteObj;
         }
         
     }
 }
+
+-(void) listenerDownloadedNoteImage:(NSNotification *) notification
+{
+    
+}
+
+-(void) listenerDeletedNote:(NSNotification *) notification
+{
+    
+}
+
+-(void) listenerDownloadedManifest:(NSNotification *) notification
+{
+    
+}
+
 #pragma mark - Creation
 
 -(void) addNoteContent: (id <NoteProtocol>) note
@@ -704,43 +742,35 @@
     NSMutableArray * addedNotes = [NSMutableArray array];
     for(AddNoteNotification * notification in notifications)
     {
+        NSString * noteId = notification.getNoteId;
         XoomlNoteModel * noteModel = [[XoomlNoteModel alloc] initWithName:notification.getNoteName
                                                              andPositionX:notification.getPositionX
                                                              andPositionY:notification.getPositionY
                                                                andScaling:notification.getScale];
-        self.noteAttributes[notification.getNoteId] = noteModel;
-        //try to read the note contents from the disk. There are two scenarios :
-        //1- Note has been downloaded and is ready --> in this case we just consume it here
-        //2- Note has not been downloaded --> we will leave the noteContent and name empty and
-        //when we get a notification we will update it
-        NSData * noteData = [self.dataSource getNoteForTheCollection:self.bulletinBoardName
-                                                            WithName:notification.getNoteName];
-        if (noteData != nil)
+        //everything is set and we have the last missing piece of the information
+        //update the model and send notification for UI
+        if (self.notesAlreadyDownloaded[noteId])
         {
-            id <NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
-            if (!noteObj) return;
-            
-            self.noteContents[notification.getNoteId] = noteObj;
-            NSString * imgName = noteObj.image;
-            if (imgName != nil)
-            {
-                [self.downloadableImageNotes addObject:notification.getNoteId];
-            }
-            NSString * imagePath = [self.dataSource getImagePathForNote:noteModel.noteName
-                                                          andCollection:self.bulletinBoardName];
-            if (imagePath)
-            {
-                self.noteImages[notification.getNoteId] = imagePath;
-                [self.thumbnailStack addObject:notification.getNoteId];
-            }
-            [self.waitingNoteImages setObject:notification.getNoteId forKey:noteModel.noteName];
-            
+            id<NoteProtocol> noteObj = self.notesAlreadyDownloaded[noteId];
+            self.noteAttributes[noteId] = noteModel;
+            self.noteContents[noteId] = noteObj;
+            [self.notesAlreadyDownloaded removeObjectForKey:noteId];
+            [addedNotes addObject:noteId];
         }
+        //we still have to wait for the note to be downloaded. Save the state so far
+        //until the download event of the note picks it up
         else
         {
-            //we have to wait for the note to get downloaded and send us notifications
+            self.notesExpectedToBeDownloaded[noteId] = noteModel;
         }
     }
+    
+    //send out a notification for everything that is ready
+    NSDictionary * userInfo = @{@"result" : [addedNotes copy]};
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_ADDED_EVENT
+                                                        object:self
+                                                      userInfo:userInfo];
 }
 
 -(void) updateCollectionForUpdateNoteNotifications:(NSArray *) notifications

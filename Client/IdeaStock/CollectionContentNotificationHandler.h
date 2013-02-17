@@ -22,6 +22,7 @@
 -(void) noteDeleteReceivedForCollectionName:(NSString *) collectionName
                                andNoteNamed:(NSString *) noteName;
 
--(void) collectionManifestReceivedForCollectionName:(NSString *) collectionName;
+-(void) collectionManifestReceivedForCollectionName:(NSString *) collectionName
+                                           withData:(NSData *) data;
 
 @end
