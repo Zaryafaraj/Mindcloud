@@ -10,6 +10,7 @@
 @interface AddNoteNotification()
 
 @property (atomic, strong) NSString * noteId;
+@property (atomic, strong) NSString * noteName;
 @property (atomic, strong) NSString * positionX;
 @property (atomic, strong) NSString * positionY;
 @property (atomic, strong) NSString * scaling;
@@ -48,5 +49,10 @@
 -(NSString *) getScale
 {
     return self.scaling;
+}
+
+-(NSString *) getNoteName
+{
+    return self.noteName;
 }
 @end

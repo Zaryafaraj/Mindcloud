@@ -59,7 +59,6 @@ andServerManifest:(id<CollectionManifestProtocol>) serverManifest
                                                               userInfo:userInfo];
         });
     });
-    dispatch_release(queue);
 }
 
 @end

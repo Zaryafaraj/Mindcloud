@@ -338,6 +338,7 @@
 -(AddNoteNotification *) createAddNoteNotification:(DDXMLElement *) noteXml
 {
     NSString * noteId = [[noteXml attributeForName:ATTRIBUTE_ID] stringValue];
+    NSString * noteName = [[noteXml attributeForName:ASSOCIATED_XOOML_FRAGMENT] stringValue];
     NSString * positionX = @"0";
     NSString * positionY = @"0";
     NSString * scale = @"1";
@@ -365,6 +366,7 @@
     }
     
     AddNoteNotification * result = [[AddNoteNotification alloc] initWithNoteId:noteId
+                                                                      andName:noteName
                                                                   andPositionX:positionX
                                                                   andPositionY:positionY
                                                                     andScaling:scale];
@@ -384,6 +386,7 @@
     AddNoteNotification * temp = [self createAddNoteNotification:noteXml];
     
     UpdateNoteNotification * result = [[UpdateNoteNotification alloc] initWithNoteId:temp.getNoteId
+                                                                             andName:temp.getNoteName
                                                                         andPositionX:temp.getPositionX
                                                                         andPositionY:temp.getPositionY
                                                                             andScale:temp.getScale];

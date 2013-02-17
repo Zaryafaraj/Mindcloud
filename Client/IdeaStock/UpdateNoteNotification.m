@@ -9,13 +9,16 @@
 #import "UpdateNoteNotification.h"
 @interface UpdateNoteNotification()
 @property (atomic, strong) NSString * noteId;
+@property (atomic, strong) NSString * noteName;
 @property (atomic, strong) NSString * positionX;
 @property (atomic, strong) NSString * positionY;
 @property (atomic, strong) NSString * scale;
 @end
+
 @implementation UpdateNoteNotification
 
 -(id) initWithNoteId:(NSString *)noteId
+             andName:(NSString *) noteName
         andPositionX:(NSString *)positionX
         andPositionY:(NSString *)positionY
             andScale:(NSString *)scale
@@ -25,6 +28,7 @@
     self.positionX = positionX;
     self.positionY = positionY;
     self.scale = scale;
+    self.noteName = noteName;
     return self;
 }
 
@@ -48,4 +52,8 @@
     return self.scale;
 }
 
+-(NSString *) getNoteName
+{
+    return self.noteName;
+}
 @end

@@ -19,5 +19,12 @@
 #define IMAGE_DOWNLOADED_EVENT @"imageDownloaded"
 #define NOTE_IMAGE_READY_EVENT @"noteImageReadyEvent"
 #define MANIFEST_MERGE_FINISHED_EVENT @"manifestMergeFinished"
+#define NOTE_UPDATED_EVENT @"noteUpdatedEvent"
+#define NOTE_DELETED_EVENT @"noteDeletedEvent"
+#define NOTE_ADDED_EVENT @"noteAddedEvent"
+#define STACK_UPDATED_EVENT @"stackUpdated"
+#define STACK_DELETED_EVENT @"stackDeleted"
+#define STACK_ADDED_EVENT @"stackAdded"
+#define NOTE_CONTENT_DOWNLOADED_EVENT @"noteContentDownloadedEvent"
 
 @end

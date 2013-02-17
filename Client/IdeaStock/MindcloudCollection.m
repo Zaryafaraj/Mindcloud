@@ -332,12 +332,13 @@
     if (![mergeResult.collectionName isEqualToString:self.bulletinBoardName]) return;
     
     NotificationContainer * notifications = mergeResult.notifications;
+    //The order of these updates are optimized
     [self updateCollectionForAddNoteNotifications:notifications.getAddNoteNotifications];
     [self updateCollectionForUpdateNoteNotifications:notifications.getUpdateNoteNotifications];
-    [self updateCollectionForDeleteNoteNotifications: notifications.getDeleteNoteNotifications];
     [self updateCollectionForAddStackingNotifications:notifications.getAddStackingNotifications];
     [self updateCollectionForUpdateStackingNotifications:notifications.getUpdateStackingNotifications];
     [self updateCollectionForDeleteStackingNotifications:notifications.getDeleteStackingNotifications];
+    [self updateCollectionForDeleteNoteNotifications: notifications.getDeleteNoteNotifications];
     
     self.manifest = mergeResult.finalManifest;
     //rest because we have updated ourselves
@@ -478,6 +479,16 @@
         }
     }
 }
+
+-(void) removeNotesFromAllStackings:(NSSet *) noteIds
+{
+    for (NSString * stacking in self.collectionAttributes)
+    {
+        XoomlStackingModel * stackingModel = self.collectionAttributes[stacking];
+        [stackingModel deleteNotes:noteIds];
+    }
+}
+
 -(void) removeNoteWithID:(NSString *)delNoteID{
     
     id <NoteProtocol> note = (self.noteContents)[delNoteID];
@@ -489,23 +500,7 @@
     [self.noteAttributes removeObjectForKey:delNoteID];
     if (self.noteImages[delNoteID])
     {
-        
-        [self.noteImages removeObjectForKey:delNoteID];
-        if (delNoteID != nil && [self.originalThumbnail isEqualToString:delNoteID])
-        {
-            //its no longer the original thumbnail
-            self.originalThumbnail = nil;
-        }
-        [self.thumbnailStack removeObject:delNoteID];
-        if ([self.thumbnailStack count] > 0)
-        {
-            NSString * lastThumbnailNoteId = [self.thumbnailStack lastObject];
-            [self.manifest updateThumbnailWithImageOfNote:lastThumbnailNoteId];
-        }
-        else
-        {
-            [self.manifest deleteThumbnailForNote:delNoteID];
-        }
+        [self removeNoteImage:delNoteID];
     }
     [self removeNoteFromAllStackings:delNoteID];
     
@@ -518,6 +513,26 @@
     self.needSynchronization = true;
 }
 
+-(void) removeNoteImage:(NSString *) delNoteID
+{
+    
+    [self.noteImages removeObjectForKey:delNoteID];
+    if (delNoteID != nil && [self.originalThumbnail isEqualToString:delNoteID])
+    {
+        //its no longer the original thumbnail
+        self.originalThumbnail = nil;
+    }
+    [self.thumbnailStack removeObject:delNoteID];
+    if ([self.thumbnailStack count] > 0)
+    {
+        NSString * lastThumbnailNoteId = [self.thumbnailStack lastObject];
+        [self.manifest updateThumbnailWithImageOfNote:lastThumbnailNoteId];
+    }
+    else
+    {
+        [self.manifest deleteThumbnailForNote:delNoteID];
+    }
+}
 -(void) removeNote:(NSString *) noteID
       fromStacking:(NSString *) stackingName
 {
@@ -684,17 +699,61 @@
 #pragma mark - merge helpers
 -(void) updateCollectionForAddNoteNotifications:(NSArray *) notifications
 {
-    
+    //the contents of these notes may be added later by another notifiaction
+    NSMutableArray * addedNotes = [NSMutableArray array];
+    for(AddNoteNotification * notification in notifications)
+    {
+        //try to read the note contents from the disk. There are two scenarios :
+        //1- Note has been downloaded and is ready --> in this case we just consume it here
+        //2- Note has not been downloaded --> we will leave the noteContent and name empty and
+        //when we get a notification we will update it
+        XoomlNoteModel * noteModel = [[XoomlNoteModel alloc] initWithName:@"unNamed"
+                                                             andPositionX:notification.getPositionX
+                                                             andPositionY:notification.getPositionY
+                                                               andScaling:notification.getScale];
+        self.noteAttributes[notification.getNoteId] = noteModel;
+    }
 }
 
 -(void) updateCollectionForUpdateNoteNotifications:(NSArray *) notifications
 {
+    NSMutableArray * updatedNotes = [NSMutableArray array];
+    for (UpdateNoteNotification * notification in notifications)
+    {
+        XoomlNoteModel * note = self.noteAttributes[notification.getNoteId];
+        note.positionX = notification.getNotePositionX;
+        note.positionY = notification.getNotePositionY;
+        note.scaling = notification.getNoteScale;
+        [updatedNotes addObject:notification.getNoteId];
+    }
     
+    NSDictionary * userInfo = @{@"result" : [updatedNotes copy]};
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_UPDATED_EVENT
+                                                        object:self
+                                                      userInfo:userInfo];
 }
 
 -(void) updateCollectionForDeleteNoteNotifications:(NSArray *) notifications
 {
-    
+    NSMutableSet * deletedNotes = [NSMutableSet set];
+    for (DeleteNoteNotification * notification in notifications)
+    {
+        [self.noteContents removeObjectForKey:notification.getNoteId];
+        [self.noteAttributes removeObjectForKey:notification.getNoteId];
+        if (self.noteImages[notification.getNoteId])
+        {
+            [self removeNoteImage:notification.getNoteId];
+        }
+        [deletedNotes addObject:notification.getNoteId];
+    }
+    [self removeNotesFromAllStackings:deletedNotes];
+
+    NSDictionary * userInfo =  @{@"result" :  deletedNotes.allObjects};
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_DELETED_EVENT
+                                                        object:self
+                                                      userInfo:userInfo];
 }
 
 -(void) updateCollectionForAddStackingNotifications:(NSArray *) notifications
@@ -709,7 +768,33 @@
 
 -(void) updateCollectionForDeleteStackingNotifications:(NSArray *) notifications
 {
+    NSMutableArray * deletedStackings = [NSMutableArray array];
+    for (DeleteStackingNotification * notification in notifications)
+    {
+        NSString * stackingName = notification.getStackingId;
+        XoomlStackingModel * stacking = self.collectionAttributes[stackingName];
+        if (stacking)
+        {
+            for (NSString * noteId in stacking.refIds)
+            {
+                
+                [self.noteContents removeObjectForKey:noteId];
+                [self.noteAttributes removeObjectForKey:noteId];
+                if (self.noteImages[noteId])
+                {
+                    [self removeNoteImage:noteId];
+                }
+            }
+        }
+        [self.collectionAttributes removeObjectForKey:stackingName];
+        [deletedStackings addObject:stackingName];
+    }
     
+    NSDictionary * userInfo =  @{@"result" :  deletedStackings};
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:STACK_DELETED_EVENT
+                                                        object:self
+                                                      userInfo:userInfo];
 }
 
 #pragma mark - Synchronization Helpers

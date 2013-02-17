@@ -583,7 +583,6 @@
     NSData * noteData = [self getFromDiskNote:noteName fromCollection:collectionName];
     if (!noteData)
     {
-        NSLog(@"Could not get Retreive note data from cache, refresh the cache by getting the collection again");
         return nil;
     }
     else

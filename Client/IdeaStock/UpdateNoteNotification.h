@@ -11,6 +11,7 @@
 @interface UpdateNoteNotification : NSObject
 
 -(id) initWithNoteId:(NSString *) noteId
+             andName:(NSString *) noteName
         andPositionX:(NSString *) positionX
         andPositionY:(NSString *) positionY
             andScale:(NSString *) scale;
@@ -19,5 +20,6 @@
 -(NSString *) getNotePositionX;
 -(NSString *) getNotePositionY;
 -(NSString *) getNoteScale;
+-(NSString *) getNoteName;
 
 @end
