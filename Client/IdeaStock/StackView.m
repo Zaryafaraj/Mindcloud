@@ -199,6 +199,18 @@
     }
 }
 
+#pragma mark - deletion
+-(void) removeNoteView:(NoteView *)note
+{
+    [self.views removeObject:note];
+    [self setNextMainViewWithNoteToRemove:note];
+    if([self.views count] == 0)
+    {
+      //manifest update will take care of this
+      //  [self.delegate stackViewIsEmpty:self];
+    }
+}
+
 #pragma mark - layout
 //lays the img on top of the stack view as its image
 -(void) layImage: (UIImage *) img{

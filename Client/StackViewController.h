@@ -19,6 +19,8 @@
 @property (weak, nonatomic) id<StackViewDelegate,NoteViewDelegate>  delegate;
 @property (weak,nonatomic) StackView * openStack;
 
+-(void) resetEditingMode;
+
 @end
 
 /*-----------------------------------------------------------
@@ -36,6 +38,8 @@
 -(void) stackViewDeletedNote:(NoteView *) note;
 
 -(void) stack:(StackView *) stack IsEmptyForViewController:(StackViewController * ) sender;
+
+-(void) stackViewIsEmpty:(StackView *) stackView;
 
 
 @end

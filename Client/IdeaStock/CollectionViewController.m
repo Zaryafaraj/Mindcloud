@@ -181,6 +181,8 @@
                     StackViewController * openStackController = (StackViewController *) self.presentedViewController;
                     if (openStackController.openStack == stackView)
                     {
+                        
+                        [openStackController resetEditingMode];
                         [openStackController.view setNeedsDisplay];
                     }
                 }
@@ -224,6 +226,7 @@
                     StackViewController * openStackController = (StackViewController *) self.presentedViewController;
                     if (openStackController.openStack == stackView)
                     {
+                        [openStackController resetEditingMode];
                         [openStackController.view setNeedsDisplay];
                     }
                 }
@@ -298,9 +301,21 @@
         }
         if (noteView == nil) return;
         
-        if ([self.board stackingForNote:noteId] != nil)
+        NSString * noteStackingId = [self.board stackingForNote:noteId];
+        if ( noteStackingId != nil)
         {
-            
+            StackView * stackView = self.stackViews[noteStackingId];
+            [stackView removeNoteView:noteView];
+            //if we are currently showing the stack view that just got updated, redraw it
+            if ([self.presentedViewController isKindOfClass:[StackViewController class]])
+            {
+                StackViewController * openStackController = (StackViewController *) self.presentedViewController;
+                if (openStackController.openStack == stackView)
+                {
+                    [openStackController resetEditingMode];
+                    [openStackController.view setNeedsDisplay];
+                }
+            }
         }
         else
         {
@@ -1296,6 +1311,7 @@ intoStackingWithMainView: (UIView *) mainView
     if ( [item isKindOfClass:[NoteView class]]){
         NoteView * noteItem = (NoteView *) item;
         
+        [stackView removeNoteView:noteItem];
         [stackView setNextMainViewWithNoteToRemove:noteItem];
         for (UIGestureRecognizer * gr in noteItem.gestureRecognizers){
             [noteItem removeGestureRecognizer:gr];
@@ -1324,6 +1340,28 @@ intoStackingWithMainView: (UIView *) mainView
 -(void) stackViewDeletedNote:(NoteView *)note
 {
     [self deleteNote:note];
+}
+
+-(void) stackViewIsEmpty:(StackView *)stackView
+{
+    [CollectionAnimationHelper animateDeleteView:stackView
+                              fromCollectionView:self.collectionView
+                         withCallbackAfterFinish:^(void){
+        [stackView removeFromSuperview];
+        self.editMode = NO;
+        self.highlightedView = nil;
+    }];
+    [self.stackViews removeObjectForKey:stackView.ID];
+    
+    if ([self.presentedViewController isKindOfClass:[StackViewController class]])
+    {
+        //remove the stackView
+        StackViewController * openStackController = (StackViewController *) self.presentedViewController;
+        if (openStackController.openStack == stackView)
+        {
+            [self dismissViewControllerAnimated:YES completion:^{}];
+        }
+    }
 }
 
 -(void) stack:(StackView *)stack IsEmptyForViewController:(StackViewController *)sender

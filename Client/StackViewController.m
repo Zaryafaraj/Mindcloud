@@ -172,30 +172,7 @@
 }
 
 -(void) screenTapped: (UITapGestureRecognizer *) sender{
-
-    //tap is used for cancelation of the typing or pressing
-    if (self.isInEditMode){
-        self.isInEditMode = NO;
-        self.highLightedNote.highlighted = NO;
-        if ([self.toolbar.items count] > 2){
-            [self removeToolbarItems];
-        }
-        for (UIGestureRecognizer * gr in [self.highLightedNote gestureRecognizers]){
-            if ([gr isKindOfClass:[UIPanGestureRecognizer class]]){
-                [self.highLightedNote removeGestureRecognizer:gr];
-            }
-            
-        }
-        [UIView animateWithDuration:0.25 animations:^{ self.highLightedNote.frame = self.lastFrame;}];
-        self.highLightedNote = nil;
-    }
-    
-    for(UIView * view in self.notes){
-        if ([view conformsToProtocol:@protocol(BulletinBoardObject)]){
-            id<BulletinBoardObject> obj = (id<BulletinBoardObject>) view;
-            [obj resignFirstResponder];
-        }
-    }
+    [self resetEditingMode];
 }
 
 #pragma mark - toolbar
@@ -277,6 +254,32 @@
     return nil;
 }
 
+-(void) resetEditingMode
+{
+    //tap is used for cancelation of the typing or pressing
+    if (self.isInEditMode){
+        self.isInEditMode = NO;
+        self.highLightedNote.highlighted = NO;
+        if ([self.toolbar.items count] > 2){
+            [self removeToolbarItems];
+        }
+        for (UIGestureRecognizer * gr in [self.highLightedNote gestureRecognizers]){
+            if ([gr isKindOfClass:[UIPanGestureRecognizer class]]){
+                [self.highLightedNote removeGestureRecognizer:gr];
+            }
+            
+        }
+        [UIView animateWithDuration:0.25 animations:^{ self.highLightedNote.frame = self.lastFrame;}];
+        self.highLightedNote = nil;
+    }
+    
+    for(UIView * view in self.notes){
+        if ([view conformsToProtocol:@protocol(BulletinBoardObject)]){
+            id<BulletinBoardObject> obj = (id<BulletinBoardObject>) view;
+            [obj resignFirstResponder];
+        }
+    }
+}
 #define FLIP_PERIOD 1.5
 -(BOOL) checkScrollToNextPage: (CGRect) rect forView: (UIView *) view{
     
@@ -382,6 +385,7 @@
         self.highLightedNote.transform = CGAffineTransformScale(self.highLightedNote.transform, 0.05, 0.05);
     }completion:^ (BOOL didFinish){
         
+        [self.openStack removeNoteView:self.highLightedNote];
         [self.openStack setNextMainViewWithNoteToRemove:self.highLightedNote];
         [self.notes removeObject:self.highLightedNote];
         [self.highLightedNote removeFromSuperview];

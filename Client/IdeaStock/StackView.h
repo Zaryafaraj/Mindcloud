@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "NoteView.h"
+#import "StackView.h"
 
 @interface StackView : UIView <BulletinBoardObject,UITextViewDelegate>
 
@@ -22,5 +23,7 @@
 -(void) setNextMainViewWithNoteToRemove:(NoteView *) noteView;
 
 -(void) addNoteView:(NoteView *) note;
+
+-(void) removeNoteView:(NoteView *) note;
 
 @end
