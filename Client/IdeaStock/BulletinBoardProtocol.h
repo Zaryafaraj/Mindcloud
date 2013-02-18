@@ -60,6 +60,7 @@
 
 -(NSDictionary *) getAllStackings;
 
+-(NSString *) stackingForNote:(NSString *) noteId;
 -(id <NoteProtocol>) getNoteContent: (NSString *) noteID;
 
 @optional

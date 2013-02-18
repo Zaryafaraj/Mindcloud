@@ -73,6 +73,10 @@
 @property (nonatomic,strong) NSMutableDictionary * noteImages;
 
 /*
+ For performance reason we hold this map between noteId and stackId ; if the note belongs to a stack id
+ */
+@property (nonatomic, strong) NSMutableDictionary * noteStacking;
+/*
  The datasource is connected to the mindcloud servers and can be viewed as the expensive
  permenant storage
  */
@@ -158,6 +162,7 @@
     self.noteAttributes = [NSMutableDictionary dictionary];
     self.collectionAttributes = [NSMutableDictionary dictionary];
     self.waitingNoteImages = [NSMutableDictionary dictionary];
+    self.noteStacking = [NSMutableDictionary dictionary];
     
     self.dataSource = dataSource;
     self.bulletinBoardName = collectionName;
@@ -291,8 +296,12 @@
     NSDictionary *stackingInfo = [self.manifest getAllStackingsInfo];
     for (NSString * stackingName in stackingInfo)
     {
-        NSString * stackModel = stackingInfo[stackingName];
+        XoomlStackingModel * stackModel = stackingInfo[stackingName];
         self.collectionAttributes[stackingName] = stackModel;
+        for (NSString * refId in stackModel.refIds)
+        {
+            self.noteStacking[refId] = stackingName;
+        }
     }
 }
 #pragma mark - Notifications
@@ -588,6 +597,11 @@
         [self.recorder recordUpdateStack:stackingName];
     }
     
+    for(NSString * noteId in noteIDs)
+    {
+        self.noteStacking[noteIDs] = stackingName;
+    }
+    
     [self.manifest addStacking:stackingName withModel:stackingModel];
     
     self.needSynchronization = YES;
@@ -604,6 +618,7 @@
         {
             [stackingModel deleteNotes:[NSSet setWithObject:noteId]];
             [self.recorder recordUpdateStack:stacking];
+            [self.noteStacking removeObjectForKey:noteId];
         }
     }
 }
@@ -614,6 +629,11 @@
     {
         XoomlStackingModel * stackingModel = self.collectionAttributes[stacking];
         [stackingModel deleteNotes:noteIds];
+    }
+    
+    for(NSString * noteId in noteIds)
+    {
+        [self.noteStacking removeObjectForKey:noteIds];
     }
 }
 
@@ -669,6 +689,7 @@
     
     XoomlStackingModel * stacking = self.collectionAttributes[stackingName];
     [stacking deleteNotes:[NSSet setWithObject:noteID]];
+    [self.noteStacking removeObjectForKey:noteID];
     
     //reflect the change in the xooml structure
     [self.manifest removeNotes:@[noteID] fromStacking:stackingName];
@@ -679,6 +700,12 @@
 
 -(void) removeStacking:(NSString *) stackingName
 {
+    
+    XoomlStackingModel * stackingModel = self.collectionAttributes[stackingName];
+    for(NSString * noteId in stackingModel.refIds)
+    {
+        [self.noteStacking removeObjectForKey:noteId];
+    }
     
     [self.collectionAttributes removeObjectForKey:stackingName];
     
@@ -789,6 +816,11 @@
     return [self.collectionAttributes copy];
 }
 
+-(NSString *) stackingForNote:(NSString *)noteId
+{
+    return self.noteStacking[noteId];
+}
+
 - (id <NoteProtocol>) getNoteContent: (NSString *) noteID{
     
     //ToDo: maybe add a clone method to note to return a clone not the obj itself
@@ -895,6 +927,10 @@
                                                                              andScale:notification.getScale
                                                                             andRefIds:refIds];
         self.collectionAttributes[notification.getStackId] = stackingModel;
+        for (NSString * noteId in stackingModel.refIds)
+        {
+            self.noteStacking[noteId] = stackingModel.name;
+        }
         [addedStackings addObject:notification.getStackId];
     }
     
@@ -917,6 +953,12 @@
         XoomlStackingModel * stackingModel = [[XoomlStackingModel alloc] initWithName:notification.getStackId
                                                                              andScale:notification.getScale
                                                                             andRefIds:refIds];
+        
+        for (NSString * noteId in stackingModel.refIds)
+        {
+            self.noteStacking[noteId] = stackingModel.name;
+        }
+        
         self.collectionAttributes[notification.getStackId] = stackingModel;
         [updatedStackings addObject:notification.getStackId];
     }
@@ -934,6 +976,12 @@
     for (DeleteStackingNotification * notification in notifications)
     {
         NSString * stackingName = notification.getStackingId;
+        XoomlStackingModel * stackingModel = self.collectionAttributes[stackingName];
+        for (NSString * noteId in stackingModel.refIds)
+        {
+            [self.noteStacking removeObjectForKey:noteId];
+        }
+        
         [self.collectionAttributes removeObjectForKey:stackingName];
         [deletedStackings addObject:stackingName];
     }

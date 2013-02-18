@@ -162,9 +162,16 @@
         
         if (noteObj == nil || noteModel == nil) return;
         
-        [self addNote:noteId
-  toViewWithNoteModel:noteModel
-       andNoteContent:noteObj];
+        if ([self.board stackingForNote:noteId] != nil)
+        {
+            //add note to the stacking
+        }
+        else
+        {
+            [self addNote:noteId
+      toViewWithNoteModel:noteModel
+           andNoteContent:noteObj];
+        }
         self.noteCount++;
     }
 }
@@ -181,14 +188,22 @@
         
         if (noteObj == nil || noteModel == nil) return;
         
-        NoteView * note = [self addNote:noteId
-                    toViewWithNoteModel:noteModel
-                         andNoteContent:noteObj];
-        if ([note isKindOfClass:[ImageView class]])
+        if ([self.board stackingForNote:noteId] != nil)
         {
-            NSData * imgData = [self.board getImageForNote:noteId];
-            ((ImageView *) note).image = [UIImage imageWithData:imgData];
+            
         }
+        else
+        {
+            NoteView * note = [self addNote:noteId
+                        toViewWithNoteModel:noteModel
+                             andNoteContent:noteObj];
+            if ([note isKindOfClass:[ImageView class]])
+            {
+                NSData * imgData = [self.board getImageForNote:noteId];
+                ((ImageView *) note).image = [UIImage imageWithData:imgData];
+            }
+        }
+        
         self.noteCount++;
     }
 }
@@ -219,9 +234,16 @@
         [noteView resetSize];
         [noteView scale:scale];
         CGRect newFrame = CGRectMake(positionX, positionY, noteView.frame.size.width, noteView.frame.size.height);
-        [CollectionLayoutHelper moveView:noteView
-                        inCollectionView:self.collectionView
-                              toNewFrame:newFrame];
+        if ([self.board stackingForNote:noteId] != nil)
+        {
+            
+        }
+        else
+        {
+            [CollectionLayoutHelper moveView:noteView
+                            inCollectionView:self.collectionView
+                                  toNewFrame:newFrame];
+        }
     }
 }
 
@@ -239,13 +261,21 @@
         }
         if (noteView == nil) return;
         
-        [CollectionAnimationHelper animateDeleteView:noteView
-                                  fromCollectionView:self.collectionView
-                             withCallbackAfterFinish:^(void){
-            [noteView removeFromSuperview];
-            self.noteCount--;
-        }];
+        if ([self.board stackingForNote:noteId] != nil)
+        {
+            
+        }
+        else
+        {
+            [CollectionAnimationHelper animateDeleteView:noteView
+                                      fromCollectionView:self.collectionView
+                                 withCallbackAfterFinish:^(void){
+                [noteView removeFromSuperview];
+            }];
+            
+        }
         
+        self.noteCount--;
         [self.noteViews removeObjectForKey:noteId];
         [self.imageNoteViews removeObjectForKey:noteId];
     }
