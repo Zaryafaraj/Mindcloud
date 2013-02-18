@@ -415,4 +415,20 @@ withMoveNoteFunction:(update_note_location_function) updateNote
                                 withFinalRect:finalRect
                            withFinishCallback:callback];
 }
+
+
++(void) moveView:(UIView *) view
+inCollectionView:(UIView *) collectionView
+      toNewFrame:(CGRect) newFrame
+{
+    
+}
+
++(void) scaleView:(UIView *) view
+ inCollectionView:(UIView *) collectionView
+        withScale:(float) scale
+{
+    
+}
+
 @end

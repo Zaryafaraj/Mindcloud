@@ -58,4 +58,12 @@ withMoveNoteFunction:(update_note_location_function) updateNote;
 
 +(void) updateViewLocationForView:(UIView *) view
                  inCollectionView:(UIView *) collectionView;
+
++(void) moveView:(UIView *) view
+inCollectionView:(UIView *) collectionView
+      toNewFrame:(CGRect) newFrame;
+
++(void) scaleView:(UIView *) view
+ inCollectionView:(UIView *) collectionView
+        withScale:(float) scale;
 @end

@@ -149,19 +149,69 @@
                                                  name:STACK_DELETED_EVENT
                                                object:self.board];
 }
+
 -(void) noteAddedEventOccured:(NSNotification *) notification
 {
-    
+    NSDictionary * userInfo = notification.userInfo;
+    NSDictionary * result = userInfo[@"result"];
+    NSString * noteId = result[@"noteId"];
+    if (noteId)
+    {
+        CollectionNote * noteObj = [self.board getNoteContent:noteId];
+        XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
+        
+        if (noteObj == nil || noteModel == nil) return;
+        
+        [self addNote:noteId
+  toViewWithNoteModel:noteModel
+       andNoteContent:noteObj];
+        self.noteCount++;
+    }
 }
 
 -(void) noteImageAddedEventOccured:(NSNotification *) notification
 {
-    
+    NSDictionary * userInfo = notification.userInfo;
+    NSDictionary * result = userInfo[@"result"];
+    NSString * noteId = result[@"noteId"];
+    if (noteId)
+    {
+        CollectionNote * noteObj = [self.board getNoteContent:noteId];
+        XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
+        
+        if (noteObj == nil || noteModel == nil) return;
+        
+        NoteView * note = [self addNote:noteId
+                    toViewWithNoteModel:noteModel
+                         andNoteContent:noteObj];
+        if ([note isKindOfClass:[ImageView class]])
+        {
+            NSData * imgData = [self.board getImageForNote:noteId];
+            ((ImageView *) note).image = [UIImage imageWithData:imgData];
+        }
+        self.noteCount++;
+    }
 }
 
 -(void) noteUpdatedEventOccured:(NSNotification *) notification
 {
     
+    NSDictionary * userInfo = notification.userInfo;
+    NSDictionary * result = userInfo[@"result"];
+    NSString * noteId = result[@"noteId"];
+    if (noteId)
+    {
+        XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
+        NoteView * noteView = self.noteViews[noteId];
+        float positionX = [noteModel.positionX floatValue];
+        float positionY = [noteModel.positionY floatValue];
+        float scale = [noteModel.scaling floatValue];
+        [CollectionLayoutHelper adjustNotePositionsForX:&positionX
+                                                   andY:&positionY
+                                                 inView:self.collectionView];
+        [CollectionLayoutHelper]
+        
+    }
 }
 
 -(void) noteDeletedEventOccured:(NSNotification *) notification
@@ -210,6 +260,33 @@
     [CollectionLayoutHelper expandNotes:items inRect:rect withMoveNoteFunction:^(NoteView * noteView){
         [self updateNoteLocation:noteView];
     }];
+}
+
+-(NoteView * ) addNote:(NSString *) noteID
+toViewWithNoteModel:(XoomlNoteModel *) noteModel
+ andNoteContent:(CollectionNote *) noteContent
+{
+    
+    float positionX = [noteModel.positionX floatValue];
+    float positionY = [noteModel.positionY floatValue];
+    float scale = [noteModel.scaling floatValue];
+    
+    [CollectionLayoutHelper adjustNotePositionsForX:&positionX
+                                          andY:&positionY
+                                        inView: self.collectionView];
+    
+    NoteView * note = [self getNoteViewForNote:noteID
+                                          ForX:positionX
+                                          andY:positionY
+                                      andScale:scale];
+    if (noteContent.noteText) note.text = noteContent.noteText;
+    note.ID = noteID;
+    note.delegate = self;
+    
+    [CollectionAnimationHelper animateNoteAddition:note
+                                  toCollectionView:self.collectionView];
+    [self addGestureRecognizersToNote:note];
+    return note;
 }
 
 #pragma mark - Gesture Events
@@ -612,25 +689,9 @@
         CollectionNote * noteObj = allNotes[noteID];
         XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteID];
         
-        float positionX = [noteModel.positionX floatValue];
-        float positionY = [noteModel.positionY floatValue];
-        float scale = [noteModel.scaling floatValue];
-        
-        [CollectionLayoutHelper adjustNotePositionsForX:&positionX
-                                              andY:&positionY
-                                            inView: self.collectionView];
-        
-        NoteView * note = [self getNoteViewForNote:noteID
-                                              ForX:positionX
-                                              andY:positionY
-                                          andScale:scale];
-        if (noteObj.noteText) note.text = noteObj.noteText;
-        note.ID = noteID;
-        note.delegate = self;
-        
-        [CollectionAnimationHelper animateNoteAddition:note
-                                      toCollectionView:self.collectionView];
-        [self addGestureRecognizersToNote:note];
+        [self addNote:noteID
+  toViewWithNoteModel:noteModel
+       andNoteContent:noteObj];
     }
     
     [self layoutStackings];
