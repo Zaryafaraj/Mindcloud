@@ -202,7 +202,14 @@
     if (noteId)
     {
         XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
+        
         NoteView * noteView = self.noteViews[noteId];
+        if (noteView == nil)
+        {
+            noteView = self.imageNoteViews[noteId];
+        }
+        if (noteView == nil) return;
+        
         float positionX = [noteModel.positionX floatValue];
         float positionY = [noteModel.positionY floatValue];
         float scale = [noteModel.scaling floatValue];
@@ -220,7 +227,29 @@
 
 -(void) noteDeletedEventOccured:(NSNotification *) notification
 {
-    
+    NSDictionary * userInfo = notification.userInfo;
+    NSDictionary * result = userInfo[@"result"];
+    NSString * noteId = result[@"noteId"];
+    if (noteId)
+    {
+        NoteView * noteView = self.noteViews[noteId];
+        if (noteView == nil)
+        {
+            noteView = self.imageNoteViews[noteId];
+        }
+        if (noteView == nil) return;
+        
+        [CollectionAnimationHelper animateDeleteView:noteView
+                                  fromCollectionView:self.collectionView
+                             withCallbackAfterFinish:^(void){
+            [noteView removeFromSuperview];
+            self.noteCount--;
+        }];
+        
+        [self.noteViews removeObjectForKey:noteId];
+        [self.imageNoteViews removeObjectForKey:noteId];
+    }
+        
 }
 
 -(void) stackAddedEventOccured:(NSNotification *) notification
