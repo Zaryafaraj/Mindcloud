@@ -269,12 +269,45 @@
 
 -(void) noteContentUpdateEventOccured:(NSNotification *) notification
 {
-    
+    NSDictionary * userInfo = notification.userInfo;
+    NSDictionary * result = userInfo[@"result"];
+    NSString * noteId = result[@"noteId"];
+    if (noteId)
+    {
+        CollectionNote * noteObj = [self.board getNoteContent:noteId];
+        
+        if (noteObj == nil) return;
+        
+        NoteView * noteView = self.noteViews[noteId];
+        if (noteView == nil)
+        {
+            noteView = self.imageNoteViews[noteId];
+        }
+        
+        if (noteView == nil) return;
+        
+        noteView.text = noteObj.noteText;
+    }
 }
 
 -(void) noteImageUpdateEventOccured:(NSNotification *) notification
 {
-    
+    NSDictionary * userInfo = notification.userInfo;
+    NSDictionary * result = userInfo[@"result"];
+    NSString * noteId = result[@"noteId"];
+    if (noteId)
+    {
+        CollectionNote * noteObj = [self.board getNoteContent:noteId];
+        
+        if (noteObj == nil) return;
+        
+        ImageView * imageView = self.imageNoteViews[noteId];
+        
+        if (imageView == nil) return;
+        
+        NSData * imgData = [self.board getImageForNote:noteId];
+        imageView.image = [UIImage imageWithData:imgData];
+    }
 }
 #pragma mark - UI helpers
 
