@@ -20,6 +20,7 @@
 #import "CollectionAnimationHelper.h"
 #import "MultimediaHelper.h"
 #import "NamingHelper.h"
+#import "StackViewController.h"
 
 @interface CollectionViewController ()
 
@@ -162,9 +163,9 @@
         
         if (noteObj == nil || noteModel == nil) return;
         
-        [self addNote:noteId
-  toViewWithNoteModel:noteModel
-       andNoteContent:noteObj];
+        NoteView * noteView =[self addNote:noteId
+                       toViewWithNoteModel:noteModel
+                            andNoteContent:noteObj];
         
         NSString * noteStackingId = [self.board stackingForNote:noteId];
         if ( noteStackingId != nil)
@@ -172,7 +173,17 @@
             StackView * stackView = self.stackViews[noteStackingId];
             if (stackView)
             {
-                [stackView addConstraint:<#(NSLayoutConstraint *)#>]
+                [noteView removeFromSuperview];
+                [stackView addNoteView:noteView];
+                //if we are currently showing the stack view that just got updated, redraw it
+                if ([self.presentedViewController isKindOfClass:[StackViewController class]])
+                {
+                    StackViewController * openStackController = (StackViewController *) self.presentedViewController;
+                    if (openStackController.openStack == stackView)
+                    {
+                        [openStackController.view setNeedsDisplay];
+                    }
+                }
             }
         }
         self.noteCount++;
@@ -190,23 +201,34 @@
         XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
         
         if (noteObj == nil || noteModel == nil) return;
+        
+        NoteView * note = [self addNote:noteId
+                    toViewWithNoteModel:noteModel
+                         andNoteContent:noteObj];
+        if ([note isKindOfClass:[ImageView class]])
+        {
+            NSData * imgData = [self.board getImageForNote:noteId];
+            ((ImageView *) note).image = [UIImage imageWithData:imgData];
+        }
         NSString * noteStackingId = [self.board stackingForNote:noteId];
         if ( noteStackingId != nil)
         {
-            
-        }
-        else
-        {
-            NoteView * note = [self addNote:noteId
-                        toViewWithNoteModel:noteModel
-                             andNoteContent:noteObj];
-            if ([note isKindOfClass:[ImageView class]])
+            StackView * stackView = self.stackViews[noteStackingId];
+            if (stackView)
             {
-                NSData * imgData = [self.board getImageForNote:noteId];
-                ((ImageView *) note).image = [UIImage imageWithData:imgData];
+                [note removeFromSuperview];
+                [stackView addNoteView:note];
+                //if we are currently showing the stack view that just got updated, redraw it
+                if ([self.presentedViewController isKindOfClass:[StackViewController class]])
+                {
+                    StackViewController * openStackController = (StackViewController *) self.presentedViewController;
+                    if (openStackController.openStack == stackView)
+                    {
+                        [openStackController.view setNeedsDisplay];
+                    }
+                }
             }
         }
-        
         self.noteCount++;
     }
 }
@@ -230,22 +252,33 @@
         
         float positionX = [noteModel.positionX floatValue];
         float positionY = [noteModel.positionY floatValue];
-        float scale = [noteModel.scaling floatValue];
         [CollectionLayoutHelper adjustNotePositionsForX:&positionX
                                                    andY:&positionY
                                                  inView:self.collectionView];
-        [noteView resetSize];
-        [noteView scale:scale];
-        CGRect newFrame = CGRectMake(positionX, positionY, noteView.frame.size.width, noteView.frame.size.height);
-        if ([self.board stackingForNote:noteId] != nil)
+        float scale = [noteModel.scaling floatValue];
+        
+        NSString * noteStackingId = [self.board stackingForNote:noteId];
+        
+        if ( noteStackingId != nil)
         {
-            
+            //move the stack
+            StackView * stackView = self.stackViews[noteStackingId];
+            [stackView resetSize];
+            [stackView scale:scale];
         }
         else
         {
-            [CollectionLayoutHelper moveView:noteView
-                            inCollectionView:self.collectionView
-                                  toNewFrame:newFrame];
+            [noteView resetSize];
+            [noteView scale:scale];
+            CGRect newFrame = CGRectMake(positionX, positionY, noteView.frame.size.width, noteView.frame.size.height);
+            
+            CGRect oldFrame = noteView.frame;
+            if (CGRectEqualToRect(newFrame, oldFrame))
+            {
+                [CollectionLayoutHelper moveView:noteView
+                                inCollectionView:self.collectionView
+                                      toNewFrame:newFrame];
+            }
         }
     }
 }

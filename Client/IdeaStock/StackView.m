@@ -120,7 +120,6 @@
           withFrame:(CGRect) frame
 {
     self = [super initWithFrame:frame];
-    
     if (self)
     {
         self.views = views;
@@ -284,6 +283,47 @@
     }
 }
 
+-(void) resetSize
+{
+    self.frame = self.originalFrame;
+    for(UIView * subView in self.subviews)
+    {
+        if ([subView isKindOfClass:[UIImageView class]])
+        {
+            subView.frame = self.bounds;
+            for (UIView * stackTop in subView.subviews)
+            {
+                if ([stackTop isKindOfClass:[UIImageView class]])
+                {
+                    
+                    stackTop.frame = CGRectMake(subView.frame.origin.x + subView.frame.size.width * IMG_OFFSET_X_RATE,
+                                                subView.frame.origin.y + subView.frame.size.height * IMG_OFFSET_Y_RATE,
+                                                subView.frame.size.width * IMG_SIZE_WIDTH_RATIO,
+                                                subView.frame.size.height * IMG_SIZE_HEIGHT_RATIO);
+                }
+            }
+        }
+        else if ([subView isKindOfClass:[UITextView class]])
+        {
+            
+            NSString * oldText = ((UITextView *)subView).text;
+            CGRect textFrame = CGRectMake(self.bounds.origin.x + self.bounds.size.width * STARTING_POS_OFFSET_X ,
+                                          self.bounds.origin.y + self.bounds.size.height * STARTING_POS_OFFSET_Y,
+                                          self.bounds.size.width * TEXT_WIDHT_RATIO,
+                                          self.bounds.size.height * TEXT_HEIGHT_RATIO);
+            UITextView * textView = [[UITextView alloc] initWithFrame:textFrame];
+            textView.font = [UIFont fontWithName:@"Cochin" size:17.0];
+            [textView setBackgroundColor:[UIColor clearColor]];
+            
+            textView.text = oldText;
+            textView.editable = NO;
+            [subView removeFromSuperview];
+            
+            [self addSubview:textView];
+        }
+    }
+    self.scaleOffset = 1;
+}
 
 -(BOOL) removeMainViewImage
 {

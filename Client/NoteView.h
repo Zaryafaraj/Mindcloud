@@ -20,8 +20,6 @@
                   andText: (NSString *)text
                     andID:(NSString *)ID;
 
--(void) resetSize;
-
 -(void) resizeToRect:(CGRect) rect Animate: (BOOL) animate;
 
 
