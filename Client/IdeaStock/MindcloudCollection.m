@@ -15,6 +15,7 @@
 #import "CollectionRecorder.h"
 #import "MergerThread.h"
 #import "MergeResult.h"
+#import "NoteResolutionNotification.h"
 
 #pragma mark - Definitions
 #define POSITION_X @"positionX"
@@ -199,6 +200,12 @@
                                                object:nil];
     
     
+    //notifications for note resolver
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(noteResolved:)
+                                                 name:NOTE_RESOLVED_EVENT
+                                               object:nil];
+    
     //notifications for listener updates
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(listenerDownloadedNote:)
@@ -345,9 +352,37 @@
     }
 }
 
--(void) performUpdateNote:(NSNotification * ) notification
+//for a new note to appear on the screen, different pieces of an update must arrive.
+//the note update in manifest, the note content in a separate xooml, and a note image
+//an object called noteResolver keeps track of all these items when received and sends out
+//a notification when every piece is there. This method gets called and updates the note
+//based on those information
+-(void) noteResolved:(NSNotification * ) notification
 {
     NSDictionary * dict = notification.userInfo[@"result"];
+    NoteResolutionNotification * noteResolution = dict[@"noteResolution"];
+    if ([self.bulletinBoardName isEqualToString:noteResolution.collectionName])
+    {
+        NSString * noteId = noteResolution.noteId;
+        self.noteContents[noteId] = noteResolution.noteContent;
+        self.noteAttributes[noteId] = noteResolution.noteModel;
+        NSDictionary * userInfo =  @{@"result" :  @[noteId]};
+        if (noteResolution.hasImage)
+        {
+            self.noteImages[noteId] = noteResolution.noteImagePath;
+            [self.thumbnailStack addObject:noteId];
+            [[NSNotificationCenter defaultCenter] postNotificationName:IMAGE_NOTE_ADDED_EVENT
+                                                                object:self
+                                                              userInfo:userInfo];
+        }
+        else
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_ADDED_EVENT
+                                                                object:self
+                                                              userInfo:userInfo];
+            
+        }
+    }
 }
 -(void) noteImageDownloaded:(NSNotification *) notification
 {
