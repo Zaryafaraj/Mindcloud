@@ -258,27 +258,28 @@
         float scale = [noteModel.scaling floatValue];
         
         NSString * noteStackingId = [self.board stackingForNote:noteId];
+        UIView <BulletinBoardObject> * view = nil;
         
         if ( noteStackingId != nil)
         {
             //move the stack
-            StackView * stackView = self.stackViews[noteStackingId];
-            [stackView resetSize];
-            [stackView scale:scale];
+            view = self.stackViews[noteStackingId];
         }
         else
         {
-            [noteView resetSize];
-            [noteView scale:scale];
-            CGRect newFrame = CGRectMake(positionX, positionY, noteView.frame.size.width, noteView.frame.size.height);
-            
-            CGRect oldFrame = noteView.frame;
-            if (CGRectEqualToRect(newFrame, oldFrame))
-            {
-                [CollectionLayoutHelper moveView:noteView
-                                inCollectionView:self.collectionView
-                                      toNewFrame:newFrame];
-            }
+            view = noteView;
+        }
+        
+        [view resetSize];
+        [view scale:scale];
+        CGRect newFrame = CGRectMake(positionX, positionY, view.frame.size.width, view.frame.size.height);
+        
+        CGRect oldFrame = view.frame;
+        if (CGRectEqualToRect(newFrame, oldFrame))
+        {
+            [CollectionLayoutHelper moveView:view
+                            inCollectionView:self.collectionView
+                                  toNewFrame:newFrame];
         }
     }
 }
