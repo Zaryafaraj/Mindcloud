@@ -7,6 +7,9 @@
 //
 
 #import "NoteFragmentResolver.h"
+#import "NoteResolutionNotification.h"
+#import "EventTypes.h"
+
 @interface NoteFragmentResolver()
 
 //keyed on noteId and valued on noteContent -> id<NoteProtocol>
@@ -36,83 +39,151 @@
                   forNoteId:(NSString *)noteId
 {
     
-            //this means that the manifest have been processed before
-            if (self.notesExpectedToBeDownloaded[noteId])
+    //this means that the manifest have been processed before
+    if (self.noteModelsDownloaded[noteId])
+    {
+        //if the note has an image we still need one more piece of the puzzle
+        if (noteContent.image)
+        {
+           //if we already have the image the puzzle is complete
+            if (self.imagesDownloaded[noteId])
             {
-                //if the note has an image we still need one more piece of the puzzle
-                if (noteObj.image)
-                {
-                   //if we already have the image the puzzle is complete
-                    if (self.imagesAlreadyDownloaded[noteId])
-                    {
-                        NSString * imagePath = self.imagesAlreadyDownloaded[noteId];
-                    }
-                    
-                }
-                else
-                {
-                    XoomlNoteModel * noteModel = self.notesExpectedToBeDownloaded[noteId];
-                    self.noteAttributes[noteId] = noteModel;
-                    self.noteContents[noteId] = noteObj;
-                    [self.notesExpectedToBeDownloaded removeObjectForKey:noteId];
-                    
-                    NSDictionary * userInfo =  @{@"result" :  @[noteId]};
-                    [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_ADDED_EVENT
-                                                                        object:self
-                                                                      userInfo:userInfo];
-                }
+                NSString * imagePath = self.imagesDownloaded[noteId];
+                NoteResolutionNotification * notification = [[NoteResolutionNotification alloc] initWithNoteModel:self.noteModelsDownloaded[noteId]
+                                                                                                   andNoteContent:noteContent
+                                                                                                     andImagePath:imagePath
+                                                                                                forCollectionName:self.collectionName
+                                                                                                        andNoteId:noteId];
+                
+                [self removeNoteFromResolver:noteId];
+                NSDictionary * userInfo = @{@"result" : notification};
+                [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_RESOLVED_EVENT
+                                                                    object:self
+                                                                  userInfo:userInfo];
             }
-            //this means that the manfiest has not been processed yet and we have to wait for it
-            //just put yourself here and when the manifest is processed it will pick this up
             else
             {
-                
-                self.notesAlreadyDownloaded[noteId] = noteObj;
-                
+                //we have to still wait for the image
+                self.noteContentsDownloaded[noteId] = noteContent;
             }
+        }
+        //not is not an image
+        else
+        {
+            NoteResolutionNotification * notification = [[NoteResolutionNotification alloc] initWithNoteModel:self.noteModelsDownloaded[noteId]
+                                                                                               andNoteContent:noteContent
+                                                                                            forCollectionName:self.collectionName
+                                                                                                    andNoteId:noteId];
+            [self removeNoteFromResolver:noteId];
+            NSDictionary * userInfo = @{@"result" : notification};
+            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_RESOLVED_EVENT
+                                                                object:self
+                                                              userInfo:userInfo];
+        }
+    }
+    //note doesn't have its model so save the state and wait for the model to arrive
+    else
+    {
+        self.noteContentsDownloaded[noteId] = noteContent;
+    }
 }
 
 -(void) noteModelReceived:(XoomlNoteModel *)noteModel
                 forNoteId:(NSString *)noteId
 {
     
-        //everything is set and we have the last missing piece of the information
-        //update the model and send notification for UI
-        if (self.notesAlreadyDownloaded[noteId])
+    //we have the note content
+    if (self.noteContentsDownloaded[noteId])
+    {
+        
+        id<NoteProtocol> noteObj = self.noteContentsDownloaded[noteId];
+        //if the note needs the image we still have one more piece of the puzzle
+        if (noteObj.image)
         {
-            id<NoteProtocol> noteObj = self.notesAlreadyDownloaded[noteId];
-            self.noteAttributes[noteId] = noteModel;
-            self.noteContents[noteId] = noteObj;
-            [self.notesAlreadyDownloaded removeObjectForKey:noteId];
-            [addedNotes addObject:noteId];
+            //we have everything we need and we are ready to go
+            if (self.imagesDownloaded[noteId])
+            {
+                NSString * imagePath = self.imagesDownloaded[noteId];
+                NoteResolutionNotification * notification = [[NoteResolutionNotification alloc] initWithNoteModel:noteModel
+                                                                                                   andNoteContent:noteObj
+                                                                                                     andImagePath:imagePath
+                                                                                                forCollectionName:self.collectionName
+                                                                                                        andNoteId:noteId];
+                
+                [self removeNoteFromResolver:noteId];
+                NSDictionary * userInfo = @{@"result" : notification};
+                [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_RESOLVED_EVENT
+                                                                    object:self
+                                                                  userInfo:userInfo];
+            }
+            //we don't have everything we need and need to wait for the image
+            {
+                self.noteModelsDownloaded[noteId] = noteModel;
+            }
         }
-        //we still have to wait for the note to be downloaded. Save the state so far
-        //until the download event of the note picks it up
+        //note is not an image so we have everything we need
         else
         {
-            self.notesExpectedToBeDownloaded[noteId] = noteModel;
+            NoteResolutionNotification * notification = [[NoteResolutionNotification alloc] initWithNoteModel:noteModel
+                                                                                               andNoteContent:noteObj
+                                                                                            forCollectionName:self.collectionName
+                                                                                                    andNoteId:noteId];
+            [self removeNoteFromResolver:noteId];
+            NSDictionary * userInfo = @{@"result" : notification};
+            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_RESOLVED_EVENT
+                                                                object:self
+                                                              userInfo:userInfo];
         }
+    }
+    //we don't have the note content so we need to wait
+    else
+    {
+        self.noteModelsDownloaded[noteId] = noteModel;
+    }
 }
 
 -(void) noteImagePathReceived:(NSString *)imagePath
                     forNoteId:(NSString *)noteId
 {
     
-            //if this is not an update:
-            //the note content has been arrived before
-            if(self.imageNotesAlreadyDownloaded[noteId])
-            {
-                id<NoteProtocol> noteObj = self.imageNotesAlreadyDownloaded[noteId];
-                self.noteImages[noteId] = imagePath;
-                [self.thumbnailStack addObject:noteId];
-                [self.imageNotesAlreadyDownloaded removeObjectForKey:noteId];
-                //send a notification
-                [[NSNo]]
-            }
-            else
-            {
-                self.imagesAlreadyDownloaded[noteId] = imagePath;
-            }
+    if (self.noteContentsDownloaded[noteId])
+    {
+        if (self.noteModelsDownloaded[noteId])
+        {
+            //all the info is here
+            NoteResolutionNotification * notification = [[NoteResolutionNotification alloc] initWithNoteModel:self.noteModelsDownloaded[noteId]
+                                                                                               andNoteContent:self.noteContentsDownloaded[noteId]
+                                                                                                 andImagePath:imagePath
+                                                                                            forCollectionName:self.collectionName
+                                                                                                    andNoteId:noteId];
+            
+            [self removeNoteFromResolver:noteId];
+            NSDictionary * userInfo = @{@"result" : notification};
+            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_RESOLVED_EVENT
+                                                                object:self
+                                                              userInfo:userInfo];
+            
+        }
+        else
+        {
+            //we still need more ingo
+            self.imagesDownloaded[noteId] = imagePath;
+        }
+        
+    }
+    //not all the info is here
+    else
+    {
+        self.imagesDownloaded[noteId] = imagePath;
+    }
+}
+
+-(void) removeNoteFromResolver:(NSString *) noteId
+{
+    
+    [self.noteContentsDownloaded removeObjectForKey:noteId];
+    [self.noteModelsDownloaded removeObjectForKey:noteId];
+    [self.imagesDownloaded removeObjectForKey:noteId];
 }
 
 @end
