@@ -209,8 +209,12 @@
         [CollectionLayoutHelper adjustNotePositionsForX:&positionX
                                                    andY:&positionY
                                                  inView:self.collectionView];
-        [CollectionLayoutHelper]
-        
+        [noteView resetSize];
+        [noteView scale:scale];
+        CGRect newFrame = CGRectMake(positionX, positionY, noteView.frame.size.width, noteView.frame.size.height);
+        [CollectionLayoutHelper moveView:noteView
+                        inCollectionView:self.collectionView
+                              toNewFrame:newFrame];
     }
 }
 

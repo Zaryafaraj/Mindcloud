@@ -43,4 +43,12 @@ backIntoScreenBoundsInRect:(CGRect) frame;
           inCollection:(UIView *) collectionView
          withFinalRect:(CGRect) finalRect
     withFinishCallback:(animate_unstack_finished) callback;
+
++(void) animateMoveView:(UIView *) view
+              intoFrame:(CGRect) frame
+           inCollection:(UIView *) collectionView;
+
++(void) animateScaleView:(UIView *) view
+               withScale:(float) scale
+            inCollection:(UIView *) collectionView;
 @end

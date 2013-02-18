@@ -421,14 +421,18 @@ withMoveNoteFunction:(update_note_location_function) updateNote
 inCollectionView:(UIView *) collectionView
       toNewFrame:(CGRect) newFrame
 {
-    
+    [CollectionAnimationHelper animateMoveView:view
+                                     intoFrame:newFrame
+                                  inCollection:collectionView];
 }
 
 +(void) scaleView:(UIView *) view
  inCollectionView:(UIView *) collectionView
         withScale:(float) scale
 {
-    
+    [CollectionAnimationHelper animateScaleView:view
+                                      withScale:scale
+                                   inCollection:collectionView];
 }
 
 @end

@@ -116,5 +116,23 @@ backIntoScreenBoundsInRect:(CGRect) frame
     
     [UIView animateWithDuration:0.25 animations:^{note.frame = frame;}];
 }
+
++(void) animateMoveView:(UIView *) view
+              intoFrame:(CGRect) frame
+           inCollection:(UIView *) collectionView
+{
+    
+    [UIView animateWithDuration:0.25 animations:^{view.frame = frame;}];
+}
+
++(void) animateScaleView:(UIView *) view
+               withScale:(float) scale
+            inCollection:(UIView *) collectionView
+{
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        view.transform = CGAffineTransformScale(view.transform, scale, scale);
+    }];
+}
 @end
 
