@@ -104,6 +104,8 @@
 		DBC7C4C316327F1900BF3F2D /* CollectionsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC7C4C216327F1900BF3F2D /* CollectionsAction.m */; };
 		DBDB105716D032C200B5F7AE /* MergerThread.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB105616D032C200B5F7AE /* MergerThread.m */; };
 		DBDB105A16D0388200B5F7AE /* MergeResult.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB105916D0388200B5F7AE /* MergeResult.m */; };
+		DBDB106016D1E06A00B5F7AE /* NoteFragmentResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB105F16D1E06800B5F7AE /* NoteFragmentResolver.m */; };
+		DBDB106316D1E08B00B5F7AE /* NoteResolutionNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB106216D1E08900B5F7AE /* NoteResolutionNotification.m */; };
 		DBDD1ABE15CF215A00F55223 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DBDD1ABD15CF215A00F55223 /* libxml2.dylib */; };
 		DBE13375163E13AE00EF0AF7 /* CollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE13374163E13AE00EF0AF7 /* CollectionCell.m */; };
 		DBEE54B61640F16300BD9F93 /* HTTPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEE54B51640F16300BD9F93 /* HTTPHelper.m */; };
@@ -298,6 +300,10 @@
 		DBDB105816D0388200B5F7AE /* MergeResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MergeResult.h; sourceTree = "<group>"; };
 		DBDB105916D0388200B5F7AE /* MergeResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MergeResult.m; sourceTree = "<group>"; };
 		DBDB105C16D0738200B5F7AE /* CollectionContentNotificationHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionContentNotificationHandler.h; sourceTree = "<group>"; };
+		DBDB105E16D1E06800B5F7AE /* NoteFragmentResolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteFragmentResolver.h; sourceTree = "<group>"; };
+		DBDB105F16D1E06800B5F7AE /* NoteFragmentResolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteFragmentResolver.m; sourceTree = "<group>"; };
+		DBDB106116D1E08800B5F7AE /* NoteResolutionNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteResolutionNotification.h; sourceTree = "<group>"; };
+		DBDB106216D1E08900B5F7AE /* NoteResolutionNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteResolutionNotification.m; sourceTree = "<group>"; };
 		DBDD1ABD15CF215A00F55223 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		DBE13373163E13AE00EF0AF7 /* CollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionCell.h; path = ../CollectionCell.h; sourceTree = "<group>"; };
 		DBE13374163E13AE00EF0AF7 /* CollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionCell.m; path = ../CollectionCell.m; sourceTree = "<group>"; };
@@ -749,6 +755,10 @@
 				DBDB105816D0388200B5F7AE /* MergeResult.h */,
 				DBDB105916D0388200B5F7AE /* MergeResult.m */,
 				DBDB105C16D0738200B5F7AE /* CollectionContentNotificationHandler.h */,
+				DBDB105E16D1E06800B5F7AE /* NoteFragmentResolver.h */,
+				DBDB105F16D1E06800B5F7AE /* NoteFragmentResolver.m */,
+				DBDB106116D1E08800B5F7AE /* NoteResolutionNotification.h */,
+				DBDB106216D1E08900B5F7AE /* NoteResolutionNotification.m */,
 			);
 			name = Sharing;
 			sourceTree = "<group>";
@@ -944,6 +954,8 @@
 				DBBA28CA16CCC8CC007C7B4A /* UpdateNoteImageNotification.m in Sources */,
 				DBDB105716D032C200B5F7AE /* MergerThread.m in Sources */,
 				DBDB105A16D0388200B5F7AE /* MergeResult.m in Sources */,
+				DBDB106016D1E06A00B5F7AE /* NoteFragmentResolver.m in Sources */,
+				DBDB106316D1E08B00B5F7AE /* NoteResolutionNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
