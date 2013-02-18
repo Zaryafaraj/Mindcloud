@@ -101,6 +101,98 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+#pragma mark - Listener Notifications
+-(void) addListenerNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(noteImageAddedEventOccured:)
+                                                 name:IMAGE_NOTE_ADDED_EVENT
+                                               object:self.board];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(noteAddedEventOccured:)
+                                                 name:NOTE_ADDED_EVENT
+                                               object:self.board];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(noteContentUpdateEventOccured:)
+                                                 name:NOTE_CONTENT_UPDATED_EVENT
+                                               object:self.board];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(noteImageUpdateEventOccured::)
+                                                 name:NOTE_IMAGE_UPDATED_EVENT
+                                               object:self.board];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(noteUpdatedEventOccured:)
+                                                 name:NOTE_UPDATED_EVENT
+                                               object:self.board];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(noteDeletedEventOccured:)
+                                                 name:NOTE_DELETED_EVENT
+                                               object:self.board];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(stackAddedEventOccured:)
+                                                 name:STACK_ADDED_EVENT
+                                               object:self.board];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(stackUpdatedEventOccured:)
+                                                 name:STACK_UPDATED_EVENT
+                                               object:self.board];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(stackDeletedEventOccured:)
+                                                 name:STACK_DELETED_EVENT
+                                               object:self.board];
+}
+-(void) noteAddedEventOccured:(NSNotification *) notification
+{
+    
+}
+
+-(void) noteImageAddedEventOccured:(NSNotification *) notification
+{
+    
+}
+
+-(void) noteUpdatedEventOccured:(NSNotification *) notification
+{
+    
+}
+
+-(void) noteDeletedEventOccured:(NSNotification *) notification
+{
+    
+}
+
+-(void) stackAddedEventOccured:(NSNotification *) notification
+{
+    
+}
+
+-(void) stackUpdatedEventOccured:(NSNotification *) notification
+{
+    
+}
+
+-(void) stackDeletedEventOccured:(NSNotification *) notification
+{
+    
+}
+
+-(void) noteContentUpdateEventOccured:(NSNotification *) notification
+{
+    
+}
+
+-(void) noteImageUpdateEventOccured:(NSNotification *) notification
+{
+    
+}
 #pragma mark - UI helpers
 
 -(void) clearView
@@ -377,6 +469,7 @@
                                              selector:@selector(keyboardDisappeared:)
                                                  name:UIKeyboardDidHideNotification
                                                object:self.view.window];
+    [self addListenerNotifications];
     self.collectionView.delegate = self;
 }
 
