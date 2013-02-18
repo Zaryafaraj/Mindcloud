@@ -88,6 +88,21 @@
     return hasBeenTouched;
 }
 
+-(BOOL) hasAnythingBeenTouched
+{
+    if ([self.deletedNotes count] == 0 &&
+        [self.updatedStacks count] == 0 &&
+        [self.updatedNotes count] == 0 &&
+        [self.deletedStacks count] == 0)
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+}
+
 -(void) reset
 {
     [self.deletedNotes removeAllObjects];

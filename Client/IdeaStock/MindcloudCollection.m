@@ -134,6 +134,12 @@
 @property (strong, atomic) NSMutableDictionary * notesAlreadyDownloaded;
 //keyed on noteId and valued on noteModel -> XoomlNoteModel
 @property (strong, atomic) NSMutableDictionary * notesExpectedToBeDownloaded;
+
+//keyed on noteId and valued on imagePath --> NSString
+@property (strong, atomic) NSMutableDictionary * imagesAlreadyDownloaded;
+//keyed on noteId and valued on noteContent --> id<NoteProtocol>
+@property (strong, atomic) NSMutableDictionary * imageNotesAlreadyDownloaded;
+
 @end
 
 @implementation MindcloudCollection
@@ -156,6 +162,8 @@
     self.waitingNoteImages = [NSMutableDictionary dictionary];
     self.notesAlreadyDownloaded = [NSMutableDictionary dictionary];
     self.notesExpectedToBeDownloaded = [NSMutableDictionary dictionary];
+    self.imageNotesAlreadyDownloaded = [NSMutableDictionary dictionary];
+    self.imagesAlreadyDownloaded = [NSMutableDictionary dictionary];
     
     
     self.dataSource = dataSource;
@@ -327,10 +335,19 @@
     [self updateCollectionForDeleteNoteNotifications: notifications.getDeleteNoteNotifications];
     
     self.manifest = mergeResult.finalManifest;
-    //rest because we have updated ourselves
-    [self.recorder reset];
-    
     [self startTimer];
+    
+    if ([self.recorder hasAnythingBeenTouched])
+    {
+        //rest because we have updated ourselves
+        [self.recorder reset];
+        self.needSynchronization = YES;
+    }
+}
+
+-(void) performUpdateNote:(NSNotification * ) notification
+{
+    NSDictionary * dict = notification.userInfo[@"result"];
 }
 -(void) noteImageDownloaded:(NSNotification *) notification
 {
@@ -387,18 +404,30 @@
         {
             
             //this means that the manifest have been processed before
-            //and this is the last piece of missing information to update the UI
             if (self.notesExpectedToBeDownloaded[noteId])
             {
-                XoomlNoteModel * noteModel = self.notesExpectedToBeDownloaded[noteId];
-                self.noteAttributes[noteId] = noteModel;
-                self.noteContents[noteId] = noteObj;
-                [self.notesExpectedToBeDownloaded removeObjectForKey:noteId];
-                
-                NSDictionary * userInfo =  @{@"result" :  @[noteId]};
-                [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_ADDED_EVENT
-                                                                    object:self
-                                                                  userInfo:userInfo];
+                //if the note has an image we still need one more piece of the puzzle
+                if (noteObj.image)
+                {
+                   //if we already have the image the puzzle is complete
+                    if (self.imagesAlreadyDownloaded[noteId])
+                    {
+                        NSString * imagePath = self.imagesAlreadyDownloaded[noteId];
+                    }
+                    
+                }
+                else
+                {
+                    XoomlNoteModel * noteModel = self.notesExpectedToBeDownloaded[noteId];
+                    self.noteAttributes[noteId] = noteModel;
+                    self.noteContents[noteId] = noteObj;
+                    [self.notesExpectedToBeDownloaded removeObjectForKey:noteId];
+                    
+                    NSDictionary * userInfo =  @{@"result" :  @[noteId]};
+                    [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_ADDED_EVENT
+                                                                        object:self
+                                                                      userInfo:userInfo];
+                }
             }
             //this means that the manfiest has not been processed yet and we have to wait for it
             //just put yourself here and when the manifest is processed it will pick this up
@@ -406,6 +435,7 @@
             {
                 
                 self.notesAlreadyDownloaded[noteId] = noteObj;
+                
             }
         }
     }
@@ -413,7 +443,52 @@
 
 -(void) listenerDownloadedNoteImage:(NSNotification *) notification
 {
-    
+    NSDictionary * result = notification.userInfo[@"result"];
+    NSString * collectionName = result[@"collectionName"];
+    NSString * noteName = result[@"noteName"];
+    if ([collectionName isEqualToString:self.bulletinBoardName])
+    {
+        NSString * imagePath = [self.dataSource getImagePathForNote:noteName
+                                                      andCollection:collectionName];
+        NSData * noteData = [self.dataSource getNoteForTheCollection:collectionName
+                                                            WithName:noteName];
+        
+        id<NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
+        NSString * noteId = [noteObj noteTextID];
+        
+        //if this is only an update, update the image path and send the notification
+        if (self.noteImages[noteId] && self.noteContents[noteId])
+        {
+            self.noteImages[noteId] = imagePath;
+            self.noteContents[noteId] = noteObj;
+            NSDictionary * userInfo =  @{@"result" :  @[noteId]};
+            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_IMAGE_UPDATED_EVENT
+                                                                object:self
+                                                              userInfo:userInfo];
+            
+        }
+        else
+        {
+            //if this is not an update:
+            //the note content has been arrived before
+            if(self.imageNotesAlreadyDownloaded[noteId])
+            {
+                id<NoteProtocol> noteObj = self.imageNotesAlreadyDownloaded[noteId];
+                self.noteImages[noteId] = imagePath;
+                [self.thumbnailStack addObject:noteId];
+                [self.imageNotesAlreadyDownloaded removeObjectForKey:noteId];
+                //send a notification
+                [[NSNo]]
+            }
+            else
+            {
+                self.imagesAlreadyDownloaded[noteId] = imagePath;
+            }
+            
+        }
+        
+        
+    }
 }
 
 -(void) listenerDeletedNote:(NSNotification *) notification
@@ -426,22 +501,26 @@
 {
     NSDictionary * result = notification.userInfo[@"result"];
     NSString * collectionName = result[@"collectionName"];
-    NSData * manifestData = [self.dataSource getCollection:collectionName];
-    if (!manifestData)
+    if ([collectionName isEqualToString:self.bulletinBoardName])
     {
-        NSLog(@"Collection File didn't download properly");
-        return;
+        NSData * manifestData = [self.dataSource getCollection:collectionName];
+        if (!manifestData)
+        {
+            NSLog(@"Collection File didn't download properly");
+            return;
+        }
+        id<CollectionManifestProtocol> serverManifest = [[XoomlCollectionManifest alloc]
+                                                         initWithData:manifestData];
+        
+        id<CollectionManifestProtocol> clientManifest = [self.manifest copy];
+        MergerThread * mergerThread = [MergerThread getInstance];
+        //when the merge is finished we will be notified
+        [mergerThread submitClientManifest:clientManifest
+                         andServerManifest:serverManifest
+                         andActionRecorder:self.recorder
+                         ForCollectionName:self.bulletinBoardName];
+            
     }
-    id<CollectionManifestProtocol> serverManifest = [[XoomlCollectionManifest alloc]
-                                                     initWithData:manifestData];
-    
-    id<CollectionManifestProtocol> clientManifest = [self.manifest copy];
-    MergerThread * mergerThread = [MergerThread getInstance];
-    //when the merge is finished we will be notified
-    [mergerThread submitClientManifest:clientManifest
-                     andServerManifest:serverManifest
-                     andActionRecorder:self.recorder
-                     ForCollectionName:self.bulletinBoardName];
 }
 
 #pragma mark - Creation

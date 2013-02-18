@@ -22,5 +22,6 @@
 
 -(BOOL) hasStackingBeenTouched:(NSString *) stackingId;
 -(BOOL) hasNoteBeenTouched:(NSString *) noteId;
+-(BOOL) hasAnythingBeenTouched;
 -(void) reset;
 @end
