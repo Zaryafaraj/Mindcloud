@@ -16,6 +16,7 @@
 #import "MergerThread.h"
 #import "MergeResult.h"
 #import "NoteResolutionNotification.h"
+#import "NoteFragmentResolver.h"
 
 #pragma mark - Definitions
 #define POSITION_X @"positionX"
@@ -128,18 +129,14 @@
 @property (strong, atomic) CollectionRecorder * recorder;
 
 /*
+ For resolving different parts of a new note that arrive separately
+ */
+@property (strong, atomic) NoteFragmentResolver * noteResolver;
+
+/*
  Related to listeners
  All the notes that the listener download but are waiting for the manifest
  */
-//keyed on noteId and valued on noteContent -> id<NoteProtocol>
-@property (strong, atomic) NSMutableDictionary * notesAlreadyDownloaded;
-//keyed on noteId and valued on noteModel -> XoomlNoteModel
-@property (strong, atomic) NSMutableDictionary * notesExpectedToBeDownloaded;
-
-//keyed on noteId and valued on imagePath --> NSString
-@property (strong, atomic) NSMutableDictionary * imagesAlreadyDownloaded;
-//keyed on noteId and valued on noteContent --> id<NoteProtocol>
-@property (strong, atomic) NSMutableDictionary * imageNotesAlreadyDownloaded;
 
 @end
 
@@ -161,11 +158,6 @@
     self.noteAttributes = [NSMutableDictionary dictionary];
     self.collectionAttributes = [NSMutableDictionary dictionary];
     self.waitingNoteImages = [NSMutableDictionary dictionary];
-    self.notesAlreadyDownloaded = [NSMutableDictionary dictionary];
-    self.notesExpectedToBeDownloaded = [NSMutableDictionary dictionary];
-    self.imageNotesAlreadyDownloaded = [NSMutableDictionary dictionary];
-    self.imagesAlreadyDownloaded = [NSMutableDictionary dictionary];
-    
     
     self.dataSource = dataSource;
     self.bulletinBoardName = collectionName;
@@ -425,7 +417,8 @@
         id<NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
         NSString * noteId = [noteObj noteTextID];
         
-        //check to see whether this is an update
+        
+        //if its just an update , update it
         if (self.noteContents[noteId])
         {
             //just update the content
@@ -435,43 +428,11 @@
                                                                 object:self
                                                               userInfo:userInfo];
         }
+        //if its a new note submit the piece of the note that was received to resolver
         else
         {
-            
-            //this means that the manifest have been processed before
-            if (self.notesExpectedToBeDownloaded[noteId])
-            {
-                //if the note has an image we still need one more piece of the puzzle
-                if (noteObj.image)
-                {
-                   //if we already have the image the puzzle is complete
-                    if (self.imagesAlreadyDownloaded[noteId])
-                    {
-                        NSString * imagePath = self.imagesAlreadyDownloaded[noteId];
-                    }
-                    
-                }
-                else
-                {
-                    XoomlNoteModel * noteModel = self.notesExpectedToBeDownloaded[noteId];
-                    self.noteAttributes[noteId] = noteModel;
-                    self.noteContents[noteId] = noteObj;
-                    [self.notesExpectedToBeDownloaded removeObjectForKey:noteId];
-                    
-                    NSDictionary * userInfo =  @{@"result" :  @[noteId]};
-                    [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_ADDED_EVENT
-                                                                        object:self
-                                                                      userInfo:userInfo];
-                }
-            }
-            //this means that the manfiest has not been processed yet and we have to wait for it
-            //just put yourself here and when the manifest is processed it will pick this up
-            else
-            {
-                
-                self.notesAlreadyDownloaded[noteId] = noteObj;
-                
-            }
+            [self.noteResolver noteContentReceived:noteObj
+                                         forNoteId:noteId];
         }
     }
 }
@@ -504,25 +465,8 @@
         }
         else
         {
-            //if this is not an update:
-            //the note content has been arrived before
-            if(self.imageNotesAlreadyDownloaded[noteId])
-            {
-                id<NoteProtocol> noteObj = self.imageNotesAlreadyDownloaded[noteId];
-                self.noteImages[noteId] = imagePath;
-                [self.thumbnailStack addObject:noteId];
-                [self.imageNotesAlreadyDownloaded removeObjectForKey:noteId];
-                //send a notification
-                [[NSNo]]
-            }
-            else
-            {
-                self.imagesAlreadyDownloaded[noteId] = imagePath;
-            }
-            
+            [self.noteResolver noteImagePathReceived:imagePath forNoteId:noteId];
         }
-        
-        
     }
 }
 
@@ -884,7 +828,6 @@
 -(void) updateCollectionForAddNoteNotifications:(NSArray *) notifications
 {
     //the contents of these notes may be added later by another notifiaction
-    NSMutableArray * addedNotes = [NSMutableArray array];
     for(AddNoteNotification * notification in notifications)
     {
         NSString * noteId = notification.getNoteId;
@@ -892,30 +835,10 @@
                                                              andPositionX:notification.getPositionX
                                                              andPositionY:notification.getPositionY
                                                                andScaling:notification.getScale];
-        //everything is set and we have the last missing piece of the information
-        //update the model and send notification for UI
-        if (self.notesAlreadyDownloaded[noteId])
-        {
-            id<NoteProtocol> noteObj = self.notesAlreadyDownloaded[noteId];
-            self.noteAttributes[noteId] = noteModel;
-            self.noteContents[noteId] = noteObj;
-            [self.notesAlreadyDownloaded removeObjectForKey:noteId];
-            [addedNotes addObject:noteId];
-        }
-        //we still have to wait for the note to be downloaded. Save the state so far
-        //until the download event of the note picks it up
-        else
-        {
-            self.notesExpectedToBeDownloaded[noteId] = noteModel;
-        }
+        
+        //the note resolver takes care of updates when all the information is at hand
+        [self.noteResolver noteModelReceived:noteModel forNoteId:noteId];
     }
-    
-    //send out a notification for everything that is ready
-    NSDictionary * userInfo = @{@"result" : [addedNotes copy]};
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_ADDED_EVENT
-                                                        object:self
-                                                      userInfo:userInfo];
 }
 
 -(void) updateCollectionForUpdateNoteNotifications:(NSArray *) notifications
@@ -961,12 +884,48 @@
 
 -(void) updateCollectionForAddStackingNotifications:(NSArray *) notifications
 {
+    //for a stacking we add it anyways and add notes that are alread there.
+    //When a new note comes in that was part of the stacking but we didn't have it
+    //the UI checks for it and adds it
+    NSMutableArray * addedStackings = [NSMutableArray array];
+    for (AddStackingNotification * notification in notifications)
+    {
+        NSSet * refIds = [NSSet setWithArray:notification.getNoteRefs];
+        XoomlStackingModel * stackingModel = [[XoomlStackingModel alloc] initWithName:notification.getStackId
+                                                                             andScale:notification.getScale
+                                                                            andRefIds:refIds];
+        self.collectionAttributes[notification.getStackId] = stackingModel;
+        [addedStackings addObject:notification.getStackId];
+    }
     
+    NSDictionary * userInfo =  @{@"result" :  addedStackings};
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:STACK_ADDED_EVENT
+                                                        object:self
+                                                      userInfo:userInfo];
 }
 
 -(void) updateCollectionForUpdateStackingNotifications:(NSArray *) notifications
 {
+    //we treat update stacking just like add stacking. New notes will be added to
+    //it once they arrive
+    NSMutableArray * updatedStackings = [NSMutableArray array];
+    for(UpdateStackNotification * notification in notifications)
+    {
+        
+        NSSet * refIds = [NSSet setWithArray:notification.getNoteRefs];
+        XoomlStackingModel * stackingModel = [[XoomlStackingModel alloc] initWithName:notification.getStackId
+                                                                             andScale:notification.getScale
+                                                                            andRefIds:refIds];
+        self.collectionAttributes[notification.getStackId] = stackingModel;
+        [updatedStackings addObject:notification.getStackId];
+    }
     
+    NSDictionary * userInfo =  @{@"result" :  updatedStackings};
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:STACK_UPDATED_EVENT
+                                                        object:self
+                                                      userInfo:userInfo];
 }
 
 -(void) updateCollectionForDeleteStackingNotifications:(NSArray *) notifications
@@ -975,20 +934,6 @@
     for (DeleteStackingNotification * notification in notifications)
     {
         NSString * stackingName = notification.getStackingId;
-        XoomlStackingModel * stacking = self.collectionAttributes[stackingName];
-        if (stacking)
-        {
-            for (NSString * noteId in stacking.refIds)
-            {
-                
-                [self.noteContents removeObjectForKey:noteId];
-                [self.noteAttributes removeObjectForKey:noteId];
-                if (self.noteImages[noteId])
-                {
-                    [self removeNoteImage:noteId];
-                }
-            }
-        }
         [self.collectionAttributes removeObjectForKey:stackingName];
         [deletedStackings addObject:stackingName];
     }
