@@ -179,6 +179,27 @@
     }
 }
 
+#pragma mark - addition
+-(void) addNoteView:(NoteView *) note
+{
+    [self.views addObject:note];
+    //force the item to become the mainView
+    [self forceSetNoteAsMainView:note];
+}
+
+-(void) forceSetNoteAsMainView:(NoteView *)note
+{
+    if ([note isKindOfClass:[ImageView class]])
+    {
+        [self layImage:((ImageView *) note).image];
+        self.mainView = note;
+    }
+    else
+    {
+        self.mainView = note;
+    }
+}
+
 #pragma mark - layout
 //lays the img on top of the stack view as its image
 -(void) layImage: (UIImage *) img{

@@ -162,15 +162,18 @@
         
         if (noteObj == nil || noteModel == nil) return;
         
-        if ([self.board stackingForNote:noteId] != nil)
+        [self addNote:noteId
+  toViewWithNoteModel:noteModel
+       andNoteContent:noteObj];
+        
+        NSString * noteStackingId = [self.board stackingForNote:noteId];
+        if ( noteStackingId != nil)
         {
-            //add note to the stacking
-        }
-        else
-        {
-            [self addNote:noteId
-      toViewWithNoteModel:noteModel
-           andNoteContent:noteObj];
+            StackView * stackView = self.stackViews[noteStackingId];
+            if (stackView)
+            {
+                [stackView addConstraint:<#(NSLayoutConstraint *)#>]
+            }
         }
         self.noteCount++;
     }
@@ -187,8 +190,8 @@
         XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
         
         if (noteObj == nil || noteModel == nil) return;
-        
-        if ([self.board stackingForNote:noteId] != nil)
+        NSString * noteStackingId = [self.board stackingForNote:noteId];
+        if ( noteStackingId != nil)
         {
             
         }
