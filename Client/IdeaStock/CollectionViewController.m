@@ -154,9 +154,8 @@
 -(void) noteAddedEventOccured:(NSNotification *) notification
 {
     NSDictionary * userInfo = notification.userInfo;
-    NSDictionary * result = userInfo[@"result"];
-    NSString * noteId = result[@"noteId"];
-    if (noteId)
+    NSArray * result = userInfo[@"result"];
+    for (NSString * noteId in result)
     {
         CollectionNote * noteObj = [self.board getNoteContent:noteId];
         XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
@@ -195,9 +194,8 @@
 -(void) noteImageAddedEventOccured:(NSNotification *) notification
 {
     NSDictionary * userInfo = notification.userInfo;
-    NSDictionary * result = userInfo[@"result"];
-    NSString * noteId = result[@"noteId"];
-    if (noteId)
+    NSArray * result = userInfo[@"result"];
+    for(NSString * noteId in result)
     {
         CollectionNote * noteObj = [self.board getNoteContent:noteId];
         XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
@@ -240,9 +238,8 @@
 {
     
     NSDictionary * userInfo = notification.userInfo;
-    NSDictionary * result = userInfo[@"result"];
-    NSString * noteId = result[@"noteId"];
-    if (noteId)
+    NSArray * result = userInfo[@"result"];
+    for(NSString * noteId in result)
     {
         XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
         
@@ -290,9 +287,8 @@
 -(void) noteDeletedEventOccured:(NSNotification *) notification
 {
     NSDictionary * userInfo = notification.userInfo;
-    NSDictionary * result = userInfo[@"result"];
-    NSString * noteId = result[@"noteId"];
-    if (noteId)
+    NSArray * result = userInfo[@"result"];
+    for(NSString * noteId in result)
     {
         NoteView * noteView = self.noteViews[noteId];
         if (noteView == nil)
@@ -331,7 +327,6 @@
         [self.noteViews removeObjectForKey:noteId];
         [self.imageNoteViews removeObjectForKey:noteId];
     }
-        
 }
 
 -(void) stackAddedEventOccured:(NSNotification *) notification
@@ -352,9 +347,8 @@
 -(void) noteContentUpdateEventOccured:(NSNotification *) notification
 {
     NSDictionary * userInfo = notification.userInfo;
-    NSDictionary * result = userInfo[@"result"];
-    NSString * noteId = result[@"noteId"];
-    if (noteId)
+    NSArray * result = userInfo[@"result"];
+    for(NSString * noteId in result)
     {
         CollectionNote * noteObj = [self.board getNoteContent:noteId];
         
@@ -375,9 +369,8 @@
 -(void) noteImageUpdateEventOccured:(NSNotification *) notification
 {
     NSDictionary * userInfo = notification.userInfo;
-    NSDictionary * result = userInfo[@"result"];
-    NSString * noteId = result[@"noteId"];
-    if (noteId)
+    NSArray * result = userInfo[@"result"];
+    for(NSString * noteId in result)
     {
         CollectionNote * noteObj = [self.board getNoteContent:noteId];
         
