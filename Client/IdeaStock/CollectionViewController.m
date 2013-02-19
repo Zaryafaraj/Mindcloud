@@ -433,29 +433,7 @@
                 //if the note is not already deattached from the stack view
                 if (noteView.superview != self.collectionView)
                 {
-                    [stack removeNoteView:noteView];
-                    [stack setNextMainViewWithNoteToRemove:noteView];
-                    for (UIGestureRecognizer * gr in noteView.gestureRecognizers){
-                        [noteView removeGestureRecognizer:gr];
-                    }
                     
-                    [self addGestureRecognizersToNote:noteView];
-                    
-                    noteView.delegate = self;
-                    [CollectionLayoutHelper removeNote:noteView
-                                             fromStack:stack
-                                      InCollectionView:self.collectionView
-                                      withCountInStack:[stack.views count]
-                                           andCallback:^(void){
-                                               float noteX = noteView.frame.origin.x;
-                                               float noteY = noteView.frame.origin.y;
-                                               [CollectionLayoutHelper adjustNotePositionsForX:&noteX
-                                                                                          andY:&noteY
-                                                                                        inView:self.collectionView];
-                                               CGRect newFrame = CGRectMake(noteX, noteY, noteView.frame.size.width, noteView.frame.size.height);
-                                               noteView.frame = newFrame;
-                                               [self updateScalingAndPositionAccordingToNoteView:noteView];
-                                           }];
                 }
             }
             
@@ -474,9 +452,53 @@
     }
 }
 
+-(void) removeNoteView:(NoteView *) noteView
+         fromStackView:(StackView *)stack
+{
+    [stack removeNoteView:noteView];
+    [stack setNextMainViewWithNoteToRemove:noteView];
+    for (UIGestureRecognizer * gr in noteView.gestureRecognizers){
+        [noteView removeGestureRecognizer:gr];
+    }
+    
+    [self addGestureRecognizersToNote:noteView];
+    
+    noteView.delegate = self;
+    [CollectionLayoutHelper removeNote:noteView
+                             fromStack:stack
+                      InCollectionView:self.collectionView
+                      withCountInStack:[stack.views count]
+                           andCallback:^(void){
+                               float noteX = noteView.frame.origin.x;
+                               float noteY = noteView.frame.origin.y;
+                               [CollectionLayoutHelper adjustNotePositionsForX:&noteX
+                                                                          andY:&noteY
+                                                                        inView:self.collectionView];
+                               CGRect newFrame = CGRectMake(noteX, noteY, noteView.frame.size.width, noteView.frame.size.height);
+                               noteView.frame = newFrame;
+                               [self updateScalingAndPositionAccordingToNoteView:noteView];
+                           }];
+}
+
 -(void) stackDeletedEventOccured:(NSNotification *) notification
 {
     
+    NSArray * result = notification.userInfo[@"result"];
+    for(NSString * stackId in result)
+    {
+        StackView * stack = self.stackViews[stackId];
+        if (stack)
+        {
+           for(NoteView * note in stack.views)
+           {
+              if (note.superview != self.collectionView)
+              {
+                  [note removeFromSuperview];
+                  [self removeNoteView:note fromStackView:stack];
+              }
+           }
+        }
+    }
 }
 
 -(void) noteContentUpdateEventOccured:(NSNotification *) notification
