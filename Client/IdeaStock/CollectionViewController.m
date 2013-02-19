@@ -331,7 +331,47 @@
 
 -(void) stackAddedEventOccured:(NSNotification *) notification
 {
-    
+    NSArray * result = notification.userInfo[@"result"];
+    for (NSString * stackId in result)
+    {
+        XoomlStackingModel * stacking = [self.board getStackModelFor:stackId];
+        if (stacking)
+        {
+            //get All the NoteViews
+            NSMutableArray * stackNotes = [NSMutableArray array];
+            for(NSString * noteRefId in stacking.refIds)
+            {
+                if (self.noteViews[noteRefId])
+                {
+                    [stackNotes addObject:self.noteViews[noteRefId]];
+                }
+                else if (self.imageNoteViews[noteRefId])
+                {
+                    [stackNotes addObject:self.imageNoteViews[noteRefId]];
+                }
+            }
+            
+            //select the last note as the mainView candidate for now
+            //we will override this later
+            NoteView * mainView = [stackNotes lastObject];
+            CGRect stackFrame = [CollectionLayoutHelper getStackingFrameForStackingWithTopView:mainView];
+            StackView * stack = [[StackView alloc] initWithViews:stackNotes
+                                                     andMainView:mainView
+                                                       withFrame:stackFrame];
+            stack.ID = stackId;
+            __weak StackView * stackRef = stack;
+            self.stackViews[stackId] = stackRef;
+            [self addGestureRecognizersToStack:stack];
+            [CollectionAnimationHelper animateStackCreationForStackView:stack
+                                                           WithMainView:mainView
+                                                          andStackItems:stackNotes
+                                                       inCollectionView:self.collectionView
+                                                                  isNew:YES
+                                                   withMoveNoteFunction:^(NoteView * note){
+                                                       ;
+                                                   }];
+        }
+    }
 }
 
 -(void) stackUpdatedEventOccured:(NSNotification *) notification
