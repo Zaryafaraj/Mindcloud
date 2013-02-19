@@ -318,8 +318,8 @@
             [CollectionAnimationHelper animateDeleteView:noteView
                                       fromCollectionView:self.collectionView
                                  withCallbackAfterFinish:^(void){
-                [noteView removeFromSuperview];
-            }];
+                                     [noteView removeFromSuperview];
+                                 }];
             
         }
         
@@ -358,6 +358,12 @@
             StackView * stack = [[StackView alloc] initWithViews:stackNotes
                                                      andMainView:mainView
                                                        withFrame:stackFrame];
+            float scaling = [stacking.scale floatValue];
+            if (scaling)
+            {
+                [stack scale:scaling];
+            }
+            
             stack.ID = stackId;
             __weak StackView * stackRef = stack;
             self.stackViews[stackId] = stackRef;
@@ -377,6 +383,95 @@
 -(void) stackUpdatedEventOccured:(NSNotification *) notification
 {
     
+    NSArray * result = notification.userInfo[@"result"];
+    for (NSString * stackId in result)
+    {
+        XoomlStackingModel * stacking = [self.board getStackModelFor:stackId];
+        if (stacking)
+        {
+            StackView * stack = self.stackViews[stackId];
+            float scaling = [stacking.scale floatValue];
+            if (stack.scaleOffset != scaling)
+            {
+                [stack scale:scaling];
+            }
+            NSMutableSet * newRefIds = [stacking.refIds mutableCopy];
+            NSMutableSet * oldRefIds = [stack.getAllNoteIds mutableCopy];
+            [newRefIds minusSet:oldRefIds];
+            for(NSString * noteId in newRefIds)
+            {
+                NoteView * noteView = self.noteViews[noteId];
+                //if they are not part of the stack already
+                if (noteView.superview == self.collectionView)
+                {
+                    CGRect newFrame = stack.frame;
+                    if (noteView)
+                    {
+                        if ( noteView.frame.origin.x != stack.frame.origin.x ||
+                            noteView.frame.origin.y != stack.frame.origin.y)
+                        {
+                            [CollectionLayoutHelper moveView:noteView inCollectionView:self.collectionView toNewFrame:newFrame withCompletion:^{
+                                [noteView removeFromSuperview];
+                                [stack addNoteView:noteView];
+                            }];
+                        }
+                        else
+                        {
+                            [noteView removeFromSuperview];
+                            [stack addNoteView:noteView];
+                        }
+                        
+                    }
+                }
+            }
+            
+            //notes that are deleted and should no longer be in the stack
+            [oldRefIds minusSet:stacking.refIds];
+            for(NSString * noteId in oldRefIds)
+            {
+                NoteView * noteView = self.noteViews[noteId];
+                //if the note is not already deattached from the stack view
+                if (noteView.superview != self.collectionView)
+                {
+                    [stack removeNoteView:noteView];
+                    [stack setNextMainViewWithNoteToRemove:noteView];
+                    for (UIGestureRecognizer * gr in noteView.gestureRecognizers){
+                        [noteView removeGestureRecognizer:gr];
+                    }
+                    
+                    [self addGestureRecognizersToNote:noteView];
+                    
+                    noteView.delegate = self;
+                    [CollectionLayoutHelper removeNote:noteView
+                                             fromStack:stack
+                                      InCollectionView:self.collectionView
+                                      withCountInStack:[stack.views count]
+                                           andCallback:^(void){
+                                               float noteX = noteView.frame.origin.x;
+                                               float noteY = noteView.frame.origin.y;
+                                               [CollectionLayoutHelper adjustNotePositionsForX:&noteX
+                                                                                          andY:&noteY
+                                                                                        inView:self.collectionView];
+                                               CGRect newFrame = CGRectMake(noteX, noteY, noteView.frame.size.width, noteView.frame.size.height);
+                                               noteView.frame = newFrame;
+                                               [self updateScalingAndPositionAccordingToNoteView:noteView];
+                                           }];
+                }
+            }
+            
+            //make sure if the stack is already open we delete it
+            if ([self.presentedViewController isKindOfClass:[StackViewController class]])
+            {
+                StackViewController * openStackController = (StackViewController *) self.presentedViewController;
+                if (openStackController.openStack == stack)
+                {
+                    [openStackController resetEditingMode];
+                    [openStackController.view setNeedsDisplay];
+                    
+                }
+            }
+        }
+    }
 }
 
 -(void) stackDeletedEventOccured:(NSNotification *) notification
@@ -444,8 +539,8 @@
 }
 
 -(NoteView * ) addNote:(NSString *) noteID
-toViewWithNoteModel:(XoomlNoteModel *) noteModel
- andNoteContent:(CollectionNote *) noteContent
+   toViewWithNoteModel:(XoomlNoteModel *) noteModel
+        andNoteContent:(CollectionNote *) noteContent
 {
     
     float positionX = [noteModel.positionX floatValue];
@@ -453,8 +548,8 @@ toViewWithNoteModel:(XoomlNoteModel *) noteModel
     float scale = [noteModel.scaling floatValue];
     
     [CollectionLayoutHelper adjustNotePositionsForX:&positionX
-                                          andY:&positionY
-                                        inView: self.collectionView];
+                                               andY:&positionY
+                                             inView: self.collectionView];
     
     NoteView * note = [self getNoteViewForNote:noteID
                                           ForX:positionX
@@ -601,32 +696,32 @@ toViewWithNoteModel:(XoomlNoteModel *) noteModel
 
 -(void) updateIntersectingViewsWithView:(UIView *)view
 {
-        self.panCounter = 0;
-        NSArray * intersectingViews = [CollectionLayoutHelper checkForOverlapWithView: view
-                                                                inCollectionView:self.collectionView];
-        if ( [intersectingViews count] != [self.intersectingViews count] ||
-            [intersectingViews count] == 1){
-            for (UIView * view in self.intersectingViews){
-                view.alpha = 1;
-            }
+    self.panCounter = 0;
+    NSArray * intersectingViews = [CollectionLayoutHelper checkForOverlapWithView: view
+                                                                 inCollectionView:self.collectionView];
+    if ( [intersectingViews count] != [self.intersectingViews count] ||
+        [intersectingViews count] == 1){
+        for (UIView * view in self.intersectingViews){
+            view.alpha = 1;
         }
-        else{
-            for (UIView * view in intersectingViews){
-                
-                view.alpha = 0.5;
-            }
+    }
+    else{
+        for (UIView * view in intersectingViews){
+            
+            view.alpha = 0.5;
         }
-        self.intersectingViews = intersectingViews;   
+    }
+    self.intersectingViews = intersectingViews;
 }
 
 -(void) panFinishedForView:(UIView *)view
 {
     [CollectionLayoutHelper updateViewLocationForView:view
                                      inCollectionView:self.collectionView];
-
+    
     for (UIView * intersectingView in self.intersectingViews){
         intersectingView.alpha = 1;
-    } 
+    }
     
     if ([self.intersectingViews count] > 1 ){
         UIView * mainView = [self findMainViewForIntersectingViews: self.intersectingViews
@@ -749,7 +844,7 @@ toViewWithNoteModel:(XoomlNoteModel *) noteModel
     self.expandButton = [self.toolbar items][len - 2];
     NSMutableArray * toolBarItems = [[NSMutableArray alloc] init];
     
-    int remainingCount = [[self.toolbar items] count] -2; 
+    int remainingCount = [[self.toolbar items] count] -2;
     for ( int i = 0 ; i < remainingCount ; i++){
         [toolBarItems addObject:[self.toolbar items][i]];
     }
@@ -796,15 +891,15 @@ toViewWithNoteModel:(XoomlNoteModel *) noteModel
     if ([self.highlightedView isKindOfClass:[StackView class]] && self.editMode)
     {
         CGRect fittingRect = [CollectionLayoutHelper findFittingRectangle: (StackView *) self.highlightedView
-                              inView:self.collectionView];
+                                                                   inView:self.collectionView];
         
         //move stuff that is in the rectangle out of it
         [CollectionLayoutHelper clearRectangle: fittingRect
-                         inCollectionView:self.collectionView
-                     withMoveNoteFunction:^(NoteView * note){
-                         [note resetSize];
-                         [self updateScalingAndPositionAccordingToNoteView:note];
-                     }];
+                              inCollectionView:self.collectionView
+                          withMoveNoteFunction:^(NoteView * note){
+                              [note resetSize];
+                              [self updateScalingAndPositionAccordingToNoteView:note];
+                          }];
         
         //layout stack in the empty rect
         [self layoutStackView:(StackView *) self.highlightedView inRect:fittingRect ];
@@ -853,7 +948,7 @@ toViewWithNoteModel:(XoomlNoteModel *) noteModel
     
     self.isRefreshing = YES;
     self.board = [[MindcloudCollection alloc] initCollection:self.bulletinBoardName
-                                               withDataSource:[[CachedMindCloudDataSource alloc] init]];
+                                              withDataSource:[[CachedMindCloudDataSource alloc] init]];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(loadSavedNotes:)
                                                  name:COLLECTION_RELOAD_EVENT
@@ -943,9 +1038,9 @@ toViewWithNoteModel:(XoomlNoteModel *) noteModel
     NSString * scale = [NSString stringWithFormat:@"%f", note.scaleOffset];
     
     return [[XoomlNoteModel alloc] initWithName:noteName
-                            andPositionX:positionX
-                            andPositionY:positionY
-                              andScaling:scale];
+                                   andPositionX:positionX
+                                   andPositionY:positionY
+                                     andScaling:scale];
     
 }
 
@@ -1027,8 +1122,8 @@ toViewWithNoteModel:(XoomlNoteModel *) noteModel
     if (isImageNote){
         NSData * imgData = [self.board getImageForNote:noteID];
         UIImage * img = [[UIImage alloc] initWithData:imgData];
-        note = [[ImageView alloc] initWithFrame:noteFrame 
-                                                andImage:img];
+        note = [[ImageView alloc] initWithFrame:noteFrame
+                                       andImage:img];
         note.ID = noteID;
         __weak NoteView * noteRef = note;
         self.imageNoteViews[note.ID] = noteRef;
@@ -1045,7 +1140,7 @@ toViewWithNoteModel:(XoomlNoteModel *) noteModel
 }
 
 -(UIView *) storeNotesViewsForNotes:(NSArray *) noteRefIDs
-                         into:(NSMutableArray *) views
+                               into:(NSMutableArray *) views
 {
     NSSet * noteRefs = [[NSSet alloc] initWithArray:noteRefIDs];
     UIView * mainViewCandidate;
@@ -1169,8 +1264,8 @@ toViewWithNoteModel:(XoomlNoteModel *) noteModel
                                                inCollectionView:self.collectionView
                                                           isNew:isNewStack
                                            withMoveNoteFunction:^(NoteView * note){
-        [self updateNoteLocation:note];
-    }];
+                                               [self updateNoteLocation:note];
+                                           }];
 }
 
 -(NSString *) mergeItems: (NSArray *)items
@@ -1358,15 +1453,17 @@ intoStackingWithMainView: (UIView *) mainView
                           InCollectionView:self.collectionView
                           withCountInStack:count
                                andCallback:^(void){
-            NSString * stackName =((StackView*) stackView).ID;
-            [self.board removeNote:noteItem.ID fromStacking:stackName];
+                                   NSString * stackName =((StackView*) stackView).ID;
+                                   [self.board removeNote:noteItem.ID fromStacking:stackName];
                                    float noteX = noteItem.frame.origin.x;
                                    float noteY = noteItem.frame.origin.y;
-            [CollectionLayoutHelper adjustNotePositionsForX:&noteX
-                                                       andY:&noteY
-                                                     inView:self.collectionView];
-            [self updateScalingAndPositionAccordingToNoteView:noteItem];
-        }];
+                                   [CollectionLayoutHelper adjustNotePositionsForX:&noteX
+                                                                              andY:&noteY
+                                                                            inView:self.collectionView];
+                                   CGRect newFrame = CGRectMake(noteX, noteY, noteItem.frame.size.width, noteItem.frame.size.height);
+                                   noteItem.frame = newFrame;
+                                   [self updateScalingAndPositionAccordingToNoteView:noteItem];
+                               }];
     }
 }
 
@@ -1380,10 +1477,10 @@ intoStackingWithMainView: (UIView *) mainView
     [CollectionAnimationHelper animateDeleteView:stackView
                               fromCollectionView:self.collectionView
                          withCallbackAfterFinish:^(void){
-        [stackView removeFromSuperview];
-        self.editMode = NO;
-        self.highlightedView = nil;
-    }];
+                             [stackView removeFromSuperview];
+                             self.editMode = NO;
+                             self.highlightedView = nil;
+                         }];
     [self.stackViews removeObjectForKey:stackView.ID];
     
     if ([self.presentedViewController isKindOfClass:[StackViewController class]])
@@ -1440,7 +1537,7 @@ intoStackingWithMainView: (UIView *) mainView
         imagePicker = [MultimediaHelper getLibraryController];
         imagePicker.delegate = self;
         UIPopoverController * presenter =
-            [[UIPopoverController alloc] initWithContentViewController:imagePicker];
+        [[UIPopoverController alloc] initWithContentViewController:imagePicker];
         self.lastPopOver = presenter;
         self.lastPopOver.delegate = self;
         [presenter presentPopoverFromBarButtonItem:self.cameraButton
@@ -1528,9 +1625,9 @@ intoStackingWithMainView: (UIView *) mainView
     {
         CGPoint scrollPoint = CGPointMake(0.0, 0.0);
         [self.collectionView setContentOffset:scrollPoint animated:YES];
-//        UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-//        self.collectionView.contentInset = contentInsets;
-//        self.collectionView.scrollIndicatorInsets = contentInsets;
+        //        UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+        //        self.collectionView.contentInset = contentInsets;
+        //        self.collectionView.scrollIndicatorInsets = contentInsets;
     }
 }
 

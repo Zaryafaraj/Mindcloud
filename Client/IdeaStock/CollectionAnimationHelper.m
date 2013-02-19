@@ -125,6 +125,18 @@ backIntoScreenBoundsInRect:(CGRect) frame
     [UIView animateWithDuration:0.25 animations:^{view.frame = frame;}];
 }
 
++(void) animateMoveView:(UIView *) view
+              intoFrame:(CGRect) frame
+           inCollection:(UIView *) collectionView
+         withCompletion:(move_noted_finished) callback
+{
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        view.frame = frame;
+        callback();
+    }];
+}
+
 +(void) animateScaleView:(UIView *) view
                withScale:(float) scale
             inCollection:(UIView *) collectionView

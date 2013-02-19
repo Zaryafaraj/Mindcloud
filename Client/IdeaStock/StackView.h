@@ -26,4 +26,6 @@
 
 -(void) removeNoteView:(NoteView *) note;
 
+-(NSSet *) getAllNoteIds;
+
 @end

@@ -48,6 +48,11 @@ backIntoScreenBoundsInRect:(CGRect) frame;
               intoFrame:(CGRect) frame
            inCollection:(UIView *) collectionView;
 
++(void) animateMoveView:(UIView *) view
+              intoFrame:(CGRect) frame
+           inCollection:(UIView *) collectionView
+         withCompletion:(move_noted_finished) callback;
+
 +(void) animateScaleView:(UIView *) view
                withScale:(float) scale
             inCollection:(UIView *) collectionView;

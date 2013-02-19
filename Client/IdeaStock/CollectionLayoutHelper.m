@@ -426,6 +426,13 @@ inCollectionView:(UIView *) collectionView
                                   inCollection:collectionView];
 }
 
++(void) moveView:(UIView *)view
+inCollectionView:(UIView *)collectionView
+      toNewFrame:(CGRect)newFrame
+  withCompletion:(move_noted_finished)callback
+{
+    
+}
 +(void) scaleView:(UIView *) view
  inCollectionView:(UIView *) collectionView
         withScale:(float) scale

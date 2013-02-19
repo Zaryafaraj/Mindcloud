@@ -14,5 +14,5 @@ typedef void (^update_note_location_function)(NoteView * note);
 typedef void (^animate_delete_finished)(void);
 typedef void (^layout_unstack_finished)(void);
 typedef void (^animate_unstack_finished)(void);
-
+typedef void (^move_noted_finished)(void);
 @end

@@ -211,6 +211,17 @@
     }
 }
 
+#pragma mark - query
+-(NSSet *) getAllNoteIds
+{
+    NSMutableSet * result = [NSMutableSet set];
+    for (NoteView * noteView in self.views)
+    {
+        [result addObject:noteView.ID];
+    }
+    return result;
+}
+
 #pragma mark - layout
 //lays the img on top of the stack view as its image
 -(void) layImage: (UIImage *) img{
