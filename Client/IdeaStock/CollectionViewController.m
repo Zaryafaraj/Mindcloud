@@ -198,9 +198,7 @@
         StackViewController * openStackController = (StackViewController *) self.presentedViewController;
         if (openStackController.openStack == stackView)
         {
-            
-            [openStackController resetEditingMode];
-            [openStackController.view setNeedsDisplay];
+            [openStackController refresh];
         }
     }
 }
@@ -452,6 +450,7 @@
     
     [view resetSize];
     view.delegate = self;
+    
 }
 
 -(void) stackUpdatedEventOccured:(NSNotification *) notification

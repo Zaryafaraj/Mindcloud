@@ -282,6 +282,23 @@
         }
     }
 }
+
+-(void) refresh
+{
+    for(NoteView * view in self.notes){
+        for (UIGestureRecognizer * gr in [view gestureRecognizers]){
+            [view removeGestureRecognizer:gr];
+            [view resetSize];
+        }
+        UILongPressGestureRecognizer * pgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                           action:@selector(notePressed:)];
+        [view addGestureRecognizer:pgr];
+        view.delegate = self;
+    }
+    
+    [self resetEditingMode];
+    [self layoutNotes:YES];
+}
 #define FLIP_PERIOD 1.5
 -(BOOL) checkScrollToNextPage: (CGRect) rect forView: (UIView *) view{
     
@@ -365,6 +382,16 @@
 -(void) viewDidAppear:(BOOL)animated
 {
     [self layoutNotes:NO];
+}
+
+-(void) viewDidDisappear:(BOOL)animated
+{
+    for(NoteView * view in self.notes)
+    {
+        for (UIGestureRecognizer * gr in view.gestureRecognizers){
+            [view removeGestureRecognizer:gr];
+        }
+    }
 }
 
 -(void)viewDidUnload
