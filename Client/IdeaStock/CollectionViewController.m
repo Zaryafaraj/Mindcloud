@@ -266,7 +266,14 @@
         NSString * noteStackingId = [self.board stackingForNote:noteId];
         UIView <BulletinBoardObject> * view = noteStackingId != nil ? self.stackViews[noteStackingId] : noteView;
         
-        [view resetSize];
+        //if the note is still attached to a stack view
+        if (view == noteView && noteView.superview != self.collectionView)
+        {
+            [noteView removeFromSuperview];
+            [self sanitizeNoteViewForCollectionView:noteView];
+            [self.collectionView addSubview:noteView];
+        }
+        
         if (scale && view.scaleOffset != scale) [view scale:scale];
         
         CGRect newFrame = CGRectMake(positionX, positionY, view.frame.size.width, view.frame.size.height);
@@ -443,6 +450,7 @@
     
     [self addGestureRecognizersToNote:view];
     
+    [view resetSize];
     view.delegate = self;
 }
 
@@ -755,7 +763,6 @@
 -(void) stackTapped: (UIPanGestureRecognizer *) sender{
     StackViewController * stackViewer = [self.storyboard instantiateViewControllerWithIdentifier:@"StackView"];
     stackViewer.delegate = self;
-    stackViewer.notes = ((StackView *) sender.view).views;
     stackViewer.openStack = (StackView *) sender.view;
     [self presentViewController:stackViewer animated:YES completion:^{}];
 }

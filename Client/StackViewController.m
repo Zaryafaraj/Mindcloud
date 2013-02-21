@@ -25,6 +25,7 @@
 @property (nonatomic) int currentPage;
 @property (nonatomic) int unstackCounter;
 
+@property (weak,nonatomic) NSMutableArray * notes;
 @end
 
 @implementation StackViewController
@@ -33,11 +34,10 @@
 @synthesize notes = _notes;
 @synthesize activeView = _activeView;
 
--(void) setNotes:(NSMutableArray *)notes{
-    
-    _notes = notes;
-    //remove the gesture recognizor from all the notes
-    for(NoteView * view in _notes){
+-(void) setOpenStack:(StackView *)openStack
+{
+    _openStack = openStack;
+    for(NoteView * view in _openStack.views){
         for (UIGestureRecognizer * gr in [view gestureRecognizers]){
             [view removeGestureRecognizer:gr];
             [view resetSize];
@@ -46,6 +46,8 @@
                                                                                            action:@selector(notePressed:)];
         [view addGestureRecognizer:pgr];
     }
+    
+    self.notes = openStack.views;
 }
 
 #pragma mark - initializer
