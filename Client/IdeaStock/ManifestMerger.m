@@ -470,22 +470,21 @@
     //add thumbnail
     if (thumbnailElement != nil)
     {
-        [fragmentNamespace addChild:thumbnailElement];
+        [fragmentNamespace addChild:[thumbnailElement copy]];
     }
     
     //add stackings
     for(NSString * stackingId in finalStackings)
     {
         DDXMLElement * stackingElement = finalStackings[stackingId];
-        [fragmentNamespace addChild:stackingElement];
+        [fragmentNamespace addChild:[stackingElement copy]];
     }
     
     //now add notes
     for(NSString * noteId in finalNotes)
     {
         DDXMLElement * noteElement = finalNotes[noteId];
-        [document.rootElement addChild:noteElement];
-        
+        [document.rootElement addChild:[noteElement copy]];
     }
     
     return document;
