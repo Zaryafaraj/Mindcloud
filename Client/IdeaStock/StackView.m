@@ -181,6 +181,7 @@
 #pragma mark - addition
 -(void) addNoteView:(NoteView *) note
 {
+    [note removeFromSuperview];
     [self.views addObject:note];
     //force the item to become the mainView
     [self forceSetNoteAsMainView:note];
@@ -202,12 +203,16 @@
 #pragma mark - deletion
 -(void) removeNoteView:(NoteView *)note
 {
-    [self.views removeObject:note];
-    [self setNextMainViewWithNoteToRemove:note];
-    if([self.views count] == 0)
+    if ([self.views containsObject:note])
     {
-      //manifest update will take care of this
-      //  [self.delegate stackViewIsEmpty:self];
+        [self.views removeObject:note];
+        [note removeFromSuperview];
+        [self setNextMainViewWithNoteToRemove:note];
+        if([self.views count] == 0)
+        {
+          //manifest update will take care of this
+          //  [self.delegate stackViewIsEmpty:self];
+        }
     }
 }
 

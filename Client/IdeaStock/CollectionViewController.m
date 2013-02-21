@@ -160,34 +160,48 @@
         CollectionNote * noteObj = [self.board getNoteContent:noteId];
         XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
         
-        if (noteObj == nil || noteModel == nil) return;
+        if (noteObj == nil || noteModel == nil) break;
         
         NoteView * noteView =[self addNote:noteId
                        toViewWithNoteModel:noteModel
                             andNoteContent:noteObj];
         
-        NSString * noteStackingId = [self.board stackingForNote:noteId];
-        if ( noteStackingId != nil)
-        {
-            StackView * stackView = self.stackViews[noteStackingId];
-            if (stackView)
-            {
-                [noteView removeFromSuperview];
-                [stackView addNoteView:noteView];
-                //if we are currently showing the stack view that just got updated, redraw it
-                if ([self.presentedViewController isKindOfClass:[StackViewController class]])
-                {
-                    StackViewController * openStackController = (StackViewController *) self.presentedViewController;
-                    if (openStackController.openStack == stackView)
-                    {
-                        
-                        [openStackController resetEditingMode];
-                        [openStackController.view setNeedsDisplay];
-                    }
-                }
-            }
-        }
+        //if the note belongs to a stacking view make sure that we update it
+        [self updateStackingViewsIfNecessaryForNoteWithId:noteId
+                                              andNoteView:noteView];
+        
         self.noteCount++;
+    }
+}
+
+-(void) updateStackingViewsIfNecessaryForNoteWithId:(NSString *) noteId
+                                        andNoteView:(NoteView *) noteView
+{
+    NSString * noteStackingId = [self.board stackingForNote:noteId];
+    
+    if (noteStackingId == nil) return;
+    
+    StackView * stackView = self.stackViews[noteStackingId];
+    
+    if (stackView == nil) return;
+    
+    [stackView addNoteView:noteView];
+    
+    [self updatePresentingStackViewControllerIfNecessaryForStackView:stackView];
+}
+
+-(void) updatePresentingStackViewControllerIfNecessaryForStackView: (StackView *) stackView
+{
+    //if we are currently showing the stack view that just got updated, redraw it
+    if ([self.presentedViewController isKindOfClass:[StackViewController class]])
+    {
+        StackViewController * openStackController = (StackViewController *) self.presentedViewController;
+        if (openStackController.openStack == stackView)
+        {
+            
+            [openStackController resetEditingMode];
+            [openStackController.view setNeedsDisplay];
+        }
     }
 }
 
@@ -200,38 +214,32 @@
         CollectionNote * noteObj = [self.board getNoteContent:noteId];
         XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
         
-        if (noteObj == nil || noteModel == nil) return;
+        if (noteObj == nil || noteModel == nil) break;
         
         NoteView * note = [self addNote:noteId
                     toViewWithNoteModel:noteModel
                          andNoteContent:noteObj];
+        
         if ([note isKindOfClass:[ImageView class]])
         {
             NSData * imgData = [self.board getImageForNote:noteId];
             ((ImageView *) note).image = [UIImage imageWithData:imgData];
         }
-        NSString * noteStackingId = [self.board stackingForNote:noteId];
-        if ( noteStackingId != nil)
-        {
-            StackView * stackView = self.stackViews[noteStackingId];
-            if (stackView)
-            {
-                [note removeFromSuperview];
-                [stackView addNoteView:note];
-                //if we are currently showing the stack view that just got updated, redraw it
-                if ([self.presentedViewController isKindOfClass:[StackViewController class]])
-                {
-                    StackViewController * openStackController = (StackViewController *) self.presentedViewController;
-                    if (openStackController.openStack == stackView)
-                    {
-                        [openStackController resetEditingMode];
-                        [openStackController.view setNeedsDisplay];
-                    }
-                }
-            }
-        }
+        
+        [self updateStackingViewsIfNecessaryForNoteWithId:noteId
+                                              andNoteView:note];
         self.noteCount++;
     }
+}
+
+-(NoteView *) getNoteView:(NSString *) noteId
+{
+    NoteView * noteView = self.noteViews[noteId];
+    if (noteView == nil)
+    {
+        noteView = self.imageNoteViews[noteId];
+    }
+    return noteView;
 }
 
 -(void) noteUpdatedEventOccured:(NSNotification *) notification
@@ -242,40 +250,29 @@
     for(NSString * noteId in result)
     {
         XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
-        
-        NoteView * noteView = self.noteViews[noteId];
-        if (noteView == nil)
-        {
-            noteView = self.imageNoteViews[noteId];
-        }
-        if (noteView == nil) return;
+        NoteView * noteView = [self getNoteView:noteId];
+        if (noteView == nil) break;
         
         float positionX = [noteModel.positionX floatValue];
         float positionY = [noteModel.positionY floatValue];
+        float scale = [noteModel.scaling floatValue];
+        
+        //make sure that the positions are in the bounds of the screen
         [CollectionLayoutHelper adjustNotePositionsForX:&positionX
                                                    andY:&positionY
                                                  inView:self.collectionView];
-        float scale = [noteModel.scaling floatValue];
         
+        //if the updated note is part of a stack we need to move the stack with the note too
         NSString * noteStackingId = [self.board stackingForNote:noteId];
-        UIView <BulletinBoardObject> * view = nil;
-        
-        if ( noteStackingId != nil)
-        {
-            //move the stack
-            view = self.stackViews[noteStackingId];
-        }
-        else
-        {
-            view = noteView;
-        }
+        UIView <BulletinBoardObject> * view = noteStackingId != nil ? self.stackViews[noteStackingId] : noteView;
         
         [view resetSize];
-        [view scale:scale];
+        if (scale && view.scaleOffset != scale) [view scale:scale];
+        
         CGRect newFrame = CGRectMake(positionX, positionY, view.frame.size.width, view.frame.size.height);
         
         CGRect oldFrame = view.frame;
-        if (CGRectEqualToRect(newFrame, oldFrame))
+        if (!CGRectEqualToRect(newFrame, oldFrame))
         {
             [CollectionLayoutHelper moveView:view
                             inCollectionView:self.collectionView
@@ -290,28 +287,16 @@
     NSArray * result = userInfo[@"result"];
     for(NSString * noteId in result)
     {
-        NoteView * noteView = self.noteViews[noteId];
-        if (noteView == nil)
-        {
-            noteView = self.imageNoteViews[noteId];
-        }
-        if (noteView == nil) return;
+        NoteView * noteView = [self getNoteView:noteId];
+        if (noteView == nil) break;
         
+        //if noteView belongs to a stack we should remove it from the stack
         NSString * noteStackingId = [self.board stackingForNote:noteId];
         if ( noteStackingId != nil)
         {
             StackView * stackView = self.stackViews[noteStackingId];
             [stackView removeNoteView:noteView];
-            //if we are currently showing the stack view that just got updated, redraw it
-            if ([self.presentedViewController isKindOfClass:[StackViewController class]])
-            {
-                StackViewController * openStackController = (StackViewController *) self.presentedViewController;
-                if (openStackController.openStack == stackView)
-                {
-                    [openStackController resetEditingMode];
-                    [openStackController.view setNeedsDisplay];
-                }
-            }
+            [self updatePresentingStackViewControllerIfNecessaryForStackView:stackView];
         }
         else
         {
@@ -320,13 +305,29 @@
                                  withCallbackAfterFinish:^(void){
                                      [noteView removeFromSuperview];
                                  }];
-            
         }
-        
         self.noteCount--;
         [self.noteViews removeObjectForKey:noteId];
         [self.imageNoteViews removeObjectForKey:noteId];
     }
+}
+
+-(NSArray *) getAllNoteViewsForStacking:(XoomlStackingModel *) stacking
+{
+    //get All the NoteViews
+    NSMutableArray * stackNotes = [NSMutableArray array];
+    for(NSString * noteRefId in stacking.refIds)
+    {
+        if (self.noteViews[noteRefId])
+        {
+            [stackNotes addObject:self.noteViews[noteRefId]];
+        }
+        else if (self.imageNoteViews[noteRefId])
+        {
+            [stackNotes addObject:self.imageNoteViews[noteRefId]];
+        }
+    }
+    return stackNotes;
 }
 
 -(void) stackAddedEventOccured:(NSNotification *) notification
@@ -337,33 +338,19 @@
         XoomlStackingModel * stacking = [self.board getStackModelFor:stackId];
         if (stacking)
         {
-            //get All the NoteViews
-            NSMutableArray * stackNotes = [NSMutableArray array];
-            for(NSString * noteRefId in stacking.refIds)
-            {
-                if (self.noteViews[noteRefId])
-                {
-                    [stackNotes addObject:self.noteViews[noteRefId]];
-                }
-                else if (self.imageNoteViews[noteRefId])
-                {
-                    [stackNotes addObject:self.imageNoteViews[noteRefId]];
-                }
-            }
+            NSArray * stackNotes = [self getAllNoteViewsForStacking:stacking];
             
-            //select the last note as the mainView candidate for now
-            //we will override this later
+            //select the last note as the mainView candidate for now; will overRide later
             NoteView * mainView = [stackNotes lastObject];
             CGRect stackFrame = [CollectionLayoutHelper getStackingFrameForStackingWithTopView:mainView];
-            StackView * stack = [[StackView alloc] initWithViews:stackNotes
+            StackView * stack = [[StackView alloc] initWithViews:[stackNotes mutableCopy]
                                                      andMainView:mainView
                                                        withFrame:stackFrame];
+            //scale the stack if necessary
             float scaling = [stacking.scale floatValue];
-            if (scaling)
-            {
-                [stack scale:scaling];
-            }
+            if (scaling && stack.scaleOffset != scaling) [stack scale:scaling];
             
+            //add stacking
             stack.ID = stackId;
             __weak StackView * stackRef = stack;
             self.stackViews[stackId] = stackRef;
@@ -380,74 +367,46 @@
     }
 }
 
--(void) stackUpdatedEventOccured:(NSNotification *) notification
+-(void) addNewNotesWith:(NSSet *) newRefIds toStacking:(StackView *) stack
 {
-    
-    NSArray * result = notification.userInfo[@"result"];
-    for (NSString * stackId in result)
+    for(NSString * noteId in newRefIds)
     {
-        XoomlStackingModel * stacking = [self.board getStackModelFor:stackId];
-        if (stacking)
+        NoteView * noteView = self.noteViews[noteId];
+        //if they are not part of the stack already
+        if (noteView.superview == self.collectionView)
         {
-            StackView * stack = self.stackViews[stackId];
-            float scaling = [stacking.scale floatValue];
-            if (stack.scaleOffset != scaling)
+            CGRect newFrame = stack.frame;
+            if (noteView)
             {
-                [stack scale:scaling];
-            }
-            NSMutableSet * newRefIds = [stacking.refIds mutableCopy];
-            NSMutableSet * oldRefIds = [stack.getAllNoteIds mutableCopy];
-            [newRefIds minusSet:oldRefIds];
-            for(NSString * noteId in newRefIds)
-            {
-                NoteView * noteView = self.noteViews[noteId];
-                //if they are not part of the stack already
-                if (noteView.superview == self.collectionView)
+                if ( noteView.frame.origin.x != stack.frame.origin.x ||
+                    noteView.frame.origin.y != stack.frame.origin.y)
                 {
-                    CGRect newFrame = stack.frame;
-                    if (noteView)
-                    {
-                        if ( noteView.frame.origin.x != stack.frame.origin.x ||
-                            noteView.frame.origin.y != stack.frame.origin.y)
-                        {
-                            [CollectionLayoutHelper moveView:noteView inCollectionView:self.collectionView toNewFrame:newFrame withCompletion:^{
-                                [noteView removeFromSuperview];
-                                [stack addNoteView:noteView];
-                            }];
-                        }
-                        else
-                        {
-                            [noteView removeFromSuperview];
-                            [stack addNoteView:noteView];
-                        }
-                        
-                    }
+                    [CollectionLayoutHelper moveView:noteView
+                                    inCollectionView:self.collectionView
+                                          toNewFrame:newFrame withCompletion:^{
+                        [stack addNoteView:noteView];
+                    }];
                 }
-            }
-            
-            //notes that are deleted and should no longer be in the stack
-            [oldRefIds minusSet:stacking.refIds];
-            for(NSString * noteId in oldRefIds)
-            {
-                NoteView * noteView = self.noteViews[noteId];
-                //if the note is not already deattached from the stack view
-                if (noteView.superview != self.collectionView)
+                else
                 {
-                    
+                    [stack addNoteView:noteView];
                 }
+                
             }
-            
-            //make sure if the stack is already open we delete it
-            if ([self.presentedViewController isKindOfClass:[StackViewController class]])
-            {
-                StackViewController * openStackController = (StackViewController *) self.presentedViewController;
-                if (openStackController.openStack == stack)
-                {
-                    [openStackController resetEditingMode];
-                    [openStackController.view setNeedsDisplay];
-                    
-                }
-            }
+        }
+    }
+}
+
+-(void) removeNotesWith:(NSSet *) oldRefIds
+           fromStacking:(StackView *) stack
+{
+    for(NSString * noteId in oldRefIds)
+    {
+        NoteView * noteView = self.noteViews[noteId];
+        //if the note is not already deattached from the stack view
+        if (noteView.superview != self.collectionView)
+        {
+            [self removeNoteView:noteView fromStackView:stack];
         }
     }
 }
@@ -457,13 +416,9 @@
 {
     [stack removeNoteView:noteView];
     [stack setNextMainViewWithNoteToRemove:noteView];
-    for (UIGestureRecognizer * gr in noteView.gestureRecognizers){
-        [noteView removeGestureRecognizer:gr];
-    }
     
-    [self addGestureRecognizersToNote:noteView];
+    [self sanitizeNoteViewForCollectionView:noteView];
     
-    noteView.delegate = self;
     [CollectionLayoutHelper removeNote:noteView
                              fromStack:stack
                       InCollectionView:self.collectionView
@@ -480,6 +435,47 @@
                            }];
 }
 
+-(void) sanitizeNoteViewForCollectionView:(NoteView *) view
+{
+    for (UIGestureRecognizer * gr in view.gestureRecognizers){
+        [view removeGestureRecognizer:gr];
+    }
+    
+    [self addGestureRecognizersToNote:view];
+    
+    view.delegate = self;
+}
+
+-(void) stackUpdatedEventOccured:(NSNotification *) notification
+{
+    
+    NSArray * result = notification.userInfo[@"result"];
+    for (NSString * stackId in result)
+    {
+        XoomlStackingModel * stacking = [self.board getStackModelFor:stackId];
+        
+        if (stacking == nil) break;
+    
+        StackView * stack = self.stackViews[stackId];
+        float scaling = [stacking.scale floatValue];
+        
+        if (scaling && stack.scaleOffset != scaling) [stack scale:scaling];
+        
+        NSMutableSet * newRefIds = [stacking.refIds mutableCopy];
+        NSMutableSet * oldRefIds = [stack.getAllNoteIds mutableCopy];
+        //notes that are newly added to the stack
+        [newRefIds minusSet:oldRefIds];
+        [self addNewNotesWith:newRefIds toStacking:stack];
+        
+        //notes that are deleted and should no longer be in the stack
+        [oldRefIds minusSet:stacking.refIds];
+        [self removeNotesWith:oldRefIds fromStacking:stack];
+        
+        [self updatePresentingStackViewControllerIfNecessaryForStackView:stack];
+    }
+}
+
+
 -(void) stackDeletedEventOccured:(NSNotification *) notification
 {
     
@@ -487,16 +483,16 @@
     for(NSString * stackId in result)
     {
         StackView * stack = self.stackViews[stackId];
-        if (stack)
+        
+        if (stack == nil) break;
+        
+        for(NoteView * note in stack.views)
         {
-           for(NoteView * note in stack.views)
-           {
-              if (note.superview != self.collectionView)
-              {
-                  [note removeFromSuperview];
-                  [self removeNoteView:note fromStackView:stack];
-              }
-           }
+            if (note.superview != self.collectionView)
+            {
+                [note removeFromSuperview];
+                [self removeNoteView:note fromStackView:stack];
+            }
         }
     }
 }
@@ -508,16 +504,10 @@
     for(NSString * noteId in result)
     {
         CollectionNote * noteObj = [self.board getNoteContent:noteId];
+        if (noteObj == nil) break;
         
-        if (noteObj == nil) return;
-        
-        NoteView * noteView = self.noteViews[noteId];
-        if (noteView == nil)
-        {
-            noteView = self.imageNoteViews[noteId];
-        }
-        
-        if (noteView == nil) return;
+        NoteView * noteView = [self getNoteView:noteId];
+        if (noteView == nil) break;
         
         noteView.text = noteObj.noteText;
     }
@@ -530,17 +520,16 @@
     for(NSString * noteId in result)
     {
         CollectionNote * noteObj = [self.board getNoteContent:noteId];
-        
-        if (noteObj == nil) return;
+        if (noteObj == nil) break;
         
         ImageView * imageView = self.imageNoteViews[noteId];
-        
-        if (imageView == nil) return;
+        if (imageView == nil) break;
         
         NSData * imgData = [self.board getImageForNote:noteId];
         imageView.image = [UIImage imageWithData:imgData];
     }
 }
+
 #pragma mark - UI helpers
 
 -(void) clearView

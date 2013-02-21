@@ -335,12 +335,12 @@
     
     NotificationContainer * notifications = mergeResult.notifications;
     //The order of these updates are optimized
-    [self updateCollectionForAddNoteNotifications:notifications.getAddNoteNotifications];
-    [self updateCollectionForUpdateNoteNotifications:notifications.getUpdateNoteNotifications];
-    [self updateCollectionForAddStackingNotifications:notifications.getAddStackingNotifications];
-    [self updateCollectionForUpdateStackingNotifications:notifications.getUpdateStackingNotifications];
     [self updateCollectionForDeleteStackingNotifications:notifications.getDeleteStackingNotifications];
     [self updateCollectionForDeleteNoteNotifications: notifications.getDeleteNoteNotifications];
+    [self updateCollectionForAddNoteNotifications:notifications.getAddNoteNotifications];
+    [self updateCollectionForAddStackingNotifications:notifications.getAddStackingNotifications];
+    [self updateCollectionForUpdateNoteNotifications:notifications.getUpdateNoteNotifications];
+    [self updateCollectionForUpdateStackingNotifications:notifications.getUpdateStackingNotifications];
     
     self.manifest = mergeResult.finalManifest;
     [self startTimer];
