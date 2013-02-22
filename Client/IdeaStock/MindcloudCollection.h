@@ -25,4 +25,6 @@
  */
 - (id) initCollection: (NSString *) collectionName
        withDataSource: (id <MindcloudDataSource>) dataSource;
+
+
 @end

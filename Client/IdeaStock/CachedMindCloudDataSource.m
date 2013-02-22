@@ -156,9 +156,12 @@
                  NSDictionary * dict = [XoomlCategoryParser deserializeXooml:categories];
                  [self writeCategoriesToDisk:categories];
                  self.isCategoriesUpdated = YES;
-                 [[NSNotificationCenter defaultCenter] postNotificationName:CATEGORIES_RECEIVED_EVENT
-                                                                     object:self
-                                                                   userInfo:@{@"result" : dict}];
+                 if (dict != nil)
+                 {
+                     [[NSNotificationCenter defaultCenter] postNotificationName:CATEGORIES_RECEIVED_EVENT
+                                                                         object:self
+                                                                       userInfo:@{@"result" : dict}];
+                 }
              }
              else{
                  NSLog(@"No Categories Received");

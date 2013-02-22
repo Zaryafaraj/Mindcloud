@@ -178,6 +178,19 @@
     }
 }
 
+-(BOOL) hasNoteWaitingForResolution:(NSString *) noteId;
+{
+    if (self.noteContentsDownloaded[noteId] ||
+        self.noteModelsDownloaded[noteId] ||
+        self.imagesDownloaded[noteId])
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
 -(void) removeNoteFromResolver:(NSString *) noteId
 {
     

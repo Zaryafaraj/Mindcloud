@@ -163,6 +163,7 @@
     self.collectionAttributes = [NSMutableDictionary dictionary];
     self.waitingNoteImages = [NSMutableDictionary dictionary];
     self.noteStacking = [NSMutableDictionary dictionary];
+    self.noteResolver = [[NoteFragmentResolver alloc] initWithCollectionName:collectionName];
     
     self.dataSource = dataSource;
     self.bulletinBoardName = collectionName;
@@ -316,17 +317,66 @@
     id<CollectionManifestProtocol> serverManifest = [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
     id<CollectionManifestProtocol> clientManifest = [self.manifest copy];
     MergerThread * mergerThread = [MergerThread getInstance];
+    [self initiateNotesFromDownloadedManifest:serverManifest];
     //when the merge is finished we will be notified
     [mergerThread submitClientManifest:clientManifest
                      andServerManifest:serverManifest
                      andActionRecorder:self.recorder
                      ForCollectionName:self.bulletinBoardName];
     
+    self.originalThumbnail = [serverManifest getCollectionThumbnailNoteId];
+}
+
+
+-(void) initiateNotesFromDownloadedManifest:(id<CollectionManifestProtocol>) manifest
+{
+    //make sure to add the notes that are downloaded separately
+    NSDictionary * noteInfos = [manifest getAllNotesBasicInfo];
+    for(NSString * noteId in noteInfos)
+    {
+        XoomlNoteModel * noteModel = noteInfos[noteId];
+        NSString * noteName = noteModel.noteName;
+        NSData * noteData = [self.dataSource getNoteForTheCollection:self.bulletinBoardName
+                                                            WithName:noteName];
+        
+        if (!noteData) NSLog(@"Could not retreive note data from dataSource");
+        else
+        {
+            [self initiateDownloadedNoteContent:noteData
+                                      forNoteId:noteId
+                                   andNoteModel:noteModel];
+        }
+    }
+}
+
+-(void) initiateDownloadedNoteContent:(NSData *) noteData
+                            forNoteId:(NSString *) noteID
+                         andNoteModel:(XoomlNoteModel *)noteModel
+{
     
+    id <NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
+    if (!noteObj) return ;
+    
+    [self.noteResolver noteContentReceived:noteObj forNoteId:noteID];
+    //note could have an image or not. If it has an image we have to also add it to note images
+    NSString * imgName = noteObj.image;
+    if (imgName != nil)
+    {
+        [self.downloadableImageNotes addObject:noteID];
+        NSString * imagePath = [self.dataSource getImagePathForNote:noteModel.noteName
+                                                      andCollection:self.bulletinBoardName];
+        if (imagePath)
+        {
+            [self.noteResolver noteImagePathReceived:imagePath forNoteId:noteID];
+            [self.thumbnailStack addObject:noteID];
+        }
+        [self.waitingNoteImages setObject:noteID forKey:noteModel.noteName];
+    }
 }
 
 -(void) mergeFinished:(NSNotification *) notification
 {
+    NSLog(@"merge Finished");
     MergeResult * mergeResult = notification.userInfo[@"result"];
     
     if (!mergeResult) return;
@@ -360,8 +410,7 @@
 //based on those information
 -(void) noteResolved:(NSNotification * ) notification
 {
-    NSDictionary * dict = notification.userInfo[@"result"];
-    NoteResolutionNotification * noteResolution = dict[@"noteResolution"];
+    NoteResolutionNotification * noteResolution = notification.userInfo[@"result"];
     if ([self.bulletinBoardName isEqualToString:noteResolution.collectionName])
     {
         NSString * noteId = noteResolution.noteId;
@@ -399,6 +448,11 @@
         if (noteID)
         {
             (self.noteImages)[noteID] = imgPath;
+            //if we are waiting for this let the resolver know
+            if ([self.noteResolver hasNoteWaitingForResolution:noteID])
+            {
+                [self.noteResolver noteImagePathReceived:imgPath forNoteId:noteID];
+            }
             [self.waitingNoteImages removeObjectForKey:noteName];
             //send out a notification
             NSDictionary * userInfo = @{@"result" :

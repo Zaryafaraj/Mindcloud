@@ -21,4 +21,7 @@
 
 -(void) noteImagePathReceived:(NSString *) imagePath
                     forNoteId:(NSString *) noteId;
+
+-(BOOL) hasNoteWaitingForResolution:(NSString *) noteId;
+
 @end
