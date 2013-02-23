@@ -501,6 +501,15 @@
     {
         StackView * stack = self.stackViews[stackId];
         
+        if ([self.presentedViewController isKindOfClass:[StackViewController class]])
+        {
+            StackViewController * openStackController = (StackViewController *) self.presentedViewController;
+            if (openStackController.openStack == stack)
+            {
+                [self dismissViewControllerAnimated:YES completion:^{}];
+            }
+        }
+        
         if (stack == nil) break;
         
         NSArray * enumeratableArray = [stack.views copy];
