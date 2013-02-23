@@ -512,6 +512,9 @@
                 [self removeNoteView:note fromStackView:stack];
             }
         }
+        
+        [stack removeFromSuperview];
+        [self.stackViews removeObjectForKey:stackId];
     }
 }
 
