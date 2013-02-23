@@ -319,7 +319,6 @@
                                  }];
         }
         
-        NSLog(@"note Deleted");
         self.noteCount--;
         [self.noteViews removeObjectForKey:noteId];
         [self.imageNoteViews removeObjectForKey:noteId];
@@ -504,7 +503,8 @@
         
         if (stack == nil) break;
         
-        for(NoteView * note in stack.views)
+        NSArray * enumeratableArray = [stack.views copy];
+        for(NoteView * note in enumeratableArray)
         {
             if (note.superview != self.collectionView)
             {

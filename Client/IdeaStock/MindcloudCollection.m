@@ -947,6 +947,8 @@
         [updatedNotes addObject:notification.getNoteId];
     }
     
+    if ([updatedNotes count] == 0) return;
+    
     NSDictionary * userInfo = @{@"result" : [updatedNotes copy]};
     
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_UPDATED_EVENT
@@ -967,6 +969,9 @@
         }
         [deletedNotes addObject:notification.getNoteId];
     }
+    
+    if ([deletedNotes count] == 0 ) return;
+    
     [self removeNotesFromAllStackings:deletedNotes];
     
     NSDictionary * userInfo =  @{@"result" :  deletedNotes.allObjects};
@@ -995,6 +1000,8 @@
         }
         [addedStackings addObject:notification.getStackId];
     }
+    
+    if ([addedStackings count] == 0) return;
     
     NSDictionary * userInfo =  @{@"result" :  addedStackings};
     
@@ -1025,6 +1032,8 @@
         [updatedStackings addObject:notification.getStackId];
     }
     
+    if ([updatedStackings count] == 0) return;
+    
     NSDictionary * userInfo =  @{@"result" :  updatedStackings};
     
     [[NSNotificationCenter defaultCenter] postNotificationName:STACK_UPDATED_EVENT
@@ -1047,6 +1056,8 @@
         [self.collectionAttributes removeObjectForKey:stackingName];
         [deletedStackings addObject:stackingName];
     }
+    
+    if ([deletedStackings count] == 0) return;
     
     NSDictionary * userInfo =  @{@"result" :  deletedStackings};
     
