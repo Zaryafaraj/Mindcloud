@@ -347,6 +347,12 @@
                                    andNoteModel:noteModel];
         }
     }
+    
+    //send out a note content update
+    NSDictionary * userDict = @{@"result": noteInfos.allKeys};
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_CONTENT_UPDATED_EVENT
+                                                        object:self
+                                                      userInfo:userDict];
 }
 
 -(void) initiateDownloadedNoteContent:(NSData *) noteData
@@ -358,6 +364,8 @@
     if (!noteObj) return ;
     
     [self.noteResolver noteContentReceived:noteObj forNoteId:noteID];
+    //set the note content as soon as you receive it
+    self.noteContents[noteID] = noteObj;
     //note could have an image or not. If it has an image we have to also add it to note images
     NSString * imgName = noteObj.image;
     if (imgName != nil)

@@ -674,8 +674,6 @@
         return nil;
     }
     
-    NSLog(@"BulletinBoard : %@ read from disk", collectionName);
-    
     return [data dataUsingEncoding:NSUTF8StringEncoding];
 }
 
@@ -814,8 +812,6 @@
         return nil;
     }
     
-    NSLog(@"Note: %@ read from disk", noteName);
-    
     return [data dataUsingEncoding:NSUTF8StringEncoding];
 }
 
@@ -830,8 +826,6 @@
     if (!data){
         return nil;
     }
-    
-    NSLog(@"Note img: %@ read from disk", noteName);
     
     return data;
 }

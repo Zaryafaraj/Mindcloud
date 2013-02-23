@@ -165,6 +165,7 @@
         NoteView * noteView =[self addNote:noteId
                        toViewWithNoteModel:noteModel
                             andNoteContent:noteObj];
+        NSLog(@"text: %@", noteObj.noteText);
         
         //if the note belongs to a stacking view make sure that we update it
         [self updateStackingViewsIfNecessaryForNoteWithId:noteId
@@ -511,6 +512,7 @@
     for(NSString * noteId in result)
     {
         CollectionNote * noteObj = [self.board getNoteContent:noteId];
+        NSLog(@"noteText %@", noteObj.noteText);
         if (noteObj == nil) break;
         
         NoteView * noteView = [self getNoteView:noteId];
