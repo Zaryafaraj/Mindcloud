@@ -165,7 +165,7 @@
         NoteView * noteView =[self addNote:noteId
                        toViewWithNoteModel:noteModel
                             andNoteContent:noteObj];
-        NSLog(@"text: %@", noteObj.noteText);
+        //NSLog(@"text: %@", noteObj.noteText);
         
         //if the note belongs to a stacking view make sure that we update it
         [self updateStackingViewsIfNecessaryForNoteWithId:noteId
@@ -272,8 +272,14 @@
             [self sanitizeNoteViewForCollectionView:noteView];
             [self.collectionView addSubview:noteView];
         }
+    
+        scale = scale / view.scaleOffset;
+        if (scale != 0 && view.scaleOffset != scale)
+        {
+            [view scale:scale];
+        }
         
-        if (scale && view.scaleOffset != scale) [view scale:scale];
+        
         
         CGRect newFrame = CGRectMake(positionX, positionY, view.frame.size.width, view.frame.size.height);
         
@@ -312,6 +318,8 @@
                                      [noteView removeFromSuperview];
                                  }];
         }
+        
+        NSLog(@"note Deleted");
         self.noteCount--;
         [self.noteViews removeObjectForKey:noteId];
         [self.imageNoteViews removeObjectForKey:noteId];
@@ -354,6 +362,7 @@
                                                        withFrame:stackFrame];
             //scale the stack if necessary
             float scaling = [stacking.scale floatValue];
+            scaling = scaling/stack.scaleOffset;
             if (scaling && stack.scaleOffset != scaling) [stack scale:scaling];
             
             //add stacking
@@ -467,6 +476,7 @@
         StackView * stack = self.stackViews[stackId];
         float scaling = [stacking.scale floatValue];
         
+        scaling = scaling / stack.scaleOffset;
         if (scaling && stack.scaleOffset != scaling) [stack scale:scaling];
         
         NSMutableSet * newRefIds = [stacking.refIds mutableCopy];
@@ -512,7 +522,7 @@
     for(NSString * noteId in result)
     {
         CollectionNote * noteObj = [self.board getNoteContent:noteId];
-        NSLog(@"noteText %@", noteObj.noteText);
+    //    NSLog(@"noteText %@", noteObj.noteText);
         if (noteObj == nil) break;
         
         NoteView * noteView = [self getNoteView:noteId];

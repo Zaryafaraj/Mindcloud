@@ -185,7 +185,7 @@
     
     BOOL isValid = [self isScalingValid:scaleFactor];
     if (!isValid) return;
-    
+
     self.scaleOffset *= scaleFactor;
     self.frame = CGRectMake(self.frame.origin.x,
                             self.frame.origin.y, 
