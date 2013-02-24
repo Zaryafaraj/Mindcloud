@@ -304,4 +304,28 @@ static Mindcloud * instance;
     [action executeDELETE];
 }
 
+-(void) shareCollection:(NSString *) collectionName
+                ForUser:(NSString *) userId
+           withCallback:(share_collection_callback) callback
+{
+    SharingAction * action = [[SharingAction alloc] initWithUserId:userId
+                                                 andCollectionName:collectionName];
+    
+    action.getCallback = callback;
+    
+    [action executeGET];
+}
+
+-(void) unshareCollection:(NSString *) collectionName
+                  forUser:(NSString *) userId
+             withCallback:(unshare_collection_callback) callback
+{
+    
+    SharingAction * action = [[SharingAction alloc] initWithUserId:userId
+                                                 andCollectionName:collectionName];
+    
+    action.deleteCallback = callback;
+    
+    [action executeDELETE];
+}
 @end

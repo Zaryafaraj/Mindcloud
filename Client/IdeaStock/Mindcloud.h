@@ -15,6 +15,7 @@
 #import "CollectionNotesAction.h"
 #import "NoteAction.h"
 #import "NoteImageAction.h"
+#import "SharingAction.h"
 
 @interface Mindcloud : NSObject
 
@@ -103,4 +104,12 @@
              withCallback: (delete_note_callback) callback;
     
 
+-(void) shareCollection:(NSString *) collectionName
+                ForUser:(NSString *) userId
+           withCallback:(share_collection_callback) callback;
+
+
+-(void) unshareCollection:(NSString *) collectionName
+                  forUser:(NSString *) userId
+             withCallback:(unshare_collection_callback) callback;
 @end
