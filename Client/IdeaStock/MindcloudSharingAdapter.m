@@ -73,4 +73,22 @@
                                                             userInfo:userInfo];
     }];
 }
+
+-(void) subscriberToCollection:(NSString *)sharingSecret
+{
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userId = [UserPropertiesHelper userID];
+    [mindcloud subscribeToCollectionWithSecret:sharingSecret
+                                       forUser:userId
+                                  withCallback:^(NSString * collectionName)
+     {
+         NSDictionary * userInfo = @{@"result" : @{@"collectionName" : collectionName}};
+         [[NSNotificationCenter defaultCenter] postNotificationName:SUBSCRIBED_TO_COLLECTION
+                                                             object:self
+                                                           userInfo:userInfo];
+         NSLog(@"collectionNAme : %@", collectionName);
+         self.cache[collectionName] = sharingSecret;
+         
+     }];
+}
 @end

@@ -43,6 +43,7 @@
 #define COLLECTION_SHARED @"collectionShared"
 #define COLLECTION_UNSHARED @"collectionUnshared"
 #define COLLECTIION_SUBSCRIBER @"collectionSubscribed"
+#define SUBSCRIBED_TO_COLLECTION @"subscribedToCollection"
 
 
 //UI Events

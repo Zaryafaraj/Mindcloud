@@ -41,6 +41,11 @@
     return request;
 }
 
++(NSMutableURLRequest *) addPostParams:(NSDictionary *) params
+                                    to:(NSMutableURLRequest *) request
+{
+    return [self addPutParams:params to:request];
+}
 +(NSMutableURLRequest *) addPutParams:(NSDictionary *)params
                                    to:(NSMutableURLRequest *)request
 {

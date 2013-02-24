@@ -80,6 +80,7 @@
 #define SHARING_MODE_BUTTON @"Sharing"
 #define UNSHARE_ACTION @"Unshare Collection"
 #define DELETE_ACTION @"Delete Collection"
+#define SUBSCRIBE_BUTTON_TITLE @"Subscribe"
 
 -(BOOL) isInCategorizeMode
 {
@@ -375,7 +376,17 @@
 }
 
 - (IBAction)subscribePressed:(id)sender {
+    
+    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:YES];
     [self dismissPopOver];
+    
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The code received from the owner of the collection"
+                                                     message:nil
+                                                    delegate:self
+                                           cancelButtonTitle:@"Cancel"
+                                           otherButtonTitles:SUBSCRIBE_BUTTON_TITLE,nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
 }
 #define ADD_BUTTON_TITLE @"Add"
 -(IBAction) addPressed:(id)sender {
@@ -442,6 +453,12 @@
                 NSString * newName = [[alertView textFieldAtIndex:0] text];
                 [self addNewCategory:newName];
                 self.shouldSaveCategories = YES;
+            }
+            else if ([[alertView buttonTitleAtIndex:buttonIndex]
+                      isEqualToString:SUBSCRIBE_BUTTON_TITLE])
+            {
+                NSString * sharingSecret =[[alertView textFieldAtIndex:0] text];
+                [self.sharingAdapter subscriberToCollection:sharingSecret];
             }
         }
     }
@@ -545,6 +562,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(resizePopOver:)
                                                  name: RESIZE_POPOVER_FOR_SECRET
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(subscribedToCollection:)
+                                                 name:SUBSCRIBED_TO_COLLECTION
                                                object:nil];
     
     //temproary use this tell you get further notification
@@ -718,6 +740,16 @@
     }
 }
 
+-(void) subscribedToCollection:(NSNotification *) notification
+{
+    NSDictionary * result = notification.userInfo[@"result"];
+    NSString * collectionName = result[@"collectionName"];
+    if (collectionName)
+    {
+//        [self switchToCategory:SHARING_CATEGORY_NAME];
+//        [self addCollection:collectionName];
+    }
+}
 #pragma mark - Operation Helpers
 
 - (NSString *) getSelectedCollectionName

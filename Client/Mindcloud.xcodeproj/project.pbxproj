@@ -105,6 +105,7 @@
 		DBD06A9116D98F9C00463ECC /* SharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD06A9016D98F9C00463ECC /* SharingAction.m */; };
 		DBD06A9516D9B6D100463ECC /* SharingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD06A9416D9B6D100463ECC /* SharingViewController.m */; };
 		DBD06A9816D9D51700463ECC /* MindcloudSharingAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD06A9716D9D51700463ECC /* MindcloudSharingAdapter.m */; };
+		DBD06A9E16DAB6F900463ECC /* SubscriptionAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD06A9D16DAB6F900463ECC /* SubscriptionAction.m */; };
 		DBDB105716D032C200B5F7AE /* MergerThread.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB105616D032C200B5F7AE /* MergerThread.m */; };
 		DBDB105A16D0388200B5F7AE /* MergeResult.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB105916D0388200B5F7AE /* MergeResult.m */; };
 		DBDB106016D1E06A00B5F7AE /* NoteFragmentResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB105F16D1E06800B5F7AE /* NoteFragmentResolver.m */; };
@@ -304,6 +305,8 @@
 		DBD06A9416D9B6D100463ECC /* SharingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharingViewController.m; sourceTree = "<group>"; };
 		DBD06A9616D9D51700463ECC /* MindcloudSharingAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudSharingAdapter.h; sourceTree = "<group>"; };
 		DBD06A9716D9D51700463ECC /* MindcloudSharingAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudSharingAdapter.m; sourceTree = "<group>"; };
+		DBD06A9C16DAB6F900463ECC /* SubscriptionAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscriptionAction.h; sourceTree = "<group>"; };
+		DBD06A9D16DAB6F900463ECC /* SubscriptionAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscriptionAction.m; sourceTree = "<group>"; };
 		DBDB105516D032C200B5F7AE /* MergerThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MergerThread.h; sourceTree = "<group>"; };
 		DBDB105616D032C200B5F7AE /* MergerThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MergerThread.m; sourceTree = "<group>"; };
 		DBDB105816D0388200B5F7AE /* MergeResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MergeResult.h; sourceTree = "<group>"; };
@@ -702,6 +705,8 @@
 				DB03C35D169FF1F800C38FD7 /* NoteImageAction.m */,
 				DBD06A8F16D98F9C00463ECC /* SharingAction.h */,
 				DBD06A9016D98F9C00463ECC /* SharingAction.m */,
+				DBD06A9C16DAB6F900463ECC /* SubscriptionAction.h */,
+				DBD06A9D16DAB6F900463ECC /* SubscriptionAction.m */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -974,6 +979,7 @@
 				DBD06A9116D98F9C00463ECC /* SharingAction.m in Sources */,
 				DBD06A9516D9B6D100463ECC /* SharingViewController.m in Sources */,
 				DBD06A9816D9D51700463ECC /* MindcloudSharingAdapter.m in Sources */,
+				DBD06A9E16DAB6F900463ECC /* SubscriptionAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

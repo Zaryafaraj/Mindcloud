@@ -328,4 +328,17 @@ static Mindcloud * instance;
     
     [action executeDELETE];
 }
+
+-(void) subscribeToCollectionWithSecret:(NSString *) sharingSecret
+                                forUser:(NSString *) userId
+                           withCallback:(subscribe_to_collection_callback) callback
+{
+    SubscriptionAction * action = [[SubscriptionAction alloc] initWithUserId:userId
+                                                            andSharingSecret:sharingSecret];
+    
+    action.postCallback = callback;
+    
+    [action executePOST];
+}
+
 @end

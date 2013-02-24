@@ -15,6 +15,9 @@
                            andParams:(NSDictionary *) params
                                   to: (NSMutableURLRequest *) request;
 
++(NSMutableURLRequest *) addPostParams:(NSDictionary *) params
+                                    to:(NSMutableURLRequest *) request;
+
 +(NSMutableURLRequest *) addPutParams:(NSDictionary *)params
                                    to:(NSMutableURLRequest *)request;
 @end

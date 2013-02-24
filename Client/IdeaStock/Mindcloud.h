@@ -16,6 +16,7 @@
 #import "NoteAction.h"
 #import "NoteImageAction.h"
 #import "SharingAction.h"
+#import "SubscriptionAction.h"
 
 @interface Mindcloud : NSObject
 
@@ -112,4 +113,8 @@
 -(void) unshareCollection:(NSString *) collectionName
                   forUser:(NSString *) userId
              withCallback:(unshare_collection_callback) callback;
+
+-(void) subscribeToCollectionWithSecret:(NSString *) sharingSecret
+                                forUser:(NSString *) userId
+                           withCallback:(subscribe_to_collection_callback) callback;
 @end

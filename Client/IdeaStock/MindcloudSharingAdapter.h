@@ -13,4 +13,6 @@
 
 -(void) shareCollection:(NSString *) collectionName;
 -(void) unshareCollection:(NSString *) collectionName;
+-(void) subscriberToCollection:(NSString *) sharingSecret;
+
 @end
