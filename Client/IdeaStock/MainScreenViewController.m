@@ -78,6 +78,8 @@
 #define UNSHARE_BUTTON @"Unshare"
 #define SUBSCRIBE_BUTTON @"Subscribe"
 #define SHARING_MODE_BUTTON @"Sharing"
+#define UNSHARE_ACTION @"Unshare Collection"
+#define DELETE_ACTION @"Delete Collection"
 
 -(BOOL) isInCategorizeMode
 {
@@ -338,6 +340,7 @@
         self.isInCategorizeMode = NO;
     
     [self dismissPopOver];
+    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:YES];
 }
 
 - (IBAction)editPressed:(id)sender {
@@ -354,6 +357,21 @@
 - (IBAction)unsharePressed:(id)sender {
     
     [self dismissPopOver];
+    
+    UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil
+                                                         delegate:self
+                                                cancelButtonTitle:nil
+                                           destructiveButtonTitle:UNSHARE_ACTION
+                                                otherButtonTitles:nil,
+                              nil];
+    //make sure an actionsheet is not presented on top of another not dismissed one
+    if (self.activeSheet)
+    {
+        [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
+        self.activeSheet = nil;
+    }
+    [action showFromBarButtonItem:sender animated:NO];
+    self.activeSheet = action;
 }
 
 - (IBAction)subscribePressed:(id)sender {
@@ -434,7 +452,7 @@
     UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil
                                                          delegate:self
                                                 cancelButtonTitle:nil
-                                           destructiveButtonTitle:@"Delete Collection"
+                                           destructiveButtonTitle:DELETE_ACTION
                                                 otherButtonTitles:nil,
                               nil];
     //make sure an actionsheet is not presented on top of another not dismissed one
@@ -457,11 +475,13 @@
 
 - (IBAction)categorizedPressed:(id)sender {
     
+    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:YES];
     self.isInCategorizeMode = !self.isInCategorizeMode;
 }
 
 - (IBAction)sharePressed:(id)sender {
     
+    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:YES];
     NSString * collectionName = [self getSelectedCollectionName];
     
     if (collectionName == nil) return;
@@ -956,10 +976,18 @@
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex != 0) return;
-    [self deleteCollection];
-    self.shouldSaveCategories = YES;
-    //make sure after deletion DELETE and RENAME buttons are disabled
-    [self disableEditButtons];
+    NSString * actionName = [actionSheet buttonTitleAtIndex:buttonIndex];
+    if ([actionName isEqualToString:DELETE_ACTION])
+    {
+        [self deleteCollection];
+        self.shouldSaveCategories = YES;
+        //make sure after deletion DELETE and RENAME buttons are disabled
+        [self disableEditButtons];
+    }
+    else if ([actionName isEqualToString:UNSHARE_ACTION])
+    {
+        NSLog(@"UNSHARE");
+    }
     
 }
 
