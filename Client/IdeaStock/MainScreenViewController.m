@@ -986,7 +986,11 @@
     }
     else if ([actionName isEqualToString:UNSHARE_ACTION])
     {
-        NSLog(@"UNSHARE");
+        NSString * collectionName = [self getSelectedCollectionName];
+        if (collectionName != nil)
+        {
+            [self.sharingAdapter unshareCollection:collectionName];
+        }
     }
     
 }
