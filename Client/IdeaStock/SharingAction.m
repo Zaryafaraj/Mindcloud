@@ -53,7 +53,6 @@
         {
             NSLog(@"Received status %d", self.lastStatusCode);
         }
-        
         self.deleteCallback();
     }
 }

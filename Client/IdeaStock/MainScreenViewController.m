@@ -339,6 +339,7 @@
     self.toolbar.items = self.shareToolbar;
 }
 - (IBAction)unsharePressed:(id)sender {
+    
     [self dismissPopOver];
 }
 
@@ -454,7 +455,7 @@
     self.lastPopOver = popover;
     self.lastPopOver.delegate = self;
     //sharingController.contentSizeForViewInPopover = CGSizeMake(370, 200);
-    popover.popoverContentSize = CGSizeMake(370, 150);
+    popover.popoverContentSize = CGSizeMake(300, 70);
     [popover presentPopoverFromBarButtonItem:self.shareButton
                     permittedArrowDirections:UIPopoverArrowDirectionAny
                                     animated:YES];

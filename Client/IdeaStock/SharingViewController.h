@@ -10,4 +10,6 @@
 
 @interface SharingViewController : UIViewController
 
+-(void) sharingFinished;
+
 @end

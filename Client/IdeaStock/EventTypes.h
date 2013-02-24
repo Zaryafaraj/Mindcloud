@@ -39,4 +39,8 @@
 #define LISTENER_DELETED_NOTE @"listenerDeletedImage"
 #define LISTENER_DOWNLOADED_MANIFEST @"listenerDownloadedManifest"
 
+//Sharing management
+#define COLLECTION_SHARED @"collectionShared"
+#define COLLECTION_UNSHARED @"collectionUnshared"
+#define COLLECTIION_SUBSCRIBER @"collectionSubscribed"
 @end
