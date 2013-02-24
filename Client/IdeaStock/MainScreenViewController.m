@@ -30,6 +30,8 @@
 @property (strong, nonatomic) NSArray * editToolbar;
 @property (strong, nonatomic) NSArray * navigateToolbar;
 @property (strong, nonatomic) NSArray * cancelToolbar;
+@property (strong, nonatomic) NSArray * shareToolbar;
+
 @property (weak, nonatomic) IBOutlet UILabel *pageTitle;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property BOOL isEditing;
@@ -37,6 +39,7 @@
 @property (weak, nonatomic) UIActionSheet * activeSheet;
 @property BOOL didCategoriesPresentAlertView;
 @property BOOL isInCategorizeMode;
+@property BOOL isInSharingMode;
 @property CollectionsModel * model;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *categorizeButton;
 @property (strong, nonatomic) UIColor * lastCategorizeButtonColor;
@@ -45,6 +48,12 @@
 @property BOOL shouldSaveCategories;
 @property (atomic,strong) NSTimer * timer;
 @property (strong, nonatomic) id<MindcloudDataSource> dataSource;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *SharingModeButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *unshareButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *SubscribeButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *showSideMenuButton;
+
 @end
 
 @implementation MainScreenViewController
@@ -58,6 +67,10 @@
 #define RENAME_BUTTON @"Rename"
 #define EDIT_BUTTON @"Edit"
 #define CATEGORIZE_BUTTON @"Categorize"
+#define SHARE_BUTTON @"Share"
+#define UNSHARE_BUTTON @"Unshare"
+#define SUBSCRIBE_BUTTON @"Subscribe"
+#define SHARING_MODE_BUTTON @"Sharing"
 
 -(BOOL) isInCategorizeMode
 {
@@ -149,6 +162,11 @@
     }
 }
 
+-(void) disableShareButtons
+{
+    self.shareButton.enabled = NO;
+    self.unshareButton.enabled = NO;
+}
 -(void) addCollection: (NSString *) name
 {
     name = [self validateName: name];
@@ -281,6 +299,7 @@
 - (IBAction)cancelPressed:(id)sender {
     
     self.isEditing = NO;
+    self.isInSharingMode = NO;
     [self.collectionView setAllowsMultipleSelection:NO];
     self.toolbar.items = self.navigateToolbar;
     NSArray * selectedItem = [self.collectionView indexPathsForSelectedItems];
@@ -290,6 +309,7 @@
     }
     //make sure Delete and Rename buttons are in disabled state
     [self disableEditButtons];
+    [self disableShareButtons];
     if (self.isInCategorizeMode)
         self.isInCategorizeMode = NO;
 }
@@ -299,6 +319,11 @@
     [self.collectionView setAllowsMultipleSelection:YES];
     self.isEditing = YES;
     self.toolbar.items = self.editToolbar;
+}
+- (IBAction)SharingModePressed:(id)sender {
+    [self.collectionView setAllowsMultipleSelection:NO];
+    self.isInSharingMode = YES;
+    self.toolbar.items = self.shareToolbar;
 }
 
 #define ADD_BUTTON_TITLE @"Add"
@@ -416,6 +441,7 @@
     [self.collectionView setAllowsMultipleSelection:NO];
     [self manageToolbars];
     self.isEditing = NO;
+    self.isInSharingMode = NO;
     self.toolbar.items = self.navigateToolbar;
     [self configureCategoriesPanel];
     
@@ -530,12 +556,14 @@
     NSMutableArray *  editbar = [NSMutableArray array];
     NSMutableArray *  navbar = [NSMutableArray array];
     NSMutableArray *  cancelbar = [NSMutableArray array];
+    NSMutableArray * sharebar = [NSMutableArray array];
     for (UIBarButtonItem * barButton in self.toolbar.items)
     {
         if ([barButton.title isEqualToString:CANCEL_BUTTON])
         {
             [cancelbar addObject:barButton];
             [editbar addObject:barButton];
+            [sharebar addObject:barButton];
         }
         else if ([barButton.title isEqual: RENAME_BUTTON] ||
                  [barButton.title isEqual: DELETE_BUTTON] ||
@@ -543,21 +571,30 @@
         {
             [editbar addObject:barButton];
         }
-        else if ([barButton.title isEqual:EDIT_BUTTON])
+        else if ([barButton.title isEqual:EDIT_BUTTON] ||
+                 [barButton.title isEqual:SHARING_MODE_BUTTON] ||
+                 barButton == self.showSideMenuButton)
         {
             [navbar addObject:barButton];
+        }
+        else if ([barButton.title isEqual:SHARE_BUTTON] ||
+                 [barButton.title isEqual:UNSHARE_BUTTON] ||
+                 [barButton.title isEqual:SUBSCRIBE_BUTTON])
+        {
+            [sharebar addObject:barButton];
         }
         else
         {
             [editbar addObject:barButton];
             [navbar  addObject:barButton];
             [cancelbar addObject:barButton];
+            [sharebar addObject:barButton];
         }
     }
     self.editToolbar = [editbar copy];
     self.navigateToolbar = [navbar copy];
     self.cancelToolbar = [cancelbar copy];
-    
+    self.shareToolbar = [sharebar copy];
 }
 
 
@@ -705,6 +742,11 @@
         {
             button.enabled = YES;
         }
+    }
+    else if (self.isInSharingMode)
+    {
+        self.shareButton.enabled = YES;
+        self.unshareButton.enabled = YES;
     }
     else
     {
