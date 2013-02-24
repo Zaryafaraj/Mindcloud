@@ -43,4 +43,8 @@
 #define COLLECTION_SHARED @"collectionShared"
 #define COLLECTION_UNSHARED @"collectionUnshared"
 #define COLLECTIION_SUBSCRIBER @"collectionSubscribed"
+
+
+//UI Events
+#define RESIZE_POPOVER_FOR_SECRET @"resizePopoverForSecret"
 @end

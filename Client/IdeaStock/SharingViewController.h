@@ -10,6 +10,5 @@
 
 @interface SharingViewController : UIViewController
 
--(void) sharingFinished;
-
+@property (strong, nonatomic) NSString * collectionName;
 @end

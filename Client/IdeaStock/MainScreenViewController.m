@@ -20,6 +20,7 @@
 #import "CollectionDataSource.h"
 #import "CachedMindCloudDataSource.h"
 #import "SharingViewController.h"
+#import "MindcloudSharingAdapter.h"
 
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
@@ -48,7 +49,10 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
 @property BOOL shouldSaveCategories;
 @property (atomic,strong) NSTimer * timer;
+
 @property (strong, nonatomic) id<MindcloudDataSource> dataSource;
+@property (strong, nonatomic) MindcloudSharingAdapter * sharingAdapter;
+
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *SharingModeButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *unshareButton;
@@ -122,6 +126,15 @@
         _dataSource = [[CachedMindCloudDataSource alloc] init];
     }
     return _dataSource;
+}
+
+-(MindcloudSharingAdapter *) sharingAdapter
+{
+    if (!_sharingAdapter)
+    {
+        _sharingAdapter = [[MindcloudSharingAdapter alloc] init];
+    }
+    return _sharingAdapter;
 }
 
 #pragma mark - Timer
@@ -449,8 +462,17 @@
 
 - (IBAction)sharePressed:(id)sender {
     
+    NSString * collectionName = [self getSelectedCollectionName];
+    
+    if (collectionName == nil) return;
+    
+    [self.sharingAdapter shareCollection:collectionName];
+    
+    //manage the pop over
     [self dismissPopOver];
     SharingViewController * sharingController = [self.storyboard instantiateViewControllerWithIdentifier:@"SharingView"];
+    sharingController.collectionName = collectionName;
+    
     UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:sharingController];
     self.lastPopOver = popover;
     self.lastPopOver.delegate = self;
@@ -497,6 +519,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(thumbnailReceived:)
                                                  name: THUMBNAIL_RECEIVED_EVENT
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(resizePopOver:)
+                                                 name: RESIZE_POPOVER_FOR_SECRET
                                                object:nil];
     
     //temproary use this tell you get further notification
@@ -658,6 +685,15 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self saveCategories];
     [self stopTimer];
+}
+
+-(void) resizePopOver:(NSNotification * )notification
+{
+    if (self.lastPopOver != nil)
+    {
+        CGSize bigSize = CGSizeMake(300, 160);
+        [self.lastPopOver setPopoverContentSize:bigSize animated:YES];
+    }
 }
 
 #pragma mark - Operation Helpers
