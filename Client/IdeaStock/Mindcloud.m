@@ -311,9 +311,9 @@ static Mindcloud * instance;
     SharingAction * action = [[SharingAction alloc] initWithUserId:userId
                                                  andCollectionName:collectionName];
     
-    action.getCallback = callback;
+    action.postCallback = callback;
     
-    [action executeGET];
+    [action executePOST];
 }
 
 -(void) unshareCollection:(NSString *) collectionName

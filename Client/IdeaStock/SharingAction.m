@@ -7,6 +7,7 @@
 //
 
 #import "SharingAction.h"
+#import "HTTPHelper.h"
 
 @implementation SharingAction
 
@@ -32,18 +33,18 @@
 {
     [super connectionDidFinishLoading:connection];
     
-    if ([self.request.HTTPMethod isEqualToString:@"GET"])
+    if ([self.request.HTTPMethod isEqualToString:@"POST"])
     {
         if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
         {
             NSLog(@"Received status %d", self.lastStatusCode);
-            self.getCallback(nil);
+            self.postCallback(nil);
             return;
         }
         
         NSDictionary * result = self.getDataAsDictionary;
         NSString * sharingSecret = result[@"sharing_secret"];
-        self.getCallback(sharingSecret);
+        self.postCallback(sharingSecret);
     }
     
     if ([self.request.HTTPMethod isEqualToString:@"DELETE"])
@@ -57,5 +58,16 @@
     }
 }
 
+-(void) executePOST
+{
+    [self.request setHTTPMethod:@"POST"];
+    
+    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:self.request
+                                                                   delegate:self];
+    if (!theConnection)
+    {
+        NSLog(@"Failed to connect to %@", self.request.URL);
+    }
+}
 
 @end

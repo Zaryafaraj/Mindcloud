@@ -28,7 +28,8 @@
 {
     if (self.cache[collectionName])
     {
-        NSDictionary * userInfo = @{@"result" : self.cache[collectionName]};
+        NSDictionary * userInfo = @{@"result" : @{@"collectionName" : collectionName,
+                                                          @"sharingSecret": self.cache[collectionName]}};
         [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_SHARED
                                                             object:self
                                                           userInfo:userInfo];

@@ -466,7 +466,6 @@
     
     if (collectionName == nil) return;
     
-    [self.sharingAdapter shareCollection:collectionName];
     
     //manage the pop over
     [self dismissPopOver];
@@ -481,6 +480,8 @@
     [popover presentPopoverFromBarButtonItem:self.shareButton
                     permittedArrowDirections:UIPopoverArrowDirectionAny
                                     animated:YES];
+    
+    [self.sharingAdapter shareCollection:collectionName];
 }
 
 - (IBAction)showCategoriesPressed:(id)sender {
@@ -689,9 +690,10 @@
 
 -(void) resizePopOver:(NSNotification * )notification
 {
+//    [self.lastPopOver dismissPopoverAnimated:YES];
     if (self.lastPopOver != nil)
     {
-        CGSize bigSize = CGSizeMake(300, 160);
+        CGSize bigSize = CGSizeMake(320, 160);
         [self.lastPopOver setPopoverContentSize:bigSize animated:YES];
     }
 }

@@ -14,7 +14,7 @@
 typedef void (^share_collection_callback)(NSString * sharingSecret);
 typedef void (^unshare_collection_callback)(void);
 
-@property (nonatomic, strong) share_collection_callback getCallback;
+@property (nonatomic, strong) share_collection_callback postCallback;
 @property (nonatomic, strong) unshare_collection_callback deleteCallback;
 
 -(id) initWithUserId:(NSString *) userId

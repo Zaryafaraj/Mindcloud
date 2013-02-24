@@ -37,17 +37,22 @@
     NSString * collectionName = result[@"collectionName"];
     if ([collectionName isEqualToString:self.collectionName])
     {
+        [self.activityIndicator stopAnimating];
+        [self.activityIndicator setHidden:YES];
         NSString * sharingSecret = result[@"sharingSecret"];
+        [self.sharingLabel setHidden:NO];
         if (sharingSecret != nil)
         {
-            [self.activityIndicator stopAnimating];
-            [self.activityIndicator setHidden:YES];
             [self.SharingSecretText setHidden:NO];
-            [self.sharingLabel setHidden:NO];
-            self.sharingLabel.text = sharingSecret;
-            [self.sharingLabel setEnabled:NO];
-            [[NSNotificationCenter defaultCenter] postNotification:RESIZE_POPOVER_FOR_SECRET];
+            self.SharingSecretText.text = sharingSecret;
+            self.SharingSecretText.enabled = NO;
         }
+        else
+        {
+            self.sharingLabel.text = @"There was a problem with sharing the collection. Try again later";
+        }
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:RESIZE_POPOVER_FOR_SECRET object:self];
     }
 }
 @end

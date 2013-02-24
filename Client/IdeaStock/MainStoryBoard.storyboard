@@ -559,9 +559,7 @@
         <class className="CollectionViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CollectionViewController.h"/>
             <relationships>
-                <relationship kind="action" name="cameraPressed:"/>
                 <relationship kind="action" name="deletePressed:"/>
-                <relationship kind="action" name="refreshPressed:"/>
                 <relationship kind="outlet" name="cameraButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="collectionView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
