@@ -453,6 +453,8 @@
     UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:sharingController];
     self.lastPopOver = popover;
     self.lastPopOver.delegate = self;
+    //sharingController.contentSizeForViewInPopover = CGSizeMake(370, 200);
+    popover.popoverContentSize = CGSizeMake(370, 150);
     [popover presentPopoverFromBarButtonItem:self.shareButton
                     permittedArrowDirections:UIPopoverArrowDirectionAny
                                     animated:YES];

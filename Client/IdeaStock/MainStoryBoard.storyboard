@@ -173,20 +173,24 @@
         <!--Sharing View Controller - SharingView-->
         <scene sceneID="Qcg-Ue-70r">
             <objects>
-                <viewController storyboardIdentifier="SharingView" title="SharingView" modalPresentationStyle="currentContext" id="7u7-Q1-AoO" customClass="SharingViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SharingView" title="SharingView" id="7u7-Q1-AoO" customClass="SharingViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CVh-1W-fuM">
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Share" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TeG-4a-R7g">
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Share the code below with the person you want to share this collection with" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="315" translatesAutoresizingMaskIntoConstraints="NO" id="TeG-4a-R7g">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="63" id="6Rc-qX-jJE"/>
+                                    <constraint firstAttribute="width" constant="315" id="Cm4-Hg-Fej"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="RXx-me-U5X">
                                 <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kaA-AR-Lhq">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kaA-AR-Lhq">
                                 <constraints>
                                     <constraint firstAttribute="width" constant="199" id="w0r-Ys-KgW"/>
                                 </constraints>
@@ -196,16 +200,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="TeG-4a-R7g" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="491" id="hlg-Rz-PfI"/>
-                            <constraint firstItem="kaA-AR-Lhq" firstAttribute="leading" secondItem="CVh-1W-fuM" secondAttribute="leading" constant="288" id="jfc-8A-lxf"/>
-                            <constraint firstItem="kaA-AR-Lhq" firstAttribute="top" secondItem="RXx-me-U5X" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="pBl-nh-P2T"/>
-                            <constraint firstAttribute="bottom" secondItem="kaA-AR-Lhq" secondAttribute="bottom" constant="396" id="pqB-PH-14f"/>
-                            <constraint firstItem="RXx-me-U5X" firstAttribute="centerX" secondItem="CVh-1W-fuM" secondAttribute="centerX" type="default" id="rvx-cE-3PG"/>
-                            <constraint firstItem="RXx-me-U5X" firstAttribute="centerX" secondItem="TeG-4a-R7g" secondAttribute="centerX" type="default" id="tqp-O0-uVy"/>
+                            <constraint firstItem="kaA-AR-Lhq" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="98" id="73n-13-Z9H"/>
+                            <constraint firstItem="TeG-4a-R7g" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="20" symbolic="YES" type="default" id="cmc-FY-m2l"/>
+                            <constraint firstItem="RXx-me-U5X" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="94" id="keL-ZW-EGE"/>
+                            <constraint firstItem="TeG-4a-R7g" firstAttribute="centerX" secondItem="kaA-AR-Lhq" secondAttribute="centerX" type="default" id="pDm-qO-eYw"/>
+                            <constraint firstItem="kaA-AR-Lhq" firstAttribute="centerX" secondItem="CVh-1W-fuM" secondAttribute="centerX" type="default" id="xnx-cw-5qq"/>
+                            <constraint firstItem="kaA-AR-Lhq" firstAttribute="centerX" secondItem="RXx-me-U5X" secondAttribute="centerX" type="default" id="y3s-I0-dqw"/>
                         </constraints>
                     </view>
-                    <value key="contentSizeForViewInPopover" type="size" width="200" height="300"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="SharingSecretText" destination="kaA-AR-Lhq" id="fCp-HO-b5p"/>
                     </connections>
@@ -602,8 +604,6 @@
         <class className="StackViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StackViewController.h"/>
             <relationships>
-                <relationship kind="action" name="backPressed:"/>
-                <relationship kind="action" name="unstackPressed:"/>
                 <relationship kind="outlet" name="stackView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
             </relationships>
