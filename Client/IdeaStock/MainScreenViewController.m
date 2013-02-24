@@ -991,6 +991,13 @@
         {
             [self.sharingAdapter unshareCollection:collectionName];
         }
+        NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
+        for (NSIndexPath * index in selectedItems)
+        {
+            [self.collectionView deselectItemAtIndexPath:index animated:YES];
+        }
+        self.unshareButton.enabled = NO;
+        self.shareButton.enabled = NO;
     }
     
 }
