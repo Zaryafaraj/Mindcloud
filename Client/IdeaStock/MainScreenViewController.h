@@ -16,7 +16,8 @@ UICollectionViewDelegateFlowLayout,
 UICollectionViewDelegate,
 UIActionSheetDelegate,
 UITableViewDataSource,
-UIEditableTableViewDelegate>
+UIEditableTableViewDelegate,
+UIPopoverControllerDelegate>
 
 @property (atomic) BOOL actionInProgress;
 @property (weak, nonatomic) CategoriesViewController * categoriesController;

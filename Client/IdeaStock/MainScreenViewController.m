@@ -19,6 +19,7 @@
 #import "EventTypes.h"
 #import "CollectionDataSource.h"
 #import "CachedMindCloudDataSource.h"
+#import "SharingViewController.h"
 
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
@@ -53,6 +54,8 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *unshareButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *SubscribeButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *showSideMenuButton;
+
+@property (strong, nonatomic) UIPopoverController * lastPopOver;
 
 @end
 
@@ -294,6 +297,14 @@
     return tempName;
 }
 
+-(void) dismissPopOver
+{
+    if (self.lastPopOver != nil){
+        [self.lastPopOver dismissPopoverAnimated:YES];
+        self.lastPopOver = nil;
+    }
+}
+
 #pragma mark - UI Events
 
 - (IBAction)cancelPressed:(id)sender {
@@ -312,6 +323,8 @@
     [self disableShareButtons];
     if (self.isInCategorizeMode)
         self.isInCategorizeMode = NO;
+    
+    [self dismissPopOver];
 }
 
 - (IBAction)editPressed:(id)sender {
@@ -325,10 +338,17 @@
     self.isInSharingMode = YES;
     self.toolbar.items = self.shareToolbar;
 }
+- (IBAction)unsharePressed:(id)sender {
+    [self dismissPopOver];
+}
 
+- (IBAction)subscribePressed:(id)sender {
+    [self dismissPopOver];
+}
 #define ADD_BUTTON_TITLE @"Add"
 -(IBAction) addPressed:(id)sender {
     
+    [self dismissPopOver];
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Collection"
                                                      message:nil
                                                     delegate:self
@@ -416,6 +436,7 @@
 
 - (IBAction)refreshPressed:(id)sender {
     
+    [self dismissPopOver];
     //wait for the notification  of the retrieval
    [self.dataSource getAllCollections];
 }
@@ -423,6 +444,18 @@
 - (IBAction)categorizedPressed:(id)sender {
     
     self.isInCategorizeMode = !self.isInCategorizeMode;
+}
+
+- (IBAction)sharePressed:(id)sender {
+    
+    [self dismissPopOver];
+    SharingViewController * sharingController = [self.storyboard instantiateViewControllerWithIdentifier:@"SharingView"];
+    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:sharingController];
+    self.lastPopOver = popover;
+    self.lastPopOver.delegate = self;
+    [popover presentPopoverFromBarButtonItem:self.shareButton
+                    permittedArrowDirections:UIPopoverArrowDirectionAny
+                                    animated:YES];
 }
 
 - (IBAction)showCategoriesPressed:(id)sender {
