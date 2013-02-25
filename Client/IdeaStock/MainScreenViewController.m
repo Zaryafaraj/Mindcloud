@@ -988,12 +988,14 @@
         //its the edit place holder
         NSString * selectedCellText = [self.categoriesController.table cellForRowAtIndexPath:indexPath].textLabel.text;
         //ALL and Uncategorized cateogires are uneditable
-        if ([selectedCellText isEqual:ALL] ||
-            [selectedCellText isEqual:UNCATEGORIZED_KEY])
+        if (![self.model isCategoryEditable:selectedCellText])
         {
             return UITableViewCellEditingStyleNone;
         }
-        return UITableViewCellEditingStyleDelete;
+        else
+        {
+            return UITableViewCellEditingStyleDelete;
+        }
         
     }
     else if (indexPath.item ==[self.model numberOfCategories] )
@@ -1066,7 +1068,11 @@
         
         if ([self.currentCategory isEqualToString:categoryName]) return;
         
-        if ([categoryName isEqualToString:ALL]) return;
+        if ([categoryName isEqualToString:ALL] ||
+            [categoryName isEqualToString:SHARED_COLLECTIONS_KEY])
+        {
+            return;
+        }
         
         for(NSIndexPath * index in [self.collectionView indexPathsForSelectedItems])
         {
@@ -1074,7 +1080,8 @@
             NSString * collectionName = collectionCell.text;
             [self.model moveCollection:collectionName fromCategory:self.currentCategory toNewCategory:categoryName];
         }
-        if (![self.currentCategory isEqual:ALL])
+        if (![self.currentCategory isEqual:ALL] &&
+            ![self.currentCategory isEqualToString:SHARED_COLLECTIONS_KEY])
         {
             [self.collectionView performBatchUpdates:^{
                 [self.collectionView deleteItemsAtIndexPaths:[self.collectionView indexPathsForSelectedItems]];

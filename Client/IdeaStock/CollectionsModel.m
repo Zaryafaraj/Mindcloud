@@ -49,6 +49,7 @@
     self = [self init];
     self.collections[ALL] = [collections mutableCopy];
     self.collections[UNCATEGORIZED_KEY] = [collections mutableCopy];
+    self.collections[SHARED_COLLECTIONS_KEY] = [NSMutableDictionary dictionary];
     return self;
 }
 
@@ -83,7 +84,11 @@
 
 -(void) addCategory: (NSString *) category
 {
-    self.collections[category] = [NSMutableArray array];
+    if (![category isEqualToString:ALL] &&
+        ![category isEqualToString:UNCATEGORIZED_KEY] &&
+        ![category isEqualToString:SHARED_COLLECTIONS_KEY]){
+        self.collections[category] = [NSMutableArray array];
+    }
 }
 
 -(void) removeCollection:(NSString *) collection fromCategory: (NSString *) cateogry
@@ -119,7 +124,8 @@
 {
     //you can't remove the default categories
     if ([category isEqualToString:UNCATEGORIZED_KEY] ||
-        [category isEqualToString:ALL])
+        [category isEqualToString:ALL] ||
+        [category isEqualToString:SHARED_COLLECTIONS_KEY])
     {
         return;
     }
@@ -154,6 +160,14 @@
         {
             return NSOrderedDescending;
         }
+        if ([first isEqualToString:SHARED_COLLECTIONS_KEY])
+        {
+            return NSOrderedAscending;
+        }
+        else if ([second isEqualToString:SHARED_COLLECTIONS_KEY])
+        {
+            return NSOrderedDescending;
+        }
         else
         {
             return (int)[[first lowercaseString] compare:[second lowercaseString]];
@@ -177,7 +191,8 @@
 {
     //you can't rename the default categories
     if ([category isEqualToString:UNCATEGORIZED_KEY] ||
-        [category isEqualToString:ALL])
+        [category isEqualToString:ALL] ||
+        [category isEqualToString:SHARED_COLLECTIONS_KEY])
     {
         return;
     }
@@ -232,6 +247,9 @@
     
     if (self.collections[oldCategory] && self.collections[newCategory])
     {
+        //you can't manually move items to the shared category
+        if ([newCategory isEqualToString:SHARED_COLLECTIONS_KEY]) return;
+        
         if ([self.collections[newCategory] containsObject:collectionName]) return;
         
         [self.collections[newCategory] addObject:collectionName];
@@ -317,7 +335,8 @@
 -(BOOL) canRemoveCategory: (NSString *) category
 {
     if ([category isEqualToString:UNCATEGORIZED_KEY] ||
-        [category isEqualToString:ALL])
+        [category isEqualToString:ALL] ||
+        [category isEqualToString:SHARED_COLLECTIONS_KEY])
     {
         return NO;
     }
@@ -326,6 +345,20 @@
         return YES;
     }
     
+}
+
+-(BOOL) isCategoryEditable:(NSString *) categoryName
+{
+    if ([categoryName isEqual:ALL] ||
+        [categoryName isEqual:UNCATEGORIZED_KEY] ||
+        [categoryName isEqual:SHARED_COLLECTIONS_KEY])
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
 }
 
 -(void) setImageData:(NSData *)imgData

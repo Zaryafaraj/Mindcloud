@@ -10,6 +10,8 @@
 #import "CategoryModelProtocol.h"
 #define UNCATEGORIZED_KEY @"Uncategorized"
 #define ALL @"All Collections"
+#define SHARED_COLLECTIONS_KEY @"Shared"
+
 @interface CollectionsModel : NSObject <CategoryModelProtocol>
 
 -(id) init;
@@ -37,6 +39,8 @@
 -(BOOL) doesNameExist: (NSString *) name;
 
 -(BOOL) canRemoveCategory: (NSString *) category;
+
+-(BOOL) isCategoryEditable:(NSString *) categoryName;
 
 -(int) numberOfCollectionsInCategory: (NSString *) category;
 
