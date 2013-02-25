@@ -53,10 +53,11 @@
 {
     [self.request setHTTPMethod:@"POST"];
     
-    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:self.request
-                                                                   delegate:self];
     self.request = [HTTPHelper addPostParams:@{@"sharing_secret": self.sharingSecret}
                                           to:self.request];
+    
+    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:self.request
+                                                                   delegate:self];
     if (!theConnection)
     {
         NSLog(@"Failed to connect to %@", self.request.URL);

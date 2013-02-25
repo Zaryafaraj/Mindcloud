@@ -321,6 +321,17 @@
     }
 }
 
+-(void) swithToCategory:(NSString *) newCategoryName
+{
+    [self disableEditButtons];
+    [self updateCollectionView:newCategoryName];
+    if (![self.currentCategory isEqualToString:ALL] &&
+        ![self.currentCategory isEqualToString:UNCATEGORIZED_KEY] &&
+        ![self.currentCategory isEqualToString:SHARED_COLLECTIONS_KEY])
+    {
+        self.categoriesController.renameMode = YES;
+    }
+}
 #pragma mark - UI Events
 
 - (IBAction)cancelPressed:(id)sender {
@@ -746,8 +757,12 @@
     NSString * collectionName = result[@"collectionName"];
     if (collectionName)
     {
-//        [self switchToCategory:SHARING_CATEGORY_NAME];
-//        [self addCollection:collectionName];
+        [self.model addCollection:collectionName toCategory:SHARED_COLLECTIONS_KEY];
+        [self swithToCategory:SHARED_COLLECTIONS_KEY];
+        
+//        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+//        [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
+        //[self addCollection:collectionName];
     }
 }
 #pragma mark - Operation Helpers
@@ -1101,13 +1116,8 @@
     }
     else
     {
-        [self disableEditButtons];
-        [self updateCollectionView:cell.textLabel.text];
-        if (![self.currentCategory isEqualToString:ALL] &&
-            ![self.currentCategory isEqualToString:UNCATEGORIZED_KEY])
-        {
-            self.categoriesController.renameMode = YES;
-        }
+        NSString * categoryName = cell.textLabel.text;
+        [self swithToCategory:categoryName];
     }
 }
 
