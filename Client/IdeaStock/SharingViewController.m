@@ -39,6 +39,32 @@
 }
 
 - (IBAction)emailPressed:(id)sender {
+    if ([MFMailComposeViewController canSendMail])
+    {
+        MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
+        mailer.mailComposeDelegate = self;
+        NSString * subject = [NSString stringWithFormat:@"Subscribe to my mindcloud: %@", self.collectionName];
+        [mailer setSubject:subject];
+        NSArray *toRecipients = @[];
+        [mailer setToRecipients:toRecipients];
+//        UIImage *myImage = [UIImage imageNamed:@"mobiletuts-logo.png"];
+//        NSData *imageData = UIImagePNGRepresentation(myImage);
+//        [mailer addAttachmentData:imageData mimeType:@"image/png" fileName:@"mobiletutsImage"];
+        NSString *emailBody = [NSString stringWithFormat:@"I have shared a mindcloud named %@ with you.\n To subscribe, use the following secret key: %@ \n\n You can get mindcloud from :www.mindcloud.com", self.collectionName, self.SharingSecretText.text];
+        [mailer setMessageBody:emailBody isHTML:NO];
+        mailer.modalPresentationStyle = UIModalPresentationFormSheet;
+        
+        [self presentViewController:mailer animated:YES completion:^{}];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failure"
+                                                        message:@"Your device doesn't support the composer sheet"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 -(void) viewDidDisappear:(BOOL)animated
@@ -73,5 +99,9 @@
     }
 }
 
-
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+    [self dismissViewControllerAnimated:YES completion:^{}];
+    
+}
 @end

@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MessageUI/MessageUI.h>
 
-@interface SharingViewController : UIViewController
+@interface SharingViewController : UIViewController <MFMailComposeViewControllerDelegate>
 
 @property (strong, nonatomic) NSString * collectionName;
 @end
