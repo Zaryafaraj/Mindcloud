@@ -82,13 +82,25 @@
                                        forUser:userId
                                   withCallback:^(NSString * collectionName)
      {
-         NSDictionary * userInfo = @{@"result" : @{@"collectionName" : collectionName}};
-         [[NSNotificationCenter defaultCenter] postNotificationName:SUBSCRIBED_TO_COLLECTION
-                                                             object:self
-                                                           userInfo:userInfo];
-         NSLog(@"collectionNAme : %@", collectionName);
-         self.cache[collectionName] = sharingSecret;
-         
+         if (collectionName)
+         {
+             NSDictionary * userInfo = @{@"result" : @{@"collectionName" : collectionName}};
+             [[NSNotificationCenter defaultCenter] postNotificationName:SUBSCRIBED_TO_COLLECTION
+                                                                 object:self
+                                                               userInfo:userInfo];
+             NSLog(@"Subscribed to collection : %@", collectionName);
+             self.cache[collectionName] = sharingSecret;
+                 
+         }
+         else
+         {
+             NSDictionary * userInfo = @{@"result" : @{}};
+             [[NSNotificationCenter defaultCenter] postNotificationName:SUBSCRIBED_TO_COLLECTION
+                                                                 object:self
+                                                               userInfo:userInfo];
+             NSLog(@"failed to subscribe : %@", sharingSecret);
+             
+         }
      }];
 }
 @end

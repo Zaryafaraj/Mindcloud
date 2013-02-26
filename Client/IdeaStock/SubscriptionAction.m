@@ -40,6 +40,7 @@
         if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
         {
             NSLog(@"Received status %d", self.lastStatusCode);
+            self.postCallback(nil);
             return;
         }
         

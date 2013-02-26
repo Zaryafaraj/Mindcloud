@@ -765,6 +765,16 @@
 //        [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
         //[self addCollection:collectionName];
     }
+    else
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Sharing Secret Not Recognized, Try again"
+                                                         message:nil
+                                                        delegate:self
+                                               cancelButtonTitle:@"Cancel"
+                                               otherButtonTitles:SUBSCRIBE_BUTTON_TITLE,nil];
+        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [alert show];
+    }
 }
 #pragma mark - Operation Helpers
 
