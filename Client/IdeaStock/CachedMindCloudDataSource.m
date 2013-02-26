@@ -131,6 +131,9 @@
     
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
+    self.collectionHasUpdatedCache[collectionName] = @NO;
+    //maybe later I will add code here that stop any outstanding items for the collection
+    //and remove the interning of this collection
     [mindcloud deleteCollectionFor:userId
                           withName:collectionName
                       withCallback:^{
@@ -750,7 +753,7 @@
     BOOL didWrite = [data writeToFile:path options:NSDataWritingAtomic error:&err];
     if(!didWrite)
     {
-        NSLog(@"Failed to write the file to %@", path);
+        NSLog(@"Failed to write the file to %@ because : %@", path, err);
     }
     return didWrite;
 }
@@ -766,7 +769,8 @@
     BOOL didWrite = [data writeToFile:path options:NSDataWritingAtomic error:&err];
     if(!didWrite)
     {
-        NSLog(@"Failed to write the file to %@", path);
+        
+        NSLog(@"Failed to write the file to %@ because : %@", path, err);
     }
     return didWrite;
 }
@@ -782,7 +786,7 @@
     BOOL didWrite = [data writeToFile:path options:NSDataWritingAtomic error:&err];
     if(!didWrite)
     {
-        NSLog(@"Failed to write the file to %@", path);
+        NSLog(@"Failed to write the file to %@ because : %@", path, err);
     }
     return didWrite;
 }

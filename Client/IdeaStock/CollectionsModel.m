@@ -110,6 +110,12 @@
     {
         for (NSString * category in self.collections)
         {
+            if (self.collections[category] == nil)
+            {
+                NSLog(@"Null pointer in the collcetion Model");
+                return;
+            }
+            
             [self.collections[category] removeObject:collection];
         }
     }

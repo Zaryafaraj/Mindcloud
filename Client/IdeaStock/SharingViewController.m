@@ -13,6 +13,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *sharingLabel;
 @property (weak, nonatomic) IBOutlet UITextField *SharingSecretText;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *textCopyButton;
+@property (weak, nonatomic) IBOutlet UIButton *emailButton;
 @end
 @implementation SharingViewController
 
@@ -20,10 +22,23 @@
 {
     [self.sharingLabel setHidden:YES];
     [self.SharingSecretText setHidden:YES];
+    [self.emailButton setHidden:YES];
+    [self.textCopyButton setHidden:YES];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sharingSecretReceived:)
                                                  name:COLLECTION_SHARED
                                                object:nil];
+}
+
+- (IBAction)textCopyPressed:(id)sender {
+    NSString *copyString = [[NSString alloc] initWithFormat:@"%@",
+                            self.SharingSecretText.text];
+    UIPasteboard *pb = [UIPasteboard generalPasteboard];
+    [pb setString:copyString];
+}
+
+- (IBAction)emailPressed:(id)sender {
 }
 
 -(void) viewDidDisappear:(BOOL)animated
@@ -46,6 +61,8 @@
             [self.SharingSecretText setHidden:NO];
             self.SharingSecretText.text = sharingSecret;
             self.SharingSecretText.enabled = NO;
+            [self.emailButton setHidden:NO];
+            [self.textCopyButton setHidden:NO];
         }
         else
         {
@@ -55,4 +72,6 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:RESIZE_POPOVER_FOR_SECRET object:self];
     }
 }
+
+
 @end

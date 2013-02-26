@@ -180,7 +180,6 @@
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Share the code below with the person you want to share this collection with" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="315" translatesAutoresizingMaskIntoConstraints="NO" id="TeG-4a-R7g">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="63" id="6Rc-qX-jJE"/>
                                     <constraint firstAttribute="width" constant="315" id="Cm4-Hg-Fej"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
@@ -190,28 +189,67 @@
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="RXx-me-U5X">
                                 <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <textField clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kaA-AR-Lhq">
+                            <textField clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kaA-AR-Lhq">
                                 <constraints>
                                     <constraint firstAttribute="width" constant="199" id="w0r-Ys-KgW"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SU4-2I-9r9">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="87" id="77a-pi-7i1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Email">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="emailPressed:" destination="7u7-Q1-AoO" eventType="touchUpInside" id="73P-aQ-SVr"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VSm-jd-QYY">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="87" id="j8R-CR-I6v"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Copy">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="textCopyPressed:" destination="7u7-Q1-AoO" eventType="touchUpInside" id="lQo-Wv-iH7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="kaA-AR-Lhq" firstAttribute="centerX" secondItem="RXx-me-U5X" secondAttribute="centerX" type="default" id="BT7-vL-v7i"/>
+                            <constraint firstItem="kaA-AR-Lhq" firstAttribute="top" secondItem="TeG-4a-R7g" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="60V-Rz-w0v"/>
+                            <constraint firstItem="TeG-4a-R7g" firstAttribute="centerX" secondItem="kaA-AR-Lhq" secondAttribute="centerX" type="default" id="9QG-ot-jOj"/>
+                            <constraint firstItem="VSm-jd-QYY" firstAttribute="baseline" secondItem="SU4-2I-9r9" secondAttribute="baseline" type="default" id="B6k-6J-1CX"/>
                             <constraint firstItem="RXx-me-U5X" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="20" symbolic="YES" type="default" id="Rep-TV-lZC"/>
-                            <constraint firstItem="kaA-AR-Lhq" firstAttribute="top" secondItem="TeG-4a-R7g" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Xci-3t-RVu"/>
+                            <constraint firstItem="SU4-2I-9r9" firstAttribute="trailing" secondItem="kaA-AR-Lhq" secondAttribute="trailing" type="default" id="S5y-YM-6bn"/>
+                            <constraint firstItem="SU4-2I-9r9" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="136" id="Vdx-zg-8Kd"/>
                             <constraint firstItem="TeG-4a-R7g" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="20" symbolic="YES" type="default" id="cmc-FY-m2l"/>
                             <constraint firstItem="TeG-4a-R7g" firstAttribute="centerX" secondItem="RXx-me-U5X" secondAttribute="centerX" type="default" id="dQf-e3-6aD"/>
-                            <constraint firstItem="TeG-4a-R7g" firstAttribute="centerX" secondItem="CVh-1W-fuM" secondAttribute="centerX" type="default" id="iAV-nN-5dI"/>
+                            <constraint firstItem="kaA-AR-Lhq" firstAttribute="centerX" secondItem="CVh-1W-fuM" secondAttribute="centerX" type="default" id="ouO-we-E7r"/>
+                            <constraint firstItem="kaA-AR-Lhq" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="91" id="sqO-KL-cy1"/>
+                            <constraint firstItem="kaA-AR-Lhq" firstAttribute="leading" secondItem="VSm-jd-QYY" secondAttribute="leading" type="default" id="yOh-0T-Ddr"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="SharingSecretText" destination="kaA-AR-Lhq" id="fCp-HO-b5p"/>
                         <outlet property="activityIndicator" destination="RXx-me-U5X" id="mC3-Ye-oGd"/>
+                        <outlet property="emailButton" destination="SU4-2I-9r9" id="z9d-aC-ZsY"/>
                         <outlet property="sharingLabel" destination="TeG-4a-R7g" id="Ap6-23-HXB"/>
+                        <outlet property="textCopyButton" destination="VSm-jd-QYY" id="7NH-gk-Ysy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iZr-zl-hiA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -543,8 +581,6 @@
         <class className="CategoriesViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CategoriesViewController.h"/>
             <relationships>
-                <relationship kind="action" name="editPressed:"/>
-                <relationship kind="action" name="renamePressed:"/>
                 <relationship kind="outlet" name="table" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="viewToolbar" candidateClass="UIToolbar"/>
             </relationships>
@@ -559,7 +595,6 @@
         <class className="CollectionViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CollectionViewController.h"/>
             <relationships>
-                <relationship kind="action" name="deletePressed:"/>
                 <relationship kind="outlet" name="cameraButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="collectionView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
@@ -595,21 +630,17 @@
             <relationships>
                 <relationship kind="outlet" name="SharingSecretText" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="emailButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="sharingLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="textCopyButton" candidateClass="UIButton"/>
             </relationships>
         </class>
         <class className="SignInViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SignInViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="signInPressed:"/>
-            </relationships>
         </class>
         <class className="StackViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StackViewController.h"/>
             <relationships>
-                <relationship kind="action" name="backPressed:"/>
-                <relationship kind="action" name="deletePressed:"/>
-                <relationship kind="action" name="unstackPressed:"/>
                 <relationship kind="outlet" name="stackView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
             </relationships>
@@ -622,9 +653,6 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -74,7 +74,7 @@
     //TODO right now im ignoring err. I should use it 
     //to determine the error
     if (document == nil){
-        NSLog(@"Error reading the note XML File");
+        NSLog(@"Error reading the category XML File");
         return nil;
     }
     

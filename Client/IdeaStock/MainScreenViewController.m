@@ -746,7 +746,7 @@
 //    [self.lastPopOver dismissPopoverAnimated:YES];
     if (self.lastPopOver != nil)
     {
-        CGSize bigSize = CGSizeMake(320, 160);
+        CGSize bigSize = CGSizeMake(320, 200);
         [self.lastPopOver setPopoverContentSize:bigSize animated:YES];
     }
 }
@@ -759,6 +759,7 @@
     {
         [self.model addCollection:collectionName toCategory:SHARED_COLLECTIONS_KEY];
         [self swithToCategory:SHARED_COLLECTIONS_KEY];
+        self.shouldSaveCategories = YES;
         
 //        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
 //        [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
