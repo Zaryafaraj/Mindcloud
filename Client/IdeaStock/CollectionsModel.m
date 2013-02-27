@@ -125,10 +125,11 @@
             [self.collections[category] removeObject:collection];
         }
     }
-    //if we deleted from something other than all we need to delete it from all
+    //if we deleted from something other than all we need to delete it from all and shared
     else
     {
         [self.collections[ALL] removeObject:collection];
+        [self.collections[SHARED_COLLECTIONS_KEY] removeObject:collection];
     }
 }
 
