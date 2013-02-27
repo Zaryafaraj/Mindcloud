@@ -771,14 +771,28 @@
     NSString * collectionName = result[@"collectionName"];
     if (collectionName)
     {
-        [self.model addCollection:collectionName toCategory:SHARED_COLLECTIONS_KEY];
-        [self swithToCategory:SHARED_COLLECTIONS_KEY];
-        self.shouldSaveCategories = YES;
-        self.toolbar.items = self.navigateToolbar;
-        
-//        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
-//        [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
-        //[self addCollection:collectionName];
+        if ([self.model doesNameExist:collectionName])
+        {
+            NSString * alertViewMsg = [NSString stringWithFormat:@"You have already subscribed to collection %@", collectionName];
+            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Existing Subscription"
+                                                             message:alertViewMsg
+                                                            delegate:self
+                                                   cancelButtonTitle:@"OK"
+                                                   otherButtonTitles:nil];
+            [alert show];
+            
+        }
+        else
+        {
+            [self.model addCollection:collectionName toCategory:SHARED_COLLECTIONS_KEY];
+            [self swithToCategory:SHARED_COLLECTIONS_KEY];
+            self.shouldSaveCategories = YES;
+            self.toolbar.items = self.navigateToolbar;
+            
+    //        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+    //        [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
+            //[self addCollection:collectionName];
+        }
     }
     else
     {
