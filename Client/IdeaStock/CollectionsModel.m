@@ -73,12 +73,18 @@
     //if we added to all then it should be in uncategoriez category automatically
     if ([category isEqualToString:ALL])
     {
-        [self.collections[UNCATEGORIZED_KEY] addObject:collection];
+        if (![self.collections[UNCATEGORIZED_KEY] containsObject:collection])
+        {
+            [self.collections[UNCATEGORIZED_KEY] addObject:collection];
+        }
     }
     //if we add to a category it should be in all automatically
     else
     {
-        [self.collections[ALL] addObject:collection];
+        if (![self.collections[ALL] containsObject:collection])
+        {
+            [self.collections[ALL] addObject:collection];
+        }
     }
 }
 
@@ -253,9 +259,6 @@
     
     if (self.collections[oldCategory] && self.collections[newCategory])
     {
-        //you can't manually move items to the shared category
-        if ([newCategory isEqualToString:SHARED_COLLECTIONS_KEY]) return;
-        
         if ([self.collections[newCategory] containsObject:collectionName]) return;
         
         [self.collections[newCategory] addObject:collectionName];

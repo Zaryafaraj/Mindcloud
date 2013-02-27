@@ -581,6 +581,8 @@
         <class className="CategoriesViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CategoriesViewController.h"/>
             <relationships>
+                <relationship kind="action" name="editPressed:"/>
+                <relationship kind="action" name="renamePressed:"/>
                 <relationship kind="outlet" name="table" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="viewToolbar" candidateClass="UIToolbar"/>
             </relationships>
@@ -595,6 +597,7 @@
         <class className="CollectionViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CollectionViewController.h"/>
             <relationships>
+                <relationship kind="action" name="deletePressed:"/>
                 <relationship kind="outlet" name="cameraButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="collectionView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
@@ -609,6 +612,7 @@
         <class className="MainScreenViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainScreenViewController.h"/>
             <relationships>
+                <relationship kind="action" name="categorizedPressed:"/>
                 <relationship kind="outlet" name="SharingModeButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="SubscribeButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="cancelButton" candidateClass="UIBarButtonItem"/>
@@ -628,6 +632,7 @@
         <class className="SharingViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SharingViewController.h"/>
             <relationships>
+                <relationship kind="action" name="textCopyPressed:"/>
                 <relationship kind="outlet" name="SharingSecretText" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="emailButton" candidateClass="UIButton"/>
@@ -637,10 +642,16 @@
         </class>
         <class className="SignInViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SignInViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="signInPressed:"/>
+            </relationships>
         </class>
         <class className="StackViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StackViewController.h"/>
             <relationships>
+                <relationship kind="action" name="backPressed:"/>
+                <relationship kind="action" name="deletePressed:"/>
+                <relationship kind="action" name="unstackPressed:"/>
                 <relationship kind="outlet" name="stackView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
             </relationships>
@@ -653,6 +664,9 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

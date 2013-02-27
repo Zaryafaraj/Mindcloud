@@ -580,6 +580,10 @@
                                                  name:SUBSCRIBED_TO_COLLECTION
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(collectionShared:)
+                                                 name:COLLECTION_SHARED
+                                               object:nil];
     //temproary use this tell you get further notification
     NSArray * allCollections = [self.dataSource getAllCollections];
     
@@ -776,6 +780,19 @@
         [alert show];
     }
 }
+
+-(void) collectionShared:(NSNotification *) notification
+{
+    NSDictionary * result = notification.userInfo[@"result"];
+    NSString * collectionName = result[@"collectionName"];
+    if (collectionName)
+    {
+        [self.model moveCollection:collectionName fromCategory:self.currentCategory toNewCategory:SHARED_COLLECTIONS_KEY];
+//        [self swithToCategory:SHARED_COLLECTIONS_KEY];
+        self.shouldSaveCategories = YES;
+    }
+}
+
 #pragma mark - Operation Helpers
 
 - (NSString *) getSelectedCollectionName
