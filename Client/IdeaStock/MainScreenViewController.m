@@ -457,6 +457,9 @@
                 NSString * newName = [[alertView textFieldAtIndex:0] text];
                 [self renameCollection:newName];
                 self.shouldSaveCategories = YES;
+                [self disableEditButtons];
+                self.toolbar.items = self.navigateToolbar;
+                [self deselectAll];
             }
             else if ([[alertView buttonTitleAtIndex:buttonIndex]
                       isEqualToString:CREATE_CATEGORY_BUTTON])
@@ -476,6 +479,13 @@
 }
 
 
+-(void) deselectAll
+{
+    for (NSIndexPath * index in self.collectionView.indexPathsForSelectedItems)
+    {
+        [self.collectionView deselectItemAtIndexPath:index animated:YES];
+    }
+}
 - (IBAction)deletePressed:(id)sender {
     UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil
                                                          delegate:self
@@ -764,6 +774,7 @@
         [self.model addCollection:collectionName toCategory:SHARED_COLLECTIONS_KEY];
         [self swithToCategory:SHARED_COLLECTIONS_KEY];
         self.shouldSaveCategories = YES;
+        self.toolbar.items = self.navigateToolbar;
         
 //        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
 //        [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
@@ -1060,6 +1071,7 @@
         self.shouldSaveCategories = YES;
         //make sure after deletion DELETE and RENAME buttons are disabled
         [self disableEditButtons];
+        self.toolbar.items = self.navigateToolbar;
     }
     else if ([actionName isEqualToString:UNSHARE_ACTION])
     {
@@ -1075,6 +1087,7 @@
         }
         self.unshareButton.enabled = NO;
         self.shareButton.enabled = NO;
+        self.toolbar.items = self.navigateToolbar;
     }
     
 }
@@ -1168,6 +1181,14 @@
     
 }
 
+#pragma mark - pop over delegate
+-(void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    [self deselectAll];
+    [self disableShareButtons];
+    self.toolbar.items = self.navigateToolbar;
+    
+}
 -(void) saveCategories:(NSTimer *) timer
 {
     [self saveCategories];
