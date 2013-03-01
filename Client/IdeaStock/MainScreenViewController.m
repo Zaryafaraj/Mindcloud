@@ -460,6 +460,8 @@
                 [self disableEditButtons];
                 self.toolbar.items = self.navigateToolbar;
                 [self deselectAll];
+                self.isInSharingMode = NO;
+                self.isEditing = NO;
             }
             else if ([[alertView buttonTitleAtIndex:buttonIndex]
                       isEqualToString:CREATE_CATEGORY_BUTTON])
@@ -787,6 +789,8 @@
             [self.model addCollection:collectionName toCategory:SHARED_COLLECTIONS_KEY];
             [self swithToCategory:SHARED_COLLECTIONS_KEY];
             self.shouldSaveCategories = YES;
+            self.isInSharingMode = NO;
+            self.isEditing = NO;
             self.toolbar.items = self.navigateToolbar;
             
     //        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
@@ -1086,6 +1090,8 @@
         //make sure after deletion DELETE and RENAME buttons are disabled
         [self disableEditButtons];
         self.toolbar.items = self.navigateToolbar;
+        self.isEditing = NO;
+        self.isInSharingMode = NO;
     }
     else if ([actionName isEqualToString:UNSHARE_ACTION])
     {
@@ -1102,6 +1108,8 @@
         self.unshareButton.enabled = NO;
         self.shareButton.enabled = NO;
         self.toolbar.items = self.navigateToolbar;
+        self.isEditing = NO;
+        self.isInSharingMode = NO;
     }
     
 }
@@ -1201,6 +1209,8 @@
     [self deselectAll];
     [self disableShareButtons];
     self.toolbar.items = self.navigateToolbar;
+    self.isEditing = NO;
+    self.isInSharingMode = NO;
     
 }
 -(void) saveCategories:(NSTimer *) timer

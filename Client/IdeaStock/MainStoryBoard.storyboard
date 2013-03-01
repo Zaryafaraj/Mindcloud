@@ -581,8 +581,6 @@
         <class className="CategoriesViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CategoriesViewController.h"/>
             <relationships>
-                <relationship kind="action" name="editPressed:"/>
-                <relationship kind="action" name="renamePressed:"/>
                 <relationship kind="outlet" name="table" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="viewToolbar" candidateClass="UIToolbar"/>
             </relationships>
@@ -597,7 +595,6 @@
         <class className="CollectionViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CollectionViewController.h"/>
             <relationships>
-                <relationship kind="action" name="deletePressed:"/>
                 <relationship kind="outlet" name="cameraButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="collectionView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
@@ -613,6 +610,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainScreenViewController.h"/>
             <relationships>
                 <relationship kind="action" name="categorizedPressed:"/>
+                <relationship kind="action" name="deletePressed:"/>
                 <relationship kind="outlet" name="SharingModeButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="SubscribeButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="cancelButton" candidateClass="UIBarButtonItem"/>
@@ -632,6 +630,7 @@
         <class className="SharingViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SharingViewController.h"/>
             <relationships>
+                <relationship kind="action" name="emailPressed:"/>
                 <relationship kind="action" name="textCopyPressed:"/>
                 <relationship kind="outlet" name="SharingSecretText" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>

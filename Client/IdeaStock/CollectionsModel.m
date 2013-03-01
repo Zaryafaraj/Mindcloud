@@ -49,7 +49,7 @@
     self = [self init];
     self.collections[ALL] = [collections mutableCopy];
     self.collections[UNCATEGORIZED_KEY] = [collections mutableCopy];
-    self.collections[SHARED_COLLECTIONS_KEY] = [NSMutableDictionary dictionary];
+    self.collections[SHARED_COLLECTIONS_KEY] = [NSMutableArray array];
     return self;
 }
 
