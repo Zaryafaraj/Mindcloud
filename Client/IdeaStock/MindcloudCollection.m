@@ -349,10 +349,13 @@
     }
     
     //send out a note content update
-    NSDictionary * userDict = @{@"result": noteInfos.allKeys};
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_CONTENT_UPDATED_EVENT
-                                                        object:self
-                                                      userInfo:userDict];
+    if (noteInfos != nil)
+    {
+        NSDictionary * userDict = @{@"result": noteInfos.allKeys};
+        [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_CONTENT_UPDATED_EVENT
+                                                            object:self
+                                                          userInfo:userDict];
+    }
 }
 
 -(void) initiateDownloadedNoteContent:(NSData *) noteData
