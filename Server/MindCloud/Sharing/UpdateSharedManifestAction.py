@@ -28,7 +28,6 @@ class UpdateSharedManifestAction(SharingAction):
 
     @gen.engine
     def execute(self,callback=None, delegate=None):
-        print len(self.__manifest_file)
         result_code = StorageResponse.BAD_REQUEST
         if self.__user_id and self.__collection_name and self.__manifest_file:
             result_code = yield gen.Task(StorageServer.save_collection_manifest,
@@ -59,6 +58,7 @@ class UpdateSharedManifestAction(SharingAction):
         return 'manifest'
     def clone_for_user_and_collection(self, user_id, collection_name):
         clone_manifest_file = cStringIO.StringIO()
+        self.__manifest_file.seek(0)
         shutil.copyfileobj(self.__manifest_file, clone_manifest_file)
         new_action = UpdateSharedManifestAction(user_id, collection_name,
             clone_manifest_file)

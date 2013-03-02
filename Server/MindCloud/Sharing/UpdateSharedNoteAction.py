@@ -65,6 +65,7 @@ class UpdateSharedNoteAction(SharingAction):
 
     def clone_for_user_and_collection(self, user_id, collection_name):
         clone_note_file = cStringIO.StringIO()
+        self.__note_file.seek(0)
         shutil.copyfileobj(self.__note_file, clone_note_file)
         new_action = UpdateSharedNoteAction(user_id, collection_name,
             self.__note_name, clone_note_file)

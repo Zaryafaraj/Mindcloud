@@ -55,6 +55,7 @@ class UpdateSharedThumbnailAction(SharingAction):
         return 'thumbnail'
     def clone_for_user_and_collection(self, user_id, collection_name):
         clone_manifest_file = cStringIO.StringIO()
+        self.__thumbnail_file.seek(0)
         shutil.copyfileobj(self.__thumbnail_file, clone_manifest_file)
         new_action = UpdateSharedThumbnailAction(user_id, collection_name,
             clone_manifest_file)
