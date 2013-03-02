@@ -352,7 +352,9 @@ class SharingSpaceController(SharingActionDelegate):
                     self.__remaining_actions += 1
                     actions_to_be_executed.append(next_sharing_action)
             for action in actions_to_be_executed:
-                SharingSpaceController.__log.info('SharingSpaceController - executing action %s' % action.name)
+                action_type = action.get_action_type()
+                user = action.get_user_id()
+                SharingSpaceController.__log.info('SharingSpaceController - executing action %s-%s for user %s' % (action.name,action_type,user))
                 action.execute(delegate=self)
 
 

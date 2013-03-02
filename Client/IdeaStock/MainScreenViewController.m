@@ -584,7 +584,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(resizePopOver:)
-                                                 name: RESIZE_POPOVER_FOR_SECRET
+                                                 name:RESIZE_POPOVER_FOR_SECRET
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -752,7 +752,7 @@
 
 -(void) ApplicationHasGoneInBackground:(NSNotification *) notification
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self];
     [self saveCategories];
     [self stopTimer];
 }
