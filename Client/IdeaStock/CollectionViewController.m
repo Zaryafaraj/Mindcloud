@@ -1641,19 +1641,25 @@ intoStackingWithMainView: (UIView *) mainView
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
         
         float keyboardHeight = MIN(kbSize.height, kbSize.width);
-        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardHeight, 0.0);
-        self.collectionView.contentInset = contentInsets;
-        self.collectionView.scrollIndicatorInsets = contentInsets;
         
         CGRect aRect = self.collectionView.frame;
+        
+        if (self.activeView == nil) return;
+        
         CGRect noteViewFrame = self.activeView.frame;
-        CGPoint noteViewRightcorner = CGPointMake(noteViewFrame.origin.x + noteViewFrame.size.width,
+        //the -1 is there because we dont want the rightestCornerToNotFallInside 
+        CGFloat noteViewRightestCorner = MIN(noteViewFrame.origin.x + noteViewFrame.size.width,
+                                             aRect.origin.x + aRect.size.width - 1);
+        CGPoint noteViewRightcorner = CGPointMake(noteViewRightestCorner,
                                                   noteViewFrame.origin.y + noteViewFrame.size.height);
         aRect.size.height -= keyboardHeight;
         if (!CGRectContainsPoint(aRect,noteViewRightcorner))
         {
             CGFloat addedVisibleSpaceY = keyboardHeight;
             CGPoint scrollPoint = CGPointMake(0.0, self.collectionView.frame.origin.y + addedVisibleSpaceY);
+            UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardHeight, 0.0);
+            self.collectionView.contentInset = contentInsets;
+            self.collectionView.scrollIndicatorInsets = contentInsets;
             [self.collectionView setContentOffset:scrollPoint animated:YES];
         }
     }
@@ -1664,6 +1670,7 @@ intoStackingWithMainView: (UIView *) mainView
     //no need to figure out keyboard positioning if stack view is presented
     if (self.presentedViewController == nil)
     {
+        self.activeView = nil;
         CGPoint scrollPoint = CGPointMake(0.0, 0.0);
         [self.collectionView setContentOffset:scrollPoint animated:YES];
         //        UIEdgeInsets contentInsets = UIEdgeInsetsZero;
