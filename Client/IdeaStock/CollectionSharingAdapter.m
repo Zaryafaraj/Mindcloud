@@ -11,16 +11,25 @@
 #import "UserPropertiesHelper.h"
 #import "EventTypes.h"
 
+#define UPDATE_MANIFEST_KEY @"update_manifest"
+#define UPDATE_NOTE_KEY @"update_note"
+#define UPDATE_NOTE_IMG_KEY @"update_note_img"
+#define DELETE_NOTE_KEY @"delete_note"
+#define UPDATE_THUMBNAIL_KEY @"update_thumbnail"
+
 @interface CollectionSharingAdapter()
 @property (strong, nonatomic) NSString * collectionName;
 @property (strong, nonatomic) NSString * sharingSecret;
 @property (strong, nonatomic) NSString * sharingSpaceURL;
+@property (strong, nonatomic) id<CollectionSharingAdapterDelegate> delegate;
 @end
 @implementation CollectionSharingAdapter
 
 -(id) initWithCollectionName:(NSString *)collectionName
+                 andDelegate:(id<CollectionSharingAdapterDelegate>)delegate
 {
     self.collectionName = collectionName;
+    self.delegate = delegate;
     return self;
 }
 
@@ -71,8 +80,31 @@
 
 -(void) processListenerResult:(NSDictionary *) result
 {
-    
+    for (NSString * eventKey in result)
+    {
+        if ([eventKey isEqualToString:UPDATE_MANIFEST_KEY])
+        {
+            [self.delegate manifestGotUpdated:result[eventKey]];
+        }
+        if ([eventKey isEqualToString:UPDATE_NOTE_KEY])
+        {
+            [self.delegate notesGotUpdated:result[eventKey]];
+        }
+        if([eventKey isEqualToString:UPDATE_NOTE_IMG_KEY])
+        {
+            [self.delegate noteImagesGotUpdated:result[eventKey]];
+        }
+        if ([eventKey isEqualToString:DELETE_NOTE_KEY])
+        {
+            [self.delegate notesGotDeleted:result[eventKey]];
+        }
+        if ([eventKey isEqualToString:UPDATE_THUMBNAIL_KEY])
+        {
+            [self.delegate thumbnailGotUpdated:result[eventKey]];
+        }
+    }
 }
+
 -(void) stopListening
 {
     Mindcloud * mindcloud = [Mindcloud getMindCloud];

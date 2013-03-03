@@ -163,7 +163,7 @@
 
 #pragma mark - Initialization
 -(id) initCollection:(NSString *)collectionName
-      withDataSource:(id<MindcloudDataSource>)dataSource
+      withDataSource:(id<MindcloudDataSource, CollectionSharingAdapterDelegate>)dataSource
 {
     self = [super init];
     self.recorder = [[CollectionRecorder alloc] init];
@@ -178,7 +178,8 @@
     self.noteResolver = [[NoteFragmentResolver alloc] initWithCollectionName:collectionName];
     
     self.dataSource = dataSource;
-    self.sharingAdapter = [[CollectionSharingAdapter alloc] initWithCollectionName:collectionName];
+    self.sharingAdapter = [[CollectionSharingAdapter alloc] initWithCollectionName:collectionName
+                                                                       andDelegate:dataSource];
     self.bulletinBoardName = collectionName;
     //first thing to do is figure out if it is sharing or not. We will get
     //notified of the results later

@@ -10,10 +10,12 @@
 #import "CollectionDataSource.h"
 #import "CachedObject.h"
 #import "CollectionContentNotificationHandler.h"
+#import "CollectionSharingAdapterDelegate.h"
 
 @interface CachedMindCloudDataSource : NSObject<MindcloudDataSource,
                                                 CachedObject,
-                                                CollectionContentNotificationHandler>
+                                                CollectionContentNotificationHandler,
+                                                CollectionSharingAdapterDelegate>
 
 //always use this factory method to instantiate class
 +(id) getInstance: (NSString *) collectionName;

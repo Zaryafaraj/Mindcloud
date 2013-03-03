@@ -927,4 +927,31 @@
                                                         object:self
                                                       userInfo:userInfo];
 }
+
+#pragma mark - CollectionSharingAdapterDelegate
+-(void) manifestGotUpdated:(NSString *)manifestContent
+{
+    
+}
+
+-(void) notesGotUpdated:(NSDictionary *)noteUpdateDict
+{
+    
+}
+
+-(void) noteImagesGotUpdated:(NSDictionary *)noteImagesDict
+{
+    
+}
+
+-(void) notesGotDeleted:(NSDictionary *)noteDeleteDict
+{
+    
+}
+
+-(void) thumbnailGotUpdated:(NSString *)thumbnailPath
+{
+    
+}
+
 @end
