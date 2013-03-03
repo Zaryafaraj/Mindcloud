@@ -84,23 +84,29 @@
     {
         if ([eventKey isEqualToString:UPDATE_MANIFEST_KEY])
         {
-            [self.delegate manifestGotUpdated:result[eventKey]];
+            [self.delegate manifestGotUpdated:result[eventKey]
+                                ForCollection:self.collectionName];
         }
         if ([eventKey isEqualToString:UPDATE_NOTE_KEY])
         {
-            [self.delegate notesGotUpdated:result[eventKey]];
+            [self.delegate notesGotUpdated:result[eventKey]
+                         forCollectionName:self.collectionName];
         }
         if([eventKey isEqualToString:UPDATE_NOTE_IMG_KEY])
         {
-            [self.delegate noteImagesGotUpdated:result[eventKey]];
+            [self.delegate noteImagesGotUpdated:result[eventKey] forCollectionName:self.collectionName
+                              withSharingSecret:self.sharingSecret
+                                     andBaseURL:self.sharingSpaceURL];
         }
         if ([eventKey isEqualToString:DELETE_NOTE_KEY])
         {
-            [self.delegate notesGotDeleted:result[eventKey]];
+            [self.delegate notesGotDeleted:result[eventKey] forCollectionName:self.collectionName];
         }
         if ([eventKey isEqualToString:UPDATE_THUMBNAIL_KEY])
         {
-            [self.delegate thumbnailGotUpdated:result[eventKey]];
+            [self.delegate thumbnailGotUpdated:result[eventKey] forCollectionName:self.collectionName
+                             withSharingSecret:self.sharingSecret
+                                    andBaseURL:self.sharingSpaceURL];
         }
     }
 }

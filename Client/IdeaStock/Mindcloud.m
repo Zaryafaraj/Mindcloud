@@ -382,4 +382,25 @@ static Mindcloud * instance;
     
     [action executeDELETE];
 }
+
+//super ugly !
+-(void) getTempImageForUser:(NSString *) userId
+              andCollection:(NSString *) collectionName
+                    andNote:(NSString *) noteName
+           andSharingSecret:(NSString *) sharingSecret
+             andImageSecret:(NSString *) imgSecret
+                 fromBaseUR:(NSString *) baseURL
+               withCallback:(get_temp_image_callback) callback
+{
+    TempImageAction * action = [[TempImageAction alloc] initWithUserId:userId
+                                                         andCollection:collectionName
+                                                               andNote:noteName
+                                                         andTempSecret:imgSecret
+                                                                andURL:baseURL andSharingSecret:sharingSecret];
+    
+    action.getCallback = callback;
+    
+    [action executeGET];
+}
+
 @end

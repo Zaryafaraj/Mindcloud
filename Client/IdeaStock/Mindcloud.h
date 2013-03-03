@@ -18,6 +18,7 @@
 #import "SharingAction.h"
 #import "SubscriptionAction.h"
 #import "ListenerAction.h"
+#import "TempImageAction.h"
 
 @interface Mindcloud : NSObject
 
@@ -134,4 +135,12 @@
               andCollection:(NSString *) collectionName
                     forUser:(NSString *) userId
                withCallback:(stopped_listenning_callback) callback;
+
+-(void) getTempImageForUser:(NSString *) userId
+              andCollection:(NSString *) collectionName
+                    andNote:(NSString *) noteName
+           andSharingSecret:(NSString *) sharingSecret
+             andImageSecret:(NSString *) imgSecret
+                 fromBaseUR:(NSString *) baseURL
+               withCallback:(get_temp_image_callback) callback;
 @end

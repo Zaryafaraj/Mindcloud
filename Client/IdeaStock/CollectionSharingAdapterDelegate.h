@@ -19,10 +19,14 @@
 -(void) notesGotDeleted:(NSDictionary *) noteDeleteDict
       forCollectionName:(NSString *) collectionName;
 
--(void) noteImagesGotUpdated:(NSDictionary *) noteImagesDict
-           forCollectionName:(NSString *) collectionName;
+-(void) noteImagesGotUpdated:(NSDictionary *)noteImagesDict
+           forCollectionName:(NSString *)collectionName
+           withSharingSecret:(NSString *) sharingSecret
+                  andBaseURL:(NSString *) baseURL;
 
 -(void) thumbnailGotUpdated:(NSString *) thumbnailPath
-      forCollectionName:(NSString *) collectionName;
+          forCollectionName:(NSString *) collectionName
+          withSharingSecret:(NSString *) sharingSecret
+                 andBaseURL:(NSString *) baseURL;
 
 @end

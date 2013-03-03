@@ -14,6 +14,8 @@
 #import "NetworkActivityHelper.h"
 #import "XoomlCategoryParser.h"
 
+#define THUMBNAIL_NOTE_NAME_KEY @"Thumbnail"
+
 @interface CachedMindCloudDataSource()
 //we make sure that we don't send out an action before another action of the same type on the same
 //resource is in progress, because of unreliable TCP/IP the second action might reach the server faster
@@ -182,8 +184,8 @@
     [mindcloud saveCategories:userId
                      withData:categoriesData
                   andCallback:^{
-        NSLog(@"Categories synchronized");
-    }];
+                      NSLog(@"Categories synchronized");
+                  }];
 }
 
 -(NSData *) getThumbnailForCollection:(NSString *) collectionName
@@ -205,38 +207,38 @@
                                  {
                                      [self saveThumbnailToDisk:imgData forCollection:collectionName];
                                      self.thumbnailHasUpdatedCache[collectionName] = @YES;
-                                 userDict =
-                                 @{
-                                 @"result":
-                                    @{
-                                    @"collectionName" : collectionName,
-                                      @"data" : imgData
-                                    }
-                                 };
+                                     userDict =
+                                     @{
+                                       @"result":
+                                           @{
+                                               @"collectionName" : collectionName,
+                                               @"data" : imgData
+                                               }
+                                       };
                                  }
                                  else
                                  {
                                      userDict =
                                      @{
-                                         @"result":
-                                         @{
-                                         @"collectionName" : collectionName
-                                          }
-                                     };
+                                       @"result":
+                                           @{
+                                               @"collectionName" : collectionName
+                                               }
+                                       };
                                  }
                                  [[NSNotificationCenter defaultCenter] postNotificationName:THUMBNAIL_RECEIVED_EVENT
                                                                                      object:self
                                                                                    userInfo:userDict];
-                                [NetworkActivityHelper removeActivityInProgress];
+                                 [NetworkActivityHelper removeActivityInProgress];
                                  //in any case send out the notification
                              }];
-            
+        
     }
     return thumbnailData;
- }
+}
 
 -(void) setThumbnail:(NSData *)thumbnailData
-          forCollection:(NSString *)collectionName
+       forCollection:(NSString *)collectionName
 {
     
     [self saveThumbnailToDisk:thumbnailData forCollection:collectionName];
@@ -247,12 +249,12 @@
                          andImageData:thumbnailData
                          withCallback:^(void){
                              ;
-    }];
+                         }];
 }
 #pragma mark - Addition/Update
 
 - (void) addNote: (NSString *)noteName
-     withContent: (NSData *) note 
+     withContent: (NSData *) note
     ToCollection: (NSString *) collectionName
 {
     
@@ -275,7 +277,7 @@
         [self saveToDiskNoteData:note
                    forCollection:collectionName
                          andNote:noteName];
-    
+        
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
         [mindcloud updateNoteForUser:userID
@@ -299,16 +301,16 @@
                                   withContent:latestNoteData
                                  ToCollection:collectionName];
                             }
-        }];
+                        }];
         
     }
 }
 
 -(void) addImageNote: (NSString *) noteName
-     withNoteContent: (NSData *) note 
-            andImage: (NSData *) img 
+     withNoteContent: (NSData *) note
+            andImage: (NSData *) img
    withImageFileName: (NSString *)imgName
-     toCollection: (NSString *) collectionName;
+        toCollection: (NSString *) collectionName;
 {
     //If there was a plan to delete this note just cancel it
     if (self.waitingDeleteNotes[noteName])
@@ -342,7 +344,7 @@
                                     andImageData:img
                                     withCallback:^(void) {
                                         
-                                    self.inProgressNoteImageUpdates[noteName] = @NO;
+                                        self.inProgressNoteImageUpdates[noteName] = @NO;
                                         NSLog(@"Updated Note img %@ for Collection %@", noteName, collectionName);
                                         
                                         if (self.waitingDeleteNotes[noteName])
@@ -361,12 +363,12 @@
                                              withImageFileName:@"note.jpg"
                                                   toCollection:collectionName];
                                         }
-        }];
+                                    }];
     }
 }
 
 -(void) updateCollectionWithName: (NSString *) collectionName
-               andContent: (NSData *) content
+                      andContent: (NSData *) content
 {
     if ([content length] == 0)
     {
@@ -399,15 +401,15 @@
     }
 }
 
--(void) updateNote: (NSString *) noteName 
+-(void) updateNote: (NSString *) noteName
        withContent: (NSData *) content
-   inCollection:(NSString *) collectionName
+      inCollection:(NSString *) collectionName
 {
     [self addNote:noteName withContent:content ToCollection:collectionName];
 }
 
 - (void) removeNote: (NSString *) noteName
-  FromCollection: (NSString *) collectionName
+     FromCollection: (NSString *) collectionName
 {
     //we don't possibly want the delete to reach the server before the add. In that case it will get deleted and added again
     if ([self.inProgressNoteImageUpdates[noteName] isEqual:@YES] || [self.inProgressNoteUpdates[noteName] isEqual:@YES])
@@ -453,11 +455,11 @@
                                        if (collectionData)
                                        {
                                            
-                                            [self saveToDiskCollectionData:collectionData
+                                           [self saveToDiskCollectionData:collectionData
                                                             ForCollection:collectionName];
-                                            //get the rest of the notes
-                                            [self getAllNotes:collectionName];
-                                        }
+                                           //get the rest of the notes
+                                           [self getAllNotes:collectionName];
+                                       }
                                        else
                                        {
                                            [NetworkActivityHelper removeActivityInProgress];
@@ -474,14 +476,14 @@
     [mindcloud getAllNotesForUser:userID
                     forCollection:collectionName
                      withCallback:^(NSArray * allNotes){
-                               int index = 0;
+                         int index = 0;
                          
-    //we are not going to download all the images in the beginning beccause we don't know what are they
+                         //we are not going to download all the images in the beginning beccause we don't know what are they
                          [self getRemainingNoteAtIndex: index
-                                                   fromArray: allNotes
-                                               forCollection: collectionName
-                                                 chainImages:NO ];
-    }];
+                                             fromArray: allNotes
+                                         forCollection: collectionName
+                                           chainImages:NO ];
+                     }];
     
 }
 
@@ -490,46 +492,46 @@
                   forCollection:(NSString *) collectionName
                     chainImages:(BOOL) chain
 {
-   if (index < [allNotes count])
-   {
-       
-       Mindcloud * mindcloud = [Mindcloud getMindCloud];
-       NSString * userID = [UserPropertiesHelper userID];
-       NSString * noteName = allNotes[index];
-       index++;
-       [mindcloud getNoteManifestforUser:userID
-                                 forNote:noteName
-                          fromCollection:collectionName withCallback:^(NSData * noteData){
-                              
-                              [self saveToDiskNoteData:noteData
-                                         forCollection:collectionName
-                                               andNote:noteName];
-                              [self getRemainingNoteAtIndex:index
-                                                  fromArray:allNotes
-                                              forCollection:collectionName
-                                                chainImages:chain];
-       }];
-       
-   }
-   else
-   {
-       if (chain)
-       {
-           [self getRemainingNoteImagesAtIndex:0
-                                     fromArray:allNotes
-                                 forCollection:collectionName
-                                    chainNotes:!chain];
-       }
-       else
-       {
-           [self downloadComplete:collectionName];
-       }
-   }
+    if (index < [allNotes count])
+    {
+        
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userID = [UserPropertiesHelper userID];
+        NSString * noteName = allNotes[index];
+        index++;
+        [mindcloud getNoteManifestforUser:userID
+                                  forNote:noteName
+                           fromCollection:collectionName withCallback:^(NSData * noteData){
+                               
+                               [self saveToDiskNoteData:noteData
+                                          forCollection:collectionName
+                                                andNote:noteName];
+                               [self getRemainingNoteAtIndex:index
+                                                   fromArray:allNotes
+                                               forCollection:collectionName
+                                                 chainImages:chain];
+                           }];
+        
+    }
+    else
+    {
+        if (chain)
+        {
+            [self getRemainingNoteImagesAtIndex:0
+                                      fromArray:allNotes
+                                  forCollection:collectionName
+                                     chainNotes:!chain];
+        }
+        else
+        {
+            [self downloadComplete:collectionName];
+        }
+    }
 }
 
 -(void) getRemainingNoteImagesAtIndex: (int) index
                             fromArray: (NSArray *) allNotes
-    forCollection:(NSString *) collectionName
+                        forCollection:(NSString *) collectionName
                            chainNotes: (BOOL) chain
 {
     if (index < [allNotes count])
@@ -540,17 +542,17 @@
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
         [mindcloud getNoteImageForUser:userID
-                                  forNote:noteName
-                           fromCollection:collectionName withCallback:^(NSData * noteData){
-                               
-                               [self saveToDiskNoteImageData:noteData
-                                                          forCollection:collectionName
-                                                                andNote:noteName];
-                               [self getRemainingNoteImagesAtIndex:index
-                                                         fromArray:allNotes
-                                                     forCollection:collectionName
-                                                        chainNotes:chain];
-                           }];
+                               forNote:noteName
+                        fromCollection:collectionName withCallback:^(NSData * noteData){
+                            
+                            [self saveToDiskNoteImageData:noteData
+                                            forCollection:collectionName
+                                                  andNote:noteName];
+                            [self getRemainingNoteImagesAtIndex:index
+                                                      fromArray:allNotes
+                                                  forCollection:collectionName
+                                                     chainNotes:chain];
+                        }];
     }
     else
     {
@@ -582,7 +584,7 @@
 }
 
 - (NSData *) getNoteForTheCollection: (NSString *) collectionName
-                                   WithName: (NSString *) noteName
+                            WithName: (NSString *) noteName
 {
     //it is always assumed that the this method is called after a get collection which caches everything
     //so if we get a cache hit we trust that its most uptodate
@@ -605,7 +607,7 @@
     return imageCacheKey;
 }
 - (NSString *) getImagePathForNote: (NSString *) noteName
-        andCollection: (NSString *) collectionName;
+                     andCollection: (NSString *) collectionName;
 {
     //we retreive the images all the time. Only methods that sure there is an image should call this to stop making extra calls to the server
     NSData * imgData = [self getFromDiskNoteImageForNote:noteName andCollection: collectionName];
@@ -614,7 +616,7 @@
     {
         
         path = [FileSystemHelper getPathForNoteImageforNoteName:noteName
-                                                           inBulletinBoard:collectionName];
+                                                inBulletinBoard:collectionName];
     }
     NSString * imageCacheKey = [self getImageCacheKeyForCollection:collectionName
                                                            andNote:noteName];
@@ -623,30 +625,30 @@
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
         [mindcloud getNoteImageForUser:userID
-                                  forNote:noteName
-                           fromCollection:collectionName withCallback:^(NSData * noteData){
-                               
-                               if (noteData)
-                               {
-                                   [self saveToDiskNoteImageData:noteData
-                                                    forCollection:collectionName
-                                                          andNote:noteName];
-                                   self.imageHasUpdatedCache[imageCacheKey] = @YES;
-                                   
-                                   NSDictionary * userDict =
-                                   @{
-                                   @"result":
-                                        @{
-                                        @"collectionName" : collectionName,
-                                        @"noteName" : noteName
-                                        }
-                                     };
-                                     
-                                       [[NSNotificationCenter defaultCenter] postNotificationName:IMAGE_DOWNLOADED_EVENT
-                                                                                           object:self
-                                                                                         userInfo:userDict];
-                               }
-                           }];
+                               forNote:noteName
+                        fromCollection:collectionName withCallback:^(NSData * noteData){
+                            
+                            if (noteData)
+                            {
+                                [self saveToDiskNoteImageData:noteData
+                                                forCollection:collectionName
+                                                      andNote:noteName];
+                                self.imageHasUpdatedCache[imageCacheKey] = @YES;
+                                
+                                NSDictionary * userDict =
+                                @{
+                                  @"result":
+                                      @{
+                                          @"collectionName" : collectionName,
+                                          @"noteName" : noteName
+                                          }
+                                  };
+                                
+                                [[NSNotificationCenter defaultCenter] postNotificationName:IMAGE_DOWNLOADED_EVENT
+                                                                                    object:self
+                                                                                  userInfo:userDict];
+                            }
+                        }];
         
     }
     return path;
@@ -744,7 +746,7 @@
 }
 
 - (BOOL) saveToDiskCollectionData:(NSData *) data
-                     ForCollection:(NSString *) collectionName
+                    ForCollection:(NSString *) collectionName
 {
     
     NSString * path = [FileSystemHelper getPathForCollectionWithName: collectionName];
@@ -893,7 +895,7 @@
                                                            andNote:noteName];
     
     self.imageHasUpdatedCache[imageCacheKey] = @YES;
-                                
+    
     NSDictionary * result = @{@"collectionName" : collectionName,
                               @"noteName" : noteName};
     
@@ -904,7 +906,7 @@
 }
 
 -(void) noteDeletesReceivedForCollectionName:(NSString *) collectionName
-                                     andNotes:(NSDictionary *) noteDataMap;
+                                    andNotes:(NSDictionary *) noteDataMap;
 {
     for(NSString * noteName in noteDataMap)
     {
@@ -953,12 +955,31 @@
 
 -(void) noteImagesGotUpdated:(NSDictionary *)noteImagesDict
            forCollectionName:(NSString *)collectionName
+           withSharingSecret:(NSString *) sharingSecret
+                  andBaseURL:(NSString *) baseURL
 {
-   for(NSString * collectionName in noteImagesDict)
-   {
-       NSString * imageKey = noteImagesDict[imageKey];
-      
-   }
+    for(NSString * noteName in noteImagesDict)
+    {
+        NSString * imageKey = noteImagesDict[imageKey];
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userID = [UserPropertiesHelper userID];
+        NSString * noteNameClosure = noteName;
+        [mindcloud getTempImageForUser:userID
+                         andCollection:collectionName
+                               andNote:noteName
+                      andSharingSecret:sharingSecret
+                        andImageSecret:imageKey
+                            fromBaseUR:baseURL
+                          withCallback:^(NSData * imgData){
+                              if (imgData)
+                              {
+                                  [self noteImageUpdateReceivedForCollectionName:collectionName
+                                                                    andNoteNamed:noteNameClosure
+                                                               withNoteImageData:imgData];
+                              }
+                          }];
+        
+    }
 }
 
 -(void) notesGotDeleted:(NSDictionary *)noteDeleteDict
@@ -967,8 +988,27 @@
     [self noteDeletesReceivedForCollectionName:collectionName andNotes:noteDeleteDict];
 }
 
--(void) thumbnailGotUpdated:(NSString *)thumbnailPath
+-(void) thumbnailGotUpdated:(NSString *) thumbnailPath
+          forCollectionName:(NSString *) collectionName
+          withSharingSecret:(NSString *) sharingSecret
+                 andBaseURL:(NSString *) baseURL
 {
+    
+//we will figure out the thumbnail based on the actual note images that are received
+//no need for this
+//        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+//        NSString * userID = [UserPropertiesHelper userID];
+//        [mindcloud getTempImageForUser:userID
+//                         andCollection:collectionName
+//                               andNote:THUMBNAIL_NOTE_NAME_KEY
+//                      andSharingSecret:sharingSecret
+//                        andImageSecret:thumbnailPath
+//                            fromBaseUR:baseURL
+//                          withCallback:^(NSData * imgData){
+//                              if (imgData)
+//                              {
+//                              }
+//                          }];
     
 }
 

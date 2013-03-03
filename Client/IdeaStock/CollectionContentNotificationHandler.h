@@ -13,9 +13,9 @@
 -(void) noteUpdatesReceivedForCollectionNamed: (NSString *) collectionName
                                      andNotes:(NSDictionary *) noteDataMap;
 
-
--(void) noteImagesUpdateReceivedForCollectionName:(NSString *) collectionName
-                                     andNotes:(NSDictionary *) noteDataMap;
+-(void) noteImageUpdateReceivedForCollectionName:(NSString *)collectionName
+                                    andNoteNamed:(NSString *)noteName
+                               withNoteImageData:(NSData *)imageData;
 
 -(void) noteDeletesReceivedForCollectionName:(NSString *) collectionName
                                      andNotes:(NSDictionary *) noteDataMap;
