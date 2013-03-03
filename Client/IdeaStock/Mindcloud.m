@@ -356,8 +356,16 @@ static Mindcloud * instance;
 -(void) addListenerTo:(NSString *) listeningURL
      forSharingSecret:(NSString *) sharingSecret
         andCollection:(NSString *) collectionName
-              forUser:(NSString *) userName
+              forUser:(NSString *) userId
+         withCallback:(listener_returned_callback) callback;
 {
+    ListenerAction * action = [[ListenerAction alloc] initWithUserId:userId
+                                                   andCollectionName:collectionName
+                                                    andSharingSecret:sharingSecret
+                                                  andSharingSpaceURL:listeningURL];
+    action.postCallback = callback;
     
+    [action executePOST];
 }
+
 @end

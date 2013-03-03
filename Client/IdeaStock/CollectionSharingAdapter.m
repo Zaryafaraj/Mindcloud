@@ -51,6 +51,10 @@
     
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
+    //add to Listeners
+    [mindcloud addListenerTo:self.sharingSpaceURL forSharingSecret:self.sharingSecret andCollection:self.collectionName forUser:userId withCallback:^(NSDictionary * result){
+        NSLog(@"%@", result);
+    }];
 }
 
 -(void) stopListening

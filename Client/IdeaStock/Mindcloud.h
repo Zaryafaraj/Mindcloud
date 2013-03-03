@@ -17,6 +17,7 @@
 #import "NoteImageAction.h"
 #import "SharingAction.h"
 #import "SubscriptionAction.h"
+#import "ListenerAction.h"
 
 @interface Mindcloud : NSObject
 
@@ -125,5 +126,6 @@
 -(void) addListenerTo:(NSString *) listeningURL
      forSharingSecret:(NSString *) sharingSecret
         andCollection:(NSString *) collectionName
-              forUser:(NSString *) userName;
+              forUser:(NSString *) userId
+         withCallback:(listener_returned_callback) callback;
 @end
