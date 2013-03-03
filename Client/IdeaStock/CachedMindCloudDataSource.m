@@ -903,14 +903,17 @@
                                                       userInfo:userInfo];
 }
 
--(void) noteDeleteReceivedForCollectionName:(NSString *)collectionName
-                               andNoteNamed:(NSString *)noteName
+-(void) noteDeletesReceivedForCollectionName:(NSString *) collectionName
+                                     andNotes:(NSDictionary *) noteDataMap;
 {
-    [self removeFromDiskNote:noteName
-              fromCollection:collectionName];
+    for(NSString * noteName in noteDataMap)
+    {
+        [self removeFromDiskNote:noteName
+                  fromCollection:collectionName];
+    }
     
     NSDictionary * result = @{@"collectionName" : collectionName,
-                              @"noteName" : noteName};
+                              @"notes" : noteDataMap.allKeys};
     
     NSDictionary * userInfo = @{@"result" : result};
     [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DELETED_NOTE
@@ -945,7 +948,7 @@
 -(void) notesGotUpdated:(NSDictionary *)noteUpdateDict
       forCollectionName:(NSString *)collectionName
 {
-    
+    [self noteUpdatesReceivedForCollectionNamed:collectionName andNotes:noteUpdateDict];
 }
 
 -(void) noteImagesGotUpdated:(NSDictionary *)noteImagesDict
@@ -954,8 +957,9 @@
 }
 
 -(void) notesGotDeleted:(NSDictionary *)noteDeleteDict
+      forCollectionName:(NSString *)collectionName
 {
-    
+    [self noteDeletesReceivedForCollectionName:collectionName andNotes:noteDeleteDict];
 }
 
 -(void) thumbnailGotUpdated:(NSString *)thumbnailPath
