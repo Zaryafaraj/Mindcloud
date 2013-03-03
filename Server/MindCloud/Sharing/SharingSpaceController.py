@@ -135,8 +135,12 @@ class SharingSpaceController(SharingActionDelegate):
 
 
     def __finish_request(self, request):
-        request.set_status(200)
-        request.finish()
+        try:
+            request.set_status(200)
+            request.finish()
+        #in case the request is automatically close don't bother
+        except Exception:
+           pass
 
     def remove_listener(self, user_id):
         """

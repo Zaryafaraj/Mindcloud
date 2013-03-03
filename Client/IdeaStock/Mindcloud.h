@@ -128,4 +128,10 @@
         andCollection:(NSString *) collectionName
               forUser:(NSString *) userId
          withCallback:(listener_returned_callback) callback;
+
+-(void) closeListenersToURL:(NSString *) listeningURL
+           forSharingSecret:(NSString *) sharingSecret
+              andCollection:(NSString *) collectionName
+                    forUser:(NSString *) userId
+               withCallback:(stopped_listenning_callback) callback;
 @end

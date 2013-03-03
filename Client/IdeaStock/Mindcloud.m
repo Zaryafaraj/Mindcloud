@@ -368,4 +368,18 @@ static Mindcloud * instance;
     [action executePOST];
 }
 
+-(void) closeListenersToURL:(NSString *) listeningURL
+           forSharingSecret:(NSString *) sharingSecret
+              andCollection:(NSString *) collectionName
+                    forUser:(NSString *) userId
+               withCallback:(stopped_listenning_callback) callback
+{
+    ListenerAction * action = [[ListenerAction alloc] initWithUserId:userId
+                                                   andCollectionName:collectionName
+                                                    andSharingSecret:sharingSecret
+                                                  andSharingSpaceURL:listeningURL];
+    action.deleteCallback = callback;
+    
+    [action executeDELETE];
+}
 @end

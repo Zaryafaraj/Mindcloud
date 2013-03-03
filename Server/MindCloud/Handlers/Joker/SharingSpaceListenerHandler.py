@@ -12,7 +12,7 @@ class SharingSpaceListenerHandler(tornado.web.RequestHandler):
     __log = Log.log()
     @tornado.web.asynchronous
     @gen.engine
-    def post(self, sharing_secret, userId):
+    def post(self, sharing_secret, user_id):
 
         sharing_storage = SharingSpaceStorage.get_instance()
         isValid = yield gen.Task(sharing_storage.validate_secret,
