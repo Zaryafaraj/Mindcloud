@@ -242,6 +242,7 @@
 		DB4338A4169E112C000353DA /* XoomlCollectionParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlCollectionParser.h; sourceTree = "<group>"; };
 		DB4338A6169E8AAF000353DA /* CollectionAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionAction.h; sourceTree = "<group>"; };
 		DB4338A7169E8AAF000353DA /* CollectionAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionAction.m; sourceTree = "<group>"; };
+		DB4D940716E31E1B007FE65A /* CollectionSharingAdapterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionSharingAdapterDelegate.h; sourceTree = "<group>"; };
 		DB4E0AC7163DCD3D00AB82E6 /* CollectionsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionsModel.h; sourceTree = "<group>"; };
 		DB4E0AC8163DCD3D00AB82E6 /* CollectionsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionsModel.m; sourceTree = "<group>"; };
 		DB4E25B016C78A4200E85334 /* ThumbnailManagerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThumbnailManagerProtocol.h; sourceTree = "<group>"; };
@@ -793,6 +794,7 @@
 				DBD06A9716D9D51700463ECC /* MindcloudSharingAdapter.m */,
 				DB601A3B16E2CFEC0007A636 /* CollectionSharingAdapter.h */,
 				DB601A3C16E2CFEC0007A636 /* CollectionSharingAdapter.m */,
+				DB4D940716E31E1B007FE65A /* CollectionSharingAdapterDelegate.h */,
 			);
 			name = Sharing;
 			sourceTree = "<group>";
