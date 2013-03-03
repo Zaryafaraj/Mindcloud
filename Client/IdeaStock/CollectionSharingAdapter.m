@@ -46,4 +46,15 @@
     }];
 }
 
+-(void) startListening
+{
+    
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userId = [UserPropertiesHelper userID];
+}
+
+-(void) stopListening
+{
+    
+}
 @end

@@ -14,4 +14,6 @@
 
 -(id)initWithCollectionName:(NSString *) collectionName;
 -(void) getSharingInfo;
+-(void) startListening;
+-(void) stopListening;
 @end

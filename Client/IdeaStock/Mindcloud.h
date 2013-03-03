@@ -31,7 +31,7 @@
 -(void) authorizationDone:(NSString *) userId;
 
 -(void) getAllCollectionsFor:(NSString *) userId
-                   WithCallback:(get_collections_callback)callback;
+                WithCallback:(get_collections_callback)callback;
 
 -(void) addCollectionFor: (NSString *) userID
                 withName: (NSString *) collectionName
@@ -68,7 +68,7 @@
 
 -(void) getAllNotesForUser:(NSString *) userID
              forCollection:(NSString *) collectionName
-                    withCallback: (get_all_notes_callback)callback;
+              withCallback: (get_all_notes_callback)callback;
 
 
 -(void) getNoteManifestforUser:(NSString *)userID
@@ -77,7 +77,7 @@
                   withCallback: (get_note_callback) callback;
 
 -(void) getNoteImageForUser: (NSString *) userID
-                       forNote: (NSString *)noteName
+                    forNote: (NSString *)noteName
              fromCollection:(NSString *) collectionName
                withCallback:(get_note_image_callback) callback;
 
@@ -103,7 +103,7 @@
             forCollection: (NSString *) collectionName
                   andNote:(NSString *) noteName
              withCallback: (delete_note_callback) callback;
-    
+
 
 -(void) shareCollection:(NSString *) collectionName
                 ForUser:(NSString *) userId
@@ -121,4 +121,9 @@
 -(void) getSharingInfo:(NSString *) collectionName
                forUser:(NSString *) userId
            andCallback:(get_sharing_info_callback) callback;
+
+-(void) addListenerTo:(NSString *) listeningURL
+     forSharingSecret:(NSString *) sharingSecret
+        andCollection:(NSString *) collectionName
+              forUser:(NSString *) userName;
 @end

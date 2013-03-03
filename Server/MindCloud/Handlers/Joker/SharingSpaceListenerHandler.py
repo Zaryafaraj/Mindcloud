@@ -12,7 +12,7 @@ class SharingSpaceListenerHandler(tornado.web.RequestHandler):
     __log = Log.log()
     @tornado.web.asynchronous
     @gen.engine
-    def post(self, sharing_secret):
+    def post(self, sharing_secret, userId):
 
         sharing_storage = SharingSpaceStorage.get_instance()
         isValid = yield gen.Task(sharing_storage.validate_secret,
@@ -23,21 +23,25 @@ class SharingSpaceListenerHandler(tornado.web.RequestHandler):
                 self.set_status(404)
                 self.finish()
             else:
-                try:
-                    json_str = self.get_argument('details')
-                    json_obj = json.loads(json_str)
-                    if 'user_id' in json_obj:
-                        user_id = json_obj['user_id']
 
-                        self.__log.info('SharingSpaceListener - adding user %s as listener to sharing space %s' % (user_id, sharing_secret))
+                self.__log.info('SharingSpaceListener - adding user %s as listener to sharing space %s' % (user_id, sharing_secret))
+                sharing_space.add_listener(user_id, request=self)
 
-                        sharing_space.add_listener(user_id, request=self)
-                    else:
-                        self.set_status(400)
-                        self.finish()
-                except Exception:
-                    self.set_status(400)
-                    self.finish()
+               # try:
+               #     json_str = self.get_argument('details')
+               #     json_obj = json.loads(json_str)
+               #     if 'user_id' in json_obj:
+               #         user_id = json_obj['user_id']
+               #
+               #         self.__log.info('SharingSpaceListener - adding user %s as listener to sharing space %s' % (user_id, sharing_secret))
+               #
+               #         sharing_space.add_listener(user_id, request=self)
+               #     else:
+               #         self.set_status(400)
+               #         self.finish()
+               # except Exception:
+               #     self.set_status(400)
+               #     self.finish()
         else:
             self.set_status(404)
             self.finish()
@@ -62,7 +66,7 @@ class SharingSpaceListenerHandler(tornado.web.RequestHandler):
                     sharing_space.remove_listener(user_id)
                     self.set_status(200)
                     self.finish()
-                except Exception as exceptionn:
+                except Exception:
                     self.set_status(400)
                     self.finish()
         else:

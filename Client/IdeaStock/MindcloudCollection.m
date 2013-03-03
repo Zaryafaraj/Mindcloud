@@ -337,6 +337,7 @@
         [collectionName isEqualToString:self.bulletinBoardName])
     {
         self.synchronizationPeriod = SHARED_SYNCH_PERIOD;
+        [self.sharingAdapter startListening];
         [self restartTimer];
     }
 }
@@ -1167,6 +1168,7 @@
 #pragma mark - cleanup
 -(void) cleanUp{
     //check out of the notification center
+    [self.sharingAdapter stopListening];
     [self stopTimer];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.recorder reset];

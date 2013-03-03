@@ -21,7 +21,7 @@ class Application(tornado.web.Application):
             (r"/SharingSpace/([0-9A-Za-z]{8})/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/([\w+\-*%*\d*]+)/([\w+\-*%*\d*]+)/(\w+)", SharingSpaceActionHandler),
             (r"/SharingSpace/([0-9A-Za-z]{8})/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/([\w+\-*%*\d*]+)/(\w+)", SharingSpaceActionHandler),
             (r"/SharingSpace/([0-9A-Za-z]{8})", SharingSpaceActionHandler),
-            (r"/SharingSpace/([0-9A-Za-z]{8})/Listen", SharingSpaceListenerHandler),
+
             (r"/SharingSpace/([0-9A-Za-z]{8})/Listen/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})", SharingSpaceListenerHandler),
             (r"/HealthCheck", JokerHealthCheckHandler)
         ]

@@ -38,8 +38,8 @@ static Mindcloud * instance;
 #define MINDCLOUD_CALLBACK @"mindcloud://done"
 
 /**
- Send an authorize request to mindcloud server. If unauthorized get redirected to the dropbox sign in page 
- and then switch back to the app. 
+ Send an authorize request to mindcloud server. If unauthorized get redirected to the dropbox sign in page
+ and then switch back to the app.
  If authorized do nothing.
  */
 
@@ -51,26 +51,26 @@ static Mindcloud * instance;
     //prepare the action
     MindcloudBaseAction * action = [[AuthenticationAction alloc] initWithUserId:userId
                                                                     andCallback:^(NSDictionary * results)
-                                {
-                                    NSString * accountStatus = results[ACCOUNT_STATUS_KEY];
-                                    if ([accountStatus isEqualToString:UNAUTHORIZED_STATUS])
                                     {
-                                        NSString * urlStr = results[AUTH_URL];
-                                        urlStr = [urlStr stringByAppendingFormat:@"&oauth_callback=%@",MINDCLOUD_CALLBACK];
-                                        [self.authenticationDelegate didFinishAuthorizing:userId andNeedsAuthenting:YES withURL:urlStr];
-                                        //add a call back URL to switch back to app
-                                        
-                                    }
-                                    else
-                                    {
-                                        NSLog(@"Account Already Auhtorized and ready to use");
-                                        //no authentication step remains
-                                        [delegate didFinishAuthorizing:userId andNeedsAuthenting:NO
-                                                               withURL:nil];
-                                        
-                                    }
-                                }];
-                                    
+                                        NSString * accountStatus = results[ACCOUNT_STATUS_KEY];
+                                        if ([accountStatus isEqualToString:UNAUTHORIZED_STATUS])
+                                        {
+                                            NSString * urlStr = results[AUTH_URL];
+                                            urlStr = [urlStr stringByAppendingFormat:@"&oauth_callback=%@",MINDCLOUD_CALLBACK];
+                                            [self.authenticationDelegate didFinishAuthorizing:userId andNeedsAuthenting:YES withURL:urlStr];
+                                            //add a call back URL to switch back to app
+                                            
+                                        }
+                                        else
+                                        {
+                                            NSLog(@"Account Already Auhtorized and ready to use");
+                                            //no authentication step remains
+                                            [delegate didFinishAuthorizing:userId andNeedsAuthenting:NO
+                                                                   withURL:nil];
+                                            
+                                        }
+                                    }];
+    
     [action executeGET];
 }
 
@@ -90,20 +90,20 @@ static Mindcloud * instance;
                                             //call them
                                             if (self.authenticationDelegate)
                                             {
-                                            //we are done, no more steps needed
-                                            [self.authenticationDelegate didFinishAuthorizing:userId andNeedsAuthenting:NO withURL:nil];
+                                                //we are done, no more steps needed
+                                                [self.authenticationDelegate didFinishAuthorizing:userId andNeedsAuthenting:NO withURL:nil];
                                             }
                                             NSLog(@"Account Authorized and Saved in Mindcloud");
-                                                
+                                            
                                         }
                                     }];
     
     [action executePOST];
-
+    
 }
 
 -(void) getAllCollectionsFor:(NSString *)userId
-                   WithCallback:(get_collections_callback)callback
+                WithCallback:(get_collections_callback)callback
 {
     
     CollectionsAction * action = [[CollectionsAction alloc] initWithUserID: userId];
@@ -197,7 +197,7 @@ static Mindcloud * instance;
 
 -(void) getAllNotesForUser:(NSString *) userID
              forCollection:(NSString *) collectionName
-                    withCallback: (get_all_notes_callback)callback
+              withCallback: (get_all_notes_callback)callback
 {
     CollectionNotesAction * action = [[CollectionNotesAction alloc] initWithUserID:userID andCollectionName:collectionName];
     
@@ -219,7 +219,7 @@ static Mindcloud * instance;
 }
 
 -(void) getNoteImageForUser: (NSString *) userID
-                       forNote: (NSString *)noteName
+                    forNote: (NSString *)noteName
              fromCollection:(NSString *) collectionName
                withCallback:(get_note_image_callback) callback
 {
@@ -353,4 +353,11 @@ static Mindcloud * instance;
     [action executePOST];
 }
 
+-(void) addListenerTo:(NSString *) listeningURL
+     forSharingSecret:(NSString *) sharingSecret
+        andCollection:(NSString *) collectionName
+              forUser:(NSString *) userName
+{
+    
+}
 @end

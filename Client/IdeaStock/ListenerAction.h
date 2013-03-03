@@ -17,6 +17,7 @@ typedef void (^stopped_listenning_callback)(void);
 
 -(id) initWithUserId:(NSString *) userId
    andCollectionName:(NSString *) collectionName
-    andSharingSecret:(NSString *) sharingSecret;
+    andSharingSecret:(NSString *) sharingSecret
+  andSharingSpaceURL:(NSString *) url;
 
 @end
