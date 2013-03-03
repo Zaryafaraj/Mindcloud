@@ -56,6 +56,16 @@
         }
         self.deleteCallback();
     }
+    
+    if ([self.request.HTTPMethod isEqualToString:@"GET"])
+    {
+        if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
+        {
+            self.getCallback(nil);
+        }
+        NSDictionary * result = self.getDataAsDictionary;
+        self.getCallback(result);
+    }
 }
 
 -(void) executePOST

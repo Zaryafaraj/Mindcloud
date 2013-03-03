@@ -329,6 +329,18 @@ static Mindcloud * instance;
     [action executeDELETE];
 }
 
+-(void) getSharingInfo:(NSString *) collectionName
+               forUser:(NSString *) userId
+           andCallback:(get_sharing_info_callback) callback
+{
+    SharingAction * action = [[SharingAction alloc] initWithUserId:userId
+                                                 andCollectionName:collectionName];
+    
+    action.getCallback = callback;
+    
+    [action executeGET];
+    
+}
 -(void) subscribeToCollectionWithSecret:(NSString *) sharingSecret
                                 forUser:(NSString *) userId
                            withCallback:(subscribe_to_collection_callback) callback
