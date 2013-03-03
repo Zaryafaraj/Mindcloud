@@ -117,4 +117,8 @@
 -(void) subscribeToCollectionWithSecret:(NSString *) sharingSecret
                                 forUser:(NSString *) userId
                            withCallback:(subscribe_to_collection_callback) callback;
+
+-(void) getSharingInfo:(NSString *) collectionName
+               forUser:(NSString *) userId
+           andCallback:(get_sharing_info_callback) callback;
 @end

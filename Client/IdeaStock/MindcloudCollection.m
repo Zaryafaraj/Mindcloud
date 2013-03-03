@@ -17,6 +17,7 @@
 #import "MergeResult.h"
 #import "NoteResolutionNotification.h"
 #import "NoteFragmentResolver.h"
+#import "CollectionSharingAdapter.h"
 
 #pragma mark - Definitions
 #define POSITION_X @"positionX"
@@ -86,6 +87,12 @@
  */
 @property (nonatomic,strong) id <CollectionManifestProtocol> manifest;
 
+/*
+ The main interface to carry all the sharing specified actions; note that anything 
+ sharing related will be done server side. This is for querying about sharing info and 
+ getting notified of the listeners
+ */
+@property (nonatomic, strong) CollectionSharingAdapter * sharingAdapter;
 /*
  Keyed on noteName - valued on noteID. All the noteImages for which we have sent
  a request but we are waiting for response
@@ -166,7 +173,11 @@
     self.noteResolver = [[NoteFragmentResolver alloc] initWithCollectionName:collectionName];
     
     self.dataSource = dataSource;
+    self.sharingAdapter = [[CollectionSharingAdapter alloc] initWithCollectionName:collectionName];
     self.bulletinBoardName = collectionName;
+    //first thing to do is figure out if it is sharing or not. We will get
+    //notified of the results later
+    [self.sharingAdapter getSharingInfo];
     //now ask to download and get the collection
     NSData * collectionData = [self.dataSource getCollection:collectionName];
     //If there is a partial collection on the disk from previous usage use that

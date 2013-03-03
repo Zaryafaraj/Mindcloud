@@ -77,6 +77,7 @@
 		DB4FF4CE16ACA8DB00DC6DAA /* MultimediaHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4FF4CD16ACA8DB00DC6DAA /* MultimediaHelper.m */; };
 		DB54E2771645122F008A5BBB /* ButtonMenu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB54E2761645122F008A5BBB /* ButtonMenu@2x.png */; };
 		DB601A3916E2C2380007A636 /* ListenerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB601A3816E2C2380007A636 /* ListenerAction.m */; };
+		DB601A3D16E2CFED0007A636 /* CollectionSharingAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = DB601A3C16E2CFEC0007A636 /* CollectionSharingAdapter.m */; };
 		DB712C87164EF678008E68C6 /* CategoriesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB712C86164EF678008E68C6 /* CategoriesAction.m */; };
 		DB712C8B164F42D1008E68C6 /* PreviewImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB712C8A164F42D1008E68C6 /* PreviewImageAction.m */; };
 		DB7AC5DA1643A52A007756E6 /* CollectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5D91643A52A007756E6 /* CollectionsViewController.m */; };
@@ -249,6 +250,8 @@
 		DB54E2761645122F008A5BBB /* ButtonMenu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ButtonMenu@2x.png"; sourceTree = "<group>"; };
 		DB601A3716E2C2380007A636 /* ListenerAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListenerAction.h; sourceTree = "<group>"; };
 		DB601A3816E2C2380007A636 /* ListenerAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListenerAction.m; sourceTree = "<group>"; };
+		DB601A3B16E2CFEC0007A636 /* CollectionSharingAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionSharingAdapter.h; sourceTree = "<group>"; };
+		DB601A3C16E2CFEC0007A636 /* CollectionSharingAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionSharingAdapter.m; sourceTree = "<group>"; };
 		DB712C85164EF678008E68C6 /* CategoriesAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesAction.h; sourceTree = "<group>"; };
 		DB712C86164EF678008E68C6 /* CategoriesAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesAction.m; sourceTree = "<group>"; };
 		DB712C89164F42D0008E68C6 /* PreviewImageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewImageAction.h; sourceTree = "<group>"; };
@@ -788,6 +791,8 @@
 				DBDB106216D1E08900B5F7AE /* NoteResolutionNotification.m */,
 				DBD06A9616D9D51700463ECC /* MindcloudSharingAdapter.h */,
 				DBD06A9716D9D51700463ECC /* MindcloudSharingAdapter.m */,
+				DB601A3B16E2CFEC0007A636 /* CollectionSharingAdapter.h */,
+				DB601A3C16E2CFEC0007A636 /* CollectionSharingAdapter.m */,
 			);
 			name = Sharing;
 			sourceTree = "<group>";
@@ -990,6 +995,7 @@
 				DBD06A9816D9D51700463ECC /* MindcloudSharingAdapter.m in Sources */,
 				DBD06A9E16DAB6F900463ECC /* SubscriptionAction.m in Sources */,
 				DB601A3916E2C2380007A636 /* ListenerAction.m in Sources */,
+				DB601A3D16E2CFED0007A636 /* CollectionSharingAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
