@@ -28,14 +28,23 @@
     //one hour
     NSMutableURLRequest * theRequest = [NSMutableURLRequest requestWithURL:url
                                         cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                           timeoutInterval:0.03600];
+                                                           timeoutInterval:3600];
     self.request = theRequest;
     return self;
 }
 
 -(void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    NSLog(@"%@", error);
+    //in case of a timeout retry
+    NSError * err = error.userInfo[@"NSUnderlyingError"];
+    if (err.code == -1001)
+    {
+        if ([self.request.HTTPMethod isEqualToString:@"POST"])
+        {
+            NSLog(@"Connection timedout; establishing connection again");
+            [self executePOST];
+        }
+    }
 }
 
 -(void) connectionDidFinishLoading:(NSURLConnection *)connection
