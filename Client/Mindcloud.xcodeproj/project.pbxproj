@@ -73,6 +73,7 @@
 		DB43382D169D2E09000353DA /* CachedMindCloudDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DB43382C169D2E09000353DA /* CachedMindCloudDataSource.m */; };
 		DB4338A0169D4B14000353DA /* XoomlCollectionParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DB43389F169D4B14000353DA /* XoomlCollectionParser.m */; };
 		DB4338A8169E8AAF000353DA /* CollectionAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4338A7169E8AAF000353DA /* CollectionAction.m */; };
+		DB4D940D16E337DB007FE65A /* TempImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4D940C16E337DB007FE65A /* TempImageAction.m */; };
 		DB4E0AC9163DCD3D00AB82E6 /* CollectionsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4E0AC8163DCD3D00AB82E6 /* CollectionsModel.m */; };
 		DB4FF4CE16ACA8DB00DC6DAA /* MultimediaHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4FF4CD16ACA8DB00DC6DAA /* MultimediaHelper.m */; };
 		DB54E2771645122F008A5BBB /* ButtonMenu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB54E2761645122F008A5BBB /* ButtonMenu@2x.png */; };
@@ -243,6 +244,8 @@
 		DB4338A6169E8AAF000353DA /* CollectionAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionAction.h; sourceTree = "<group>"; };
 		DB4338A7169E8AAF000353DA /* CollectionAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionAction.m; sourceTree = "<group>"; };
 		DB4D940716E31E1B007FE65A /* CollectionSharingAdapterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionSharingAdapterDelegate.h; sourceTree = "<group>"; };
+		DB4D940B16E337DB007FE65A /* TempImageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempImageAction.h; sourceTree = "<group>"; };
+		DB4D940C16E337DB007FE65A /* TempImageAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempImageAction.m; sourceTree = "<group>"; };
 		DB4E0AC7163DCD3D00AB82E6 /* CollectionsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionsModel.h; sourceTree = "<group>"; };
 		DB4E0AC8163DCD3D00AB82E6 /* CollectionsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionsModel.m; sourceTree = "<group>"; };
 		DB4E25B016C78A4200E85334 /* ThumbnailManagerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThumbnailManagerProtocol.h; sourceTree = "<group>"; };
@@ -720,6 +723,8 @@
 				DBD06A9D16DAB6F900463ECC /* SubscriptionAction.m */,
 				DB601A3716E2C2380007A636 /* ListenerAction.h */,
 				DB601A3816E2C2380007A636 /* ListenerAction.m */,
+				DB4D940B16E337DB007FE65A /* TempImageAction.h */,
+				DB4D940C16E337DB007FE65A /* TempImageAction.m */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -998,6 +1003,7 @@
 				DBD06A9E16DAB6F900463ECC /* SubscriptionAction.m in Sources */,
 				DB601A3916E2C2380007A636 /* ListenerAction.m in Sources */,
 				DB601A3D16E2CFED0007A636 /* CollectionSharingAdapter.m in Sources */,
+				DB4D940D16E337DB007FE65A /* TempImageAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

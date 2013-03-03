@@ -952,8 +952,13 @@
 }
 
 -(void) noteImagesGotUpdated:(NSDictionary *)noteImagesDict
+           forCollectionName:(NSString *)collectionName
 {
-    
+   for(NSString * collectionName in noteImagesDict)
+   {
+       NSString * imageKey = noteImagesDict[imageKey];
+      
+   }
 }
 
 -(void) notesGotDeleted:(NSDictionary *)noteDeleteDict
