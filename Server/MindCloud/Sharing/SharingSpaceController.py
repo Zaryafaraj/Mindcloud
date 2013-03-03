@@ -113,10 +113,14 @@ class SharingSpaceController(SharingActionDelegate):
                 self.__log.info('SharingSpaceController - backup listener has updates for user %s' % user_id)
                 #return the back up listener to the user and make
                 #the new listener backup listener
+
                 backup_request = self.__backup_listeners[user_id][0]
-                backup_request.write(backup_listener_events.convert_to_json_string())
-                backup_request.set_status(StorageResponse.OK)
-                backup_request.finish()
+                try:
+                    backup_request.write(backup_listener_events.convert_to_json_string())
+                    backup_request.set_status(StorageResponse.OK)
+                    backup_request.finish()
+                except Exception:
+                    pass
                 del self.__backup_listeners[user_id]
                 self.__backup_listeners[user_id] = (request, SharingEvent())
                 self.__log.info('SharingSpaceController - backup listener update returned for user %s; replacing backup listener' % user_id)
@@ -310,9 +314,13 @@ class SharingSpaceController(SharingActionDelegate):
                 sharing_event = SharingEvent()
                 sharing_event.add_event(sharing_action)
                 notification_json = sharing_event.convert_to_json_string()
-                request.write(notification_json)
-                request.set_status(StorageResponse.OK)
-                request.finish()
+                try:
+                    request.write(notification_json)
+                    request.set_status(StorageResponse.OK)
+                    request.finish()
+                #if request is closed, ignore it
+                except Exception:
+                    pass
 
                 SharingSpaceController.__log.info('SharingSpaceController - notified primary listener %s for sharing event %s - %s' % (user_id, sharing_action.get_action_type(), sharing_action.get_action_resource_name()))
 

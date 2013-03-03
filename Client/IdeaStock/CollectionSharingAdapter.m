@@ -48,19 +48,31 @@
 
 -(void) startListening
 {
-    
+    //primary listener
+    [self listen];
+    //backup listener
+    [self listen];
+}
+
+-(void) listen
+{
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
     //add to Listeners
     [mindcloud addListenerTo:self.sharingSpaceURL forSharingSecret:self.sharingSecret andCollection:self.collectionName forUser:userId withCallback:^(NSDictionary * result){
-        NSLog(@"%@", result);
-    }];
-    //backup listener
-    [mindcloud addListenerTo:self.sharingSpaceURL forSharingSecret:self.sharingSecret andCollection:self.collectionName forUser:userId withCallback:^(NSDictionary * result){
-        NSLog(@"%@", result);
+        NSLog(@"backup listener notified");
+        if (result != nil)
+        {
+            [self processListenerResult:result];
+            [self listen];
+        }
     }];
 }
 
+-(void) processListenerResult:(NSDictionary *) result
+{
+    
+}
 -(void) stopListening
 {
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
