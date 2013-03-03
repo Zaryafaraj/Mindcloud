@@ -10,17 +10,15 @@
 
 @protocol CollectionContentNotificationHandler <NSObject>
 
--(void) noteUpdateReceivedForCollectionNamed: (NSString *) collectionName
-                                andNoteNamed:(NSString *) noteName
-                                withNoteData:(NSData *) noteData;
+-(void) noteUpdatesReceivedForCollectionNamed: (NSString *) collectionName
+                                     andNotes:(NSDictionary *) noteDataMap;
 
 
--(void) noteImageUpdateReceivedForCollectionName:(NSString *) collectionName
-                                    andNoteNamed: (NSString *) noteName
-                               withNoteImageData:(NSData *) imageData;
+-(void) noteImagesUpdateReceivedForCollectionName:(NSString *) collectionName
+                                     andNotes:(NSDictionary *) noteDataMap;
 
--(void) noteDeleteReceivedForCollectionName:(NSString *) collectionName
-                               andNoteNamed:(NSString *) noteName;
+-(void) noteDeletesReceivedForCollectionName:(NSString *) collectionName
+                                     andNotes:(NSDictionary *) noteDataMap;
 
 -(void) collectionManifestReceivedForCollectionName:(NSString *) collectionName
                                            withData:(NSData *) data;

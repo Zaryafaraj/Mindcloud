@@ -10,10 +10,19 @@
 
 @protocol CollectionSharingAdapterDelegate <NSObject>
 
--(void) manifestGotUpdated:(NSString *) manifestContent;
--(void) notesGotUpdated:(NSDictionary *) noteUpdateDict;
--(void) notesGotDeleted:(NSDictionary *) noteDeleteDict;
--(void) noteImagesGotUpdated:(NSDictionary *) noteImagesDict;
--(void) thumbnailGotUpdated:(NSString *) thumbnailPath;
+-(void) manifestGotUpdated:(NSString *) manifestContent
+             ForCollection:(NSString *) collectionName;
+
+-(void) notesGotUpdated:(NSDictionary *) noteUpdateDict
+      forCollectionName:(NSString *) collectionName;
+
+-(void) notesGotDeleted:(NSDictionary *) noteDeleteDict
+      forCollectionName:(NSString *) collectionName;
+
+-(void) noteImagesGotUpdated:(NSDictionary *) noteImagesDict
+           forCollectionName:(NSString *) collectionName;
+
+-(void) thumbnailGotUpdated:(NSString *) thumbnailPath
+      forCollectionName:(NSString *) collectionName;
 
 @end

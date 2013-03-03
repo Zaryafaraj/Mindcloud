@@ -856,19 +856,24 @@
 
 #pragma mark - NotificationHandler
 
--(void) noteUpdateReceivedForCollectionNamed:(NSString *)collectionName
-                                andNoteNamed:(NSString *)noteName
-                                withNoteData:(NSData *)noteData
+-(void) noteUpdatesReceivedForCollectionNamed: (NSString *) collectionName
+                                     andNotes:(NSDictionary *) noteDataMap
 {
     
-    //first save it to disk
-    [self saveToDiskNoteData:noteData
-               forCollection:collectionName
-                     andNote:noteName];
+    for(NSString * noteName in noteDataMap)
+    {
+        NSString * noteDataStr = noteDataMap[noteName];
+        NSData * noteData = [noteDataStr dataUsingEncoding:NSUTF8StringEncoding];
+        //first save it to disk
+        [self saveToDiskNoteData:noteData
+                   forCollection:collectionName
+                         andNote:noteName];
+        
+    }
     
     //send out a notification that the note is available to use
     NSDictionary * result = @{@"collectionName" : collectionName,
-                              @"noteName" : noteName};
+                              @"noteName" : noteDataMap.allKeys};
     
     NSDictionary * userInfo = @{@"result" : result};
     [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DOWNLOADED_NOTE
@@ -930,11 +935,15 @@
 
 #pragma mark - CollectionSharingAdapterDelegate
 -(void) manifestGotUpdated:(NSString *)manifestContent
+             ForCollection:(NSString *)collectionName
 {
-    
+    NSData * manifestData =[manifestContent dataUsingEncoding:NSUTF8StringEncoding];
+    [self collectionManifestReceivedForCollectionName:collectionName
+                                             withData:manifestData];
 }
 
 -(void) notesGotUpdated:(NSDictionary *)noteUpdateDict
+      forCollectionName:(NSString *)collectionName
 {
     
 }
