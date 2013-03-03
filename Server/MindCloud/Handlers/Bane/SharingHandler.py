@@ -3,6 +3,7 @@ import urllib2
 from tornado import gen
 import tornado.web
 from Logging import Log
+from Helpers.JokerHelper import JokerHelper
 from Sharing.SharingController import SharingController
 from Storage.StorageResponse import StorageResponse
 from Storage.StorageServer import StorageServer
@@ -66,9 +67,20 @@ class SharingHandler(tornado.web.RequestHandler):
                             user_id, collection_name)
             self.set_status(StorageResponse.OK)
             if sharing_record is not None:
-                json_str = json.dumps(sharing_record.toDictionary())
-                self.write(json_str)
-                self.finish()
+                joker_helper = JokerHelper.get_instance()
+                sharing_secret = sharing_record.get_sharing_secret()
+
+                if sharing_secret is None:
+                    self.set_status(StorageResponse.NOT_FOUND)
+                    self.__log.warning("GET-SharingSpace- No sharing record exists for user %s and collection %s" % (user_id, collection_name))
+                    self.finish()
+                else:
+                    sharing_server = yield gen.Task(joker_helper.get_sharing_space_server, sharing_secret)
+                    sharing_record_dictionary = sharing_record.toDictionary()
+                    sharing_record_dictionary['sharing_space_url'] = sharing_server
+                    json_str = json.dumps(sharing_record_dictionary)
+                    self.write(json_str)
+                    self.finish()
             else:
                 self.set_status(StorageResponse.NOT_FOUND)
                 self.finish()
