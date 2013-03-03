@@ -9,6 +9,7 @@
 #import "CollectionSharingAdapter.h"
 #import "Mindcloud.h"
 #import "UserPropertiesHelper.h"
+#import "EventTypes.h"
 
 @interface CollectionSharingAdapter()
 @property (strong, nonatomic) NSString * collectionName;
@@ -31,7 +32,6 @@
     [mindcloud getSharingInfo:self.collectionName forUser:userId andCallback:^(NSDictionary * sharingInfo){
         if (sharingInfo == nil)
         {
-            NSLog(@"collection is Not Shared");
             self.isShared = NO;
         }
         else
@@ -40,7 +40,8 @@
             self.isShared = YES;
             self.sharingSecret = sharingInfo[@"secret"];
             self.sharingSpaceURL = sharingInfo[@"sharing_space_url"];
-            NSLog(@"%@", sharingInfo);
+            NSDictionary * userInfo = @{@"result" :@{@"collectionName":self.collectionName}};
+            [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_IS_SHARED object:self userInfo:userInfo];
         }
     }];
 }

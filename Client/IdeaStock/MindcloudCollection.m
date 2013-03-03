@@ -52,8 +52,8 @@
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
 
-#define SYNCHRONIZATION_PERIOD 2
-
+#define SHARED_SYNCH_PERIOD 1
+#define UNSHARED_SYNCH_PERIOD 30
 
 @interface MindcloudCollection()
 
@@ -129,6 +129,11 @@
  this and then nothing else is needed
  */
 @property BOOL needSynchronization;
+
+/*
+ Determined based on whether the collection is Shared or Not
+ */
+@property long synchronizationPeriod;
 /*
  Synchronization Timer
  */
@@ -180,6 +185,8 @@
     [self.sharingAdapter getSharingInfo];
     //now ask to download and get the collection
     NSData * collectionData = [self.dataSource getCollection:collectionName];
+    self.synchronizationPeriod = UNSHARED_SYNCH_PERIOD;
+    
     //If there is a partial collection on the disk from previous usage use that
     //temporarily until its updated. Note that getCollection takes care of the
     //update
@@ -215,6 +222,11 @@
                                                  name:NOTE_RESOLVED_EVENT
                                                object:nil];
     
+    //notification for the nature of the sharing
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(collectionIsShared:)
+                                                 name:COLLECTION_IS_SHARED
+                                               object:nil];
     //notifications for listener updates
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(listenerDownloadedNote:)
@@ -317,7 +329,17 @@
     }
 }
 #pragma mark - Notifications
-
+-(void) collectionIsShared:(NSNotification *) notification
+{
+    NSDictionary * result = notification.userInfo[@"result"];
+    NSString * collectionName = result[@"collectionName"];
+    if (collectionName != nil &&
+        [collectionName isEqualToString:self.bulletinBoardName])
+    {
+        self.synchronizationPeriod = SHARED_SYNCH_PERIOD;
+        [self restartTimer];
+    }
+}
 -(void) collectionFilesDownloaded: (NSNotification *) notification{
     NSData * bulletinBoardData = [self.dataSource getCollection:self.bulletinBoardName];
     if (!bulletinBoardData)
@@ -1100,15 +1122,21 @@
     
     if (self.timer.isValid) return;
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval: SYNCHRONIZATION_PERIOD
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:self.synchronizationPeriod
                                                   target:self
                                                 selector:@selector(synchronize:)
                                                 userInfo:nil
                                                  repeats:YES];
+    NSLog(@"Timer started for %ld seconds", self.synchronizationPeriod);
 }
 
 -(void) stopTimer{
     [self.timer invalidate];
+}
+
+-(void)restartTimer{
+    [self stopTimer];
+    [self startTimer];
 }
 
 -(void)synchronize

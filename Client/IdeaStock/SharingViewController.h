@@ -12,4 +12,6 @@
 @interface SharingViewController : UIViewController <MFMailComposeViewControllerDelegate>
 
 @property (strong, nonatomic) NSString * collectionName;
+
+
 @end

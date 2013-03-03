@@ -45,6 +45,9 @@
 #define COLLECTIION_SUBSCRIBER @"collectionSubscribed"
 #define SUBSCRIBED_TO_COLLECTION @"subscribedToCollection"
 
+//single collection sharing
+#define COLLECTION_IS_SHARED @"collectionIsShared"
+#define LISTENER_RETURNED @"listenerReturned"
 
 //UI Events
 #define RESIZE_POPOVER_FOR_SECRET @"resizePopoverForSecret"
