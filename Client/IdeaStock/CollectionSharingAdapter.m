@@ -38,6 +38,8 @@
         {
             NSLog(@"collection is Shared");
             self.isShared = YES;
+            self.sharingSecret = sharingInfo[@"secret"];
+            self.sharingSpaceURL = sharingInfo[@"sharing_space_url"];
             NSLog(@"%@", sharingInfo);
         }
     }];

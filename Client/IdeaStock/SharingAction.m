@@ -53,6 +53,7 @@
         if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
         {
             NSLog(@"Received status %d", self.lastStatusCode);
+            
         }
         self.deleteCallback();
     }
@@ -62,6 +63,7 @@
         if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
         {
             self.getCallback(nil);
+            return;
         }
         NSDictionary * result = self.getDataAsDictionary;
         self.getCallback(result);

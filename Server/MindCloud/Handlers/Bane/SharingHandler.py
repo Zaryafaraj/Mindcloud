@@ -78,6 +78,10 @@ class SharingHandler(tornado.web.RequestHandler):
                     sharing_server = yield gen.Task(joker_helper.get_sharing_space_server, sharing_secret)
                     sharing_record_dictionary = sharing_record.toDictionary()
                     sharing_record_dictionary['sharing_space_url'] = sharing_server
+                    #for privacy and security reasons
+                    del sharing_record_dictionary['owner']
+                    del sharing_record_dictionary['subscribers']
+
                     json_str = json.dumps(sharing_record_dictionary)
                     self.write(json_str)
                     self.finish()
