@@ -873,7 +873,7 @@
     
     //send out a notification that the note is available to use
     NSDictionary * result = @{@"collectionName" : collectionName,
-                              @"noteName" : noteDataMap.allKeys};
+                              @"notes" : noteDataMap.allKeys};
     
     NSDictionary * userInfo = @{@"result" : result};
     [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DOWNLOADED_NOTE

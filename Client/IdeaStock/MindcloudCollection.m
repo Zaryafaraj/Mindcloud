@@ -517,31 +517,34 @@
 {
     NSDictionary * result = notification.userInfo[@"result"];
     NSString * collectionName = result[@"collectionName"];
-    NSString * noteName = result[@"noteName"];
+    NSArray * notes = result[@"notes"];
     if ([collectionName isEqualToString:self.bulletinBoardName])
     {
-        
-        NSData * noteData = [self.dataSource getNoteForTheCollection:collectionName
-                                                            WithName:noteName];
-        id<NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
-        NSString * noteId = [noteObj noteTextID];
-        
-        
-        //if its just an update , update it
-        if (self.noteContents[noteId])
+        for (NSString * noteName in notes)
         {
-            //just update the content
-            self.noteContents[noteId] = noteObj;
-            NSDictionary * userInfo =  @{@"result" :  @[noteId]};
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_CONTENT_UPDATED_EVENT
-                                                                object:self
-                                                              userInfo:userInfo];
-        }
-        //if its a new note submit the piece of the note that was received to resolver
-        else
-        {
-            [self.noteResolver noteContentReceived:noteObj
-                                         forNoteId:noteId];
+            NSData * noteData = [self.dataSource getNoteForTheCollection:collectionName
+                                                                WithName:noteName];
+            id<NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
+            NSString * noteId = [noteObj noteTextID];
+            
+            
+            //if its just an update , update it
+            if (self.noteContents[noteId])
+            {
+                //just update the content
+                self.noteContents[noteId] = noteObj;
+                NSDictionary * userInfo =  @{@"result" :  @[noteId]};
+                [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_CONTENT_UPDATED_EVENT
+                                                                    object:self
+                                                                  userInfo:userInfo];
+            }
+            //if its a new note submit the piece of the note that was received to resolver
+            else
+            {
+                [self.noteResolver noteContentReceived:noteObj
+                                             forNoteId:noteId];
+            }
+            
         }
     }
 }
