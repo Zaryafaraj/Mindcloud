@@ -39,6 +39,7 @@ class SharingEvent:
         elif event_type == SharingEvent.DELETE_NOTE:
             event_content = 'Deleted'
         else:
+            event_file.seek(0)
             event_content = event_file.read()
 
         #we can have only one manifest
