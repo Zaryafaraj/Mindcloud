@@ -15,6 +15,9 @@
 -(CollectionNote *) initEmptyNoteWithID:(NSString *)noteID 
                                    andDate: (NSString *)date;
 
+-(CollectionNote *) initWithText:(NSString *)text
+                       andNoteId:(NSString *) noteId;
+
 -(CollectionNote *) initEmptyNoteWithID: (NSString *) noteID;
 
 -(CollectionNote *) initWithText: (NSString *) text;

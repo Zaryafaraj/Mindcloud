@@ -43,6 +43,15 @@
     return  self;
 }
 
+-(CollectionNote *) initWithText:(NSString *)text
+                       andNoteId:(NSString *) noteId
+{
+    self = [[CollectionNote alloc] init];
+    self.noteTextID = noteId;
+    self.noteText = text;
+    return  self;
+}
+
 - (NSString *) description{
     return self.noteText;
 }

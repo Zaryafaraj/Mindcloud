@@ -1546,7 +1546,8 @@ intoStackingWithMainView: (UIView *) mainView
     
     NoteView * noteView = (NoteView *)note;
     NSString * noteId = noteView.ID;
-    CollectionNote * newNoteObj = [[CollectionNote alloc] initWithText:text];
+    CollectionNote * newNoteObj = [[CollectionNote alloc] initWithText:text
+                                                             andNoteId:noteId];
     [self.board updateNoteContentOf:noteId withContentsOf:newNoteObj];
 }
 
