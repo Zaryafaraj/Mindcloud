@@ -8,6 +8,7 @@
 
 #import "StackView.h"
 #import "ImageView.h"
+#import "CollectionAnimationHelper.h"
 
 @interface StackView()
 
@@ -61,7 +62,7 @@
         if (highlighted){
             if ([subView isKindOfClass:[UIImageView class]]){
                 [((UIImageView *) subView) setImage:self.highlightedImage];
-
+                
                 for (UIView * imgView in subView.subviews){
                     if ([imgView isKindOfClass:[UIImageView class]]){
                         img = (UIImageView *) imgView;
@@ -70,7 +71,7 @@
                 [UIView animateWithDuration:0.20 animations:^{
                     [subView setTransform:CGAffineTransformMakeScale(1.3, 1.4)];
                     [img setTransform:CGAffineTransformMakeScale(0.9, 0.8)];
-                }];                              
+                }];
             }
         }
         else{
@@ -116,7 +117,7 @@
 //what we have is a main stack view, a layer of image view under it which is the image of the stack, and another layer
 //underneath it which is the image that stands on top of the stack image
 -(id) initWithViews: (NSMutableArray *) views
-        andMainView: (NoteView *) mainView 
+        andMainView: (NoteView *) mainView
           withFrame:(CGRect) frame
 {
     self = [super initWithFrame:frame];
@@ -147,7 +148,7 @@
         self.text= mainView.text;
         self.originalFrame = self.frame;
     }
-    return self;    
+    return self;
 }
 
 -(void) setTopViewForMainView:(NoteView *) mainView
@@ -210,8 +211,8 @@
         [self setNextMainViewWithNoteToRemove:note];
         if([self.views count] == 0)
         {
-          //manifest update will take care of this
-          //  [self.delegate stackViewIsEmpty:self];
+            //manifest update will take care of this
+            //  [self.delegate stackViewIsEmpty:self];
         }
     }
 }
@@ -245,14 +246,14 @@
                                         view.frame.origin.y + view.frame.size.height * IMG_OFFSET_Y_RATE,
                                         view.frame.size.width * IMG_SIZE_WIDTH_RATIO,
                                         view.frame.size.height * IMG_SIZE_HEIGHT_RATIO);
-
+            
             [view addSubview:newImage];
             break;
         }
     }
 }
 
--(void) scale:(CGFloat) scaleFactor{
+-(void) scale:(CGFloat) scaleFactor animated:(BOOL)animated{
     
     if ( self.frame.size.width * scaleFactor > self.originalFrame.size.width * 2||
         self.frame.size.height * scaleFactor > self.originalFrame.size.height * 2){
@@ -264,30 +265,56 @@
     }
     
     self.scaleOffset *= scaleFactor;
-    self.frame = CGRectMake(self.frame.origin.x,
-                            self.frame.origin.y, 
-                            self.frame.size.width * scaleFactor,
-                            self.frame.size.height * scaleFactor);
+    CGRect frame = CGRectMake(self.frame.origin.x,
+                              self.frame.origin.y,
+                              self.frame.size.width * scaleFactor,
+                              self.frame.size.height * scaleFactor);
     
+    if (animated)
+    {
+        [CollectionAnimationHelper animateChangeFrame:self withNewFrame:frame];
+    }
+    else
+    {
+        self.frame = frame;
+    }
     
     for (UIView * subView in self.subviews){
         if ([subView isKindOfClass:[UIImageView class]]){
-            subView.frame = CGRectMake(subView.frame.origin.x,
-                                       subView.frame.origin.y,
-                                       subView.frame.size.width * scaleFactor,
-                                       subView.frame.size.height * scaleFactor);
+            CGRect subViewFrame = CGRectMake(subView.frame.origin.x,
+                                             subView.frame.origin.y,
+                                             subView.frame.size.width * scaleFactor,
+                                             subView.frame.size.height * scaleFactor);
+            if (animated)
+            {
+                [CollectionAnimationHelper animateChangeFrame:subView withNewFrame:subViewFrame];
+            }
+            else
+            {
+                subView.frame = subViewFrame;
+            }
             //if we have an image on top of the stack that will be the subview of this image view which is the stack image
             for(UIView * stackTop in subView.subviews)
             {
                 if ([stackTop isKindOfClass:[UIImageView class]])
                 {
-                    stackTop.frame = CGRectMake(subView.frame.origin.x + subView.frame.size.width * IMG_OFFSET_X_RATE,
-                                                subView.frame.origin.y + subView.frame.size.height * IMG_OFFSET_Y_RATE,
-                                                subView.frame.size.width * IMG_SIZE_WIDTH_RATIO,
-                                                subView.frame.size.height * IMG_SIZE_HEIGHT_RATIO);
+                    CGRect frame = CGRectMake(subView.frame.origin.x + subView.frame.size.width * IMG_OFFSET_X_RATE,
+                                              subView.frame.origin.y + subView.frame.size.height * IMG_OFFSET_Y_RATE,
+                                              subView.frame.size.width * IMG_SIZE_WIDTH_RATIO,
+                                              subView.frame.size.height * IMG_SIZE_HEIGHT_RATIO);
                     
+                    if (animated)
+                    {
+                        [CollectionAnimationHelper animateChangeFrame:stackTop
+                                                         withNewFrame:frame];
+                    }
+                    else
+                    {
+                        stackTop.frame = frame;
+                        
+                    }
                 }
-                    
+                
             }
             
         }
@@ -393,7 +420,7 @@
     {
         [self removeMainViewImage];
     }
-
+    
     //we now need to find a substitue for it
     //if we have any image notes use that
     ImageView * topView = nil;

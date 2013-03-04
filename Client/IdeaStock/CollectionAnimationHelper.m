@@ -146,5 +146,13 @@ backIntoScreenBoundsInRect:(CGRect) frame
         view.transform = CGAffineTransformScale(view.transform, scale, scale);
     }];
 }
+
++(void) animateChangeFrame:(UIView *) view
+              withNewFrame:(CGRect) newFrame
+{
+    [UIView animateWithDuration:0.25 animations:^{
+        view.frame = newFrame;
+    }];
+}
 @end
 

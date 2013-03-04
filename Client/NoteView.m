@@ -7,6 +7,7 @@
 //
 
 #import "NoteView.h"
+#import "CollectionAnimationHelper.h"
 
 @interface NoteView()
 
@@ -181,24 +182,42 @@
     return YES;
 }
 
--(void) scale:(CGFloat) scaleFactor{
+-(void) scale:(CGFloat) scaleFactor animated:(BOOL)animated{
     
     BOOL isValid = [self isScalingValid:scaleFactor];
     if (!isValid) return;
 
     self.scaleOffset *= scaleFactor;
-    self.frame = CGRectMake(self.frame.origin.x,
-                            self.frame.origin.y, 
-                            self.frame.size.width * scaleFactor,
-                            self.frame.size.height * scaleFactor);
+    
+    CGRect newFrame = CGRectMake(self.frame.origin.x,
+                                 self.frame.origin.y,
+                                 self.frame.size.width * scaleFactor,
+                                 self.frame.size.height * scaleFactor);
+    if (animated)
+    {
+        [CollectionAnimationHelper animateChangeFrame:self withNewFrame:newFrame];
+    }
+    else
+    {
+        self.frame = newFrame;
+    }
     
     for (UIView * subView in self.subviews){
         
         if ([subView isKindOfClass:[UIImageView class]]){
-            subView.frame = CGRectMake(subView.frame.origin.x,
+            CGRect newFrame = CGRectMake(subView.frame.origin.x,
                                        subView.frame.origin.y,
                                        subView.frame.size.width * scaleFactor,
                                        subView.frame.size.height * scaleFactor);
+            
+            if (animated)
+            {
+                [CollectionAnimationHelper animateChangeFrame:subView withNewFrame:newFrame];
+            }
+            else
+            {
+                subView.frame = newFrame;
+            }
         }
         else if ([subView isKindOfClass:[UITextView class]]){
             //doing this to make the text clearer instead of resizing an existing UITextView

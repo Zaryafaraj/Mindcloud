@@ -10,7 +10,8 @@
 
 @protocol BulletinBoardObject <NSObject>
 
--(void) scale:(CGFloat) scaleFactor;
+-(void) scale:(CGFloat) scaleFactor
+     animated:(BOOL) animated;
 -(void) resetSize;
 
 -(void) resignFirstResponder;

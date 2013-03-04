@@ -56,4 +56,7 @@ backIntoScreenBoundsInRect:(CGRect) frame;
 +(void) animateScaleView:(UIView *) view
                withScale:(float) scale
             inCollection:(UIView *) collectionView;
+
++(void) animateChangeFrame:(UIView *) view
+              withNewFrame:(CGRect) newFrame;
 @end

@@ -276,7 +276,7 @@
         scale = scale / view.scaleOffset;
         if (scale != 0 && view.scaleOffset != scale)
         {
-            [view scale:scale];
+            [view scale:scale animated:YES];
         }
         
         
@@ -362,7 +362,7 @@
             //scale the stack if necessary
             float scaling = [stacking.scale floatValue];
             scaling = scaling/stack.scaleOffset;
-            if (scaling && stack.scaleOffset != scaling) [stack scale:scaling];
+            if (scaling && stack.scaleOffset != scaling) [stack scale:scaling animated:YES];
             
             //add stacking
             stack.ID = stackId;
@@ -476,7 +476,7 @@
         float scaling = [stacking.scale floatValue];
         
         scaling = scaling / stack.scaleOffset;
-        if (scaling && stack.scaleOffset != scaling) [stack scale:scaling];
+        if (scaling && stack.scaleOffset != scaling) [stack scale:scaling animated:YES];
         
         NSMutableSet * newRefIds = [stacking.refIds mutableCopy];
         NSMutableSet * oldRefIds = [stack.getAllNoteIds mutableCopy];
@@ -797,7 +797,7 @@
         CGFloat scale = sender.scale;
         if ([sender.view conformsToProtocol: @protocol(BulletinBoardObject)]){
             UIView <BulletinBoardObject> * view = (NoteView *) sender.view;
-            [view scale:scale];
+            [view scale:scale animated:NO];
             if (sender.state == UIGestureRecognizerStateEnded)
             {
                 CGFloat scaleOffset = view.scaleOffset;
@@ -1168,14 +1168,14 @@
         note.ID = noteID;
         __weak NoteView * noteRef = note;
         self.imageNoteViews[note.ID] = noteRef;
-        [note scale:scale];
+        [note scale:scale animated:NO];
     }
     else{
         note = [[NoteView alloc] initWithFrame:noteFrame];
         note.ID = noteID;
         __weak NoteView * noteRef = note;
         self.noteViews[note.ID] = noteRef;
-        [note scale:scale];
+        [note scale:scale animated:NO];
     }
     return note;
 }
@@ -1294,7 +1294,7 @@
     
     if (scale)
     {
-        [stack scale:scale];
+        [stack scale:scale animated:NO];
     }
     stack.ID = stackingID;
     
