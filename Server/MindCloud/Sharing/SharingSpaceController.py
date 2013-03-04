@@ -162,14 +162,23 @@ class SharingSpaceController(SharingActionDelegate):
 
     def cleanup(self):
 
+        to_be_removed = []
         for user_id in self.__backup_listeners:
             backup_listener = self.__backup_listeners[user_id][0]
             self.__finish_request(backup_listener)
+            to_be_removed.append(user_id)
+
+        for user_id in to_be_removed:
             del self.__backup_listeners[user_id]
+
+        del to_be_removed[:]
 
         for user_id in self.__listeners:
             primary_listener = self.__listeners[user_id]
             self.__finish_request(primary_listener)
+            to_be_removed.append(user_id)
+
+        for user_id in to_be_removed:
             del self.__listeners[user_id]
 
     def get_number_of_primary_listeners(self):
