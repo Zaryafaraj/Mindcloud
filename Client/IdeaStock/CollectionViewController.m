@@ -121,7 +121,7 @@
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(noteImageUpdateEventOccured::)
+                                             selector:@selector(noteImageUpdateEventOccured:)
                                                  name:NOTE_IMAGE_UPDATED_EVENT
                                                object:self.board];
     

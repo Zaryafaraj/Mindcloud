@@ -18,7 +18,7 @@
     andSharingSecret:(NSString *) sharingSecret
 {
     self = [super init];
-    NSString * resourcePath = [NSString stringWithFormat:@"SharingSpace/%@/%@/%@/%@/%@", sharingSecret,userId, collectionName, noteName, sharingSecret];
+    NSString * resourcePath = [NSString stringWithFormat:@"/SharingSpace/%@/%@/%@/%@/%@", sharingSecret,userId, collectionName, noteName, imgSecret];
     resourcePath = [resourcePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL * url = [NSURL URLWithString:[baseURL stringByAppendingString:resourcePath]];
     NSMutableURLRequest * theRequest = [NSMutableURLRequest requestWithURL:url

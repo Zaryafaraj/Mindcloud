@@ -942,7 +942,7 @@
 
 -(BOOL) doesNoteHaveImage:(NSString *)noteId
 {
-    return [self.downloadableImageNotes containsObject:noteId] ? YES:NO;
+    return [self.downloadableImageNotes containsObject:noteId] || self.noteImages[noteId];
 }
 
 -(NSDictionary *) getAllNoteImages{

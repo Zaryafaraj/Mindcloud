@@ -960,7 +960,7 @@
 {
     for(NSString * noteName in noteImagesDict)
     {
-        NSString * imageKey = noteImagesDict[imageKey];
+        NSString * imageKey = noteImagesDict[noteName];
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
         NSString * noteNameClosure = noteName;

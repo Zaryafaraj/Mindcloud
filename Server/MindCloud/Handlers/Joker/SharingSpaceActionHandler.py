@@ -68,14 +68,19 @@ class SharingSpaceActionHandler(tornado.web.RequestHandler):
 
 
 
-        img = yield gen.Task(sharing_space.get_temp_img, secret,
-            user_id, collection_name, note_name)
-        if img is None:
+        #someone is trying to hack their way
+        if secret == sharing_secret:
             self.set_status(404)
             self.finish()
         else:
-            self.set_status(200)
-            self.write(img)
-            self.finish()
+            img = yield gen.Task(sharing_space.get_temp_img, secret,
+                user_id, collection_name, note_name)
+            if img is None:
+                self.set_status(404)
+                self.finish()
+            else:
+                self.set_status(200)
+                self.write(img)
+                self.finish()
 
 
