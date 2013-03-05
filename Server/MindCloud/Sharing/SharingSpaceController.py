@@ -207,7 +207,7 @@ class SharingSpaceController(SharingActionDelegate):
         """
         return [user_id for user_id in self.__backup_listeners]
 
-    def add_action(self, sharing_action):
+    def add_action(self, sharing_action, owner=' '):
         """
         An action that needs to be taken place and all the
         listeners sohuld get notified of
@@ -229,7 +229,7 @@ class SharingSpaceController(SharingActionDelegate):
         """
 
         #first notify all the listeners as fast as possible
-        self.__notify_listeners(sharing_action)
+        self.__notify_listeners(sharing_action, owner)
 
         #Now add the action to the latest_sharing_actions to be
         #performed later. This is not as time bound as notify listeners
@@ -307,7 +307,7 @@ class SharingSpaceController(SharingActionDelegate):
         self.__cache.set_temp_img(img_secret, img_file, callback=callback)
 
     @gen.engine
-    def __notify_listeners(self, sharing_action):
+    def __notify_listeners(self, sharing_action, owner=' '):
         #for each primary listener notify the primary listener
         event_type = sharing_action.get_action_type()
         #in the case of the image we cache the image and notify the user
@@ -318,7 +318,7 @@ class SharingSpaceController(SharingActionDelegate):
 
         notified_listeners = set()
         for user_id in self.__listeners:
-            if user_id != sharing_action.get_user_id() :
+            if user_id != owner:
                 request = self.__listeners[user_id]
                 sharing_event = SharingEvent()
                 sharing_event.add_event(sharing_action)
@@ -341,7 +341,7 @@ class SharingSpaceController(SharingActionDelegate):
             #the backup listener didn't have a primary listener
             #so it must be in recording state
             if user_id not in notified_listeners and \
-               user_id != sharing_action.get_user_id():
+               user_id != owner:
                 backup_sharing_event = self.__backup_listeners[user_id][1]
                 backup_sharing_event.add_event(sharing_action)
 

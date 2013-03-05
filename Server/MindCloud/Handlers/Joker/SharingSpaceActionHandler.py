@@ -43,7 +43,7 @@ class SharingSpaceActionHandler(tornado.web.RequestHandler):
                 self.__log.info('SharingSpaceActionHandler - adding %s action to sharing space %s from action initiated by user %s' % (str(len(all_actions)), sharing_secret, sharing_action.get_user_id()))
 
                 for action in all_actions:
-                    sharing_space.add_action(action)
+                    sharing_space.add_action(action, owner=sharing_action.get_user_id())
 
                 #as the user is concerned this call is finished
                 self.set_status(200)
@@ -65,8 +65,6 @@ class SharingSpaceActionHandler(tornado.web.RequestHandler):
             self.__log.info('SharingSpaceActionHandler - getting collection thumbnail with secret %s for user %s and collection %s from temp images of sharing space %s' % (secret, user_id, collection_name, sharing_secret))
         else:
             self.__log.info('SharingSpaceActionHandler - getting img with secret %s for user %s and collection %s for note %s from temp images of sharing space %s' % (secret, user_id, collection_name, note_name, sharing_secret))
-
-
 
         #someone is trying to hack their way
         if secret == sharing_secret:
