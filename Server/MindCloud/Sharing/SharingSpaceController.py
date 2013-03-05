@@ -229,7 +229,8 @@ class SharingSpaceController(SharingActionDelegate):
         """
 
         #first notify all the listeners as fast as possible
-        self.__notify_listeners(sharing_action, owner)
+        if sharing_action.get_action_type != SharingEvent.UPDATE_THUMBNAIL:
+            self.__notify_listeners(sharing_action, owner)
 
         #Now add the action to the latest_sharing_actions to be
         #performed later. This is not as time bound as notify listeners
