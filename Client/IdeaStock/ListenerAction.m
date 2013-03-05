@@ -61,7 +61,10 @@
         }
         
         NSDictionary * result = self.getDataAsDictionary;
-        self.postCallback(result);
+        if ([result count] != 0)
+        {
+            self.postCallback(result);
+        }
     }
     
     if ([self.request.HTTPMethod isEqualToString:@"DELETE"])
