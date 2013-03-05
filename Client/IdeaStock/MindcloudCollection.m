@@ -470,6 +470,10 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:IMAGE_NOTE_ADDED_EVENT
                                                                 object:self
                                                               userInfo:userInfo];
+            
+            [self.thumbnailStack addObject:noteId];
+            self.originalThumbnail = nil;
+            [self.manifest updateThumbnailWithImageOfNote:noteId];
         }
         else
         {
@@ -569,6 +573,12 @@
         {
             self.noteImages[noteId] = imagePath;
             self.noteContents[noteId] = noteObj;
+            
+            //update thumbnail
+            [self.thumbnailStack addObject:noteId];
+            self.originalThumbnail = nil;
+            [self.manifest updateThumbnailWithImageOfNote:noteId];
+            
             NSDictionary * userInfo =  @{@"result" :  @[noteId]};
             [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_IMAGE_UPDATED_EVENT
                                                                 object:self
