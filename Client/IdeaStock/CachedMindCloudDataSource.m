@@ -42,6 +42,8 @@
 @property NSMutableDictionary * imageHasUpdatedCache;
 @property BOOL isCategoriesUpdated;
 
+@property (nonatomic, strong) NSMutableDictionary * sharedCollections;
+
 @end
 
 @implementation CachedMindCloudDataSource
@@ -72,8 +74,19 @@
     self.collectionHasUpdatedCache = [NSMutableDictionary dictionary];
     self.imageHasUpdatedCache = [NSMutableDictionary dictionary];
     self.thumbnailHasUpdatedCache = [NSMutableDictionary dictionary];
+    self.sharedCollections = [NSMutableDictionary dictionary];
     self.isCategoriesUpdated = NO;
     return self;
+}
+
+-(void) collectionIsShared:(NSString *)collectionName
+{
+    self.sharedCollections[collectionName] = @YES;
+}
+
+-(void) collectionIsNotShared:(NSString *) collectionName
+{
+    [self.sharedCollections removeObjectForKey:collectionName];
 }
 
 -(NSArray *) getAllCollections
@@ -188,11 +201,17 @@
                   }];
 }
 
+-(BOOL) shouldUpdateThumbnailFor:(NSString *) collectionName
+{
+    if (self.sharedCollections[collectionName] && self.thumbnailHasUpdatedCache[collectionName]) return YES;
+    else if (!self.thumbnailHasUpdatedCache[collectionName]) return YES;
+    else return NO;
+}
 -(NSData *) getThumbnailForCollection:(NSString *) collectionName
 {
     
     NSData * thumbnailData = [self getThumbnailFromDiskForCollection:collectionName];
-    if (!self.thumbnailHasUpdatedCache[collectionName])
+    if ([self shouldUpdateThumbnailFor:collectionName])
     {
         
         [NetworkActivityHelper addActivityInProgress];
@@ -440,10 +459,23 @@
 
 
 #pragma mark retreival
+-(BOOL) shouldUpdateCacheForCollection:(NSString *) collectionName
+{
+    if (self.sharedCollections[collectionName] && self.collectionHasUpdatedCache[collectionName]) return YES;
+    else if (!self.collectionHasUpdatedCache[collectionName]) return YES;
+    else return NO;
+}
+
+-(NSData *) getCollectionFromCache:(NSString *)collectionName
+{
+    NSData * cachedData = [self getCollectionFromDisk:collectionName];
+    return cachedData;
+}
+
 - (NSData *) getCollection: (NSString *) collectionName
 {
     NSData * cachedData = [self getCollectionFromDisk:collectionName];
-    if (!self.collectionHasUpdatedCache[collectionName])
+    if ([self shouldUpdateCacheForCollection:collectionName])
     {
         //whatever is cached we try to retreive the collection again
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
@@ -620,6 +652,7 @@
     }
     NSString * imageCacheKey = [self getImageCacheKeyForCollection:collectionName
                                                            andNote:noteName];
+    //images are always cached whether for shared or unshared collections
     if (!self.imageHasUpdatedCache[imageCacheKey])
     {
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
@@ -971,8 +1004,10 @@
                         andImageSecret:imageKey
                             fromBaseUR:baseURL
                           withCallback:^(NSData * imgData){
+                              NSLog(@"Received empty temp image");
                               if (imgData)
                               {
+                                  NSLog(@"Received temp image for note %@", noteName);
                                   [self noteImageUpdateReceivedForCollectionName:collectionName
                                                                     andNoteNamed:noteNameClosure
                                                                withNoteImageData:imgData];

@@ -13,6 +13,7 @@
 #import "SynchronizedObject.h"
 #import "ThumbnailManagerProtocol.h"
 
+
 #define STACKING @"stacking"
 #define GROUPING @"grouping"
 #define LINKAGE @"linkage"

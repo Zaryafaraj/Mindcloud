@@ -8,6 +8,7 @@
 
 #import "MindcloudCollection.h"
 #import "XoomlCollectionParser.h"
+#import "SharingAwareObject.h"
 
 #import "XoomlCollectionManifest.h"
 #import "FileSystemHelper.h"
@@ -18,6 +19,7 @@
 #import "NoteResolutionNotification.h"
 #import "NoteFragmentResolver.h"
 #import "CollectionSharingAdapter.h"
+#import "cachedCollectionContainer.h"
 
 #pragma mark - Definitions
 #define POSITION_X @"positionX"
@@ -52,6 +54,7 @@
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
 
+
 #define SHARED_SYNCH_PERIOD 1
 #define UNSHARED_SYNCH_PERIOD 30
 
@@ -81,7 +84,8 @@
  The datasource is connected to the mindcloud servers and can be viewed as the expensive
  permenant storage
  */
-@property (nonatomic,strong) id<MindcloudDataSource> dataSource;
+@property (nonatomic,strong) id<MindcloudDataSource,CollectionSharingAdapterDelegate,
+SharingAwareObject, cachedCollectionContainer> dataSource;
 /*
  The manifest of the loaded collection
  */
@@ -149,6 +153,9 @@
  */
 @property (strong, atomic) NoteFragmentResolver * noteResolver;
 
+@property BOOL hasStartedListening;
+@property BOOL isInSynchWithServer;
+
 /*
  Related to listeners
  All the notes that the listener download but are waiting for the manifest
@@ -163,7 +170,7 @@
 
 #pragma mark - Initialization
 -(id) initCollection:(NSString *)collectionName
-      withDataSource:(id<MindcloudDataSource, CollectionSharingAdapterDelegate>)dataSource
+      withDataSource:(id<MindcloudDataSource, CollectionSharingAdapterDelegate, SharingAwareObject, cachedCollectionContainer>) dataSource
 {
     self = [super init];
     self.recorder = [[CollectionRecorder alloc] init];
@@ -176,6 +183,8 @@
     self.waitingNoteImages = [NSMutableDictionary dictionary];
     self.noteStacking = [NSMutableDictionary dictionary];
     self.noteResolver = [[NoteFragmentResolver alloc] initWithCollectionName:collectionName];
+    self.hasStartedListening = NO;
+    self.isInSynchWithServer = NO;
     
     self.dataSource = dataSource;
     self.sharingAdapter = [[CollectionSharingAdapter alloc] initWithCollectionName:collectionName
@@ -337,13 +346,18 @@
     if (collectionName != nil &&
         [collectionName isEqualToString:self.bulletinBoardName])
     {
-        self.synchronizationPeriod = SHARED_SYNCH_PERIOD;
-        [self.sharingAdapter startListening];
-        [self restartTimer];
+        [self.dataSource collectionIsShared:collectionName];
+        if (!self.hasStartedListening && self.isInSynchWithServer)
+        {
+            self.synchronizationPeriod = SHARED_SYNCH_PERIOD;
+            [self.sharingAdapter startListening];
+            self.hasStartedListening = YES;
+            [self restartTimer];
+        }
     }
 }
 -(void) collectionFilesDownloaded: (NSNotification *) notification{
-    NSData * bulletinBoardData = [self.dataSource getCollection:self.bulletinBoardName];
+    NSData * bulletinBoardData = [self.dataSource getCollectionFromCache:self.bulletinBoardName];
     if (!bulletinBoardData)
     {
         NSLog(@"Collection Files haven't been downloaded properly");
@@ -447,6 +461,16 @@
         [self.recorder reset];
         self.needSynchronization = YES;
     }
+    
+    //if its the first time that we are synching a shared collection then start listening here
+    if (self.sharingAdapter.isShared && !self.isInSynchWithServer)
+    {
+        self.synchronizationPeriod = SHARED_SYNCH_PERIOD;
+        [self.sharingAdapter startListening];
+        self.hasStartedListening = YES;
+        [self restartTimer];
+    }
+    self.isInSynchWithServer = YES;
 }
 
 //for a new note to appear on the screen, different pieces of an update must arrive.
@@ -604,7 +628,7 @@
     NSString * collectionName = result[@"collectionName"];
     if ([collectionName isEqualToString:self.bulletinBoardName])
     {
-        NSData * manifestData = [self.dataSource getCollection:collectionName];
+        NSData * manifestData = [self.dataSource getCollectionFromCache:collectionName];
         if (!manifestData)
         {
             NSLog(@"Collection File didn't download properly");
@@ -1161,7 +1185,8 @@
 
 -(void) synchronize:(NSTimer *) timer{
     
-    if (self.needSynchronization){
+    //only save the manifest file in case its in synch with the server
+    if (self.needSynchronization && self.isInSynchWithServer){
         self.needSynchronization = NO;
         [MindcloudCollection saveBulletinBoard: self];
     }

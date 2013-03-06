@@ -21,6 +21,7 @@
 #import "CachedMindCloudDataSource.h"
 #import "SharingViewController.h"
 #import "MindcloudSharingAdapter.h"
+#import "SharingAwareObject.h"
 
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
@@ -50,7 +51,7 @@
 @property BOOL shouldSaveCategories;
 @property (atomic,strong) NSTimer * timer;
 
-@property (strong, nonatomic) id<MindcloudDataSource> dataSource;
+@property (strong, nonatomic) id<MindcloudDataSource, SharingAwareObject> dataSource;
 @property (strong, nonatomic) MindcloudSharingAdapter * sharingAdapter;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *SharingModeButton;
@@ -122,7 +123,7 @@
     self.pageTitle.text = _currentCategory;
 }
 
--(id<MindcloudDataSource>) dataSource
+-(id<MindcloudDataSource, SharingAwareObject>) dataSource
 {
     if (!_dataSource)
     {
@@ -1099,6 +1100,8 @@
         if (collectionName != nil)
         {
             [self.sharingAdapter unshareCollection:collectionName];
+            [self.dataSource collectionIsNotShared:collectionName];
+            
         }
         NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
         for (NSIndexPath * index in selectedItems)

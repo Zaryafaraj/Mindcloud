@@ -217,6 +217,8 @@
 		DB03C35C169FF1F800C38FD7 /* NoteImageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteImageAction.h; sourceTree = "<group>"; };
 		DB03C35D169FF1F800C38FD7 /* NoteImageAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteImageAction.m; sourceTree = "<group>"; };
 		DB03C360169FFD3B00C38FD7 /* EventTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventTypes.h; sourceTree = "<group>"; };
+		DB15E9ED16E71BB80024BA4C /* SharingAwareObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharingAwareObject.h; sourceTree = "<group>"; };
+		DB15E9EE16E725DB0024BA4C /* cachedCollectionContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cachedCollectionContainer.h; sourceTree = "<group>"; };
 		DB225ABF164CD5D90094BFC9 /* XoomlCategoryParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlCategoryParser.h; sourceTree = "<group>"; };
 		DB225AC0164CD5D90094BFC9 /* XoomlCategoryParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlCategoryParser.m; sourceTree = "<group>"; };
 		DB225AC2164CD67B0094BFC9 /* CategoryModelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CategoryModelProtocol.h; sourceTree = "<group>"; };
@@ -640,6 +642,7 @@
 				DB3FD53216B7A4D900024AC6 /* XoomlNoteModel.h */,
 				DB3FD53316B7A4D900024AC6 /* XoomlNoteModel.m */,
 				DB4E25B016C78A4200E85334 /* ThumbnailManagerProtocol.h */,
+				DB15E9EE16E725DB0024BA4C /* cachedCollectionContainer.h */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -658,6 +661,7 @@
 			children = (
 				DB433829169CF6CC000353DA /* SynchronizedObject.h */,
 				DBB9313916AA90BA005652AA /* CachedObject.h */,
+				DB15E9ED16E71BB80024BA4C /* SharingAwareObject.h */,
 			);
 			name = Mixins;
 			sourceTree = "<group>";

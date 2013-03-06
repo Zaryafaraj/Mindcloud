@@ -22,6 +22,7 @@
 @property (strong, nonatomic) NSString * sharingSecret;
 @property (strong, nonatomic) NSString * sharingSpaceURL;
 @property (strong, nonatomic) id<CollectionSharingAdapterDelegate> delegate;
+
 @end
 @implementation CollectionSharingAdapter
 
@@ -65,11 +66,12 @@
 
 -(void) listen
 {
+    NSLog(@"Started Listening");
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
     //add to Listeners
     [mindcloud addListenerTo:self.sharingSpaceURL forSharingSecret:self.sharingSecret andCollection:self.collectionName forUser:userId withCallback:^(NSDictionary * result){
-        NSLog(@"backup listener notified");
+        NSLog(@"listener notified");
         if (result != nil)
         {
             [self processListenerResult:result];
@@ -84,11 +86,13 @@
     {
         if ([eventKey isEqualToString:UPDATE_MANIFEST_KEY])
         {
+            NSLog(@"listener returned update manifest");
             [self.delegate manifestGotUpdated:result[eventKey]
                                 ForCollection:self.collectionName];
         }
         if ([eventKey isEqualToString:UPDATE_NOTE_KEY])
         {
+            NSLog(@"listener returned update note");
             [self.delegate notesGotUpdated:result[eventKey]
                          forCollectionName:self.collectionName];
         }
@@ -97,13 +101,16 @@
             [self.delegate noteImagesGotUpdated:result[eventKey] forCollectionName:self.collectionName
                               withSharingSecret:self.sharingSecret
                                      andBaseURL:self.sharingSpaceURL];
+            NSLog(@"listener returned update note img");
         }
         if ([eventKey isEqualToString:DELETE_NOTE_KEY])
         {
             [self.delegate notesGotDeleted:result[eventKey] forCollectionName:self.collectionName];
+            NSLog(@"listener returned Delete Note");
         }
         if ([eventKey isEqualToString:UPDATE_THUMBNAIL_KEY])
         {
+            NSLog(@"listener returned update thumbnail");
             [self.delegate thumbnailGotUpdated:result[eventKey] forCollectionName:self.collectionName
                              withSharingSecret:self.sharingSecret
                                     andBaseURL:self.sharingSpaceURL];
