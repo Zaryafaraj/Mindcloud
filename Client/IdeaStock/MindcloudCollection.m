@@ -736,7 +736,7 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
     
     for(NSString * noteId in noteIDs)
     {
-        self.noteStacking[noteIDs] = stackingName;
+        self.noteStacking[noteId] = stackingName;
     }
     
     [self.manifest addStacking:stackingName withModel:stackingModel];
@@ -770,7 +770,7 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
     
     for(NSString * noteId in noteIds)
     {
-        [self.noteStacking removeObjectForKey:noteIds];
+        [self.noteStacking removeObjectForKey:noteId];
     }
 }
 
@@ -955,7 +955,10 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
 
 -(NSString *) stackingForNote:(NSString *)noteId
 {
-    return self.noteStacking[noteId];
+    NSString * stackId =  self.noteStacking[noteId];
+    NSLog(@"Stackings : %@", self.noteStacking);
+    NSLog(@"NoteId:%@ - StackId:%@", noteId, stackId);
+    return stackId;
 }
 
 - (id <NoteProtocol>) getNoteContent: (NSString *) noteID{
