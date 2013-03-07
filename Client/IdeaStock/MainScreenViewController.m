@@ -511,7 +511,7 @@
     
     [self dismissPopOver];
     //wait for the notification  of the retrieval
-   [self.dataSource getAllCollections];
+    [self.dataSource getAllCollections];
 }
 
 - (IBAction)categorizedPressed:(id)sender {
@@ -555,18 +555,14 @@
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 }
 
--(void) viewDidLoad{
-    
-    [super viewDidLoad];
-    [self.collectionView setAllowsMultipleSelection:NO];
-    [self manageToolbars];
-    self.isEditing = NO;
-    self.isInSharingMode = NO;
-    self.toolbar.items = self.navigateToolbar;
-    [self configureCategoriesPanel];
-    
+-(void) addInitialListeners
+{
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(ApplicationHasGoneInBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(allCollectionsReceived:)
@@ -597,6 +593,18 @@
                                              selector:@selector(collectionShared:)
                                                  name:COLLECTION_SHARED
                                                object:nil];
+}
+-(void) viewDidLoad{
+    
+    [super viewDidLoad];
+    [self.collectionView setAllowsMultipleSelection:NO];
+    [self manageToolbars];
+    self.isEditing = NO;
+    self.isInSharingMode = NO;
+    self.toolbar.items = self.navigateToolbar;
+    [self configureCategoriesPanel];
+    
+    [self addInitialListeners];
     //temproary use this tell you get further notification
     NSArray * allCollections = [self.dataSource getAllCollections];
     
@@ -758,9 +766,21 @@
     [self stopTimer];
 }
 
+-(void) applicationWillEnterForeground:(NSNotification *) notification
+{
+    //[self addInitialListeners];
+    if (self.presentedViewController &&
+        [self.presentedViewController isKindOfClass:[CollectionViewController class]])
+    {
+        
+        CollectionViewController * controller = (CollectionViewController *) self.presentedViewController;
+        [controller applicationWillEnterForeground:notification];
+    }
+}
+
 -(void) resizePopOver:(NSNotification * )notification
 {
-//    [self.lastPopOver dismissPopoverAnimated:YES];
+    //    [self.lastPopOver dismissPopoverAnimated:YES];
     if (self.lastPopOver != nil)
     {
         CGSize bigSize = CGSizeMake(320, 200);
@@ -794,8 +814,8 @@
             self.isEditing = NO;
             self.toolbar.items = self.navigateToolbar;
             
-    //        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
-    //        [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
+            //        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+            //        [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
             //[self addCollection:collectionName];
         }
     }
@@ -818,7 +838,7 @@
     if (collectionName)
     {
         [self.model moveCollection:collectionName fromCategory:self.currentCategory toNewCategory:SHARED_COLLECTIONS_KEY];
-//        [self swithToCategory:SHARED_COLLECTIONS_KEY];
+        //        [self swithToCategory:SHARED_COLLECTIONS_KEY];
         self.shouldSaveCategories = YES;
     }
 }
@@ -873,361 +893,362 @@
     }
     [self.collectionView deselectItemAtIndexPath:cellIndex animated:NO];
     
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
+        
+     [self dismissViewControllerAnimated:YES completion:nil];
+ }
 
 #pragma mark - CollectionView Delegates
-
--(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return [self.model numberOfCollectionsInCategory:self.currentCategory] ;
-}
-
--(NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 1;
-}
-
--(UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionCell" forIndexPath:indexPath];
-    NSString * collectionName = [self.model getCollectionAt:indexPath.item forCategory:self.currentCategory];
-    if ([cell isKindOfClass:[CollectionCell class]])
+         
+         -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
     {
-        CollectionCell * colCell = (CollectionCell *)cell;
-        colCell.text = collectionName;
-        
-        //we lazily load images and make sure we cache them
-        //so any time that a cell is asked for we retrieve and cache the imag
-        NSData * previewImageData = [self.model getImageDataForCollection: collectionName];
-        
-        
-        if (previewImageData == nil)
+        return [self.model numberOfCollectionsInCategory:self.currentCategory] ;
+    }
+         
+         -(NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+    {
+        return 1;
+    }
+         
+         -(UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+    {
+        UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionCell" forIndexPath:indexPath];
+        NSString * collectionName = [self.model getCollectionAt:indexPath.item forCategory:self.currentCategory];
+        if ([cell isKindOfClass:[CollectionCell class]])
         {
-            NSData * imgData = [self.dataSource getThumbnailForCollection:collectionName];
+            CollectionCell * colCell = (CollectionCell *)cell;
+            colCell.text = collectionName;
             
-             if (imgData)
-             {
-                 [self.model setImageData: imgData forCollection: collectionName];
-                 if ([colCell.text isEqualToString:collectionName])
-                 {
-                     colCell.img = [UIImage imageWithData:imgData];
-                 }
-             }
+            //we lazily load images and make sure we cache them
+            //so any time that a cell is asked for we retrieve and cache the imag
+            NSData * previewImageData = [self.model getImageDataForCollection: collectionName];
+            
+            
+            if (previewImageData == nil)
+            {
+                NSData * imgData = [self.dataSource getThumbnailForCollection:collectionName];
+                
+                if (imgData)
+                {
+                    [self.model setImageData: imgData forCollection: collectionName];
+                    if ([colCell.text isEqualToString:collectionName])
+                    {
+                        colCell.img = [UIImage imageWithData:imgData];
+                    }
+                }
+                else
+                {
+                    colCell.img = [UIImage imageNamed:@"felt-red-ipad-background.jpg"];
+                }
+            }
             else
             {
-                colCell.img = [UIImage imageNamed:@"felt-red-ipad-background.jpg"];
+                colCell.img = [UIImage imageWithData:previewImageData];
             }
         }
-        else
-        {
-            colCell.img = [UIImage imageWithData:previewImageData];
-        }
-    }
-    
-    return cell;
-}
-
--(BOOL) collectionView:(UICollectionView *) collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return YES;
-}
--(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    //enable the edit bar buttons
-    if (self.isEditing)
-    {
-        for (UIBarButtonItem * button in self.toolbar.items)
-        {
-            button.enabled = YES;
-        }
-    }
-    else if (self.isInSharingMode)
-    {
-        self.shareButton.enabled = YES;
-        self.unshareButton.enabled = YES;
-    }
-    else
-    {
-        //present the collection view
-        NSString * name = [self getSelectedCollectionName];
         
-        if (!name) return;
-        
-        CollectionViewController * collectionView = [self.storyboard instantiateViewControllerWithIdentifier:@"CollectionView"];
-        collectionView.bulletinBoardName = name;
-        collectionView.parent = self;
-        MindcloudCollection * board =
-        [[MindcloudCollection alloc] initCollection:name withDataSource:[CachedMindCloudDataSource getInstance:name]];
-        collectionView.board = board;
-        
-        collectionView.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:collectionView animated:YES completion:^(void){}];
+        return cell;
     }
-    
-}
-
--(void) collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    //if nothing is selected disable edit buttons
-    if ([[self.collectionView indexPathsForSelectedItems] count] == 0)
+         
+         -(BOOL) collectionView:(UICollectionView *) collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
     {
-        [self disableEditButtons];
+        return YES;
     }
-}
-
--(BOOL) collectionView:(UICollectionView *) collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return YES;
-}
-
--(CGSize) collectionView:(UICollectionView *)collectionView
-                  layout:(UICollectionViewLayout *)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return CGSizeMake(250, 250);
-}
-
--(UIEdgeInsets) collectionView:(UICollectionView *)collectionView
-                        layout:(UICollectionViewLayout *)collectionViewLayout
-        insetForSectionAtIndex:(NSInteger)section
-{
-    return UIEdgeInsetsMake(20, 20, 30, 20);
-}
-
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section + 1 for add place holder
-    //FIXME: a hack to add an empty cell below everything else so that the last cel won't get cut off
-    return [self.model numberOfCategories] + 2;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"CategoryCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    if (indexPath.item < [self.model numberOfCategories])
+         -(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     {
-        //if its not the placeholder
-        NSString * categoryName = [self.model getAllCategories][indexPath.item];
-        cell.textLabel.text = categoryName;
-    }
-    else
-    {
-        cell.textLabel.text = @"";
-    }
-    return cell;
-}
-
-
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        UITableViewCell * cell = [self.categoriesController.table cellForRowAtIndexPath:indexPath];
-        NSString * categoryName = cell.textLabel.text;
-        [self.model removeCategory:categoryName];
-        if ([self.model canRemoveCategory: categoryName])
+        //enable the edit bar buttons
+        if (self.isEditing)
         {
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            for (UIBarButtonItem * button in self.toolbar.items)
+            {
+                button.enabled = YES;
+            }
         }
-    }
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Category"
-                                                         message:nil
-                                                        delegate:self
-                                               cancelButtonTitle:@"Cancel"
-                                               otherButtonTitles:CREATE_CATEGORY_BUTTON, nil];
-        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-        [alert show];
-    }
-    self.shouldSaveCategories = YES;
-}
-
--(UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.item < [self.model numberOfCategories])
-    {
-        //its the edit place holder
-        NSString * selectedCellText = [self.categoriesController.table cellForRowAtIndexPath:indexPath].textLabel.text;
-        //ALL and Uncategorized cateogires are uneditable
-        if (![self.model isCategoryEditable:selectedCellText])
+        else if (self.isInSharingMode)
         {
-            return UITableViewCellEditingStyleNone;
+            self.shareButton.enabled = YES;
+            self.unshareButton.enabled = YES;
         }
         else
         {
-            return UITableViewCellEditingStyleDelete;
-        }
-        
-    }
-    else if (indexPath.item ==[self.model numberOfCategories] )
-        return UITableViewCellEditingStyleInsert;
-    else
-    {
-        return UITableViewCellEditingStyleNone;
-    }
-}
-
-#pragma mark - action sheet delegate
--(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex != 0) return;
-    NSString * actionName = [actionSheet buttonTitleAtIndex:buttonIndex];
-    if ([actionName isEqualToString:DELETE_ACTION])
-    {
-        [self deleteCollection];
-        self.shouldSaveCategories = YES;
-        //make sure after deletion DELETE and RENAME buttons are disabled
-        [self disableEditButtons];
-        self.toolbar.items = self.navigateToolbar;
-        self.isEditing = NO;
-        self.isInSharingMode = NO;
-    }
-    else if ([actionName isEqualToString:UNSHARE_ACTION])
-    {
-        NSString * collectionName = [self getSelectedCollectionName];
-        if (collectionName != nil)
-        {
-            [self.sharingAdapter unshareCollection:collectionName];
-            [self.dataSource collectionIsNotShared:collectionName];
+            //present the collection view
+            NSString * name = [self getSelectedCollectionName];
             
+            if (!name) return;
+            
+            CollectionViewController * collectionView = [self.storyboard instantiateViewControllerWithIdentifier:@"CollectionView"];
+            collectionView.bulletinBoardName = name;
+            collectionView.parent = self;
+            MindcloudCollection * board =
+            [[MindcloudCollection alloc] initCollection:name withDataSource:[CachedMindCloudDataSource getInstance:name]];
+            collectionView.board = board;
+            
+            collectionView.modalPresentationStyle = UIModalPresentationFullScreen;
+            [self presentViewController:collectionView animated:YES completion:^(void){}];
         }
-        NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
-        for (NSIndexPath * index in selectedItems)
-        {
-            [self.collectionView deselectItemAtIndexPath:index animated:YES];
-        }
-        self.unshareButton.enabled = NO;
-        self.shareButton.enabled = NO;
-        self.toolbar.items = self.navigateToolbar;
-        self.isEditing = NO;
-        self.isInSharingMode = NO;
+        
     }
-    
-}
-
-#pragma mark - Table view delegate
-
-//don't show filler cells
--(NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (self.isInCategorizeMode)
+         
+         -(void) collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
     {
-        return indexPath;
+        //if nothing is selected disable edit buttons
+        if ([[self.collectionView indexPathsForSelectedItems] count] == 0)
+        {
+            [self disableEditButtons];
+        }
     }
-    else
+         
+         -(BOOL) collectionView:(UICollectionView *) collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
+    {
+        return YES;
+    }
+         
+         -(CGSize) collectionView:(UICollectionView *)collectionView
+                                              layout:(UICollectionViewLayout *)collectionViewLayout
+                              sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+    {
+        return CGSizeMake(250, 250);
+    }
+         
+         -(UIEdgeInsets) collectionView:(UICollectionView *)collectionView
+                                              layout:(UICollectionViewLayout *)collectionViewLayout
+                              insetForSectionAtIndex:(NSInteger)section
+    {
+        return UIEdgeInsetsMake(20, 20, 30, 20);
+    }
+         
+         
+#pragma mark - Table view data source
+         
+         - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+    {
+        // Return the number of sections.
+        return 1;
+    }
+         
+         - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+    {
+        // Return the number of rows in the section + 1 for add place holder
+        //FIXME: a hack to add an empty cell below everything else so that the last cel won't get cut off
+        return [self.model numberOfCategories] + 2;
+    }
+         
+         - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+    {
+        static NSString *CellIdentifier = @"CategoryCell";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        if (indexPath.item < [self.model numberOfCategories])
+        {
+            //if its not the placeholder
+            NSString * categoryName = [self.model getAllCategories][indexPath.item];
+            cell.textLabel.text = categoryName;
+        }
+        else
+        {
+            cell.textLabel.text = @"";
+        }
+        return cell;
+    }
+         
+         
+         // Override to support editing the table view.
+         - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+    {
+        if (editingStyle == UITableViewCellEditingStyleDelete) {
+            // Delete the row from the data source
+            UITableViewCell * cell = [self.categoriesController.table cellForRowAtIndexPath:indexPath];
+            NSString * categoryName = cell.textLabel.text;
+            [self.model removeCategory:categoryName];
+            if ([self.model canRemoveCategory: categoryName])
+            {
+                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            }
+        }
+        else if (editingStyle == UITableViewCellEditingStyleInsert) {
+            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Category"
+                                                             message:nil
+                                                            delegate:self
+                                                   cancelButtonTitle:@"Cancel"
+                                                   otherButtonTitles:CREATE_CATEGORY_BUTTON, nil];
+            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            [alert show];
+        }
+        self.shouldSaveCategories = YES;
+    }
+         
+         -(UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
     {
         if (indexPath.item < [self.model numberOfCategories])
         {
-            return indexPath;
+            //its the edit place holder
+            NSString * selectedCellText = [self.categoriesController.table cellForRowAtIndexPath:indexPath].textLabel.text;
+            //ALL and Uncategorized cateogires are uneditable
+            if (![self.model isCategoryEditable:selectedCellText])
+            {
+                return UITableViewCellEditingStyleNone;
+            }
+            else
+            {
+                return UITableViewCellEditingStyleDelete;
+            }
             
         }
+        else if (indexPath.item ==[self.model numberOfCategories] )
+            return UITableViewCellEditingStyleInsert;
         else
         {
-            return nil;
+            return UITableViewCellEditingStyleNone;
         }
     }
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (self.isInCategorizeMode)
+         
+#pragma mark - action sheet delegate
+         -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
     {
-        NSString * categoryName = cell.textLabel.text;
-        
-        if ([self.currentCategory isEqualToString:categoryName]) return;
-        
-        if ([categoryName isEqualToString:ALL] ||
-            [categoryName isEqualToString:SHARED_COLLECTIONS_KEY])
+        if (buttonIndex != 0) return;
+        NSString * actionName = [actionSheet buttonTitleAtIndex:buttonIndex];
+        if ([actionName isEqualToString:DELETE_ACTION])
         {
-            return;
+            [self deleteCollection];
+            self.shouldSaveCategories = YES;
+            //make sure after deletion DELETE and RENAME buttons are disabled
+            [self disableEditButtons];
+            self.toolbar.items = self.navigateToolbar;
+            self.isEditing = NO;
+            self.isInSharingMode = NO;
         }
-        
-        for(NSIndexPath * index in [self.collectionView indexPathsForSelectedItems])
+        else if ([actionName isEqualToString:UNSHARE_ACTION])
         {
-            CollectionCell * collectionCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:index];
-            NSString * collectionName = collectionCell.text;
-            [self.model moveCollection:collectionName fromCategory:self.currentCategory toNewCategory:categoryName];
-        }
-        if (![self.currentCategory isEqual:ALL] &&
-            ![self.currentCategory isEqualToString:SHARED_COLLECTIONS_KEY])
-        {
-            [self.collectionView performBatchUpdates:^{
-                [self.collectionView deleteItemsAtIndexPaths:[self.collectionView indexPathsForSelectedItems]];
-            }completion:^(BOOL finished){
-                //give user some fraction of second to see what is happening
-                [self performSelector:@selector(updateCollectionView:) withObject:categoryName afterDelay:0.35];
-                [self exitCategorizeMode];
+            NSString * collectionName = [self getSelectedCollectionName];
+            if (collectionName != nil)
+            {
+                [self.sharingAdapter unshareCollection:collectionName];
+                [self.dataSource collectionIsNotShared:collectionName];
                 
-            }];
+            }
+            NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
+            for (NSIndexPath * index in selectedItems)
+            {
+                [self.collectionView deselectItemAtIndexPath:index animated:YES];
+            }
+            self.unshareButton.enabled = NO;
+            self.shareButton.enabled = NO;
+            self.toolbar.items = self.navigateToolbar;
+            self.isEditing = NO;
+            self.isInSharingMode = NO;
+        }
+        
+    }
+         
+#pragma mark - Table view delegate
+         
+         //don't show filler cells
+         -(NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+    {
+        if (self.isInCategorizeMode)
+        {
+            return indexPath;
         }
         else
         {
-            [self updateCollectionView:categoryName];
-            [self exitCategorizeMode];
+            if (indexPath.item < [self.model numberOfCategories])
+            {
+                return indexPath;
+                
+            }
+            else
+            {
+                return nil;
+            }
         }
-        self.shouldSaveCategories = YES;
     }
-    else
+         
+         - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     {
-        NSString * categoryName = cell.textLabel.text;
-        [self swithToCategory:categoryName];
+        UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+        if (self.isInCategorizeMode)
+        {
+            NSString * categoryName = cell.textLabel.text;
+            
+            if ([self.currentCategory isEqualToString:categoryName]) return;
+            
+            if ([categoryName isEqualToString:ALL] ||
+                [categoryName isEqualToString:SHARED_COLLECTIONS_KEY])
+            {
+                return;
+            }
+            
+            for(NSIndexPath * index in [self.collectionView indexPathsForSelectedItems])
+            {
+                CollectionCell * collectionCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:index];
+                NSString * collectionName = collectionCell.text;
+                [self.model moveCollection:collectionName fromCategory:self.currentCategory toNewCategory:categoryName];
+            }
+            if (![self.currentCategory isEqual:ALL] &&
+                ![self.currentCategory isEqualToString:SHARED_COLLECTIONS_KEY])
+            {
+                [self.collectionView performBatchUpdates:^{
+                    [self.collectionView deleteItemsAtIndexPaths:[self.collectionView indexPathsForSelectedItems]];
+                }completion:^(BOOL finished){
+                    //give user some fraction of second to see what is happening
+                    [self performSelector:@selector(updateCollectionView:) withObject:categoryName afterDelay:0.35];
+                    [self exitCategorizeMode];
+                    
+                }];
+            }
+            else
+            {
+                [self updateCollectionView:categoryName];
+                [self exitCategorizeMode];
+            }
+            self.shouldSaveCategories = YES;
+        }
+        else
+        {
+            NSString * categoryName = cell.textLabel.text;
+            [self swithToCategory:categoryName];
+        }
     }
-}
-
-- (void) tableView: (UITableView *) tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    self.categoriesController.renameMode = NO;
-}
-
-
--(void) tableView:(UITableView *)tableView renamePressedForItemAt: (NSIndexPath *) index
-{
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The New Name of The Category"
-                                                     message:nil
-                                                    delegate:self
-                                           cancelButtonTitle:@"Cancel"
-                                           otherButtonTitles:RENAME_BUTTON_TITLE, nil];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    self.didCategoriesPresentAlertView = YES;
-    [alert show];
-    
-}
-
+         
+         - (void) tableView: (UITableView *) tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+    {
+        self.categoriesController.renameMode = NO;
+    }
+         
+         
+         -(void) tableView:(UITableView *)tableView renamePressedForItemAt: (NSIndexPath *) index
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The New Name of The Category"
+                                                         message:nil
+                                                        delegate:self
+                                               cancelButtonTitle:@"Cancel"
+                                               otherButtonTitles:RENAME_BUTTON_TITLE, nil];
+        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        self.didCategoriesPresentAlertView = YES;
+        [alert show];
+        
+    }
+         
 #pragma mark - pop over delegate
--(void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
-{
-    [self deselectAll];
-    [self disableShareButtons];
-    self.toolbar.items = self.navigateToolbar;
-    self.isEditing = NO;
-    self.isInSharingMode = NO;
-    
-}
--(void) saveCategories:(NSTimer *) timer
-{
-    [self saveCategories];
-}
-
--(void) saveCategories
-{
-    if (self.shouldSaveCategories)
+         -(void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
     {
-        NSData * categoriesData = [XoomlCategoryParser serializeToXooml:self.model];
-        [self.dataSource saveCategories:categoriesData];
-        self.shouldSaveCategories = NO;
+        [self deselectAll];
+        [self disableShareButtons];
+        self.toolbar.items = self.navigateToolbar;
+        self.isEditing = NO;
+        self.isInSharingMode = NO;
+        
     }
-}
-@end
+         -(void) saveCategories:(NSTimer *) timer
+    {
+        [self saveCategories];
+    }
+         
+         -(void) saveCategories
+    {
+        if (self.shouldSaveCategories)
+        {
+            NSData * categoriesData = [XoomlCategoryParser serializeToXooml:self.model];
+            [self.dataSource saveCategories:categoriesData];
+            self.shouldSaveCategories = NO;
+        }
+    }
+         @end

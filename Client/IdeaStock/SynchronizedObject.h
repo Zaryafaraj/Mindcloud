@@ -16,4 +16,8 @@
 
 -(void) synchronize;
 
+-(void) refresh;
+
+-(void) stopSynchronization;
+
 @end

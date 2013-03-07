@@ -16,12 +16,14 @@
 #define UPDATE_NOTE_IMG_KEY @"update_note_img"
 #define DELETE_NOTE_KEY @"delete_note"
 #define UPDATE_THUMBNAIL_KEY @"update_thumbnail"
+#define TOTAL_LISTENERS 2
 
 @interface CollectionSharingAdapter()
 @property (strong, nonatomic) NSString * collectionName;
 @property (strong, nonatomic) NSString * sharingSecret;
 @property (strong, nonatomic) NSString * sharingSpaceURL;
 @property (strong, nonatomic) id<CollectionSharingAdapterDelegate> delegate;
+@property int listenerCount;
 
 @end
 @implementation CollectionSharingAdapter
@@ -31,6 +33,7 @@
 {
     self.collectionName = collectionName;
     self.delegate = delegate;
+    self.listenerCount = 0;
     return self;
 }
 
@@ -64,14 +67,25 @@
     [self listen];
 }
 
+
+-(void) adjustListeners
+{
+    while(self.listenerCount < TOTAL_LISTENERS)
+    {
+        [self listen];
+    }
+}
+
 -(void) listen
 {
+    self.listenerCount++;
     NSLog(@"Started Listening");
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
     //add to Listeners
     [mindcloud addListenerTo:self.sharingSpaceURL forSharingSecret:self.sharingSecret andCollection:self.collectionName forUser:userId withCallback:^(NSDictionary * result){
         NSLog(@"listener notified");
+        self.listenerCount--;
         if (result != nil)
         {
             [self processListenerResult:result];
@@ -120,6 +134,7 @@
 
 -(void) stopListening
 {
+    self.listenerCount = 0;
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
     [mindcloud closeListenersToURL:self.sharingSpaceURL forSharingSecret:self.sharingSecret andCollection:self.collectionName forUser:userId withCallback:^(void){

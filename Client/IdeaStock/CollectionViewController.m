@@ -99,7 +99,14 @@
 }
 -(void) ApplicationHasGoneInBackground:(NSNotification *) notification
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    NSLog(@"Gone to BG");
+    [self.board stopSynchronization];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void) applicationWillEnterForeground:(NSNotification *) notification
+{
+    [self.board refresh];
 }
 
 #pragma mark - Listener Notifications
@@ -842,6 +849,14 @@
     
     [self addCollectionViewGestureRecognizersToCollectionView: self.collectionView];
     
+    [self addInitialObservers];
+    [self addListenerNotifications];
+    self.collectionView.delegate = self;
+}
+
+-(void) addInitialObservers
+{
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(loadSavedNotes:)
                                                  name:COLLECTION_RELOAD_EVENT
@@ -863,10 +878,11 @@
                                              selector:@selector(keyboardDisappeared:)
                                                  name:UIKeyboardDidHideNotification
                                                object:self.view.window];
-    [self addListenerNotifications];
-    self.collectionView.delegate = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
 }
-
 //maybe in view will appear
 -(void) viewDidAppear:(BOOL)animated
 {
@@ -990,12 +1006,15 @@
     self.isRefreshing = YES;
     self.board = [[MindcloudCollection alloc] initCollection:self.bulletinBoardName
                                               withDataSource:[[CachedMindCloudDataSource alloc] init]];
+}
+
+-(void) addRefreshObservers
+{
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(loadSavedNotes:)
                                                  name:COLLECTION_RELOAD_EVENT
                                                object:self.board];
 }
-
 #pragma mark - layout methods
 
 -(void) layoutNotes{

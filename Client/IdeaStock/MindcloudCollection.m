@@ -1192,6 +1192,23 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
     }
 }
 
+-(void) stopSynchronization
+{
+    if (self.sharingAdapter.isShared)
+    {
+        [self.sharingAdapter stopListening];
+    }
+}
+
+-(void) refresh
+{
+    if (self.sharingAdapter.isShared)
+    {
+        [self.sharingAdapter adjustListeners];
+    }
+    [self.dataSource getCollection:self.bulletinBoardName];
+}
+
 #pragma mark - Helpers
 -(NSData *) getImageDataForPath: (NSString *) path{
     
@@ -1236,6 +1253,4 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
     NSData * thumbnailData = [ self getImageDataForPath:thumbnailPath];
     return thumbnailData;
 }
-
-
 @end

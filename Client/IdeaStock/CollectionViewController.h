@@ -24,4 +24,7 @@
 @property (strong, nonatomic) MindcloudCollection * board;
 @property (weak,nonatomic) MainScreenViewController * parent;
 
+//because modal view does'nt provide this notification 
+-(void) applicationWillEnterForeground:(NSNotification *) notification;
+
 @end

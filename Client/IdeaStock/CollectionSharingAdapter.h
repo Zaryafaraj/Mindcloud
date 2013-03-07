@@ -19,4 +19,6 @@
 -(void) getSharingInfo;
 -(void) startListening;
 -(void) stopListening;
+
+-(void) adjustListeners;
 @end
