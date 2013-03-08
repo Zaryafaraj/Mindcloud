@@ -42,8 +42,13 @@ class SharingSpaceActionHandler(tornado.web.RequestHandler):
 
                 self.__log.info('SharingSpaceActionHandler - adding %s action to sharing space %s from action initiated by user %s' % (str(len(all_actions)), sharing_secret, sharing_action.get_user_id()))
 
+                is_first_action = True
                 for action in all_actions:
-                    sharing_space.add_action(action, owner=sharing_action.get_user_id())
+                    if is_first_action:
+                        is_first_action = False
+                        sharing_space.add_action(action, owner=sharing_action.get_user_id(), notify_listeners=True)
+                    else:
+                        sharing_space.add_action(action, owner=sharing_action.get_user_id(), notify_listeners=False)
 
                 #as the user is concerned this call is finished
                 self.set_status(200)

@@ -42,6 +42,7 @@ dispatch_queue_t queue;
            andActionRecorder:(CollectionRecorder *) recorder
            ForCollectionName:(NSString *)collectionName
 {
+    NSLog(@"Merge Request Submitted");
     dispatch_queue_t queue = [self getDispatchQueue];
     dispatch_async(queue, ^{
         ManifestMerger * merger = [[ManifestMerger alloc] initWithClientManifest:clientManifest andServerManifest:serverManifest andActionRecorder:recorder];

@@ -207,7 +207,7 @@ class SharingSpaceController(SharingActionDelegate):
         """
         return [user_id for user_id in self.__backup_listeners]
 
-    def add_action(self, sharing_action, owner=' '):
+    def add_action(self, sharing_action, owner=' ', notify_listeners=True):
         """
         An action that needs to be taken place and all the
         listeners sohuld get notified of
@@ -229,7 +229,7 @@ class SharingSpaceController(SharingActionDelegate):
         """
 
         #first notify all the listeners as fast as possible
-        if sharing_action.get_action_type != SharingEvent.UPDATE_THUMBNAIL:
+        if notify_listeners and sharing_action.get_action_type != SharingEvent.UPDATE_THUMBNAIL:
             self.__notify_listeners(sharing_action, owner)
 
         #Now add the action to the latest_sharing_actions to be
