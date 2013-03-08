@@ -1101,6 +1101,19 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
                                                                              andScale:notification.getScale
                                                                             andRefIds:refIds];
         
+        //get the old stacking and remove the deleted notes
+        XoomlStackingModel * oldStacking = self.collectionAttributes[notification.getStackId];
+        if (oldStacking)
+        {
+            NSMutableSet * deletedNotes = [oldStacking.refIds mutableCopy];
+            [deletedNotes minusSet:stackingModel.refIds];
+            for (NSString * deletedNote in deletedNotes)
+            {
+                [self.noteStacking removeObjectForKey:deletedNote];
+                
+            }
+        }
+        
         for (NSString * noteId in stackingModel.refIds)
         {
             self.noteStacking[noteId] = stackingModel.name;
