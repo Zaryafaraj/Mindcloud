@@ -79,7 +79,7 @@
 -(void) listen
 {
     self.listenerCount++;
-    NSLog(@"Started Listening");
+    NSLog(@"Started Listening; current listeners %d", self.listenerCount);
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
     //add to Listeners

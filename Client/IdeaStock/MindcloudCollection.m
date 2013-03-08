@@ -449,8 +449,8 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
     [self updateCollectionForDeleteNoteNotifications: notifications.getDeleteNoteNotifications];
     [self updateCollectionForAddNoteNotifications:notifications.getAddNoteNotifications];
     [self updateCollectionForAddStackingNotifications:notifications.getAddStackingNotifications];
-    [self updateCollectionForUpdateNoteNotifications:notifications.getUpdateNoteNotifications];
     [self updateCollectionForUpdateStackingNotifications:notifications.getUpdateStackingNotifications];
+    [self updateCollectionForUpdateNoteNotifications:notifications.getUpdateNoteNotifications];
     
     self.manifest = mergeResult.finalManifest;
     [self startTimer];
@@ -956,8 +956,6 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
 -(NSString *) stackingForNote:(NSString *)noteId
 {
     NSString * stackId =  self.noteStacking[noteId];
-    NSLog(@"Stackings : %@", self.noteStacking);
-    NSLog(@"NoteId:%@ - StackId:%@", noteId, stackId);
     return stackId;
 }
 
@@ -1029,6 +1027,7 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
     
     NSDictionary * userInfo = @{@"result" : [updatedNotes copy]};
     
+    NSLog(@"MindcloudCollection: Update Note Event: %@", updatedNotes);
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_UPDATED_EVENT
                                                         object:self
                                                       userInfo:userInfo];
@@ -1054,6 +1053,7 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
     
     NSDictionary * userInfo =  @{@"result" :  deletedNotes.allObjects};
     
+    NSLog(@"MindcloudCollection: Delete Note Event: %@", deletedNotes);
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_DELETED_EVENT
                                                         object:self
                                                       userInfo:userInfo];
@@ -1083,6 +1083,7 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
     
     NSDictionary * userInfo =  @{@"result" :  addedStackings};
     
+    NSLog(@"MindcloudCollection: Add Stacking Event: %@", addedStackings);
     [[NSNotificationCenter defaultCenter] postNotificationName:STACK_ADDED_EVENT
                                                         object:self
                                                       userInfo:userInfo];
@@ -1127,6 +1128,7 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
     
     NSDictionary * userInfo =  @{@"result" :  updatedStackings};
     
+    NSLog(@"MindcloudCollection: Update Stacking Event: %@", updatedStackings);
     [[NSNotificationCenter defaultCenter] postNotificationName:STACK_UPDATED_EVENT
                                                         object:self
                                                       userInfo:userInfo];
@@ -1152,6 +1154,7 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
     
     NSDictionary * userInfo =  @{@"result" :  deletedStackings};
     
+    NSLog(@"MindcloudCollection: Delete Stacking Event: %@", deletedStackings);
     [[NSNotificationCenter defaultCenter] postNotificationName:STACK_DELETED_EVENT
                                                         object:self
                                                       userInfo:userInfo];

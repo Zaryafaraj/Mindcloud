@@ -217,6 +217,7 @@
     NSArray * result = userInfo[@"result"];
     for(NSString * noteId in result)
     {
+        NSLog(@"CollectionViewController: Image Added Event Received for %@", noteId);
         CollectionNote * noteObj = [self.board getNoteContent:noteId];
         XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
         
@@ -255,6 +256,7 @@
     NSArray * result = userInfo[@"result"];
     for(NSString * noteId in result)
     {
+        NSLog(@"CollectionViewController: Note Updated Event Received for %@", noteId);
         XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
         NoteView * noteView = [self getNoteView:noteId];
         if (noteView == nil) break;
@@ -271,6 +273,7 @@
         //if the updated note is part of a stack we need to move the stack with the note too
         NSString * noteStackingId = [self.board stackingForNote:noteId];
         UIView <BulletinBoardObject> * view = noteStackingId != nil ? self.stackViews[noteStackingId] : noteView;
+        NSLog(@"CollectionViewController: Note%@ is part of stacking %@; updating stacking", noteId, noteStackingId);
         
         //if the note is still attached to a stack view
         if (view == noteView && noteView.superview != self.collectionView)
@@ -306,11 +309,13 @@
     NSArray * result = userInfo[@"result"];
     for(NSString * noteId in result)
     {
+        NSLog(@"CollectionViewController: Note Delete Event Received for %@", noteId);
         NoteView * noteView = [self getNoteView:noteId];
         if (noteView == nil) break;
         
         //if noteView belongs to a stack we should remove it from the stack
         NSString * noteStackingId = [self.board stackingForNote:noteId];
+        NSLog(@"CollectionViewController: Note%@ is part of stacking %@; deleting it from stacking", noteId, noteStackingId);
         if ( noteStackingId != nil)
         {
             StackView * stackView = self.stackViews[noteStackingId];
@@ -355,6 +360,7 @@
     NSArray * result = notification.userInfo[@"result"];
     for (NSString * stackId in result)
     {
+        NSLog(@"CollectionViewController: Stacking Added Event Received for %@", stackId);
         XoomlStackingModel * stacking = [self.board getStackModelFor:stackId];
         if (stacking)
         {
@@ -475,6 +481,7 @@
     NSArray * result = notification.userInfo[@"result"];
     for (NSString * stackId in result)
     {
+        NSLog(@"CollectionViewController: Stacking update Event Received for %@", stackId);
         XoomlStackingModel * stacking = [self.board getStackModelFor:stackId];
         
         if (stacking == nil) break;
@@ -489,9 +496,11 @@
         NSMutableSet * oldRefIds = [stack.getAllNoteIds mutableCopy];
         //notes that are newly added to the stack
         [newRefIds minusSet:oldRefIds];
+        NSLog(@"CollectionViewController: adding notes %@ to stacking", newRefIds);
         [self addNewNotesWith:newRefIds toStacking:stack];
         
         //notes that are deleted and should no longer be in the stack
+        NSLog(@"CollectionViewController: removing notes %@ from stacking", oldRefIds);
         [oldRefIds minusSet:stacking.refIds];
         [self removeNotesWith:oldRefIds fromStacking:stack];
         
@@ -506,6 +515,7 @@
     NSArray * result = notification.userInfo[@"result"];
     for(NSString * stackId in result)
     {
+        NSLog(@"CollectionViewController: Stacking Delete Event Received for %@", stackId);
         StackView * stack = self.stackViews[stackId];
         
         if ([self.presentedViewController isKindOfClass:[StackViewController class]])
