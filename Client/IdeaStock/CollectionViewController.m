@@ -273,7 +273,11 @@
         //if the updated note is part of a stack we need to move the stack with the note too
         NSString * noteStackingId = [self.board stackingForNote:noteId];
         UIView <BulletinBoardObject> * view = noteStackingId != nil ? self.stackViews[noteStackingId] : noteView;
+        if (noteStackingId)
+        {
+            
         NSLog(@"CollectionViewController: Note%@ is part of stacking %@; updating stacking", noteId, noteStackingId);
+        }
         
         //if the note is still attached to a stack view
         if (view == noteView && noteView.superview != self.collectionView)
@@ -306,7 +310,7 @@
 -(void) noteDeletedEventOccured:(NSNotification *) notification
 {
     NSDictionary * userInfo = notification.userInfo;
-    NSArray * result = userInfo[@"result"];
+    NSDictionary * result = userInfo[@"result"];
     for(NSString * noteId in result)
     {
         NSLog(@"CollectionViewController: Note Delete Event Received for %@", noteId);
@@ -314,12 +318,13 @@
         if (noteView == nil) break;
         
         //if noteView belongs to a stack we should remove it from the stack
-        NSString * noteStackingId = [self.board stackingForNote:noteId];
-        NSLog(@"CollectionViewController: Note%@ is part of stacking %@; deleting it from stacking", noteId, noteStackingId);
+        NSString * noteStackingId = result[noteId][@"stacking"];
         if ( noteStackingId != nil)
         {
+            NSLog(@"CollectionViewController: Note%@ is part of stacking %@; deleting it from stacking", noteId, noteStackingId);
             StackView * stackView = self.stackViews[noteStackingId];
             [stackView removeNoteView:noteView];
+            [noteView removeFromSuperview];
             [self updatePresentingStackViewControllerIfNecessaryForStackView:stackView];
         }
         else
@@ -500,8 +505,8 @@
         [self addNewNotesWith:newRefIds toStacking:stack];
         
         //notes that are deleted and should no longer be in the stack
-        NSLog(@"CollectionViewController: removing notes %@ from stacking", oldRefIds);
         [oldRefIds minusSet:stacking.refIds];
+        NSLog(@"CollectionViewController: removing notes %@ from stacking", oldRefIds);
         [self removeNotesWith:oldRefIds fromStacking:stack];
         
         [self updatePresentingStackViewControllerIfNecessaryForStackView:stack];

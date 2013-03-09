@@ -762,6 +762,7 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
 
 -(void) removeNotesFromAllStackings:(NSSet *) noteIds
 {
+    //could be more optmized using the noteStacking mapping instead of this iteration
     for (NSString * stacking in self.collectionAttributes)
     {
         XoomlStackingModel * stackingModel = self.collectionAttributes[stacking];
@@ -1035,7 +1036,7 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
 
 -(void) updateCollectionForDeleteNoteNotifications:(NSArray *) notifications
 {
-    NSMutableSet * deletedNotes = [NSMutableSet set];
+    NSMutableDictionary * deletedNotes = [NSMutableDictionary dictionary];
     for (DeleteNoteNotification * notification in notifications)
     {
         [self.noteContents removeObjectForKey:notification.getNoteId];
@@ -1044,14 +1045,22 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
         {
             [self removeNoteImage:notification.getNoteId];
         }
-        [deletedNotes addObject:notification.getNoteId];
+        NSString * correspondingStacking = self.noteStacking[notification.getNoteId];
+        if (correspondingStacking)
+        {
+            deletedNotes[notification.getNoteId] = @{@"stacking":correspondingStacking};
+        }
+        else
+        {
+            deletedNotes[notification.getNoteId] = @{};
+        }
     }
     
     if ([deletedNotes count] == 0 ) return;
     
-    [self removeNotesFromAllStackings:deletedNotes];
+    [self removeNotesFromAllStackings:[NSSet setWithArray:[deletedNotes allKeys]]];
     
-    NSDictionary * userInfo =  @{@"result" :  deletedNotes.allObjects};
+    NSDictionary * userInfo =  @{@"result" :  deletedNotes};
     
     NSLog(@"MindcloudCollection: Delete Note Event: %@", deletedNotes);
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_DELETED_EVENT
