@@ -39,7 +39,9 @@
 @property NSMutableDictionary * thumbnailHasUpdatedCache;
 @property NSMutableDictionary * collectionHasUpdatedCache;
 //keyed on (collectionName + noteName + imgName) and valued on yes/no
-@property NSMutableDictionary * imageHasUpdatedCache;
+//these two are kinda redundant
+@property NSMutableDictionary * collectionImagesCache;
+//keyed on collection name value is a dictionary keyed on note name  and image path
 @property BOOL isCategoriesUpdated;
 
 @property (nonatomic, strong) NSMutableDictionary * sharedCollections;
@@ -72,7 +74,7 @@
     self.noteImageUpdateQueue = [NSMutableDictionary dictionary];
     self.noteUpdateQueue = [NSMutableDictionary dictionary];
     self.collectionHasUpdatedCache = [NSMutableDictionary dictionary];
-    self.imageHasUpdatedCache = [NSMutableDictionary dictionary];
+    self.collectionImagesCache = [NSMutableDictionary dictionary];
     self.thumbnailHasUpdatedCache = [NSMutableDictionary dictionary];
     self.sharedCollections = [NSMutableDictionary dictionary];
     self.isCategoriesUpdated = NO;
@@ -154,6 +156,8 @@
                       withCallback:^{
                           //NSLog(@"Collection %@ Deleted", collectionName);
                       }];
+    [self.collectionImagesCache removeObjectForKey:collectionName];
+    [self.thumbnailHasUpdatedCache removeObjectForKey:collectionName];
     [self deleteCollectionFromDisk:collectionName];
 }
 
@@ -631,13 +635,6 @@
     }
 }
 
--(NSString *) getImageCacheKeyForCollection:(NSString *) collectionName
-                                    andNote:(NSString *)noteName
-{
-    
-    NSString * imageCacheKey = [NSString stringWithFormat:@"%@%@", collectionName, noteName];
-    return imageCacheKey;
-}
 - (NSString *) getImagePathForNote: (NSString *) noteName
                      andCollection: (NSString *) collectionName;
 {
@@ -650,10 +647,8 @@
         path = [FileSystemHelper getPathForNoteImageforNoteName:noteName
                                                 inBulletinBoard:collectionName];
     }
-    NSString * imageCacheKey = [self getImageCacheKeyForCollection:collectionName
-                                                           andNote:noteName];
     //images are always cached whether for shared or unshared collections
-    if (!self.imageHasUpdatedCache[imageCacheKey])
+    if (!self.collectionImagesCache[collectionName][noteName])
     {
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
@@ -666,7 +661,11 @@
                                 [self saveToDiskNoteImageData:noteData
                                                 forCollection:collectionName
                                                       andNote:noteName];
-                                self.imageHasUpdatedCache[imageCacheKey] = @YES;
+                                if (!self.collectionImagesCache[collectionName])
+                                {
+                                    self.collectionImagesCache[collectionName] = [NSMutableDictionary dictionary];
+                                }
+                                self.collectionImagesCache[collectionName][noteName] = @YES;
                                 
                                 NSDictionary * userDict =
                                 @{
@@ -924,10 +923,14 @@
                     forCollection:collectionName
                           andNote:noteName];
     
-    NSString * imageCacheKey = [self getImageCacheKeyForCollection:collectionName
-                                                           andNote:noteName];
-    
-    self.imageHasUpdatedCache[imageCacheKey] = @YES;
+    if (!self.collectionImagesCache[collectionName][noteName])
+    {
+        if (!self.collectionImagesCache[collectionName])
+        {
+            self.collectionImagesCache[collectionName] = [NSMutableDictionary dictionary];
+        }
+        self.collectionImagesCache[collectionName][noteName] = @YES;
+    }
     
     NSDictionary * result = @{@"collectionName" : collectionName,
                               @"noteName" : noteName};

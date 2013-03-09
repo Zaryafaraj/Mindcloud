@@ -256,7 +256,9 @@
         NSString * collectionName = [self.model getCollectionAt:selectedItem.item forCategory:self.currentCategory];
         if (collectionName)
         {
-            [self.dataSource deleteCollectionFor:collectionName];
+            
+            CachedMindCloudDataSource * collectionDataSource = [CachedMindCloudDataSource getInstance:collectionName];
+            [collectionDataSource deleteCollectionFor:collectionName];
             [deletedCollections addObject:collectionName];
             
         }
