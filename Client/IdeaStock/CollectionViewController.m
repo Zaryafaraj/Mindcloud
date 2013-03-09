@@ -227,10 +227,12 @@
                     toViewWithNoteModel:noteModel
                          andNoteContent:noteObj];
         
+        self.noteViews[noteId] = note;
         if ([note isKindOfClass:[ImageView class]])
         {
             NSData * imgData = [self.board getImageForNote:noteId];
             ((ImageView *) note).image = [UIImage imageWithData:imgData];
+            self.imageNoteViews[noteId] = note;
         }
         
         [self updateStackingViewsIfNecessaryForNoteWithId:noteId
@@ -384,7 +386,7 @@
             
             //add stacking
             stack.ID = stackId;
-            __weak StackView * stackRef = stack;
+            StackView * stackRef = stack;
             self.stackViews[stackId] = stackRef;
             [self addGestureRecognizersToStack:stack];
             [CollectionAnimationHelper animateStackCreationForStackView:stack
@@ -619,6 +621,7 @@
                                           ForX:positionX
                                           andY:positionY
                                       andScale:scale];
+    self.noteViews[noteID] = note;
     if (noteContent.noteText) note.text = noteContent.noteText;
     note.ID = noteID;
     note.delegate = self;
@@ -664,7 +667,7 @@
     NSString * noteID = [XoomlAttributeHelper generateUUID];
     note.ID = noteID;
     //use weak ref to avoid leakage
-    __weak NoteView * noteRef = note;
+    NoteView * noteRef = note;
     self.noteViews[note.ID] = noteRef;
     note.delegate = self;
     
@@ -980,6 +983,7 @@
         [self removeContextualToolbarItems:self.highlightedView];
         NSString * stackingID = ((StackView *)self.highlightedView).ID;
         [self.board removeStacking:stackingID];
+        [self.stackViews removeObjectForKey:stackingID];
         
         self.highlightedView = nil;
         self.editMode = NO;
@@ -1200,14 +1204,15 @@
         note = [[ImageView alloc] initWithFrame:noteFrame
                                        andImage:img];
         note.ID = noteID;
-        __weak NoteView * noteRef = note;
+        NoteView * noteRef = note;
         self.imageNoteViews[note.ID] = noteRef;
+        self.noteViews[note.ID] = noteRef;
         [note scale:scale animated:NO];
     }
     else{
         note = [[NoteView alloc] initWithFrame:noteFrame];
         note.ID = noteID;
-        __weak NoteView * noteRef = note;
+        NoteView * noteRef = note;
         self.noteViews[note.ID] = noteRef;
         [note scale:scale animated:NO];
     }
@@ -1323,7 +1328,7 @@
                                              andMainView:(NoteView *)mainView
                                                withFrame:stackFrame];
     stack.ID = stackingID;
-    __weak StackView * stackRef = stack;
+    StackView * stackRef = stack;
     self.stackViews[stackingID] = stackRef;
     
     if (scale)
@@ -1649,8 +1654,9 @@ intoStackingWithMainView: (UIView *) mainView
     note.ID = noteID;
     note.delegate = self;
     
-    __weak ImageView * imageViewRef = note;
+    ImageView * imageViewRef = note;
     self.imageNoteViews[noteID] =imageViewRef;
+    self.noteViews[noteID] = imageViewRef;
     
     [self addGestureRecognizersToNote:note];
     [CollectionAnimationHelper animateNoteAddition:note toCollectionView:self.collectionView];
