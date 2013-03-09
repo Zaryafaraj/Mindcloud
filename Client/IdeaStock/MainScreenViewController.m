@@ -927,7 +927,9 @@
             
             if (previewImageData == nil)
             {
-                NSData * imgData = [self.dataSource getThumbnailForCollection:collectionName];
+                //these are collection specific data sources
+                CachedMindCloudDataSource * dataSource = [CachedMindCloudDataSource getInstance:collectionName];
+                NSData * imgData = [dataSource getThumbnailForCollection:collectionName];
                 
                 if (imgData)
                 {
