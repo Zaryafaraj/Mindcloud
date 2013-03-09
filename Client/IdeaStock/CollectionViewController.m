@@ -534,8 +534,8 @@
         {
             if (note.superview != self.collectionView)
             {
-                [note removeFromSuperview];
                 [self removeNoteView:note fromStackView:stack];
+                [note removeFromSuperview];
             }
         }
         
