@@ -83,6 +83,10 @@ class SharingSpaceController(SharingActionDelegate):
         else:
             return self.__sharing_queue.is_being_processed
 
+    def give_opprotunity_to_be_processed(self):
+        #gives half an hour of opprotunity for this to become set again. If not it will be cleaned up
+        self.__sharing_queue.is_being_processed = False
+
     def add_listener(self, user_id, request):
         """
         Adds a listener to the list of the listeners.

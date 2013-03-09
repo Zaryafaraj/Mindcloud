@@ -94,6 +94,7 @@ class SharingSpaceStorage():
                 #remove if from stored sharing spaces
                 del(self.__sharing_spaces[sharing_secret])
             else:
+                candidate.give_opprotunity_to_be_processed()
                 self.__log.info('cleanup service - skipping cleaning candidate for %s is being processed' % sharing_secret)
 
 
