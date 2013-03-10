@@ -6,9 +6,11 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 import tornado.httpclient
+from AutoConfig import Announcer
 from Handlers.Joker.JokerHealthCheckHandler import JokerHealthCheckHandler
 from Handlers.Joker.SharingSpaceActionHandler import SharingSpaceActionHandler
 from Handlers.Joker.SharingSpaceListenerHandler import SharingSpaceListenerHandler
+from Properties import MindcloudProperties
 
 class Application(tornado.web.Application):
     """
@@ -31,6 +33,9 @@ if __name__ == "__main__":
     tornado.options.parse_command_line()
     app = Application()
     server = tornado.httpserver.HTTPServer(app)
-    server.listen(8001)
+    port = 8006
+    myAddress = MindcloudProperties.Properties.my_ip_address
+    server.listen(port)
+    Announcer.i_am_alive(myAddress, port, MindcloudProperties.Properties.load_balancer_url)
     tornado.ioloop.IOLoop.instance().start()
 

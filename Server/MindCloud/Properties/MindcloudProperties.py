@@ -16,3 +16,4 @@ class Properties:
     action_batch_size = 5
     sharing_space_servers = ['http://127.0.0.1:8001', 'http://127.0.0.1:8005']
     load_balancer_url = 'http://127.0.0.1:8003'
+    my_ip_address = 'http://127.0.0.1'

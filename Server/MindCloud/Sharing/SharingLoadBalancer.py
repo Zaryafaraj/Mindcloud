@@ -69,6 +69,12 @@ class SharingLoadBalancer():
     def refresh_servers(self):
         self.servers = Properties.sharing_space_servers
 
+    def add_servers(self, server_names):
+        for server in server_names:
+            heapq.heappush(self.__heap, (0, server))
+            if server not in self.servers:
+                self.servers.append(server)
+
     @gen.engine
     def remove_servers(self, server_names):
         to_delete_sharing_spaces = []
@@ -80,6 +86,7 @@ class SharingLoadBalancer():
             self.remove_server_for_sharing_secret(sharing_secret)
 
         for server_name in server_names:
+            self.remove_server_from_heap(server_name)
             if server_name in self.servers:
                 self.servers.remove(server_name)
 
@@ -90,6 +97,7 @@ class SharingLoadBalancer():
 
         #if it exists in the already available shared spaces; then return it
         if sharing_secret in self.sharing_spaces:
+            self.__log.info('LoadBalancer - Got server from cache: ' + self.sharing_spaces[sharing_secret])
             answer = {'server' : self.sharing_spaces[sharing_secret],
                       'cached' : 'True'}
             callback(answer)
@@ -135,33 +143,28 @@ class SharingLoadBalancer():
     def is_sharing_space_cached(self, sharing_secret):
         return sharing_secret in self.sharing_spaces
 
-    @gen.engine
+    def remove_server_from_heap(self, server_name):
+        self.__log.info('SharingLoadBalancer - purging cache for server %s' %  server_name)
+        index_list = [self.__heap.index(item)
+                      for item in self.__heap if item[1] == server_name]
+        index_len = len(index_list)
+        if not index_len:
+            self.__log.info('SharingLoadBalancer - no server for address %s' % server_name)
+        elif index_len > 1:
+            self.__log.info('SharingLoadBalancer - more than one server for addres %s' % server_name)
+        else:
+            index = index_list[0]
+            self.__heap[index] = self.__heap[-1]
+            self.__heap.pop()
+            heapq.heapify(self.__heap)
+            #remove it from the sharing_spaces
+            self.__log.info('SharingLoadBalancer - sharing server removed :' + server_name)
+
     def remove_server_for_sharing_secret(self, sharing_secret):
-        print 'hi'
         if sharing_secret not in self.sharing_spaces:
             self.__log.info('SharingLoadBalancer - no cached server for sharing space for secret %s' % sharing_secret)
         else:
-            server_name = self.sharing_spaces[sharing_secret]
-            self.__log.info('SharingLoadBalancer - purging cache for sharing_secret %s and server %s' % (sharing_secret, server_name))
-            index_list = [self.__heap.index(item)
-                      for item in self.__heap if item[1] == server_name]
-            index_len = len(index_list)
-            if not index_len:
-                self.__log.info('SharingLoadBalancer - no server for sharing secret %s' % sharing_secret)
-            elif index_len > 1:
-                self.__log.info('SharingLoadBalancer - more than one server for sharing secret %s' % sharing_secret)
-            else:
-                index = index_list[0]
-                self.__heap[index] = self.__heap[-1]
-                self.__heap.pop()
-                heapq.heapify(self.__heap)
-                #remove it from the sharing_spaces
-                del self.sharing_spaces[sharing_secret]
-                self.__log.info('SharingLoadBalancer - sharing server removed :' + server_name)
-
-                #last remove it from the cache
-                #cache = MindcloudCache()
-                #yield gen.Task(cache.remove_sharing_space_server, sharing_secret)
+            del self.sharing_spaces[sharing_secret]
 
     @gen.engine
     def remove_sharing_space_info(self, sharing_secret, callback):
