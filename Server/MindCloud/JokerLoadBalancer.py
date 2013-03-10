@@ -19,6 +19,7 @@ from Handlers.Bane.SharingSubscriptionHandler import SharingSubscriptionHandler
 from Handlers.Bane.SharingHandler import SharingHandler
 from Handlers.Bane.SubscriptionHandler import SubscriptionHandler
 from Handlers.Joker.JokerHealthCheckHandler import JokerHealthCheckHandler
+from Handlers.Joker.LoadBalancerConfigHandler import LoadBalancerConfigHandler
 from Handlers.Joker.LoadBalancerHealthCheckHandler import LoadBalancerHealthCheckHandler
 from Handlers.Joker.SharingLoadBalancerHandler import SharingLoadBalancer, SharingLoadBalancerHandler
 from Handlers.Joker.SharingSpaceActionHandler import SharingSpaceActionHandler
@@ -34,6 +35,7 @@ class Application(tornado.web.Application):
         handlers = [
             #Joker
             (r"/SharingFactory/([0-9A-Za-z]{8})", SharingLoadBalancerHandler),
+            (r"/Configs/Jokers", LoadBalancerConfigHandler),
             (r"/HealthCheck", LoadBalancerHealthCheckHandler)
         ]
         tornado.web.Application.__init__(self, handlers)

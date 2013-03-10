@@ -213,3 +213,115 @@ class LoadBalancerTests(AsyncHTTPTestCase):
         self.assertEqual(server_name1, server_name2)
 
         self.__cleanup(owner_id,collection_name, subscriber_list)
+
+    def test_config_add_one_server(self):
+        url = '/'.join(['', 'Configs/Jokers'])
+        servers = {'operation' : 'add_servers' , 'addresses': ['192.168.0.200']}
+        servers_json_str = json.dumps(servers)
+        headers, postData = HTTPHelper.create_multipart_request_with_parameters\
+            ({'servers' : servers_json_str})
+        response = self.fetch(path=url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+
+    def test_config_remove_one_server(self):
+        url = '/'.join(['', 'Configs/Jokers'])
+        servers = {'operation' : 'add_servers' , 'addresses': ['192.168.0.200']}
+        servers_json_str = json.dumps(servers)
+        headers, postData = HTTPHelper.create_multipart_request_with_parameters\
+            ({'servers' : servers_json_str})
+        response = self.fetch(path=url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+
+        url = '/'.join(['', 'Configs/Jokers'])
+        servers = {'operation' : 'remove_servers' , 'addresses': ['192.168.0.200']}
+        servers_json_str = json.dumps(servers)
+        headers, postData = HTTPHelper.create_multipart_request_with_parameters\
+            ({'servers' : servers_json_str})
+        response = self.fetch(path=url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+
+    def test_config_add_multiple_servers(self):
+
+        url = '/'.join(['', 'Configs/Jokers'])
+        servers = {'operation' : 'add_servers' , 'addresses': ['192.168.0.200', '192.168.0.201']}
+        servers_json_str = json.dumps(servers)
+        headers, postData = HTTPHelper.create_multipart_request_with_parameters\
+            ({'servers' : servers_json_str})
+        response = self.fetch(path=url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+
+    def test_config_remove_multiple_servers(self):
+
+        url = '/'.join(['', 'Configs/Jokers'])
+        servers = {'operation' : 'add_servers' , 'addresses': ['192.168.0.200', '192.168.0.201']}
+        servers_json_str = json.dumps(servers)
+        headers, postData = HTTPHelper.create_multipart_request_with_parameters\
+            ({'servers' : servers_json_str})
+        response = self.fetch(path=url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+
+        url = '/'.join(['', 'Configs/Jokers'])
+        servers = {'operation' : 'remove_servers' , 'addresses': ['192.168.0.200', '192.168.0.201']}
+        servers_json_str = json.dumps(servers)
+        headers, postData = HTTPHelper.create_multipart_request_with_parameters\
+            ({'servers' : servers_json_str})
+        response = self.fetch(path=url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+
+    def test_config_remove_existing_server(self):
+
+        url = '/'.join(['', 'Configs/Jokers'])
+        servers = {'operation' : 'remove_servers' , 'addresses': ['http://127.0.0.1:8001']}
+        servers_json_str = json.dumps(servers)
+        headers, postData = HTTPHelper.create_multipart_request_with_parameters\
+            ({'servers' : servers_json_str})
+        response = self.fetch(path=url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+
+    def test_config_add_existing_server(self):
+
+        url = '/'.join(['', 'Configs/Jokers'])
+        servers = {'operation' : 'add_servers' , 'addresses': ['http://127.0.0.1:8001']}
+        servers_json_str = json.dumps(servers)
+        headers, postData = HTTPHelper.create_multipart_request_with_parameters\
+            ({'servers' : servers_json_str})
+        response = self.fetch(path=url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+
+    def test_config_remove_non_existing_server(self):
+
+        url = '/'.join(['', 'Configs/Jokers'])
+        servers = {'operation' : 'remove_servers' , 'addresses': ['http://127.0.0.1:9111']}
+        servers_json_str = json.dumps(servers)
+        headers, postData = HTTPHelper.create_multipart_request_with_parameters\
+            ({'servers' : servers_json_str})
+        response = self.fetch(path=url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(200, response.code)
+
+    def test_config_bad_request(self):
+        url = '/'.join(['', 'Configs/Jokers'])
+        servers = {'addresses': ['http://127.0.0.1:9111']}
+        servers_json_str = json.dumps(servers)
+        headers, postData = HTTPHelper.create_multipart_request_with_parameters\
+            ({'servers' : servers_json_str})
+        response = self.fetch(path=url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(400, response.code)
+
+        url = '/'.join(['', 'Configs/Jokers'])
+        servers = {'operation' : 'remove_servers' }
+        servers_json_str = json.dumps(servers)
+        headers, postData = HTTPHelper.create_multipart_request_with_parameters\
+            ({'servers' : servers_json_str})
+        response = self.fetch(path=url, method='POST',
+            headers=headers, body=postData)
+        self.assertEqual(400, response.code)
