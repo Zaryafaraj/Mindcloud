@@ -46,5 +46,7 @@ if __name__ == "__main__":
     app = Application()
     server = tornado.httpserver.HTTPServer(app)
     server.listen(8003)
+    SharingLoadBalancer.get_instance()
     tornado.ioloop.IOLoop.instance().start()
+    #to start the timer for healthchecks
 
