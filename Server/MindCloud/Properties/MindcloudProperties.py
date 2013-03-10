@@ -12,6 +12,7 @@ class Properties:
     subscribers_collection_name = 'subscribers'
     authorization_sweep_period = 30
     sharing_space_cleanup_sweep_period = 3600
+    load_balancer_healtcheck_period = 5
     action_batch_size = 5
     sharing_space_servers = ['http://127.0.0.1:8001']
     load_balancer_url = 'http://127.0.0.1:8003'

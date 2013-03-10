@@ -84,9 +84,19 @@ class JokerHelper():
             'file', file_obj)
         http = AsyncHTTPClient()
         url = '/'.join([server_address, 'SharingSpace', sharing_secret])
-        response = yield gen.Task(http.fetch,url,
-            method='POST', headers=headers, body=post_data)
-        callback(response.code)
+        try:
+            response = yield gen.Task(http.fetch,url,
+                method='POST', headers=headers, body=post_data)
+            if response.code == 599:
+                yield gen.Task(self.__cache.remove_sharing_space_server,
+                    sharing_secret)
+                callback(500)
+            else:
+                callback(response.code)
+        except Exception:
+            yield gen.Task(self.__cache.remove_sharing_space_server,
+                sharing_secret)
+            callback(500)
 
     @gen.engine
     def update_note(self, server_address, sharing_secret,
@@ -110,9 +120,20 @@ class JokerHelper():
             'file', file_obj)
         http = AsyncHTTPClient()
         url = '/'.join([server_address, 'SharingSpace', sharing_secret])
-        response = yield gen.Task(http.fetch,url,
-            method='POST', headers=headers, body=post_data)
-        callback(response.code)
+        try:
+            response = yield gen.Task(http.fetch,url,
+                method='POST', headers=headers, body=post_data)
+            if response.code == 599:
+                yield gen.Task(self.__cache.remove_sharing_space_server,
+                    sharing_secret)
+                callback(500)
+            else:
+                callback(response.code)
+
+        except Exception:
+            yield gen.Task(self.__cache.remove_sharing_space_server,
+                sharing_secret)
+            callback(500)
 
     @gen.engine
     def update_note_image(self, server_address, sharing_secret,
@@ -137,9 +158,19 @@ class JokerHelper():
             'file', file_obj)
         http = AsyncHTTPClient()
         url = '/'.join([server_address, 'SharingSpace', sharing_secret])
-        response = yield gen.Task(http.fetch,url,
-            method='POST', headers=headers, body=post_data)
-        callback(response.code)
+        try:
+            response = yield gen.Task(http.fetch,url,
+                method='POST', headers=headers, body=post_data)
+            if response.code == 599:
+                yield gen.Task(self.__cache.remove_sharing_space_server,
+                    sharing_secret)
+                callback(500)
+            else:
+                callback(response.code)
+        except Exception:
+            yield gen.Task(self.__cache.remove_sharing_space_server,
+                sharing_secret)
+            callback(500)
 
     @gen.engine
     def delete_note(self, server_address, sharing_secret, user_id,
@@ -160,9 +191,20 @@ class JokerHelper():
         headers, post_data = HTTPHelper.create_multipart_request_with_parameters(params)
         http = AsyncHTTPClient()
         url = '/'.join([server_address, 'SharingSpace', sharing_secret])
-        response = yield gen.Task(http.fetch,url,
-            method='POST', headers=headers, body=post_data)
-        callback(response.code)
+        try:
+            response = yield gen.Task(http.fetch,url,
+                method='POST', headers=headers, body=post_data)
+
+            if response.code == 599:
+                yield gen.Task(self.__cache.remove_sharing_space_server,
+                    sharing_secret)
+                callback(500)
+            else:
+                callback(response.code)
+        except Exception:
+            yield gen.Task(self.__cache.remove_sharing_space_server,
+                sharing_secret)
+            callback(500)
 
     @gen.engine
     def update_thumbnail(self, server_address, sharing_secret, user_id,
@@ -185,6 +227,16 @@ class JokerHelper():
             'file', file_obj)
         http = AsyncHTTPClient()
         url = '/'.join([server_address, 'SharingSpace', sharing_secret])
-        response = yield gen.Task(http.fetch,url,
-            method='POST', headers=headers, body=post_data)
-        callback(response.code)
+        try:
+            response = yield gen.Task(http.fetch,url,
+                method='POST', headers=headers, body=post_data)
+            if response.code == 599:
+                yield gen.Task(self.__cache.remove_sharing_space_server,
+                    sharing_secret)
+                callback(500)
+            else:
+                callback(response.code)
+        except Exception:
+            yield gen.Task(self.__cache.remove_sharing_space_server,
+                sharing_secret)
+            callback(500)

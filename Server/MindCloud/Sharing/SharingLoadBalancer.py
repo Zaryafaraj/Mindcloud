@@ -1,7 +1,10 @@
 from Logging import Log
 import heapq
+from threading import Timer
 from tornado import gen
+from tornado.httpclient import HTTPClient
 from Cache.MindcloudCache import MindcloudCache
+from Properties import MindcloudProperties
 from Properties.MindcloudProperties import Properties
 from Sharing.SharingController import SharingController
 
@@ -13,6 +16,8 @@ class SharingLoadBalancer():
     __instance = None
 
     __log = Log.log()
+
+    HEALTHCHECK_PERIOD = MindcloudProperties.Properties.load_balancer_healtcheck_period
 
     def __init__(self):
         """
@@ -30,6 +35,30 @@ class SharingLoadBalancer():
         # A mapping between sharing_secret and servers
         #public for testing purposes don't use for logic
         self.sharing_spaces = {}
+        self.timer = Timer(self.HEALTHCHECK_PERIOD, self.__healthcheck)
+        self.timer.start()
+
+    #since this is done in another thread do it synchronisly
+    @gen.engine
+    def __healthcheck(self):
+        for server in self.servers:
+            url = '/'.join([server,'HealthCheck'])
+            self.__log.info('HealthCheck for : ' + server)
+            http = HTTPClient()
+            try:
+                response = http.fetch(url,
+                    connect_timeout= 5, request_timeout=5)
+                if response.code != 200:
+                    self.__log.info('HealthCheck failed, removing server for : ' + server)
+                    self.remove_servers([server])
+                http.close()
+            except Exception:
+                self.__log.info('HealthCheck failed, removing server for : ' + server)
+                http.close()
+                self.remove_servers([server])
+
+        self.timer = Timer(self.HEALTHCHECK_PERIOD, self.__healthcheck)
+        self.timer.start()
 
     @classmethod
     def get_instance(cls):
@@ -42,17 +71,17 @@ class SharingLoadBalancer():
 
     @gen.engine
     def remove_servers(self, server_names):
-        for server_name in server_names:
-            if server_name in self.servers:
-                self.servers.remove(server_name)
-
         to_delete_sharing_spaces = []
         for sharing_secret in self.sharing_spaces:
             if self.sharing_spaces[sharing_secret] in server_names:
                 to_delete_sharing_spaces.append(sharing_secret)
 
         for sharing_secret in to_delete_sharing_spaces:
-            yield gen.Task(self.remove_sharing_space_info, sharing_secret)
+            self.remove_server_for_sharing_secret(sharing_secret)
+
+        for server_name in server_names:
+            if server_name in self.servers:
+                self.servers.remove(server_name)
 
 
 
@@ -107,13 +136,40 @@ class SharingLoadBalancer():
         return sharing_secret in self.sharing_spaces
 
     @gen.engine
+    def remove_server_for_sharing_secret(self, sharing_secret):
+        print 'hi'
+        if sharing_secret not in self.sharing_spaces:
+            self.__log.info('SharingLoadBalancer - no cached server for sharing space for secret %s' % sharing_secret)
+        else:
+            server_name = self.sharing_spaces[sharing_secret]
+            self.__log.info('SharingLoadBalancer - purging cache for sharing_secret %s and server %s' % (sharing_secret, server_name))
+            index_list = [self.__heap.index(item)
+                      for item in self.__heap if item[1] == server_name]
+            index_len = len(index_list)
+            if not index_len:
+                self.__log.info('SharingLoadBalancer - no server for sharing secret %s' % sharing_secret)
+            elif index_len > 1:
+                self.__log.info('SharingLoadBalancer - more than one server for sharing secret %s' % sharing_secret)
+            else:
+                index = index_list[0]
+                self.__heap[index] = self.__heap[-1]
+                self.__heap.pop()
+                heapq.heapify(self.__heap)
+                #remove it from the sharing_spaces
+                del self.sharing_spaces[sharing_secret]
+                self.__log.info('SharingLoadBalancer - sharing server removed :' + server_name)
+
+                #last remove it from the cache
+                #cache = MindcloudCache()
+                #yield gen.Task(cache.remove_sharing_space_server, sharing_secret)
+
+    @gen.engine
     def remove_sharing_space_info(self, sharing_secret, callback):
 
         if sharing_secret not in self.sharing_spaces:
             self.__log.info('SharingLoadBalancer - no cached server for sharing space for secret %s' % sharing_secret)
             callback()
         else:
-
             server_name = self.sharing_spaces[sharing_secret]
             self.__log.info('SharingLoadBalancer - purging cache for sharing_secret %s and server %s' % (sharing_secret, server_name))
 
