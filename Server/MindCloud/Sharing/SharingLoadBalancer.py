@@ -37,6 +37,25 @@ class SharingLoadBalancer():
             cls.__instance = SharingLoadBalancer()
         return cls.__instance
 
+    def refresh_servers(self):
+        self.servers = Properties.sharing_space_servers
+
+    @gen.engine
+    def remove_servers(self, server_names):
+        for server_name in server_names:
+            if server_name in self.servers:
+                self.servers.remove(server_name)
+
+        to_delete_sharing_spaces = []
+        for sharing_secret in self.sharing_spaces:
+            if self.sharing_spaces[sharing_secret] in server_names:
+                to_delete_sharing_spaces.append(sharing_secret)
+
+        for sharing_secret in to_delete_sharing_spaces:
+            yield gen.Task(self.remove_sharing_space_info, sharing_secret)
+
+
+
     @gen.engine
     def get_sharing_space_info(self, sharing_secret, callback):
 
