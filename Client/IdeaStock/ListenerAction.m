@@ -7,6 +7,7 @@
 //
 
 #import "ListenerAction.h"
+#import "EventTypes.h"
 
 @interface ListenerAction()
 @property (strong, nonatomic) NSString *collectionName;
@@ -21,6 +22,9 @@
   andSharingSpaceURL:(NSString *)baseUrl
 {
     self = [super init];
+    self.collectionName = collectionName;
+    self.sharingSecret = sharingSecret;
+    self.userId = userId;
     NSString * resourcePath = [NSString stringWithFormat:@"/SharingSpace/%@/Listen/%@", sharingSecret, userId];
     resourcePath = [resourcePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL * url = [NSURL URLWithString:[baseUrl stringByAppendingString:resourcePath]];
@@ -37,7 +41,19 @@
 {
     //in case of a timeout retry
     NSError * err = error.userInfo[@"NSUnderlyingError"];
+    //server must have been down. Try to get new server info
     NSLog(@"Received Error code when establishing listener to %@ %@", self.request.URL, err);
+    if (err.code == -1004)
+    {
+        NSDictionary * userInfo = @{@"result" :
+  @{@"user" : self.userId,
+    @"collectionName" : self.collectionName,
+    @"sharingSecret" : self.sharingSecret
+    }};
+        [[NSNotificationCenter defaultCenter] postNotificationName:CONNECTION_FAILED
+                                                            object:self
+                                                          userInfo:userInfo];
+    }
     if (err.code == -1001)
     {
         if ([self.request.HTTPMethod isEqualToString:@"POST"])

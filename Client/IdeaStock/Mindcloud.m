@@ -341,6 +341,7 @@ static Mindcloud * instance;
     [action executeGET];
     
 }
+
 -(void) subscribeToCollectionWithSecret:(NSString *) sharingSecret
                                 forUser:(NSString *) userId
                            withCallback:(subscribe_to_collection_callback) callback

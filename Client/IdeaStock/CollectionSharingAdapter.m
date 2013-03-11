@@ -17,13 +17,14 @@
 #define DELETE_NOTE_KEY @"delete_note"
 #define UPDATE_THUMBNAIL_KEY @"update_thumbnail"
 #define TOTAL_LISTENERS 2
-
+#define MAX_FAILURE_RETRIES 5
 @interface CollectionSharingAdapter()
 @property (strong, nonatomic) NSString * collectionName;
 @property (strong, nonatomic) NSString * sharingSecret;
 @property (strong, nonatomic) NSString * sharingSpaceURL;
 @property (strong, nonatomic) id<CollectionSharingAdapterDelegate> delegate;
 @property int listenerCount;
+@property int failureCount;
 
 @end
 @implementation CollectionSharingAdapter
@@ -34,9 +35,40 @@
     self.collectionName = collectionName;
     self.delegate = delegate;
     self.listenerCount = 0;
+    self.failureCount = 0;
     return self;
 }
 
+-(void) connectionFailed:(NSNotification *) notification
+{
+    NSDictionary* result = notification.userInfo[@"result"];
+    NSString * collectionName = result[@"collectionName"];
+    NSString * sharingSecret = result[@"sharingSecret"];
+    self.failureCount ++;
+    if ([collectionName isEqualToString:self.collectionName]
+        && [sharingSecret isEqualToString:self.sharingSecret]
+        && self.failureCount < MAX_FAILURE_RETRIES)
+    {
+        self.listenerCount = 0;
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userId = [UserPropertiesHelper userID];
+        [mindcloud getSharingInfo:self.collectionName forUser:userId andCallback:^(NSDictionary * sharingInfo){
+            if (sharingInfo == nil)
+            {
+                self.isShared = NO;
+            }
+            else
+            {
+                self.isShared = YES;
+                self.sharingSecret = sharingInfo[@"secret"];
+                self.sharingSpaceURL = sharingInfo[@"sharing_space_url"];
+                NSLog(@"ReEstablishing listeners");
+                [self listen];
+                [self listen];
+            }
+        }];
+        }
+}
 -(void) getSharingInfo
 {
     

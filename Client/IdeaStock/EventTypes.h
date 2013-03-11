@@ -51,4 +51,7 @@
 
 //UI Events
 #define RESIZE_POPOVER_FOR_SECRET @"resizePopoverForSecret"
+
+//Server Failures
+#define CONNECTION_FAILED @"connectionFailed"
 @end
