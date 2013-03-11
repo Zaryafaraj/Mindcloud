@@ -39,8 +39,8 @@
                     withMoveNoteFunction:(update_note_location_function) updateNote
 {
     
-    [UIView animateWithDuration:0.5 animations:^{mainView.alpha = 0;}];
-    [mainView removeFromSuperview];
+//    [UIView animateWithDuration:0.5 animations:^{mainView.alpha = 0;}];
+//    [mainView removeFromSuperview];
     mainView.alpha = 1;
     stack.alpha =0;
     [collectionView addSubview:stack];
@@ -48,7 +48,6 @@
     
     
     for (UIView * view in items){
-        if (view != mainView){
             [UIView animateWithDuration:0.5
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseIn
@@ -64,7 +63,16 @@
                                  [view removeFromSuperview];
                             }];
         }
-    }    
+}
+
++(void) animateStackCreationForStackView:(UIView *) stack
+                            WithMainView:(UIView *) mainView
+                        inCollectionView: (UIView *) collectionView
+{
+    mainView.alpha = 1;
+    stack.alpha =0;
+    [collectionView addSubview:stack];
+    [UIView animateWithDuration:0.5 animations:^{stack.alpha = 1;}];
 }
 
 +(void) animateExpandNote: (UIView *) note
@@ -133,6 +141,7 @@ backIntoScreenBoundsInRect:(CGRect) frame
     
     [UIView animateWithDuration:0.25 animations:^{
         view.frame = frame;
+    }completion:^(BOOL finished){
         callback();
     }];
 }

@@ -279,6 +279,7 @@
         {
             
         NSLog(@"CollectionViewController: Note%@ is part of stacking %@; updating stacking", noteId, noteStackingId);
+            
         }
         
         //if the note is still attached to a stack view
@@ -289,6 +290,14 @@
             [self.collectionView addSubview:noteView];
         }
     
+        CGRect newFrame = CGRectMake(positionX, positionY, view.frame.size.width, view.frame.size.height);
+        if (noteStackingId && noteView.superview == self.collectionView)
+        {
+            [CollectionLayoutHelper moveView:noteView inCollectionView:self.collectionView toNewFrame:newFrame withCompletion:^{
+                [noteView removeFromSuperview];
+            }];
+        }
+        
         scale = scale / view.scaleOffset;
         if (scale != 0 && view.scaleOffset != scale)
         {
@@ -297,7 +306,6 @@
         
         
         
-        CGRect newFrame = CGRectMake(positionX, positionY, view.frame.size.width, view.frame.size.height);
         
         CGRect oldFrame = view.frame;
         if (!CGRectEqualToRect(newFrame, oldFrame))
@@ -389,14 +397,7 @@
             StackView * stackRef = stack;
             self.stackViews[stackId] = stackRef;
             [self addGestureRecognizersToStack:stack];
-            [CollectionAnimationHelper animateStackCreationForStackView:stack
-                                                           WithMainView:mainView
-                                                          andStackItems:stackNotes
-                                                       inCollectionView:self.collectionView
-                                                                  isNew:YES
-                                                   withMoveNoteFunction:^(NoteView * note){
-                                                       ;
-                                                   }];
+            [CollectionAnimationHelper animateStackCreationForStackView:stack WithMainView:mainView inCollectionView:self.collectionView];
         }
     }
 }

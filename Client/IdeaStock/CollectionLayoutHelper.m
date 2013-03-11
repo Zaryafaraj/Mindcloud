@@ -431,7 +431,9 @@ inCollectionView:(UIView *)collectionView
       toNewFrame:(CGRect)newFrame
   withCompletion:(move_noted_finished)callback
 {
-    
+    [CollectionAnimationHelper animateMoveView:view intoFrame:newFrame inCollection:collectionView withCompletion:^{
+        callback();
+    }];
 }
 +(void) scaleView:(UIView *) view
  inCollectionView:(UIView *) collectionView
