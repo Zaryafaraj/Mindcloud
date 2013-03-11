@@ -166,6 +166,8 @@
 
 -(void) stopListening
 {
+    if (!self.isShared) return;
+    
     self.listenerCount = 0;
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];

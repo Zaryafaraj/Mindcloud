@@ -481,30 +481,34 @@
     NSData * cachedData = [self getCollectionFromDisk:collectionName];
     if ([self shouldUpdateCacheForCollection:collectionName])
     {
-        //whatever is cached we try to retreive the collection again
-        Mindcloud * mindcloud = [Mindcloud getMindCloud];
-        NSString * userID = [UserPropertiesHelper userID];
-        [NetworkActivityHelper addActivityInProgress];
-        [mindcloud getCollectionManifestForUser:userID
-                                  forCollection:collectionName
-                                   withCallback:^(NSData * collectionData){
-                                       if (collectionData)
-                                       {
-                                           
-                                           [self saveToDiskCollectionData:collectionData
-                                                            ForCollection:collectionName];
-                                           //get the rest of the notes
-                                           [self getAllNotes:collectionName];
-                                       }
-                                       else
-                                       {
-                                           [NetworkActivityHelper removeActivityInProgress];
-                                       }
-                                   }];
+        [self getCollectionFromServer:collectionName];
     }
     return cachedData;
 }
 
+-(void) getCollectionFromServer:(NSString * )collectionName
+{
+    //whatever is cached we try to retreive the collection again
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userID = [UserPropertiesHelper userID];
+    [NetworkActivityHelper addActivityInProgress];
+    [mindcloud getCollectionManifestForUser:userID
+                              forCollection:collectionName
+                               withCallback:^(NSData * collectionData){
+                                   if (collectionData)
+                                   {
+                                       
+                                       [self saveToDiskCollectionData:collectionData
+                                                        ForCollection:collectionName];
+                                       //get the rest of the notes
+                                       [self getAllNotes:collectionName];
+                                   }
+                                   else
+                                   {
+                                       [NetworkActivityHelper removeActivityInProgress];
+                                   }
+                               }];
+}
 - (void) getAllNotes:(NSString *) collectionName
 {
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
@@ -884,9 +888,13 @@
 -(void) refreshCacheForKey:(NSString *)collectionName
 {
     self.collectionHasUpdatedCache[collectionName] = @NO;
-    [self getCollection:collectionName];
+    [self getCollectionFromServer:collectionName];
 }
 
+-(BOOL) isKeyCached:(NSString *)collectionName
+{
+    return self.collectionHasUpdatedCache[collectionName] ? YES: NO;
+}
 
 #pragma mark - NotificationHandler
 

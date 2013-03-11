@@ -100,8 +100,6 @@ class SharingLoadBalancer():
             if server_name in self.servers:
                 self.servers.remove(server_name)
 
-
-
     @gen.engine
     def get_sharing_space_info(self, sharing_secret, callback):
 

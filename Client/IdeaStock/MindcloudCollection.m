@@ -9,6 +9,7 @@
 #import "MindcloudCollection.h"
 #import "XoomlCollectionParser.h"
 #import "SharingAwareObject.h"
+#import "CachedObject.h"
 
 #import "XoomlCollectionManifest.h"
 #import "FileSystemHelper.h"
@@ -85,7 +86,7 @@
  permenant storage
  */
 @property (nonatomic,strong) id<MindcloudDataSource,CollectionSharingAdapterDelegate,
-SharingAwareObject, cachedCollectionContainer> dataSource;
+SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 /*
  The manifest of the loaded collection
  */
@@ -170,7 +171,7 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
 
 #pragma mark - Initialization
 -(id) initCollection:(NSString *)collectionName
-      withDataSource:(id<MindcloudDataSource, CollectionSharingAdapterDelegate, SharingAwareObject, cachedCollectionContainer>) dataSource
+      withDataSource:(id<MindcloudDataSource, CollectionSharingAdapterDelegate, SharingAwareObject, cachedCollectionContainer, CachedObject>) dataSource
 {
     self = [super init];
     self.recorder = [[CollectionRecorder alloc] init];
@@ -347,6 +348,13 @@ SharingAwareObject, cachedCollectionContainer> dataSource;
         [collectionName isEqualToString:self.bulletinBoardName])
     {
         [self.dataSource collectionIsShared:collectionName];
+        if ([self.dataSource isKeyCached:self.bulletinBoardName])
+        {
+            [self.dataSource refreshCacheForKey:self.bulletinBoardName];
+        }
+        
+        //if we start listenenign or synching too fast before being in synch we will overwrite the server
+        //with stale data
         if (!self.hasStartedListening && self.isInSynchWithServer)
         {
             self.synchronizationPeriod = SHARED_SYNCH_PERIOD;

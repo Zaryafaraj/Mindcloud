@@ -27,6 +27,7 @@
     self.userId = userId;
     NSString * resourcePath = [NSString stringWithFormat:@"/SharingSpace/%@/Listen/%@", sharingSecret, userId];
     resourcePath = [resourcePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    if (baseUrl==nil) return  self;
     NSURL * url = [NSURL URLWithString:[baseUrl stringByAppendingString:resourcePath]];
     
     //one hour
