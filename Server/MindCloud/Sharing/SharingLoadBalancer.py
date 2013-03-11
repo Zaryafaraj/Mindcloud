@@ -3,10 +3,12 @@ import heapq
 from threading import Timer
 from tornado import gen
 from tornado.httpclient import HTTPClient
+from tornado.ioloop import IOLoop
 from Cache.MindcloudCache import MindcloudCache
 from Properties import MindcloudProperties
 from Properties.MindcloudProperties import Properties
 from Sharing.SharingController import SharingController
+from functools import partial
 
 __author__ = 'afathali'
 
@@ -60,6 +62,12 @@ class SharingLoadBalancer():
         self.timer = Timer(self.HEALTHCHECK_PERIOD, self.__healthcheck)
         self.timer.start()
 
+    @gen.engine
+    def __wipeout_cache(self, sharing_secret):
+        cache = MindcloudCache()
+        yield gen.Task(cache.remove_sharing_space_server, sharing_secret)
+        self.__log.info("Wiped out cache for sharing_secret %s" % sharing_secret)
+
     @classmethod
     def get_instance(cls):
         if not cls.__instance:
@@ -84,6 +92,8 @@ class SharingLoadBalancer():
 
         for sharing_secret in to_delete_sharing_spaces:
             self.remove_server_for_sharing_secret(sharing_secret)
+            #curry the callback and submit it to the IOLoop
+            IOLoop.instance().add_callback(partial(self.__wipeout_cache, sharing_secret = sharing_secret))
 
         for server_name in server_names:
             self.remove_server_from_heap(server_name)

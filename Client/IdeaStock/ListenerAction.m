@@ -37,6 +37,7 @@
 {
     //in case of a timeout retry
     NSError * err = error.userInfo[@"NSUnderlyingError"];
+    NSLog(@"Received Error code when establishing listener to %@ %@", self.request.URL, err);
     if (err.code == -1001)
     {
         if ([self.request.HTTPMethod isEqualToString:@"POST"])
@@ -55,7 +56,7 @@
     {
         if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
         {
-            NSLog(@"Received status %d", self.lastStatusCode);
+            NSLog(@"Received status for listener%d", self.lastStatusCode);
             self.postCallback(nil);
             return;
         }
