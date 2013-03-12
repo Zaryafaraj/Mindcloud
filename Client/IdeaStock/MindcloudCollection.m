@@ -804,7 +804,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
                  FromCollection:self.bulletinBoardName];
     
     [self.recorder recordDeleteNote:noteName];
-    self.needSynchronization = true;
+    self.needSynchronization = YES;
 }
 
 -(void) removeNoteImage:(NSString *) delNoteID

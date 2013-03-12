@@ -441,13 +441,14 @@
         //if the note is not already deattached from the stack view
         if (noteView.superview != self.collectionView)
         {
-            [self removeNoteView:noteView fromStackView:stack];
+            [self removeNoteView:noteView fromStackView:stack updateNote:YES];
         }
     }
 }
 
 -(void) removeNoteView:(NoteView *) noteView
          fromStackView:(StackView *)stack
+            updateNote:(BOOL) update
 {
     [stack removeNoteView:noteView];
     [stack setNextMainViewWithNoteToRemove:noteView];
@@ -466,7 +467,10 @@
                                                                         inView:self.collectionView];
                                CGRect newFrame = CGRectMake(noteX, noteY, noteView.frame.size.width, noteView.frame.size.height);
                                noteView.frame = newFrame;
-                               [self updateScalingAndPositionAccordingToNoteView:noteView];
+                               if (update)
+                               {
+                                   [self updateScalingAndPositionAccordingToNoteView:noteView];
+                               }
                            }];
 }
 
@@ -542,7 +546,9 @@
         {
             if (note.superview != self.collectionView)
             {
-                [self removeNoteView:note fromStackView:stack];
+                [self removeNoteView:note
+                       fromStackView:stack
+                          updateNote:NO];
                 [note removeFromSuperview];
             }
         }
