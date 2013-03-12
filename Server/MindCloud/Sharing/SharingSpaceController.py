@@ -107,11 +107,15 @@ class SharingSpaceController(SharingActionDelegate):
         if user_id in self.__listeners:
             self.__log.info('SharingSpaceController - Backup listener added for user %s' % user_id)
             if user_id in self.__backup_listeners:
-                backup_request = self.__backup_listeners[user_id][0]
-                backup_request.set_status(StorageResponse.OK)
-                backup_listener_events = self.__backup_listeners[user_id][1]
-                backup_request.write(backup_listener_events.convert_to_json_string())
-                backup_request.finish()
+                try:
+                    backup_request = self.__backup_listeners[user_id][0]
+                    backup_request.set_status(StorageResponse.OK)
+                    backup_listener_events = self.__backup_listeners[user_id][1]
+                    backup_request.write(backup_listener_events.convert_to_json_string())
+                    backup_request.finish()
+                except Exception:
+                    #the connection has closed the request, fuck it :)
+                    pass
                 del self.__backup_listeners[user_id]
                 self.__backup_listeners[user_id] = self.__listeners[user_id]
                 self.__listeners[user_id] = (request, SharingEvent())
