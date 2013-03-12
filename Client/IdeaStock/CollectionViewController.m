@@ -1327,6 +1327,12 @@
     
     CGRect stackFrame = [CollectionLayoutHelper getStackingFrameForStackingWithTopView:mainView];
     
+    if ([mainView isKindOfClass:[StackView class]])
+    {
+        NSLog(@"CAUGHT IT");
+        mainView = ((StackView *)mainView).mainView;
+    }
+    
     BOOL isNewStack = ID == nil ? YES : NO;
     NSString * stackingID = isNewStack ? [self mergeItems: items
                                  intoStackingWithMainView: mainView] :ID;
@@ -1385,10 +1391,13 @@ intoStackingWithMainView: (UIView *) mainView
         topItemID = ((StackView *)mainView).mainView.ID;
     }
     
-    if (topItemID == nil) return stackingID;
+//    if (topItemID == nil) return stackingID;
     //make sure that the top of the stack is at index 0
-    [stackingNoteIDs removeObject:topItemID];
-    [stackingNoteIDs insertObject:topItemID atIndex:0];
+    if ([stackingNoteIDs containsObject:topItemID])
+    {
+        [stackingNoteIDs removeObject:topItemID];
+        [stackingNoteIDs insertObject:topItemID atIndex:0];
+    }
     
     [self.board addNotesWithIDs:stackingNoteIDs toStacking:stackingID];
     
