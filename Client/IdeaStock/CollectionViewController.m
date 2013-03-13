@@ -293,6 +293,8 @@
         CGRect newFrame = CGRectMake(positionX, positionY, view.frame.size.width, view.frame.size.height);
         if (noteStackingId && noteView.superview == self.collectionView)
         {
+            NSLog(@"txt : %@",noteView.text);
+            [noteView removeFromSuperview];
             [CollectionLayoutHelper moveView:noteView inCollectionView:self.collectionView toNewFrame:newFrame withCompletion:^{
                 [noteView removeFromSuperview];
             }];
@@ -455,6 +457,9 @@
     
     [self sanitizeNoteViewForCollectionView:noteView];
     
+    //
+    if (!update) return;
+    
     [CollectionLayoutHelper removeNote:noteView
                              fromStack:stack
                       InCollectionView:self.collectionView
@@ -529,6 +534,7 @@
     {
         NSLog(@"CollectionViewController: Stacking Delete Event Received for %@", stackId);
         StackView * stack = self.stackViews[stackId];
+        [self.stackViews removeObjectForKey:stackId];
         
         if ([self.presentedViewController isKindOfClass:[StackViewController class]])
         {
@@ -554,7 +560,6 @@
         }
         
         [stack removeFromSuperview];
-        [self.stackViews removeObjectForKey:stackId];
     }
 }
 
@@ -565,7 +570,7 @@
     for(NSString * noteId in result)
     {
         CollectionNote * noteObj = [self.board getNoteContent:noteId];
-    //    NSLog(@"noteText %@", noteObj.noteText);
+        
         if (noteObj == nil) break;
         
         NoteView * noteView = [self getNoteView:noteId];
@@ -1353,7 +1358,7 @@
     [self addGestureRecognizersToStack:stack];
     [CollectionAnimationHelper animateStackCreationForStackView:stack
                                                    WithMainView:mainView
-                                                  andStackItems:items
+                                                  andStackItems:allNotes
                                                inCollectionView:self.collectionView
                                                           isNew:isNewStack
                                            withMoveNoteFunction:^(NoteView * note){

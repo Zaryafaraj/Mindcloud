@@ -48,29 +48,38 @@
     
     
     for (UIView * view in items){
-            [UIView animateWithDuration:0.5
+        
+         if ([view isKindOfClass:[NoteView class]]){
+             if (isNewStack){
+                 updateNote((NoteView *) view);
+             }
+         }
+        [UIView animateWithDuration:0.5
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
                                  [view setFrame:mainView.frame];
                              }
                              completion:^(BOOL finished){
-                                 if ([view isKindOfClass:[NoteView class]]){
-                                     if (isNewStack){
-                                         updateNote((NoteView *) view);
-                                     }
-                                 }
                                  [view removeFromSuperview];
                             }];
         }
 }
 
-+(void) animateStackCreationForStackView:(UIView *) stack
++(void) animateStackCreationForStackView:(StackView *) stack
                             WithMainView:(UIView *) mainView
                         inCollectionView: (UIView *) collectionView
 {
     mainView.alpha = 1;
     stack.alpha =0;
+    for (UIView * view in stack.views)
+    {
+        [UIView animateWithDuration:0.25
+                         animations:^{view.alpha = 0;}
+                         completion:^(BOOL finished){
+                             [view removeFromSuperview];
+                             view.alpha = 1;}];
+    }
     [collectionView addSubview:stack];
     [UIView animateWithDuration:0.5 animations:^{stack.alpha = 1;}];
 }
