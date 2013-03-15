@@ -293,7 +293,6 @@
         CGRect newFrame = CGRectMake(positionX, positionY, view.frame.size.width, view.frame.size.height);
         if (noteStackingId && noteView.superview == self.collectionView)
         {
-            NSLog(@"txt : %@",noteView.text);
             [noteView removeFromSuperview];
             [CollectionLayoutHelper moveView:noteView inCollectionView:self.collectionView toNewFrame:newFrame withCompletion:^{
                 [noteView removeFromSuperview];
@@ -306,12 +305,10 @@
             [view scale:scale animated:YES];
         }
         
-        
-        
-        
         CGRect oldFrame = view.frame;
         if (!CGRectEqualToRect(newFrame, oldFrame))
         {
+            NSLog(@"X: %f  y:  %f", newFrame.origin.x, newFrame.origin.y);
             [CollectionLayoutHelper moveView:view
                             inCollectionView:self.collectionView
                                   toNewFrame:newFrame];
@@ -1136,6 +1133,20 @@
 }
 
 -(void) updateNoteLocation:(NoteView *) view
+                toMainView:(UIView *) mainView
+{
+    NSString * noteID = view.ID;
+    float positionFloatX = mainView.frame.origin.x;
+    NSString * positionX = [NSString stringWithFormat:@"%f",positionFloatX];
+    float positionFloatY = mainView.frame.origin.y;
+    NSString * positionY = [NSString stringWithFormat:@"%f",positionFloatY];
+    
+    XoomlNoteModel * oldModel = [self.board getNoteModelFor:view.ID];
+    oldModel.positionX = positionX;
+    oldModel.positionY = positionY;
+    [self.board updateNoteAttributes:noteID withModel:oldModel];
+}
+-(void) updateNoteLocation:(NoteView *) view
 {
     NSString * noteID = view.ID;
     float positionFloat = view.frame.origin.x;
@@ -1147,7 +1158,6 @@
     oldModel.positionX = positionX;
     oldModel.positionY = positionY;
     [self.board updateNoteAttributes:noteID withModel:oldModel];
-    
 }
 
 -(void) updateScaleForNote:(NSString *) noteId withScale:(CGFloat) scaleOffset
@@ -1362,7 +1372,7 @@
                                                inCollectionView:self.collectionView
                                                           isNew:isNewStack
                                            withMoveNoteFunction:^(NoteView * note){
-                                               [self updateNoteLocation:note];
+                                               [self updateNoteLocation:note toMainView:mainView];
                                            }];
 }
 
