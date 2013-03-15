@@ -443,7 +443,20 @@
     }
 }
 
-
+-(void) setTopViewForNote:(NoteView *) newNote;
+{
+    if ([self.views containsObject:newNote])
+    {
+        self.mainView = newNote;
+        [self setText:newNote.text];
+        
+        if ([newNote isKindOfClass:[ImageView class]])
+        {
+            [self layImage:((ImageView *) newNote).image];
+        }
+    }
+    
+}
 #pragma mark - keyboard
 -(void) resignFirstResponder{
     for (UIView * subView in self.subviews){

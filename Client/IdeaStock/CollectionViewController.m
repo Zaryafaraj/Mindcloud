@@ -562,6 +562,7 @@
 
 -(void) noteContentUpdateEventOccured:(NSNotification *) notification
 {
+    NSLog(@"CollectionViewController- Note Content Updated");
     NSDictionary * userInfo = notification.userInfo;
     NSArray * result = userInfo[@"result"];
     for(NSString * noteId in result)
@@ -574,6 +575,12 @@
         if (noteView == nil) break;
         
         noteView.text = noteObj.noteText;
+        NSString * noteStackingId = [self.board stackingForNote:noteId];
+        if (noteStackingId != nil)
+        {
+            StackView * stackView = self.stackViews[noteStackingId];
+            [stackView setTopViewForNote:noteView];
+        }
     }
 }
 

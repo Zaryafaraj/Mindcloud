@@ -22,6 +22,8 @@
 
 -(void) setNextMainViewWithNoteToRemove:(NoteView *) noteView;
 
+-(void) setTopViewForNote:(NoteView *) newNote;
+
 -(void) addNoteView:(NoteView *) note;
 
 -(void) removeNoteView:(NoteView *) note;
