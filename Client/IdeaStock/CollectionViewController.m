@@ -556,7 +556,10 @@
             }
         }
         
-        [stack removeFromSuperview];
+        [CollectionAnimationHelper animateDeleteView:stack fromCollectionView:self.collectionView withCallbackAfterFinish:^(void)
+         {
+             [stack removeFromSuperview];
+         }];
     }
 }
 
