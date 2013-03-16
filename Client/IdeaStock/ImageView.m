@@ -73,7 +73,29 @@
     return self;
 }
 
-
+-(void) scaleWithScaleOffset:(CGFloat)scaleOffset animated:(BOOL)animated
+{
+    [super scaleWithScaleOffset:scaleOffset animated:YES];
+    CGRect frame = CGRectMake(self.imageView.superview.frame.origin.x + self.imageView.superview.frame.size.width * IMG_OFFSET_X_RATE,
+                                self.imageView.superview.frame.origin.y + self.imageView.superview.frame.size.height * IMG_OFFSET_Y_RATE,
+                                self.imageView.superview.frame.size.width * IMG_SIZE_WIDTH_RATIO,
+                                self.imageView.superview.frame.size.height * IMG_SIZE_HEIGHT_RATIO);
+    if (animated)
+    {
+        [CollectionAnimationHelper animateChangeFrame:self.imageView
+                                         withNewFrame:frame];
+    }
+    else
+    {
+        self.imageView.frame = frame;
+    }
+    
+//    UIView * superView = [self.imageView superview];
+//    [self.imageView removeFromSuperview];
+//    [superView addSubview:newImage];
+//    self.imageView = newImage;
+    
+}
 -(void) scale:(CGFloat) scaleFactor animated:(BOOL)animated{
 
     [super scale:scaleFactor animated:animated];
