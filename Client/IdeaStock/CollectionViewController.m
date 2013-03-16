@@ -266,7 +266,6 @@
         float positionX = [noteModel.positionX floatValue];
         float positionY = [noteModel.positionY floatValue];
         float scale = [noteModel.scaling floatValue];
-        NSLog(@"Received Scale: %f", scale);
         
         //make sure that the positions are in the bounds of the screen
         [CollectionLayoutHelper adjustNotePositionsForX:&positionX
@@ -300,9 +299,7 @@
             }];
         }
         
-        NSLog(@"current Scale Offset: %f", view.scaleOffset);
         //scale = scale / view.scaleOffset;
-        NSLog(@"New Scale Offset %f", scale);
         if (scale != 0 && view.scaleOffset != scale)
         {
             [view scaleWithScaleOffset:scale animated:scale];
@@ -311,7 +308,6 @@
         CGRect oldFrame = view.frame;
         if (!CGRectEqualToRect(newFrame, oldFrame))
         {
-            NSLog(@"X: %f  y:  %f", newFrame.origin.x, newFrame.origin.y);
             [CollectionLayoutHelper moveView:view
                             inCollectionView:self.collectionView
                                   toNewFrame:newFrame];
@@ -506,8 +502,11 @@
         StackView * stack = self.stackViews[stackId];
         float scaling = [stacking.scale floatValue];
         
-        scaling = scaling / stack.scaleOffset;
-        if (scaling && stack.scaleOffset != scaling) [stack scale:scaling animated:YES];
+        //scaling = scaling / stack.scaleOffset;
+        if (scaling && stack.scaleOffset != scaling)
+        {
+            [stack scaleWithScaleOffset:scaling animated:YES];
+        }
         
         NSMutableSet * newRefIds = [stacking.refIds mutableCopy];
         NSMutableSet * oldRefIds = [stack.getAllNoteIds mutableCopy];

@@ -205,7 +205,6 @@
         }
         else if ([subView isKindOfClass:[UITextView class]]){
             //doing this to make the text clearer instead of resizing an existing UITextView
-            NSString * oldText = ((UITextView *)subView).text;
             
         CGRect textFrame = CGRectMake(self.bounds.origin.x + self.bounds.size.width * STARTING_POS_OFFSET_X ,
                                       self.bounds.origin.y + self.bounds.size.height * STARTING_POS_OFFSET_Y,
@@ -214,18 +213,6 @@
             
             [CollectionAnimationHelper animateChangeFrame:subView
                                              withNewFrame:textFrame];
-//            UITextView * textView = [[UITextView alloc] initWithFrame:textFrame];
-//            textView.font = [UIFont fontWithName:@"Cochin" size:17.0];
-//            
-//            [textView setBackgroundColor:[UIColor clearColor]];
-//            
-//            textView.textColor = ((UITextView *)subView).textColor;
-//            textView.text = oldText;
-//            
-//            textView.delegate = self;
-//            [subView removeFromSuperview];
-//            
-//            [self addSubview:textView];
         }
     }
 }
@@ -233,11 +220,9 @@
 -(void) scale:(CGFloat) scaleFactor animated:(BOOL)animated{
     
     BOOL isValid = [self isScalingValid:scaleFactor];
-    NSLog(@"Scale Factor ----- %f", scaleFactor);
     if (!isValid) return;
 
     self.scaleOffset *= scaleFactor;
-    NSLog(@"Scale Offset ----- %f", self.scaleOffset);
     
     CGRect newFrame = CGRectMake(self.frame.origin.x,
                                  self.frame.origin.y,
@@ -270,13 +255,6 @@
                                           subView.frame.size.width * scaleFactor,
                                           subView.frame.size.height * scaleFactor);
             
-//            [CollectionAnimationHelper animateChangeFrame:subView
-//                                             withNewFrame:textFrame];
-            NSLog(@"TEXT FRAME =  X: %f Y: %f W: %f H: %f",
-                  textFrame.origin.x,
-                  textFrame.origin.y,
-                  textFrame.size.width,
-                  textFrame.size.height);
             UITextView * textView = [[UITextView alloc] initWithFrame:textFrame];
             textView.font = [UIFont fontWithName:@"Cochin" size:17.0];
             

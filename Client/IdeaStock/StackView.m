@@ -253,6 +253,65 @@
     }
 }
 
+-(void) scaleWithScaleOffset:(CGFloat)scaleOffset animated:(BOOL)animated
+{
+    self.scaleOffset = scaleOffset;
+    
+    CGRect newFrame = CGRectMake(self.originalFrame.origin.x,
+                                 self.originalFrame.origin.y,
+                                 self.originalFrame.size.width * scaleOffset,
+                                 self.originalFrame.size.height * scaleOffset);
+    
+    self.frame = newFrame;
+    
+    for (UIView * subView in self.subviews){
+        if ([subView isKindOfClass:[UIImageView class]]){
+            CGRect subViewFrame = self.bounds;
+            
+            if (animated)
+            {
+                [CollectionAnimationHelper animateChangeFrame:subView withNewFrame:subViewFrame];
+            }
+            else
+            {
+                subView.frame = subViewFrame;
+            }
+            //if we have an image on top of the stack that will be the subview of this image view which is the stack image
+            for(UIView * stackTop in subView.subviews)
+            {
+                if ([stackTop isKindOfClass:[UIImageView class]])
+                {
+                    CGRect frame = CGRectMake(subView.frame.origin.x + subView.frame.size.width * IMG_OFFSET_X_RATE,
+                                              subView.frame.origin.y + subView.frame.size.height * IMG_OFFSET_Y_RATE,
+                                              subView.frame.size.width * IMG_SIZE_WIDTH_RATIO,
+                                              subView.frame.size.height * IMG_SIZE_HEIGHT_RATIO);
+                    
+                    if (animated)
+                    {
+                        [CollectionAnimationHelper animateChangeFrame:stackTop
+                                                         withNewFrame:frame];
+                    }
+                    else
+                    {
+                        stackTop.frame = frame;
+                        
+                    }
+                }
+                
+            }
+            
+        }
+        else if ([subView isKindOfClass:[UITextView class]]){
+            //doing this to make the text clearer instead of resizing an existing UITextView
+            
+            CGRect textFrame = CGRectMake(self.bounds.origin.x + self.bounds.size.width * STARTING_POS_OFFSET_X ,
+                                          self.bounds.origin.y + self.bounds.size.height * STARTING_POS_OFFSET_Y,
+                                          self.bounds.size.width * TEXT_WIDHT_RATIO,
+                                          self.bounds.size.height * TEXT_HEIGHT_RATIO);
+            [CollectionAnimationHelper animateChangeFrame:subView withNewFrame:textFrame];
+        }
+    }
+}
 -(void) scale:(CGFloat) scaleFactor animated:(BOOL)animated{
     
     if ( self.frame.size.width * scaleFactor > self.originalFrame.size.width * 2||
@@ -270,14 +329,7 @@
                               self.frame.size.width * scaleFactor,
                               self.frame.size.height * scaleFactor);
     
-    if (animated)
-    {
-        [CollectionAnimationHelper animateChangeFrame:self withNewFrame:frame];
-    }
-    else
-    {
-        self.frame = frame;
-    }
+    self.frame = frame;
     
     for (UIView * subView in self.subviews){
         if ([subView isKindOfClass:[UIImageView class]]){
