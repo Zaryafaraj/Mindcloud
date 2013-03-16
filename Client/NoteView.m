@@ -120,7 +120,7 @@
                                      self.bounds.origin.y,
                                      self.bounds.size.width,
                                      self.bounds.size.height);
-        
+       
         CGRect textFrame = CGRectMake(self.bounds.origin.x + self.bounds.size.width * STARTING_POS_OFFSET_X ,
                                       self.bounds.origin.y + self.bounds.size.height * STARTING_POS_OFFSET_Y,
                                       self.bounds.size.width * TEXT_WIDHT_RATIO,
@@ -177,9 +177,57 @@
 
 -(void) scaleWithScaleOffset:(CGFloat) scaleOffset animated:(BOOL) animated
 {
+    self.scaleOffset = scaleOffset;
     
-    [self resetSize];
-    [self scale:scaleOffset animated:animated];
+    CGRect newFrame = CGRectMake(self.originalFrame.origin.x,
+                                 self.originalFrame.origin.y,
+                                 self.originalFrame.size.width * scaleOffset,
+                                 self.originalFrame.size.height * scaleOffset);
+    
+    self.frame = newFrame;
+    
+    for (UIView * subView in self.subviews){
+        
+        if ([subView isKindOfClass:[UIImageView class]]){
+            CGRect newFrame2 = CGRectMake(self.bounds.origin.x,
+                                          self.bounds.origin.y,
+                                          self.bounds.size.width,
+                                          self.bounds.size.height);
+            
+            if (animated)
+            {
+                [CollectionAnimationHelper animateChangeFrame:subView withNewFrame:newFrame2];
+            }
+            else
+            {
+                subView.frame = newFrame2;
+            }
+        }
+        else if ([subView isKindOfClass:[UITextView class]]){
+            //doing this to make the text clearer instead of resizing an existing UITextView
+            NSString * oldText = ((UITextView *)subView).text;
+            
+        CGRect textFrame = CGRectMake(self.bounds.origin.x + self.bounds.size.width * STARTING_POS_OFFSET_X ,
+                                      self.bounds.origin.y + self.bounds.size.height * STARTING_POS_OFFSET_Y,
+                                      self.bounds.size.width * TEXT_WIDHT_RATIO,
+                                      self.bounds.size.height * TEXT_HEIGHT_RATIO);
+            
+            [CollectionAnimationHelper animateChangeFrame:subView
+                                             withNewFrame:textFrame];
+//            UITextView * textView = [[UITextView alloc] initWithFrame:textFrame];
+//            textView.font = [UIFont fontWithName:@"Cochin" size:17.0];
+//            
+//            [textView setBackgroundColor:[UIColor clearColor]];
+//            
+//            textView.textColor = ((UITextView *)subView).textColor;
+//            textView.text = oldText;
+//            
+//            textView.delegate = self;
+//            [subView removeFromSuperview];
+//            
+//            [self addSubview:textView];
+        }
+    }
 }
 
 -(void) scale:(CGFloat) scaleFactor animated:(BOOL)animated{
