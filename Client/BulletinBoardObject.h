@@ -12,6 +12,9 @@
 
 -(void) scale:(CGFloat) scaleFactor
      animated:(BOOL) animated;
+
+-(void) scaleWithScaleOffset:(CGFloat) scaleOffset animated:(BOOL) animated;
+
 -(void) resetSize;
 
 -(void) resignFirstResponder;

@@ -266,6 +266,7 @@
         float positionX = [noteModel.positionX floatValue];
         float positionY = [noteModel.positionY floatValue];
         float scale = [noteModel.scaling floatValue];
+        NSLog(@"Received Scale: %f", scale);
         
         //make sure that the positions are in the bounds of the screen
         [CollectionLayoutHelper adjustNotePositionsForX:&positionX
@@ -299,10 +300,12 @@
             }];
         }
         
-        scale = scale / view.scaleOffset;
+        NSLog(@"current Scale Offset: %f", view.scaleOffset);
+        //scale = scale / view.scaleOffset;
+        NSLog(@"New Scale Offset %f", scale);
         if (scale != 0 && view.scaleOffset != scale)
         {
-            [view scale:scale animated:YES];
+            [view scaleWithScaleOffset:scale animated:scale];
         }
         
         CGRect oldFrame = view.frame;

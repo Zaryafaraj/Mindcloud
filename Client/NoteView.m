@@ -171,61 +171,64 @@
 
 -(BOOL) isScalingValid: (CGFloat) scaleFactor;
 {
-    if (self.frame.size.width * scaleFactor > self.originalFrame.size.width * 2 ||
-        self.frame.size.height * scaleFactor > self.originalFrame.size.height * 2){
-        return NO;
-    }
-    if ( self.frame.size.width * scaleFactor < self.originalFrame.size.width * 0.9 ||
-        self.frame.size.height * scaleFactor < self.originalFrame.size.height * 0.9){
-        return NO;
-    }
-    return YES;
+    if (self.scaleOffset * scaleFactor > 2 || self.scaleOffset * scaleFactor < 0.9) return NO;
+    else return YES;
+}
+
+-(void) scaleWithScaleOffset:(CGFloat) scaleOffset animated:(BOOL) animated
+{
+    
+    [self resetSize];
+    [self scale:scaleOffset animated:animated];
 }
 
 -(void) scale:(CGFloat) scaleFactor animated:(BOOL)animated{
     
     BOOL isValid = [self isScalingValid:scaleFactor];
+    NSLog(@"Scale Factor ----- %f", scaleFactor);
     if (!isValid) return;
 
     self.scaleOffset *= scaleFactor;
+    NSLog(@"Scale Offset ----- %f", self.scaleOffset);
     
     CGRect newFrame = CGRectMake(self.frame.origin.x,
                                  self.frame.origin.y,
                                  self.frame.size.width * scaleFactor,
                                  self.frame.size.height * scaleFactor);
-    if (animated)
-    {
-        [CollectionAnimationHelper animateChangeFrame:self withNewFrame:newFrame];
-    }
-    else
-    {
-        self.frame = newFrame;
-    }
+    self.frame = newFrame;
     
     for (UIView * subView in self.subviews){
         
         if ([subView isKindOfClass:[UIImageView class]]){
-            CGRect newFrame = CGRectMake(subView.frame.origin.x,
+            CGRect newFrame2 = CGRectMake(subView.frame.origin.x,
                                        subView.frame.origin.y,
                                        subView.frame.size.width * scaleFactor,
                                        subView.frame.size.height * scaleFactor);
             
             if (animated)
             {
-                [CollectionAnimationHelper animateChangeFrame:subView withNewFrame:newFrame];
+                [CollectionAnimationHelper animateChangeFrame:subView withNewFrame:newFrame2];
             }
             else
             {
-                subView.frame = newFrame;
+                subView.frame = newFrame2;
             }
         }
         else if ([subView isKindOfClass:[UITextView class]]){
             //doing this to make the text clearer instead of resizing an existing UITextView
             NSString * oldText = ((UITextView *)subView).text;
-            CGRect textFrame = CGRectMake(self.bounds.origin.x + self.bounds.size.width * STARTING_POS_OFFSET_X ,
-                                          self.bounds.origin.y + self.bounds.size.height * STARTING_POS_OFFSET_Y,
-                                          self.bounds.size.width * TEXT_WIDHT_RATIO,
-                                          self.bounds.size.height * TEXT_HEIGHT_RATIO);
+            CGRect textFrame = CGRectMake(newFrame.size.width * STARTING_POS_OFFSET_X ,
+                                          newFrame.size.height * STARTING_POS_OFFSET_Y,
+                                          subView.frame.size.width * scaleFactor,
+                                          subView.frame.size.height * scaleFactor);
+            
+//            [CollectionAnimationHelper animateChangeFrame:subView
+//                                             withNewFrame:textFrame];
+            NSLog(@"TEXT FRAME =  X: %f Y: %f W: %f H: %f",
+                  textFrame.origin.x,
+                  textFrame.origin.y,
+                  textFrame.size.width,
+                  textFrame.size.height);
             UITextView * textView = [[UITextView alloc] initWithFrame:textFrame];
             textView.font = [UIFont fontWithName:@"Cochin" size:17.0];
             
