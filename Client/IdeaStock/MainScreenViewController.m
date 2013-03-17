@@ -22,6 +22,7 @@
 #import "SharingViewController.h"
 #import "MindcloudSharingAdapter.h"
 #import "SharingAwareObject.h"
+#import "CategorizationViewController.h"
 
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
@@ -41,7 +42,6 @@
 @property (strong, nonatomic) NSString * currentCategory;
 @property (weak, nonatomic) UIActionSheet * activeSheet;
 @property BOOL didCategoriesPresentAlertView;
-@property BOOL isInCategorizeMode;
 @property BOOL isInSharingMode;
 @property CollectionsModel * model;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *categorizeButton;
@@ -67,7 +67,6 @@
 @implementation MainScreenViewController
 
 @synthesize currentCategory = _currentCategory;
-@synthesize isInCategorizeMode = _isInCategorizeMode;
 
 #define DONE_BUTTON @"Done"
 #define DELETE_BUTTON @"Delete"
@@ -83,30 +82,6 @@
 #define DELETE_ACTION @"Delete Collection"
 #define SUBSCRIBE_BUTTON_TITLE @"Subscribe"
 
--(BOOL) isInCategorizeMode
-{
-    return _isInCategorizeMode;
-}
-
--(void) setIsInCategorizeMode:(BOOL)isInCategorizeMode
-{
-    _isInCategorizeMode = isInCategorizeMode;
-    if (_isInCategorizeMode)
-    {
-        //        self.categorizeButton.title = DONE_BUTTON;
-        //        self.lastCategorizeButtonColor = self.categorizeButton.tintColor;
-        //        self.categorizeButton.tintColor = self.cancelButton.tintColor;
-        [self.viewDeckController openLeftViewAnimated:YES];
-        self.toolbar.items = self.cancelToolbar;
-    }
-    else
-    {
-        self.categorizeButton.title = CATEGORIZE_BUTTON;
-        self.categorizeButton.tintColor = self.lastCategorizeButtonColor;
-        [self.viewDeckController closeLeftViewAnimated:YES];
-        self.toolbar.items = self.navigateToolbar;
-    }
-}
 -(NSString *) currentCategory
 {
     if (!_currentCategory)
@@ -295,7 +270,6 @@
 
 -(void) exitCategorizeMode
 {
-    self.isInCategorizeMode = NO;
     self.isEditing = NO;
     [self.collectionView setAllowsMultipleSelection:NO];
     [self disableEditButtons];
@@ -351,8 +325,6 @@
     //make sure Delete and Rename buttons are in disabled state
     [self disableEditButtons];
     [self disableShareButtons];
-    if (self.isInCategorizeMode)
-        self.isInCategorizeMode = NO;
     
     [self dismissPopOver];
     [self.activeSheet dismissWithClickedButtonIndex:-1 animated:YES];
@@ -477,6 +449,7 @@
                       isEqualToString:SUBSCRIBE_BUTTON_TITLE])
             {
                 NSString * sharingSecret =[[alertView textFieldAtIndex:0] text];
+                sharingSecret = [sharingSecret uppercaseString];
                 [self.sharingAdapter subscriberToCollection:sharingSecret];
             }
         }
@@ -519,7 +492,29 @@
 - (IBAction)categorizedPressed:(id)sender {
     
     [self.activeSheet dismissWithClickedButtonIndex:-1 animated:YES];
-    self.isInCategorizeMode = !self.isInCategorizeMode;
+    [self dismissPopOver];
+    
+    SharingViewController * sharingController = [self.storyboard instantiateViewControllerWithIdentifier:@"CategorizationView"];
+    
+    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:sharingController];
+    self.lastPopOver = popover;
+    self.lastPopOver.delegate = self;
+    //sharingController.contentSizeForViewInPopover = CGSizeMake(370, 200);
+    [popover presentPopoverFromBarButtonItem:self.categorizeButton
+                    permittedArrowDirections:UIPopoverArrowDirectionAny
+                                    animated:YES];
+    //
+//    UIViewController * categorizationController = [self.storyboard instantiateViewControllerWithIdentifier:@"CategorizationView"];
+//    
+//    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:categorizationController];
+//    self.lastPopOver = popover;
+//    self.lastPopOver.delegate = self;
+//    popover.popoverContentSize = CGSizeMake(300, 70);
+//    [popover presentPopoverFromRect:CGRectMake(200, 200, 200, 200) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    [popover presentPopoverFromBarButtonItem:self.categorizeButton
+//                    permittedArrowDirections:UIPopoverArrowDirectionAny
+//                                    animated:YES];
+    
 }
 
 - (IBAction)sharePressed:(id)sender {
@@ -1147,28 +1142,22 @@
 //don't show filler cells
 -(NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.isInCategorizeMode)
+    if (indexPath.item < [self.model numberOfCategories])
     {
         return indexPath;
+        
     }
     else
     {
-        if (indexPath.item < [self.model numberOfCategories])
-        {
-            return indexPath;
-            
-        }
-        else
-        {
-            return nil;
-        }
+        return nil;
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (self.isInCategorizeMode)
+    
+    if (NO)
     {
         NSString * categoryName = cell.textLabel.text;
         

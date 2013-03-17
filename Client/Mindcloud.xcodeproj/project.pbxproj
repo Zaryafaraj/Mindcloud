@@ -89,6 +89,7 @@
 		DB99FFC3160E73230042ED2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC2160E73230042ED2A /* QuartzCore.framework */; };
 		DB99FFCC160E8ABB0042ED2A /* MindcloudBaseAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFCB160E8ABB0042ED2A /* MindcloudBaseAction.m */; };
 		DB9CA54C16BF8F2D0030B3F7 /* NamingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9CA54B16BF8F2D0030B3F7 /* NamingHelper.m */; };
+		DBB7455416F647EC0029AE72 /* CategorizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB7455316F647EC0029AE72 /* CategorizationViewController.m */; };
 		DBB9313E16AB7B78005652AA /* CollectionLayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */; };
 		DBB9314116ABDEA4005652AA /* CollectionAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB9314016ABDEA4005652AA /* CollectionAnimationHelper.m */; };
 		DBBA28A916CC7996007C7B4A /* CollectionRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28A816CC7996007C7B4A /* CollectionRecorder.m */; };
@@ -278,6 +279,8 @@
 		DB9CA54A16BF8F2D0030B3F7 /* NamingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NamingHelper.h; sourceTree = "<group>"; };
 		DB9CA54B16BF8F2D0030B3F7 /* NamingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NamingHelper.m; sourceTree = "<group>"; };
 		DBA5B8EE1648CAFA00C68212 /* UIEditableTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIEditableTableViewDelegate.h; sourceTree = "<group>"; };
+		DBB7455216F647EC0029AE72 /* CategorizationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorizationViewController.h; sourceTree = "<group>"; };
+		DBB7455316F647EC0029AE72 /* CategorizationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorizationViewController.m; sourceTree = "<group>"; };
 		DBB9313916AA90BA005652AA /* CachedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CachedObject.h; sourceTree = "<group>"; };
 		DBB9313C16AB7B77005652AA /* CollectionLayoutHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionLayoutHelper.h; sourceTree = "<group>"; };
 		DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionLayoutHelper.m; sourceTree = "<group>"; };
@@ -612,6 +615,8 @@
 				DBFB7AE11644D5C2004049A9 /* CategoriesViewController.m */,
 				DBD06A9316D9B6D100463ECC /* SharingViewController.h */,
 				DBD06A9416D9B6D100463ECC /* SharingViewController.m */,
+				DBB7455216F647EC0029AE72 /* CategorizationViewController.h */,
+				DBB7455316F647EC0029AE72 /* CategorizationViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1008,6 +1013,7 @@
 				DB601A3916E2C2380007A636 /* ListenerAction.m in Sources */,
 				DB601A3D16E2CFED0007A636 /* CollectionSharingAdapter.m in Sources */,
 				DB4D940D16E337DB007FE65A /* TempImageAction.m in Sources */,
+				DBB7455416F647EC0029AE72 /* CategorizationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
