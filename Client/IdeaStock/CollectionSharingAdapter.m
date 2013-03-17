@@ -84,7 +84,10 @@
             NSLog(@"collection is Shared");
             self.isShared = YES;
             self.sharingSecret = sharingInfo[@"secret"];
-            self.sharingSpaceURL = sharingInfo[@"sharing_space_url"];
+            if([sharingInfo[@"sharing_space_url"] isKindOfClass:[NSString class]])
+            {
+                self.sharingSpaceURL = sharingInfo[@"sharing_space_url"];
+            }
             NSDictionary * userInfo = @{@"result" :@{@"collectionName":self.collectionName}};
             [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_IS_SHARED object:self userInfo:userInfo];
         }
@@ -93,10 +96,47 @@
 
 -(void) startListening
 {
-    //primary listener
-    [self listen];
-    //backup listener
-    [self listen];
+    
+    if (self.sharingSpaceURL == nil)
+    {
+        //try getting it again
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userId = [UserPropertiesHelper userID];
+        [mindcloud getSharingInfo:self.collectionName forUser:userId andCallback:^(NSDictionary * sharingInfo){
+            if (sharingInfo == nil)
+            {
+                self.isShared = NO;
+            }
+            else
+            {
+                self.isShared = YES;
+                self.sharingSecret = sharingInfo[@"secret"];
+                self.sharingSpaceURL = sharingInfo[@"sharing_space_url"];
+                
+                
+                if([sharingInfo[@"sharing_space_url"] isKindOfClass:[NSString class]])
+                {
+                    self.sharingSpaceURL = sharingInfo[@"sharing_space_url"];
+                    //primary listener
+                    [self listen];
+                    //backup listener
+                    [self listen];
+                }
+                else
+                {
+                    self.sharingSpaceURL = nil;
+                }
+                
+            }
+        }];
+    }
+    else
+    {
+        //primary listener
+        [self listen];
+        //backup listener
+        [self listen];
+    }
 }
 
 

@@ -494,26 +494,15 @@
     [self.activeSheet dismissWithClickedButtonIndex:-1 animated:YES];
     [self dismissPopOver];
     
-    SharingViewController * sharingController = [self.storyboard instantiateViewControllerWithIdentifier:@"CategorizationView"];
+    CategorizationViewController * categorizationController = [self.storyboard instantiateViewControllerWithIdentifier:@"CategorizationView"];
     
-    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:sharingController];
+    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:categorizationController];
     self.lastPopOver = popover;
     self.lastPopOver.delegate = self;
-    //sharingController.contentSizeForViewInPopover = CGSizeMake(370, 200);
+    popover.popoverContentSize = CGSizeMake(300, 400);
     [popover presentPopoverFromBarButtonItem:self.categorizeButton
                     permittedArrowDirections:UIPopoverArrowDirectionAny
                                     animated:YES];
-    //
-//    UIViewController * categorizationController = [self.storyboard instantiateViewControllerWithIdentifier:@"CategorizationView"];
-//    
-//    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:categorizationController];
-//    self.lastPopOver = popover;
-//    self.lastPopOver.delegate = self;
-//    popover.popoverContentSize = CGSizeMake(300, 70);
-//    [popover presentPopoverFromRect:CGRectMake(200, 200, 200, 200) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-//    [popover presentPopoverFromBarButtonItem:self.categorizeButton
-//                    permittedArrowDirections:UIPopoverArrowDirectionAny
-//                                    animated:YES];
     
 }
 
