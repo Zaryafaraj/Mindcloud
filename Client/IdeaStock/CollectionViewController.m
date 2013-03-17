@@ -1041,11 +1041,8 @@
 
 - (IBAction)refreshPressed:(id)sender {
     
-    if (self.isRefreshing) return;
-    
-    self.isRefreshing = YES;
-    self.board = [[MindcloudCollection alloc] initCollection:self.bulletinBoardName
-                                              withDataSource:[[CachedMindCloudDataSource alloc] init]];
+    NSLog(@"Notes ----- \n %@", self.noteViews);
+    NSLog(@"Stacks ---- \n %@", self.stackViews);
 }
 
 -(void) addRefreshObservers
@@ -1404,6 +1401,7 @@ intoStackingWithMainView: (UIView *) mainView
             
             NSString * oldStackingID = ((StackView *)view).ID;
             [self.board removeStacking:oldStackingID];
+            [self.stackViews removeObjectForKey:oldStackingID];
             for (UIView * note in ((StackView *)view).views){
                 NSString *stackingNoteID = ((NoteView *)note).ID;
                 [stackingNoteIDs addObject:stackingNoteID]; }
@@ -1460,8 +1458,9 @@ intoStackingWithMainView: (UIView *) mainView
 {
     [self.board removeStacking:stack.ID];
     
-    for (UIView * view in stack.views){
+    for (NoteView * view in stack.views){
         self.noteCount--;
+        [self.noteViews removeObjectForKey:view.ID];
         [view removeFromSuperview];
         [self.board removeNoteWithID:((NoteView *)view).ID];
     }
