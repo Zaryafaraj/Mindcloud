@@ -9,6 +9,7 @@
 #import "MindcloudSharingAdapter.h"
 #import "EventTypes.h"
 #import "UserPropertiesHelper.h"
+#import "NetworkActivityHelper.h"
 
 @interface MindcloudSharingAdapter()
 
@@ -76,12 +77,14 @@
 
 -(void) subscriberToCollection:(NSString *)sharingSecret
 {
+    [NetworkActivityHelper addActivityInProgress];
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userId = [UserPropertiesHelper userID];
     [mindcloud subscribeToCollectionWithSecret:sharingSecret
                                        forUser:userId
                                   withCallback:^(NSString * collectionName)
      {
+         [NetworkActivityHelper removeActivityInProgress];
          if (collectionName)
          {
              NSDictionary * userInfo = @{@"result" : @{@"collectionName" : collectionName}};
