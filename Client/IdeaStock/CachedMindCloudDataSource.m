@@ -24,6 +24,12 @@
 @property NSMutableDictionary * inProgressNoteUpdates;
 @property NSMutableDictionary * inProgressNoteImageUpdates;
 @property BOOL manifestUpdateInProgress;
+//Indicates which thumbnails are in the process of retreival.
+//This is because that the collectionView is very anxious and asks
+//for thumbnails multiple times before they get cached,
+//this way we ask once and ignore the rest of the requests until the first request comes back
+@property NSMutableDictionary * isInProgressOfGettingThumbnail;
+
 //dictionaries keyed on the note name and valued on noteData that contain the last update note
 //that is waiting. In case a new one comes in while the note update is in progress it just replaces
 //the old one
@@ -78,6 +84,7 @@
     self.thumbnailHasUpdatedCache = [NSMutableDictionary dictionary];
     self.sharedCollections = [NSMutableDictionary dictionary];
     self.isCategoriesUpdated = NO;
+    self.isInProgressOfGettingThumbnail = [NSMutableDictionary dictionary];
     return self;
 }
 
@@ -217,45 +224,52 @@
     NSData * thumbnailData = [self getThumbnailFromDiskForCollection:collectionName];
     if ([self shouldUpdateThumbnailFor:collectionName])
     {
-        
-        [NetworkActivityHelper addActivityInProgress];
-        Mindcloud * mindcloud = [Mindcloud getMindCloud];
-        NSString * userID = [UserPropertiesHelper userID];
-        [mindcloud getPreviewImageForUser:userID
-                            forCollection:collectionName
-                             withCallback:^(NSData * imgData){
-                                 
-                                 NSDictionary * userDict;
-                                 if (imgData)
-                                 {
-                                     [self saveThumbnailToDisk:imgData forCollection:collectionName];
-                                     self.thumbnailHasUpdatedCache[collectionName] = @YES;
-                                     userDict =
-                                     @{
-                                       @"result":
-                                           @{
-                                               @"collectionName" : collectionName,
-                                               @"data" : imgData
-                                               }
-                                       };
-                                 }
-                                 else
-                                 {
-                                     userDict =
-                                     @{
-                                       @"result":
-                                           @{
-                                               @"collectionName" : collectionName
-                                               }
-                                       };
-                                 }
-                                 [[NSNotificationCenter defaultCenter] postNotificationName:THUMBNAIL_RECEIVED_EVENT
-                                                                                     object:self
-                                                                                   userInfo:userDict];
-                                 [NetworkActivityHelper removeActivityInProgress];
-                                 //in any case send out the notification
-                             }];
-        
+        if (!self.isInProgressOfGettingThumbnail[collectionName])
+        {
+            self.isInProgressOfGettingThumbnail[collectionName] = @YES;
+            
+            [NetworkActivityHelper addActivityInProgress];
+            Mindcloud * mindcloud = [Mindcloud getMindCloud];
+            NSString * userID = [UserPropertiesHelper userID];
+            
+            [mindcloud getPreviewImageForUser:userID
+                                forCollection:collectionName
+                                 withCallback:^(NSData * imgData){
+                                     
+                                     self.isInProgressOfGettingThumbnail[collectionName] = @NO;
+                                     NSDictionary * userDict;
+                                     if (imgData)
+                                     {
+                                         [self saveThumbnailToDisk:imgData forCollection:collectionName];
+                                         self.thumbnailHasUpdatedCache[collectionName] = @YES;
+                                         userDict =
+                                         @{
+                                           @"result":
+                                               @{
+                                                   @"collectionName" : collectionName,
+                                                   @"data" : imgData
+                                                   }
+                                           };
+                                     }
+                                     else
+                                     {
+                                         userDict =
+                                         @{
+                                           @"result":
+                                               @{
+                                                   @"collectionName" : collectionName
+                                                   }
+                                           };
+                                     }
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:THUMBNAIL_RECEIVED_EVENT
+                                                                                         object:self
+                                                                                       userInfo:userDict];
+                                     [NetworkActivityHelper removeActivityInProgress];
+                                     //in any case send out the notification
+                                 }];
+            
+            
+        }
     }
     return thumbnailData;
 }
