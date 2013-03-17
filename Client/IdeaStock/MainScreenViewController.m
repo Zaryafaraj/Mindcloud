@@ -119,9 +119,9 @@
 }
 
 #pragma mark - Timer
-#define SYNCHRONIZATION_PERIOD 60
+#define SYNCHRONIZATION_PERIOD 10
 -(void) startTimer{
-    self.timer = [NSTimer scheduledTimerWithTimeInterval: SYNCHRONIZATION_PERIOD
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:SYNCHRONIZATION_PERIOD
                                                   target:self
                                                 selector:@selector(saveCategories:)
                                                 userInfo:nil
@@ -500,6 +500,7 @@
     
     CategorizationViewController * categorizationController = [self.storyboard instantiateViewControllerWithIdentifier:@"CategorizationView"];
     
+    categorizationController.delegate = self;
     categorizationController.rowHeight = CATEGORIZATION_ROW_HEIGHT;
     categorizationController.categories = [self.model getEditableCategories];
     CGSize popOverContentSize = [categorizationController getBestPopoverContentSize];
@@ -1160,48 +1161,8 @@
 {
     UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
     
-    if (NO)
-    {
-        NSString * categoryName = cell.textLabel.text;
-        
-        if ([self.currentCategory isEqualToString:categoryName]) return;
-        
-        if ([categoryName isEqualToString:ALL] ||
-            [categoryName isEqualToString:SHARED_COLLECTIONS_KEY])
-        {
-            return;
-        }
-        
-        for(NSIndexPath * index in [self.collectionView indexPathsForSelectedItems])
-        {
-            CollectionCell * collectionCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:index];
-            NSString * collectionName = collectionCell.text;
-            [self.model moveCollection:collectionName fromCategory:self.currentCategory toNewCategory:categoryName];
-        }
-        if (![self.currentCategory isEqual:ALL] &&
-            ![self.currentCategory isEqualToString:SHARED_COLLECTIONS_KEY])
-        {
-            [self.collectionView performBatchUpdates:^{
-                [self.collectionView deleteItemsAtIndexPaths:[self.collectionView indexPathsForSelectedItems]];
-            }completion:^(BOOL finished){
-                //give user some fraction of second to see what is happening
-                [self performSelector:@selector(updateCollectionView:) withObject:categoryName afterDelay:0.35];
-                [self exitCategorizeMode];
-                
-            }];
-        }
-        else
-        {
-            [self updateCollectionView:categoryName];
-            [self exitCategorizeMode];
-        }
-        self.shouldSaveCategories = YES;
-    }
-    else
-    {
-        NSString * categoryName = cell.textLabel.text;
-        [self swithToCategory:categoryName];
-    }
+    NSString * categoryName = cell.textLabel.text;
+    [self swithToCategory:categoryName];
 }
 
 - (void) tableView: (UITableView *) tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1247,5 +1208,44 @@
         [self.dataSource saveCategories:categoriesData];
         self.shouldSaveCategories = NO;
     }
+}
+
+#pragma mark - Categorization delegate
+
+-(void) categorizationHappenedForCategory:(NSString *) categoryName
+{
+    [self dismissPopOver];
+    
+    if ([self.currentCategory isEqualToString:categoryName]) return;
+    
+    if ([categoryName isEqualToString:ALL]
+        || [categoryName isEqualToString:SHARED_COLLECTIONS_KEY] )
+    {
+        return;
+    }
+    
+    for(NSIndexPath * index in [self.collectionView indexPathsForSelectedItems])
+    {
+        CollectionCell * collectionCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:index];
+        NSString * collectionName = collectionCell.text;
+        [self.model moveCollection:collectionName fromCategory:self.currentCategory toNewCategory:categoryName];
+    }
+    if (![self.currentCategory isEqual:ALL] &&
+        ![self.currentCategory isEqualToString:SHARED_COLLECTIONS_KEY])
+    {
+        [self.collectionView performBatchUpdates:^{
+            [self.collectionView deleteItemsAtIndexPaths:[self.collectionView indexPathsForSelectedItems]];
+        }completion:^(BOOL finished){
+            
+            [self exitCategorizeMode];
+        }];
+    }
+    else
+    {
+        [self exitCategorizeMode];
+    }
+    self.shouldSaveCategories = YES;
+    [self deselectAll];
+    
 }
 @end

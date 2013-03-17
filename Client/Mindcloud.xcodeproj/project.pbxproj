@@ -281,6 +281,7 @@
 		DBA5B8EE1648CAFA00C68212 /* UIEditableTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIEditableTableViewDelegate.h; sourceTree = "<group>"; };
 		DBB7455216F647EC0029AE72 /* CategorizationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorizationViewController.h; sourceTree = "<group>"; };
 		DBB7455316F647EC0029AE72 /* CategorizationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorizationViewController.m; sourceTree = "<group>"; };
+		DBB7455516F676E50029AE72 /* CategorizationViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorizationViewDelegate.h; sourceTree = "<group>"; };
 		DBB9313916AA90BA005652AA /* CachedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CachedObject.h; sourceTree = "<group>"; };
 		DBB9313C16AB7B77005652AA /* CollectionLayoutHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionLayoutHelper.h; sourceTree = "<group>"; };
 		DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionLayoutHelper.m; sourceTree = "<group>"; };
@@ -578,6 +579,7 @@
 			children = (
 				D78970D41569E376002EC56F /* NoteViewDelegate.h */,
 				DBA5B8EE1648CAFA00C68212 /* UIEditableTableViewDelegate.h */,
+				DBB7455516F676E50029AE72 /* CategorizationViewDelegate.h */,
 			);
 			name = Delegates;
 			sourceTree = "<group>";

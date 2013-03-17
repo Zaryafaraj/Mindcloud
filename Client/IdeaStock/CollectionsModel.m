@@ -195,7 +195,7 @@
     NSMutableArray * editablesArray = [[self.collections allKeys] mutableCopy];
     [editablesArray removeObject:ALL];
 //    [editablesArray removeObject:UNCATEGORIZED_KEY];
-//    [editablesArray removeObject:SHARED_COLLECTIONS_KEY];
+    [editablesArray removeObject:SHARED_COLLECTIONS_KEY];
     
     NSArray * answer = [editablesArray sortedArrayUsingComparator:^(NSString * first, NSString * second){
         

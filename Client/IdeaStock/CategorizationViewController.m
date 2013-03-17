@@ -66,11 +66,17 @@
 {
     if ([self.categories count] > 0)
     {
-        return CGSizeMake(200, [self.categories count] * self.rowHeight);
+        return CGSizeMake(250, [self.categories count] * self.rowHeight);
     }
     else
     {
         return CGSizeMake(0, 0);
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+    [self.delegate categorizationHappenedForCategory:cell.textLabel.text];
 }
 @end
