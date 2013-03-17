@@ -2,11 +2,12 @@ from abc import ABCMeta, abstractmethod
 
 __author__ = 'afathali'
 
+
 class SharingActionDelegate:
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def actionFinishedExecuting(self, action, response):
+    def actionFinishedExecuting(self, action, response, retry_count=0):
         """
         This delegate method should be called when an action finishes
         executing

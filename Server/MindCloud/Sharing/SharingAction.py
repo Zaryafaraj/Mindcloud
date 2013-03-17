@@ -7,7 +7,7 @@ class SharingAction:
 
     @abstractmethod
     @gen.engine
-    def execute(self, callback=None, delegate=None):
+    def execute(self, callback=None, delegate=None, retry_counter=0):
         """
         Executes the action with its current configuration.
         When the action is finished the actionFinishedExecuting of the

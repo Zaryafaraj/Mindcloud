@@ -34,7 +34,7 @@ class SharingSpaceController(SharingActionDelegate):
     #current remaining actions in a batch
     __remaining_actions = 0
 
-
+    MAX_RETRY_COUNT = 3
     #At any point in time the following conditions may exist:
     # 1- There is a primary listener and no back up listener:
     #   In this case the primary listener is notified and returned
@@ -55,7 +55,6 @@ class SharingSpaceController(SharingActionDelegate):
     #   that happens while another listener is added. In that case the
     #   backup listener returns to user with notification and the second
     #   listener becomes the primary listener.
-
 
     __sharing_queue = None
 
@@ -357,8 +356,7 @@ class SharingSpaceController(SharingActionDelegate):
         for user_id in self.__backup_listeners:
             #the backup listener didn't have a primary listener
             #so it must be in recording state
-            if user_id not in notified_listeners and \
-               user_id != owner:
+            if user_id not in notified_listeners and user_id != owner:
                 backup_sharing_event = self.__backup_listeners[user_id][1]
                 backup_sharing_event.add_event(sharing_action)
 
@@ -367,7 +365,6 @@ class SharingSpaceController(SharingActionDelegate):
         #delete notified user
         for user_id in notified_listeners:
             del self.__listeners[user_id]
-
 
     def __process_actions_iterative(self, iteration_count):
 
@@ -382,7 +379,7 @@ class SharingSpaceController(SharingActionDelegate):
             for x in range(iteration_count):
                 next_sharing_action = self.__sharing_queue.pop_next_action()
                 if next_sharing_action is None:
-                   break
+                    break
                 #first increment the counters in remaining actions then execute them
                 #this will make sure that when any action is being executed the counter
                 #won't change
@@ -392,13 +389,13 @@ class SharingSpaceController(SharingActionDelegate):
             for action in actions_to_be_executed:
                 action_type = action.get_action_type()
                 user = action.get_user_id()
-                SharingSpaceController.__log.info('SharingSpaceController - executing action %s-%s for user %s' % (action.name,action_type,user))
+                SharingSpaceController.__log.info('SharingSpaceController - executing action %s-%s for user %s' %
+                                                  (action.name, action_type, user))
                 action.execute(delegate=self)
-
 
     #delegate method from SharingActionDelegate
     @gen.engine
-    def actionFinishedExecuting(self, action, response):
+    def actionFinishedExecuting(self, action, response, retry_count=0):
         """
         This function is called when an action is finished executing.
         It keeps a count of the remaining actions and when it reaches
@@ -420,13 +417,15 @@ class SharingSpaceController(SharingActionDelegate):
         was_successful = yield gen.Task(action.was_successful)
         if was_successful:
             self.__remaining_actions -= 1
-            SharingSpaceController.__log.info('SharingSpaceController - finished executing action %s with response %s' % (action.name, str(response)))
+            SharingSpaceController.__log.info('SharingSpaceController - finished executing action %s with response %s' %
+                                              (action.name, str(response)))
 
         else:
             SharingSpaceController.__log.info('SharingSpaceController - Retrying action %s' % action.name)
-            action.execute(delegate=self)
+            if retry_count < self.MAX_RETRY_COUNT:
+                action.execute(delegate=self, retry_counter=retry_count)
 
-        if not self.__remaining_actions :
+        if not self.__remaining_actions:
             SharingSpaceController.__log.info('Finished executing all the actions in the batch')
             self.__sharing_queue.is_being_processed = False
             self.__process_next_batch_of_queue_actions()

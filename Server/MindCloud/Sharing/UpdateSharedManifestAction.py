@@ -27,15 +27,16 @@ class UpdateSharedManifestAction(SharingAction):
         self.__manifest_file = manifest_file
 
     @gen.engine
-    def execute(self,callback=None, delegate=None):
+    def execute(self, callback=None, delegate=None, retry_counter=0):
         result_code = StorageResponse.BAD_REQUEST
         if self.__user_id and self.__collection_name and self.__manifest_file:
             result_code = yield gen.Task(StorageServer.save_collection_manifest,
                 self.__user_id, self.__collection_name, self.__manifest_file)
 
+        retry_counter += 1
         if delegate is not None:
             if isinstance(delegate, SharingActionDelegate):
-                delegate.actionFinishedExecuting(self, result_code)
+                delegate.actionFinishedExecuting(self, result_code, retry_count=retry_counter)
         elif callback is not None:
             callback(result_code)
 

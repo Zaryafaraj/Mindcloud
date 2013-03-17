@@ -257,8 +257,8 @@
 {
     self.scaleOffset = scaleOffset;
     
-    CGRect newFrame = CGRectMake(self.originalFrame.origin.x,
-                                 self.originalFrame.origin.y,
+    CGRect newFrame = CGRectMake(self.frame.origin.x,
+                                 self.frame.origin.y,
                                  self.originalFrame.size.width * scaleOffset,
                                  self.originalFrame.size.height * scaleOffset);
     
