@@ -390,6 +390,7 @@
 #define CREATE_CATEGORY_BUTTON @"Create"
 
 - (IBAction)renamePressed:(id)sender {
+    [self dismissPopOver];
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The New Name of The Collection"
                                                      message:nil
                                                     delegate:self
@@ -465,6 +466,7 @@
     }
 }
 - (IBAction)deletePressed:(id)sender {
+    [self dismissPopOver];
     UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil
                                                          delegate:self
                                                 cancelButtonTitle:nil
@@ -1214,6 +1216,7 @@
 {
     [self deselectAll];
     [self disableShareButtons];
+    [self disableEditButtons];
     self.toolbar.items = self.navigateToolbar;
     self.isEditing = NO;
     self.isInSharingMode = NO;
