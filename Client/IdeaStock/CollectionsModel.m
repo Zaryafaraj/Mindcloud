@@ -189,6 +189,40 @@
     return answer;
 }
 
+-(NSArray *) getEditableCategories
+{
+    
+    NSMutableArray * editablesArray = [[self.collections allKeys] mutableCopy];
+    [editablesArray removeObject:ALL];
+//    [editablesArray removeObject:UNCATEGORIZED_KEY];
+//    [editablesArray removeObject:SHARED_COLLECTIONS_KEY];
+    
+    NSArray * answer = [editablesArray sortedArrayUsingComparator:^(NSString * first, NSString * second){
+        
+        if ([first isEqual:UNCATEGORIZED_KEY])
+        {
+            return NSOrderedAscending;
+        }
+        if ([second isEqual:UNCATEGORIZED_KEY])
+        {
+            return NSOrderedDescending;
+        }
+        if ([first isEqualToString:SHARED_COLLECTIONS_KEY])
+        {
+            return NSOrderedAscending;
+        }
+        else if ([second isEqualToString:SHARED_COLLECTIONS_KEY])
+        {
+            return NSOrderedDescending;
+        }
+        else
+        {
+            return (int)[[first lowercaseString] compare:[second lowercaseString]];
+        }
+    }];
+    return answer;
+}
+
 -(NSArray *) getCollectionsForCategory: (NSString *) category
 {
     if (!category) category = UNCATEGORIZED_KEY;

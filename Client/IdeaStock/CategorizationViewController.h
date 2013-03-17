@@ -9,4 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface CategorizationViewController : UITableViewController
+@property (nonatomic, strong) NSArray * categories;
+@property CGFloat rowHeight;
+
+-(CGSize) getBestPopoverContentSize;
+
 @end

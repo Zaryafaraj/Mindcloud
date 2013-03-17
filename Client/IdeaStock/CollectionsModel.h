@@ -21,6 +21,7 @@
 -(void) applyCategories:(NSDictionary *) categories;
 
 -(NSArray *) getAllCategories;
+-(NSArray *) getEditableCategories;
 -(NSArray *) getCollectionsForCategory: (NSString *) category;
 
 -(void) addCollection: (NSString *) collection toCategory: (NSString *) category;

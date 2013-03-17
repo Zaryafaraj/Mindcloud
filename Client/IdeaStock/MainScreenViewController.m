@@ -82,6 +82,8 @@
 #define DELETE_ACTION @"Delete Collection"
 #define SUBSCRIBE_BUTTON_TITLE @"Subscribe"
 
+#define CATEGORIZATION_ROW_HEIGHT 44
+
 -(NSString *) currentCategory
 {
     if (!_currentCategory)
@@ -498,10 +500,20 @@
     
     CategorizationViewController * categorizationController = [self.storyboard instantiateViewControllerWithIdentifier:@"CategorizationView"];
     
+    categorizationController.rowHeight = CATEGORIZATION_ROW_HEIGHT;
+    categorizationController.categories = [self.model getEditableCategories];
+    CGSize popOverContentSize = [categorizationController getBestPopoverContentSize];
     UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:categorizationController];
     self.lastPopOver = popover;
     self.lastPopOver.delegate = self;
-    popover.popoverContentSize = CGSizeMake(300, 400);
+    if (popOverContentSize.height > 0 && popOverContentSize.width > 0)
+    {
+        popover.popoverContentSize = popOverContentSize;
+    }
+    else
+    {
+        popover.popoverContentSize = CGSizeMake(200, 400);
+    }
     [popover presentPopoverFromBarButtonItem:self.categorizeButton
                     permittedArrowDirections:UIPopoverArrowDirectionAny
                                     animated:YES];
