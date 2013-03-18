@@ -596,7 +596,7 @@
                                                object:nil];
 }
 -(void) viewDidLoad{
-    
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.png"]];
     [super viewDidLoad];
     [self.collectionView setAllowsMultipleSelection:NO];
     [self manageToolbars];
