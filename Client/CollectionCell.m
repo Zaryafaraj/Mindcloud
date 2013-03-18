@@ -23,7 +23,7 @@
         UIView *bgView = [[UIView alloc] initWithFrame:self.backgroundView.frame];
         bgView.backgroundColor = [UIColor clearColor];
         
-        bgView.layer.borderColor = [[UIColor grayColor] CGColor];
+        bgView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
         bgView.layer.borderWidth = 3;
         self.selectedBackgroundView = bgView;
     }

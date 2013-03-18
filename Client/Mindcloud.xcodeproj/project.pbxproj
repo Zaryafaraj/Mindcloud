@@ -91,6 +91,7 @@
 		DB9CA54C16BF8F2D0030B3F7 /* NamingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9CA54B16BF8F2D0030B3F7 /* NamingHelper.m */; };
 		DBB7455416F647EC0029AE72 /* CategorizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB7455316F647EC0029AE72 /* CategorizationViewController.m */; };
 		DBB7455916F6989C0029AE72 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = DBB7455816F6989C0029AE72 /* bg.png */; };
+		DBB7455F16F6D3AB0029AE72 /* Toolbar.png in Resources */ = {isa = PBXBuildFile; fileRef = DBB7455E16F6D3AB0029AE72 /* Toolbar.png */; };
 		DBB9313E16AB7B78005652AA /* CollectionLayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */; };
 		DBB9314116ABDEA4005652AA /* CollectionAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB9314016ABDEA4005652AA /* CollectionAnimationHelper.m */; };
 		DBBA28A916CC7996007C7B4A /* CollectionRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28A816CC7996007C7B4A /* CollectionRecorder.m */; };
@@ -284,6 +285,7 @@
 		DBB7455316F647EC0029AE72 /* CategorizationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorizationViewController.m; sourceTree = "<group>"; };
 		DBB7455516F676E50029AE72 /* CategorizationViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorizationViewDelegate.h; sourceTree = "<group>"; };
 		DBB7455816F6989C0029AE72 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
+		DBB7455E16F6D3AB0029AE72 /* Toolbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Toolbar.png; sourceTree = "<group>"; };
 		DBB9313916AA90BA005652AA /* CachedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CachedObject.h; sourceTree = "<group>"; };
 		DBB9313C16AB7B77005652AA /* CollectionLayoutHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionLayoutHelper.h; sourceTree = "<group>"; };
 		DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionLayoutHelper.m; sourceTree = "<group>"; };
@@ -488,6 +490,7 @@
 		D7A53CF71522F39500183CB6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DBB7455E16F6D3AB0029AE72 /* Toolbar.png */,
 				DBB7455816F6989C0029AE72 /* bg.png */,
 				DB40DEDB16AE618F00ECAC54 /* Felt-Blue.jpg */,
 				DB40DEDC16AE619000ECAC54 /* Leather.jpg */,
@@ -915,6 +918,7 @@
 				DB40DEE116AE619100ECAC54 /* Felt-Green.jpg in Resources */,
 				DB40DEE216AE619100ECAC54 /* Galaxy.jpg in Resources */,
 				DBB7455916F6989C0029AE72 /* bg.png in Resources */,
+				DBB7455F16F6D3AB0029AE72 /* Toolbar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

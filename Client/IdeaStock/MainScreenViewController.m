@@ -597,6 +597,9 @@
 }
 -(void) viewDidLoad{
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.png"]];
+//    self.toolbar.tintColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"Toolbar.png"]];
+    //self.toolbar.tintColor = self.view.backgroundColor;
+    //self.toolbar.backgroundColor = self.view.backgroundColor;
     [super viewDidLoad];
     [self.collectionView setAllowsMultipleSelection:NO];
     [self manageToolbars];
@@ -1016,9 +1019,8 @@
                         layout:(UICollectionViewLayout *)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(20, 20, 30, 20);
+    return UIEdgeInsetsMake(20, 5,30, 20);
 }
-
 
 #pragma mark - Table view data source
 
