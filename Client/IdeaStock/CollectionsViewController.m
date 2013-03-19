@@ -29,16 +29,17 @@
                                 leftViewController: categoriesScreen];
         self.viewDeckController.navigationControllerBehavior = IIViewDeckNavigationControllerIntegrated;
         
+        
         CGRect screenRect = [[UIScreen mainScreen] bounds];
         if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
         {
             CGFloat screenHeight = screenRect.size.height;
-            self.leftLedge = 2 * screenHeight / 3 ;
+            self.leftLedge = 2.25 * screenHeight / 3 ;
         }
         else
         {
             CGFloat screenWidth = screenRect.size.width;
-            self.leftLedge = 1.75 * screenWidth / 3 ;
+            self.leftLedge = 2.0 * screenWidth / 3 ;
         }
     }
     return self;

@@ -1925,8 +1925,8 @@ __typeof__(h) __h = (h);                                    \
     }
     else {
         shadowedView.layer.masksToBounds = NO;
-        shadowedView.layer.shadowRadius = 10;
-        shadowedView.layer.shadowOpacity = 0.5;
+        shadowedView.layer.shadowRadius = 15;
+        shadowedView.layer.shadowOpacity = 0.7;
         shadowedView.layer.shadowColor = [[UIColor blackColor] CGColor];
         shadowedView.layer.shadowOffset = CGSizeZero;
         shadowedView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:shadowedView.bounds] CGPath];

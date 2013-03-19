@@ -84,6 +84,7 @@
 		DB7AC5DA1643A52A007756E6 /* CollectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5D91643A52A007756E6 /* CollectionsViewController.m */; };
 		DB7AC5E31643A9AF007756E6 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5E01643A9AE007756E6 /* IIViewDeckController.m */; };
 		DB7AC5E41643A9AF007756E6 /* WrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5E21643A9AF007756E6 /* WrapController.m */; };
+		DB8ABFB316F8401500631230 /* catbg.png in Resources */ = {isa = PBXBuildFile; fileRef = DB8ABFB216F8401500631230 /* catbg.png */; };
 		DB99FFB5160E5C5D0042ED2A /* UserPropertiesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */; };
 		DB99FFBF160E66870042ED2A /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFBE160E66870042ED2A /* StringUtils.m */; };
 		DB99FFC3160E73230042ED2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC2160E73230042ED2A /* QuartzCore.framework */; };
@@ -271,6 +272,7 @@
 		DB7AC5E01643A9AE007756E6 /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IIViewDeckController.m; path = ../IIViewDeckController.m; sourceTree = "<group>"; };
 		DB7AC5E11643A9AE007756E6 /* WrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WrapController.h; path = ../WrapController.h; sourceTree = "<group>"; };
 		DB7AC5E21643A9AF007756E6 /* WrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WrapController.m; path = ../WrapController.m; sourceTree = "<group>"; };
+		DB8ABFB216F8401500631230 /* catbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = catbg.png; sourceTree = "<group>"; };
 		DB99FFB3160E5C5D0042ED2A /* UserPropertiesHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPropertiesHelper.h; sourceTree = "<group>"; };
 		DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPropertiesHelper.m; sourceTree = "<group>"; };
 		DB99FFBD160E66870042ED2A /* StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtils.h; sourceTree = "<group>"; };
@@ -490,6 +492,7 @@
 		D7A53CF71522F39500183CB6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DB8ABFB216F8401500631230 /* catbg.png */,
 				DBB7455E16F6D3AB0029AE72 /* Toolbar.png */,
 				DBB7455816F6989C0029AE72 /* bg.png */,
 				DB40DEDB16AE618F00ECAC54 /* Felt-Blue.jpg */,
@@ -919,6 +922,7 @@
 				DB40DEE216AE619100ECAC54 /* Galaxy.jpg in Resources */,
 				DBB7455916F6989C0029AE72 /* bg.png in Resources */,
 				DBB7455F16F6D3AB0029AE72 /* Toolbar.png in Resources */,
+				DB8ABFB316F8401500631230 /* catbg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
