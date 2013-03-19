@@ -301,7 +301,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="1" constant="822" type="user" id="0es-8v-HIE"/>
-                                    <constraint firstAttribute="height" constant="856" type="user" id="xFZ-sG-Wc2"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="856" type="user" id="xFZ-sG-Wc2"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="5" id="z7C-mu-znQ">
                                     <size key="itemSize" width="203" height="149"/>
@@ -631,6 +631,8 @@
         <class className="CategoriesViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CategoriesViewController.h"/>
             <relationships>
+                <relationship kind="action" name="editPressed:"/>
+                <relationship kind="action" name="renamePressed:"/>
                 <relationship kind="outlet" name="table" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="viewToolbar" candidateClass="UIToolbar"/>
             </relationships>
@@ -651,6 +653,11 @@
         <class className="CollectionViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CollectionViewController.h"/>
             <relationships>
+                <relationship kind="action" name="backPressed:"/>
+                <relationship kind="action" name="cameraPressed:"/>
+                <relationship kind="action" name="deletePressed:"/>
+                <relationship kind="action" name="expandPressed:"/>
+                <relationship kind="action" name="refreshPressed:"/>
                 <relationship kind="outlet" name="cameraButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="collectionView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
@@ -684,6 +691,8 @@
         <class className="SharingViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SharingViewController.h"/>
             <relationships>
+                <relationship kind="action" name="emailPressed:"/>
+                <relationship kind="action" name="textCopyPressed:"/>
                 <relationship kind="outlet" name="SharingSecretText" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="emailButton" candidateClass="UIButton"/>
@@ -693,6 +702,9 @@
         </class>
         <class className="SignInViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SignInViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="signInPressed:"/>
+            </relationships>
         </class>
         <class className="StackViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StackViewController.h"/>
