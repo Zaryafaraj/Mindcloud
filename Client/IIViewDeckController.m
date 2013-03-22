@@ -437,14 +437,14 @@ __typeof__(h) __h = (h);                                    \
     leftLedge = MAX(leftLedge, minLedge);
     if (_viewAppeared && II_FLOAT_EQUAL(self.slidingControllerView.frame.origin.x, self.referenceBounds.size.width - _leftLedge)) {
         if (leftLedge < _leftLedge) {
-            [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) animations:^{
-                [self setSlidingFrameForOffset:self.referenceBounds.size.width - leftLedge];
-            }];
+//            [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) animations:^{
+//                [self setSlidingFrameForOffset:self.referenceBounds.size.width - leftLedge];
+//            }];
         }
         else if (leftLedge > _leftLedge) {
-            [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) animations:^{
-                [self setSlidingFrameForOffset:self.referenceBounds.size.width - leftLedge];
-            }];
+//            [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) animations:^{
+//                [self setSlidingFrameForOffset:self.referenceBounds.size.width - leftLedge];
+//            }];
         }
     }
     _leftLedge = leftLedge;

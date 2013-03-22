@@ -553,7 +553,7 @@
 
 -(void) viewWillAppear:(BOOL)animated{
     
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    //[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 }
 
 -(void) addInitialListeners
@@ -674,6 +674,10 @@
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
     {
+        if (self.viewDeckController.leftControllerIsOpen)
+        {
+            NSLog(@"NAY");
+        }
         CGFloat screenHeight = screenRect.size.height;
         self.viewDeckController.leftLedge = 2.25 * screenHeight / 3 ;
         CGRect newFrame = CGRectMake(self.categoriesController.view.frame.origin.x,
@@ -681,20 +685,37 @@
                                      screenHeight - self.viewDeckController.leftLedge,
                                      self.categoriesController.view.frame.size.height);
         self.categoriesController.table.frame = newFrame;
+        
+        if (self.viewDeckController.leftControllerIsOpen)
+        {
+            NSLog(@"YAA2");
+        }
     }
     else
     {
+        if (self.viewDeckController.leftControllerIsOpen)
+        {
+            NSLog(@"NAY3");
+        }
         CGFloat screenWidth = screenRect.size.width;
         self.viewDeckController.leftLedge = 2.00 * screenWidth / 3 ;
+        
+        if (self.viewDeckController.leftControllerIsOpen)
+        {
+            NSLog(@"YAA3");
+        }
         CGRect newFrame = CGRectMake(self.categoriesController.view.frame.origin.x,
                                      self.categoriesController.view.frame.origin.y,
                                      screenWidth - self.viewDeckController.leftLedge,
                                      self.categoriesController.view.frame.size.height);
         self.categoriesController.table.frame = newFrame;
+        
     }
     
-    if (self.viewDeckController.leftControllerIsOpen)
-        [self.viewDeckController openLeftView];
+//    if (self.viewDeckController.leftControllerIsOpen)
+//    {
+//        [self.viewDeckController openLeftView];
+//    }
     
 }
 -(void) manageToolbars
