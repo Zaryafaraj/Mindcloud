@@ -596,7 +596,7 @@
                                                object:nil];
 }
 -(void) viewDidLoad{
-    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.png"]];
+    //self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.png"]];
 //    self.toolbar.tintColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"Toolbar.png"]];
     //self.toolbar.tintColor = self.view.backgroundColor;
     //self.toolbar.backgroundColor = self.view.backgroundColor;
