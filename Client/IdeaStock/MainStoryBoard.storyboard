@@ -153,20 +153,21 @@
                                     <constraint firstItem="bN0-Hu-7hX" firstAttribute="leading" secondItem="dp8-tL-pbL" secondAttribute="leading" type="default" id="t4z-cE-ggp"/>
                                 </constraints>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="F1S-Wy-gGz">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" barStyle="blackOpaque" translatesAutoresizingMaskIntoConstraints="NO" id="F1S-Wy-gGz">
                                 <items>
                                     <barButtonItem title="Edit" id="DGJ-d8-OJF">
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="editPressed:" destination="Qqu-fd-gph" id="hle-2W-qd5"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem enabled="NO" title="Rename" id="p9a-ai-bDc">
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="renamePressed:" destination="Qqu-fd-gph" id="RY8-7B-VBf"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
-                                <color key="tintColor" red="0.29019609093666077" green="0.29019609093666077" blue="0.29019609093666077" alpha="1" colorSpace="deviceRGB"/>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -214,12 +215,17 @@
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="light grey2.png" translatesAutoresizingMaskIntoConstraints="NO" id="dH2-WO-dLx">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="368" id="lDV-Ly-Ib0"/>
+                                </constraints>
+                            </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Share the code below with the person you want to share this collection with" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="315" translatesAutoresizingMaskIntoConstraints="NO" id="TeG-4a-R7g">
                                 <constraints>
                                     <constraint firstAttribute="width" constant="315" id="Cm4-Hg-Fej"/>
                                     <constraint firstAttribute="height" constant="63" id="alh-IO-8Ej"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -230,16 +236,16 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="199" id="w0r-Ys-KgW"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SU4-2I-9r9">
                                 <constraints>
                                     <constraint firstAttribute="width" constant="90" id="FE4-6R-rAk"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                 <state key="normal" title="Email">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
@@ -253,9 +259,9 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="90" id="TXg-Et-lY3"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                 <state key="normal" title="Copy">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
@@ -269,15 +275,18 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="kaA-AR-Lhq" firstAttribute="top" secondItem="TeG-4a-R7g" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="60V-Rz-w0v"/>
+                            <constraint firstItem="dH2-WO-dLx" firstAttribute="leading" secondItem="CVh-1W-fuM" secondAttribute="leading" type="default" id="7q4-ef-0Q8"/>
                             <constraint firstItem="VSm-jd-QYY" firstAttribute="baseline" secondItem="SU4-2I-9r9" secondAttribute="baseline" type="default" id="B6k-6J-1CX"/>
+                            <constraint firstItem="dH2-WO-dLx" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" type="default" id="BBt-Cu-bRU"/>
+                            <constraint firstItem="dH2-WO-dLx" firstAttribute="centerX" secondItem="TeG-4a-R7g" secondAttribute="centerX" type="default" id="GFI-HQ-m0h"/>
                             <constraint firstItem="RXx-me-U5X" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="20" symbolic="YES" type="default" id="Rep-TV-lZC"/>
                             <constraint firstItem="SU4-2I-9r9" firstAttribute="trailing" secondItem="kaA-AR-Lhq" secondAttribute="trailing" type="default" id="S5y-YM-6bn"/>
                             <constraint firstItem="VSm-jd-QYY" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="136" id="W9z-jp-gjI"/>
-                            <constraint firstItem="RXx-me-U5X" firstAttribute="centerX" secondItem="CVh-1W-fuM" secondAttribute="centerX" type="default" id="cQb-AW-iuf"/>
                             <constraint firstItem="TeG-4a-R7g" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="20" symbolic="YES" type="default" id="cmc-FY-m2l"/>
                             <constraint firstItem="TeG-4a-R7g" firstAttribute="centerX" secondItem="RXx-me-U5X" secondAttribute="centerX" type="default" id="dQf-e3-6aD"/>
                             <constraint firstItem="kaA-AR-Lhq" firstAttribute="centerX" secondItem="RXx-me-U5X" secondAttribute="centerX" type="default" id="tq3-p0-oYv"/>
                             <constraint firstItem="kaA-AR-Lhq" firstAttribute="leading" secondItem="VSm-jd-QYY" secondAttribute="leading" type="default" id="yOh-0T-Ddr"/>
+                            <constraint firstItem="dH2-WO-dLx" firstAttribute="trailing" secondItem="CVh-1W-fuM" secondAttribute="trailing" type="default" id="zdl-9O-ol4"/>
                         </constraints>
                     </view>
                     <connections>
@@ -382,10 +391,11 @@
                                     <outlet property="delegate" destination="C4k-Gx-gPL" id="fMv-zl-dsY"/>
                                 </connections>
                             </collectionView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="1Wk-zS-ESI">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" barStyle="blackOpaque" translatesAutoresizingMaskIntoConstraints="NO" id="1Wk-zS-ESI">
                                 <items>
                                     <barButtonItem image="ButtonMenu@2x.png" width="40" id="GqV-ir-aqR">
                                         <inset key="imageInsets" minX="9" minY="6" maxX="9" maxY="6"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="showCategoriesPressed:" destination="C4k-Gx-gPL" id="gYf-9z-idz"/>
                                         </connections>
@@ -397,36 +407,43 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Edit" id="04P-dP-H7k">
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="editPressed:" destination="C4k-Gx-gPL" id="cz5-sY-Em3"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Sharing" id="hnf-Nd-TzQ">
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="SharingModePressed:" destination="C4k-Gx-gPL" id="aDI-82-uYu"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem enabled="NO" title="Share" id="1KY-yG-IgQ">
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="sharePressed:" destination="C4k-Gx-gPL" id="hey-2h-zd3"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem enabled="NO" title="Unshare" id="VhD-cj-b6y">
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="unsharePressed:" destination="C4k-Gx-gPL" id="7Fn-HG-dnc"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Subscribe" id="fvF-6J-lfP">
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="subscribePressed:" destination="C4k-Gx-gPL" id="jTL-ev-nCQ"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem enabled="NO" title="Categorize" id="eOo-p7-RNb">
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="categorizedPressed:" destination="C4k-Gx-gPL" id="TxH-zD-qIF"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem enabled="NO" title="Rename" id="0Q9-ix-kI4">
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="renamePressed:" destination="C4k-Gx-gPL" id="m7I-Ql-kIC"/>
                                         </connections>
@@ -439,18 +456,13 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="ok3-Um-hEz"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="7cm-vS-uGV"/>
-                                    <barButtonItem systemItem="refresh" id="fbB-rF-pm9">
-                                        <connections>
-                                            <action selector="refreshPressed:" destination="C4k-Gx-gPL" id="VKj-MQ-8qa"/>
-                                        </connections>
-                                    </barButtonItem>
                                     <barButtonItem systemItem="add" id="eTp-YV-1ie">
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="addPressed:" destination="C4k-Gx-gPL" id="04o-i0-mba"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
-                                <color key="tintColor" red="0.30097079380000002" green="0.30097079380000002" blue="0.30097079380000002" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="31" translatesAutoresizingMaskIntoConstraints="NO" id="UVa-22-wVa">
                                 <constraints>

@@ -20,6 +20,8 @@
 
 -(void) viewWillAppear:(BOOL)animated
 {
+    
+    //self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.png"]];
     [self.sharingLabel setHidden:YES];
     [self.SharingSecretText setHidden:YES];
     [self.emailButton setHidden:YES];
@@ -71,6 +73,7 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
 
 -(void) sharingSecretReceived:(NSNotification *) notification
 {

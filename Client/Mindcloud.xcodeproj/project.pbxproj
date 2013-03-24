@@ -84,6 +84,7 @@
 		DB6EFA0016FD91D800C36EB9 /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6EF9FF16FD91D800C36EB9 /* frame.png */; };
 		DB6EFA0216FE567200C36EB9 /* light grey2.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6EFA0116FE567200C36EB9 /* light grey2.png */; };
 		DB6EFA0416FE642900C36EB9 /* Colle.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6EFA0316FE642900C36EB9 /* Colle.png */; };
+		DB6EFA0616FE708700C36EB9 /* Toolbar.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6EFA0516FE708700C36EB9 /* Toolbar.png */; };
 		DB712C87164EF678008E68C6 /* CategoriesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB712C86164EF678008E68C6 /* CategoriesAction.m */; };
 		DB712C8B164F42D1008E68C6 /* PreviewImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB712C8A164F42D1008E68C6 /* PreviewImageAction.m */; };
 		DB7AC5DA1643A52A007756E6 /* CollectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5D91643A52A007756E6 /* CollectionsViewController.m */; };
@@ -96,7 +97,6 @@
 		DB9CA54C16BF8F2D0030B3F7 /* NamingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9CA54B16BF8F2D0030B3F7 /* NamingHelper.m */; };
 		DBB7455416F647EC0029AE72 /* CategorizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB7455316F647EC0029AE72 /* CategorizationViewController.m */; };
 		DBB7455916F6989C0029AE72 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = DBB7455816F6989C0029AE72 /* bg.png */; };
-		DBB7455F16F6D3AB0029AE72 /* Toolbar.png in Resources */ = {isa = PBXBuildFile; fileRef = DBB7455E16F6D3AB0029AE72 /* Toolbar.png */; };
 		DBB9313E16AB7B78005652AA /* CollectionLayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */; };
 		DBB9314116ABDEA4005652AA /* CollectionAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB9314016ABDEA4005652AA /* CollectionAnimationHelper.m */; };
 		DBBA28A916CC7996007C7B4A /* CollectionRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28A816CC7996007C7B4A /* CollectionRecorder.m */; };
@@ -271,6 +271,7 @@
 		DB6EF9FF16FD91D800C36EB9 /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
 		DB6EFA0116FE567200C36EB9 /* light grey2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light grey2.png"; sourceTree = "<group>"; };
 		DB6EFA0316FE642900C36EB9 /* Colle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Colle.png; sourceTree = "<group>"; };
+		DB6EFA0516FE708700C36EB9 /* Toolbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Toolbar.png; sourceTree = "<group>"; };
 		DB712C85164EF678008E68C6 /* CategoriesAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesAction.h; sourceTree = "<group>"; };
 		DB712C86164EF678008E68C6 /* CategoriesAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesAction.m; sourceTree = "<group>"; };
 		DB712C89164F42D0008E68C6 /* PreviewImageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewImageAction.h; sourceTree = "<group>"; };
@@ -295,7 +296,6 @@
 		DBB7455316F647EC0029AE72 /* CategorizationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorizationViewController.m; sourceTree = "<group>"; };
 		DBB7455516F676E50029AE72 /* CategorizationViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorizationViewDelegate.h; sourceTree = "<group>"; };
 		DBB7455816F6989C0029AE72 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
-		DBB7455E16F6D3AB0029AE72 /* Toolbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Toolbar.png; sourceTree = "<group>"; };
 		DBB9313916AA90BA005652AA /* CachedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CachedObject.h; sourceTree = "<group>"; };
 		DBB9313C16AB7B77005652AA /* CollectionLayoutHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionLayoutHelper.h; sourceTree = "<group>"; };
 		DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionLayoutHelper.m; sourceTree = "<group>"; };
@@ -500,12 +500,12 @@
 		D7A53CF71522F39500183CB6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DB6EFA0516FE708700C36EB9 /* Toolbar.png */,
 				DB6EFA0316FE642900C36EB9 /* Colle.png */,
 				DB6EFA0116FE567200C36EB9 /* light grey2.png */,
 				DB2A587616F99B72007BD78B /* bg3.jpg */,
 				DB6EF9FF16FD91D800C36EB9 /* frame.png */,
 				DB2A587416F99865007BD78B /* BG4.jpg */,
-				DBB7455E16F6D3AB0029AE72 /* Toolbar.png */,
 				DBB7455816F6989C0029AE72 /* bg.png */,
 				DB40DEDB16AE618F00ECAC54 /* Felt-Blue.jpg */,
 				DB40DEDC16AE619000ECAC54 /* Leather.jpg */,
@@ -933,12 +933,12 @@
 				DB40DEE116AE619100ECAC54 /* Felt-Green.jpg in Resources */,
 				DB40DEE216AE619100ECAC54 /* Galaxy.jpg in Resources */,
 				DBB7455916F6989C0029AE72 /* bg.png in Resources */,
-				DBB7455F16F6D3AB0029AE72 /* Toolbar.png in Resources */,
 				DB2A587516F99865007BD78B /* BG4.jpg in Resources */,
 				DB2A587716F99B72007BD78B /* bg3.jpg in Resources */,
 				DB6EFA0016FD91D800C36EB9 /* frame.png in Resources */,
 				DB6EFA0216FE567200C36EB9 /* light grey2.png in Resources */,
 				DB6EFA0416FE642900C36EB9 /* Colle.png in Resources */,
+				DB6EFA0616FE708700C36EB9 /* Toolbar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
