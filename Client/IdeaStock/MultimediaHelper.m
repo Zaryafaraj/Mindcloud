@@ -43,8 +43,8 @@
 
 + (NSData *) captureScreenshotOfView:(UIView *)view
 {
-    CGFloat sizeX = MAX(view.bounds.size.width, view.bounds.size.height);
-    CGFloat sizeY = MIN(view.bounds.size.width, view.bounds.size.height);
+    CGFloat sizeX = MIN(view.bounds.size.width, view.bounds.size.height);
+    CGFloat sizeY = sizeX;
     CGSize imageSize = CGSizeMake(sizeX, sizeY);
     //app works only on ios version 4 and up which is the earliest ios on ipad so this
     //should not be a problem

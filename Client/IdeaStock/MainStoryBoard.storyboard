@@ -337,14 +337,14 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Colle.png" translatesAutoresizingMaskIntoConstraints="NO" id="Zfe-0m-4Jh">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="239" id="3kI-oh-sXC"/>
-                                                        <constraint firstAttribute="height" constant="254" id="ngn-T4-QJO"/>
+                                                        <constraint firstAttribute="height" constant="244" id="bHH-BD-Lgd"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="felt-red-ipad-background.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="hOC-nl-6FF">
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="244" id="3EK-F4-SFY"/>
                                                         <constraint firstAttribute="width" constant="238" id="AfM-9m-Yea"/>
+                                                        <constraint firstAttribute="height" constant="236" id="drp-yg-dqP"/>
                                                     </constraints>
                                                 </imageView>
                                                 <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bPz-ZN-VKJ">
@@ -370,14 +370,14 @@
                                         </view>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="bPz-ZN-VKJ" firstAttribute="top" secondItem="WAv-an-XHa" secondAttribute="top" type="default" id="4V0-R5-F8T"/>
-                                            <constraint firstItem="Zfe-0m-4Jh" firstAttribute="leading" secondItem="WAv-an-XHa" secondAttribute="leading" type="default" id="9eE-Lz-Xv9"/>
-                                            <constraint firstItem="Zfe-0m-4Jh" firstAttribute="top" secondItem="WAv-an-XHa" secondAttribute="top" constant="-5" id="Ity-SR-Gn6"/>
-                                            <constraint firstItem="bPz-ZN-VKJ" firstAttribute="centerX" secondItem="hOC-nl-6FF" secondAttribute="centerX" type="default" id="RLh-Tc-exH"/>
-                                            <constraint firstAttribute="bottom" secondItem="bPz-ZN-VKJ" secondAttribute="bottom" constant="205" id="rSQ-v3-UrY"/>
-                                            <constraint firstItem="bPz-ZN-VKJ" firstAttribute="centerX" secondItem="WAv-an-XHa" secondAttribute="centerX" type="default" id="sA1-Kd-Tds"/>
+                                            <constraint firstItem="Zfe-0m-4Jh" firstAttribute="leading" secondItem="WAv-an-XHa" secondAttribute="leading" type="default" id="0Wn-mR-bDH"/>
+                                            <constraint firstItem="Zfe-0m-4Jh" firstAttribute="top" secondItem="WAv-an-XHa" secondAttribute="top" constant="5" id="6Zr-Rf-5fo"/>
+                                            <constraint firstItem="hOC-nl-6FF" firstAttribute="top" secondItem="bPz-ZN-VKJ" secondAttribute="top" type="default" id="8QI-TK-pH3"/>
+                                            <constraint firstItem="hOC-nl-6FF" firstAttribute="centerX" secondItem="WAv-an-XHa" secondAttribute="centerX" type="default" id="ANS-qM-b9L"/>
+                                            <constraint firstItem="hOC-nl-6FF" firstAttribute="top" secondItem="Zfe-0m-4Jh" secondAttribute="top" type="default" id="eTJ-oc-smb"/>
+                                            <constraint firstAttribute="bottom" secondItem="bPz-ZN-VKJ" secondAttribute="bottom" constant="205" id="nbJ-1N-ORC"/>
                                             <constraint firstItem="bPz-ZN-VKJ" firstAttribute="leading" secondItem="hOC-nl-6FF" secondAttribute="leading" type="default" id="sYA-wY-Z7a"/>
-                                            <constraint firstItem="hOC-nl-6FF" firstAttribute="top" secondItem="WAv-an-XHa" secondAttribute="top" constant="-3" id="xq3-3Q-ha8"/>
+                                            <constraint firstItem="hOC-nl-6FF" firstAttribute="trailing" secondItem="bPz-ZN-VKJ" secondAttribute="trailing" type="default" id="xLp-eO-7Ti"/>
                                         </constraints>
                                         <size key="customSize" width="250" height="250"/>
                                         <connections>
