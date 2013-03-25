@@ -21,10 +21,10 @@
 @synthesize image = _image;
 @synthesize imageView = _imageView;
 
-#define IMG_OFFSET_X_RATE 0.055
-#define IMG_OFFSET_Y_RATE 0.075
-#define IMG_SIZE_WIDTH_RATIO 0.865
-#define IMG_SIZE_HEIGHT_RATIO 0.82
+#define IMG_OFFSET_X_RATE 0.0621
+#define IMG_OFFSET_Y_RATE 0.080
+#define IMG_SIZE_WIDTH_RATIO 0.878
+#define IMG_SIZE_HEIGHT_RATIO 0.84
 
 -(void) setImage:(UIImage *)image
 {
