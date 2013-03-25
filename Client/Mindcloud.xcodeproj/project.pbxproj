@@ -87,6 +87,8 @@
 		DB6EFA0616FE708700C36EB9 /* Toolbar.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6EFA0516FE708700C36EB9 /* Toolbar.png */; };
 		DB712C87164EF678008E68C6 /* CategoriesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB712C86164EF678008E68C6 /* CategoriesAction.m */; };
 		DB712C8B164F42D1008E68C6 /* PreviewImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB712C8A164F42D1008E68C6 /* PreviewImageAction.m */; };
+		DB73DEE416FFDC2900269593 /* notelight5.png in Resources */ = {isa = PBXBuildFile; fileRef = DB73DEE316FFDC2900269593 /* notelight5.png */; };
+		DB73DEE616FFDDD500269593 /* bg0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB73DEE516FFDDD500269593 /* bg0.jpg */; };
 		DB7AC5DA1643A52A007756E6 /* CollectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5D91643A52A007756E6 /* CollectionsViewController.m */; };
 		DB7AC5E31643A9AF007756E6 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5E01643A9AE007756E6 /* IIViewDeckController.m */; };
 		DB7AC5E41643A9AF007756E6 /* WrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5E21643A9AF007756E6 /* WrapController.m */; };
@@ -276,6 +278,8 @@
 		DB712C86164EF678008E68C6 /* CategoriesAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesAction.m; sourceTree = "<group>"; };
 		DB712C89164F42D0008E68C6 /* PreviewImageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewImageAction.h; sourceTree = "<group>"; };
 		DB712C8A164F42D1008E68C6 /* PreviewImageAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviewImageAction.m; sourceTree = "<group>"; };
+		DB73DEE316FFDC2900269593 /* notelight5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notelight5.png; sourceTree = "<group>"; };
+		DB73DEE516FFDDD500269593 /* bg0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg0.jpg; sourceTree = "<group>"; };
 		DB7AC5D81643A52A007756E6 /* CollectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionsViewController.h; sourceTree = "<group>"; };
 		DB7AC5D91643A52A007756E6 /* CollectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionsViewController.m; sourceTree = "<group>"; };
 		DB7AC5DF1643A9AE007756E6 /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IIViewDeckController.h; path = ../IIViewDeckController.h; sourceTree = "<group>"; };
@@ -510,6 +514,7 @@
 				DB40DEDB16AE618F00ECAC54 /* Felt-Blue.jpg */,
 				DB40DEDC16AE619000ECAC54 /* Leather.jpg */,
 				DB40DEDD16AE619000ECAC54 /* Felt-Green.jpg */,
+				DB73DEE316FFDC2900269593 /* notelight5.png */,
 				DB40DEDE16AE619000ECAC54 /* Galaxy.jpg */,
 				DB54E2761645122F008A5BBB /* ButtonMenu@2x.png */,
 				DB3174FA1633744F001229FE /* dropbox_icon.png */,
@@ -527,6 +532,7 @@
 				D7D86C731570A95400FE2E21 /* note.png */,
 				D703754E157091C40079A2C7 /* skybacground.jpg */,
 				D715B4B415707F63006975A6 /* noteselected.png */,
+				DB73DEE516FFDDD500269593 /* bg0.jpg */,
 				D715B4B615707F63006975A6 /* stackSelected.png */,
 				D71EA17D154BA19600496663 /* pile boardBig.png */,
 				D7A53CF81522F39500183CB6 /* Mindcloud-Info.plist */,
@@ -939,6 +945,8 @@
 				DB6EFA0216FE567200C36EB9 /* light grey2.png in Resources */,
 				DB6EFA0416FE642900C36EB9 /* Colle.png in Resources */,
 				DB6EFA0616FE708700C36EB9 /* Toolbar.png in Resources */,
+				DB73DEE416FFDC2900269593 /* notelight5.png in Resources */,
+				DB73DEE616FFDDD500269593 /* bg0.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
