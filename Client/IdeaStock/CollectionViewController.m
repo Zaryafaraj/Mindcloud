@@ -802,7 +802,7 @@
     self.intersectingViews = intersectingViews;
 }
 
--(void) panFinishedForView:(UIView *)view
+-(void) panFinishedForView:(UIView<BulletinBoardObject> *)view
 {
     [CollectionLayoutHelper updateViewLocationForView:view
                                      inCollectionView:self.collectionView];
@@ -814,7 +814,11 @@
     if ([self.intersectingViews count] > 1 ){
         UIView * mainView = [self findMainViewForIntersectingViews: self.intersectingViews
                                                      withCandidate:view];
-        [self stackNotes:self.intersectingViews into:mainView withID:nil withScale:1];
+        [self stackNotes:self.intersectingViews
+                    into:mainView
+     withDestinationView:view
+                  withID:nil
+               withScale:view.scaleOffset];
     }
     
     if([view isKindOfClass:[NoteView class]]){
@@ -1081,7 +1085,11 @@
         NSArray * noteRefIds = [stackingModel.refIds allObjects];
         UIView * mainView = [self storeNotesViewsForNotes:noteRefIds into:views];
         CGFloat scale = [stackingModel.scale floatValue];
-        [self stackNotes:views into:mainView withID:stackingID withScale:scale];
+        [self stackNotes:views
+                    into:mainView
+     withDestinationView:mainView
+                  withID:stackingID
+               withScale:scale];
     }
 }
 
@@ -1344,16 +1352,16 @@
  */
 -(void) stackNotes: (NSArray *) items
               into: (UIView *) mainView
+withDestinationView:(UIView *) destinationView
             withID: (NSString *) ID
          withScale:(CGFloat) scale
 {
     NSMutableArray * allNotes = [self getAllNormalNotesInViews:items];
     
-    CGRect stackFrame = [CollectionLayoutHelper getStackingFrameForStackingWithTopView:mainView];
+    CGRect stackFrame = [CollectionLayoutHelper getStackingFrameForStackingWithTopView:destinationView];
     
     if ([mainView isKindOfClass:[StackView class]])
     {
-        NSLog(@"CAUGHT IT");
         mainView = ((StackView *)mainView).mainView;
     }
     
@@ -1376,7 +1384,7 @@
     
     [self addGestureRecognizersToStack:stack];
     [CollectionAnimationHelper animateStackCreationForStackView:stack
-                                                   WithMainView:mainView
+                                            WithDestinationView:destinationView
                                                   andStackItems:allNotes
                                                inCollectionView:self.collectionView
                                                           isNew:isNewStack

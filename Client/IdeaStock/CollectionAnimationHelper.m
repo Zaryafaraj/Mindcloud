@@ -32,7 +32,7 @@
 }
 
 +(void) animateStackCreationForStackView:(UIView *) stack
-                            WithMainView:(UIView *) mainView
+                            WithDestinationView:(UIView *) destView
                             andStackItems:(NSArray*) items
                         inCollectionView: (UIView *) collectionView
                                    isNew:(BOOL) isNewStack
@@ -41,7 +41,7 @@
     
 //    [UIView animateWithDuration:0.5 animations:^{mainView.alpha = 0;}];
 //    [mainView removeFromSuperview];
-    mainView.alpha = 1;
+    destView.alpha = 1;
     stack.alpha =0;
     [collectionView addSubview:stack];
     [UIView animateWithDuration:0.5 animations:^{stack.alpha = 1;}];
@@ -58,7 +58,7 @@
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
-                                 [view setFrame:mainView.frame];
+                                 [view setFrame:destView.frame];
                              }
                              completion:^(BOOL finished){
                                  [view removeFromSuperview];

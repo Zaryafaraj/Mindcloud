@@ -19,7 +19,7 @@
 +(void) animateStackViewRemoval:(StackView *) stack;
 
 +(void) animateStackCreationForStackView:(UIView *) stack
-                            WithMainView:(UIView *) mainView
+                            WithDestinationView:(UIView *) mainView
                             andStackItems:(NSArray*) items
                         inCollectionView: (UIView *) collectionView
                                    isNew:(BOOL) isNewStack
