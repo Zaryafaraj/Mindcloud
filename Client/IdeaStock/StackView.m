@@ -70,7 +70,7 @@
                 }
                 [UIView animateWithDuration:0.20 animations:^{
                     [subView setTransform:CGAffineTransformMakeScale(1.3, 1.4)];
-                    [img setTransform:CGAffineTransformMakeScale(0.9, 0.8)];
+                    [img setTransform:CGAffineTransformTranslate(CGAffineTransformMakeScale(0.91, 0.8), -10, +11)];
                 }];
             }
         }
@@ -103,14 +103,14 @@
 
 #pragma mark - initializer
 
-#define STARTING_POS_OFFSET_X 0.05
-#define STARTING_POS_OFFSET_Y 0.2
+#define STARTING_POS_OFFSET_X 0.11
+#define STARTING_POS_OFFSET_Y 0.14
 #define TEXT_WIDHT_RATIO 0.8
 #define TEXT_HEIGHT_RATIO 0.70
-#define IMG_OFFSET_X_RATE 0.009
-#define IMG_OFFSET_Y_RATE 0.118
-#define IMG_SIZE_WIDTH_RATIO 0.89
-#define IMG_SIZE_HEIGHT_RATIO 0.86
+#define IMG_OFFSET_X_RATE 0.0701
+#define IMG_OFFSET_Y_RATE 0.093
+#define IMG_SIZE_WIDTH_RATIO 0.852
+#define IMG_SIZE_HEIGHT_RATIO 0.810
 #define TEXT_FONT @"Cochin"
 #define TEXT_SIZE 17.0
 

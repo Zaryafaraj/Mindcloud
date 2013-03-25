@@ -802,7 +802,7 @@
     self.intersectingViews = intersectingViews;
 }
 
--(void) panFinishedForView:(UIView<BulletinBoardObject> *)view
+-(void) panFinishedForView:(UIView *)view
 {
     [CollectionLayoutHelper updateViewLocationForView:view
                                      inCollectionView:self.collectionView];
@@ -814,11 +814,12 @@
     if ([self.intersectingViews count] > 1 ){
         UIView * mainView = [self findMainViewForIntersectingViews: self.intersectingViews
                                                      withCandidate:view];
+        float scale = 1;
         [self stackNotes:self.intersectingViews
                     into:mainView
      withDestinationView:view
                   withID:nil
-               withScale:view.scaleOffset];
+               withScale:scale];
     }
     
     if([view isKindOfClass:[NoteView class]]){
