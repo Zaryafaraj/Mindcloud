@@ -520,20 +520,19 @@
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="felt-red-ipad-background.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="jKz-DT-mXB"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="felt-red-ipad-background.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="jKz-DT-mXB">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="977" id="nNa-F7-p1Z"/>
+                                </constraints>
+                            </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" minimumZoomScale="0.20000000000000001" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="QXW-F8-5QD">
                                 <color key="backgroundColor" red="0.96406502660000004" green="0.98895901009999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </scrollView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="CU7-1N-ESK">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" barStyle="blackOpaque" translatesAutoresizingMaskIntoConstraints="NO" id="CU7-1N-ESK">
                                 <items>
                                     <barButtonItem systemItem="done" id="W7q-Bd-jzc">
                                         <connections>
                                             <action selector="backPressed:" destination="9HL-37-GHp" id="41O-w1-YXX"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem systemItem="refresh" id="wCc-Zs-s0c">
-                                        <connections>
-                                            <action selector="refreshPressed:" destination="9HL-37-GHp" id="1Av-Qn-P72"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem systemItem="camera" id="Rwb-Kb-IkV">
@@ -555,16 +554,16 @@
                                         </connections>
                                     </barButtonItem>
                                 </items>
-                                <color key="tintColor" red="0.14451897699999999" green="0.1184398542" blue="0.17989352580000001" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="jKz-DT-mXB" firstAttribute="top" secondItem="4HH-7a-1rX" secondAttribute="top" constant="27" id="9yU-BO-THz"/>
                             <constraint firstItem="QXW-F8-5QD" firstAttribute="leading" secondItem="4HH-7a-1rX" secondAttribute="leading" type="default" id="Bdf-kD-f2H"/>
                             <constraint firstItem="jKz-DT-mXB" firstAttribute="leading" secondItem="4HH-7a-1rX" secondAttribute="leading" type="default" id="I2z-Aq-gSr"/>
                             <constraint firstItem="CU7-1N-ESK" firstAttribute="bottom" secondItem="QXW-F8-5QD" secondAttribute="top" type="default" id="QyT-v5-bz6"/>
                             <constraint firstItem="CU7-1N-ESK" firstAttribute="leading" secondItem="4HH-7a-1rX" secondAttribute="leading" type="default" id="VMS-cF-dCf"/>
+                            <constraint firstItem="jKz-DT-mXB" firstAttribute="bottom" secondItem="4HH-7a-1rX" secondAttribute="bottom" type="default" id="Yju-fm-CBg"/>
+                            <constraint firstItem="jKz-DT-mXB" firstAttribute="trailing" secondItem="4HH-7a-1rX" secondAttribute="trailing" type="default" id="baQ-lq-mLX"/>
                             <constraint firstItem="QXW-F8-5QD" firstAttribute="bottom" secondItem="4HH-7a-1rX" secondAttribute="bottom" type="default" id="dFY-FU-htl"/>
                             <constraint firstItem="QXW-F8-5QD" firstAttribute="trailing" secondItem="4HH-7a-1rX" secondAttribute="trailing" type="default" id="mCe-Bh-7cu"/>
                             <constraint firstItem="CU7-1N-ESK" firstAttribute="trailing" secondItem="4HH-7a-1rX" secondAttribute="trailing" type="default" id="qQe-pX-H1d"/>
@@ -614,7 +613,6 @@
                                         </connections>
                                     </barButtonItem>
                                 </items>
-                                <color key="tintColor" red="0.12730973525551861" green="0.22712799139020098" blue="0.33114945938818563" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jWv-aN-rSC"/>
                         </subviews>
@@ -684,6 +682,11 @@
         <class className="CollectionViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CollectionViewController.h"/>
             <relationships>
+                <relationship kind="action" name="backPressed:"/>
+                <relationship kind="action" name="cameraPressed:"/>
+                <relationship kind="action" name="deletePressed:"/>
+                <relationship kind="action" name="expandPressed:"/>
+                <relationship kind="action" name="refreshPressed:"/>
                 <relationship kind="outlet" name="cameraButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="collectionView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
@@ -740,6 +743,9 @@
         </class>
         <class className="SignInViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SignInViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="signInPressed:"/>
+            </relationships>
         </class>
         <class className="StackViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StackViewController.h"/>
