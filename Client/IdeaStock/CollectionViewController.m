@@ -1751,7 +1751,8 @@ intoStackingWithMainView: (UIView *) mainView
         aRect.size.height -= keyboardHeight;
         if (!CGRectContainsPoint(aRect,noteViewRightcorner))
         {
-            CGFloat addedVisibleSpaceY = keyboardHeight;
+            CGFloat spaceFromLowerCornerToBottom = self.collectionView.frame.size.height - noteViewRightcorner.y;
+            CGFloat addedVisibleSpaceY = keyboardHeight - spaceFromLowerCornerToBottom;
             CGPoint scrollPoint = CGPointMake(0.0, self.collectionView.frame.origin.y + addedVisibleSpaceY);
             UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardHeight, 0.0);
             self.collectionView.contentInset = contentInsets;
