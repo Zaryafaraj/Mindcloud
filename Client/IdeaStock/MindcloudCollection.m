@@ -174,6 +174,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
       withDataSource:(id<MindcloudDataSource, CollectionSharingAdapterDelegate, SharingAwareObject, cachedCollectionContainer, CachedObject>) dataSource
 {
     self = [super init];
+    
     self.recorder = [[CollectionRecorder alloc] init];
     self.thumbnailStack = [NSMutableArray array];
     self.downloadableImageNotes = [NSMutableSet set];
@@ -195,6 +196,12 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     //notified of the results later
     [self.sharingAdapter getSharingInfo];
     //now ask to download and get the collection
+    
+    //we should listen to this before we get the data
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(cacheIsSynched:)
+                                                 name:CACHE_IS_IN_SYNCH_WITH_SERVER
+                                               object:nil];
     NSData * collectionData = [self.dataSource getCollection:collectionName];
     self.synchronizationPeriod = UNSHARED_SYNCH_PERIOD;
     
@@ -257,6 +264,8 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
                                              selector:@selector(listenerDownloadedManifest:)
                                                  name:LISTENER_DOWNLOADED_MANIFEST
                                                object:nil];
+    
+    
     //Start the synchronization timer
     return self;
 }
@@ -340,6 +349,11 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     }
 }
 #pragma mark - Notifications
+-(void) cacheIsSynched:(NSNotification *) notification
+{
+    self.isInSynchWithServer = YES;
+}
+
 -(void) collectionIsShared:(NSNotification *) notification
 {
     NSDictionary * result = notification.userInfo[@"result"];

@@ -54,4 +54,7 @@
 
 //Server Failures
 #define CONNECTION_FAILED @"connectionFailed"
+
+//Synch events
+#define CACHE_IS_IN_SYNCH_WITH_SERVER @"cacheIsInSynch"
 @end

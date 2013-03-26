@@ -497,6 +497,12 @@
     {
         [self getCollectionFromServer:collectionName];
     }
+    else
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:CACHE_IS_IN_SYNCH_WITH_SERVER
+                                                            object:self];
+        
+    }
     return cachedData;
 }
 

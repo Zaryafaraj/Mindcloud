@@ -75,7 +75,6 @@
                     [subView setTransform:CGAffineTransformMakeScale(1.25, 1.35)];
                     CGFloat imgWidth = img.frame.size.width * IMG_TRANSLATION_RATIO_X;
                     CGFloat imgHeight = img.frame.size.height * IMG_TRANSLATION_RATIO_Y;
-                    NSLog(@"%f - %f ", imgWidth, imgHeight);
                     [img setTransform:CGAffineTransformTranslate(CGAffineTransformMakeScale(0.91, 0.82), imgWidth, imgHeight)];
                 }];
             }
