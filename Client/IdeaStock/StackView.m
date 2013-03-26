@@ -52,12 +52,15 @@
     return _highlightedImage;
 }
 
+#define IMG_TRANSLATION_RATIO_X -0.035
+#define IMG_TRANSLATION_RATIO_Y 0.059
 -(void) setHighlighted:(BOOL) highlighted{
     
     _highlighted = highlighted;
     UIImageView * img;
     //Make sure that when the stack view is highlighted all the underlying views like image and text get
     //resized too
+    
     for (UIView * subView in self.subviews){
         if (highlighted){
             if ([subView isKindOfClass:[UIImageView class]]){
@@ -69,8 +72,11 @@
                     }
                 }
                 [UIView animateWithDuration:0.20 animations:^{
-                    [subView setTransform:CGAffineTransformMakeScale(1.3, 1.4)];
-                    [img setTransform:CGAffineTransformTranslate(CGAffineTransformMakeScale(0.91, 0.8), -10, +11)];
+                    [subView setTransform:CGAffineTransformMakeScale(1.25, 1.35)];
+                    CGFloat imgWidth = img.frame.size.width * IMG_TRANSLATION_RATIO_X;
+                    CGFloat imgHeight = img.frame.size.height * IMG_TRANSLATION_RATIO_Y;
+                    NSLog(@"%f - %f ", imgWidth, imgHeight);
+                    [img setTransform:CGAffineTransformTranslate(CGAffineTransformMakeScale(0.91, 0.82), imgWidth, imgHeight)];
                 }];
             }
         }
