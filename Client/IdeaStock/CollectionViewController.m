@@ -848,6 +848,10 @@
         CGFloat scale = sender.scale;
         if ([sender.view conformsToProtocol: @protocol(BulletinBoardObject)]){
             UIView <BulletinBoardObject> * view = (NoteView *) sender.view;
+            
+            //if the view is highlighted we don't want to scale
+            if (view.highlighted) return;
+            
             [view scale:scale animated:NO];
             if (sender.state == UIGestureRecognizerStateEnded)
             {
