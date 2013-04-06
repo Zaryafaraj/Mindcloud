@@ -21,6 +21,19 @@
 		DB3C8E371710D3DE00A69D3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3C8E181710D3DE00A69D3B /* Foundation.framework */; };
 		DB3C8E3F1710D3DE00A69D3B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E3D1710D3DE00A69D3B /* InfoPlist.strings */; };
 		DB3C8E421710D3DE00A69D3B /* ListsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3C8E411710D3DE00A69D3B /* ListsTests.m */; };
+		DB3C8E4C1710D4B800A69D3B /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E4B1710D4B800A69D3B /* Storyboard.storyboard */; };
+		DB3C8E591710D52F00A69D3B /* BG2Blur.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E4E1710D52F00A69D3B /* BG2Blur.png */; };
+		DB3C8E5A1710D52F00A69D3B /* BG3BlurHigh.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E4F1710D52F00A69D3B /* BG3BlurHigh.png */; };
+		DB3C8E5B1710D52F00A69D3B /* BG3BlurLow.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E501710D52F00A69D3B /* BG3BlurLow.png */; };
+		DB3C8E5C1710D52F00A69D3B /* BG3BlurMed.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E511710D52F00A69D3B /* BG3BlurMed.png */; };
+		DB3C8E5D1710D52F00A69D3B /* BG3BlurNo.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E521710D52F00A69D3B /* BG3BlurNo.png */; };
+		DB3C8E5E1710D52F00A69D3B /* BG4BlurHigh.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E531710D52F00A69D3B /* BG4BlurHigh.png */; };
+		DB3C8E5F1710D52F00A69D3B /* BG4BlurMed.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E541710D52F00A69D3B /* BG4BlurMed.png */; };
+		DB3C8E601710D52F00A69D3B /* BG4LowBlur.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E551710D52F00A69D3B /* BG4LowBlur.png */; };
+		DB3C8E611710D52F00A69D3B /* BGBlurHigh.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E561710D52F00A69D3B /* BGBlurHigh.png */; };
+		DB3C8E621710D52F00A69D3B /* BGBlurMed.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E571710D52F00A69D3B /* BGBlurMed.png */; };
+		DB3C8E631710D52F00A69D3B /* BGBlurNo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E581710D52F00A69D3B /* BGBlurNo.jpg */; };
+		DB3C8E661710D68E00A69D3B /* ListMainPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3C8E651710D68E00A69D3B /* ListMainPageViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +66,20 @@
 		DB3C8E3E1710D3DE00A69D3B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DB3C8E401710D3DE00A69D3B /* ListsTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListsTests.h; sourceTree = "<group>"; };
 		DB3C8E411710D3DE00A69D3B /* ListsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListsTests.m; sourceTree = "<group>"; };
+		DB3C8E4B1710D4B800A69D3B /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Storyboard.storyboard; path = Lists/Storyboard.storyboard; sourceTree = "<group>"; };
+		DB3C8E4E1710D52F00A69D3B /* BG2Blur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BG2Blur.png; sourceTree = "<group>"; };
+		DB3C8E4F1710D52F00A69D3B /* BG3BlurHigh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BG3BlurHigh.png; sourceTree = "<group>"; };
+		DB3C8E501710D52F00A69D3B /* BG3BlurLow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BG3BlurLow.png; sourceTree = "<group>"; };
+		DB3C8E511710D52F00A69D3B /* BG3BlurMed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BG3BlurMed.png; sourceTree = "<group>"; };
+		DB3C8E521710D52F00A69D3B /* BG3BlurNo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BG3BlurNo.png; sourceTree = "<group>"; };
+		DB3C8E531710D52F00A69D3B /* BG4BlurHigh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BG4BlurHigh.png; sourceTree = "<group>"; };
+		DB3C8E541710D52F00A69D3B /* BG4BlurMed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BG4BlurMed.png; sourceTree = "<group>"; };
+		DB3C8E551710D52F00A69D3B /* BG4LowBlur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BG4LowBlur.png; sourceTree = "<group>"; };
+		DB3C8E561710D52F00A69D3B /* BGBlurHigh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BGBlurHigh.png; sourceTree = "<group>"; };
+		DB3C8E571710D52F00A69D3B /* BGBlurMed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BGBlurMed.png; sourceTree = "<group>"; };
+		DB3C8E581710D52F00A69D3B /* BGBlurNo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = BGBlurNo.jpg; sourceTree = "<group>"; };
+		DB3C8E641710D68E00A69D3B /* ListMainPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListMainPageViewController.h; sourceTree = "<group>"; };
+		DB3C8E651710D68E00A69D3B /* ListMainPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListMainPageViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +109,9 @@
 		DB3C8E0A1710D3DE00A69D3B = {
 			isa = PBXGroup;
 			children = (
+				DB3C8E4B1710D4B800A69D3B /* Storyboard.storyboard */,
+				DB3C8E641710D68E00A69D3B /* ListMainPageViewController.h */,
+				DB3C8E651710D68E00A69D3B /* ListMainPageViewController.m */,
 				DB3C8E1C1710D3DE00A69D3B /* Lists */,
 				DB3C8E3A1710D3DE00A69D3B /* ListsTests */,
 				DB3C8E151710D3DE00A69D3B /* Frameworks */,
@@ -122,6 +152,7 @@
 		DB3C8E1D1710D3DE00A69D3B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DB3C8E4D1710D52F00A69D3B /* BGs */,
 				DB3C8E1E1710D3DE00A69D3B /* Lists-Info.plist */,
 				DB3C8E1F1710D3DE00A69D3B /* InfoPlist.strings */,
 				DB3C8E221710D3DE00A69D3B /* main.m */,
@@ -150,6 +181,24 @@
 				DB3C8E3D1710D3DE00A69D3B /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DB3C8E4D1710D52F00A69D3B /* BGs */ = {
+			isa = PBXGroup;
+			children = (
+				DB3C8E4E1710D52F00A69D3B /* BG2Blur.png */,
+				DB3C8E4F1710D52F00A69D3B /* BG3BlurHigh.png */,
+				DB3C8E501710D52F00A69D3B /* BG3BlurLow.png */,
+				DB3C8E511710D52F00A69D3B /* BG3BlurMed.png */,
+				DB3C8E521710D52F00A69D3B /* BG3BlurNo.png */,
+				DB3C8E531710D52F00A69D3B /* BG4BlurHigh.png */,
+				DB3C8E541710D52F00A69D3B /* BG4BlurMed.png */,
+				DB3C8E551710D52F00A69D3B /* BG4LowBlur.png */,
+				DB3C8E561710D52F00A69D3B /* BGBlurHigh.png */,
+				DB3C8E571710D52F00A69D3B /* BGBlurMed.png */,
+				DB3C8E581710D52F00A69D3B /* BGBlurNo.jpg */,
+			);
+			path = BGs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,6 +276,18 @@
 				DB3C8E291710D3DE00A69D3B /* Default.png in Resources */,
 				DB3C8E2B1710D3DE00A69D3B /* Default@2x.png in Resources */,
 				DB3C8E2D1710D3DE00A69D3B /* Default-568h@2x.png in Resources */,
+				DB3C8E4C1710D4B800A69D3B /* Storyboard.storyboard in Resources */,
+				DB3C8E591710D52F00A69D3B /* BG2Blur.png in Resources */,
+				DB3C8E5A1710D52F00A69D3B /* BG3BlurHigh.png in Resources */,
+				DB3C8E5B1710D52F00A69D3B /* BG3BlurLow.png in Resources */,
+				DB3C8E5C1710D52F00A69D3B /* BG3BlurMed.png in Resources */,
+				DB3C8E5D1710D52F00A69D3B /* BG3BlurNo.png in Resources */,
+				DB3C8E5E1710D52F00A69D3B /* BG4BlurHigh.png in Resources */,
+				DB3C8E5F1710D52F00A69D3B /* BG4BlurMed.png in Resources */,
+				DB3C8E601710D52F00A69D3B /* BG4LowBlur.png in Resources */,
+				DB3C8E611710D52F00A69D3B /* BGBlurHigh.png in Resources */,
+				DB3C8E621710D52F00A69D3B /* BGBlurMed.png in Resources */,
+				DB3C8E631710D52F00A69D3B /* BGBlurNo.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +324,7 @@
 			files = (
 				DB3C8E231710D3DE00A69D3B /* main.m in Sources */,
 				DB3C8E271710D3DE00A69D3B /* AppDelegate.m in Sources */,
+				DB3C8E661710D68E00A69D3B /* ListMainPageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +431,7 @@
 				GCC_PREFIX_HEADER = "Lists/Lists-Prefix.pch";
 				INFOPLIST_FILE = "Lists/Lists-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -380,6 +443,7 @@
 				GCC_PREFIX_HEADER = "Lists/Lists-Prefix.pch";
 				INFOPLIST_FILE = "Lists/Lists-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
