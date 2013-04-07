@@ -35,6 +35,7 @@
 		DB3C8E631710D52F00A69D3B /* BGBlurNo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E581710D52F00A69D3B /* BGBlurNo.jpg */; };
 		DB3C8E661710D68E00A69D3B /* ListMainPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3C8E651710D68E00A69D3B /* ListMainPageViewController.m */; };
 		DB3CDB5F17112FED004CB440 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3CDB5E17112FED004CB440 /* QuartzCore.framework */; };
+		DB3CDB6317113BE4004CB440 /* LayerStylizer.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3CDB6217113BE4004CB440 /* LayerStylizer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,8 @@
 		DB3C8E641710D68E00A69D3B /* ListMainPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListMainPageViewController.h; sourceTree = "<group>"; };
 		DB3C8E651710D68E00A69D3B /* ListMainPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListMainPageViewController.m; sourceTree = "<group>"; };
 		DB3CDB5E17112FED004CB440 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		DB3CDB6117113BE4004CB440 /* LayerStylizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayerStylizer.h; sourceTree = "<group>"; };
+		DB3CDB6217113BE4004CB440 /* LayerStylizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LayerStylizer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +119,7 @@
 				DB3C8E4B1710D4B800A69D3B /* Storyboard.storyboard */,
 				DB3C8E641710D68E00A69D3B /* ListMainPageViewController.h */,
 				DB3C8E651710D68E00A69D3B /* ListMainPageViewController.m */,
+				DB3CDB6017113BC7004CB440 /* UIHelpers */,
 				DB3C8E1C1710D3DE00A69D3B /* Lists */,
 				DB3C8E3A1710D3DE00A69D3B /* ListsTests */,
 				DB3C8E151710D3DE00A69D3B /* Frameworks */,
@@ -203,6 +207,15 @@
 				DB3C8E581710D52F00A69D3B /* BGBlurNo.jpg */,
 			);
 			path = BGs;
+			sourceTree = "<group>";
+		};
+		DB3CDB6017113BC7004CB440 /* UIHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				DB3CDB6117113BE4004CB440 /* LayerStylizer.h */,
+				DB3CDB6217113BE4004CB440 /* LayerStylizer.m */,
+			);
+			name = UIHelpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -329,6 +342,7 @@
 				DB3C8E231710D3DE00A69D3B /* main.m in Sources */,
 				DB3C8E271710D3DE00A69D3B /* AppDelegate.m in Sources */,
 				DB3C8E661710D68E00A69D3B /* ListMainPageViewController.m in Sources */,
+				DB3CDB6317113BE4004CB440 /* LayerStylizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
