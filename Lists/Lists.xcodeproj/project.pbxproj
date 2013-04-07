@@ -34,6 +34,7 @@
 		DB3C8E621710D52F00A69D3B /* BGBlurMed.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E571710D52F00A69D3B /* BGBlurMed.png */; };
 		DB3C8E631710D52F00A69D3B /* BGBlurNo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E581710D52F00A69D3B /* BGBlurNo.jpg */; };
 		DB3C8E661710D68E00A69D3B /* ListMainPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3C8E651710D68E00A69D3B /* ListMainPageViewController.m */; };
+		DB3CDB5F17112FED004CB440 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3CDB5E17112FED004CB440 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		DB3C8E581710D52F00A69D3B /* BGBlurNo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = BGBlurNo.jpg; sourceTree = "<group>"; };
 		DB3C8E641710D68E00A69D3B /* ListMainPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListMainPageViewController.h; sourceTree = "<group>"; };
 		DB3C8E651710D68E00A69D3B /* ListMainPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListMainPageViewController.m; sourceTree = "<group>"; };
+		DB3CDB5E17112FED004CB440 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB3CDB5F17112FED004CB440 /* QuartzCore.framework in Frameworks */,
 				DB3C8E171710D3DE00A69D3B /* UIKit.framework in Frameworks */,
 				DB3C8E191710D3DE00A69D3B /* Foundation.framework in Frameworks */,
 				DB3C8E1B1710D3DE00A69D3B /* CoreGraphics.framework in Frameworks */,
@@ -109,6 +112,7 @@
 		DB3C8E0A1710D3DE00A69D3B = {
 			isa = PBXGroup;
 			children = (
+				DB3CDB5E17112FED004CB440 /* QuartzCore.framework */,
 				DB3C8E4B1710D4B800A69D3B /* Storyboard.storyboard */,
 				DB3C8E641710D68E00A69D3B /* ListMainPageViewController.h */,
 				DB3C8E651710D68E00A69D3B /* ListMainPageViewController.m */,
