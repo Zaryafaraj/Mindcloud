@@ -13,15 +13,51 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="BG3BlurMed.png" translatesAutoresizingMaskIntoConstraints="NO" id="9ZG-S9-EOK"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="4Hf-PZ-XSy">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="176" id="pye-GH-8Xc"/>
+                                    <constraint firstAttribute="width" constant="320" id="uk2-63-OSv"/>
+                                </constraints>
+                                <color key="separatorColor" red="0.85072325106997682" green="0.85135633143992373" blue="0.85688620780590719" alpha="1" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell alpha="0.80000000000000004" contentMode="scaleToFill" restorationIdentifier="CollectionTitleCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CollectionTitleCell" textLabel="JMP-oL-EjJ" imageView="xAx-28-ACz" rowHeight="44" style="IBUITableViewCellStyleDefault" id="f1H-F1-21P">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JMP-oL-EjJ">
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="BG2Blur.png" id="xAx-28-ACz">
+                                                    <rect key="frame" x="0.0" y="0.0" width="69" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" red="0.80392163989999998" green="0.94901967050000002" blue="0.93725496529999996" alpha="1" colorSpace="deviceRGB"/>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="9ZG-S9-EOK" firstAttribute="leading" secondItem="D7U-7C-LhO" secondAttribute="leading" type="default" id="7kn-Ex-YAE"/>
+                            <constraint firstItem="4Hf-PZ-XSy" firstAttribute="centerY" secondItem="9ZG-S9-EOK" secondAttribute="centerY" type="default" id="BKz-K5-5vh"/>
                             <constraint firstItem="9ZG-S9-EOK" firstAttribute="bottom" secondItem="D7U-7C-LhO" secondAttribute="bottom" type="default" id="CDp-CB-UqP"/>
                             <constraint firstItem="9ZG-S9-EOK" firstAttribute="trailing" secondItem="D7U-7C-LhO" secondAttribute="trailing" type="default" id="PGD-TK-z91"/>
                             <constraint firstItem="9ZG-S9-EOK" firstAttribute="top" secondItem="D7U-7C-LhO" secondAttribute="top" type="default" id="bY5-h8-HHm"/>
+                            <constraint firstItem="4Hf-PZ-XSy" firstAttribute="centerX" secondItem="9ZG-S9-EOK" secondAttribute="centerX" type="default" id="hTd-7M-u6X"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="4Hf-PZ-XSy" id="Mv1-YE-K1P"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gqe-R9-qTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -29,11 +65,15 @@
         </scene>
     </scenes>
     <resources>
+        <image name="BG2Blur.png" width="2560" height="1600"/>
         <image name="BG3BlurMed.png" width="1920" height="1200"/>
     </resources>
     <classes>
         <class className="ListMainPageViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ListMainPageViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
         </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>

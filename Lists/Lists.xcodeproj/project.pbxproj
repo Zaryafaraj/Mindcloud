@@ -501,6 +501,7 @@
 				DB3C8E471710D3DE00A69D3B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DB3C8E481710D3DE00A69D3B /* Build configuration list for PBXNativeTarget "ListsTests" */ = {
 			isa = XCConfigurationList;
@@ -509,6 +510,7 @@
 				DB3C8E4A1710D3DE00A69D3B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
