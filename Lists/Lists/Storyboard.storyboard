@@ -18,29 +18,69 @@
                                 </constraints>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8tL-6J-zN1">
+                                <subviews>
+                                    <view alpha="0.60000000000000009" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aqB-wf-uWv">
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Dd-hj-oeu">
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="55" id="h3z-pK-Mt6"/>
+                                                    <constraint firstAttribute="width" constant="529" id="mVC-zZ-gFE"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="560" id="NVf-oM-G3A"/>
+                                            <constraint firstItem="3Dd-hj-oeu" firstAttribute="top" secondItem="aqB-wf-uWv" secondAttribute="top" constant="15" id="han-G1-oRL"/>
+                                            <constraint firstAttribute="bottom" secondItem="3Dd-hj-oeu" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="iFD-Jd-4Gs"/>
+                                            <constraint firstAttribute="trailing" secondItem="3Dd-hj-oeu" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="vJR-wJ-Oa1"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="aqB-wf-uWv" secondAttribute="bottom" constant="668" id="6nF-MI-E8F"/>
+                                    <constraint firstItem="aqB-wf-uWv" firstAttribute="centerX" secondItem="8tL-6J-zN1" secondAttribute="centerX" type="default" id="6zZ-wT-nko"/>
+                                    <constraint firstAttribute="trailing" secondItem="aqB-wf-uWv" secondAttribute="trailing" constant="104" id="qrG-7e-IeN"/>
+                                    <constraint firstItem="aqB-wf-uWv" firstAttribute="top" secondItem="8tL-6J-zN1" secondAttribute="top" constant="201" id="zgv-6T-c3c"/>
+                                </constraints>
                             </scrollView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fh7-EH-Qg9">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <navigationBar alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fh7-EH-Qg9">
+                                <color key="tintColor" red="0.98045226793248941" green="0.98045226793248941" blue="0.98045226793248941" alpha="1" colorSpace="calibratedRGB"/>
                                 <items>
-                                    <navigationItem title="Title" id="Kwp-1J-hfC"/>
+                                    <navigationItem id="Kwp-1J-hfC">
+                                        <barButtonItem key="leftBarButtonItem" title="Subscribe" style="plain" id="w8G-tx-DrU">
+                                            <color key="tintColor" red="0.30097079380000002" green="0.30097079380000002" blue="0.30097079380000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="QRj-iA-DoL">
+                                            <color key="tintColor" red="0.30097079380000002" green="0.30097079380000002" blue="0.30097079380000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="fh7-EH-Qg9" firstAttribute="top" secondItem="D7U-7C-LhO" secondAttribute="top" constant="1" id="7RF-mI-7tu"/>
+                            <constraint firstItem="9ZG-S9-EOK" firstAttribute="top" secondItem="D7U-7C-LhO" secondAttribute="top" type="default" id="66g-j2-5ko"/>
                             <constraint firstItem="9ZG-S9-EOK" firstAttribute="leading" secondItem="D7U-7C-LhO" secondAttribute="leading" type="default" id="7kn-Ex-YAE"/>
                             <constraint firstItem="fh7-EH-Qg9" firstAttribute="leading" secondItem="D7U-7C-LhO" secondAttribute="leading" type="default" id="EAC-vH-wHA"/>
-                            <constraint firstItem="9ZG-S9-EOK" firstAttribute="bottom" secondItem="D7U-7C-LhO" secondAttribute="bottom" type="default" id="FNj-Pd-pHl"/>
+                            <constraint firstItem="8tL-6J-zN1" firstAttribute="leading" secondItem="D7U-7C-LhO" secondAttribute="leading" type="default" id="HV1-zp-Edd"/>
                             <constraint firstItem="9ZG-S9-EOK" firstAttribute="trailing" secondItem="D7U-7C-LhO" secondAttribute="trailing" type="default" id="MCt-el-dO2"/>
                             <constraint firstItem="fh7-EH-Qg9" firstAttribute="trailing" secondItem="D7U-7C-LhO" secondAttribute="trailing" type="default" id="TrV-yK-1TH"/>
-                            <constraint firstItem="8tL-6J-zN1" firstAttribute="top" secondItem="fh7-EH-Qg9" secondAttribute="bottom" type="default" id="aBu-rt-ogh"/>
-                            <constraint firstItem="8tL-6J-zN1" firstAttribute="trailing" secondItem="D7U-7C-LhO" secondAttribute="trailing" type="default" id="eQe-Kr-G7H"/>
-                            <constraint firstItem="8tL-6J-zN1" firstAttribute="bottom" secondItem="D7U-7C-LhO" secondAttribute="bottom" type="default" id="gWP-J7-58f"/>
-                            <constraint firstItem="8tL-6J-zN1" firstAttribute="leading" secondItem="D7U-7C-LhO" secondAttribute="leading" type="default" id="vps-eh-ZcI"/>
+                            <constraint firstItem="8tL-6J-zN1" firstAttribute="trailing" secondItem="D7U-7C-LhO" secondAttribute="trailing" type="default" id="aaU-tx-rh9"/>
+                            <constraint firstItem="8tL-6J-zN1" firstAttribute="bottom" secondItem="D7U-7C-LhO" secondAttribute="bottom" type="default" id="apu-dd-MYh"/>
+                            <constraint firstItem="fh7-EH-Qg9" firstAttribute="top" secondItem="D7U-7C-LhO" secondAttribute="top" constant="1" id="cIV-Ur-9QX"/>
+                            <constraint firstItem="8tL-6J-zN1" firstAttribute="top" secondItem="fh7-EH-Qg9" secondAttribute="bottom" type="default" id="zV3-dR-1bn"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
+                    <connections>
+                        <outlet property="navigationBar" destination="fh7-EH-Qg9" id="SJO-4G-lHc"/>
+                        <outlet property="scrollView" destination="8tL-6J-zN1" id="YMY-hu-Fpu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gqe-R9-qTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -54,7 +94,8 @@
         <class className="ListMainPageViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ListMainPageViewController.h"/>
             <relationships>
-                <relationship kind="outlet" name="toolbar" candidateClass="UIView"/>
+                <relationship kind="outlet" name="navigationBar" candidateClass="UINavigationBar"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
             </relationships>
         </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">

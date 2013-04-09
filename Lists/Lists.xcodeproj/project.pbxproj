@@ -35,7 +35,10 @@
 		DB3C8E631710D52F00A69D3B /* BGBlurNo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E581710D52F00A69D3B /* BGBlurNo.jpg */; };
 		DB3C8E661710D68E00A69D3B /* ListMainPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3C8E651710D68E00A69D3B /* ListMainPageViewController.m */; };
 		DB3CDB5F17112FED004CB440 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3CDB5E17112FED004CB440 /* QuartzCore.framework */; };
-		DB3CDB6317113BE4004CB440 /* LayerStylizer.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3CDB6217113BE4004CB440 /* LayerStylizer.m */; };
+		DB3CDB6717123FB8004CB440 /* ThemeFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3CDB6617123FB8004CB440 /* ThemeFactory.m */; };
+		DB3CDB6A17124001004CB440 /* GlassyTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3CDB6917124001004CB440 /* GlassyTheme.m */; };
+		DBBDEFC41713BFAF009ADF1A /* ListsCollectionRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFC31713BFAF009ADF1A /* ListsCollectionRowView.m */; };
+		DBBDEFC91713D9F8009ADF1A /* Test.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBDEFC81713D9F8009ADF1A /* Test.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,8 +86,14 @@
 		DB3C8E641710D68E00A69D3B /* ListMainPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListMainPageViewController.h; sourceTree = "<group>"; };
 		DB3C8E651710D68E00A69D3B /* ListMainPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListMainPageViewController.m; sourceTree = "<group>"; };
 		DB3CDB5E17112FED004CB440 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		DB3CDB6117113BE4004CB440 /* LayerStylizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayerStylizer.h; sourceTree = "<group>"; };
-		DB3CDB6217113BE4004CB440 /* LayerStylizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LayerStylizer.m; sourceTree = "<group>"; };
+		DB3CDB6417123E93004CB440 /* ITheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITheme.h; sourceTree = "<group>"; };
+		DB3CDB6517123FB8004CB440 /* ThemeFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeFactory.h; sourceTree = "<group>"; };
+		DB3CDB6617123FB8004CB440 /* ThemeFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeFactory.m; sourceTree = "<group>"; };
+		DB3CDB6817124001004CB440 /* GlassyTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlassyTheme.h; sourceTree = "<group>"; };
+		DB3CDB6917124001004CB440 /* GlassyTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlassyTheme.m; sourceTree = "<group>"; };
+		DBBDEFC21713BFAF009ADF1A /* ListsCollectionRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListsCollectionRowView.h; sourceTree = "<group>"; };
+		DBBDEFC31713BFAF009ADF1A /* ListsCollectionRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListsCollectionRowView.m; sourceTree = "<group>"; };
+		DBBDEFC81713D9F8009ADF1A /* Test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Test.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,10 +125,6 @@
 			isa = PBXGroup;
 			children = (
 				DB3CDB5E17112FED004CB440 /* QuartzCore.framework */,
-				DB3C8E4B1710D4B800A69D3B /* Storyboard.storyboard */,
-				DB3C8E641710D68E00A69D3B /* ListMainPageViewController.h */,
-				DB3C8E651710D68E00A69D3B /* ListMainPageViewController.m */,
-				DB3CDB6017113BC7004CB440 /* UIHelpers */,
 				DB3C8E1C1710D3DE00A69D3B /* Lists */,
 				DB3C8E3A1710D3DE00A69D3B /* ListsTests */,
 				DB3C8E151710D3DE00A69D3B /* Frameworks */,
@@ -150,6 +155,8 @@
 		DB3C8E1C1710D3DE00A69D3B /* Lists */ = {
 			isa = PBXGroup;
 			children = (
+				DBBDEFBF1713BF63009ADF1A /* UI */,
+				DB3CDB6017113BC7004CB440 /* Themes */,
 				DB3C8E251710D3DE00A69D3B /* AppDelegate.h */,
 				DB3C8E261710D3DE00A69D3B /* AppDelegate.m */,
 				DB3C8E1D1710D3DE00A69D3B /* Supporting Files */,
@@ -160,6 +167,7 @@
 		DB3C8E1D1710D3DE00A69D3B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DBBDEFC51713CADF009ADF1A /* Test */,
 				DB3C8E4D1710D52F00A69D3B /* BGs */,
 				DB3C8E1E1710D3DE00A69D3B /* Lists-Info.plist */,
 				DB3C8E1F1710D3DE00A69D3B /* InfoPlist.strings */,
@@ -209,13 +217,54 @@
 			path = BGs;
 			sourceTree = "<group>";
 		};
-		DB3CDB6017113BC7004CB440 /* UIHelpers */ = {
+		DB3CDB6017113BC7004CB440 /* Themes */ = {
 			isa = PBXGroup;
 			children = (
-				DB3CDB6117113BE4004CB440 /* LayerStylizer.h */,
-				DB3CDB6217113BE4004CB440 /* LayerStylizer.m */,
+				DB3CDB6417123E93004CB440 /* ITheme.h */,
+				DB3CDB6517123FB8004CB440 /* ThemeFactory.h */,
+				DB3CDB6617123FB8004CB440 /* ThemeFactory.m */,
+				DB3CDB6817124001004CB440 /* GlassyTheme.h */,
+				DB3CDB6917124001004CB440 /* GlassyTheme.m */,
 			);
-			name = UIHelpers;
+			name = Themes;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		DBBDEFBF1713BF63009ADF1A /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				DBBDEFC11713BF81009ADF1A /* Views */,
+				DBBDEFC01713BF6F009ADF1A /* ViewControllers */,
+				DB3C8E4B1710D4B800A69D3B /* Storyboard.storyboard */,
+			);
+			name = UI;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		DBBDEFC01713BF6F009ADF1A /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				DB3C8E641710D68E00A69D3B /* ListMainPageViewController.h */,
+				DB3C8E651710D68E00A69D3B /* ListMainPageViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		DBBDEFC11713BF81009ADF1A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DBBDEFC21713BFAF009ADF1A /* ListsCollectionRowView.h */,
+				DBBDEFC31713BFAF009ADF1A /* ListsCollectionRowView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		DBBDEFC51713CADF009ADF1A /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				DBBDEFC81713D9F8009ADF1A /* Test.png */,
+			);
+			name = Test;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -305,6 +354,7 @@
 				DB3C8E611710D52F00A69D3B /* BGBlurHigh.png in Resources */,
 				DB3C8E621710D52F00A69D3B /* BGBlurMed.png in Resources */,
 				DB3C8E631710D52F00A69D3B /* BGBlurNo.jpg in Resources */,
+				DBBDEFC91713D9F8009ADF1A /* Test.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,7 +392,9 @@
 				DB3C8E231710D3DE00A69D3B /* main.m in Sources */,
 				DB3C8E271710D3DE00A69D3B /* AppDelegate.m in Sources */,
 				DB3C8E661710D68E00A69D3B /* ListMainPageViewController.m in Sources */,
-				DB3CDB6317113BE4004CB440 /* LayerStylizer.m in Sources */,
+				DB3CDB6717123FB8004CB440 /* ThemeFactory.m in Sources */,
+				DB3CDB6A17124001004CB440 /* GlassyTheme.m in Sources */,
+				DBBDEFC41713BFAF009ADF1A /* ListsCollectionRowView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
