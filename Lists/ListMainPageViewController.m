@@ -63,6 +63,7 @@
                                            lowerPart.y);
         self.scrollView.contentSize = newContentSize;
     }
+    
 }
 - (IBAction)addPressed:(id)sender {
     
@@ -80,6 +81,30 @@
     
 }
 
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    CGFloat contentOffsetY = self.scrollView.contentOffset.y;
+    CGFloat contentWidth = self.scrollView.bounds.size.width;
+    CGFloat contentHeight = self.scrollView.bounds.size.height;
+    self.scrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
+    
+    CGRect lowestFrame = CGRectMake(0, 0, 0, 0);
+    for(ListsCollectionRowView * row in self.scrollView.subviews)
+    {
+        if ([row isKindOfClass:[ListsCollectionRowView class]])
+        {
+            CGRect frame = [MainScreenListLayout frameForRowforIndex:row.index
+                                                         inSuperView:self.scrollView];
+            if (frame.origin.x > lowestFrame.origin.x)
+            {
+                lowestFrame = frame;
+            }
+        }
+    }
+    [self extendScrollViewIfNecessaryForFrame: lowestFrame];
+    self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x, contentOffsetY);
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -92,7 +117,7 @@
 
 -(void) viewDidAppear:(BOOL)animated
 {
-    [self.scrollView setContentSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)];
+    [self.scrollView setContentSize:CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height)];
 }
 
 @end

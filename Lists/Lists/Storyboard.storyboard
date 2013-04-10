@@ -24,11 +24,11 @@
                                 <color key="tintColor" red="0.98045226793248941" green="0.98045226793248941" blue="0.98045226793248941" alpha="1" colorSpace="calibratedRGB"/>
                                 <items>
                                     <navigationItem id="Kwp-1J-hfC">
-                                        <barButtonItem key="leftBarButtonItem" title="Subscribe" style="plain" id="w8G-tx-DrU">
-                                            <color key="tintColor" red="0.30097079380000002" green="0.30097079380000002" blue="0.30097079380000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <barButtonItem key="leftBarButtonItem" title="Subscribe" id="w8G-tx-DrU">
+                                            <color key="tintColor" red="0.15948872629999999" green="0.15948872629999999" blue="0.15948872629999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="QRj-iA-DoL">
-                                            <color key="tintColor" red="0.30097079380000002" green="0.30097079380000002" blue="0.30097079380000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="QRj-iA-DoL">
+                                            <color key="tintColor" red="0.15948872626582278" green="0.15948872626582278" blue="0.15948872626582278" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="addPressed:" destination="Hlt-lL-3eT" id="rfz-jm-DUr"/>
                                             </connections>
