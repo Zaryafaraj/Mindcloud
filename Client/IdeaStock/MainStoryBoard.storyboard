@@ -699,6 +699,18 @@
         <class className="MainScreenViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainScreenViewController.h"/>
             <relationships>
+                <relationship kind="action" name="SharingModePressed:"/>
+                <relationship kind="action" name="addPressed:"/>
+                <relationship kind="action" name="cancelPressed:"/>
+                <relationship kind="action" name="categorizedPressed:"/>
+                <relationship kind="action" name="deletePressed:"/>
+                <relationship kind="action" name="editPressed:"/>
+                <relationship kind="action" name="refreshPressed:"/>
+                <relationship kind="action" name="renamePressed:"/>
+                <relationship kind="action" name="sharePressed:"/>
+                <relationship kind="action" name="showCategoriesPressed:"/>
+                <relationship kind="action" name="subscribePressed:"/>
+                <relationship kind="action" name="unsharePressed:"/>
                 <relationship kind="outlet" name="SharingModeButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="SubscribeButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="cancelButton" candidateClass="UIBarButtonItem"/>
@@ -727,6 +739,9 @@
         </class>
         <class className="SignInViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SignInViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="signInPressed:"/>
+            </relationships>
         </class>
         <class className="StackViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StackViewController.h"/>

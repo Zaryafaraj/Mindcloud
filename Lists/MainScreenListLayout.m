@@ -26,13 +26,6 @@
 
 #define ROW_DIVIDER 5
 
-+(BOOL) isInLandscape
-{
-    
-    //BOOL isLandscape = superView.frame.size.width < superView.frame.size.height ? YES : NO;
-//    if (isLandscape) NSLog(@"is Landscape");
-//    return isLandscape;
-}
 +(CGRect) frameForRowforIndex:(int) index
           inSuperView:(UIView *) superView;
 {
@@ -40,6 +33,13 @@
     CGPoint origin = CGPointMake(superView.bounds.size.width/2 - ROW_SIZE_PORTRAIT_WIDTH/2,
                                  VER_OFFSET_PORTRAIT_TOP + index * ROW_SIZE_PORTRAIT_HEIGHT + index * ROW_DIVIDER);
     return CGRectMake(origin.x, origin.y, ROW_SIZE_PORTRAIT_WIDTH, ROW_SIZE_PORTRAIT_HEIGHT);
+}
+
++ (CGPoint) originForFrameAfterFrame:(CGRect) frame
+{
+    CGPoint point = CGPointMake(frame.origin.x,
+                                frame.origin.y + frame.size.height + ROW_DIVIDER);
+    return point;
 }
 
 @end

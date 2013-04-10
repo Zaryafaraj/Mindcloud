@@ -13,4 +13,5 @@
 +(CGRect) frameForRowforIndex:(int) index
           inSuperView:(UIView *) superView;
 
++ (CGPoint) originForFrameAfterFrame:(CGRect) frame;
 @end
