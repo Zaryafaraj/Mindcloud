@@ -13,5 +13,6 @@
 @property UILabel * collectionLabel;
 @property UIImageView * collectionImage;
 @property UIView * backgroundView;
+@property NSInteger index;
 
 @end

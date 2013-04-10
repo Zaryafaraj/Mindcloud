@@ -24,6 +24,7 @@
         [self addBackgrounViewPlaceHolder];
         [self addImagePlaceHolder];
         [self addLabelPlaceholder];
+        self.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
     }
     return self;
 }

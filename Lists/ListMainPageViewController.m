@@ -16,6 +16,7 @@
 @interface ListMainPageViewController ()
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property int index;
 @end
 
 @implementation ListMainPageViewController
@@ -30,6 +31,37 @@
     return self;
 }
 
+-(void) moveRowsDown
+{
+    for(ListsCollectionRowView * row in self.scrollView.subviews)
+    {
+        if ([row isKindOfClass:[ListsCollectionRowView class]])
+        {
+            row.index++;
+            CGRect frame = [MainScreenListLayout frameForRowforIndex:row.index
+                                                         inSuperView:self.scrollView];
+            [UIView animateWithDuration:0.25 animations:^{
+                row.frame = frame;
+            }];
+        }
+    }
+}
+- (IBAction)addPressed:(id)sender {
+    
+    
+    [self moveRowsDown];
+    CGRect firstFrame = [MainScreenListLayout frameForRowforIndex:0
+                                                      inSuperView:self.scrollView];
+    ListsCollectionRowView * row = [[ListsCollectionRowView alloc] initWithFrame:firstFrame];
+    row.backgroundView.alpha = 0.5;
+    row.collectionLabel.text = [NSString stringWithFormat:@"%d",self.index];
+    row.collectionImage.image = [UIImage imageNamed:@"Test.png"];
+    row.index = 0;
+    [self.scrollView addSubview:row];
+    self.index++;
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -38,21 +70,13 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    id<ITheme> theme = [ThemeFactory currentTheme];
 }
 
 -(void) viewDidAppear:(BOOL)animated
 {
-    [self.scrollView setContentSize:CGSizeMake(self.view.bounds.size.width, 2 * self.view.bounds.size.height)];
-    for (int i = 0 ; i <= 5; i++)
+//    [self.scrollView setContentSize:CGSizeMake(self.view.bounds.size.width, 2 * self.view.bounds.size.height)];
+    for (int i = 0 ; i <= 0; i++)
     {
-        CGRect frame = [MainScreenListLayout frameForRowforIndex:i inSuperView:self.scrollView];
-        ListsCollectionRowView * row = [[ListsCollectionRowView alloc] initWithFrame:frame];
-        row.backgroundView.alpha = 0.5;
-        row.collectionLabel.text = @"HI";
-        row.collectionImage.image = [UIImage imageNamed:@"Test.png"];
-        row.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
-        [self.scrollView addSubview:row];
     }
 }
 

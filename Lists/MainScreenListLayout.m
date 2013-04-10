@@ -41,4 +41,5 @@
                                  VER_OFFSET_PORTRAIT_TOP + index * ROW_SIZE_PORTRAIT_HEIGHT + index * ROW_DIVIDER);
     return CGRectMake(origin.x, origin.y, ROW_SIZE_PORTRAIT_WIDTH, ROW_SIZE_PORTRAIT_HEIGHT);
 }
+
 @end
