@@ -51,6 +51,7 @@
         row.backgroundView.alpha = 0.5;
         row.collectionLabel.text = @"HI";
         row.collectionImage.image = [UIImage imageNamed:@"Test.png"];
+        row.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
         [self.scrollView addSubview:row];
     }
 }
