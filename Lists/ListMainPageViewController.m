@@ -66,7 +66,7 @@
 }
 - (IBAction)addPressed:(id)sender {
     
-    
+    [self.scrollView setContentOffset:CGPointZero animated:YES];
     [self moveRowsDown];
     CGRect firstFrame = [MainScreenListLayout frameForRowforIndex:0
                                                       inSuperView:self.scrollView];
