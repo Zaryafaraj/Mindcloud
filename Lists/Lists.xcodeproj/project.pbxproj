@@ -40,6 +40,7 @@
 		DBBDEFC41713BFAF009ADF1A /* ListsCollectionRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFC31713BFAF009ADF1A /* ListsCollectionRowView.m */; };
 		DBBDEFC91713D9F8009ADF1A /* Test.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBDEFC81713D9F8009ADF1A /* Test.png */; };
 		DBBDEFCC1713E367009ADF1A /* MainScreenListLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFCB1713E367009ADF1A /* MainScreenListLayout.m */; };
+		DBEBB4C01715267500D0DFD5 /* AnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEBB4BF1715267500D0DFD5 /* AnimationHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,8 @@
 		DBBDEFC81713D9F8009ADF1A /* Test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Test.png; sourceTree = "<group>"; };
 		DBBDEFCA1713E367009ADF1A /* MainScreenListLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenListLayout.h; sourceTree = "<group>"; };
 		DBBDEFCB1713E367009ADF1A /* MainScreenListLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenListLayout.m; sourceTree = "<group>"; };
+		DBEBB4BE1715267500D0DFD5 /* AnimationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationHelper.h; sourceTree = "<group>"; };
+		DBEBB4BF1715267500D0DFD5 /* AnimationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +239,7 @@
 		DBBDEFBF1713BF63009ADF1A /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				DBEBB4BD1715265E00D0DFD5 /* Animation */,
 				DBBDEFCD1713E76E009ADF1A /* Layout */,
 				DBBDEFC11713BF81009ADF1A /* Views */,
 				DBBDEFC01713BF6F009ADF1A /* ViewControllers */,
@@ -278,6 +282,15 @@
 				DBBDEFCB1713E367009ADF1A /* MainScreenListLayout.m */,
 			);
 			name = Layout;
+			sourceTree = "<group>";
+		};
+		DBEBB4BD1715265E00D0DFD5 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				DBEBB4BE1715267500D0DFD5 /* AnimationHelper.h */,
+				DBEBB4BF1715267500D0DFD5 /* AnimationHelper.m */,
+			);
+			name = Animation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -409,6 +422,7 @@
 				DB3CDB6A17124001004CB440 /* GlassyTheme.m in Sources */,
 				DBBDEFC41713BFAF009ADF1A /* ListsCollectionRowView.m in Sources */,
 				DBBDEFCC1713E367009ADF1A /* MainScreenListLayout.m in Sources */,
+				DBEBB4C01715267500D0DFD5 /* AnimationHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

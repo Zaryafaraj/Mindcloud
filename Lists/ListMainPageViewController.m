@@ -12,6 +12,7 @@
 #import "ITheme.h"
 #import "ListsCollectionRowView.h"
 #import "MainScreenListLayout.h"
+#import "AnimationHelper.h"
 
 @interface ListMainPageViewController ()
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
@@ -40,9 +41,7 @@
             row.index++;
             CGRect frame = [MainScreenListLayout frameForRowforIndex:row.index
                                                          inSuperView:self.scrollView];
-            [UIView animateWithDuration:0.25 animations:^{
-                row.frame = frame;
-            }];
+            [AnimationHelper slideDown:row toFrame:frame];
         }
     }
 }
