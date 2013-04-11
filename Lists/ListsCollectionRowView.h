@@ -10,9 +10,10 @@
 
 @interface ListsCollectionRowView : UIView
 
-@property UILabel * collectionLabel;
-@property UIImageView * collectionImage;
-@property UIView * backgroundView;
+@property (strong, nonatomic) UILabel * collectionLabel;
+@property (strong, nonatomic) UIImageView * collectionImage;
+@property (strong, nonatomic) UIView * foregroundView;
+@property (strong, nonatomic) UIView * backgroundView;
 @property NSInteger index;
-
+@property (readonly) BOOL isOpen;
 @end

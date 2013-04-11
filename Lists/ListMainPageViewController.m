@@ -29,7 +29,6 @@
     CGRect firstFrame = [MainScreenListLayout frameForRowforIndex:0
                                                       inSuperView:self.scrollView];
     ListsCollectionRowView * row = [[ListsCollectionRowView alloc] initWithFrame:firstFrame];
-    row.backgroundView.alpha = 0.5;
     row.collectionLabel.text = [NSString stringWithFormat:@"%d",self.index];
     row.collectionImage.image = [UIImage imageNamed:@"Test.png"];
     row.index = 0;
