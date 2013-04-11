@@ -22,17 +22,23 @@
 
 @implementation ListMainPageViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        
-        // Custom initialization
-    }
-    return self;
+- (IBAction)addPressed:(id)sender {
+    
+    [self.scrollView setContentOffset:CGPointZero animated:YES];
+    [self moveRowsDown];
+    CGRect firstFrame = [MainScreenListLayout frameForRowforIndex:0
+                                                      inSuperView:self.scrollView];
+    ListsCollectionRowView * row = [[ListsCollectionRowView alloc] initWithFrame:firstFrame];
+    row.backgroundView.alpha = 0.5;
+    row.collectionLabel.text = [NSString stringWithFormat:@"%d",self.index];
+    row.collectionImage.image = [UIImage imageNamed:@"Test.png"];
+    row.index = 0;
+    [self.scrollView addSubview:row];
+    self.index++;
+    
 }
 
--(void) moveRowsDown
+- (void) moveRowsDown
 {
     CGRect lowestFrame = CGRectMake(0, 0, 0, 0);
     for(ListsCollectionRowView * row in self.scrollView.subviews)
@@ -53,7 +59,7 @@
     [self extendScrollViewIfNecessaryForFrame: lowestFrame];
 }
 
--(void) extendScrollViewIfNecessaryForFrame:(CGRect) frame
+- (void) extendScrollViewIfNecessaryForFrame:(CGRect) frame
 {
     CGSize contentSize = self.scrollView.contentSize;
     CGPoint lowerPart = [MainScreenListLayout originForFrameAfterFrame:frame];
@@ -63,21 +69,6 @@
                                            lowerPart.y);
         self.scrollView.contentSize = newContentSize;
     }
-    
-}
-- (IBAction)addPressed:(id)sender {
-    
-    [self.scrollView setContentOffset:CGPointZero animated:YES];
-    [self moveRowsDown];
-    CGRect firstFrame = [MainScreenListLayout frameForRowforIndex:0
-                                                      inSuperView:self.scrollView];
-    ListsCollectionRowView * row = [[ListsCollectionRowView alloc] initWithFrame:firstFrame];
-    row.backgroundView.alpha = 0.5;
-    row.collectionLabel.text = [NSString stringWithFormat:@"%d",self.index];
-    row.collectionImage.image = [UIImage imageNamed:@"Test.png"];
-    row.index = 0;
-    [self.scrollView addSubview:row];
-    self.index++;
     
 }
 
@@ -110,12 +101,12 @@
     [super viewDidLoad];
 }
 
--(void) viewWillAppear:(BOOL)animated
+- (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 }
 
--(void) viewDidAppear:(BOOL)animated
+- (void) viewDidAppear:(BOOL)animated
 {
     [self.scrollView setContentSize:CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height)];
 }

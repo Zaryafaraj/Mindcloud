@@ -25,8 +25,23 @@
         [self addImagePlaceHolder];
         [self addLabelPlaceholder];
         self.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
+        UISwipeGestureRecognizer * sgr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipped:)];
+        UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+        [tgr requireGestureRecognizerToFail:sgr];
+        [self addGestureRecognizer:sgr];
+        [self addGestureRecognizer:tgr];
     }
     return self;
+}
+
+-(void) swipped:(UISwipeGestureRecognizer *) sender
+{
+    NSLog(@"Swipped");
+}
+
+-(void) tapped:(UISwipeGestureRecognizer *) sender
+{
+    NSLog(@"Tapped");
 }
 
 -(void) addBackgrounViewPlaceHolder
