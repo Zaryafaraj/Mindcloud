@@ -10,6 +10,10 @@
 
 @interface AnimationHelper : NSObject
 
-+(void) slideDown:(UIView *) row
-          toFrame:(CGRect) frame;
++(void) slideMainScreenRowDown:(UIView *) row
+                       toFrame:(CGRect) frame;
+
++(void) slideOpenMainScreenRow:(UIView *) row;
+
++(void) slideCloseMainScreenRow:(UIView *) row;
 @end

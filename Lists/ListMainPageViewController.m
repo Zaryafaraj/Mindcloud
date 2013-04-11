@@ -52,7 +52,7 @@
                 lowestFrame = frame;
             }
             
-            [AnimationHelper slideDown:row toFrame:frame];
+            [AnimationHelper slideMainScreenRowDown:row toFrame:frame];
         }
     }
     [self extendScrollViewIfNecessaryForFrame: lowestFrame];

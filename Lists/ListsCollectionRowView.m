@@ -7,6 +7,7 @@
 //
 
 #import "ListsCollectionRowView.h"
+#import "AnimationHelper.h"
 
 #define LABEL_INSET_HOR 10
 #define LABEL_INSET_VER 10
@@ -35,7 +36,6 @@
 
 -(void) swippedLeft:(UISwipeGestureRecognizer *) sender
 {
-    NSLog(@"Swipped Left");
     if (sender.state == UIGestureRecognizerStateChanged ||
         sender.state == UIGestureRecognizerStateEnded)
     {
@@ -45,7 +45,6 @@
 
 -(void) swippedRight:(UISwipeGestureRecognizer *) sender
 {
-    NSLog(@"Swipped Right");
     if (sender.state == UIGestureRecognizerStateChanged ||
         sender.state == UIGestureRecognizerStateEnded)
     {
@@ -55,22 +54,13 @@
 
 -(void) tapped:(UISwipeGestureRecognizer *) sender
 {
-    NSLog(@"Tapped");
 }
 
 -(void) openView
 {
     if (!self.isOpen)
     {
-        [UIView animateWithDuration:0.4
-                              delay:0.0
-                            options:UIViewAnimationOptionCurveEaseOut
-                         animations:^{
-                             self.foregroundView.frame = CGRectMake(self.foregroundView.frame.origin.x + self.foregroundView.frame.size.width/3,
-                                                                    self.foregroundView.frame.origin.y,
-                                                                    self.foregroundView.frame.size.width - self.foregroundView.frame.size.width/3,
-                                                                    self.foregroundView.frame.size.height);
-                         }completion:nil];
+        [AnimationHelper slideOpenMainScreenRow:self.foregroundView];
         self.isOpen = YES;
     }
 }
@@ -79,12 +69,7 @@
 {
     if (self.isOpen)
     {
-        [UIView animateWithDuration:0.4
-                              delay:0.0
-                            options:UIViewAnimationOptionCurveEaseOut
-                         animations:^{
-                             self.foregroundView.frame = self.bounds;
-                         }completion:nil];
+        [AnimationHelper slideCloseMainScreenRow:self.foregroundView];
         self.isOpen = NO;
     }
 }
