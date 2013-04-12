@@ -17,7 +17,12 @@
 
 @interface ListsCollectionRowView()
 
-@property (readwrite) BOOL isOpen;
+@property (strong, nonatomic) UIView * foregroundView;
+@property (strong, nonatomic) UIView * backgroundView;
+@property (strong, nonatomic) UIButton * addButton;
+@property (strong, nonatomic) UIButton * deleteButton;
+@property (strong, nonatomic) UIButton *  renameButton;
+@property  BOOL isOpen;
 
 @end
 @implementation ListsCollectionRowView
@@ -29,6 +34,7 @@
     if (self) {
         [self addBackgroundLayer];
         [self addforgroundLayer];
+        [self addActionButtons];
         [self addGestureRecognizers];
     }
     return self;
@@ -61,6 +67,7 @@
     if (!self.isOpen)
     {
         [AnimationHelper slideOpenMainScreenRow:self.foregroundView];
+        [self showButtons:YES];
         self.isOpen = YES;
     }
 }
@@ -70,6 +77,7 @@
     if (self.isOpen)
     {
         [AnimationHelper slideCloseMainScreenRow:self.foregroundView];
+        [self hideButtons:YES];
         self.isOpen = NO;
     }
 }
@@ -90,7 +98,87 @@
     CGRect backgroundFrame = self.bounds;
     UIView * backgroundView = [[UIView alloc] initWithFrame:backgroundFrame];
     backgroundView.backgroundColor = [UIColor whiteColor];
+    backgroundView.alpha = 0.5;
     [self addSubview:backgroundView];
+}
+
+-(void) addPressed:(id) sender
+{
+    NSLog(@"Add");
+}
+
+-(void) deletePressed:(id) sender
+{
+    NSLog(@"Delete");
+}
+
+-(void) renamePressed:(id) sender
+{
+    NSLog(@"Rename");
+}
+
+-(void) addActionButtons
+{
+    CGSize buttonSize = CGSizeMake(self.bounds.size.width/9, self.bounds.size.height);
+    
+    //add Button
+    CGRect addButtonFrame = CGRectMake(self.backgroundView.bounds.origin.x,
+                                       self.backgroundView.bounds.origin.y,
+                                       buttonSize.width,
+                                       buttonSize.height);
+    UIButton * addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [addButton addTarget:self
+                  action:@selector(addPressed:)
+        forControlEvents:UIControlEventTouchDown];
+    [addButton setTitle:@"A" forState:UIControlStateNormal];
+    addButton.frame = addButtonFrame;
+    
+    CGRect renameButtonFrame = CGRectMake(addButtonFrame.origin.x + addButtonFrame.size.width,
+                                          addButtonFrame.origin.y,
+                                          addButtonFrame.size.width,
+                                          addButtonFrame.size.height);
+    //rename Button
+    UIButton * renameButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [renameButton addTarget:self
+               action:@selector(renamePressed:)
+     forControlEvents:UIControlEventTouchDown];
+    [renameButton setTitle:@"R" forState:UIControlStateNormal];
+    renameButton.frame = renameButtonFrame;
+    
+    //delete button
+    CGRect deleteButtonRect = CGRectMake(renameButtonFrame.origin.x + renameButtonFrame.size.width,
+                                          renameButtonFrame.origin.y,
+                                          renameButtonFrame.size.width,
+                                          renameButtonFrame.size.height);
+    UIButton * deleteButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [deleteButton addTarget:self
+               action:@selector(deletePressed:)
+     forControlEvents:UIControlEventTouchDown];
+    [deleteButton setTitle:@"X" forState:UIControlStateNormal];
+    deleteButton.frame = deleteButtonRect;
+    
+    self.addButton = addButton;
+    self.renameButton = renameButton;
+    self.deleteButton = deleteButton;
+    [self addSubview:addButton];
+    [self addSubview:renameButton];
+    [self addSubview:deleteButton];
+    
+    [self hideButtons:NO];
+}
+
+-(void) hideButtons:(BOOL) animated
+{
+    self.addButton.hidden = YES;
+    self.renameButton.hidden = YES;
+    self.deleteButton.hidden = YES;
+}
+
+-(void) showButtons:(BOOL) animated
+{
+    self.addButton.hidden = NO;
+    self.renameButton.hidden = NO;
+    self.deleteButton.hidden = NO;
 }
 
 -(void) addLabelPlaceholder

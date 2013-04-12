@@ -12,8 +12,6 @@
 
 @property (strong, nonatomic) UILabel * collectionLabel;
 @property (strong, nonatomic) UIImageView * collectionImage;
-@property (strong, nonatomic) UIView * foregroundView;
-@property (strong, nonatomic) UIView * backgroundView;
 @property NSInteger index;
-@property (readonly) BOOL isOpen;
+
 @end
