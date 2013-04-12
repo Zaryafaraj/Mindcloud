@@ -13,7 +13,8 @@
 +(void) slideMainScreenRowDown:(UIView *) row
                        toFrame:(CGRect) frame;
 
-+(void) slideOpenMainScreenRow:(UIView *) row;
++(void) slideOpenMainScreenRow:(UIView *) row withButtons: (NSArray *) buttons;
 
-+(void) slideCloseMainScreenRow:(UIView *) row;
++(void) slideCloseMainScreenRow:(UIView *) row withButtons: (NSArray *) buttons;
+
 @end

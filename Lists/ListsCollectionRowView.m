@@ -33,8 +33,8 @@
     self.backgroundColor = [UIColor clearColor];
     if (self) {
         [self addBackgroundLayer];
-        [self addforgroundLayer];
         [self addActionButtons];
+        [self addforgroundLayer];
         [self addGestureRecognizers];
     }
     return self;
@@ -66,7 +66,8 @@
 {
     if (!self.isOpen)
     {
-        [AnimationHelper slideOpenMainScreenRow:self.foregroundView];
+        [AnimationHelper slideOpenMainScreenRow:self.foregroundView
+                                    withButtons:@[self.addButton, self.renameButton, self.deleteButton]];
         [self showButtons:YES];
         self.isOpen = YES;
     }
@@ -76,8 +77,8 @@
 {
     if (self.isOpen)
     {
-        [AnimationHelper slideCloseMainScreenRow:self.foregroundView];
-        [self hideButtons:YES];
+        [AnimationHelper slideCloseMainScreenRow:self.foregroundView
+                                     withButtons:@[self.addButton, self.deleteButton, self.renameButton]];
         self.isOpen = NO;
     }
 }

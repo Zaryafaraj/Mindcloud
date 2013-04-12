@@ -18,7 +18,7 @@
     }];
 }
 
-+(void) slideOpenMainScreenRow:(UIView *) row
++(void) slideOpenMainScreenRow:(UIView *) row withButtons:(NSArray *)buttons
 {
     [UIView animateWithDuration:0.30
                           delay:0.0
@@ -31,13 +31,18 @@
                      } completion:nil];
 }
 
-+(void) slideCloseMainScreenRow:(UIView *) row
++(void) slideCloseMainScreenRow:(UIView *) row withButtons:(NSArray *)buttons
 {
     [UIView animateWithDuration:0.2
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          row.frame = row.superview.bounds;
-                     }completion:nil];
+                     }completion:^(BOOL finished){
+                         for (UIButton * button in buttons)
+                         {
+                             button.hidden = YES;
+                         }
+                     }];
 }
 @end
