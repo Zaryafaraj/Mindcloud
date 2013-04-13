@@ -14,4 +14,6 @@
 @property (strong, nonatomic) UIImageView * collectionImage;
 @property NSInteger index;
 
+-(void) reset;
+
 @end

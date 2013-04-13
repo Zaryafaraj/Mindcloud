@@ -10,4 +10,17 @@
 
 @implementation GlassyTheme
 
+-(UIImage *) imageForMainScreenRowDeleteButton
+{
+    return [UIImage imageNamed:@"GlassyMainRowDelete.png"];
+}
+-(UIImage *) imageForMainScreenRowShareButton;
+{
+    return [UIImage imageNamed:@"GlassyMainRowShare.png"];
+}
+-(UIImage *) imageForMainscreenRowRenameButton
+{
+    return [UIImage imageNamed:@"GlassyMainRowEdit.png"];
+}
+
 @end

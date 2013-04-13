@@ -10,5 +10,8 @@
 
 @protocol ITheme <NSObject>
 
+-(UIImage *) imageForMainScreenRowDeleteButton;
+-(UIImage *) imageForMainScreenRowShareButton;
+-(UIImage *) imageForMainscreenRowRenameButton;
 
 @end

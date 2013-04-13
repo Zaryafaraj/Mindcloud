@@ -8,6 +8,8 @@
 
 #import "ListsCollectionRowView.h"
 #import "AnimationHelper.h"
+#import "ThemeFactory.h"
+#import "ITheme.h"
 
 #define LABEL_INSET_HOR 10
 #define LABEL_INSET_VER 10
@@ -19,7 +21,7 @@
 
 @property (strong, nonatomic) UIView * foregroundView;
 @property (strong, nonatomic) UIView * backgroundView;
-@property (strong, nonatomic) UIButton * addButton;
+@property (strong, nonatomic) UIButton * shareButton;
 @property (strong, nonatomic) UIButton * deleteButton;
 @property (strong, nonatomic) UIButton *  renameButton;
 @property  BOOL isOpen;
@@ -67,7 +69,7 @@
     if (!self.isOpen)
     {
         [AnimationHelper slideOpenMainScreenRow:self.foregroundView
-                                    withButtons:@[self.addButton, self.renameButton, self.deleteButton]];
+                                    withButtons:@[self.shareButton, self.renameButton, self.deleteButton]];
         [self showButtons:YES];
         self.isOpen = YES;
     }
@@ -78,7 +80,7 @@
     if (self.isOpen)
     {
         [AnimationHelper slideCloseMainScreenRow:self.foregroundView
-                                     withButtons:@[self.addButton, self.deleteButton, self.renameButton]];
+                                     withButtons:@[self.shareButton, self.deleteButton, self.renameButton]];
         self.isOpen = NO;
     }
 }
@@ -87,7 +89,7 @@
 {
     CGRect foregroundFrame = self.bounds;
     UIView * foregroundView = [[UIView alloc] initWithFrame:foregroundFrame];
-    foregroundView.backgroundColor = [UIColor lightGrayColor];
+    foregroundView.backgroundColor = [UIColor whiteColor];
     [self addSubview:foregroundView];
     self.foregroundView = foregroundView;
     [self addImagePlaceHolder];
@@ -99,11 +101,11 @@
     CGRect backgroundFrame = self.bounds;
     UIView * backgroundView = [[UIView alloc] initWithFrame:backgroundFrame];
     backgroundView.backgroundColor = [UIColor whiteColor];
-    backgroundView.alpha = 0.5;
+    backgroundView.alpha = 0.6;
     [self addSubview:backgroundView];
 }
 
--(void) addPressed:(id) sender
+-(void) sharePressed:(id) sender
 {
     NSLog(@"Add");
 }
@@ -127,12 +129,14 @@
                                        self.backgroundView.bounds.origin.y,
                                        buttonSize.width,
                                        buttonSize.height);
-    UIButton * addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [addButton addTarget:self
-                  action:@selector(addPressed:)
+    UIButton * shareButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [shareButton addTarget:self
+                  action:@selector(sharePressed:)
         forControlEvents:UIControlEventTouchDown];
-    [addButton setTitle:@"A" forState:UIControlStateNormal];
-    addButton.frame = addButtonFrame;
+    UIImage * shareImage = [[ThemeFactory currentTheme] imageForMainScreenRowShareButton];
+    [shareButton setBackgroundImage:shareImage forState:UIControlStateNormal];
+    //[shareButton setImageEdgeInsets:UIEdgeInsetsZero];
+    shareButton.frame = addButtonFrame;
     
     CGRect renameButtonFrame = CGRectMake(addButtonFrame.origin.x + addButtonFrame.size.width,
                                           addButtonFrame.origin.y,
@@ -143,7 +147,8 @@
     [renameButton addTarget:self
                action:@selector(renamePressed:)
      forControlEvents:UIControlEventTouchDown];
-    [renameButton setTitle:@"R" forState:UIControlStateNormal];
+    UIImage * renameImg = [[ThemeFactory currentTheme] imageForMainscreenRowRenameButton];
+    [renameButton setBackgroundImage:renameImg forState:UIControlStateNormal];
     renameButton.frame = renameButtonFrame;
     
     //delete button
@@ -155,13 +160,14 @@
     [deleteButton addTarget:self
                action:@selector(deletePressed:)
      forControlEvents:UIControlEventTouchDown];
-    [deleteButton setTitle:@"X" forState:UIControlStateNormal];
+    UIImage * deleteImage = [[ThemeFactory currentTheme] imageForMainScreenRowDeleteButton];
+    [deleteButton setBackgroundImage:deleteImage forState:UIControlStateNormal];
     deleteButton.frame = deleteButtonRect;
     
-    self.addButton = addButton;
+    self.shareButton = shareButton;
     self.renameButton = renameButton;
     self.deleteButton = deleteButton;
-    [self addSubview:addButton];
+    [self addSubview:shareButton];
     [self addSubview:renameButton];
     [self addSubview:deleteButton];
     
@@ -170,14 +176,14 @@
 
 -(void) hideButtons:(BOOL) animated
 {
-    self.addButton.hidden = YES;
+    self.shareButton.hidden = YES;
     self.renameButton.hidden = YES;
     self.deleteButton.hidden = YES;
 }
 
 -(void) showButtons:(BOOL) animated
 {
-    self.addButton.hidden = NO;
+    self.shareButton.hidden = NO;
     self.renameButton.hidden = NO;
     self.deleteButton.hidden = NO;
 }
@@ -226,5 +232,10 @@
     [self addGestureRecognizer:rsgr];
     [self addGestureRecognizer:tgr];
     
+}
+
+-(void) reset
+{
+    [self closeView];
 }
 @end

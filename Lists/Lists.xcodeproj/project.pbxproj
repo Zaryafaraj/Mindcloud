@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB10D5C2171A1CC5009D1566 /* GlassyMainRowDeleteG.png in Resources */ = {isa = PBXBuildFile; fileRef = DB10D5C1171A1CC5009D1566 /* GlassyMainRowDeleteG.png */; };
+		DB10D5C4171A1DBA009D1566 /* GlassyMainRowShareG.png in Resources */ = {isa = PBXBuildFile; fileRef = DB10D5C3171A1DBA009D1566 /* GlassyMainRowShareG.png */; };
+		DB10D5C6171A1E24009D1566 /* GlassyMainRowDeleteLight.png in Resources */ = {isa = PBXBuildFile; fileRef = DB10D5C5171A1E24009D1566 /* GlassyMainRowDeleteLight.png */; };
+		DB10D5C8171A1EE9009D1566 /* GlassyMainRowShareLight.png in Resources */ = {isa = PBXBuildFile; fileRef = DB10D5C7171A1EE9009D1566 /* GlassyMainRowShareLight.png */; };
+		DB10D5CA171A208F009D1566 /* GlassyMainRowDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = DB10D5C9171A208F009D1566 /* GlassyMainRowDelete.png */; };
+		DB10D5CC171A21A3009D1566 /* GlassyMainRowShare.png in Resources */ = {isa = PBXBuildFile; fileRef = DB10D5CB171A21A3009D1566 /* GlassyMainRowShare.png */; };
+		DB10D5CE171A2334009D1566 /* GlassyMainRowEditLight.png in Resources */ = {isa = PBXBuildFile; fileRef = DB10D5CD171A2334009D1566 /* GlassyMainRowEditLight.png */; };
+		DB10D5D0171A23C6009D1566 /* GlassyMainRowEdit.png in Resources */ = {isa = PBXBuildFile; fileRef = DB10D5CF171A23C6009D1566 /* GlassyMainRowEdit.png */; };
 		DB3C8E171710D3DE00A69D3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3C8E161710D3DE00A69D3B /* UIKit.framework */; };
 		DB3C8E191710D3DE00A69D3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3C8E181710D3DE00A69D3B /* Foundation.framework */; };
 		DB3C8E1B1710D3DE00A69D3B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3C8E1A1710D3DE00A69D3B /* CoreGraphics.framework */; };
@@ -54,6 +62,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DB10D5C1171A1CC5009D1566 /* GlassyMainRowDeleteG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlassyMainRowDeleteG.png; sourceTree = "<group>"; };
+		DB10D5C3171A1DBA009D1566 /* GlassyMainRowShareG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlassyMainRowShareG.png; sourceTree = "<group>"; };
+		DB10D5C5171A1E24009D1566 /* GlassyMainRowDeleteLight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlassyMainRowDeleteLight.png; sourceTree = "<group>"; };
+		DB10D5C7171A1EE9009D1566 /* GlassyMainRowShareLight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlassyMainRowShareLight.png; sourceTree = "<group>"; };
+		DB10D5C9171A208F009D1566 /* GlassyMainRowDelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlassyMainRowDelete.png; sourceTree = "<group>"; };
+		DB10D5CB171A21A3009D1566 /* GlassyMainRowShare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlassyMainRowShare.png; sourceTree = "<group>"; };
+		DB10D5CD171A2334009D1566 /* GlassyMainRowEditLight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlassyMainRowEditLight.png; sourceTree = "<group>"; };
+		DB10D5CF171A23C6009D1566 /* GlassyMainRowEdit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlassyMainRowEdit.png; sourceTree = "<group>"; };
 		DB3C8E131710D3DE00A69D3B /* Lists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB3C8E161710D3DE00A69D3B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DB3C8E181710D3DE00A69D3B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -173,6 +189,7 @@
 		DB3C8E1D1710D3DE00A69D3B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DBBEC5F91717E29A00739B1A /* Icons */,
 				DBBDEFC51713CADF009ADF1A /* Test */,
 				DB3C8E4D1710D52F00A69D3B /* BGs */,
 				DB3C8E1E1710D3DE00A69D3B /* Lists-Info.plist */,
@@ -284,6 +301,21 @@
 			name = Layout;
 			sourceTree = "<group>";
 		};
+		DBBEC5F91717E29A00739B1A /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				DB10D5CD171A2334009D1566 /* GlassyMainRowEditLight.png */,
+				DB10D5CF171A23C6009D1566 /* GlassyMainRowEdit.png */,
+				DB10D5CB171A21A3009D1566 /* GlassyMainRowShare.png */,
+				DB10D5C9171A208F009D1566 /* GlassyMainRowDelete.png */,
+				DB10D5C7171A1EE9009D1566 /* GlassyMainRowShareLight.png */,
+				DB10D5C5171A1E24009D1566 /* GlassyMainRowDeleteLight.png */,
+				DB10D5C3171A1DBA009D1566 /* GlassyMainRowShareG.png */,
+				DB10D5C1171A1CC5009D1566 /* GlassyMainRowDeleteG.png */,
+			);
+			name = Icons;
+			sourceTree = "<group>";
+		};
 		DBEBB4BD1715265E00D0DFD5 /* Animation */ = {
 			isa = PBXGroup;
 			children = (
@@ -381,6 +413,14 @@
 				DB3C8E621710D52F00A69D3B /* BGBlurMed.png in Resources */,
 				DB3C8E631710D52F00A69D3B /* BGBlurNo.jpg in Resources */,
 				DBBDEFC91713D9F8009ADF1A /* Test.png in Resources */,
+				DB10D5C2171A1CC5009D1566 /* GlassyMainRowDeleteG.png in Resources */,
+				DB10D5C4171A1DBA009D1566 /* GlassyMainRowShareG.png in Resources */,
+				DB10D5C6171A1E24009D1566 /* GlassyMainRowDeleteLight.png in Resources */,
+				DB10D5C8171A1EE9009D1566 /* GlassyMainRowShareLight.png in Resources */,
+				DB10D5CA171A208F009D1566 /* GlassyMainRowDelete.png in Resources */,
+				DB10D5CC171A21A3009D1566 /* GlassyMainRowShare.png in Resources */,
+				DB10D5CE171A2334009D1566 /* GlassyMainRowEditLight.png in Resources */,
+				DB10D5D0171A23C6009D1566 /* GlassyMainRowEdit.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
