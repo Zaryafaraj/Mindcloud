@@ -68,6 +68,8 @@
 {
     if (!self.isOpen)
     {
+        [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
+                                                             isOpen:YES];
         [AnimationHelper slideOpenMainScreenRow:self.foregroundView
                                     withButtons:@[self.shareButton, self.renameButton, self.deleteButton]];
         [self showButtons:YES];
@@ -79,6 +81,9 @@
 {
     if (self.isOpen)
     {
+        
+        [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
+                                                             isOpen:NO];
         [AnimationHelper slideCloseMainScreenRow:self.foregroundView
                                      withButtons:@[self.shareButton, self.deleteButton, self.renameButton]];
         self.isOpen = NO;
@@ -90,7 +95,7 @@
     CGRect foregroundFrame = self.bounds;
     UIView * foregroundView = [[UIView alloc] initWithFrame:foregroundFrame];
     foregroundView.backgroundColor = [UIColor whiteColor];
-    foregroundView = [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:foregroundView];
+    foregroundView = [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:foregroundView isOpen:NO];
     [self addSubview:foregroundView];
     self.foregroundView = foregroundView;
     [self addImagePlaceHolder];
@@ -167,6 +172,9 @@
     self.shareButton = shareButton;
     self.renameButton = renameButton;
     self.deleteButton = deleteButton;
+    [[ThemeFactory currentTheme] stylizeMainScreenRowButton:shareButton];
+    [[ThemeFactory currentTheme] stylizeMainScreenRowButton:deleteButton];
+    [[ThemeFactory currentTheme] stylizeMainScreenRowButton:renameButton];
     [self addSubview:shareButton];
     [self addSubview:renameButton];
     [self addSubview:deleteButton];

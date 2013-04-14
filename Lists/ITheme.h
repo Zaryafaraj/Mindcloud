@@ -13,6 +13,10 @@
 -(UIImage *) imageForMainScreenRowDeleteButton;
 -(UIImage *) imageForMainScreenRowShareButton;
 -(UIImage *) imageForMainscreenRowRenameButton;
--(UIView *) stylizeMainscreenRowForeground:(UIView *) view;
+
+-(UIView *) stylizeMainscreenRowForeground:(UIView *) view
+                                    isOpen:(BOOL) isOpen;
+
+-(UIView *) stylizeMainScreenRowButton:(UIButton *) button;
 
 @end
