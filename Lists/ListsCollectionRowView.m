@@ -90,6 +90,7 @@
     CGRect foregroundFrame = self.bounds;
     UIView * foregroundView = [[UIView alloc] initWithFrame:foregroundFrame];
     foregroundView.backgroundColor = [UIColor whiteColor];
+    foregroundView = [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:foregroundView];
     [self addSubview:foregroundView];
     self.foregroundView = foregroundView;
     [self addImagePlaceHolder];
@@ -101,7 +102,6 @@
     CGRect backgroundFrame = self.bounds;
     UIView * backgroundView = [[UIView alloc] initWithFrame:backgroundFrame];
     backgroundView.backgroundColor = [UIColor whiteColor];
-    backgroundView.alpha = 0.6;
     [self addSubview:backgroundView];
 }
 
