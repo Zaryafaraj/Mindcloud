@@ -7,6 +7,7 @@
 //
 
 #import "ScrollViewRowRecycler.h"
+#import "MainScreenListLayout.h"
 
 @interface ScrollViewRowRecycler()
 
@@ -37,8 +38,10 @@
 
 -(void) recycleRows:(UIScrollView *)scrollView
 {
-//    CGRect visibleBounds = scrollView.bounds;
-    
+    CGRect visibleBounds = scrollView.bounds;
+    int lowestIndex = [MainScreenListLayout lowestRowIndexInFrame:visibleBounds];
+    int highestIndex = [MainScreenListLayout highestRowIndexInFrame:visibleBounds];
+    NSLog(@"L: %d - H: %d", lowestIndex, highestIndex);
 }
 
 -(ListsCollectionRowView *) dequeueRowForMainScreen

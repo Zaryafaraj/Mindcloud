@@ -11,8 +11,6 @@
 
 @implementation ThemeFactory
 
-static id<ITheme> currentTheme;
-
 +(id<ITheme>) currentTheme
 {
     static id<ITheme>  currentTheme = nil;

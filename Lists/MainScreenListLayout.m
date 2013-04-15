@@ -42,4 +42,22 @@
     return point;
 }
 
++ (int) lowestRowIndexInFrame:(CGRect) frame
+{
+    CGFloat topVisiblePart = CGRectGetMinY(frame);
+    CGFloat effectiveBottomVisiblePart = topVisiblePart - VER_OFFSET_PORTRAIT_TOP;
+    //we give one row as a buffer
+    int result = floorf(effectiveBottomVisiblePart / (ROW_SIZE_PORTRAIT_HEIGHT + ROW_DIVIDER)) - 1;
+    return MAX(result,0);
+}
+
++ (int) highestRowIndexInFrame:(CGRect) frame
+{
+    CGFloat bottomVisiblePart =CGRectGetMaxY(frame);
+    CGFloat effectiveBottomVisiblePart = bottomVisiblePart - VER_OFFSET_PORTRAIT_TOP;
+    //we give one row as a buffer
+    int result = floorf((effectiveBottomVisiblePart - 1)/ (ROW_SIZE_PORTRAIT_HEIGHT + ROW_DIVIDER))+1;
+    return result;
+}
+
 @end

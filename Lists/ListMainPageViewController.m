@@ -44,11 +44,12 @@
                                                       inSuperView:self.scrollView];
     ListsCollectionRowView * row = [self.recycler dequeueRowForMainScreen];
     row.frame = firstFrame;
-    row.collectionLabel.text = [NSString stringWithFormat:@"%d",self.index];
+    row.collectionLabel.text = [NSString stringWithFormat:@"%d",row.index];
     row.collectionImage.image = [UIImage imageNamed:@"Test.png"];
     row.index = 0;
     [self.scrollView addSubview:row];
     self.index++;
+    [self.recycler recycleRows:self.scrollView];
     
 }
 
@@ -62,6 +63,7 @@
             row.index++;
             CGRect frame = [MainScreenListLayout frameForRowforIndex:row.index
                                                          inSuperView:self.scrollView];
+            row.collectionLabel.text = [NSString stringWithFormat:@"%d",row.index];
             if (frame.origin.x > lowestFrame.origin.x)
             {
                 lowestFrame = frame;
@@ -129,7 +131,7 @@
 #pragma mark - scroll view delegate
 -(void) scrollViewDidScroll:(UIScrollView *)scrollView
 {
-  //  [self tileRows];
+    [self.recycler recycleRows:self.scrollView];
 }
 
 @end
