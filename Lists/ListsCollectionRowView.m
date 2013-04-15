@@ -29,9 +29,9 @@
 @end
 @implementation ListsCollectionRowView
 
-- (id)initWithFrame:(CGRect)frame
+-(id) init
 {
-    self = [super initWithFrame:frame];
+    self = [super init];
     self.backgroundColor = [UIColor clearColor];
     if (self) {
         [self addBackgroundLayer];
@@ -40,6 +40,19 @@
         [self addGestureRecognizers];
     }
     return self;
+}
+
+-(void) setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    self.foregroundView.frame = [self foregroundFrame];
+    self.backgroundView.frame = [self backgroundFrame];
+    self.collectionImage.frame = [self imageFrame];
+    self.collectionLabel.frame = [self labelFrame];
+    NSArray * buttonFrames = [self getActionButtonFrames];
+    self.shareButton.frame = [buttonFrames[0] CGRectValue];
+    self.renameButton.frame = [buttonFrames[1] CGRectValue];
+    self.deleteButton.frame = [buttonFrames[2] CGRectValue];
 }
 
 -(void) swippedLeft:(UISwipeGestureRecognizer *) sender
@@ -92,7 +105,7 @@
 
 -(void) addforgroundLayer
 {
-    CGRect foregroundFrame = self.bounds;
+    CGRect foregroundFrame = [self foregroundFrame];
     UIView * foregroundView = [[UIView alloc] initWithFrame:foregroundFrame];
     foregroundView.backgroundColor = [UIColor whiteColor];
     foregroundView = [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:foregroundView isOpen:NO];
@@ -102,12 +115,22 @@
     [self addLabelPlaceholder];
 }
 
+-(CGRect) foregroundFrame
+{
+    return self.bounds;
+}
+
 -(void) addBackgroundLayer
 {
-    CGRect backgroundFrame = self.bounds;
+    CGRect backgroundFrame = [self backgroundFrame];
     UIView * backgroundView = [[UIView alloc] initWithFrame:backgroundFrame];
     backgroundView.backgroundColor = [UIColor whiteColor];
     [self addSubview:backgroundView];
+}
+
+-(CGRect) backgroundFrame
+{
+    return self.bounds;
 }
 
 -(void) sharePressed:(id) sender
@@ -127,13 +150,9 @@
 
 -(void) addActionButtons
 {
-    CGSize buttonSize = CGSizeMake(self.bounds.size.width/9, self.bounds.size.height);
     
-    //add Button
-    CGRect addButtonFrame = CGRectMake(self.backgroundView.bounds.origin.x,
-                                       self.backgroundView.bounds.origin.y,
-                                       buttonSize.width,
-                                       buttonSize.height);
+    NSArray * frames = [self getActionButtonFrames];
+    CGRect  addButtonFrame = [frames[0] CGRectValue];
     UIButton * shareButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [shareButton addTarget:self
                   action:@selector(sharePressed:)
@@ -143,11 +162,8 @@
     //[shareButton setImageEdgeInsets:UIEdgeInsetsZero];
     shareButton.frame = addButtonFrame;
     
-    CGRect renameButtonFrame = CGRectMake(addButtonFrame.origin.x + addButtonFrame.size.width,
-                                          addButtonFrame.origin.y,
-                                          addButtonFrame.size.width,
-                                          addButtonFrame.size.height);
     //rename Button
+    CGRect renameButtonFrame = [frames[0] CGRectValue];
     UIButton * renameButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [renameButton addTarget:self
                action:@selector(renamePressed:)
@@ -156,18 +172,14 @@
     [renameButton setBackgroundImage:renameImg forState:UIControlStateNormal];
     renameButton.frame = renameButtonFrame;
     
-    //delete button
-    CGRect deleteButtonRect = CGRectMake(renameButtonFrame.origin.x + renameButtonFrame.size.width,
-                                          renameButtonFrame.origin.y,
-                                          renameButtonFrame.size.width,
-                                          renameButtonFrame.size.height);
     UIButton * deleteButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    CGRect deleteButtonFrame = [frames[2] CGRectValue];
     [deleteButton addTarget:self
                action:@selector(deletePressed:)
      forControlEvents:UIControlEventTouchDown];
     UIImage * deleteImage = [[ThemeFactory currentTheme] imageForMainScreenRowDeleteButton];
     [deleteButton setBackgroundImage:deleteImage forState:UIControlStateNormal];
-    deleteButton.frame = deleteButtonRect;
+    deleteButton.frame = deleteButtonFrame;
     
     self.shareButton = shareButton;
     self.renameButton = renameButton;
@@ -182,6 +194,29 @@
     [self hideButtons:NO];
 }
 
+-(NSArray *) getActionButtonFrames
+{
+    //add Button
+    CGSize buttonSize = CGSizeMake(self.bounds.size.width/9, self.bounds.size.height);
+    CGRect addButtonFrame = CGRectMake(self.backgroundView.bounds.origin.x,
+                                       self.backgroundView.bounds.origin.y,
+                                       buttonSize.width,
+                                       buttonSize.height);
+    NSValue * addButton = [NSValue valueWithCGRect:addButtonFrame];
+    
+    CGRect renameButtonFrame = CGRectMake(addButtonFrame.origin.x + addButtonFrame.size.width,
+                                          addButtonFrame.origin.y,
+                                          addButtonFrame.size.width,
+                                          addButtonFrame.size.height);
+    
+    NSValue * renameButton = [NSValue valueWithCGRect:renameButtonFrame];
+    CGRect deleteButtonFrame = CGRectMake(renameButtonFrame.origin.x + renameButtonFrame.size.width,
+                                          renameButtonFrame.origin.y,
+                                          renameButtonFrame.size.width,
+                                          renameButtonFrame.size.height);
+    NSValue * deleteButton = [NSValue valueWithCGRect:deleteButtonFrame];
+    return @[addButton, renameButton, deleteButton];
+}
 -(void) hideButtons:(BOOL) animated
 {
     self.shareButton.hidden = YES;
@@ -198,12 +233,7 @@
 
 -(void) addLabelPlaceholder
 {
-    CGSize labelSize = CGSizeMake(self.bounds.size.width - 2 * LABEL_INSET_HOR - self.collectionImage.frame.size.width,
-                                  self.bounds.size.height - 2 * LABEL_INSET_VER);
-    CGPoint labelOrigin = CGPointMake(self.bounds.origin.x + LABEL_INSET_HOR + self.collectionImage.frame.size.width,
-                                      LABEL_INSET_VER);
-    CGRect labelFrame = CGRectMake(labelOrigin.x, labelOrigin.y,
-                                   labelSize.width, labelSize.height);
+    CGRect labelFrame = [self labelFrame];
     UILabel * label = [[UILabel alloc] initWithFrame:labelFrame];
     label.backgroundColor = [UIColor clearColor];
     label.textAlignment = NSTextAlignmentCenter;
@@ -213,17 +243,33 @@
     self.collectionLabel = label;
 }
 
+-(CGRect) labelFrame
+{
+    CGSize labelSize = CGSizeMake(self.bounds.size.width - 2 * LABEL_INSET_HOR - self.collectionImage.frame.size.width,
+                                  self.bounds.size.height - 2 * LABEL_INSET_VER);
+    CGPoint labelOrigin = CGPointMake(self.bounds.origin.x + LABEL_INSET_HOR + self.collectionImage.frame.size.width,
+                                      LABEL_INSET_VER);
+    CGRect labelFrame = CGRectMake(labelOrigin.x, labelOrigin.y,
+                                   labelSize.width, labelSize.height);
+    return labelFrame;
+}
+
 -(void) addImagePlaceHolder
+{
+    CGRect imgFrame = [self imageFrame];
+    UIImageView * image = [[UIImageView alloc] initWithFrame:imgFrame];
+    
+    [self.foregroundView addSubview:image];
+    self.collectionImage = image;
+}
+
+-(CGRect) imageFrame
 {
     CGRect imgFrame = CGRectMake(self.bounds.origin.x + IMG_INSET_HOR,
                                  self.bounds.origin.y + IMG_INSET_VER,
                                  IMG_WIDTH,
                                  self.bounds.size.height - 2 * IMG_INSET_VER);
-    
-    UIImageView * image = [[UIImageView alloc] initWithFrame:imgFrame];
-    
-    [self.foregroundView addSubview:image];
-    self.collectionImage = image;
+    return imgFrame;
 }
 
 -(void) addGestureRecognizers

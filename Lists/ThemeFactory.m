@@ -11,9 +11,16 @@
 
 @implementation ThemeFactory
 
+static id<ITheme> currentTheme;
+
 +(id<ITheme>) currentTheme
 {
-    return [[GlassyTheme alloc] init];
+    static id<ITheme>  currentTheme = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        currentTheme = [GlassyTheme theme];
+    });
+    return currentTheme;
 }
 
 @end

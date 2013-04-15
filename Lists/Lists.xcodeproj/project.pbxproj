@@ -45,6 +45,7 @@
 		DB3CDB5F17112FED004CB440 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3CDB5E17112FED004CB440 /* QuartzCore.framework */; };
 		DB3CDB6717123FB8004CB440 /* ThemeFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3CDB6617123FB8004CB440 /* ThemeFactory.m */; };
 		DB3CDB6A17124001004CB440 /* GlassyTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3CDB6917124001004CB440 /* GlassyTheme.m */; };
+		DB488BAA171BA70900294966 /* ScrollViewRowRecycler.m in Sources */ = {isa = PBXBuildFile; fileRef = DB488BA9171BA70900294966 /* ScrollViewRowRecycler.m */; };
 		DBBDEFC41713BFAF009ADF1A /* ListsCollectionRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFC31713BFAF009ADF1A /* ListsCollectionRowView.m */; };
 		DBBDEFC91713D9F8009ADF1A /* Test.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBDEFC81713D9F8009ADF1A /* Test.png */; };
 		DBBDEFCC1713E367009ADF1A /* MainScreenListLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFCB1713E367009ADF1A /* MainScreenListLayout.m */; };
@@ -109,6 +110,8 @@
 		DB3CDB6617123FB8004CB440 /* ThemeFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeFactory.m; sourceTree = "<group>"; };
 		DB3CDB6817124001004CB440 /* GlassyTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlassyTheme.h; sourceTree = "<group>"; };
 		DB3CDB6917124001004CB440 /* GlassyTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlassyTheme.m; sourceTree = "<group>"; };
+		DB488BA8171BA70900294966 /* ScrollViewRowRecycler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewRowRecycler.h; sourceTree = "<group>"; };
+		DB488BA9171BA70900294966 /* ScrollViewRowRecycler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewRowRecycler.m; sourceTree = "<group>"; };
 		DBBDEFC21713BFAF009ADF1A /* ListsCollectionRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListsCollectionRowView.h; sourceTree = "<group>"; };
 		DBBDEFC31713BFAF009ADF1A /* ListsCollectionRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListsCollectionRowView.m; sourceTree = "<group>"; };
 		DBBDEFC81713D9F8009ADF1A /* Test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Test.png; sourceTree = "<group>"; };
@@ -253,9 +256,19 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		DB488BAB171BA71100294966 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				DB488BA8171BA70900294966 /* ScrollViewRowRecycler.h */,
+				DB488BA9171BA70900294966 /* ScrollViewRowRecycler.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		DBBDEFBF1713BF63009ADF1A /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				DB488BAB171BA71100294966 /* Utilities */,
 				DBEBB4BD1715265E00D0DFD5 /* Animation */,
 				DBBDEFCD1713E76E009ADF1A /* Layout */,
 				DBBDEFC11713BF81009ADF1A /* Views */,
@@ -463,6 +476,7 @@
 				DBBDEFC41713BFAF009ADF1A /* ListsCollectionRowView.m in Sources */,
 				DBBDEFCC1713E367009ADF1A /* MainScreenListLayout.m in Sources */,
 				DBEBB4C01715267500D0DFD5 /* AnimationHelper.m in Sources */,
+				DB488BAA171BA70900294966 /* ScrollViewRowRecycler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

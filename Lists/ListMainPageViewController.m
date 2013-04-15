@@ -13,14 +13,28 @@
 #import "ListsCollectionRowView.h"
 #import "MainScreenListLayout.h"
 #import "AnimationHelper.h"
+#import "ScrollViewRowRecycler.h"
 
 @interface ListMainPageViewController ()
+
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property int index;
+@property (strong, nonatomic) ScrollViewRowRecycler * recycler;
+
 @end
 
 @implementation ListMainPageViewController
+
+-(ScrollViewRowRecycler *) recycler
+{
+    if (_recycler == nil)
+    {
+        _recycler = [[ScrollViewRowRecycler alloc] init];
+    }
+    return _recycler;
+}
+
 
 - (IBAction)addPressed:(id)sender {
     
@@ -28,7 +42,8 @@
     [self moveRowsDown];
     CGRect firstFrame = [MainScreenListLayout frameForRowforIndex:0
                                                       inSuperView:self.scrollView];
-    ListsCollectionRowView * row = [[ListsCollectionRowView alloc] initWithFrame:firstFrame];
+    ListsCollectionRowView * row = [self.recycler dequeueRowForMainScreen];
+    row.frame = firstFrame;
     row.collectionLabel.text = [NSString stringWithFormat:@"%d",self.index];
     row.collectionImage.image = [UIImage imageNamed:@"Test.png"];
     row.index = 0;
@@ -107,7 +122,14 @@
 
 - (void) viewDidAppear:(BOOL)animated
 {
+    self.scrollView.delegate = self;
     [self.scrollView setContentSize:CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height)];
+}
+
+#pragma mark - scroll view delegate
+-(void) scrollViewDidScroll:(UIScrollView *)scrollView
+{
+  //  [self tileRows];
 }
 
 @end

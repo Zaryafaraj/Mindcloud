@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ListMainPageViewController : UIViewController
+@interface ListMainPageViewController : UIViewController <UIScrollViewDelegate>
 
 @end

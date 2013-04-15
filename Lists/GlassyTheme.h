@@ -11,4 +11,6 @@
 
 @interface GlassyTheme : NSObject <ITheme>
 
++(id<ITheme>) theme;
+
 @end

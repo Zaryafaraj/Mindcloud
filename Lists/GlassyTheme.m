@@ -11,6 +11,11 @@
 
 @implementation GlassyTheme
 
++(id<ITheme>) theme
+{
+    return [[GlassyTheme alloc] init];
+}
+
 -(UIImage *) imageForMainScreenRowDeleteButton
 {
     return [UIImage imageNamed:@"GlassyMainRowDelete.png"];
@@ -27,12 +32,13 @@
 -(UIView *) stylizeMainscreenRowForeground:(UIView *) view
                                     isOpen:(BOOL) isOpen
 {
+    view.layer.shouldRasterize = YES;
     if (isOpen)
     {
         view.layer.shadowColor = [UIColor blackColor].CGColor;
-        view.layer.shadowOffset = CGSizeMake(-2, 2);
+        view.layer.shadowOffset = CGSizeMake(-2, 1);
         view.layer.shadowOpacity =  1;
-        view.layer.shadowRadius = 2.0;
+        view.layer.shadowRadius = 1.0;
         return view;
     }
     else
@@ -48,6 +54,8 @@
 
 -(UIView *) stylizeMainScreenRowButton:(UIButton *) button
 {
+    
+        button.layer.shouldRasterize = YES;
         button.layer.shadowColor = [UIColor blackColor].CGColor;
         button.layer.shadowOffset = CGSizeMake(0, 1);
         button.layer.shadowOpacity = 1;
