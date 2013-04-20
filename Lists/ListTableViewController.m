@@ -6,26 +6,26 @@
 //  Copyright (c) 2013 MindCloud. All rights reserved.
 //
 
-#import "ListMainPageViewController.h"
+#import "ListTableViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "ThemeFactory.h"
 #import "ITheme.h"
 #import "MainScreenRow.h"
 #import "CenteredListTableViewLayoutManager.h"
 #import "ListTableSlideAnimationManager.h"
+#import "StubListTableViewDatasource.h"
 #import "ScrollViewRowRecycler.h"
 #import "ListRow.h"
 
-@interface ListMainPageViewController ()
+@interface ListTableViewController ()
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property int index;
 @property (strong, nonatomic) ScrollViewRowRecycler * recycler;
 
 @end
 
-@implementation ListMainPageViewController
+@implementation ListTableViewController
 
 -(ScrollViewRowRecycler *) recycler
 {
@@ -56,6 +56,15 @@
     return _animationManager;
 }
 
+-(id<ListTableViewDatasource>) dataSource
+{
+    if (_dataSource == nil)
+    {
+        _dataSource = [[StubListTableViewDatasource alloc] init];
+    }
+    return _dataSource;
+}
+
 - (IBAction)addPressed:(id)sender
 {
     [self addRowToTop];
@@ -65,19 +74,22 @@
 -(void) addRowToTop
 {
     [self.scrollView setContentOffset:CGPointZero animated:YES];
+    NSString * title = [NSString stringWithFormat:@"%d", 0];
+    [self.dataSource addItemWithTitle:title atIndex:0];
     [self moveRowsDown];
-    self.index++;
     [self.recycler recycleRows:self.scrollView];
 }
 
 -(void) removeRowFromIndex:(int)index
 {
-    
+    [self.dataSource removeItemAtIndex:index];
+    [self moveRowsUpAfterIndex:index];
+    [self.recycler recycleRows:self.scrollView];
 }
 
 - (void) moveRowsDown
 {
-    CGRect lowestFrame = CGRectMake(0, 0, 0, 0);
+    int lowestIndex = [self.dataSource count];
     for(UIView<ListRow> * row in self.scrollView.subviews)
     {
         if ([row conformsToProtocol:@protocol(ListRow)])
@@ -86,20 +98,24 @@
             CGRect frame = [self.layoutManager frameForRowforIndex:row.index
                                                        inSuperView:self.scrollView];
             row.text = [NSString stringWithFormat:@"%d",row.index];
-            if (frame.origin.x > lowestFrame.origin.x)
-            {
-                lowestFrame = frame;
-            }
+            [self.dataSource setTitle:row.text ForItemAtIndex:row.index];
             
             [self.animationManager slideMainScreenRowDown:row toFrame:frame];
         }
     }
-    [self extendScrollViewIfNecessaryForFrame: lowestFrame];
+    [self extendScrollViewIfNecessaryForIndex:lowestIndex];
 }
 
-- (void) extendScrollViewIfNecessaryForFrame:(CGRect) frame
+-(void) moveRowsUpAfterIndex:(int) index
+{
+    
+}
+
+- (void) extendScrollViewIfNecessaryForIndex:(int) index
 {
     CGSize contentSize = self.scrollView.contentSize;
+    CGRect frame = [self.layoutManager frameForRowforIndex:index
+                                               inSuperView:self.scrollView];
     CGPoint lowerPart = [self.layoutManager originForFrameAfterFrame:frame];
     if (lowerPart.y > self.scrollView.bounds.size.height)
     {
@@ -117,20 +133,8 @@
     CGFloat contentHeight = self.scrollView.bounds.size.height;
     self.scrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
     
-    CGRect lowestFrame = CGRectMake(0, 0, 0, 0);
-    for(id<ListRow> row in self.scrollView.subviews)
-    {
-        if ([row conformsToProtocol:@protocol(ListRow)])
-        {
-            CGRect frame = [self.layoutManager frameForRowforIndex:row.index
-                                                       inSuperView:self.scrollView];
-            if (frame.origin.x > lowestFrame.origin.x)
-            {
-                lowestFrame = frame;
-            }
-        }
-    }
-    [self extendScrollViewIfNecessaryForFrame: lowestFrame];
+    int lowestIndex = [self.dataSource count];
+    [self extendScrollViewIfNecessaryForIndex:lowestIndex];
     self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x, contentOffsetY);
 }
 
@@ -151,10 +155,10 @@
                   withPrototype:(UIView<ListRow> *)prototype
 {
     
-    if (index >= self.index) return nil;
+    if (index >= [self.dataSource count]) return nil;
     
-    prototype.text = [NSString stringWithFormat:@"%d",prototype.index];
-    prototype.image = [UIImage imageNamed:@"Test.png"];
+    prototype.text = [self.dataSource titleForItemAtIndex:index];
+    prototype.image = [self.dataSource imageForItemAtIndex:index];
     prototype.frame = [self.layoutManager frameForRowforIndex:index
                                                   inSuperView:self.scrollView];
     return prototype;

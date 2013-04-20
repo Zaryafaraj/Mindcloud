@@ -59,7 +59,8 @@
         if (![self isDisplayingRowForIndex:index])
         {
             UIView<ListRow> * prototype = [self dequeueRow];
-            UIView<ListRow> * recycledView = [self.delegate rowForIndex:index withPrototype:prototype];
+            UIView<ListRow> * recycledView = [self.delegate rowForIndex:index
+                                                          withPrototype:prototype];
             if (recycledView != nil)
             {
                 
@@ -91,7 +92,7 @@
 {
     if([self.recycledViews count] > 0)
     {
-        MainScreenRow * result = [self.recycledViews anyObject];
+        UIView<ListRow> * result = [self.recycledViews anyObject];
         [self.recycledViews removeObject:result];
         return result;
     }

@@ -328,4 +328,10 @@
 {
     [self closeView];
 }
+
+-(NSString *) description
+{
+    return self.collectionLabel.text;
+}
+
 @end

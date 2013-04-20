@@ -10,11 +10,14 @@
 #import "ScrollViewRecyclerDelegate.h"
 #import "ListTableViewLayoutManager.h"
 #import "ListTableAnimationManager.h"
+#import "ListTableViewDatasource.h"
 
-@interface ListMainPageViewController : UIViewController <UIScrollViewDelegate, ScrollViewRecyclerDelegate>
+@interface ListTableViewController : UIViewController <UIScrollViewDelegate, ScrollViewRecyclerDelegate>
 
 @property (nonatomic, strong) id<ListTableViewLayoutManager> layoutManager;
 @property (nonatomic, strong) id<ListTableAnimationManager> animationManager;
+
+@property (nonatomic, strong) id<ListTableViewDatasource> dataSource;
 
 -(void) addRowToTop;
 
