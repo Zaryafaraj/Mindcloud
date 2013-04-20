@@ -7,12 +7,11 @@
 //
 
 #import "ScrollViewRowRecycler.h"
-#import "MainScreenListLayout.h"
 
 @interface ScrollViewRowRecycler()
 
-@property NSMutableSet * visibleViewsForMainScreen;
-@property NSMutableSet * recycledViewsForMainScreen;
+@property NSMutableSet * visibleViews;
+@property NSMutableSet * recycledViews;
 
 @end
 
@@ -31,27 +30,76 @@
 -(id) init
 {
     self = [super init];
-    self.visibleViewsForMainScreen = [NSMutableSet set];
-    self.recycledViewsForMainScreen = [NSMutableSet set];
+    self.visibleViews = [NSMutableSet set];
+    self.recycledViews = [NSMutableSet set];
     return self;
 }
 
 -(void) recycleRows:(UIScrollView *)scrollView
 {
-    CGRect visibleBounds = scrollView.bounds;
-    int lowestIndex = [MainScreenListLayout lowestRowIndexInFrame:visibleBounds];
-    int highestIndex = [MainScreenListLayout highestRowIndexInFrame:visibleBounds];
-    NSLog(@"L: %d - H: %d", lowestIndex, highestIndex);
+    NSLog(@"Visible views --> %d", [self.visibleViews count]);
+    NSLog(@"Recycled views --> %d", [self.recycledViews count]);
+    int lowestIndex = [self.delegate lowestIndexInView];
+    int highestIndex = [self.delegate highestIndexInView];
+    
+    //recycle
+    for (UIView <ListRow> * row in self.visibleViews)
+    {
+        if (row.index < lowestIndex || row.index > highestIndex)
+        {
+            [self.recycledViews addObject:row];
+            [row removeFromSuperview];
+        }
+    }
+    [self.visibleViews minusSet:self.recycledViews];
+    
+    //add the new ones
+    for (int index = lowestIndex ; index <= highestIndex ; index++)
+    {
+        if (![self isDisplayingRowForIndex:index])
+        {
+            UIView<ListRow> * prototype = [self dequeueRow];
+            UIView<ListRow> * recycledView = [self.delegate rowForIndex:index withPrototype:prototype];
+            if (recycledView != nil)
+            {
+                
+                recycledView.index = index;
+                [scrollView addSubview:recycledView];
+                [self.visibleViews addObject:recycledView];
+            }
+            else
+            {
+                [self.recycledViews addObject:prototype];
+            }
+        }
+    }
 }
 
--(ListsCollectionRowView *) dequeueRowForMainScreen
+-(BOOL) isDisplayingRowForIndex:(int) index
 {
-    if([self.recycledViewsForMainScreen count] > 0)
+    for(UIView<ListRow> * row in self.visibleViews)
     {
-        ListsCollectionRowView * result = [self.recycledViewsForMainScreen anyObject];
+        if (row.index == index)
+        {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+-(UIView<ListRow> *) dequeueRow
+{
+    if([self.recycledViews count] > 0)
+    {
+        MainScreenRow * result = [self.recycledViews anyObject];
+        [self.recycledViews removeObject:result];
         return result;
     }
-    return [[ListsCollectionRowView alloc] init];
+    else
+    {
+        NSLog(@"Creating NEW");
+        return [self.prototype prototypeSelf];
+    }
 }
 
 @end

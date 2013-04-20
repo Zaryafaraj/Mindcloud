@@ -6,10 +6,13 @@
 //  Copyright (c) 2013 MindCloud. All rights reserved.
 //
 
-#import "ListsCollectionRowView.h"
-#import "AnimationHelper.h"
+#import "MainScreenRow.h"
+#import "ListTableSlideAnimationManager.h"
 #import "ThemeFactory.h"
 #import "ITheme.h"
+#import "ListTableAnimationManager.h"
+#import "ListRowSlideAnimationManager.h"
+
 
 #define LABEL_INSET_HOR 10
 #define LABEL_INSET_VER 10
@@ -17,8 +20,10 @@
 #define IMG_INSET_VER 5
 #define IMG_WIDTH 70
 
-@interface ListsCollectionRowView()
+@interface MainScreenRow()
 
+@property (strong, nonatomic) UILabel * collectionLabel;
+@property (strong, nonatomic) UIImageView * collectionImage;
 @property (strong, nonatomic) UIView * foregroundView;
 @property (strong, nonatomic) UIView * backgroundView;
 @property (strong, nonatomic) UIButton * shareButton;
@@ -27,7 +32,9 @@
 @property  BOOL isOpen;
 
 @end
-@implementation ListsCollectionRowView
+@implementation MainScreenRow
+
+@synthesize index = _index;
 
 -(id) init
 {
@@ -38,8 +45,29 @@
         [self addActionButtons];
         [self addforgroundLayer];
         [self addGestureRecognizers];
+        self.animationManager = [[ListRowSlideAnimationManager alloc] init];
     }
     return self;
+}
+
+-(void) setText:(NSString *)text
+{
+    self.collectionLabel.text = text;
+}
+
+-(void) setImage:(UIImage *)image
+{
+    self.collectionImage.image = image;
+}
+
+-(NSString *) text
+{
+    return self.collectionLabel.text;
+}
+
+-(UIImage *) image
+{
+    return self.collectionImage.image;
 }
 
 -(void) setFrame:(CGRect)frame
@@ -83,7 +111,7 @@
     {
         [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
                                                              isOpen:YES];
-        [AnimationHelper slideOpenMainScreenRow:self.foregroundView
+        [self.animationManager slideOpenMainScreenRow:self.foregroundView
                                     withButtons:@[self.shareButton, self.renameButton, self.deleteButton]];
         [self showButtons:YES];
         self.isOpen = YES;
@@ -97,7 +125,7 @@
         
         [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
                                                              isOpen:NO];
-        [AnimationHelper slideCloseMainScreenRow:self.foregroundView
+        [self.animationManager slideCloseMainScreenRow:self.foregroundView
                                      withButtons:@[self.shareButton, self.deleteButton, self.renameButton]];
         self.isOpen = NO;
     }
@@ -286,6 +314,14 @@
     [self addGestureRecognizer:rsgr];
     [self addGestureRecognizer:tgr];
     
+}
+
+-(UIView<ListRow> *) prototypeSelf
+{
+    MainScreenRow * prototype = [[MainScreenRow alloc] init];
+    prototype.frame = self.frame;
+    prototype.text = self.text;
+    return prototype;
 }
 
 -(void) reset

@@ -1,24 +1,16 @@
 //
-//  AnimationHelper.m
+//  ListRowSlideAnimationManager.m
 //  Lists
 //
-//  Created by Ali Fathalian on 4/9/13.
+//  Created by Ali Fathalian on 4/20/13.
 //  Copyright (c) 2013 MindCloud. All rights reserved.
 //
 
-#import "AnimationHelper.h"
+#import "ListRowSlideAnimationManager.h"
 
-@implementation AnimationHelper
+@implementation ListRowSlideAnimationManager
 
-+(void) slideMainScreenRowDown:(UIView *) row
-                       toFrame:(CGRect) frame
-{
-    [UIView animateWithDuration:0.25 animations:^{
-        row.frame = frame;
-    }];
-}
-
-+(void) slideOpenMainScreenRow:(UIView *) row withButtons:(NSArray *)buttons
+-(void) slideOpenMainScreenRow:(UIView *) row withButtons:(NSArray *)buttons
 {
     [UIView animateWithDuration:0.30
                           delay:0.0
@@ -31,7 +23,7 @@
                      } completion:nil];
 }
 
-+(void) slideCloseMainScreenRow:(UIView *) row withButtons:(NSArray *)buttons
+-(void) slideCloseMainScreenRow:(UIView *) row withButtons:(NSArray *)buttons
 {
     [UIView animateWithDuration:0.2
                           delay:0.0
