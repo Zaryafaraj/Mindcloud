@@ -19,4 +19,6 @@
 
 -(void) recycleRows:(UIScrollView *)scrollView;
 
+-(UIView<ListRow> *) dequeRowForAdditionTo:(UIScrollView *) scrollView
+                                   atIndex:(int) newRowIndex;
 @end

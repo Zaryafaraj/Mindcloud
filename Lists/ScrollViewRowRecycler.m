@@ -37,8 +37,6 @@
 
 -(void) recycleRows:(UIScrollView *)scrollView
 {
-    NSLog(@"Visible views --> %d", [self.visibleViews count]);
-    NSLog(@"Recycled views --> %d", [self.recycledViews count]);
     int lowestIndex = [self.delegate lowestIndexInView];
     int highestIndex = [self.delegate highestIndexInView];
     
@@ -74,6 +72,8 @@
             }
         }
     }
+    NSLog(@"Visible --> %d", [self.visibleViews count]);
+    NSLog(@"Recycled --> %d", [self.recycledViews count]);
 }
 
 -(BOOL) isDisplayingRowForIndex:(int) index
@@ -98,9 +98,65 @@
     }
     else
     {
-        NSLog(@"Creating NEW");
         return [self.prototype prototypeSelf];
     }
+}
+
+-(UIView<ListRow> *) dequeRowForAdditionTo:(UIScrollView *) scrollView
+                                   atIndex:(int) newRowIndex;
+{
+    
+    int lowestIndex = [self.delegate lowestIndexInView];
+    int highestIndex = [self.delegate highestIndexInView];
+
+    //recycle
+    for (UIView <ListRow> * row in self.visibleViews)
+    {
+        if (row.index < lowestIndex || row.index > highestIndex)
+        {
+            [self.recycledViews addObject:row];
+            [row removeFromSuperview];
+        }
+    }
+    [self.visibleViews minusSet:self.recycledViews];
+    
+    //add the new ones
+    for (int index = lowestIndex ; index <= highestIndex ; index++)
+    {
+        if (newRowIndex != index && ![self isDisplayingRowForIndex:index])
+        {
+            UIView<ListRow> * prototype = [self dequeueRow];
+            UIView<ListRow> * recycledView = [self.delegate rowForIndex:index
+                                                          withPrototype:prototype];
+            if (recycledView != nil)
+            {
+                recycledView.index = index;
+                [scrollView addSubview:recycledView];
+                [self.visibleViews addObject:recycledView];
+            }
+            else
+            {
+                [self.recycledViews addObject:prototype];
+            }
+        }
+    }
+    
+    UIView<ListRow> * result = nil;
+    if([self.recycledViews count] > 0)
+    {
+        result = [self.recycledViews anyObject];
+        [self.recycledViews removeObject:result];
+    }
+    else
+    {
+        result = [self.prototype prototypeSelf];
+    }
+    
+    [self.visibleViews addObject:result];
+    NSLog(@"Visible ==> %d", [self.visibleViews count]);
+    NSLog(@"Recycled ==> %d", [self.recycledViews count]);
+    return result;
+    
 }
 
 @end

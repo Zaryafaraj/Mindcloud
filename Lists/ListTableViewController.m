@@ -76,8 +76,17 @@
     [self.scrollView setContentOffset:CGPointZero animated:YES];
     NSString * title = [NSString stringWithFormat:@"%d", 0];
     [self.dataSource addItemWithTitle:title atIndex:0];
+    UIView<ListRow> * row =  [self.recycler dequeRowForAdditionTo:self.scrollView atIndex:0];
+    
+    row.text = title;
+    row.image = [self.dataSource imageForItemAtIndex:0];
+    row.index = 0;
+    CGRect frame = [self.layoutManager frameForRowforIndex:0
+                                                  inSuperView:self.scrollView];
+    row.frame = frame;
     [self moveRowsDown];
-    [self.recycler recycleRows:self.scrollView];
+    [self.scrollView addSubview:row];
+    //[self.recycler recycleRows:self.scrollView];
 }
 
 -(void) removeRowFromIndex:(int)index
@@ -104,6 +113,7 @@
         }
     }
     [self extendScrollViewIfNecessaryForIndex:lowestIndex];
+    //[self.recycler recycleRows:self.scrollView];
 }
 
 -(void) moveRowsUpAfterIndex:(int) index
