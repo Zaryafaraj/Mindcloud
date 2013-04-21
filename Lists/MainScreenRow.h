@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "ListRow.h"
 #import "ListRowAnimationManager.h"
+#import "MainScreenRowViewDelegate.h"
 
 @interface MainScreenRow : UIView <ListRow>
 
-@property (nonatomic, strong) id<ListRowAnimationManager> animationManager;
+@property (nonatomic, strong) id<MainScreenRowViewDelegate> delegate;
 
 @end

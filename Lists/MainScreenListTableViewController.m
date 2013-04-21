@@ -7,7 +7,7 @@
 //
 
 #import "MainScreenListTableViewController.h"
-
+#import "MainScreenRow.h"
 
 @interface MainScreenListTableViewController ()
 
@@ -16,6 +16,16 @@
 @end
 
 @implementation MainScreenListTableViewController
+
+-(id) initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        self.prototypeRow = [[MainScreenRow alloc] init];
+    }
+    return self;
+}
 
 - (IBAction)addPressed:(id)sender
 {

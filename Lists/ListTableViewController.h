@@ -19,6 +19,8 @@
 
 @property (nonatomic, strong) id<ListTableViewDatasource> dataSource;
 
+@property (nonatomic, strong) UIView<ListRow> * prototypeRow;
+
 -(void) addRowToTop;
 
 -(void) removeRowFromIndex: (int) index;

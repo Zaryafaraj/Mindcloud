@@ -105,6 +105,7 @@
 -(UIView<ListRow> *) dequeRowForAdditionTo:(UIScrollView *) scrollView
                                    atIndex:(int) newRowIndex;
 {
+    if (self.prototype == nil) return nil;
     
     int lowestIndex = [self.delegate lowestIndexInView];
     int highestIndex = [self.delegate highestIndexInView];

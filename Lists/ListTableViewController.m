@@ -10,7 +10,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "ThemeFactory.h"
 #import "ITheme.h"
-#import "MainScreenRow.h"
 #import "CenteredListTableViewLayoutManager.h"
 #import "ListTableSlideAnimationManager.h"
 #import "StubListTableViewDatasource.h"
@@ -25,13 +24,18 @@
 @end
 @implementation ListTableViewController
 
+-(void) setPrototypeRow:(UIView<ListRow> *)prototypeRow
+{
+    _prototypeRow = prototypeRow;
+    self.recycler.prototype = prototypeRow;
+}
+
 -(ScrollViewRowRecycler *) recycler
 {
     if (_recycler == nil)
     {
         _recycler = [[ScrollViewRowRecycler alloc] init];
         _recycler.delegate = self;
-        _recycler.prototype = [[MainScreenRow alloc] init];
     }
     return _recycler;
 }

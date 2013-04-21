@@ -132,6 +132,7 @@
 		DBBDEFCB1713E367009ADF1A /* CenteredListTableViewLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenteredListTableViewLayoutManager.m; sourceTree = "<group>"; };
 		DBE5680D172490140009050F /* ListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = ListTableViewController.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		DBE5680E172490140009050F /* ListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = ListTableViewController.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		DBE5681017249B0F0009050F /* MainScreenRowViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenRowViewDelegate.h; sourceTree = "<group>"; };
 		DBEBB4BE1715267500D0DFD5 /* ListTableSlideAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableSlideAnimationManager.h; sourceTree = "<group>"; };
 		DBEBB4BF1715267500D0DFD5 /* ListTableSlideAnimationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListTableSlideAnimationManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -315,6 +316,7 @@
 				DBBDEFC21713BFAF009ADF1A /* MainScreenRow.h */,
 				DBBDEFC31713BFAF009ADF1A /* MainScreenRow.m */,
 				DB9661E317226EDE00C04AC3 /* ListRow.h */,
+				DBE5681017249B0F0009050F /* MainScreenRowViewDelegate.h */,
 			);
 			name = Views;
 			sourceTree = "<group>";

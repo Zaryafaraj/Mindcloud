@@ -35,6 +35,7 @@
 @implementation MainScreenRow
 
 @synthesize index = _index;
+@synthesize animationManager = _animationManager;
 
 -(id) init
 {
@@ -178,17 +179,17 @@
 
 -(void) sharePressed:(id) sender
 {
-    NSLog(@"Add");
+    [self.delegate sharePressed:self];
 }
 
 -(void) deletePressed:(id) sender
 {
-    NSLog(@"Delete");
+    [self.delegate deletePressed:self];
 }
 
 -(void) renamePressed:(id) sender
 {
-    NSLog(@"Rename");
+    [self.delegate renamePressed:self];
 }
 
 -(void) addActionButtons

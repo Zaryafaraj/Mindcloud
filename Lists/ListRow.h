@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ListRowAnimationManager.h"
 
 @protocol ListRow <NSObject>
 
 @property (strong, nonatomic) NSString * text;
 @property NSInteger index;
-
+@property (nonatomic, strong) id<ListRowAnimationManager> animationManager;
 -(UIView<ListRow> *) prototypeSelf;
 
 @optional
