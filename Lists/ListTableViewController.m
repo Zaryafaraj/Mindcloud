@@ -73,7 +73,9 @@
 
 -(void) addRowToTop
 {
-    [self.scrollView setContentOffset:CGPointZero animated:YES];
+    [self.scrollView setContentOffset:CGPointZero animated:NO];
+    [self moveRowsDown];
+    
     NSString * title = [NSString stringWithFormat:@"%d", 0];
     [self.dataSource addItemWithTitle:title atIndex:0];
     UIView<ListRow> * row =  [self.recycler dequeRowForAdditionTo:self.scrollView atIndex:0];
@@ -83,10 +85,10 @@
     row.index = 0;
     CGRect frame = [self.layoutManager frameForRowforIndex:0
                                                   inSuperView:self.scrollView];
-    row.frame = frame;
-    [self moveRowsDown];
-    [self.scrollView addSubview:row];
-    //[self.recycler recycleRows:self.scrollView];
+    [self.animationManager animateAdditionForRow:row
+                                         toFrame:frame
+                                     inSuperView:self.scrollView
+                           withCompletionHandler:^{}];
 }
 
 -(void) removeRowFromIndex:(int)index

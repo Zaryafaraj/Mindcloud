@@ -83,6 +83,20 @@
     self.deleteButton.frame = [buttonFrames[2] CGRectValue];
 }
 
+-(void) setAlpha:(CGFloat)alpha
+{
+    //don't invoke super
+    //because there are views with alpha zero on top of these
+    //[super setAlpha:alpha];
+    self.foregroundView.alpha = alpha;
+    self.backgroundView.alpha = alpha;
+    self.collectionImage.alpha = alpha;
+    self.collectionLabel.alpha = alpha;
+    self.shareButton.alpha = alpha;
+    self.renameButton.alpha = alpha;
+    self.deleteButton.alpha = alpha;
+}
+
 -(void) swippedLeft:(UISwipeGestureRecognizer *) sender
 {
     if (sender.state == UIGestureRecognizerStateChanged ||
