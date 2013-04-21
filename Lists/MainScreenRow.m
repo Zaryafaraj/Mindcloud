@@ -73,6 +73,7 @@
 -(void) setFrame:(CGRect)frame
 {
     [super setFrame:frame];
+    [self closeView];
     self.foregroundView.frame = [self foregroundFrame];
     self.backgroundView.frame = [self backgroundFrame];
     self.collectionImage.frame = [self imageFrame];
