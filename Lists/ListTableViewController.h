@@ -1,15 +1,15 @@
 //
-//  ListMainPageViewController.h
-//  Lists
+//  ListTableViewController.h
+//  
 //
-//  Created by Ali Fathalian on 4/6/13.
-//  Copyright (c) 2013 MindCloud. All rights reserved.
+//  Created by Ali Fathalian on 4/21/13.
+//
 //
 
-#import <UIKit/UIKit.h>
+
 #import "ScrollViewRecyclerDelegate.h"
-#import "ListTableViewLayoutManager.h"
 #import "ListTableAnimationManager.h"
+#import "ListTableViewLayoutManager.h"
 #import "ListTableViewDatasource.h"
 
 @interface ListTableViewController : UIViewController <UIScrollViewDelegate, ScrollViewRecyclerDelegate>

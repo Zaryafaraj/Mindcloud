@@ -1,9 +1,9 @@
 //
-//  ListMainPageViewController.m
-//  Lists
+//  ListTableViewController.m
+//  
 //
-//  Created by Ali Fathalian on 4/6/13.
-//  Copyright (c) 2013 MindCloud. All rights reserved.
+//  Created by Ali Fathalian on 4/21/13.
+//
 //
 
 #import "ListTableViewController.h"
@@ -19,12 +19,10 @@
 
 @interface ListTableViewController ()
 
-@property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) ScrollViewRowRecycler * recycler;
 
 @end
-
 @implementation ListTableViewController
 
 -(ScrollViewRowRecycler *) recycler
@@ -65,12 +63,6 @@
     return _dataSource;
 }
 
-- (IBAction)addPressed:(id)sender
-{
-    [self addRowToTop];
-}
-
-
 -(void) addRowToTop
 {
     [self.scrollView setContentOffset:CGPointZero animated:NO];
@@ -84,7 +76,7 @@
     row.image = [self.dataSource imageForItemAtIndex:0];
     row.index = 0;
     CGRect frame = [self.layoutManager frameForRowforIndex:0
-                                                  inSuperView:self.scrollView];
+                                               inSuperView:self.scrollView];
     [self.animationManager animateAdditionForRow:row
                                          toFrame:frame
                                      inSuperView:self.scrollView
@@ -185,5 +177,4 @@
 {
     return [self.layoutManager highestRowIndexInFrame:self.scrollView.bounds];
 }
-
 @end
