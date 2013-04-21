@@ -7,14 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ScrollViewRecyclerDelegate.h"
-#import "ListTableViewLayoutManager.h"
-#import "ListTableAnimationManager.h"
-#import "ListTableViewDatasource.h"
-
+#import "MainScreenRowViewDelegate.h"
 #import "ListTableViewController.h"
 
-@interface MainScreenListTableViewController : ListTableViewController 
+@interface MainScreenListTableViewController : ListTableViewController <MainScreenRowViewDelegate>
 
 
 @end

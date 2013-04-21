@@ -10,8 +10,8 @@
 
 @implementation ListTableSlideAnimationManager
 
--(void) slideMainScreenRowDown:(UIView *) row
-                       toFrame:(CGRect) frame
+-(void) slideMainScreenRow:(UIView *) row
+                   toFrame:(CGRect) frame
 {
     [UIView animateWithDuration:0.25 animations:^{
         row.frame = frame;
@@ -22,7 +22,7 @@
 -(void) animateAdditionForRow:(UIView *) row
                       toFrame:(CGRect) frame
                   inSuperView:(UIView *) superView
-        withCompletionHandler:(add_collection_callback) callback
+        withCompletionHandler:(row_modification_callback) callback
 {
     [superView addSubview:row];
     row.alpha = 0;
@@ -30,6 +30,20 @@
     [UIView animateWithDuration:0.4 animations:^{
         row.alpha = 1;
         row.frame = frame;
+    }];
+}
+
+-(void) animateRemovalForRow:(UIView *) row
+                  inSuperView:(UIView *) superView
+       withCompletionHandler:(row_modification_callback) callback
+{
+    [UIView animateWithDuration:0.25 animations:^{
+        row.alpha = 0;
+    }completion:^(BOOL finished){
+        if (finished)
+        {
+            callback();
+        }
     }];
 }
 @end

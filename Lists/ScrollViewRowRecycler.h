@@ -21,4 +21,8 @@
 
 -(UIView<ListRow> *) dequeRowForAdditionTo:(UIScrollView *) scrollView
                                    atIndex:(int) newRowIndex;
+
+-(void) returnRowForRecyling:(UIView<ListRow> *) row
+                inScrollView:(UIScrollView *) scrollView;
+
 @end

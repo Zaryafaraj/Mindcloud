@@ -22,7 +22,9 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        self.prototypeRow = [[MainScreenRow alloc] init];
+        MainScreenRow * row = [[MainScreenRow alloc] init];
+        row.delegate = self;
+        self.prototypeRow =row;
     }
     return self;
 }
@@ -30,6 +32,22 @@
 - (IBAction)addPressed:(id)sender
 {
     [self addRowToTop];
+}
+
+#pragma mark - MainScreenRow Delegate
+-(void) deletePressed:(MainScreenRow *)sender
+{
+    [self removeRow:sender];
+}
+
+-(void) sharePressed:(MainScreenRow *)sender
+{
+    
+}
+
+-(void) renamePressed:(MainScreenRow *)sender
+{
+    
 }
 
 @end

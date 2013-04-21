@@ -1,6 +1,6 @@
 //
 //  ListTableViewController.m
-//  
+//
 //
 //  Created by Ali Fathalian on 4/21/13.
 //
@@ -87,11 +87,19 @@
                            withCompletionHandler:^{}];
 }
 
--(void) removeRowFromIndex:(int)index
+-(void) removeRow:(UIView<ListRow> *) row
 {
-    [self.dataSource removeItemAtIndex:index];
-    [self moveRowsUpAfterIndex:index];
-    [self.recycler recycleRows:self.scrollView];
+    int index = row.index;
+    //get the frame
+    [self.animationManager animateRemovalForRow:row
+                                    inSuperView:self.scrollView
+                          withCompletionHandler:^{
+                              [self.dataSource removeItemAtIndex:index];
+                              [row removeFromSuperview];
+                              [self moveRowsUpAfterIndex:index];
+                              [self.recycler returnRowForRecyling:row
+                                                     inScrollView:self.scrollView];
+                          }];
 }
 
 - (void) moveRowsDown
@@ -107,19 +115,35 @@
             row.text = [NSString stringWithFormat:@"%d",row.index];
             [self.dataSource setTitle:row.text ForItemAtIndex:row.index];
             
-            [self.animationManager slideMainScreenRowDown:row toFrame:frame];
+            [self.animationManager slideMainScreenRow:row toFrame:frame];
         }
     }
-    [self extendScrollViewIfNecessaryForIndex:lowestIndex];
-    //[self.recycler recycleRows:self.scrollView];
+    [self adjustScrollViewForLowestIndex:lowestIndex];
 }
 
 -(void) moveRowsUpAfterIndex:(int) index
 {
-    
+    int lowestIndex = [self.dataSource count];
+    for(UIView<ListRow> * row in self.scrollView.subviews)
+    {
+        if ([row conformsToProtocol:@protocol(ListRow)])
+        {
+            if (row.index > index)
+            {
+                row.index--;
+                CGRect frame = [self.layoutManager frameForRowforIndex:row.index
+                                                           inSuperView:self.scrollView];
+                row.text = [NSString stringWithFormat:@"%d",row.index];
+                [self.dataSource setTitle:row.text ForItemAtIndex:row.index];
+                
+                [self.animationManager slideMainScreenRow:row toFrame:frame];
+            }
+        }
+    }
+    [self adjustScrollViewForLowestIndex:lowestIndex];
 }
 
-- (void) extendScrollViewIfNecessaryForIndex:(int) index
+- (void) adjustScrollViewForLowestIndex:(int) index
 {
     CGSize contentSize = self.scrollView.contentSize;
     CGRect frame = [self.layoutManager frameForRowforIndex:index
@@ -142,7 +166,7 @@
     self.scrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
     
     int lowestIndex = [self.dataSource count];
-    [self extendScrollViewIfNecessaryForIndex:lowestIndex];
+    [self adjustScrollViewForLowestIndex:lowestIndex];
     self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x, contentOffsetY);
 }
 

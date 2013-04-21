@@ -160,4 +160,45 @@
     
 }
 
+-(void) returnRowForRecyling:(UIView<ListRow> *) row
+                inScrollView:(UIScrollView *) scrollView
+{
+    
+    [self.visibleViews removeObject:row];
+    
+    int lowestIndex = [self.delegate lowestIndexInView];
+    int highestIndex = [self.delegate highestIndexInView];
+
+    //recycle
+    for (UIView <ListRow> * row in self.visibleViews)
+    {
+        if (row.index < lowestIndex || row.index > highestIndex)
+        {
+            [self.recycledViews addObject:row];
+            [row removeFromSuperview];
+        }
+    }
+    [self.visibleViews minusSet:self.recycledViews];
+    
+    //add the new ones
+    for (int index = lowestIndex ; index <= highestIndex ; index++)
+    {
+        if (![self isDisplayingRowForIndex:index])
+        {
+            UIView<ListRow> * prototype = [self dequeueRow];
+            UIView<ListRow> * recycledView = [self.delegate rowForIndex:index
+                                                          withPrototype:prototype];
+            if (recycledView != nil)
+            {
+                recycledView.index = index;
+                [scrollView addSubview:recycledView];
+                [self.visibleViews addObject:recycledView];
+            }
+            else
+            {
+                [self.recycledViews addObject:prototype];
+            }
+        }
+    }
+}
 @end

@@ -337,6 +337,7 @@
     MainScreenRow * prototype = [[MainScreenRow alloc] init];
     prototype.frame = self.frame;
     prototype.text = self.text;
+    prototype.delegate = self.delegate;
     return prototype;
 }
 

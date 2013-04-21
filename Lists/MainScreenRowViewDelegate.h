@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MainScreenRow.h"
+#import "ListRow.h"
 
 @protocol MainScreenRowViewDelegate <NSObject>
 
--(void) deletePressed:(MainScreenRow *) sender;
--(void) renamePressed:(MainScreenRow *) sender;
--(void) sharePressed:(MainScreenRow *) sender;
+-(void) deletePressed:(UIView<ListRow> *) sender;
+-(void) renamePressed:(UIView<ListRow> *) sender;
+-(void) sharePressed:(UIView<ListRow> *) sender;
 
 @end

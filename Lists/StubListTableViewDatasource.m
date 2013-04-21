@@ -104,7 +104,10 @@
         }
         
         NSNumber * newIndexObj = [NSNumber numberWithInt:newIndex];
-        newModel[newIndexObj] = self.model[index];
+        if (newIndex >= 0)
+        {
+            newModel[newIndexObj] = self.model[index];
+        }
     }
     self.model = newModel;
     

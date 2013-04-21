@@ -23,6 +23,6 @@
 
 -(void) addRowToTop;
 
--(void) removeRowFromIndex: (int) index;
+-(void) removeRow:(UIView<ListRow> *) row;
 
 @end

@@ -8,15 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^add_collection_callback)(void);
+typedef void (^row_modification_callback)(void);
 
 @protocol ListTableAnimationManager <NSObject>
 
--(void) slideMainScreenRowDown:(UIView *) row
-                       toFrame:(CGRect) frame;
+-(void) slideMainScreenRow:(UIView *) row
+                   toFrame:(CGRect) frame;
 
 -(void) animateAdditionForRow:(UIView *) row
                       toFrame:(CGRect) fram
                   inSuperView:(UIView *) superView
-        withCompletionHandler:(add_collection_callback) callback;
+        withCompletionHandler:(row_modification_callback) callback;
+
+-(void) animateRemovalForRow:(UIView *) row
+                  inSuperView:(UIView *) superView
+       withCompletionHandler:(row_modification_callback) callback;
 @end
