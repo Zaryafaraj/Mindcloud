@@ -75,6 +75,7 @@
         <class className="MainScreenListTableViewController" superclassName="ListTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainScreenListTableViewController.h"/>
             <relationships>
+                <relationship kind="action" name="addPressed:"/>
                 <relationship kind="outlet" name="navigationBar" candidateClass="UINavigationBar"/>
             </relationships>
         </class>

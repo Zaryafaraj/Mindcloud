@@ -23,6 +23,7 @@
     if (self)
     {
         MainScreenRow * row = [[MainScreenRow alloc] init];
+        self.navigationBar.alpha = 0.7;
         row.delegate = self;
         self.prototypeRow =row;
     }

@@ -12,6 +12,7 @@
 #import "ITheme.h"
 #import "ListTableAnimationManager.h"
 #import "ListRowSlideAnimationManager.h"
+#import <QuartzCore/QuartzCore.h>
 
 
 #define LABEL_INSET_HOR 10

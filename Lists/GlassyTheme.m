@@ -33,6 +33,7 @@
                                     isOpen:(BOOL) isOpen
 {
     view.layer.shouldRasterize = YES;
+    view.layer.cornerRadius = 5;
     if (isOpen)
     {
         view.layer.shadowColor = [UIColor blackColor].CGColor;
@@ -55,6 +56,8 @@
 -(UIView *) stylizeMainScreenRowButton:(UIButton *) button
 {
     
+    
+        button.layer.cornerRadius = 3;
         button.layer.shouldRasterize = YES;
         button.layer.shadowColor = [UIColor blackColor].CGColor;
         button.layer.shadowOffset = CGSizeMake(0, 1);

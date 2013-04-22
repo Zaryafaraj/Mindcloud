@@ -7,6 +7,8 @@
 //
 
 #import "ListTableSlideAnimationManager.h"
+#import <QuartzCore/QuartzCore.h>
+#import <QuartzCore/CAAnimation.h>
 
 @implementation ListTableSlideAnimationManager
 
@@ -25,16 +27,33 @@
         withCompletionHandler:(row_modification_callback) callback
 {
     [superView addSubview:row];
-    row.alpha = 0;
-    row.frame = CGRectMake(-frame.origin.x,frame.origin.y, frame.size.width, frame.size.height);
-    [UIView animateWithDuration:0.4 animations:^{
-        row.alpha = 1;
-        row.frame = frame;
-    }];
+    row.frame = CGRectMake(0, frame.origin.y, frame.size.width, frame.size.height);
+    
+    CALayer * layer = row.layer;
+    
+    layer.anchorPoint = CGPointMake(0, 0);
+    
+    CABasicAnimation * translationAnime = [CABasicAnimation animationWithKeyPath:@"position"];
+    translationAnime.fromValue = [NSValue valueWithCGPoint:CGPointMake(0, frame.origin.y)];
+    translationAnime.toValue = [NSValue valueWithCGPoint:CGPointMake(frame.origin.x, frame.origin.y)];
+    translationAnime.duration = 0.3;
+    
+    CABasicAnimation * alphaAnime = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    alphaAnime.fromValue = [NSNumber numberWithFloat:0];
+    alphaAnime.toValue = [NSNumber numberWithFloat:1];
+    alphaAnime.duration = 0.3;
+    
+    [layer addAnimation:translationAnime forKey:@"translation"];
+    [layer addAnimation:alphaAnime forKey:@"opacity"];
+    row.frame = frame;
+    //    [CATransaction setAnimationDuration:5];
+    //    layer.position= CGPointMake(frame.origin.x, frame.origin.y);
+    //    layer.opacity = 1;
+    //    row.frame = frame;
 }
 
 -(void) animateRemovalForRow:(UIView *) row
-                  inSuperView:(UIView *) superView
+                 inSuperView:(UIView *) superView
        withCompletionHandler:(row_modification_callback) callback
 {
     [UIView animateWithDuration:0.25 animations:^{
