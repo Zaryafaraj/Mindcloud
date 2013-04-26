@@ -45,8 +45,8 @@
     {
         if (row.index < lowestIndex || row.index > highestIndex)
         {
-            [self.recycledViews addObject:row];
             [row removeFromSuperview];
+            [self.recycledViews addObject:row];
         }
     }
     [self.visibleViews minusSet:self.recycledViews];
@@ -68,6 +68,7 @@
             }
             else
             {
+                [prototype removeFromSuperview];
                 [self.recycledViews addObject:prototype];
             }
         }
@@ -94,6 +95,7 @@
     {
         UIView<ListRow> * result = [self.recycledViews anyObject];
         [self.recycledViews removeObject:result];
+        [result removeFromSuperview];
         return result;
     }
     else

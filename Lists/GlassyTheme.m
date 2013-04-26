@@ -40,6 +40,8 @@
         view.layer.shadowOffset = CGSizeMake(-2, 1);
         view.layer.shadowOpacity =  1;
         view.layer.shadowRadius = 1.0;
+        view.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:view.layer.bounds
+                                                           cornerRadius:view.layer.cornerRadius].CGPath;
         return view;
     }
     else
@@ -48,6 +50,8 @@
         view.layer.shadowOffset = CGSizeMake(0, 1);
         view.layer.shadowOpacity = 1;
         view.layer.shadowRadius = 1.0;
+        view.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:view.layer.bounds
+                                                           cornerRadius:view.layer.cornerRadius].CGPath;
         view.clipsToBounds = NO;
         return view;
     }
@@ -56,7 +60,7 @@
 -(UIView *) stylizeMainScreenRowButton:(UIButton *) button
 {
     
-    
+        //button.layer.shadowPath = [UIBezierPath bezierPathWithRect:button.bounds].CGPath;
         button.layer.cornerRadius = 3;
         button.layer.shouldRasterize = YES;
         button.layer.shadowColor = [UIColor blackColor].CGColor;

@@ -14,6 +14,7 @@
 @property (strong, nonatomic) NSString * text;
 @property NSInteger index;
 @property (nonatomic, strong) id<ListRowAnimationManager> animationManager;
+@property (nonatomic, strong) UIView * foregroundView;
 -(UIView<ListRow> *) prototypeSelf;
 
 @optional

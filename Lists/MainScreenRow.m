@@ -25,7 +25,6 @@
 
 @property (strong, nonatomic) UILabel * collectionLabel;
 @property (strong, nonatomic) UIImageView * collectionImage;
-@property (strong, nonatomic) UIView * foregroundView;
 @property (strong, nonatomic) UIView * backgroundView;
 @property (strong, nonatomic) UIButton * shareButton;
 @property (strong, nonatomic) UIButton * deleteButton;
@@ -37,6 +36,7 @@
 
 @synthesize index = _index;
 @synthesize animationManager = _animationManager;
+@synthesize foregroundView = _foregroundView;
 
 -(id) init
 {
@@ -84,6 +84,7 @@
     self.shareButton.frame = [buttonFrames[0] CGRectValue];
     self.renameButton.frame = [buttonFrames[1] CGRectValue];
     self.deleteButton.frame = [buttonFrames[2] CGRectValue];
+    [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView isOpen:NO];
 }
 
 -(void) setAlpha:(CGFloat)alpha
@@ -153,11 +154,11 @@
     CGRect foregroundFrame = [self foregroundFrame];
     UIView * foregroundView = [[UIView alloc] initWithFrame:foregroundFrame];
     foregroundView.backgroundColor = [UIColor whiteColor];
-    foregroundView = [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:foregroundView isOpen:NO];
     [self addSubview:foregroundView];
     self.foregroundView = foregroundView;
     [self addImagePlaceHolder];
     [self addLabelPlaceholder];
+    [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView isOpen:NO];
 }
 
 -(CGRect) foregroundFrame

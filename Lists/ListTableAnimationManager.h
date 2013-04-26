@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ListRow.h"
 
 typedef void (^row_modification_callback)(void);
 
@@ -15,12 +16,12 @@ typedef void (^row_modification_callback)(void);
 -(void) slideMainScreenRow:(UIView *) row
                    toFrame:(CGRect) frame;
 
--(void) animateAdditionForRow:(UIView *) row
+-(void) animateAdditionForRow:(UIView<ListRow> *) row
                       toFrame:(CGRect) fram
                   inSuperView:(UIView *) superView
         withCompletionHandler:(row_modification_callback) callback;
 
--(void) animateRemovalForRow:(UIView *) row
+-(void) animateRemovalForRow:(UIView<ListRow> *) row
                   inSuperView:(UIView *) superView
        withCompletionHandler:(row_modification_callback) callback;
 @end
