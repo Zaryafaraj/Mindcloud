@@ -133,7 +133,6 @@
             if (recycledView != nil)
             {
                 recycledView.index = index;
-                [scrollView addSubview:recycledView];
                 [self.visibleViews addObject:recycledView];
             }
             else

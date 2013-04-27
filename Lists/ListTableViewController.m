@@ -190,6 +190,7 @@
     
     if (index >= [self.dataSource count]) return nil;
     
+    NSLog(@"Adding Row");
     prototype.text = [self.dataSource titleForItemAtIndex:index];
     prototype.image = [self.dataSource imageForItemAtIndex:index];
     prototype.frame = [self.layoutManager frameForRowforIndex:index

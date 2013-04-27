@@ -37,7 +37,6 @@
     view.layer.cornerRadius = 5;
     if (isOpen)
     {
-        NSLog(@"O : %f", openBounds.size.width);
         view.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:openBounds
                                                            cornerRadius:view.layer.cornerRadius].CGPath;
         view.layer.shadowPath = nil;
@@ -49,9 +48,7 @@
     }
     else
     {
-        CGRect oldRect = view.layer.bounds;
         CGRect newRect = view.superview.layer.bounds;
-        NSLog(@"C : %f", newRect.size.width);
         view.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:newRect
                                                            cornerRadius:view.layer.cornerRadius].CGPath;
         view.layer.shadowColor = [UIColor blackColor].CGColor;
