@@ -31,28 +31,32 @@
 
 -(UIView *) stylizeMainscreenRowForeground:(UIView *) view
                                     isOpen:(BOOL) isOpen
+                              withOpenBounds:(CGRect) openBounds
 {
     view.layer.shouldRasterize = YES;
     view.layer.cornerRadius = 5;
     if (isOpen)
     {
+        NSLog(@"O : %f", openBounds.size.width);
+        view.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:openBounds
+                                                           cornerRadius:view.layer.cornerRadius].CGPath;
+        view.layer.shadowPath = nil;
         view.layer.shadowColor = [UIColor blackColor].CGColor;
         view.layer.shadowOffset = CGSizeMake(-2, 1);
         view.layer.shadowOpacity =  1;
         view.layer.shadowRadius = 1.0;
-        view.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:view.layer.bounds
-                                                           cornerRadius:view.layer.cornerRadius].CGPath;
         return view;
     }
     else
     {
+        CGRect newRect = view.superview.layer.bounds;
+        NSLog(@"C : %f", newRect.size.width);
+        view.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:newRect
+                                                           cornerRadius:view.layer.cornerRadius].CGPath;
         view.layer.shadowColor = [UIColor blackColor].CGColor;
         view.layer.shadowOffset = CGSizeMake(0, 1);
         view.layer.shadowOpacity = 1;
         view.layer.shadowRadius = 1.0;
-        view.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:view.layer.bounds
-                                                           cornerRadius:view.layer.cornerRadius].CGPath;
-        view.clipsToBounds = NO;
         return view;
     }
 }

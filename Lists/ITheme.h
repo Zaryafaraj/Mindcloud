@@ -15,7 +15,8 @@
 -(UIImage *) imageForMainscreenRowRenameButton;
 
 -(UIView *) stylizeMainscreenRowForeground:(UIView *) view
-                                    isOpen:(BOOL) isOpen;
+                                    isOpen:(BOOL) isOpen
+                              withOpenBounds:(CGRect) openSize;
 
 -(UIView *) stylizeMainScreenRowButton:(UIButton *) button;
 

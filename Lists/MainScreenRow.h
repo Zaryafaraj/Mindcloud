@@ -10,9 +10,12 @@
 #import "ListRow.h"
 #import "ListRowAnimationManager.h"
 #import "MainScreenRowViewDelegate.h"
+#import "ListTableRowLayoutManager.h"
 
 @interface MainScreenRow : UIView <ListRow>
 
 @property (nonatomic, strong) id<MainScreenRowViewDelegate> delegate;
+
+@property (nonatomic, strong) id<ListTableRowLayoutManager> layoutManager;
 
 @end

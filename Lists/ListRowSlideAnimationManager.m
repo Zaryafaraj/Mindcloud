@@ -10,20 +10,23 @@
 
 @implementation ListRowSlideAnimationManager
 
--(void) slideOpenMainScreenRow:(UIView *) row withButtons:(NSArray *)buttons
+
+
+-(void) slideOpenMainScreenRow:(UIView *) row
+                   withButtons: (NSArray *) buttons
+                        toRect:(CGRect) openRect;
 {
     [UIView animateWithDuration:0.30
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         row.frame = CGRectMake(row.frame.origin.x + row.frame.size.width/3,
-                                                row.frame.origin.y,
-                                                row.frame.size.width - row.frame.size.width/3,
-                                                row.frame.size.height);
+                         row.frame = openRect;
                      } completion:nil];
 }
 
--(void) slideCloseMainScreenRow:(UIView *) row withButtons:(NSArray *)buttons
+-(void) slideCloseMainScreenRow:(UIView *) row
+                    withButtons: (NSArray *) buttons
+                 withCompletion:(row_animation_completion_callback) callback;
 {
     [UIView animateWithDuration:0.2
                           delay:0.0
@@ -35,6 +38,7 @@
                          {
                              button.hidden = YES;
                          }
+                         callback();
                      }];
 }
 @end

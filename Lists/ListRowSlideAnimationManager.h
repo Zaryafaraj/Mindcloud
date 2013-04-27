@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ListRowAnimationManager.h"
 
+
 @interface ListRowSlideAnimationManager : NSObject <ListRowAnimationManager>
 
 @end

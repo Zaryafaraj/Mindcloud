@@ -19,4 +19,5 @@
 
 - (int) highestRowIndexInFrame:(CGRect) frame;
 
+
 @end

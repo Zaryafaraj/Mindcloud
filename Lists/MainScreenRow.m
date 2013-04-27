@@ -13,6 +13,7 @@
 #import "ListTableAnimationManager.h"
 #import "ListRowSlideAnimationManager.h"
 #import <QuartzCore/QuartzCore.h>
+#import "SlidingTableRowLayoutManager.h"
 
 
 #define LABEL_INSET_HOR 10
@@ -48,6 +49,7 @@
         [self addforgroundLayer];
         [self addGestureRecognizers];
         self.animationManager = [[ListRowSlideAnimationManager alloc] init];
+        self.layoutManager = [[SlidingTableRowLayoutManager alloc] init];
     }
     return self;
 }
@@ -84,7 +86,9 @@
     self.shareButton.frame = [buttonFrames[0] CGRectValue];
     self.renameButton.frame = [buttonFrames[1] CGRectValue];
     self.deleteButton.frame = [buttonFrames[2] CGRectValue];
-    [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView isOpen:NO];
+    [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
+                                                         isOpen:NO
+                                                 withOpenBounds:CGRectZero];
 }
 
 -(void) setAlpha:(CGFloat)alpha
@@ -127,12 +131,15 @@
 {
     if (!self.isOpen)
     {
-        [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
-                                                             isOpen:YES];
-        [self.animationManager slideOpenMainScreenRow:self.foregroundView
-                                    withButtons:@[self.shareButton, self.renameButton, self.deleteButton]];
-        [self showButtons:YES];
         self.isOpen = YES;
+        CGRect openSize = [self.layoutManager frameForOpenedRow:self.foregroundView];
+        [self.animationManager slideOpenMainScreenRow:self.foregroundView
+                                    withButtons:@[self.shareButton, self.renameButton, self.deleteButton] toRect:openSize];
+        
+        [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
+                                                             isOpen:YES
+                                                     withOpenBounds:openSize];
+        [self showButtons:YES];
     }
 }
 
@@ -141,11 +148,14 @@
     if (self.isOpen)
     {
         
-        [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
-                                                             isOpen:NO];
-        [self.animationManager slideCloseMainScreenRow:self.foregroundView
-                                     withButtons:@[self.shareButton, self.deleteButton, self.renameButton]];
         self.isOpen = NO;
+        [self.animationManager slideCloseMainScreenRow:self.foregroundView
+                                           withButtons:@[self.shareButton, self.deleteButton, self.renameButton] withCompletion:^{
+            [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
+                                                                 isOpen:NO
+                                                         withOpenBounds:CGRectZero];
+                                           }];
+        
     }
 }
 
@@ -158,7 +168,9 @@
     self.foregroundView = foregroundView;
     [self addImagePlaceHolder];
     [self addLabelPlaceholder];
-    [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView isOpen:NO];
+    [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
+                                                         isOpen:NO
+                                                 withOpenBounds:CGRectZero];
 }
 
 -(CGRect) foregroundFrame
