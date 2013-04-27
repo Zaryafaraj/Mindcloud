@@ -49,6 +49,7 @@
     }
     else
     {
+        CGRect oldRect = view.layer.bounds;
         CGRect newRect = view.superview.layer.bounds;
         NSLog(@"C : %f", newRect.size.width);
         view.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:newRect

@@ -10,12 +10,12 @@
 
 @implementation SlidingTableRowLayoutManager
 
-- (CGRect) frameForOpenedRow:(UIView *) row
+- (CGRect) frameForOpenedRow:(CGRect) closedFrame;
 {
-    CGRect result = CGRectMake(row.frame.origin.x + row.frame.size.width/3,
-                               row.frame.origin.y,
-                               2*row.frame.size.width/3,
-                               row.frame.size.height);
+    CGRect result = CGRectMake(closedFrame.origin.x + closedFrame.size.width/3,
+                               closedFrame.origin.y,
+                               2*closedFrame.size.width/3,
+                               closedFrame.size.height);
     return result;
 }
 

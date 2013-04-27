@@ -1,4 +1,3 @@
-//
 //  ListsCollectionRowView.m
 //  Lists
 //
@@ -77,7 +76,6 @@
 -(void) setFrame:(CGRect)frame
 {
     [super setFrame:frame];
-    [self closeView];
     self.foregroundView.frame = [self foregroundFrame];
     self.backgroundView.frame = [self backgroundFrame];
     self.collectionImage.frame = [self imageFrame];
@@ -86,9 +84,22 @@
     self.shareButton.frame = [buttonFrames[0] CGRectValue];
     self.renameButton.frame = [buttonFrames[1] CGRectValue];
     self.deleteButton.frame = [buttonFrames[2] CGRectValue];
-    [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
-                                                         isOpen:NO
-                                                 withOpenBounds:CGRectZero];
+    if (self.isOpen)
+    {
+        CGRect openRect = [self.layoutManager frameForOpenedRow:self.bounds];
+        [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
+                                                             isOpen:YES
+                                                     withOpenBounds:openRect];
+    }
+    else
+    {
+        [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
+                                                             isOpen:NO
+                                                     withOpenBounds:CGRectZero];
+        
+    }
+    
+    [self closeView];
 }
 
 -(void) setAlpha:(CGFloat)alpha
@@ -132,7 +143,7 @@
     if (!self.isOpen)
     {
         self.isOpen = YES;
-        CGRect openSize = [self.layoutManager frameForOpenedRow:self.foregroundView];
+        CGRect openSize = [self.layoutManager frameForOpenedRow:self.foregroundView.frame];
         [self.animationManager slideOpenMainScreenRow:self.foregroundView
                                     withButtons:@[self.shareButton, self.renameButton, self.deleteButton] toRect:openSize];
         
@@ -168,14 +179,18 @@
     self.foregroundView = foregroundView;
     [self addImagePlaceHolder];
     [self addLabelPlaceholder];
-    [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
-                                                         isOpen:NO
-                                                 withOpenBounds:CGRectZero];
 }
 
 -(CGRect) foregroundFrame
 {
-    return self.bounds;
+    if (self.isOpen)
+    {
+        return [self.layoutManager frameForOpenedRow:self.bounds];
+    }
+    else
+    {
+        return self.bounds;
+    }
 }
 
 -(void) addBackgroundLayer

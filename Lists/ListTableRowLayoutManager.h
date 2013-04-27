@@ -11,6 +11,6 @@
 
 @protocol ListTableRowLayoutManager <NSObject>
 
-- (CGRect) frameForOpenedRow:(UIView *) row;
+- (CGRect) frameForOpenedRow:(CGRect) closedFrame;
 
 @end
