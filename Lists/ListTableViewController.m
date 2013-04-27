@@ -70,7 +70,6 @@
 -(void) addRowToTop
 {
     [self.scrollView setContentOffset:CGPointZero animated:NO];
-    [self moveRowsDown];
     
     NSString * title = [NSString stringWithFormat:@"%d", 0];
     [self.dataSource addItemWithTitle:title atIndex:0];
@@ -81,6 +80,8 @@
     row.index = 0;
     CGRect frame = [self.layoutManager frameForRowforIndex:0
                                                inSuperView:self.scrollView];
+    
+    [self moveRowsDown];
     [self.animationManager animateAdditionForRow:row
                                          toFrame:frame
                                      inSuperView:self.scrollView

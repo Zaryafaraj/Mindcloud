@@ -95,7 +95,6 @@
     {
         UIView<ListRow> * result = [self.recycledViews anyObject];
         [self.recycledViews removeObject:result];
-        [result removeFromSuperview];
         return result;
     }
     else
@@ -158,6 +157,7 @@
     [self.visibleViews addObject:result];
 //    NSLog(@"Visible ==> %d", [self.visibleViews count]);
 //    NSLog(@"Recycled ==> %d", [self.recycledViews count]);
+    [result removeFromSuperview];
     return result;
     
 }
