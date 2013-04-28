@@ -46,6 +46,7 @@
         [self addBackgroundLayer];
         [self addActionButtons];
         [self addforgroundLayer];
+        [self addLabelPlaceholder];
         [self addGestureRecognizers];
         self.animationManager = [[ListRowSlideAnimationManager alloc] init];
         self.layoutManager = [[SlidingTableRowLayoutManager alloc] init];
@@ -178,7 +179,6 @@
     [self addSubview:foregroundView];
     self.foregroundView = foregroundView;
     [self addImagePlaceHolder];
-    [self addLabelPlaceholder];
 }
 
 -(CGRect) foregroundFrame
@@ -312,7 +312,7 @@
     label.textAlignment = NSTextAlignmentCenter;
     label.adjustsFontSizeToFitWidth = YES;
     
-    [self.foregroundView addSubview:label];
+    [self addSubview:label];
     self.collectionLabel = label;
 }
 
