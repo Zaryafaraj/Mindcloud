@@ -29,7 +29,9 @@
 @property (strong, nonatomic) UIButton * shareButton;
 @property (strong, nonatomic) UIButton * deleteButton;
 @property (strong, nonatomic) UIButton *  renameButton;
+@property (strong, nonatomic) UITextField * textField;
 @property  BOOL isOpen;
+@property  BOOL isEditing;
 
 @end
 @implementation MainScreenRow
@@ -52,6 +54,22 @@
         self.layoutManager = [[SlidingTableRowLayoutManager alloc] init];
     }
     return self;
+}
+
+-(UITextField *) textField
+{
+    if (_textField == nil)
+    {
+        UITextField * textField = [[UITextField alloc] initWithFrame:self.collectionLabel.frame];
+        [self addSubview:textField];
+        textField.hidden = YES;
+        textField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+        textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        textField.textAlignment = NSTextAlignmentCenter;
+        textField.delegate = self;
+        _textField = textField;
+    }
+    return _textField;
 }
 
 -(void) setText:(NSString *)text
@@ -80,7 +98,7 @@
     self.foregroundView.frame = [self foregroundFrame];
     self.backgroundView.frame = [self backgroundFrame];
     self.collectionImage.frame = [self imageFrame];
-    self.collectionLabel.frame = [self labelFrame];
+    self.collectionLabel.frame = [self labelFrameWithForegroundRect:self.foregroundView.frame];
     NSArray * buttonFrames = [self getActionButtonFrames];
     self.shareButton.frame = [buttonFrames[0] CGRectValue];
     self.renameButton.frame = [buttonFrames[1] CGRectValue];
@@ -137,6 +155,7 @@
 
 -(void) tapped:(UISwipeGestureRecognizer *) sender
 {
+    [self.delegate selectedRow:self];
 }
 
 -(void) openView
@@ -145,8 +164,11 @@
     {
         self.isOpen = YES;
         CGRect openSize = [self.layoutManager frameForOpenedRow:self.foregroundView.frame];
+        CGRect labelFrame = [self labelFrameWithForegroundRect:openSize];
         [self.animationManager slideOpenMainScreenRow:self.foregroundView
-                                    withButtons:@[self.shareButton, self.renameButton, self.deleteButton] toRect:openSize];
+                                          withButtons:@[self.shareButton, self.renameButton, self.deleteButton] andLabel:self.collectionLabel
+                                     toForegroundRect:openSize
+                                         andLabelRect:labelFrame];
         
         [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
                                                              isOpen:YES
@@ -161,8 +183,13 @@
     {
         
         self.isOpen = NO;
+        
+        CGRect foregroundRect = self.foregroundView.superview.bounds;
+        CGRect labelFrame = [self labelFrameWithForegroundRect:foregroundRect];
         [self.animationManager slideCloseMainScreenRow:self.foregroundView
-                                           withButtons:@[self.shareButton, self.deleteButton, self.renameButton] withCompletion:^{
+                                           withButtons:@[self.shareButton, self.deleteButton, self.renameButton] andLabel:self.collectionLabel
+                                      toForegroundRect:foregroundRect
+                                          andLabelRect:labelFrame withCompletion:^{
             [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
                                                                  isOpen:NO
                                                          withOpenBounds:CGRectZero];
@@ -306,7 +333,7 @@
 
 -(void) addLabelPlaceholder
 {
-    CGRect labelFrame = [self labelFrame];
+    CGRect labelFrame = [self labelFrameWithForegroundRect:self.foregroundView.frame];
     UILabel * label = [[UILabel alloc] initWithFrame:labelFrame];
     label.backgroundColor = [UIColor clearColor];
     label.textAlignment = NSTextAlignmentCenter;
@@ -316,11 +343,11 @@
     self.collectionLabel = label;
 }
 
--(CGRect) labelFrame
+-(CGRect) labelFrameWithForegroundRect:(CGRect) newFrame;
 {
-    CGSize labelSize = CGSizeMake(self.bounds.size.width - 2 * LABEL_INSET_HOR - self.collectionImage.frame.size.width,
-                                  self.bounds.size.height - 2 * LABEL_INSET_VER);
-    CGPoint labelOrigin = CGPointMake(self.bounds.origin.x + LABEL_INSET_HOR + self.collectionImage.frame.size.width,
+    CGSize labelSize = CGSizeMake(newFrame.size.width - 2 * LABEL_INSET_HOR - self.collectionImage.frame.size.width,
+                                  newFrame.size.height - 2 * LABEL_INSET_VER);
+    CGPoint labelOrigin = CGPointMake(newFrame.origin.x + LABEL_INSET_HOR + self.collectionImage.frame.size.width,
                                       LABEL_INSET_VER);
     CGRect labelFrame = CGRectMake(labelOrigin.x, labelOrigin.y,
                                    labelSize.width, labelSize.height);
@@ -361,6 +388,32 @@
     
 }
 
+-(void) enableEditing :(BOOL) makeFirstResponder
+{
+    [self closeView];
+    self.collectionLabel.hidden = YES;
+    self.textField.frame = self.collectionLabel.frame;
+    self.textField.hidden = NO;
+    self.textField.text = self.collectionLabel.text;
+    if (makeFirstResponder)
+    {
+        [self.textField becomeFirstResponder];
+    }
+    self.isEditing = YES;
+}
+
+-(void) disableEditing:(BOOL) resignFirstResponser
+{
+    self.collectionLabel.hidden = NO;
+    self.textField.hidden = YES;
+    self.collectionLabel.text = self.textField.text;
+    if (resignFirstResponser)
+    {
+        [self.textField resignFirstResponder];
+    }
+    self.isEditing = YES;
+}
+
 -(UIView<ListRow> *) prototypeSelf
 {
     MainScreenRow * prototype = [[MainScreenRow alloc] init];
@@ -378,6 +431,12 @@
 -(NSString *) description
 {
     return self.collectionLabel.text;
+}
+
+#pragma mark - Keyboard Delegate
+-(void) textFieldDidEndEditing:(UITextField *)textField
+{
+    [self disableEditing:YES];
 }
 
 @end

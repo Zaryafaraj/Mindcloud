@@ -80,6 +80,7 @@
     shadowAnime3.duration =  0.8 * shadowAnime.duration;
     
     [foregroundLayer addAnimation:shadowAnime3 forKey:@"shadowOpacity"];
+    //callback();
     
 }
 

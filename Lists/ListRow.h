@@ -17,6 +17,9 @@
 @property (nonatomic, strong) UIView * foregroundView;
 -(UIView<ListRow> *) prototypeSelf;
 
+-(void) enableEditing :(BOOL) makeFirstResponder;
+-(void) disableEditing:(BOOL) resignFirstResponser;
+
 @optional
 @property (strong, nonatomic) UIImage * image;
 -(void) reset;

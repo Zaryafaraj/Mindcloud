@@ -20,6 +20,9 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) ScrollViewRowRecycler * recycler;
+@property UIEdgeInsets originalContentInset;
+@property CGPoint originalContentOffset;
+@property BOOL savedOriginalCoordinates;
 
 @end
 @implementation ListTableViewController
@@ -85,7 +88,8 @@
     [self.animationManager animateAdditionForRow:row
                                          toFrame:frame
                                      inSuperView:self.scrollView
-                           withCompletionHandler:^{}];
+                           withCompletionHandler:^{[row enableEditing:YES];}];
+    
 }
 
 -(void) removeRow:(UIView<ListRow> *) row
@@ -172,10 +176,41 @@
     [self.recycler recycleRows:self.scrollView];
 }
 
+-(void) configureScrollView
+{
+    
+    self.scrollView.delegate = self;
+    UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                           action:@selector(scrollViewTapped:)];
+    [self.scrollView addGestureRecognizer:tgr];
+    [self.scrollView setContentSize:CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height)];
+}
+
+-(void) addInitialNotifications
+{
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardAppeared:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDisappeared:)
+                                                 name:UIKeyboardDidHideNotification
+                                               object:nil];
+}
+
 - (void) viewDidAppear:(BOOL)animated
 {
-    self.scrollView.delegate = self;
-    [self.scrollView setContentSize:CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height)];
+    
+    [self configureScrollView];
+    [self addInitialNotifications];
+    
+}
+
+#pragma mark - gesture recognizer
+-(void) scrollViewTapped:(UISwipeGestureRecognizer *) sender
+{
 }
 
 #pragma mark - scroll view delegate
@@ -191,7 +226,6 @@
     
     if (index >= [self.dataSource count]) return nil;
     
-    NSLog(@"Adding Row");
     prototype.text = [self.dataSource titleForItemAtIndex:index];
     prototype.image = [self.dataSource imageForItemAtIndex:index];
     prototype.frame = [self.layoutManager frameForRowforIndex:index
@@ -208,4 +242,47 @@
 {
     return [self.layoutManager highestRowIndexInFrame:self.scrollView.bounds];
 }
+
+#pragma mark - keyboard notification
+-(void) keyboardAppeared:(NSNotification *) notification
+{
+    NSDictionary * info = [notification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+        
+    float keyboardHeight = MIN(kbSize.height, kbSize.width);
+        
+    CGRect aRect = self.scrollView.frame;
+        
+    if (self.editingRow == nil) return;
+        
+    CGRect editingRowFrame = self.editingRow.frame;
+        //the -1 is there because we dont want the rightestCornerToNotFallInside
+    
+    CGFloat rowRightesCorner = MIN(editingRowFrame.origin.x + editingRowFrame.size.width,
+                                         aRect.origin.x + aRect.size.width - 1);
+    CGPoint rowRightCorner = CGPointMake(rowRightesCorner,
+                                              editingRowFrame.origin.y + editingRowFrame.size.height);
+    aRect.size.height -= keyboardHeight;
+    if (!CGRectContainsPoint(aRect,rowRightCorner))
+    {
+        CGFloat spaceFromLowerCornerToBottom = self.scrollView.frame.size.height - rowRightCorner.y;
+        CGFloat addedVisibleSpaceY = keyboardHeight - spaceFromLowerCornerToBottom;
+        CGPoint scrollPoint = CGPointMake(0.0, self.scrollView.frame.origin.y + addedVisibleSpaceY);
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardHeight, 0.0);
+        self.savedOriginalCoordinates = YES;
+        self.originalContentInset = self.scrollView.contentInset;
+        self.originalContentOffset = self.scrollView.contentOffset;
+        [self.scrollView setContentOffset:scrollPoint animated:YES];
+    }
+}
+
+-(void) keyboardDisappeared:(NSNotification *) notification
+{
+    if (self.savedOriginalCoordinates)
+    {
+        [self.scrollView setContentOffset:self.originalContentOffset animated:YES];
+        self.savedOriginalCoordinates = NO;
+    }
+}
+
 @end

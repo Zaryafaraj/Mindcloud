@@ -12,7 +12,7 @@
 #import "MainScreenRowViewDelegate.h"
 #import "ListTableRowLayoutManager.h"
 
-@interface MainScreenRow : UIView <ListRow>
+@interface MainScreenRow : UIView <ListRow, UITextFieldDelegate>
 
 @property (nonatomic, strong) id<MainScreenRowViewDelegate> delegate;
 

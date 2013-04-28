@@ -14,25 +14,33 @@
 
 -(void) slideOpenMainScreenRow:(UIView *) row
                    withButtons: (NSArray *) buttons
-                        toRect:(CGRect) openRect;
+                      andLabel:(UIView *) label
+              toForegroundRect:(CGRect) openRect
+                  andLabelRect:(CGRect) labelRect
 {
     [UIView animateWithDuration:0.30
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          row.frame = openRect;
-                     } completion:nil];
+                         label.frame = labelRect;
+                     } completion:^(BOOL finished){
+                     }];
 }
 
 -(void) slideCloseMainScreenRow:(UIView *) row
                     withButtons: (NSArray *) buttons
-                 withCompletion:(row_animation_completion_callback) callback;
+                       andLabel:(UIView *) label
+               toForegroundRect: (CGRect) foregroundRect
+                   andLabelRect:(CGRect) labelRect
+withCompletion:(row_animation_completion_callback) callback;
 {
     [UIView animateWithDuration:0.2
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         row.frame = row.superview.bounds;
+                         row.frame = foregroundRect;
+                         label.frame = labelRect;
                      }completion:^(BOOL finished){
                          for (UIButton * button in buttons)
                          {

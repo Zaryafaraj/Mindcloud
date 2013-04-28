@@ -12,6 +12,7 @@
 @interface MainScreenListTableViewController ()
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
+@property BOOL isInEditMode;
 
 @end
 
@@ -26,12 +27,20 @@
         self.navigationBar.alpha = 0.7;
         row.delegate = self;
         self.prototypeRow =row;
+        self.isInEditMode = NO;
     }
     return self;
 }
 
 - (IBAction)addPressed:(id)sender
 {
+    if (self.isInEditMode)
+    {
+        [self.editingRow disableEditing:YES];
+        self.editingRow = nil;
+        self.isInEditMode = NO;
+    }
+    
     [self addRowToTop];
 }
 
@@ -48,7 +57,35 @@
 
 -(void) renamePressed:(MainScreenRow *)sender
 {
-    
+    [sender enableEditing:YES];
+    self.isInEditMode = YES;
+    self.editingRow = sender;
 }
+
+-(void) selectedRow:(UIView<ListRow> *)sender
+{
+    if (self.isInEditMode)
+    {
+        [self.editingRow disableEditing:YES];
+        self.editingRow = nil;
+        self.isInEditMode = NO;
+    }
+    else
+    {
+        //segue
+    }
+}
+
+-(void) scrollViewTapped:(UISwipeGestureRecognizer *) sender
+{
+    [super scrollViewTapped:sender];
+    if (self.isInEditMode)
+    {
+        [self.editingRow disableEditing:YES];
+        self.editingRow = nil;
+        self.isInEditMode = NO;
+    }
+}
+
 
 @end

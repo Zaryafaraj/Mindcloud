@@ -14,5 +14,6 @@
 -(void) deletePressed:(UIView<ListRow> *) sender;
 -(void) renamePressed:(UIView<ListRow> *) sender;
 -(void) sharePressed:(UIView<ListRow> *) sender;
+-(void) selectedRow:(UIView<ListRow> *) sender;
 
 @end

@@ -21,8 +21,12 @@
 
 @property (nonatomic, strong) UIView<ListRow> * prototypeRow;
 
+@property UIView <ListRow> * editingRow;
+
 -(void) addRowToTop;
 
 -(void) removeRow:(UIView<ListRow> *) row;
+
+-(void) scrollViewTapped:(UISwipeGestureRecognizer *) sender;
 
 @end

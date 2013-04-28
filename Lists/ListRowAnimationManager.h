@@ -14,10 +14,15 @@ typedef void (^row_animation_completion_callback)(void);
 
 -(void) slideOpenMainScreenRow:(UIView *) row
                    withButtons: (NSArray *) buttons
-                        toRect:(CGRect) openRect;
+                      andLabel:(UIView *) label
+              toForegroundRect:(CGRect) openRect
+                  andLabelRect:(CGRect) labelRect;
 
 -(void) slideCloseMainScreenRow:(UIView *) row
                     withButtons: (NSArray *) buttons
+                       andLabel:(UIView *) label
+               toForegroundRect: (CGRect) foregroundRect
+                   andLabelRect:(CGRect) labelRect
                  withCompletion:(row_animation_completion_callback) callback;
 
 @end
