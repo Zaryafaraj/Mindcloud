@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "MainScreenRow.h"
 #import "ScrollViewRecyclerDelegate.h"
+#import "ScrollViewRecyclerAnimationManager.h"
 
 @interface ScrollViewRowRecycler : NSObject
 
 @property (nonatomic, strong) id<ScrollViewRecyclerDelegate> delegate;
+@property (nonatomic, strong) id<ScrollViewRecyclerAnimationManager> animationManager;
 @property (nonatomic, strong) UIView<ListRow> * prototype;
 
 +(ScrollViewRowRecycler *) recycler;

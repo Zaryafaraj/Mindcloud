@@ -7,6 +7,7 @@
 //
 
 #import "ScrollViewRowRecycler.h"
+#import "RotatingRecylerAcimationManager.h"
 
 @interface ScrollViewRowRecycler()
 
@@ -32,6 +33,7 @@
     self = [super init];
     self.visibleViews = [NSMutableSet set];
     self.recycledViews = [NSMutableSet set];
+    self.animationManager = [[RotatingRecylerAcimationManager alloc] init];
     return self;
 }
 
@@ -43,10 +45,24 @@
     //recycle
     for (UIView <ListRow> * row in self.visibleViews)
     {
-        if (row.index < lowestIndex || row.index > highestIndex)
+        if (row.index < lowestIndex)
         {
-            [row removeFromSuperview];
-            [self.recycledViews addObject:row];
+            [self.animationManager animateViewDidMoveOutOfTop:row
+                                                 withCallback:^{
+                                                     [row removeFromSuperview];
+                                                     [self.recycledViews addObject:row];
+                                                     
+                                                 }];
+        }
+        if (row.index > highestIndex)
+        {
+            [self.animationManager animateViewDidMoveOutOfBottom:row
+                                                    withCallback:^{
+                                                        [row removeFromSuperview];
+                                                        [self.recycledViews addObject:row];
+                                                        
+                                                    }];
+            
         }
     }
     [self.visibleViews minusSet:self.recycledViews];
@@ -111,9 +127,11 @@
     int lowestIndex = [self.delegate lowestIndexInView];
     int highestIndex = [self.delegate highestIndexInView];
 
+    
     //recycle
     for (UIView <ListRow> * row in self.visibleViews)
     {
+        
         if (row.index < lowestIndex || row.index > highestIndex)
         {
             [self.recycledViews addObject:row];

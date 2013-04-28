@@ -48,6 +48,7 @@
 		DB488BAA171BA70900294966 /* ScrollViewRowRecycler.m in Sources */ = {isa = PBXBuildFile; fileRef = DB488BA9171BA70900294966 /* ScrollViewRowRecycler.m */; };
 		DB9661E8172275AC00C04AC3 /* ListRowSlideAnimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9661E7172275AB00C04AC3 /* ListRowSlideAnimationManager.m */; };
 		DB9661EC1723416100C04AC3 /* StubListTableViewDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9661EB1723416100C04AC3 /* StubListTableViewDatasource.m */; };
+		DBA655AE172CA8E50007E9E1 /* RotatingRecylerAcimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA655AD172CA8E50007E9E1 /* RotatingRecylerAcimationManager.m */; };
 		DBBDEFC41713BFAF009ADF1A /* MainScreenRow.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFC31713BFAF009ADF1A /* MainScreenRow.m */; };
 		DBBDEFC91713D9F8009ADF1A /* Test.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBDEFC81713D9F8009ADF1A /* Test.png */; };
 		DBBDEFCC1713E367009ADF1A /* CenteredListTableViewLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFCB1713E367009ADF1A /* CenteredListTableViewLayoutManager.m */; };
@@ -126,6 +127,9 @@
 		DB9661E917233FDA00C04AC3 /* ListTableViewDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableViewDatasource.h; sourceTree = "<group>"; };
 		DB9661EA1723416100C04AC3 /* StubListTableViewDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StubListTableViewDatasource.h; sourceTree = "<group>"; };
 		DB9661EB1723416100C04AC3 /* StubListTableViewDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StubListTableViewDatasource.m; sourceTree = "<group>"; };
+		DBA655AB172CA75A0007E9E1 /* ScrollViewRecyclerAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewRecyclerAnimationManager.h; sourceTree = "<group>"; };
+		DBA655AC172CA8E50007E9E1 /* RotatingRecylerAcimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RotatingRecylerAcimationManager.h; sourceTree = "<group>"; };
+		DBA655AD172CA8E50007E9E1 /* RotatingRecylerAcimationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RotatingRecylerAcimationManager.m; sourceTree = "<group>"; };
 		DBBDEFC21713BFAF009ADF1A /* MainScreenRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenRow.h; sourceTree = "<group>"; };
 		DBBDEFC31713BFAF009ADF1A /* MainScreenRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenRow.m; sourceTree = "<group>"; };
 		DBBDEFC81713D9F8009ADF1A /* Test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Test.png; sourceTree = "<group>"; };
@@ -370,6 +374,9 @@
 				DB9661E51722754400C04AC3 /* ListRowAnimationManager.h */,
 				DB9661E6172275AB00C04AC3 /* ListRowSlideAnimationManager.h */,
 				DB9661E7172275AB00C04AC3 /* ListRowSlideAnimationManager.m */,
+				DBA655AB172CA75A0007E9E1 /* ScrollViewRecyclerAnimationManager.h */,
+				DBA655AC172CA8E50007E9E1 /* RotatingRecylerAcimationManager.h */,
+				DBA655AD172CA8E50007E9E1 /* RotatingRecylerAcimationManager.m */,
 			);
 			name = Animation;
 			sourceTree = "<group>";
@@ -517,6 +524,7 @@
 				DB9661EC1723416100C04AC3 /* StubListTableViewDatasource.m in Sources */,
 				DBE5680F172490140009050F /* ListTableViewController.m in Sources */,
 				DBE411D2172B8CF300F26E17 /* SlidingTableRowLayoutManager.m in Sources */,
+				DBA655AE172CA8E50007E9E1 /* RotatingRecylerAcimationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
