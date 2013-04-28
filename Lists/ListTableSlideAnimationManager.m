@@ -11,6 +11,24 @@
 #import <QuartzCore/CAAnimation.h>
 #import "ListRow.h"
 
+@interface additionAnimationDelegate : NSObject
+
+-(void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag;
+@property (strong, nonatomic) row_modification_callback callback;
+@end
+
+@implementation additionAnimationDelegate
+
+-(void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    if (self.callback != nil)
+    {
+        self.callback();
+    }
+}
+
+
+@end
 @implementation ListTableSlideAnimationManager
 
 -(void) slideMainScreenRow:(UIView *) row
@@ -27,6 +45,9 @@
                   inSuperView:(UIView *) superView
         withCompletionHandler:(row_modification_callback) callback
 {
+    additionAnimationDelegate * delegate = [[additionAnimationDelegate alloc] init];
+    delegate.callback = callback;
+    
     [row removeFromSuperview];
     row.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
     [superView addSubview:row];
@@ -47,7 +68,7 @@
     rotateAnime.toValue = [NSValue valueWithCATransform3D:layer.transform];
     rotateAnime.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     rotateAnime.duration = 0.7;
-    
+    rotateAnime.delegate = delegate;
    [layer addAnimation:rotateAnime forKey:@"rotation"];
     
     CABasicAnimation * opacityAnime = [CABasicAnimation animationWithKeyPath:@"opacity"];

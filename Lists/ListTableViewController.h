@@ -23,6 +23,8 @@
 
 @property UIView <ListRow> * editingRow;
 
+@property BOOL isInEditMode;
+
 -(void) addRowToTop;
 
 -(void) removeRow:(UIView<ListRow> *) row;

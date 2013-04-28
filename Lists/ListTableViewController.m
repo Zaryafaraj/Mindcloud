@@ -89,7 +89,8 @@
                                          toFrame:frame
                                      inSuperView:self.scrollView
                            withCompletionHandler:^{[row enableEditing:YES];}];
-    
+    self.editingRow = row;
+    self.isInEditMode = YES;
 }
 
 -(void) removeRow:(UIView<ListRow> *) row
@@ -268,7 +269,6 @@
         CGFloat spaceFromLowerCornerToBottom = self.scrollView.frame.size.height - rowRightCorner.y;
         CGFloat addedVisibleSpaceY = keyboardHeight - spaceFromLowerCornerToBottom;
         CGPoint scrollPoint = CGPointMake(0.0, self.scrollView.frame.origin.y + addedVisibleSpaceY);
-        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardHeight, 0.0);
         self.savedOriginalCoordinates = YES;
         self.originalContentInset = self.scrollView.contentInset;
         self.originalContentOffset = self.scrollView.contentOffset;

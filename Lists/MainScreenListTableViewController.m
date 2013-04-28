@@ -12,7 +12,6 @@
 @interface MainScreenListTableViewController ()
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
-@property BOOL isInEditMode;
 
 @end
 
