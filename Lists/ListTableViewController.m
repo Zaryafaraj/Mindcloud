@@ -169,6 +169,7 @@
     int lowestIndex = [self.dataSource count];
     [self adjustScrollViewForLowestIndex:lowestIndex];
     self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x, contentOffsetY);
+    [self.recycler recycleRows:self.scrollView];
 }
 
 - (void) viewDidAppear:(BOOL)animated

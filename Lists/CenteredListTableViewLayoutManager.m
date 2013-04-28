@@ -46,6 +46,7 @@
     CGFloat effectiveBottomVisiblePart = bottomVisiblePart - VER_OFFSET_TOP;
     //we give one row as a buffer
     int result = floorf((effectiveBottomVisiblePart - 1)/ (ROW_SIZE_HEIGHT + ROW_DIVIDER))+1;
+    result += 4;
     return result;
 }
 
