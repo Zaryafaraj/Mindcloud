@@ -34,7 +34,7 @@
                               withOpenBounds:(CGRect) openBounds
 {
     view.layer.shouldRasterize = YES;
-    view.layer.cornerRadius = 5;
+    view.layer.cornerRadius = 1;
     if (isOpen)
     {
         view.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:openBounds
@@ -74,5 +74,31 @@
 //    button.layer.borderWidth = 0.5;
     return button;
 }
+
+-(UIColor *) colorForMainScreenRowSelected
+{
+    return [UIColor colorWithWhite:0.85 alpha:1];
+   //[UIColor colorWithHue:0.41 saturation:0.93 brightness:0.66 alpha:1];
+}
+
+-(CGFloat) alphaForMainScreenNavigationBar
+{
+    return 0.7;
+}
+-(UIColor *) colorForMainScreenNavigationBar
+{
+    return [UIColor whiteColor];
+}
+
+-(CGFloat) alphaForCollectionScreenNavigationBar
+{
+    return [self alphaForMainScreenNavigationBar];
+}
+
+-(UIColor *) colorForCollectionScreenNavigationBar
+{
+    return [self colorForMainScreenRowSelected];
+}
+
 
 @end

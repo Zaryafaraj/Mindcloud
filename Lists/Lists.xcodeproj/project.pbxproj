@@ -15,6 +15,8 @@
 		DB10D5CC171A21A3009D1566 /* GlassyMainRowShare.png in Resources */ = {isa = PBXBuildFile; fileRef = DB10D5CB171A21A3009D1566 /* GlassyMainRowShare.png */; };
 		DB10D5CE171A2334009D1566 /* GlassyMainRowEditLight.png in Resources */ = {isa = PBXBuildFile; fileRef = DB10D5CD171A2334009D1566 /* GlassyMainRowEditLight.png */; };
 		DB10D5D0171A23C6009D1566 /* GlassyMainRowEdit.png in Resources */ = {isa = PBXBuildFile; fileRef = DB10D5CF171A23C6009D1566 /* GlassyMainRowEdit.png */; };
+		DB116FC3172E1E090082D314 /* CollectionScreenListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB116FC2172E1E090082D314 /* CollectionScreenListTableViewController.m */; };
+		DB116FC8172E49DC0082D314 /* MultimediaHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB116FC7172E49DC0082D314 /* MultimediaHelper.m */; };
 		DB3C8E171710D3DE00A69D3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3C8E161710D3DE00A69D3B /* UIKit.framework */; };
 		DB3C8E191710D3DE00A69D3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3C8E181710D3DE00A69D3B /* Foundation.framework */; };
 		DB3C8E1B1710D3DE00A69D3B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3C8E1A1710D3DE00A69D3B /* CoreGraphics.framework */; };
@@ -46,6 +48,8 @@
 		DB3CDB6717123FB8004CB440 /* ThemeFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3CDB6617123FB8004CB440 /* ThemeFactory.m */; };
 		DB3CDB6A17124001004CB440 /* GlassyTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3CDB6917124001004CB440 /* GlassyTheme.m */; };
 		DB488BAA171BA70900294966 /* ScrollViewRowRecycler.m in Sources */ = {isa = PBXBuildFile; fileRef = DB488BA9171BA70900294966 /* ScrollViewRowRecycler.m */; };
+		DB4BD6ED172E0F060024305C /* woodenBG.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB4BD6EC172E0F060024305C /* woodenBG.jpg */; };
+		DB4BD6F1172E16DB0024305C /* RollingSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4BD6F0172E16DB0024305C /* RollingSegue.m */; };
 		DB9661E8172275AC00C04AC3 /* ListRowSlideAnimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9661E7172275AB00C04AC3 /* ListRowSlideAnimationManager.m */; };
 		DB9661EC1723416100C04AC3 /* StubListTableViewDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9661EB1723416100C04AC3 /* StubListTableViewDatasource.m */; };
 		DBA655AE172CA8E50007E9E1 /* RotatingRecylerAcimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA655AD172CA8E50007E9E1 /* RotatingRecylerAcimationManager.m */; };
@@ -76,6 +80,11 @@
 		DB10D5CB171A21A3009D1566 /* GlassyMainRowShare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlassyMainRowShare.png; sourceTree = "<group>"; };
 		DB10D5CD171A2334009D1566 /* GlassyMainRowEditLight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlassyMainRowEditLight.png; sourceTree = "<group>"; };
 		DB10D5CF171A23C6009D1566 /* GlassyMainRowEdit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlassyMainRowEdit.png; sourceTree = "<group>"; };
+		DB116FC1172E1E090082D314 /* CollectionScreenListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionScreenListTableViewController.h; sourceTree = "<group>"; };
+		DB116FC2172E1E090082D314 /* CollectionScreenListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionScreenListTableViewController.m; sourceTree = "<group>"; };
+		DB116FC4172E353D0082D314 /* ListCollectionViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListCollectionViewDelegate.h; sourceTree = "<group>"; };
+		DB116FC6172E49DC0082D314 /* MultimediaHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultimediaHelper.h; sourceTree = "<group>"; };
+		DB116FC7172E49DC0082D314 /* MultimediaHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultimediaHelper.m; sourceTree = "<group>"; };
 		DB378C47171E7AD2008C6216 /* ScrollViewRecyclerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewRecyclerDelegate.h; sourceTree = "<group>"; };
 		DB3C8E131710D3DE00A69D3B /* Lists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB3C8E161710D3DE00A69D3B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -118,6 +127,9 @@
 		DB3CDB6917124001004CB440 /* GlassyTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlassyTheme.m; sourceTree = "<group>"; };
 		DB488BA8171BA70900294966 /* ScrollViewRowRecycler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewRowRecycler.h; sourceTree = "<group>"; };
 		DB488BA9171BA70900294966 /* ScrollViewRowRecycler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewRowRecycler.m; sourceTree = "<group>"; };
+		DB4BD6EC172E0F060024305C /* woodenBG.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woodenBG.jpg; sourceTree = "<group>"; };
+		DB4BD6EF172E16DB0024305C /* RollingSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RollingSegue.h; sourceTree = "<group>"; };
+		DB4BD6F0172E16DB0024305C /* RollingSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RollingSegue.m; sourceTree = "<group>"; };
 		DB9661DF17225FD900C04AC3 /* ListTableViewLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableViewLayoutManager.h; sourceTree = "<group>"; };
 		DB9661E317226EDE00C04AC3 /* ListRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListRow.h; sourceTree = "<group>"; };
 		DB9661E4172272BA00C04AC3 /* ListTableAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableAnimationManager.h; sourceTree = "<group>"; };
@@ -170,6 +182,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DB116FC5172E49C50082D314 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				DB116FC6172E49DC0082D314 /* MultimediaHelper.h */,
+				DB116FC7172E49DC0082D314 /* MultimediaHelper.m */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		DB3C8E0A1710D3DE00A69D3B = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +225,7 @@
 		DB3C8E1C1710D3DE00A69D3B /* Lists */ = {
 			isa = PBXGroup;
 			children = (
+				DB116FC5172E49C50082D314 /* Helpers */,
 				DBBDEFBF1713BF63009ADF1A /* UI */,
 				DB3CDB6017113BC7004CB440 /* Themes */,
 				DB3C8E251710D3DE00A69D3B /* AppDelegate.h */,
@@ -252,6 +274,7 @@
 		DB3C8E4D1710D52F00A69D3B /* BGs */ = {
 			isa = PBXGroup;
 			children = (
+				DB4BD6EC172E0F060024305C /* woodenBG.jpg */,
 				DB3C8E4E1710D52F00A69D3B /* BG2Blur.png */,
 				DB3C8E4F1710D52F00A69D3B /* BG3BlurHigh.png */,
 				DB3C8E501710D52F00A69D3B /* BG3BlurLow.png */,
@@ -290,9 +313,19 @@
 			name = Utilities;
 			sourceTree = "<group>";
 		};
+		DB4BD6EE172E16950024305C /* Segue */ = {
+			isa = PBXGroup;
+			children = (
+				DB4BD6EF172E16DB0024305C /* RollingSegue.h */,
+				DB4BD6F0172E16DB0024305C /* RollingSegue.m */,
+			);
+			name = Segue;
+			sourceTree = "<group>";
+		};
 		DBBDEFBF1713BF63009ADF1A /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				DB4BD6EE172E16950024305C /* Segue */,
 				DB488BAB171BA71100294966 /* Utilities */,
 				DBEBB4BD1715265E00D0DFD5 /* Animation */,
 				DBBDEFCD1713E76E009ADF1A /* Layout */,
@@ -314,6 +347,9 @@
 				DB9661E917233FDA00C04AC3 /* ListTableViewDatasource.h */,
 				DB9661EA1723416100C04AC3 /* StubListTableViewDatasource.h */,
 				DB9661EB1723416100C04AC3 /* StubListTableViewDatasource.m */,
+				DB116FC1172E1E090082D314 /* CollectionScreenListTableViewController.h */,
+				DB116FC2172E1E090082D314 /* CollectionScreenListTableViewController.m */,
+				DB116FC4172E353D0082D314 /* ListCollectionViewDelegate.h */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -477,6 +513,7 @@
 				DB10D5CC171A21A3009D1566 /* GlassyMainRowShare.png in Resources */,
 				DB10D5CE171A2334009D1566 /* GlassyMainRowEditLight.png in Resources */,
 				DB10D5D0171A23C6009D1566 /* GlassyMainRowEdit.png in Resources */,
+				DB4BD6ED172E0F060024305C /* woodenBG.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -525,6 +562,9 @@
 				DBE5680F172490140009050F /* ListTableViewController.m in Sources */,
 				DBE411D2172B8CF300F26E17 /* SlidingTableRowLayoutManager.m in Sources */,
 				DBA655AE172CA8E50007E9E1 /* RotatingRecylerAcimationManager.m in Sources */,
+				DB4BD6F1172E16DB0024305C /* RollingSegue.m in Sources */,
+				DB116FC3172E1E090082D314 /* CollectionScreenListTableViewController.m in Sources */,
+				DB116FC8172E49DC0082D314 /* MultimediaHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

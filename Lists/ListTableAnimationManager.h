@@ -24,4 +24,8 @@ typedef void (^row_modification_callback)(void);
 -(void) animateRemovalForRow:(UIView<ListRow> *) row
                   inSuperView:(UIView *) superView
        withCompletionHandler:(row_modification_callback) callback;
+
+-(void) hideNavigationBar:(UINavigationBar *) navBar;
+
+-(void) showNavigationBar:(UINavigationBar *) navBar;
 @end

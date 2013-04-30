@@ -8,6 +8,8 @@
 
 #import "MainScreenListTableViewController.h"
 #import "MainScreenRow.h"
+#import "CollectionScreenListTableViewController.h"
+#import "ThemeFactory.h"
 
 @interface MainScreenListTableViewController ()
 
@@ -23,7 +25,8 @@
     if (self)
     {
         MainScreenRow * row = [[MainScreenRow alloc] init];
-        self.navigationBar.alpha = 0.7;
+        self.navigationBar.alpha = [[ThemeFactory currentTheme] alphaForMainScreenNavigationBar];
+        self.navigationBar.backgroundColor = [[ThemeFactory currentTheme] colorForMainScreenNavigationBar];
         row.delegate = self;
         self.prototypeRow =row;
         self.isInEditMode = NO;
@@ -61,7 +64,7 @@
     self.editingRow = sender;
 }
 
--(void) selectedRow:(UIView<ListRow> *)sender
+-(void) tappedRow:(UIView<ListRow> *) sender
 {
     if (self.isInEditMode)
     {
@@ -69,10 +72,10 @@
         self.editingRow = nil;
         self.isInEditMode = NO;
     }
-    else
-    {
-        //segue
-    }
+}
+-(void) selectedRow:(UIView<ListRow> *)sender
+{
+    [self performSegueWithIdentifier:@"RollingSegue" sender:sender];
 }
 
 -(void) scrollViewTapped:(UISwipeGestureRecognizer *) sender
@@ -86,5 +89,27 @@
     }
 }
 
+-(BOOL) isEditingRows
+{
+    return self.isInEditMode;
+}
 
+#pragma mark - Segue
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    [self.animationManager hideNavigationBar:self.navigationBar];
+    CollectionScreenListTableViewController * dest = segue.destinationViewController;
+    MainScreenRow * senderRow = sender;
+    dest.name = senderRow.text;
+    dest.navigationBar.alpha = 0;
+    dest.parentDelegate = self;
+}
+
+#pragma  mark - ListCollectionViewDelegate
+-(void) finishedWorkingWithCollection:(NSString *) collectionController
+{
+    [self.animationManager showNavigationBar:self.navigationBar];
+    [self dismissViewControllerAnimated:YES completion:^{}];
+}
 @end

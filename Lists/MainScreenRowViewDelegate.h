@@ -15,5 +15,7 @@
 -(void) renamePressed:(UIView<ListRow> *) sender;
 -(void) sharePressed:(UIView<ListRow> *) sender;
 -(void) selectedRow:(UIView<ListRow> *) sender;
+-(void) tappedRow:(UIView<ListRow> *) sender;
+-(BOOL) isEditingRows;
 
 @end

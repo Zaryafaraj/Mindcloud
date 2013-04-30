@@ -20,4 +20,12 @@
 
 -(UIView *) stylizeMainScreenRowButton:(UIButton *) button;
 
+-(UIColor *) colorForMainScreenRowSelected;
+
+-(CGFloat) alphaForMainScreenNavigationBar;
+-(UIColor *) colorForMainScreenNavigationBar;
+
+-(CGFloat) alphaForCollectionScreenNavigationBar;
+-(UIColor *) colorForCollectionScreenNavigationBar;
+
 @end

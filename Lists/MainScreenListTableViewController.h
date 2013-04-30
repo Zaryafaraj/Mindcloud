@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "MainScreenRowViewDelegate.h"
 #import "ListTableViewController.h"
+#import "ListCollectionViewDelegate.h"
 
-@interface MainScreenListTableViewController : ListTableViewController <MainScreenRowViewDelegate>
+@interface MainScreenListTableViewController : ListTableViewController <MainScreenRowViewDelegate, ListCollectionViewDelegate>
 
 
 @end

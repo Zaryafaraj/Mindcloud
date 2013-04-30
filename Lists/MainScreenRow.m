@@ -52,6 +52,7 @@
         [self addGestureRecognizers];
         self.animationManager = [[ListRowSlideAnimationManager alloc] init];
         self.layoutManager = [[SlidingTableRowLayoutManager alloc] init];
+        self.isEditing = NO;
     }
     return self;
 }
@@ -155,7 +156,25 @@
 
 -(void) tapped:(UISwipeGestureRecognizer *) sender
 {
-    [self.delegate selectedRow:self];
+    if (!self.isEditing && !self.isOpen && ![self.delegate isEditingRows])
+    {
+        [self closeView];
+        UIColor * originalColor = self.foregroundView.backgroundColor;
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            self.foregroundView.backgroundColor = [[ThemeFactory currentTheme] colorForMainScreenRowSelected];
+            //self.foregroundView.backgroundColor = [UIColor colorWithWhite:0.79 alpha:1];
+        }completion:^(BOOL finished){
+                        [UIView animateWithDuration:0.15 animations:^{
+                self.foregroundView.backgroundColor = originalColor;
+            }];
+            [self.delegate selectedRow:self];
+        }];
+    }
+    else
+    {
+        [self.delegate tappedRow:self];
+    }
 }
 
 -(void) openView
@@ -411,7 +430,7 @@
     {
         [self.textField resignFirstResponder];
     }
-    self.isEditing = YES;
+    self.isEditing = NO;
 }
 
 -(UIView<ListRow> *) prototypeSelf

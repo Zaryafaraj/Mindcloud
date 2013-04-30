@@ -9,7 +9,7 @@
 #import "ListTableSlideAnimationManager.h"
 #import <QuartzCore/QuartzCore.h>
 #import <QuartzCore/CAAnimation.h>
-#import "ListRow.h"
+#import "ThemeFactory.h"
 
 @interface additionAnimationDelegate : NSObject
 
@@ -118,4 +118,23 @@
         }
     }];
 }
+
+-(void) hideNavigationBar:(UINavigationBar *) navBar
+{
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        navBar.alpha = 0;
+    }completion:^(BOOL Completed){
+        
+    }];
+}
+
+-(void) showNavigationBar:(UINavigationBar *) navBar
+{
+    [UIView animateWithDuration:0.3 delay:0.2 options:UIViewAnimationOptionCurveLinear animations:^{
+        navBar.alpha = [[ThemeFactory currentTheme] alphaForMainScreenNavigationBar];
+    }completion:^(BOOL Completed){
+        
+    }];
+}
+
 @end

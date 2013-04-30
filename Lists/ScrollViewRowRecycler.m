@@ -85,7 +85,8 @@
             else
             {
                 [prototype removeFromSuperview];
-                [self.recycledViews addObject:prototype];
+                if (prototype != nil)
+                    [self.recycledViews addObject:prototype];
             }
         }
     }
