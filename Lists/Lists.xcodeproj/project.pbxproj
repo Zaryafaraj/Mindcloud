@@ -50,6 +50,9 @@
 		DB488BAA171BA70900294966 /* ScrollViewRowRecycler.m in Sources */ = {isa = PBXBuildFile; fileRef = DB488BA9171BA70900294966 /* ScrollViewRowRecycler.m */; };
 		DB4BD6ED172E0F060024305C /* woodenBG.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB4BD6EC172E0F060024305C /* woodenBG.jpg */; };
 		DB4BD6F1172E16DB0024305C /* RollingSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4BD6F0172E16DB0024305C /* RollingSegue.m */; };
+		DB4CC5B21730DEB6005331F0 /* NoteRow.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC5B11730DEB6005331F0 /* NoteRow.m */; };
+		DB4CC5B51730DF11005331F0 /* ListCenteredCollectionLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC5B41730DF11005331F0 /* ListCenteredCollectionLayoutManager.m */; };
+		DB4CC5B81730E272005331F0 /* CollectionRowPaperAnimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC5B71730E272005331F0 /* CollectionRowPaperAnimationManager.m */; };
 		DB9661E8172275AC00C04AC3 /* ListRowSlideAnimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9661E7172275AB00C04AC3 /* ListRowSlideAnimationManager.m */; };
 		DB9661EC1723416100C04AC3 /* StubListTableViewDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9661EB1723416100C04AC3 /* StubListTableViewDatasource.m */; };
 		DBA655AE172CA8E50007E9E1 /* RotatingRecylerAcimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA655AD172CA8E50007E9E1 /* RotatingRecylerAcimationManager.m */; };
@@ -130,6 +133,12 @@
 		DB4BD6EC172E0F060024305C /* woodenBG.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woodenBG.jpg; sourceTree = "<group>"; };
 		DB4BD6EF172E16DB0024305C /* RollingSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RollingSegue.h; sourceTree = "<group>"; };
 		DB4BD6F0172E16DB0024305C /* RollingSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RollingSegue.m; sourceTree = "<group>"; };
+		DB4CC5B01730DEB6005331F0 /* NoteRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteRow.h; sourceTree = "<group>"; };
+		DB4CC5B11730DEB6005331F0 /* NoteRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteRow.m; sourceTree = "<group>"; };
+		DB4CC5B31730DF11005331F0 /* ListCenteredCollectionLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListCenteredCollectionLayoutManager.h; sourceTree = "<group>"; };
+		DB4CC5B41730DF11005331F0 /* ListCenteredCollectionLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListCenteredCollectionLayoutManager.m; sourceTree = "<group>"; };
+		DB4CC5B61730E272005331F0 /* CollectionRowPaperAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionRowPaperAnimationManager.h; sourceTree = "<group>"; };
+		DB4CC5B71730E272005331F0 /* CollectionRowPaperAnimationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionRowPaperAnimationManager.m; sourceTree = "<group>"; };
 		DB9661DF17225FD900C04AC3 /* ListTableViewLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableViewLayoutManager.h; sourceTree = "<group>"; };
 		DB9661E317226EDE00C04AC3 /* ListRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListRow.h; sourceTree = "<group>"; };
 		DB9661E4172272BA00C04AC3 /* ListTableAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableAnimationManager.h; sourceTree = "<group>"; };
@@ -361,6 +370,8 @@
 				DBBDEFC31713BFAF009ADF1A /* MainScreenRow.m */,
 				DB9661E317226EDE00C04AC3 /* ListRow.h */,
 				DBE5681017249B0F0009050F /* MainScreenRowViewDelegate.h */,
+				DB4CC5B01730DEB6005331F0 /* NoteRow.h */,
+				DB4CC5B11730DEB6005331F0 /* NoteRow.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -382,6 +393,8 @@
 				DBE411CF172B8CD300F26E17 /* ListTableRowLayoutManager.h */,
 				DBE411D0172B8CF300F26E17 /* SlidingTableRowLayoutManager.h */,
 				DBE411D1172B8CF300F26E17 /* SlidingTableRowLayoutManager.m */,
+				DB4CC5B31730DF11005331F0 /* ListCenteredCollectionLayoutManager.h */,
+				DB4CC5B41730DF11005331F0 /* ListCenteredCollectionLayoutManager.m */,
 			);
 			name = Layout;
 			sourceTree = "<group>";
@@ -413,6 +426,8 @@
 				DBA655AB172CA75A0007E9E1 /* ScrollViewRecyclerAnimationManager.h */,
 				DBA655AC172CA8E50007E9E1 /* RotatingRecylerAcimationManager.h */,
 				DBA655AD172CA8E50007E9E1 /* RotatingRecylerAcimationManager.m */,
+				DB4CC5B61730E272005331F0 /* CollectionRowPaperAnimationManager.h */,
+				DB4CC5B71730E272005331F0 /* CollectionRowPaperAnimationManager.m */,
 			);
 			name = Animation;
 			sourceTree = "<group>";
@@ -565,6 +580,9 @@
 				DB4BD6F1172E16DB0024305C /* RollingSegue.m in Sources */,
 				DB116FC3172E1E090082D314 /* CollectionScreenListTableViewController.m in Sources */,
 				DB116FC8172E49DC0082D314 /* MultimediaHelper.m in Sources */,
+				DB4CC5B21730DEB6005331F0 /* NoteRow.m in Sources */,
+				DB4CC5B51730DF11005331F0 /* ListCenteredCollectionLayoutManager.m in Sources */,
+				DB4CC5B81730E272005331F0 /* CollectionRowPaperAnimationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

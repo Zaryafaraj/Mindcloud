@@ -123,27 +123,6 @@
         <image name="BG3BlurMed.png" width="1920" height="1200"/>
         <image name="woodenBG.jpg" width="1920" height="1080"/>
     </resources>
-    <classes>
-        <class className="CollectionScreenListTableViewController" superclassName="ListTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CollectionScreenListTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="navigationBar" candidateClass="UINavigationBar"/>
-            </relationships>
-        </class>
-        <class className="ListTableViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-        <class className="MainScreenListTableViewController" superclassName="ListTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MainScreenListTableViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addPressed:"/>
-                <relationship kind="outlet" name="navigationBar" candidateClass="UINavigationBar"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

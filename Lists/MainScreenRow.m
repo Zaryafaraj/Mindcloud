@@ -43,8 +43,8 @@
 -(id) init
 {
     self = [super init];
-    self.backgroundColor = [UIColor clearColor];
     if (self) {
+        self.backgroundColor = [UIColor clearColor];
         [self addBackgroundLayer];
         [self addActionButtons];
         [self addforgroundLayer];
