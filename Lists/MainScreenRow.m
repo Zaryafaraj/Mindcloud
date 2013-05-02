@@ -244,6 +244,7 @@
     CGRect backgroundFrame = [self backgroundFrame];
     UIView * backgroundView = [[UIView alloc] initWithFrame:backgroundFrame];
     backgroundView.backgroundColor = [UIColor whiteColor];
+    self.backgroundView = backgroundView;
     [self addSubview:backgroundView];
 }
 
@@ -316,11 +317,7 @@
 -(NSArray *) getActionButtonFrames
 {
     //add Button
-    CGSize buttonSize = CGSizeMake(self.bounds.size.width/9, self.bounds.size.height);
-    CGRect addButtonFrame = CGRectMake(self.backgroundView.bounds.origin.x,
-                                       self.backgroundView.bounds.origin.y,
-                                       buttonSize.width,
-                                       buttonSize.height);
+    CGRect addButtonFrame = [self.layoutManager frameForButtonInBounds:self.bounds WithBackgroundView:self.backgroundView];
     NSValue * addButton = [NSValue valueWithCGRect:addButtonFrame];
     
     CGRect renameButtonFrame = CGRectMake(addButtonFrame.origin.x + addButtonFrame.size.width,

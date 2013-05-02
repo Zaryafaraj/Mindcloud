@@ -11,6 +11,17 @@
 #import "NoteTableRowLayoutManager.h"
 #import "CollectionRowPaperAnimationManager.h"
 
+#define LABEL_INSET_HOR 10
+#define LABEL_INSET_VER 10
+@interface NoteRow()
+
+@property (strong, nonatomic) UITextField * textField;
+@property (strong, nonatomic) UIView * backgroundView;
+@property (strong, nonatomic) UIButton * deleteButton;
+@property  BOOL isOpen;
+@property  BOOL isEditing;
+@end
+
 @implementation NoteRow
 
 @synthesize index = _index;
@@ -30,58 +41,278 @@
         [self addGestureRecognizers];
         self.animationManager = [[CollectionRowPaperAnimationManager alloc] init];
         self.layoutManager = [[NoteTableRowLayoutManager alloc] init];
+        self.isEditing = NO;
     }
     return self;
 }
 
--(void) addBackgroundLayer
+-(void) setAlpha:(CGFloat)alpha
 {
-    
+    //don't invoke super
+    //because there are views with alpha zero on top of these
+    //[super setAlpha:alpha];
+    self.foregroundView.alpha = alpha;
+    self.backgroundView.alpha = alpha;
+    self.textField.alpha = alpha;
+    self.deleteButton.alpha = alpha;
 }
 
--(void) addActionButtons
+-(void) setFrame:(CGRect)frame
 {
+    [super setFrame:frame];
+    self.foregroundView.frame = [self foregroundFrame];
+    self.backgroundView.frame = [self backgroundFrame];
+    self.textField.frame = [self labelFrameWithForegroundRect:self.foregroundView.frame];
+    CGRect buttonFrame = [self getActionButtonFrame];
+    self.deleteButton.frame = buttonFrame;
+    if (self.isOpen)
+    {
+        CGRect openRect = [self.layoutManager frameForOpenedRow:self.bounds];
+        [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
+                                                             isOpen:YES
+                                                     withOpenBounds:openRect];
+    }
+    else
+    {
+        [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
+                                                             isOpen:NO
+                                                     withOpenBounds:CGRectZero];
+        
+    }
     
+    [self closeView];
 }
-
--(void) addForegroundLayer
+-(UITextField *) textField
 {
-    
-}
-
--(void) addTextField
-{
-    
-}
-
--(void) addGestureRecognizers
-{
-    
+    if (_textField == nil)
+    {
+        UITextField * textField = [[UITextField alloc] initWithFrame:self.foregroundView. frame];
+        [self addSubview:textField];
+        textField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+        textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        textField.textAlignment = NSTextAlignmentCenter;
+        textField.delegate = self;
+        textField.backgroundColor = [UIColor clearColor];
+        textField.adjustsFontSizeToFitWidth = YES;
+        _textField = textField;
+    }
+    return _textField;
 }
 
 -(void) setText:(NSString *)text
 {
-    
+    self.textField.text = text;
 }
 
 -(NSString *) text
 {
-    return @"dummy";
+    return self.textField.text;
 }
 
--(void) setImage:(UIImage *)image
+-(void) addBackgroundLayer
 {
-    
+    CGRect backgroundFrame = [self backgroundFrame];
+    UIView * backgroundView = [[UIView alloc] initWithFrame:backgroundFrame];
+    backgroundView.backgroundColor = [UIColor whiteColor];
+    self.backgroundView = backgroundView;
+    [self addSubview:backgroundView];
 }
+
+-(CGRect) backgroundFrame
+{
+    return self.bounds;
+}
+
+-(void) addActionButtons
+{
+    CGRect frame = [self getActionButtonFrame];
+    UIButton * deleteButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [deleteButton addTarget:self action:@selector(deletePressed:) forControlEvents:UIControlEventTouchDown];
+    UIImage * deleteImage = [[ThemeFactory currentTheme] imageForMainScreenRowDeleteButton];
+    [deleteButton setBackgroundImage:deleteImage forState:UIControlStateNormal];
+    deleteButton.frame = frame;
+    self.deleteButton = deleteButton;
+    [[ThemeFactory currentTheme] stylizeMainScreenRowButton:deleteButton];
+    [self addSubview:deleteButton];
+    [self hideButtons:NO];
+}
+
+-(CGRect) getActionButtonFrame
+{
+    return [self.layoutManager frameForButtonInBounds:self.bounds
+                                   WithBackgroundView:self.backgroundView];
+}
+
+-(void) hideButtons:(BOOL) animated
+{
+    self.deleteButton.hidden = YES;
+}
+
+-(void) showButtons:(BOOL) animated
+{
+    self.deleteButton.hidden = NO;
+}
+
+-(void) deletePressed:(id) sender
+{
+    //[self.delegate deletePressed:self];
+}
+
+-(void) addForegroundLayer
+{
+    CGRect foregroundFrame = [self foregroundFrame];
+    UIView * foregroundView = [[UIView alloc] initWithFrame:foregroundFrame];
+    foregroundView.backgroundColor = [UIColor whiteColor];
+    [self addSubview:foregroundView];
+    self.foregroundView = foregroundView;
+}
+
+-(CGRect) foregroundFrame
+{
+    if (self.isOpen)
+    {
+        return [self.layoutManager frameForOpenedRow:self.bounds];
+    }
+    else
+    {
+        return self.bounds;
+    }
+}
+
+-(void) addTextField
+{
+    CGRect textFrame = [self labelFrameWithForegroundRect:self.foregroundView.frame];
+    self.textField.frame = textFrame;
+    [self addSubview:self.textField];
+}
+
+-(CGRect) labelFrameWithForegroundRect:(CGRect) newFrame;
+{
+    CGSize labelSize = CGSizeMake(newFrame.size.width - 2 * LABEL_INSET_HOR,
+                                  newFrame.size.height - 2 * LABEL_INSET_VER);
+    CGPoint labelOrigin = CGPointMake(newFrame.origin.x + LABEL_INSET_HOR,
+                                      LABEL_INSET_VER);
+    CGRect labelFrame = CGRectMake(labelOrigin.x, labelOrigin.y,
+                                   labelSize.width, labelSize.height);
+    return labelFrame;
+}
+
+-(void) addGestureRecognizers
+{
+    self.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
+    UISwipeGestureRecognizer * lsgr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swippedLeft:)];
+    lsgr.direction = UISwipeGestureRecognizerDirectionLeft;
+    UISwipeGestureRecognizer * rsgr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swippedRight:)];
+    rsgr.direction = UISwipeGestureRecognizerDirectionRight;
+    UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+    [tgr requireGestureRecognizerToFail:lsgr];
+    [tgr requireGestureRecognizerToFail:rsgr];
+    [self addGestureRecognizer:lsgr];
+    [self addGestureRecognizer:rsgr];
+    [self addGestureRecognizer:tgr];
+}
+
+-(void) swippedLeft:(UISwipeGestureRecognizer *) sender
+{
+    if (sender.state == UIGestureRecognizerStateChanged ||
+        sender.state == UIGestureRecognizerStateEnded)
+    {
+        [self closeView];
+    }
+}
+
+-(void) swippedRight:(UISwipeGestureRecognizer *) sender
+{
+    if (sender.state == UIGestureRecognizerStateChanged ||
+        sender.state == UIGestureRecognizerStateEnded)
+    {
+        [self openView];
+    }
+}
+
+-(void) tapped:(UISwipeGestureRecognizer *) sender
+{
+//    if (!self.isEditing && !self.isOpen && ![self.delegate isEditingRows])
+//    {
+//        [self closeView];
+//        UIColor * originalColor = self.foregroundView.backgroundColor;
+//        
+//        [UIView animateWithDuration:0.25 animations:^{
+//            self.foregroundView.backgroundColor = [[ThemeFactory currentTheme] colorForMainScreenRowSelected];
+//            //self.foregroundView.backgroundColor = [UIColor colorWithWhite:0.79 alpha:1];
+//        }completion:^(BOOL finished){
+//            [UIView animateWithDuration:0.15 animations:^{
+//                self.foregroundView.backgroundColor = originalColor;
+//            }];
+//            [self.delegate selectedRow:self];
+//        }];
+//    }
+//    else
+//    {
+//        [self.delegate tappedRow:self];
+//    }
+}
+
+-(void) openView
+{
+    if (!self.isOpen)
+    {
+        self.isOpen = YES;
+        CGRect openSize = [self.layoutManager frameForOpenedRow:self.foregroundView.frame];
+        CGRect labelFrame = [self labelFrameWithForegroundRect:openSize];
+        [self.animationManager slideOpenMainScreenRow:self.foregroundView
+                                          withButtons:@[self.deleteButton]
+                                             andLabel:self.textField
+                                     toForegroundRect:openSize
+                                         andLabelRect:labelFrame];
+        
+        [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
+                                                             isOpen:YES
+                                                     withOpenBounds:openSize];
+        [self showButtons:YES];
+    }
+}
+
+-(void) closeView
+{
+    if (self.isOpen)
+    {
+        
+        self.isOpen = NO;
+        
+        CGRect foregroundRect = self.foregroundView.superview.bounds;
+        CGRect labelFrame = [self labelFrameWithForegroundRect:foregroundRect];
+        [self.animationManager slideCloseMainScreenRow:self.foregroundView
+                                           withButtons:@[self.deleteButton]
+                                              andLabel:self.textField
+                                      toForegroundRect:foregroundRect
+                                          andLabelRect:labelFrame withCompletion:^{
+                                              [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
+                                                                                                   isOpen:NO
+                                                                                           withOpenBounds:CGRectZero];
+                                          }];
+        
+    }
+}
+
+
 
 -(void) enableEditing:(BOOL)makeFirstResponder
 {
-    
+    if (makeFirstResponder)
+    {
+        [self.textField becomeFirstResponder];
+    }
+    self.isEditing = YES;
 }
 
 -(void) disableEditing:(BOOL)resignFirstResponser
 {
-    
+    if (resignFirstResponser)
+    {
+        [self.textField resignFirstResponder];
+    }
+    self.isEditing = NO;
 }
 
 -(UIView<ListRow> *) prototypeSelf
@@ -94,6 +325,12 @@
 
 -(void) reset
 {
-    
+    [self closeView];
 }
+
+-(NSString *) description
+{
+    return self.textField.text;
+}
+
 @end

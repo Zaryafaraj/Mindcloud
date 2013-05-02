@@ -16,7 +16,14 @@
               toForegroundRect:(CGRect) openRect
                   andLabelRect:(CGRect) labelRect
 {
-    
+    [UIView animateWithDuration:0.30
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         row.frame = openRect;
+                         label.frame = labelRect;
+                     } completion:^(BOOL finished){
+                     }];
 }
 
 -(void) slideCloseMainScreenRow:(UIView *) row
@@ -26,7 +33,19 @@
                    andLabelRect:(CGRect) labelRect
                  withCompletion:(row_animation_completion_callback) callback
 {
-    
+    [UIView animateWithDuration:0.2
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         row.frame = foregroundRect;
+                         label.frame = labelRect;
+                     }completion:^(BOOL finished){
+                         for (UIButton * button in buttons)
+                         {
+                             button.hidden = YES;
+                         }
+                         callback();
+                     }];
 }
 
 @end

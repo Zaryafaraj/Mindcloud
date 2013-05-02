@@ -12,7 +12,25 @@
 
 - (CGRect) frameForOpenedRow:(CGRect) closedFrame
 {
-    return CGRectZero;
+    return     CGRectMake(closedFrame.origin.x + closedFrame.size.width/9,
+                          closedFrame.origin.y,
+                          8*closedFrame.size.width/9,
+                          closedFrame.size.height);
+}
+
+
+-(CGRect) frameForButtonInBounds:(CGRect) parentBounds
+              WithBackgroundView:(UIView *) backgroundView
+{
+    CGSize buttonSize = CGSizeMake(parentBounds.size.width/9,
+                                   parentBounds.size.height);
+    CGRect addButtonFrame = CGRectMake(backgroundView.bounds.origin.x,
+                                       backgroundView.bounds.origin.y,
+                                       buttonSize.width,
+                                       buttonSize.height);
+    
+    
+    return addButtonFrame;
 }
 
 @end

@@ -235,7 +235,10 @@
     if (index >= [self.dataSource count]) return nil;
     
     prototype.text = [self.dataSource titleForItemAtIndex:index];
-    prototype.image = [self.dataSource imageForItemAtIndex:index];
+    if ([prototype respondsToSelector:@selector(setImage:)])
+    {
+        prototype.image = [self.dataSource imageForItemAtIndex:index];
+    }
     prototype.frame = [self.layoutManager frameForRowforIndex:index
                                                   inSuperView:self.scrollView];
     return prototype;

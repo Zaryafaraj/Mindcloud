@@ -65,14 +65,27 @@
     [self addRowToTop];
 }
 
+-(void) scrollViewTapped:(UISwipeGestureRecognizer *) sender
+{
+    [super scrollViewTapped:sender];
+    if (self.isInEditMode)
+    {
+        [self.editingRow disableEditing:YES];
+        self.editingRow = nil;
+        self.isInEditMode = NO;
+    }
+}
+
 -(void) viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     self.navigationBar.alpha = 0;
 }
 
 -(void) viewDidAppear:(BOOL)animated
 {
     
+    [super viewDidAppear:animated];
     [self.animationManager showNavigationBar:self.navigationBar];
     self.navigationBar.backgroundColor = [[ThemeFactory currentTheme] colorForCollectionScreenNavigationBar];
 }

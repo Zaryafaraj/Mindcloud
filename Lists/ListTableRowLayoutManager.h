@@ -13,4 +13,7 @@
 
 - (CGRect) frameForOpenedRow:(CGRect) closedFrame;
 
+-(CGRect) frameForButtonInBounds:(CGRect) parentBounds
+              WithBackgroundView:(UIView *) backgroundView;
+
 @end
