@@ -8,7 +8,7 @@
 
 #import "NoteRow.h"
 #import "ThemeFactory.h"
-#import "ListCenteredCollectionLayoutManager.h"
+#import "NoteTableRowLayoutManager.h"
 #import "CollectionRowPaperAnimationManager.h"
 
 @implementation NoteRow
@@ -22,14 +22,14 @@
     self = [super init];
     if (self)
     {
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor whiteColor];
         [self addBackgroundLayer];
         [self addActionButtons];
         [self addForegroundLayer];
         [self addTextField];
         [self addGestureRecognizers];
         self.animationManager = [[CollectionRowPaperAnimationManager alloc] init];
-        self.layoutManager = [[ListCenteredCollectionLayoutManager alloc] init];
+        self.layoutManager = [[NoteTableRowLayoutManager alloc] init];
     }
     return self;
 }
@@ -66,7 +66,12 @@
 
 -(NSString *) text
 {
-    return nil;
+    return @"dummy";
+}
+
+-(void) setImage:(UIImage *)image
+{
+    
 }
 
 -(void) enableEditing:(BOOL)makeFirstResponder
@@ -81,7 +86,10 @@
 
 -(UIView<ListRow> *) prototypeSelf
 {
-    return nil;
+    NoteRow * prototype = [[NoteRow alloc] init];
+    prototype.frame = self.frame;
+    prototype.text = self.text;
+    return prototype;
 }
 
 -(void) reset

@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "ListTableRowLayoutManager.h"
 
-@interface ListCenteredCollectionLayoutManager : NSObject <ListTableRowLayoutManager>
+@interface NoteTableRowLayoutManager : NSObject <ListTableRowLayoutManager>
 
 @end

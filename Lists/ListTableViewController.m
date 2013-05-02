@@ -40,6 +40,10 @@
         _recycler = [[ScrollViewRowRecycler alloc] init];
         _recycler.delegate = self;
     }
+    if (_recycler.prototype == nil)
+    {
+        _recycler.prototype = self.prototypeRow;
+    }
     return _recycler;
 }
 
@@ -79,7 +83,10 @@
     UIView<ListRow> * row =  [self.recycler dequeRowForAdditionTo:self.scrollView atIndex:0];
     
     row.text = title;
-    row.image = [self.dataSource imageForItemAtIndex:0];
+    if ([row respondsToSelector:@selector(setImage:)])
+    {
+        row.image = [self.dataSource imageForItemAtIndex:0];
+    }
     row.index = 0;
     CGRect frame = [self.layoutManager frameForRowforIndex:0
                                                inSuperView:self.scrollView];

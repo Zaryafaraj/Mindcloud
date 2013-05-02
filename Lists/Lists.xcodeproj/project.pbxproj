@@ -51,7 +51,7 @@
 		DB4BD6ED172E0F060024305C /* woodenBG.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB4BD6EC172E0F060024305C /* woodenBG.jpg */; };
 		DB4BD6F1172E16DB0024305C /* RollingSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4BD6F0172E16DB0024305C /* RollingSegue.m */; };
 		DB4CC5B21730DEB6005331F0 /* NoteRow.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC5B11730DEB6005331F0 /* NoteRow.m */; };
-		DB4CC5B51730DF11005331F0 /* ListCenteredCollectionLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC5B41730DF11005331F0 /* ListCenteredCollectionLayoutManager.m */; };
+		DB4CC5B51730DF11005331F0 /* NoteTableRowLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC5B41730DF11005331F0 /* NoteTableRowLayoutManager.m */; };
 		DB4CC5B81730E272005331F0 /* CollectionRowPaperAnimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC5B71730E272005331F0 /* CollectionRowPaperAnimationManager.m */; };
 		DB9661E8172275AC00C04AC3 /* ListRowSlideAnimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9661E7172275AB00C04AC3 /* ListRowSlideAnimationManager.m */; };
 		DB9661EC1723416100C04AC3 /* StubListTableViewDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9661EB1723416100C04AC3 /* StubListTableViewDatasource.m */; };
@@ -135,8 +135,8 @@
 		DB4BD6F0172E16DB0024305C /* RollingSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RollingSegue.m; sourceTree = "<group>"; };
 		DB4CC5B01730DEB6005331F0 /* NoteRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteRow.h; sourceTree = "<group>"; };
 		DB4CC5B11730DEB6005331F0 /* NoteRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteRow.m; sourceTree = "<group>"; };
-		DB4CC5B31730DF11005331F0 /* ListCenteredCollectionLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListCenteredCollectionLayoutManager.h; sourceTree = "<group>"; };
-		DB4CC5B41730DF11005331F0 /* ListCenteredCollectionLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListCenteredCollectionLayoutManager.m; sourceTree = "<group>"; };
+		DB4CC5B31730DF11005331F0 /* NoteTableRowLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTableRowLayoutManager.h; sourceTree = "<group>"; };
+		DB4CC5B41730DF11005331F0 /* NoteTableRowLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTableRowLayoutManager.m; sourceTree = "<group>"; };
 		DB4CC5B61730E272005331F0 /* CollectionRowPaperAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionRowPaperAnimationManager.h; sourceTree = "<group>"; };
 		DB4CC5B71730E272005331F0 /* CollectionRowPaperAnimationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionRowPaperAnimationManager.m; sourceTree = "<group>"; };
 		DB9661DF17225FD900C04AC3 /* ListTableViewLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableViewLayoutManager.h; sourceTree = "<group>"; };
@@ -393,8 +393,8 @@
 				DBE411CF172B8CD300F26E17 /* ListTableRowLayoutManager.h */,
 				DBE411D0172B8CF300F26E17 /* SlidingTableRowLayoutManager.h */,
 				DBE411D1172B8CF300F26E17 /* SlidingTableRowLayoutManager.m */,
-				DB4CC5B31730DF11005331F0 /* ListCenteredCollectionLayoutManager.h */,
-				DB4CC5B41730DF11005331F0 /* ListCenteredCollectionLayoutManager.m */,
+				DB4CC5B31730DF11005331F0 /* NoteTableRowLayoutManager.h */,
+				DB4CC5B41730DF11005331F0 /* NoteTableRowLayoutManager.m */,
 			);
 			name = Layout;
 			sourceTree = "<group>";
@@ -581,7 +581,7 @@
 				DB116FC3172E1E090082D314 /* CollectionScreenListTableViewController.m in Sources */,
 				DB116FC8172E49DC0082D314 /* MultimediaHelper.m in Sources */,
 				DB4CC5B21730DEB6005331F0 /* NoteRow.m in Sources */,
-				DB4CC5B51730DF11005331F0 /* ListCenteredCollectionLayoutManager.m in Sources */,
+				DB4CC5B51730DF11005331F0 /* NoteTableRowLayoutManager.m in Sources */,
 				DB4CC5B81730E272005331F0 /* CollectionRowPaperAnimationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

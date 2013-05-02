@@ -9,6 +9,7 @@
 #import "CollectionScreenListTableViewController.h"
 #import "ThemeFactory.h"
 #import "ListTableSlideAnimationManager.h"
+#import "NoteRow.h"
 
 @interface CollectionScreenListTableViewController ()
 
@@ -19,8 +20,9 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.animationManager = [[ListTableSlideAnimationManager alloc] init];
+    if (self)
+    {
+        self = [self init];
     }
     return self;
 }
@@ -33,7 +35,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    self.animationManager = [[ListTableSlideAnimationManager alloc] init];
+    NoteRow * row = [[NoteRow alloc] init];
+    self.prototypeRow = row;
+    self.isInEditMode = NO;
+}
+
+-(IBAction)addPressed:(id)sender
+{
+    if (self.isInEditMode)
+    {
+        [self.editingRow disableEditing:YES];
+        self.editingRow = nil;
+        self.isInEditMode = NO;
+    }
+    [self addRowToTop];
 }
 
 -(void) viewWillAppear:(BOOL)animated

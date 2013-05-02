@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MindCloud. All rights reserved.
 //
 
-#import "ListCenteredCollectionLayoutManager.h"
+#import "NoteTableRowLayoutManager.h"
 
-@implementation ListCenteredCollectionLayoutManager
+@implementation NoteTableRowLayoutManager
 
 - (CGRect) frameForOpenedRow:(CGRect) closedFrame
 {

@@ -110,7 +110,6 @@
         }
     }
     self.model = newModel;
-    
 }
 
 -(int) indexOfItemWithTitle:(NSString *)title
