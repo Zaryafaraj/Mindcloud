@@ -10,5 +10,4 @@
 #import "ListTableRowLayoutManager.h"
 
 @interface NoteTableRowLayoutManager : NSObject <ListTableRowLayoutManager>
-
 @end

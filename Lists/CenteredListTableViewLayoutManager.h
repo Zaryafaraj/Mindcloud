@@ -10,4 +10,9 @@
 #import "ListTableViewLayoutManager.h"
 
 @interface CenteredListTableViewLayoutManager : NSObject <ListTableViewLayoutManager>
+
+@property CGFloat rowDivider;
+
+-(id) initWithDivider:(CGFloat) dividerSpace;
+
 @end

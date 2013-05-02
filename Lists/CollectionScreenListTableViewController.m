@@ -9,6 +9,7 @@
 #import "CollectionScreenListTableViewController.h"
 #import "ThemeFactory.h"
 #import "ListTableSlideAnimationManager.h"
+#import "CenteredListTableViewLayoutManager.h"
 #import "NoteRow.h"
 
 @interface CollectionScreenListTableViewController ()
@@ -16,6 +17,21 @@
 @end
 
 @implementation CollectionScreenListTableViewController
+
+-(id) initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        self.animationManager = [[ListTableSlideAnimationManager alloc] init];
+        NoteRow * row = [[NoteRow alloc] init];
+        self.prototypeRow = row;
+        self.isInEditMode = NO;
+        CGFloat divider = [[ThemeFactory currentTheme] spaceBetweenRowsInCollectionScreen];
+        self.layoutManager = [[CenteredListTableViewLayoutManager alloc] initWithDivider:divider];
+    }
+    return self;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,10 +51,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.animationManager = [[ListTableSlideAnimationManager alloc] init];
-    NoteRow * row = [[NoteRow alloc] init];
-    self.prototypeRow = row;
-    self.isInEditMode = NO;
+
 }
 
 -(IBAction)addPressed:(id)sender

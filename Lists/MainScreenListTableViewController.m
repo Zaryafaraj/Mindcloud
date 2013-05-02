@@ -10,6 +10,7 @@
 #import "MainScreenRow.h"
 #import "CollectionScreenListTableViewController.h"
 #import "ThemeFactory.h"
+#import "CenteredListTableViewLayoutManager.h"
 
 @interface MainScreenListTableViewController ()
 
@@ -30,6 +31,8 @@
         row.delegate = self;
         self.prototypeRow =row;
         self.isInEditMode = NO;
+        CGFloat divider = [[ThemeFactory currentTheme] spaceBetweenRowsInMainScreen];
+        self.layoutManager = [[CenteredListTableViewLayoutManager alloc] initWithDivider:divider];
     }
     return self;
 }

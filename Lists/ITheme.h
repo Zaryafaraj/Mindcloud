@@ -28,4 +28,7 @@
 -(CGFloat) alphaForCollectionScreenNavigationBar;
 -(UIColor *) colorForCollectionScreenNavigationBar;
 
+-(CGFloat) spaceBetweenRowsInMainScreen;
+-(CGFloat) spaceBetweenRowsInCollectionScreen;
+
 @end

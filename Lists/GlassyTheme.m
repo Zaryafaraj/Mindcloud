@@ -100,5 +100,13 @@
     return [self colorForMainScreenRowSelected];
 }
 
+-(CGFloat) spaceBetweenRowsInMainScreen
+{
+    return 5;
+}
+-(CGFloat) spaceBetweenRowsInCollectionScreen
+{
+    return 0;
+}
 
 @end

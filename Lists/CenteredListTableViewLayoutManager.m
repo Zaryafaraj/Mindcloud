@@ -13,21 +13,30 @@
 #define VER_OFFSET_TOP 100
 #define ROW_SIZE_WIDTH 500
 #define ROW_SIZE_HEIGHT 50
-#define ROW_DIVIDER 5
+
+-(id) initWithDivider:(CGFloat) dividerSpace
+{
+    self = [super init];
+    if (self)
+    {
+        self.rowDivider = dividerSpace;
+    }
+    return self;
+}
 
 - (CGRect) frameForRowforIndex:(int) index
           inSuperView:(UIView *) superView;
 {
     
     CGPoint origin = CGPointMake(superView.bounds.size.width/2 - ROW_SIZE_WIDTH/2,
-                                 VER_OFFSET_TOP + index * ROW_SIZE_HEIGHT + index * ROW_DIVIDER);
+                                 VER_OFFSET_TOP + index * ROW_SIZE_HEIGHT + index * self.rowDivider);
     return CGRectMake(origin.x, origin.y, ROW_SIZE_WIDTH, ROW_SIZE_HEIGHT);
 }
 
 - (CGPoint) originForFrameAfterFrame:(CGRect) frame
 {
     CGPoint point = CGPointMake(frame.origin.x,
-                                frame.origin.y + frame.size.height + ROW_DIVIDER);
+                                frame.origin.y + frame.size.height + self.rowDivider);
     return point;
 }
 
@@ -36,7 +45,7 @@
     CGFloat topVisiblePart = CGRectGetMinY(frame);
     CGFloat effectiveBottomVisiblePart = topVisiblePart - VER_OFFSET_TOP;
     //we give one row as a buffer
-    int result = floorf(effectiveBottomVisiblePart / (ROW_SIZE_HEIGHT + ROW_DIVIDER)) - 1;
+    int result = floorf(effectiveBottomVisiblePart / (ROW_SIZE_HEIGHT + self.rowDivider)) - 1;
     return MAX(result,0);
 }
 
@@ -45,7 +54,7 @@
     CGFloat bottomVisiblePart =CGRectGetMaxY(frame);
     CGFloat effectiveBottomVisiblePart = bottomVisiblePart - VER_OFFSET_TOP;
     //we give one row as a buffer
-    int result = floorf((effectiveBottomVisiblePart - 1)/ (ROW_SIZE_HEIGHT + ROW_DIVIDER))+1;
+    int result = floorf((effectiveBottomVisiblePart - 1)/ (ROW_SIZE_HEIGHT + self.rowDivider))+1;
     result += 4;
     return result;
 }
