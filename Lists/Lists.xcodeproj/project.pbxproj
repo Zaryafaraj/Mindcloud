@@ -156,6 +156,7 @@
 		DBBDEFC81713D9F8009ADF1A /* Test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Test.png; sourceTree = "<group>"; };
 		DBBDEFCA1713E367009ADF1A /* CenteredListTableViewLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CenteredListTableViewLayoutManager.h; sourceTree = "<group>"; };
 		DBBDEFCB1713E367009ADF1A /* CenteredListTableViewLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenteredListTableViewLayoutManager.m; sourceTree = "<group>"; };
+		DBD43D3C173382E70046ACA3 /* NoteRowDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteRowDelegate.h; sourceTree = "<group>"; };
 		DBE411CF172B8CD300F26E17 /* ListTableRowLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableRowLayoutManager.h; sourceTree = "<group>"; };
 		DBE411D0172B8CF300F26E17 /* SlidingTableRowLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlidingTableRowLayoutManager.h; sourceTree = "<group>"; };
 		DBE411D1172B8CF300F26E17 /* SlidingTableRowLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlidingTableRowLayoutManager.m; sourceTree = "<group>"; };
@@ -372,6 +373,7 @@
 				DBE5681017249B0F0009050F /* MainScreenRowViewDelegate.h */,
 				DB4CC5B01730DEB6005331F0 /* NoteRow.h */,
 				DB4CC5B11730DEB6005331F0 /* NoteRow.m */,
+				DBD43D3C173382E70046ACA3 /* NoteRowDelegate.h */,
 			);
 			name = Views;
 			sourceTree = "<group>";

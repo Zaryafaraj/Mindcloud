@@ -9,8 +9,9 @@
 #import "ListTableViewController.h"
 #import "ListCollectionViewDelegate.h"
 #import "ListTableAnimationManager.h"
+#import "NoteRowDelegate.h"
 
-@interface CollectionScreenListTableViewController : ListTableViewController
+@interface CollectionScreenListTableViewController : ListTableViewController <NoteRowDelegate>
 
 @property (strong ,nonatomic) NSString * name;
 @property (nonatomic, readwrite)IBOutlet UINavigationBar *navigationBar;

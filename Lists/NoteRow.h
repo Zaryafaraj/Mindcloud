@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "ListTableRowLayoutManager.h"
+#import "NoteRowDelegate.h"
 
 @interface NoteRow : UIView <ListRow, UITextFieldDelegate>
 
 @property (nonatomic, strong) id<ListTableRowLayoutManager> layoutManager;
 
+@property (nonatomic, strong) id<NoteRowDelegate> delegate;
 @end

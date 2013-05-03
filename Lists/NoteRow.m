@@ -155,7 +155,7 @@
 
 -(void) deletePressed:(id) sender
 {
-    //[self.delegate deletePressed:self];
+    [self.delegate deletePressed:self];
 }
 
 -(void) addForegroundLayer
@@ -232,25 +232,8 @@
 
 -(void) tapped:(UISwipeGestureRecognizer *) sender
 {
-//    if (!self.isEditing && !self.isOpen && ![self.delegate isEditingRows])
-//    {
-//        [self closeView];
-//        UIColor * originalColor = self.foregroundView.backgroundColor;
-//        
-//        [UIView animateWithDuration:0.25 animations:^{
-//            self.foregroundView.backgroundColor = [[ThemeFactory currentTheme] colorForMainScreenRowSelected];
-//            //self.foregroundView.backgroundColor = [UIColor colorWithWhite:0.79 alpha:1];
-//        }completion:^(BOOL finished){
-//            [UIView animateWithDuration:0.15 animations:^{
-//                self.foregroundView.backgroundColor = originalColor;
-//            }];
-//            [self.delegate selectedRow:self];
-//        }];
-//    }
-//    else
-//    {
-//        [self.delegate tappedRow:self];
-//    }
+    
+    [self.delegate tappedRow:self];
 }
 
 -(void) openView
@@ -320,6 +303,7 @@
     NoteRow * prototype = [[NoteRow alloc] init];
     prototype.frame = self.frame;
     prototype.text = self.text;
+    prototype.delegate = self.delegate;
     return prototype;
 }
 
@@ -331,6 +315,17 @@
 -(NSString *) description
 {
     return self.textField.text;
+}
+
+#pragma mark - Keyboard Delegate
+-(void) textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self.delegate tappedRow:self];
+}
+
+-(void) textFieldDidEndEditing:(UITextField *)textField
+{
+    [self disableEditing:YES];
 }
 
 @end
