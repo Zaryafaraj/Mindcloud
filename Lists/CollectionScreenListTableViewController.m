@@ -95,7 +95,7 @@
 
 -(void) deletePressed:(UIView<ListRow> *) sender
 {
-    
+    [self removeRow:sender];
 }
 
 -(void) tappedRow:(UIView<ListRow> *) sender

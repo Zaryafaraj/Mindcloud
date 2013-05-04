@@ -26,15 +26,35 @@
         self.callback();
     }
 }
+@end
 
+@interface removalAnimationDelegate : NSObject
+
+-(void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag;
+@property (strong, nonatomic) row_modification_callback callback;
 
 @end
+
+@implementation removalAnimationDelegate
+
+-(void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    if (self.callback != nil)
+    {
+        self.callback();
+    }
+}
+
+@end
+
 @implementation ListTableSlideAnimationManager
 
 -(void) slideMainScreenRow:(UIView *) row
                    toFrame:(CGRect) frame
+                      fast:(BOOL)fast
 {
-    [UIView animateWithDuration:0.25 animations:^{
+    float duration = fast ? 0.2 : 0.7;
+    [UIView animateWithDuration:duration animations:^{
         row.frame = frame;
     }];
 }
@@ -109,14 +129,42 @@
                  inSuperView:(UIView *) superView
        withCompletionHandler:(row_modification_callback) callback
 {
-    [UIView animateWithDuration:0.25 animations:^{
-        row.alpha = 0;
-    }completion:^(BOOL finished){
-        if (finished)
-        {
-            callback();
-        }
-    }];
+    
+    removalAnimationDelegate * delegate = [[removalAnimationDelegate alloc] init];
+    delegate.callback = callback;
+    
+    CALayer * layer = row.layer;
+    layer.anchorPoint = CGPointMake(0.5, 0.5);
+    layer.transform = CATransform3DIdentity;
+    layer.opacity = 0;
+    
+    CGFloat xTranslation = -(row.frame.origin.x + row.frame.size.width);
+    CABasicAnimation * rotateTranslateAnime = [CABasicAnimation animationWithKeyPath:@"transform"];
+    CATransform3D toTransform = CATransform3DRotate(layer.transform, - M_PI_4, 0, 1, 1);
+    toTransform = CATransform3DTranslate(toTransform, xTranslation, -300, 0);
+    toTransform.m34 = - 1./500;
+    rotateTranslateAnime.fromValue = [NSValue valueWithCATransform3D:layer.transform];
+    rotateTranslateAnime.toValue = [NSValue valueWithCATransform3D:toTransform];
+    rotateTranslateAnime.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
+    rotateTranslateAnime.duration = 1.0;
+    rotateTranslateAnime.delegate = delegate;
+    [layer addAnimation:rotateTranslateAnime forKey:@"rotateTranslate"];
+    
+    CABasicAnimation * opacityAnime = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    opacityAnime.fromValue = [NSNumber numberWithFloat:1];
+    opacityAnime.toValue = [NSNumber numberWithFloat:0.5];
+    opacityAnime.duration = rotateTranslateAnime.duration;
+    
+    [layer addAnimation:opacityAnime forKey:@"opacity"];
+
+//    [UIView animateWithDuration:0.25 animations:^{
+//        row.alpha = 0;
+//    }completion:^(BOOL finished){
+//        if (finished)
+//        {
+//            callback();
+//        }
+//    }];
 }
 
 -(void) hideNavigationBar:(UINavigationBar *) navBar

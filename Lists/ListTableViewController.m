@@ -107,12 +107,12 @@
     [self.animationManager animateRemovalForRow:row
                                     inSuperView:self.scrollView
                           withCompletionHandler:^{
-                              [self.dataSource removeItemAtIndex:index];
                               [row removeFromSuperview];
-                              [self moveRowsUpAfterIndex:index];
+                              [self.dataSource removeItemAtIndex:index];
                               [self.recycler returnRowForRecyling:row
                                                      inScrollView:self.scrollView];
                           }];
+    [self moveRowsUpAfterIndex:index];
 }
 
 - (void) moveRowsDown
@@ -128,7 +128,7 @@
             row.text = [NSString stringWithFormat:@"%d",row.index];
             [self.dataSource setTitle:row.text ForItemAtIndex:row.index];
             
-            [self.animationManager slideMainScreenRow:row toFrame:frame];
+            [self.animationManager slideMainScreenRow:row toFrame:frame fast:YES];
         }
     }
     [self adjustScrollViewForLowestIndex:lowestIndex];
@@ -149,7 +149,7 @@
                 row.text = [NSString stringWithFormat:@"%d",row.index];
                 [self.dataSource setTitle:row.text ForItemAtIndex:row.index];
                 
-                [self.animationManager slideMainScreenRow:row toFrame:frame];
+                [self.animationManager slideMainScreenRow:row toFrame:frame fast:NO];
             }
         }
     }

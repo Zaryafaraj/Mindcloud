@@ -221,6 +221,7 @@
 {
     CGRect foregroundFrame = [self foregroundFrame];
     UIView * foregroundView = [[UIView alloc] initWithFrame:foregroundFrame];
+    foregroundView.backgroundColor = [UIColor whiteColor];
     [self addSubview:foregroundView];
     self.foregroundView = foregroundView;
     [self addImagePlaceHolder];
