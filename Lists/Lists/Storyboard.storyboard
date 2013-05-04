@@ -12,7 +12,7 @@
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="BG3BlurMed.png" translatesAutoresizingMaskIntoConstraints="NO" id="9ZG-S9-EOK">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="BG3BlurNo.png" translatesAutoresizingMaskIntoConstraints="NO" id="9ZG-S9-EOK">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1016" id="9z5-AC-MPr"/>
                                 </constraints>
@@ -46,10 +46,10 @@
                             <constraint firstItem="8tL-6J-zN1" firstAttribute="leading" secondItem="D7U-7C-LhO" secondAttribute="leading" type="default" id="HV1-zp-Edd"/>
                             <constraint firstItem="9ZG-S9-EOK" firstAttribute="trailing" secondItem="D7U-7C-LhO" secondAttribute="trailing" type="default" id="MCt-el-dO2"/>
                             <constraint firstItem="fh7-EH-Qg9" firstAttribute="trailing" secondItem="D7U-7C-LhO" secondAttribute="trailing" type="default" id="TrV-yK-1TH"/>
+                            <constraint firstItem="8tL-6J-zN1" firstAttribute="top" secondItem="fh7-EH-Qg9" secondAttribute="bottom" type="default" id="YLu-DW-Y7R"/>
                             <constraint firstItem="8tL-6J-zN1" firstAttribute="trailing" secondItem="D7U-7C-LhO" secondAttribute="trailing" type="default" id="aaU-tx-rh9"/>
                             <constraint firstItem="8tL-6J-zN1" firstAttribute="bottom" secondItem="D7U-7C-LhO" secondAttribute="bottom" type="default" id="apu-dd-MYh"/>
-                            <constraint firstItem="fh7-EH-Qg9" firstAttribute="top" secondItem="D7U-7C-LhO" secondAttribute="top" constant="1" id="cIV-Ur-9QX"/>
-                            <constraint firstItem="8tL-6J-zN1" firstAttribute="top" secondItem="fh7-EH-Qg9" secondAttribute="bottom" type="default" id="zV3-dR-1bn"/>
+                            <constraint firstItem="fh7-EH-Qg9" firstAttribute="top" secondItem="D7U-7C-LhO" secondAttribute="top" type="default" id="jHL-V2-hdh"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -126,15 +126,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="BG3BlurMed.png" width="1920" height="1200"/>
+        <image name="BG3BlurNo.png" width="1920" height="1200"/>
         <image name="woodenBG.jpg" width="1920" height="1080"/>
     </resources>
     <classes>
         <class className="CollectionScreenListTableViewController" superclassName="ListTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CollectionScreenListTableViewController.h"/>
             <relationships>
-                <relationship kind="action" name="addPressed:"/>
-                <relationship kind="action" name="donePressed:"/>
                 <relationship kind="outlet" name="navigationBar" candidateClass="UINavigationBar"/>
             </relationships>
         </class>

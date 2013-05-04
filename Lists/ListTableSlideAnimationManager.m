@@ -130,7 +130,7 @@
 
 -(void) showNavigationBar:(UINavigationBar *) navBar
 {
-    [UIView animateWithDuration:0.3 delay:0.2 options:UIViewAnimationOptionCurveLinear animations:^{
+    [UIView animateWithDuration:0.3 delay:0.1 options:UIViewAnimationOptionCurveLinear animations:^{
         navBar.alpha = [[ThemeFactory currentTheme] alphaForMainScreenNavigationBar];
     }completion:^(BOOL Completed){
         

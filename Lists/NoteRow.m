@@ -33,7 +33,7 @@
     self = [super init];
     if (self)
     {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
         [self addBackgroundLayer];
         [self addActionButtons];
         [self addForegroundLayer];
@@ -68,13 +68,13 @@
     if (self.isOpen)
     {
         CGRect openRect = [self.layoutManager frameForOpenedRow:self.bounds];
-        [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
+        [[ThemeFactory currentTheme] stylizeCollectionScreenRowForeground:self.foregroundView
                                                              isOpen:YES
                                                      withOpenBounds:openRect];
     }
     else
     {
-        [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
+        [[ThemeFactory currentTheme] stylizeCollectionScreenRowForeground:self.foregroundView
                                                              isOpen:NO
                                                      withOpenBounds:CGRectZero];
         
@@ -113,7 +113,7 @@
 {
     CGRect backgroundFrame = [self backgroundFrame];
     UIView * backgroundView = [[UIView alloc] initWithFrame:backgroundFrame];
-    backgroundView.backgroundColor = [UIColor whiteColor];
+    backgroundView.backgroundColor = [UIColor clearColor];
     self.backgroundView = backgroundView;
     [self addSubview:backgroundView];
 }
@@ -128,11 +128,11 @@
     CGRect frame = [self getActionButtonFrame];
     UIButton * deleteButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [deleteButton addTarget:self action:@selector(deletePressed:) forControlEvents:UIControlEventTouchDown];
-    UIImage * deleteImage = [[ThemeFactory currentTheme] imageForMainScreenRowDeleteButton];
+    UIImage * deleteImage = [[ThemeFactory currentTheme] imageCollectionScreenRowDeleteButton];
     [deleteButton setBackgroundImage:deleteImage forState:UIControlStateNormal];
     deleteButton.frame = frame;
     self.deleteButton = deleteButton;
-    [[ThemeFactory currentTheme] stylizeMainScreenRowButton:deleteButton];
+    [[ThemeFactory currentTheme] stylizeCollectionScreenRowButton:deleteButton];
     [self addSubview:deleteButton];
     [self hideButtons:NO];
 }
@@ -249,7 +249,7 @@
                                      toForegroundRect:openSize
                                          andLabelRect:labelFrame];
         
-        [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
+        [[ThemeFactory currentTheme] stylizeCollectionScreenRowForeground:self.foregroundView
                                                              isOpen:YES
                                                      withOpenBounds:openSize];
         [self showButtons:YES];
@@ -270,7 +270,7 @@
                                               andLabel:self.textField
                                       toForegroundRect:foregroundRect
                                           andLabelRect:labelFrame withCompletion:^{
-                                              [[ThemeFactory currentTheme] stylizeMainscreenRowForeground:self.foregroundView
+                                              [[ThemeFactory currentTheme] stylizeCollectionScreenRowForeground:self.foregroundView
                                                                                                    isOpen:NO
                                                                                            withOpenBounds:CGRectZero];
                                           }];

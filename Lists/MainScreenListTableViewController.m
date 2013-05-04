@@ -27,7 +27,7 @@
     {
         MainScreenRow * row = [[MainScreenRow alloc] init];
         self.navigationBar.alpha = [[ThemeFactory currentTheme] alphaForMainScreenNavigationBar];
-        self.navigationBar.backgroundColor = [[ThemeFactory currentTheme] colorForMainScreenNavigationBar];
+        self.navigationBar.tintColor = [[ThemeFactory currentTheme] colorForMainScreenNavigationBar];
         row.delegate = self;
         self.prototypeRow =row;
         self.isInEditMode = NO;

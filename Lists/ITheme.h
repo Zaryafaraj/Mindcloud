@@ -14,12 +14,19 @@
 -(UIImage *) imageForMainScreenRowShareButton;
 -(UIImage *) imageForMainscreenRowRenameButton;
 
+-(UIImage *) imageCollectionScreenRowDeleteButton;
+
 -(UIView *) stylizeMainscreenRowForeground:(UIView *) view
                                     isOpen:(BOOL) isOpen
                               withOpenBounds:(CGRect) openSize;
 
 -(UIView *) stylizeMainScreenRowButton:(UIButton *) button;
 
+-(UIView *) stylizeCollectionScreenRowForeground:(UIView *) view
+                                    isOpen:(BOOL) isOpen
+                              withOpenBounds:(CGRect) openSize;
+
+-(UIView *) stylizeCollectionScreenRowButton:(UIButton *) button;
 -(UIColor *) colorForMainScreenRowSelected;
 
 -(CGFloat) alphaForMainScreenNavigationBar;
@@ -30,5 +37,7 @@
 
 -(CGFloat) spaceBetweenRowsInMainScreen;
 -(CGFloat) spaceBetweenRowsInCollectionScreen;
+
+-(UIImage *) imageForRowBackground;
 
 @end

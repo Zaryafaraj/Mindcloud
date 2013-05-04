@@ -17,6 +17,7 @@
 		DB10D5D0171A23C6009D1566 /* GlassyMainRowEdit.png in Resources */ = {isa = PBXBuildFile; fileRef = DB10D5CF171A23C6009D1566 /* GlassyMainRowEdit.png */; };
 		DB116FC3172E1E090082D314 /* CollectionScreenListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB116FC2172E1E090082D314 /* CollectionScreenListTableViewController.m */; };
 		DB116FC8172E49DC0082D314 /* MultimediaHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB116FC7172E49DC0082D314 /* MultimediaHelper.m */; };
+		DB1A2C9B1734E46E009017D1 /* tablerowbg.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1A2C9A1734E46E009017D1 /* tablerowbg.png */; };
 		DB3C8E171710D3DE00A69D3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3C8E161710D3DE00A69D3B /* UIKit.framework */; };
 		DB3C8E191710D3DE00A69D3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3C8E181710D3DE00A69D3B /* Foundation.framework */; };
 		DB3C8E1B1710D3DE00A69D3B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3C8E1A1710D3DE00A69D3B /* CoreGraphics.framework */; };
@@ -88,6 +89,7 @@
 		DB116FC4172E353D0082D314 /* ListCollectionViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListCollectionViewDelegate.h; sourceTree = "<group>"; };
 		DB116FC6172E49DC0082D314 /* MultimediaHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultimediaHelper.h; sourceTree = "<group>"; };
 		DB116FC7172E49DC0082D314 /* MultimediaHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultimediaHelper.m; sourceTree = "<group>"; };
+		DB1A2C9A1734E46E009017D1 /* tablerowbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tablerowbg.png; sourceTree = "<group>"; };
 		DB378C47171E7AD2008C6216 /* ScrollViewRecyclerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewRecyclerDelegate.h; sourceTree = "<group>"; };
 		DB3C8E131710D3DE00A69D3B /* Lists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB3C8E161710D3DE00A69D3B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -201,6 +203,14 @@
 			name = Helpers;
 			sourceTree = "<group>";
 		};
+		DB1A2C911734D98A009017D1 /* Textures */ = {
+			isa = PBXGroup;
+			children = (
+				DB1A2C9A1734E46E009017D1 /* tablerowbg.png */,
+			);
+			name = Textures;
+			sourceTree = "<group>";
+		};
 		DB3C8E0A1710D3DE00A69D3B = {
 			isa = PBXGroup;
 			children = (
@@ -248,6 +258,7 @@
 		DB3C8E1D1710D3DE00A69D3B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DB1A2C911734D98A009017D1 /* Textures */,
 				DBBEC5F91717E29A00739B1A /* Icons */,
 				DBBDEFC51713CADF009ADF1A /* Test */,
 				DB3C8E4D1710D52F00A69D3B /* BGs */,
@@ -531,6 +542,7 @@
 				DB10D5CE171A2334009D1566 /* GlassyMainRowEditLight.png in Resources */,
 				DB10D5D0171A23C6009D1566 /* GlassyMainRowEdit.png in Resources */,
 				DB4BD6ED172E0F060024305C /* woodenBG.jpg in Resources */,
+				DB1A2C9B1734E46E009017D1 /* tablerowbg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

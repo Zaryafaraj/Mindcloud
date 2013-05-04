@@ -88,7 +88,7 @@
     
     [super viewDidAppear:animated];
     [self.animationManager showNavigationBar:self.navigationBar];
-    self.navigationBar.backgroundColor = [[ThemeFactory currentTheme] colorForCollectionScreenNavigationBar];
+    self.navigationBar.tintColor = [[ThemeFactory currentTheme] colorForCollectionScreenNavigationBar];
 }
 
 #pragma mark - Note Row Delegate
