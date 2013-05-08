@@ -18,7 +18,6 @@
 
 @interface ListTableViewController ()
 
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) ScrollViewRowRecycler * recycler;
 @property UIEdgeInsets originalContentInset;
 @property CGPoint originalContentOffset;
@@ -74,7 +73,7 @@
     return _dataSource;
 }
 
--(void) addRowToTop
+-(UIView<ListRow> *) addRowToTop
 {
     [self.scrollView setContentOffset:CGPointZero animated:NO];
     
@@ -98,6 +97,7 @@
                            withCompletionHandler:^{[row enableEditing:YES];}];
     self.editingRow = row;
     self.isInEditMode = YES;
+    return row;
 }
 
 -(void) removeRow:(UIView<ListRow> *) row
@@ -129,6 +129,14 @@
             [self.dataSource setTitle:row.text ForItemAtIndex:row.index];
             
             [self.animationManager slideMainScreenRow:row toFrame:frame fast:YES];
+            if (row.contextualMenu != nil)
+            {
+                CGRect contextualMenuFrame = [self.layoutManager frameForContextualMenuInRow:row];
+                [self.animationManager slideContextualMenu:row.contextualMenu
+                                                   toFrame:contextualMenuFrame
+                                                      fast:YES];
+                
+            }
         }
     }
     [self adjustScrollViewForLowestIndex:lowestIndex];
@@ -150,6 +158,15 @@
                 [self.dataSource setTitle:row.text ForItemAtIndex:row.index];
                 
                 [self.animationManager slideMainScreenRow:row toFrame:frame fast:NO];
+                
+                if (row.contextualMenu !=nil)
+                {
+                    CGRect contextualMenuFrame = [self.layoutManager frameForContextualMenuInRow:row];
+//                    row.contextualMenu.hidden = YES;
+//                    [self.animationManager slideContextualMenu:row.contextualMenu
+//                                                       toFrame:contextualMenuFrame
+//                                                          fast:NO];
+                }
             }
         }
     }
@@ -184,6 +201,21 @@
     [self.recycler recycleRows:self.scrollView];
 }
 
+//-(void) adjustContextualViews
+//{
+//    for(UIView<ListRow> * row in self.scrollView.subviews)
+//    {
+//        if ([row conformsToProtocol:@protocol(ListRow)])
+//        {
+//            if (row.contextualMenu)
+//            {
+//                CGRect frame = [self.layoutManager frameForContextualMenuInRow:row];
+//                row.contextualMenu.frame = frame;
+//            }
+//        }
+//    }
+//
+//}
 -(void) configureScrollView
 {
     
@@ -239,11 +271,25 @@
     {
         prototype.image = [self.dataSource imageForItemAtIndex:index];
     }
+    
     prototype.frame = [self.layoutManager frameForRowforIndex:index
                                                   inSuperView:self.scrollView];
+    CGRect frame = [self.layoutManager frameForContextualMenuInRow:prototype];
+    if (prototype.contextualMenu == nil)
+    {
+        
+    }
+    prototype.contextualMenu.frame = frame;
+    [self.scrollView addSubview:prototype.contextualMenu];
+    NSLog(@"Setting for : %@", prototype.text);
     return prototype;
 }
 
+-(void) didRecycledRow:(UIView<ListRow> *)recycledView
+              ForIndex:(int)index
+{
+    
+}
 - (int) lowestIndexInView
 {
     return [self.layoutManager lowestRowIndexInFrame:self.scrollView.bounds];

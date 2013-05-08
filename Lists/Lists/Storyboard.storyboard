@@ -67,7 +67,7 @@
         <scene sceneID="Iqx-PE-cpg">
             <objects>
                 <viewController id="zpN-uj-5BD" userLabel="Collection List Table View Controller" customClass="CollectionScreenListTableViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="HqX-gd-9qn" userLabel="Main">
+                    <view key="view" contentMode="scaleAspectFit" id="HqX-gd-9qn" userLabel="Main">
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -105,10 +105,10 @@
                             <constraint firstItem="0zN-0b-5sU" firstAttribute="top" secondItem="HqX-gd-9qn" secondAttribute="top" constant="1" id="0A6-bA-0OE"/>
                             <constraint firstItem="Ad1-ZL-2Gl" firstAttribute="leading" secondItem="HqX-gd-9qn" secondAttribute="leading" type="default" id="26B-Zm-rGg"/>
                             <constraint firstItem="Ik6-yl-Koc" firstAttribute="top" secondItem="0zN-0b-5sU" secondAttribute="bottom" type="default" id="7Hu-Uc-FXL"/>
+                            <constraint firstItem="Ik6-yl-Koc" firstAttribute="trailing" secondItem="HqX-gd-9qn" secondAttribute="trailing" type="default" id="DO6-V4-MfJ"/>
                             <constraint firstItem="Ik6-yl-Koc" firstAttribute="bottom" secondItem="HqX-gd-9qn" secondAttribute="bottom" type="default" id="ViF-Ao-rNj"/>
                             <constraint firstItem="Ad1-ZL-2Gl" firstAttribute="top" secondItem="HqX-gd-9qn" secondAttribute="top" type="default" id="XE5-y9-PVL"/>
                             <constraint firstItem="0zN-0b-5sU" firstAttribute="trailing" secondItem="HqX-gd-9qn" secondAttribute="trailing" type="default" id="gA9-s2-bSD"/>
-                            <constraint firstItem="Ik6-yl-Koc" firstAttribute="trailing" secondItem="HqX-gd-9qn" secondAttribute="trailing" type="default" id="qM8-BE-boI"/>
                             <constraint firstItem="Ad1-ZL-2Gl" firstAttribute="trailing" secondItem="HqX-gd-9qn" secondAttribute="trailing" type="default" id="qaf-px-nJg"/>
                             <constraint firstItem="0zN-0b-5sU" firstAttribute="leading" secondItem="HqX-gd-9qn" secondAttribute="leading" type="default" id="vpX-tD-KIl"/>
                             <constraint firstItem="Ik6-yl-Koc" firstAttribute="leading" secondItem="HqX-gd-9qn" secondAttribute="leading" type="default" id="wmU-4G-Af0"/>
@@ -133,6 +133,8 @@
         <class className="CollectionScreenListTableViewController" superclassName="ListTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CollectionScreenListTableViewController.h"/>
             <relationships>
+                <relationship kind="action" name="addPressed:"/>
+                <relationship kind="action" name="donePressed:"/>
                 <relationship kind="outlet" name="navigationBar" candidateClass="UINavigationBar"/>
             </relationships>
         </class>

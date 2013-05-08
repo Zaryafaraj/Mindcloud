@@ -40,4 +40,23 @@
 
 -(UIImage *) imageForRowBackground;
 
+-(UIImage *) getContextualMenuItemBackground;
+
+-(UIImage *) getContextualMenuItemBackgroundHighlighted;
+
+-(UIImage *) getContextualMenuContentClock;
+
+-(UIImage *) getContextualMenuContentDone;
+
+-(UIImage *) getContextualMenuContentExpand;
+
+-(UIImage *) getContextualMenuContentStart;
+
+-(UIImage *) getContextualMenuButton;
+
+-(UIImage *) getContextualMenuButtonHighlighted;
+
+-(UIImage *) getContextualMenuButtonContent;
+
+-(UIImage *) getContextualMenuButtonContentHighlighted;
 @end

@@ -10,6 +10,7 @@
 #import "ThemeFactory.h"
 #import "NoteTableRowLayoutManager.h"
 #import "CollectionRowPaperAnimationManager.h"
+#import "AwesomeMenu.h"
 
 #define LABEL_INSET_HOR 10
 #define LABEL_INSET_VER 10
@@ -27,23 +28,34 @@
 @synthesize index = _index;
 @synthesize animationManager = _animationManager;
 @synthesize foregroundView = _foregroundView;
+@synthesize contextualMenu = _contextualMenu;
 
 -(id) init
 {
     self = [super init];
     if (self)
     {
+        self.layoutManager = [[NoteTableRowLayoutManager alloc] init];
+        self.animationManager = [[CollectionRowPaperAnimationManager alloc] init];
         self.backgroundColor = [UIColor clearColor];
         [self addBackgroundLayer];
         [self addActionButtons];
         [self addForegroundLayer];
         [self addTextField];
         [self addGestureRecognizers];
-        self.animationManager = [[CollectionRowPaperAnimationManager alloc] init];
-        self.layoutManager = [[NoteTableRowLayoutManager alloc] init];
         self.isEditing = NO;
     }
     return self;
+}
+
+-(void) setContextualMenu:(AwesomeMenu *)contextualMenu
+{
+    if (_contextualMenu)
+    {
+        [_contextualMenu removeFromSuperview];
+    }
+    _contextualMenu = contextualMenu;
+    _contextualMenu.delegate = self;
 }
 
 -(void) setAlpha:(CGFloat)alpha
@@ -80,6 +92,7 @@
         
     }
     
+
     [self closeView];
 }
 -(UITextField *) textField
@@ -317,6 +330,12 @@
     return self.textField.text;
 }
 
+-(void) removeFromSuperview
+{
+    [super removeFromSuperview];
+    [self.contextualMenu removeFromSuperview];
+}
+
 #pragma mark - Keyboard Delegate
 -(void) textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -326,6 +345,22 @@
 -(void) textFieldDidEndEditing:(UITextField *)textField
 {
     [self disableEditing:YES];
+}
+
+#pragma mark - Awesome menu delegate
+
+- (void)AwesomeMenu:(AwesomeMenu *)menu didSelectIndex:(NSInteger)idx
+{
+    
+}
+
+- (void)AwesomeMenuDidFinishAnimationClose:(AwesomeMenu *)menu
+{
+    
+}
+- (void)AwesomeMenuDidFinishAnimationOpen:(AwesomeMenu *)menu
+{
+    
 }
 
 @end

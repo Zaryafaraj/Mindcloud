@@ -178,4 +178,56 @@
     return 5;
 }
 
+-(UIImage *) getContextualMenuItemBackground
+{
+    return [UIImage imageNamed:@"bg-menuitem.png"];
+}
+
+-(UIImage *) getContextualMenuItemBackgroundHighlighted
+{
+    return [UIImage imageNamed:@"bg-menuitem-highlighted.png"];
+}
+
+-(UIImage *) getContextualMenuContentClock
+{
+    return [UIImage imageNamed:@"icon-star.png"];
+}
+
+-(UIImage *) getContextualMenuContentDone
+{
+    return [UIImage imageNamed:@"icon-star.png"];
+}
+
+-(UIImage *) getContextualMenuContentExpand
+{
+    return [UIImage imageNamed:@"icon-star.png"];
+}
+
+-(UIImage *) getContextualMenuContentStart
+{
+    
+    return [UIImage imageNamed:@"icon-star.png"];
+}
+
+-(UIImage *) getContextualMenuButton
+{
+    return [UIImage imageNamed:@"bg-contextbutton.png"];
+}
+
+-(UIImage *) getContextualMenuButtonHighlighted
+{
+    
+    return [UIImage imageNamed:@"bg-contextbutton-highlighted.png"];
+}
+
+-(UIImage *) getContextualMenuButtonContent
+{
+    return [UIImage imageNamed:@"icon-contextbutton.png"];
+}
+
+-(UIImage *) getContextualMenuButtonContentHighlighted
+{
+    return [UIImage imageNamed:@"icon-contextbutton-highlighted.png"];
+}
+
 @end

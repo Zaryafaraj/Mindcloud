@@ -29,4 +29,9 @@ typedef void (^row_modification_callback)(void);
 -(void) hideNavigationBar:(UINavigationBar *) navBar;
 
 -(void) showNavigationBar:(UINavigationBar *) navBar;
+
+-(void) slideContextualMenu:(UIView *) contextualMenu
+                    toFrame:(CGRect) frame
+                       fast:(BOOL) fast;
+
 @end

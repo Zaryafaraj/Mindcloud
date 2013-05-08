@@ -14,6 +14,7 @@
 
 @interface ListTableViewController : UIViewController <UIScrollViewDelegate, ScrollViewRecyclerDelegate>
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) id<ListTableViewLayoutManager> layoutManager;
 @property (nonatomic, strong) id<ListTableAnimationManager> animationManager;
 
@@ -25,7 +26,7 @@
 
 @property BOOL isInEditMode;
 
--(void) addRowToTop;
+-(UIView<ListRow> *) addRowToTop;
 
 -(void) removeRow:(UIView<ListRow> *) row;
 

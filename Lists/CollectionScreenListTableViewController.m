@@ -11,6 +11,8 @@
 #import "ListTableSlideAnimationManager.h"
 #import "CenteredListTableViewLayoutManager.h"
 #import "NoteRow.h"
+#import "AwesomeMenu.h"
+#import "AwesomeMenuItem.h"
 
 @interface CollectionScreenListTableViewController ()
 
@@ -63,7 +65,74 @@
         self.editingRow = nil;
         self.isInEditMode = NO;
     }
-    [self addRowToTop];
+    
+    UIView<ListRow> * row = [self addRowToTop];
+    AwesomeMenu * contextualMenu = [self createContextualMenu:row];
+    row.contextualMenu = contextualMenu;
+//    contextualMenu.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+
+    
+
+    NSDictionary * viewsDictionary = NSDictionaryOfVariableBindings(contextualMenu, row);
+    //TODO- get the number for constraint from layout manager
+    NSArray * constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"[row]->=40-[contextualMenu]"
+                                                                    options:NSLayoutFormatAlignAllCenterY
+                                                                    metrics:nil
+                                                                      views:viewsDictionary];
+    
+    [self.scrollView addSubview:contextualMenu];
+    [contextualMenu setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraints:constraints];
+}
+
+-(AwesomeMenu *) createContextualMenu:(UIView<ListRow> *) row
+{
+    id <ITheme> theme = [ThemeFactory currentTheme];
+    UIImage * background = [theme getContextualMenuItemBackground];
+    UIImage * backgroundHighlighted = [theme getContextualMenuItemBackgroundHighlighted];
+    UIImage * doneContent = [theme getContextualMenuContentDone];
+    UIImage * expandContent = [theme getContextualMenuContentExpand];
+    UIImage * clockContent = [theme getContextualMenuContentClock];
+    UIImage * startContent = [theme getContextualMenuContentStart];
+    UIImage * buttonBackgroundImage = [theme getContextualMenuButton];
+    UIImage * buttonBackgroundImageHighlighted = [theme getContextualMenuButtonHighlighted];
+    UIImage * buttonContent = [theme getContextualMenuButtonContent];
+    UIImage * buttonContentHighlighted = [theme getContextualMenuButtonContentHighlighted];
+    
+    AwesomeMenuItem * doneItem = [[AwesomeMenuItem alloc] initWithImage:background
+                                                       highlightedImage:backgroundHighlighted
+                                                           ContentImage:doneContent
+                                                highlightedContentImage:nil];
+    
+    AwesomeMenuItem * expandItem = [[AwesomeMenuItem alloc] initWithImage:background
+                                                         highlightedImage:backgroundHighlighted
+                                                             ContentImage:expandContent
+                                                  highlightedContentImage:nil];
+    
+    AwesomeMenuItem * clockItem = [[AwesomeMenuItem alloc] initWithImage:background
+                                                        highlightedImage:backgroundHighlighted
+                                                            ContentImage:clockContent
+                                                 highlightedContentImage:nil];
+    
+    AwesomeMenuItem * startItem = [[AwesomeMenuItem alloc] initWithImage:background
+                                                        highlightedImage:backgroundHighlighted
+                                                            ContentImage:startContent
+                                                 highlightedContentImage:nil];
+    
+    CGRect contextualMenuFrame = [self.layoutManager frameForContextualMenuInRow:row];
+    AwesomeMenu * menu = [[AwesomeMenu alloc] initWithFrame:contextualMenuFrame
+                                                      menus:@[doneItem, expandItem, clockItem, startItem]
+                                            backgroundImage:buttonBackgroundImage
+                                 backgroundImageHighlighted:buttonBackgroundImageHighlighted
+                                               contentImage:buttonContent
+                                           highlightedImage:buttonContentHighlighted];
+    menu.endRadius = 50.0f;
+    menu.farRadius = 80.0f;
+    menu.nearRadius = 30.0f;
+    menu.frame = contextualMenuFrame;
+    menu.startPoint = CGPointMake(0, 0);
+    
+    return menu;
 }
 
 -(void) scrollViewTapped:(UISwipeGestureRecognizer *) sender
@@ -89,6 +158,45 @@
     [super viewDidAppear:animated];
     [self.animationManager showNavigationBar:self.navigationBar];
     self.navigationBar.tintColor = [[ThemeFactory currentTheme] colorForCollectionScreenNavigationBar];
+}
+
+#pragma mark - recycler delegate
+
+-(UIView<ListRow> *) rowForIndex:(int)index withPrototype:(id<ListRow>)prototype
+{
+    UIView<ListRow> * row = [super rowForIndex:index withPrototype:prototype];
+    
+    if (row == nil) return nil;
+    
+    CGRect frame = [self.layoutManager frameForContextualMenuInRow:row];
+    
+    AwesomeMenu * contextualMenu = nil;
+    if (row.contextualMenu == nil)
+    {
+        contextualMenu = [self createContextualMenu:row];
+        row.contextualMenu = contextualMenu;
+    }
+    row.contextualMenu.frame = frame;
+    return row;
+}
+
+-(void) didRecycledRow:(UIView<ListRow> *)row
+              ForIndex:(int)index
+{
+    AwesomeMenu * contextualMenu = row.contextualMenu;
+    if (contextualMenu == nil) NSLog(@"WE ARE IN TROUBLE");
+    NSDictionary * viewsDictionary = NSDictionaryOfVariableBindings(contextualMenu, row);
+    NSArray * constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"[row]->=40-[contextualMenu]"
+                                                                    options:0
+                                                                    metrics:nil
+                                                                      views:viewsDictionary];
+    
+    [self.scrollView addSubview:contextualMenu];
+    [row.contextualMenu setTranslatesAutoresizingMaskIntoConstraints:NO];
+    if (constraints != nil)
+    {
+        [self.view addConstraints:constraints];
+    }
 }
 
 #pragma mark - Note Row Delegate

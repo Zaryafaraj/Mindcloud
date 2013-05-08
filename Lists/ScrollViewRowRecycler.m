@@ -80,6 +80,8 @@
                 
                 recycledView.index = index;
                 [scrollView addSubview:recycledView];
+                [self.delegate didRecycledRow:recycledView
+                                     ForIndex:index];
                 [self.visibleViews addObject:recycledView];
             }
             else

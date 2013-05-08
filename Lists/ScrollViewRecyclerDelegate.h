@@ -17,4 +17,7 @@
 
 -(int) highestIndexInView;
 
+-(void) didRecycledRow:(UIView<ListRow> *)recycledView
+              ForIndex:(int) index;
+
 @end

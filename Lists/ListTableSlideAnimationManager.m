@@ -59,6 +59,16 @@
     }];
 }
 
+-(void) slideContextualMenu:(UIView *) contextualMenu
+                    toFrame:(CGRect) frame
+                       fast:(BOOL) fast
+{
+    float duration = fast ? 0.2 : 0.7;
+    [UIView animateWithDuration:duration animations:^{
+        contextualMenu.frame = frame;
+    }];
+}
+
 
 -(void) animateAdditionForRow:(UIView<ListRow> *) row
                       toFrame:(CGRect) frame

@@ -11,8 +11,8 @@
 static CGFloat const kAwesomeMenuDefaultNearRadius = 110.0f;
 static CGFloat const kAwesomeMenuDefaultEndRadius = 120.0f;
 static CGFloat const kAwesomeMenuDefaultFarRadius = 140.0f;
-static CGFloat const kAwesomeMenuDefaultStartPointX = 160.0;
-static CGFloat const kAwesomeMenuDefaultStartPointY = 240.0;
+static CGFloat const kAwesomeMenuDefaultStartPointX = 0.0;
+static CGFloat const kAwesomeMenuDefaultStartPointY = 0.0;
 static CGFloat const kAwesomeMenuDefaultTimeOffset = 0.036f;
 static CGFloat const kAwesomeMenuDefaultRotateAngle = 0.0;
 static CGFloat const kAwesomeMenuDefaultMenuWholeAngle = M_PI * 2;
@@ -44,7 +44,12 @@ static CGPoint RotateCGPointAroundCenter(CGPoint point, CGPoint center, float an
 @synthesize menusArray = _menusArray;
 
 #pragma mark - initialization & cleaning up
-- (id)initWithFrame:(CGRect)frame menus:(NSArray *)aMenusArray
+- (id)initWithFrame:(CGRect)frame
+              menus:(NSArray *)aMenusArray
+    backgroundImage:(UIImage *)backgroundImg
+backgroundImageHighlighted:(UIImage *) highlightedBackgroundImg
+       contentImage:(UIImage *) contentImage
+   highlightedImage:(UIImage *) highlightedContentImg;
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -56,22 +61,34 @@ static CGPoint RotateCGPointAroundCenter(CGPoint point, CGPoint center, float an
 		self.timeOffset = kAwesomeMenuDefaultTimeOffset;
 		self.rotateAngle = kAwesomeMenuDefaultRotateAngle;
 		self.menuWholeAngle = kAwesomeMenuDefaultMenuWholeAngle;
-		self.startPoint = CGPointMake(kAwesomeMenuDefaultStartPointX, kAwesomeMenuDefaultStartPointY);
+        
+        self.startPoint = CGPointMake(kAwesomeMenuDefaultStartPointX, kAwesomeMenuDefaultStartPointY);
+
         self.expandRotation = kAwesomeMenuDefaultExpandRotation;
         self.closeRotation = kAwesomeMenuDefaultCloseRotation;
         
         self.menusArray = aMenusArray;
         
         // add the "Add" Button.
-        _addButton = [[AwesomeMenuItem alloc] initWithImage:[UIImage imageNamed:@"bg-addbutton.png"]
-                                       highlightedImage:[UIImage imageNamed:@"bg-addbutton-highlighted.png"] 
-                                           ContentImage:[UIImage imageNamed:@"icon-plus.png"] 
-                                highlightedContentImage:[UIImage imageNamed:@"icon-plus-highlighted.png"]];
+        _addButton = [[AwesomeMenuItem alloc] initWithImage:backgroundImg
+                                       highlightedImage:highlightedBackgroundImg
+                                           ContentImage:contentImage
+                                highlightedContentImage:highlightedBackgroundImg];
         _addButton.delegate = self;
         _addButton.center = self.startPoint;
         [self addSubview:_addButton];
     }
     return self;
+}
+
+-(void) setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    
+//    CGPoint center = CGPointMake((frame.origin.x + frame.size.width)/2,
+//                                  (frame.origin.y + frame.size.height)/2);
+//    self.startPoint = center;
+//    _addButton.center = self.startPoint;
 }
 
 

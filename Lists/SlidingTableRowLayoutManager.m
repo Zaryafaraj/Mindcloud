@@ -33,4 +33,14 @@
     return addButtonFrame;
 }
 
+-(CGRect) frameForContextualMenuInRow:(UIView *)row
+{
+    CGSize menuSize = CGSizeMake(row.bounds.size.width/4, row.bounds.size.height);
+    CGRect contextMenuFrame = CGRectMake(row.bounds.size.width - menuSize.width,
+                                         row.frame.origin.y,
+                                         menuSize.width,
+                                         menuSize.height);
+    return contextMenuFrame;
+}
+
 @end

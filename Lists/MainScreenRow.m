@@ -39,6 +39,7 @@
 @synthesize index = _index;
 @synthesize animationManager = _animationManager;
 @synthesize foregroundView = _foregroundView;
+@synthesize contextualMenu = _contextualMenu;
 
 -(id) init
 {

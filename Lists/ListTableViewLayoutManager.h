@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ListRow.h"
 
 @protocol ListTableViewLayoutManager <NSObject>
 
@@ -20,4 +21,5 @@
 - (int) highestRowIndexInFrame:(CGRect) frame;
 
 
+-(CGRect) frameForContextualMenuInRow:(UIView<ListRow> *) row;
 @end

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ListRowAnimationManager.h"
+#import "AwesomeMenu.h"
 
 @protocol ListRow <NSObject>
 
@@ -22,7 +23,7 @@
 
 @optional
 @property (strong, nonatomic) UIImage * image;
+@property (strong, nonatomic) AwesomeMenu * contextualMenu;
 -(void) reset;
-
 
 @end
