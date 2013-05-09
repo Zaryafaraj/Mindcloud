@@ -52,6 +52,7 @@ highlightedContentImage:(UIImage *)hcimg;
     {
        [_delegate AwesomeMenuItemTouchesBegan:self];
     }
+    [self touchesEnded:touches withEvent:event];
     
 }
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
