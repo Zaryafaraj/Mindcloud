@@ -244,7 +244,7 @@
 {
     CGRect backgroundFrame = [self backgroundFrame];
     UIView * backgroundView = [[UIView alloc] initWithFrame:backgroundFrame];
-    backgroundView.backgroundColor = [UIColor whiteColor];
+    backgroundView.backgroundColor = [UIColor clearColor];
     self.backgroundView = backgroundView;
     [self addSubview:backgroundView];
 }
