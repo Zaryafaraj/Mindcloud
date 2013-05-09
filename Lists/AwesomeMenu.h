@@ -50,7 +50,8 @@ backgroundImageHighlighted:(UIImage *) highlightedBackgroundImg
 @end
 
 @protocol AwesomeMenuDelegate <NSObject>
-- (void)AwesomeMenu:(AwesomeMenu *)menu didSelectIndex:(NSInteger)idx;
+-(void) AwesomeMenuWillGetActivated:(AwesomeMenu *) menu;
+-(void)AwesomeMenu:(AwesomeMenu *)menu didSelectIndex:(NSInteger)idx;
 @optional
 - (void)AwesomeMenuDidFinishAnimationClose:(AwesomeMenu *)menu;
 - (void)AwesomeMenuDidFinishAnimationOpen:(AwesomeMenu *)menu;

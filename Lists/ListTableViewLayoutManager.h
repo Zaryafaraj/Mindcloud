@@ -22,4 +22,7 @@
 
 
 -(CGRect) frameForContextualMenuInRow:(UIView<ListRow> *) row;
+
+-(CGFloat) distanceFromRowToContextualMenu;
+
 @end

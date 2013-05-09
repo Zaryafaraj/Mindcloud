@@ -363,4 +363,9 @@
     
 }
 
+-(void) AwesomeMenuWillGetActivated:(AwesomeMenu *)menu
+{
+    UIView * superView = menu.superview;
+    [superView bringSubviewToFront:menu];
+}
 @end

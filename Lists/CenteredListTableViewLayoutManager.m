@@ -69,12 +69,12 @@
                                          row.frame.origin.y + row.frame.size.height/8,
                                          menuSize.width,
                                          menuSize.height);
-//    CGSize menuSize = CGSizeMake(row.frame.size.width/4, row.frame.size.height);
-//    CGRect contextMenuFrame = CGRectMake(row.frame.origin.x + row.frame.size.width/2 + 20,
-//                                         row.index * (row.frame.size.height/2 + self.rowDivider) + VER_OFFSET_TOP,
-//                                         menuSize.width,
-//                                         menuSize.height);
     return contextMenuFrame;
+}
+
+-(CGFloat) distanceFromRowToContextualMenu
+{
+    return 40;
 }
 
 @end

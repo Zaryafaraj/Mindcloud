@@ -51,12 +51,6 @@
     [self.parentDelegate finishedWorkingWithCollection:self.name];
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-}
-
 -(IBAction)addPressed:(id)sender
 {
     if (self.isInEditMode)
@@ -69,13 +63,11 @@
     UIView<ListRow> * row = [self addRowToTop];
     AwesomeMenu * contextualMenu = [self createContextualMenu:row];
     row.contextualMenu = contextualMenu;
-//    contextualMenu.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
-
-    
 
     NSDictionary * viewsDictionary = NSDictionaryOfVariableBindings(contextualMenu, row);
-    //TODO- get the number for constraint from layout manager
-    NSArray * constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"[row]->=40-[contextualMenu]"
+    CGFloat distance = [self.layoutManager distanceFromRowToContextualMenu];
+    NSString * layoutFormat = [NSString stringWithFormat:@"[row]->=%f-[contextualMenu]", distance];
+    NSArray * constraints = [NSLayoutConstraint constraintsWithVisualFormat:layoutFormat
                                                                     options:NSLayoutFormatAlignAllCenterY
                                                                     metrics:nil
                                                                       views:viewsDictionary];
@@ -150,6 +142,7 @@
 {
     [super viewWillAppear:animated];
     self.navigationBar.alpha = 0;
+    self.scrollView.delaysContentTouches = NO;
 }
 
 -(void) viewDidAppear:(BOOL)animated
@@ -185,9 +178,12 @@
 {
     AwesomeMenu * contextualMenu = row.contextualMenu;
     if (contextualMenu == nil) NSLog(@"WE ARE IN TROUBLE");
+    
     NSDictionary * viewsDictionary = NSDictionaryOfVariableBindings(contextualMenu, row);
-    NSArray * constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"[row]->=40-[contextualMenu]"
-                                                                    options:0
+    CGFloat distance = [self.layoutManager distanceFromRowToContextualMenu];
+    NSString * layoutFormat = [NSString stringWithFormat:@"[row]->=%f-[contextualMenu]", distance];
+    NSArray * constraints = [NSLayoutConstraint constraintsWithVisualFormat:layoutFormat
+                                                                    options:NSLayoutFormatAlignAllCenterY
                                                                     metrics:nil
                                                                       views:viewsDictionary];
     

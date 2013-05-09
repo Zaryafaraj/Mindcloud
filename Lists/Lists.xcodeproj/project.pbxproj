@@ -277,7 +277,6 @@
 				DB1A2CD11735C824009017D1 /* AwesomeMenuItem.m */,
 			);
 			name = AwesomeMenu;
-			path = ..;
 			sourceTree = "<group>";
 		};
 		DB3C8E0A1710D3DE00A69D3B = {
@@ -314,7 +313,6 @@
 		DB3C8E1C1710D3DE00A69D3B /* Lists */ = {
 			isa = PBXGroup;
 			children = (
-				DB1A2CD41735C9DD009017D1 /* AwesomeMenu */,
 				DB116FC5172E49C50082D314 /* Helpers */,
 				DBBDEFBF1713BF63009ADF1A /* UI */,
 				DB3CDB6017113BC7004CB440 /* Themes */,
@@ -417,6 +415,7 @@
 		DBBDEFBF1713BF63009ADF1A /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				DB1A2CD41735C9DD009017D1 /* AwesomeMenu */,
 				DB4BD6EE172E16950024305C /* Segue */,
 				DB488BAB171BA71100294966 /* Utilities */,
 				DBEBB4BD1715265E00D0DFD5 /* Animation */,

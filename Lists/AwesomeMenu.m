@@ -1,3 +1,4 @@
+
 //
 //  AwesomeMenu.m
 //  AwesomeMenu
@@ -168,6 +169,7 @@ backgroundImageHighlighted:(UIImage *) highlightedBackgroundImg
     if (item == _addButton) 
     {
         self.expanding = !self.isExpanding;
+        [_delegate AwesomeMenuWillGetActivated:self];
     }
 }
 - (void)AwesomeMenuItemTouchesEnd:(AwesomeMenuItem *)item
