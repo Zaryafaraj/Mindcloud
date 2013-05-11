@@ -51,6 +51,10 @@
     return [UIImage imageNamed:@"GlassyMainRowEdit.png"];
 }
 
+-(UIImage *) imageForCollectionRowDone
+{
+    return [UIImage imageNamed:@"GlassyCollectionRowDone.png"];
+}
 -(UIView *) stylizeMainscreenRowForeground:(UIView *) view
                                     isOpen:(BOOL) isOpen
                               withOpenBounds:(CGRect) openBounds

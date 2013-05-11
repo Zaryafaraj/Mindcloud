@@ -140,7 +140,7 @@
 {
     
     menu.alpha = 0;
-    [UIView animateWithDuration:0.7 animations:^{menu.alpha = 1;}];
+    [UIView animateWithDuration:0.5 animations:^{menu.alpha = 1;}];
 //    CALayer * layer = menu.layer;
 //    layer.transform = CATransform3DIdentity;
 //    
@@ -207,6 +207,16 @@
 //    }];
 }
 
+-(void) animateRemovalForContextualMenu:(UIView *) menu
+                            inSuperView:(UIView *) superView
+                  withCompletionHandler:(row_modification_callback) callback
+{
+    [UIView animateWithDuration:1.0 animations:^{
+        menu.alpha = 0;
+    }completion:^(BOOL completed){
+        callback();
+    }];
+}
 -(void) hideNavigationBar:(UINavigationBar *) navBar
 {
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{

@@ -18,7 +18,7 @@
 
 @property (strong, nonatomic) UITextField * textField;
 @property (strong, nonatomic) UIView * backgroundView;
-@property (strong, nonatomic) UIButton * deleteButton;
+@property (strong, nonatomic) UIButton * doneButton;
 @property  BOOL isOpen;
 @property  BOOL isEditing;
 @end
@@ -66,7 +66,7 @@
     self.foregroundView.alpha = alpha;
     self.backgroundView.alpha = alpha;
     self.textField.alpha = alpha;
-    self.deleteButton.alpha = alpha;
+    self.doneButton.alpha = alpha;
 }
 
 -(void) setFrame:(CGRect)frame
@@ -76,7 +76,7 @@
     self.backgroundView.frame = [self backgroundFrame];
     self.textField.frame = [self labelFrameWithForegroundRect:self.foregroundView.frame];
     CGRect buttonFrame = [self getActionButtonFrame];
-    self.deleteButton.frame = buttonFrame;
+    self.doneButton.frame = buttonFrame;
     if (self.isOpen)
     {
         CGRect openRect = [self.layoutManager frameForOpenedRow:self.bounds];
@@ -139,14 +139,15 @@
 -(void) addActionButtons
 {
     CGRect frame = [self getActionButtonFrame];
-    UIButton * deleteButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [deleteButton addTarget:self action:@selector(deletePressed:) forControlEvents:UIControlEventTouchDown];
-    UIImage * deleteImage = [[ThemeFactory currentTheme] imageCollectionScreenRowDeleteButton];
-    [deleteButton setBackgroundImage:deleteImage forState:UIControlStateNormal];
-    deleteButton.frame = frame;
-    self.deleteButton = deleteButton;
-    [[ThemeFactory currentTheme] stylizeCollectionScreenRowButton:deleteButton];
-    [self addSubview:deleteButton];
+    UIButton * doneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [doneButton addTarget:self action:@selector(donePressed:) forControlEvents:UIControlEventTouchDown];
+    UIImage * doneImage = [[ThemeFactory currentTheme] imageForCollectionRowDone];
+    [doneButton setBackgroundImage:doneImage
+                          forState:UIControlStateNormal];
+    doneButton.frame = frame;
+    self.doneButton = doneButton;
+    [[ThemeFactory currentTheme] stylizeCollectionScreenRowButton:doneButton];
+    [self addSubview:doneButton];
     [self hideButtons:NO];
 }
 
@@ -158,17 +159,22 @@
 
 -(void) hideButtons:(BOOL) animated
 {
-    self.deleteButton.hidden = YES;
+    self.doneButton.hidden = YES;
 }
 
 -(void) showButtons:(BOOL) animated
 {
-    self.deleteButton.hidden = NO;
+    self.doneButton.hidden = NO;
 }
 
 -(void) deletePressed:(id) sender
 {
     [self.delegate deletePressed:self];
+}
+
+-(void) donePressed:(id) sender
+{
+    [self.delegate doneTaskPressed:self];
 }
 
 -(void) addForegroundLayer
@@ -257,7 +263,7 @@
         CGRect openSize = [self.layoutManager frameForOpenedRow:self.foregroundView.frame];
         CGRect labelFrame = [self labelFrameWithForegroundRect:openSize];
         [self.animationManager slideOpenMainScreenRow:self.foregroundView
-                                          withButtons:@[self.deleteButton]
+                                          withButtons:@[self.doneButton]
                                              andLabel:self.textField
                                      toForegroundRect:openSize
                                          andLabelRect:labelFrame];
@@ -279,7 +285,7 @@
         CGRect foregroundRect = self.foregroundView.superview.bounds;
         CGRect labelFrame = [self labelFrameWithForegroundRect:foregroundRect];
         [self.animationManager slideCloseMainScreenRow:self.foregroundView
-                                           withButtons:@[self.deleteButton]
+                                           withButtons:@[self.doneButton]
                                               andLabel:self.textField
                                       toForegroundRect:foregroundRect
                                           andLabelRect:labelFrame withCompletion:^{

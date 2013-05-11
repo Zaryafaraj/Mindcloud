@@ -202,6 +202,14 @@
 -(void) deletePressed:(UIView<ListRow> *) sender
 {
     [self removeRow:sender];
+    [self.animationManager animateRemovalForContextualMenu:sender.contextualMenu inSuperView:self.scrollView withCompletionHandler:^{
+        [sender.contextualMenu removeFromSuperview];
+    }];
+}
+
+-(void) doneTaskPressed:(id)sender
+{
+    NSLog(@"AND WE ARE DONE");
 }
 
 -(void) tappedRow:(UIView<ListRow> *) sender

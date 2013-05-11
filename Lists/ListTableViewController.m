@@ -163,9 +163,9 @@
                 {
                     CGRect contextualMenuFrame = [self.layoutManager frameForContextualMenuInRow:row];
 //                    row.contextualMenu.hidden = YES;
-//                    [self.animationManager slideContextualMenu:row.contextualMenu
-//                                                       toFrame:contextualMenuFrame
-//                                                          fast:NO];
+                    [self.animationManager slideContextualMenu:row.contextualMenu
+                                                       toFrame:contextualMenuFrame
+                                                          fast:NO];
                 }
             }
         }

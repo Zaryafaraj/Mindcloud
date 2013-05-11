@@ -11,6 +11,7 @@
 @protocol NoteRowDelegate <NSObject>
 
 -(void) deletePressed:(UIView<ListRow> *) sender;
+-(void) doneTaskPressed:(UIView<ListRow> *) sender;
 -(void) tappedRow:(UIView<ListRow> *) sender;
 -(BOOL) isEditingRows;
 @end

@@ -29,6 +29,10 @@ typedef void (^row_modification_callback)(void);
                   inSuperView:(UIView *) superView
        withCompletionHandler:(row_modification_callback) callback;
 
+-(void) animateRemovalForContextualMenu:(UIView *) menu
+                            inSuperView:(UIView *) superView
+                  withCompletionHandler:(row_modification_callback) callback;
+
 -(void) hideNavigationBar:(UINavigationBar *) navBar;
 
 -(void) showNavigationBar:(UINavigationBar *) navBar;
