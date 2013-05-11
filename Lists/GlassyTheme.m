@@ -56,7 +56,7 @@
                               withOpenBounds:(CGRect) openBounds
 {
     view.layer.shouldRasterize = YES;
-    view.layer.cornerRadius = 5;
+    view.layer.cornerRadius = 0;
     if (isOpen)
     {
         view.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:openBounds
@@ -85,7 +85,7 @@
 {
     
         //button.layer.shadowPath = [UIBezierPath bezierPathWithRect:button.bounds].CGPath;
-        button.layer.cornerRadius = 3;
+        button.layer.cornerRadius = 0;
         button.layer.shouldRasterize = YES;
         button.layer.shadowColor = [UIColor blackColor].CGColor;
         button.layer.shadowOffset = CGSizeMake(0, 1);
@@ -102,9 +102,7 @@
                               withOpenBounds:(CGRect) openBounds
 {
     view.layer.shouldRasterize = YES;
-    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"rowbg.png"]];
-    //view.layer.backgroundColor = [UIColor colorWithHue:0.1 saturation:0.08 brightness:0.95 alpha:1].CGColor;
-    view.layer.cornerRadius = 5;
+    view.layer.cornerRadius = 0;
     if (isOpen)
     {
         view.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:openBounds
@@ -113,7 +111,7 @@
         view.layer.shadowColor = [UIColor blackColor].CGColor;
         view.layer.shadowOffset = CGSizeMake(-2, 1);
         view.layer.shadowOpacity =  1;
-        view.layer.shadowRadius = 1.0;
+        view.layer.shadowRadius = 1.5;
         return view;
     }
     else
@@ -124,7 +122,7 @@
         view.layer.shadowColor = [UIColor blackColor].CGColor;
         view.layer.shadowOffset = CGSizeMake(0, 1);
         view.layer.shadowOpacity = 1;
-        view.layer.shadowRadius = 1.0;
+        view.layer.shadowRadius = 2.0;
         return view;
     }
 

@@ -75,6 +75,8 @@
     [self.scrollView addSubview:contextualMenu];
     [contextualMenu setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.view addConstraints:constraints];
+    [self.animationManager animateAdditionForContextualMenu:contextualMenu
+                                                inSuperView:self.scrollView];
 }
 
 -(AwesomeMenu *) createContextualMenu:(UIView<ListRow> *) row

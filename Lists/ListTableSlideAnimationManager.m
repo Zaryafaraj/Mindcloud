@@ -135,6 +135,36 @@
     
 }
 
+-(void) animateAdditionForContextualMenu:(UIView *) menu
+                             inSuperView:(UIView *) superView
+{
+    
+    menu.alpha = 0;
+    [UIView animateWithDuration:0.7 animations:^{menu.alpha = 1;}];
+//    CALayer * layer = menu.layer;
+//    layer.transform = CATransform3DIdentity;
+//    
+//    CABasicAnimation * bounceAnime = [CABasicAnimation animationWithKeyPath:@"transform"];
+//    CATransform3D fromValue = CATransform3DScale(layer.transform, 0.5, 0.5, 0.5);
+//    CATransform3D toValue = CATransform3DScale(layer.transform, 1.2, 1.2, 1.2);
+//    bounceAnime.fromValue = [NSValue valueWithCATransform3D:fromValue];
+//    bounceAnime.toValue = [NSValue valueWithCATransform3D:toValue];
+//    bounceAnime.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+//    bounceAnime.duration = 0.3;
+//    [layer addAnimation:bounceAnime forKey:@"rotation1"];
+//    
+//    CFTimeInterval now = [layer convertTime:CACurrentMediaTime() fromLayer:nil];
+//    CABasicAnimation * bounceAnime2 = [CABasicAnimation animationWithKeyPath:@"transform"];
+//    CATransform3D fromValue2 = toValue;
+//    CATransform3D toValue2 = layer.transform;
+//    bounceAnime2.fromValue = [NSValue valueWithCATransform3D:fromValue2];
+//    bounceAnime2.toValue = [NSValue valueWithCATransform3D:toValue2];
+//    bounceAnime2.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+//    bounceAnime2.duration = 0.15;
+//    bounceAnime.beginTime = now + bounceAnime.duration;
+//    [layer addAnimation:bounceAnime forKey:@"rotation1"];
+}
+
 -(void) animateRemovalForRow:(UIView<ListRow> *) row
                  inSuperView:(UIView *) superView
        withCompletionHandler:(row_modification_callback) callback

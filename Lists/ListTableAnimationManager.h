@@ -22,6 +22,9 @@ typedef void (^row_modification_callback)(void);
                   inSuperView:(UIView *) superView
         withCompletionHandler:(row_modification_callback) callback;
 
+-(void) animateAdditionForContextualMenu:(UIView *) menu
+                             inSuperView:(UIView *) superView;
+
 -(void) animateRemovalForRow:(UIView<ListRow> *) row
                   inSuperView:(UIView *) superView
        withCompletionHandler:(row_modification_callback) callback;
@@ -33,5 +36,7 @@ typedef void (^row_modification_callback)(void);
 -(void) slideContextualMenu:(UIView *) contextualMenu
                     toFrame:(CGRect) frame
                        fast:(BOOL) fast;
+
+
 
 @end
