@@ -207,9 +207,9 @@
     }];
 }
 
--(void) doneTaskPressed:(id)sender
+-(void) doneTaskPressed:(UIView<ListRow> *)sender
 {
-    NSLog(@"AND WE ARE DONE");
+    [self.animationManager animateSetToDone:sender];
 }
 
 -(void) tappedRow:(UIView<ListRow> *) sender

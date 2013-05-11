@@ -31,6 +31,8 @@
 -(UIView *) stylizeCollectionScreenRowButton:(UIButton *) button;
 -(UIColor *) colorForMainScreenRowSelected;
 
+-(UIColor *) colorForTaskStateDone;
+
 -(CGFloat) alphaForMainScreenNavigationBar;
 -(UIColor *) colorForMainScreenNavigationBar;
 

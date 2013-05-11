@@ -232,4 +232,11 @@
     return [UIImage imageNamed:@"icon-contextbutton-highlighted.png"];
 }
 
+
+-(UIColor *) colorForTaskStateDone
+{
+    return [UIColor colorWithHue:0.31 saturation:0.21 brightness:0.92 alpha:1];
+    //return [UIColor colorWithRed:0.27 green:0.73 blue:0.21 alpha:1];
+    
+}
 @end

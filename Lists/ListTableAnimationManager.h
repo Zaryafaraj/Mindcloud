@@ -42,5 +42,7 @@ typedef void (^row_modification_callback)(void);
                        fast:(BOOL) fast;
 
 
+@optional
+-(void) animateSetToDone:(UIView<ListRow> *) row;
 
 @end

@@ -95,6 +95,13 @@
 
     [self closeView];
 }
+
+-(void) setBackgroundColor:(UIColor *)backgroundColor
+{
+    [super setBackgroundColor:backgroundColor];
+    self.foregroundView.backgroundColor = backgroundColor;
+}
+
 -(UITextField *) textField
 {
     if (_textField == nil)
@@ -174,6 +181,7 @@
 
 -(void) donePressed:(id) sender
 {
+    [self closeView];
     [self.delegate doneTaskPressed:self];
 }
 

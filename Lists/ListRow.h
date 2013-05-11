@@ -22,6 +22,7 @@
 -(void) disableEditing:(BOOL) resignFirstResponser;
 
 @optional
+
 @property (strong, nonatomic) UIImage * image;
 @property (strong, nonatomic) AwesomeMenu * contextualMenu;
 -(void) reset;

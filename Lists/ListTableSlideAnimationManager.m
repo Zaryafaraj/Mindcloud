@@ -235,4 +235,17 @@
     }];
 }
 
+
+-(void) animateSetToDone:(UIView<ListRow> *)row
+{
+    UIColor * doneColor = [[ThemeFactory currentTheme] colorForTaskStateDone];
+    [UIView animateWithDuration:1 animations:^{
+        row.backgroundColor = doneColor;
+    }];
+//    CALayer * layer = row.layer;
+//    
+//    CABasicAnimation * changeColorAnime = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
+//    changeColorAnime.fromValue = layer.backgroundColor;
+    
+}
 @end
