@@ -84,10 +84,10 @@
     id <ITheme> theme = [ThemeFactory currentTheme];
     UIImage * background = [theme getContextualMenuItemBackground];
     UIImage * backgroundHighlighted = [theme getContextualMenuItemBackgroundHighlighted];
-    UIImage * doneContent = [theme getContextualMenuContentDone];
-    UIImage * expandContent = [theme getContextualMenuContentExpand];
-    UIImage * clockContent = [theme getContextualMenuContentClock];
-    UIImage * startContent = [theme getContextualMenuContentStart];
+    UIImage * doneContent = [theme getContextualMenuContentLeft];
+    UIImage * expandContent = [theme getContextualMenuContentRight];
+    UIImage * clockContent = [theme getContextualMenuContentTop];
+    UIImage * startContent = [theme getContextualMenuContentBottom];
     UIImage * buttonBackgroundImage = [theme getContextualMenuButton];
     UIImage * buttonBackgroundImageHighlighted = [theme getContextualMenuButtonHighlighted];
     UIImage * buttonContent = [theme getContextualMenuButtonContent];
@@ -212,6 +212,10 @@
     [self.animationManager animateSetToDone:sender];
 }
 
+-(void) undoneTaskPressed:(UIView<ListRow> *) sender
+{
+    [self.animationManager animateSetToUndone:sender];
+}
 -(void) tappedRow:(UIView<ListRow> *) sender
 {
     [self.editingRow disableEditing:NO];

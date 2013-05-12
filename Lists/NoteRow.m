@@ -20,6 +20,7 @@
 @property (strong, nonatomic) UIView * backgroundView;
 @property (strong, nonatomic) UIButton * doneButton;
 @property  BOOL isOpen;
+@property  BOOL isDone;
 @property  BOOL isEditing;
 @end
 
@@ -182,7 +183,25 @@
 -(void) donePressed:(id) sender
 {
     [self closeView];
-    [self.delegate doneTaskPressed:self];
+    if(self.isDone)
+    {
+        self.isDone = NO;
+        UIImage * doneImage = [[ThemeFactory currentTheme] imageForCollectionRowDone];
+        [self.doneButton setBackgroundImage:doneImage
+                                   forState:UIControlStateNormal];
+        [[ThemeFactory currentTheme] stylizeCollectionScreenRowButton:self.doneButton];
+
+        [self.delegate undoneTaskPressed:self];
+    }
+    else
+    {
+        self.isDone = YES;
+        UIImage * undoneImage = [[ThemeFactory currentTheme] imageForCollectionRowUnDone];
+        [self.doneButton setBackgroundImage:undoneImage
+                              forState:UIControlStateNormal];
+        [[ThemeFactory currentTheme] stylizeCollectionScreenRowButton:self.doneButton];
+        [self.delegate doneTaskPressed:self];
+    }
 }
 
 -(void) addForegroundLayer

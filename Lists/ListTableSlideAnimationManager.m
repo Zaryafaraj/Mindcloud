@@ -248,4 +248,12 @@
 //    changeColorAnime.fromValue = layer.backgroundColor;
     
 }
+
+-(void) animateSetToUndone:(UIView<ListRow> *) row
+{
+    UIColor * doneColor = [[ThemeFactory currentTheme] colorForTaskStateUndone];
+    [UIView animateWithDuration:1 animations:^{
+        row.backgroundColor = doneColor;
+    }];
+}
 @end

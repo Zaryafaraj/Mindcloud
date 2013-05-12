@@ -12,6 +12,7 @@
 @interface GlassyTheme()
 
 @property (nonatomic, strong) UIImage * rowBackgroundImage;
+@property (nonatomic, strong) UIColor * doneColor;
 
 @end
 
@@ -55,6 +56,12 @@
 {
     return [UIImage imageNamed:@"GlassyCollectionRowDone.png"];
 }
+
+-(UIImage * ) imageForCollectionRowUnDone
+{
+    return [UIImage imageNamed:@"GlassyCollectionRowNotDone.png"];
+}
+
 -(UIView *) stylizeMainscreenRowForeground:(UIView *) view
                                     isOpen:(BOOL) isOpen
                               withOpenBounds:(CGRect) openBounds
@@ -190,22 +197,22 @@
     return [UIImage imageNamed:@"bg-menuitem-highlighted.png"];
 }
 
--(UIImage *) getContextualMenuContentClock
+-(UIImage *) getContextualMenuContentTop
 {
-    return [UIImage imageNamed:@"icon-star.png"];
+    return [UIImage imageNamed:@"icon-clock.png"];
 }
 
--(UIImage *) getContextualMenuContentDone
+-(UIImage *) getContextualMenuContentLeft
 {
-    return [UIImage imageNamed:@"icon-star.png"];
+    return [UIImage imageNamed:@"icon-delete.png"];
 }
 
--(UIImage *) getContextualMenuContentExpand
+-(UIImage *) getContextualMenuContentRight
 {
-    return [UIImage imageNamed:@"icon-star.png"];
+    return [UIImage imageNamed:@"icon-expand.png"];
 }
 
--(UIImage *) getContextualMenuContentStart
+-(UIImage *) getContextualMenuContentBottom
 {
     
     return [UIImage imageNamed:@"icon-star.png"];
@@ -224,7 +231,8 @@
 
 -(UIImage *) getContextualMenuButtonContent
 {
-    return [UIImage imageNamed:@"icon-contextbutton.png"];
+    return nil;
+    //return [UIImage imageNamed:@"icon-contextbutton.png"];
 }
 
 -(UIImage *) getContextualMenuButtonContentHighlighted
@@ -235,8 +243,15 @@
 
 -(UIColor *) colorForTaskStateDone
 {
-    return [UIColor colorWithHue:0.31 saturation:0.21 brightness:0.92 alpha:1];
-    //return [UIColor colorWithRed:0.27 green:0.73 blue:0.21 alpha:1];
-    
+    if (self.doneColor == nil)
+    {
+        self.doneColor = [UIColor colorWithHue:0.31 saturation:0.21 brightness:0.92 alpha:1];
+    }
+    return self.doneColor;
+}
+
+-(UIColor *) colorForTaskStateUndone
+{
+    return [UIColor whiteColor];
 }
 @end

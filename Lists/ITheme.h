@@ -18,6 +18,8 @@
 
 -(UIImage *) imageCollectionScreenRowDeleteButton;
 
+-(UIImage * ) imageForCollectionRowUnDone;
+
 -(UIView *) stylizeMainscreenRowForeground:(UIView *) view
                                     isOpen:(BOOL) isOpen
                               withOpenBounds:(CGRect) openSize;
@@ -32,6 +34,7 @@
 -(UIColor *) colorForMainScreenRowSelected;
 
 -(UIColor *) colorForTaskStateDone;
+-(UIColor *) colorForTaskStateUndone;
 
 -(CGFloat) alphaForMainScreenNavigationBar;
 -(UIColor *) colorForMainScreenNavigationBar;
@@ -48,13 +51,13 @@
 
 -(UIImage *) getContextualMenuItemBackgroundHighlighted;
 
--(UIImage *) getContextualMenuContentClock;
+-(UIImage *) getContextualMenuContentTop;
 
--(UIImage *) getContextualMenuContentDone;
+-(UIImage *) getContextualMenuContentLeft;
 
--(UIImage *) getContextualMenuContentExpand;
+-(UIImage *) getContextualMenuContentRight;
 
--(UIImage *) getContextualMenuContentStart;
+-(UIImage *) getContextualMenuContentBottom;
 
 -(UIImage *) getContextualMenuButton;
 
