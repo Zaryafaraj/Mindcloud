@@ -45,5 +45,8 @@ typedef void (^row_modification_callback)(void);
 @optional
 -(void) animateSetToDone:(UIView<ListRow> *) row;
 -(void) animateSetToUndone:(UIView<ListRow> *) row;
+-(void) animateSetToStar:(UIView<ListRow> *) row;
+-(void) animateSetTimer:(UIView<ListRow> *) row;
+-(void) animateExpandRow:(UIView<ListRow> *) row;
 
 @end

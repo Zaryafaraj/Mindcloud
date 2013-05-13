@@ -22,6 +22,7 @@
 @property  BOOL isOpen;
 @property  BOOL isDone;
 @property  BOOL isEditing;
+@property (nonatomic, strong) NSArray * subNotes;
 @end
 
 @implementation NoteRow
@@ -44,6 +45,7 @@
         [self addForegroundLayer];
         [self addTextField];
         [self addGestureRecognizers];
+        self.subNotes = [NSMutableArray array];
         self.isEditing = NO;
     }
     return self;
@@ -384,7 +386,26 @@
 
 - (void)AwesomeMenu:(AwesomeMenu *)menu didSelectIndex:(NSInteger)idx
 {
-    
+    //ugly I know ...
+    if (idx == 0)
+    {
+        [self.delegate deletePressed:self];
+    }
+    else if (idx == 1)
+    {
+        //expand
+        [self.delegate expandPressed:self];
+    }
+    else if (idx == 2)
+    {
+        //date
+        [self.delegate clockPressed:self];
+    }
+    else if (idx == 3)
+    {
+        //star
+        [self.delegate starPressed:self];
+    }
 }
 
 - (void)AwesomeMenuDidFinishAnimationClose:(AwesomeMenu *)menu

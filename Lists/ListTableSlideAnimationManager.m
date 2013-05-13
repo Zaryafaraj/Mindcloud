@@ -239,7 +239,7 @@
 -(void) animateSetToDone:(UIView<ListRow> *)row
 {
     UIColor * doneColor = [[ThemeFactory currentTheme] colorForTaskStateDone];
-    [UIView animateWithDuration:1 animations:^{
+    [UIView animateWithDuration: 0.2 animations:^{
         row.backgroundColor = doneColor;
     }];
 //    CALayer * layer = row.layer;
@@ -252,8 +252,30 @@
 -(void) animateSetToUndone:(UIView<ListRow> *) row
 {
     UIColor * doneColor = [[ThemeFactory currentTheme] colorForTaskStateUndone];
-    [UIView animateWithDuration:1 animations:^{
+    [UIView animateWithDuration: 0.2 animations:^{
         row.backgroundColor = doneColor;
     }];
 }
+
+-(void) animateSetToStar:(UIView<ListRow> *) row
+{
+    UIColor * starColor = [[ThemeFactory currentTheme] colorForTaskStateStarred];
+    [UIView animateWithDuration: 0.2 animations:^{
+        row.backgroundColor = starColor;
+    }];
+}
+
+-(void) animateSetTimer:(UIView<ListRow> *) row
+{
+    UIColor * timedColor = [[ThemeFactory currentTheme] colorForTaskStateTimed];
+    [UIView animateWithDuration: 0.2 animations:^{
+        row.backgroundColor = timedColor;
+    }];
+}
+
+-(void) animateExpandRow:(UIView<ListRow> *) row
+{
+    
+}
+
 @end

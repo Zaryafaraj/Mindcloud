@@ -13,6 +13,8 @@
 
 @property (nonatomic, strong) UIImage * rowBackgroundImage;
 @property (nonatomic, strong) UIColor * doneColor;
+@property (nonatomic, strong) UIColor * timedColor;
+@property (nonatomic, strong) UIColor * starredColor;
 
 @end
 
@@ -245,7 +247,7 @@
 {
     if (self.doneColor == nil)
     {
-        self.doneColor = [UIColor colorWithHue:0.31 saturation:0.21 brightness:0.92 alpha:1];
+        self.doneColor = [UIColor colorWithHue:0.31 saturation:0.85 brightness:0.85 alpha:1];
     }
     return self.doneColor;
 }
@@ -254,4 +256,23 @@
 {
     return [UIColor whiteColor];
 }
+
+-(UIColor *) colorForTaskStateStarred
+{
+    if (self.starredColor == nil)
+    {
+        self.starredColor = [UIColor colorWithHue:0.14 saturation:0.81 brightness:1.0 alpha:1];
+    }
+    return self.starredColor;
+}
+
+-(UIColor *) colorForTaskStateTimed
+{
+    if (self.timedColor == nil)
+    {
+        self.timedColor = [UIColor colorWithHue:0.64 saturation:0.45 brightness:1.0 alpha:1];
+    }
+    return self.timedColor;
+}
+
 @end

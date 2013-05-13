@@ -216,6 +216,23 @@
 {
     [self.animationManager animateSetToUndone:sender];
 }
+
+-(void) starPressed:(UIView<ListRow> *) sender
+{
+    [self.animationManager animateSetToStar:sender];
+}
+
+-(void) clockPressed:(UIView<ListRow> *) sender
+{
+    [self.animationManager animateSetTimer:sender];
+}
+
+-(void) expandPressed:(UIView<ListRow> *) sender
+{
+    [self.animationManager animateExpandRow:sender];
+}
+
+
 -(void) tappedRow:(UIView<ListRow> *) sender
 {
     [self.editingRow disableEditing:NO];
@@ -224,6 +241,10 @@
     self.isInEditMode = YES;
 }
 
+-(void) openSpaceForSubnotes:(int) noOfSubNotes
+{
+    
+}
 -(BOOL) isEditingRows
 {
     return self.isEditing;

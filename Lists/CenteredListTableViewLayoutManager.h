@@ -12,6 +12,10 @@
 @interface CenteredListTableViewLayoutManager : NSObject <ListTableViewLayoutManager>
 
 @property CGFloat rowDivider;
+@property (nonatomic) CGFloat verticalOffsetFromTop;
+@property (nonatomic) CGFloat rowWidth;
+@property (nonatomic) CGFloat rowHeight;
+@property (nonatomic) CGFloat contextualMenuHoriziontalOffset;
 
 -(id) initWithDivider:(CGFloat) dividerSpace;
 

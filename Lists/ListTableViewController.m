@@ -90,7 +90,7 @@
     CGRect frame = [self.layoutManager frameForRowforIndex:0
                                                inSuperView:self.scrollView];
     
-    [self moveRowsDown];
+    [self moveRowsDownAfterIndex:-1];
     [self.animationManager animateAdditionForRow:row
                                          toFrame:frame
                                      inSuperView:self.scrollView
@@ -115,13 +115,15 @@
     [self moveRowsUpAfterIndex:index];
 }
 
-- (void) moveRowsDown
+- (void) moveRowsDownAfterIndex:(int) index
 {
     int lowestIndex = [self.dataSource count];
     for(UIView<ListRow> * row in self.scrollView.subviews)
     {
         if ([row conformsToProtocol:@protocol(ListRow)])
         {
+            if (row.index <= index) continue;
+            
             row.index++;
             CGRect frame = [self.layoutManager frameForRowforIndex:row.index
                                                        inSuperView:self.scrollView];

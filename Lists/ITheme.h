@@ -35,6 +35,8 @@
 
 -(UIColor *) colorForTaskStateDone;
 -(UIColor *) colorForTaskStateUndone;
+-(UIColor *) colorForTaskStateStarred;
+-(UIColor *) colorForTaskStateTimed;
 
 -(CGFloat) alphaForMainScreenNavigationBar;
 -(UIColor *) colorForMainScreenNavigationBar;
