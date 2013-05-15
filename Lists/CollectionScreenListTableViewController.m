@@ -232,6 +232,10 @@
     [self.animationManager animateExpandRow:sender];
 }
 
+-(void) unexpandPressed:(UIView<ListRow> *)sender
+{
+    
+}
 
 -(void) tappedRow:(UIView<ListRow> *) sender
 {

@@ -23,6 +23,9 @@
 @property  BOOL isDone;
 @property  BOOL isEditing;
 @property (nonatomic, strong) NSArray * subNotes;
+
+@property BOOL isExpanded;
+
 @end
 
 @implementation NoteRow
@@ -47,6 +50,7 @@
         [self addGestureRecognizers];
         self.subNotes = [NSMutableArray array];
         self.isEditing = NO;
+        self.isExpanded = NO;
     }
     return self;
 }
@@ -103,6 +107,11 @@
 {
     [super setBackgroundColor:backgroundColor];
     self.foregroundView.backgroundColor = backgroundColor;
+}
+
+-(int) numberOfSubNotes
+{
+    return [self.subNotes count];
 }
 
 -(UITextField *) textField
@@ -394,7 +403,16 @@
     else if (idx == 1)
     {
         //expand
-        [self.delegate expandPressed:self];
+        if (!self.isExpanded)
+        {
+            self.isExpanded = YES;
+            [self.delegate expandPressed:self];
+        }
+        else
+        {
+            self.isExpanded = NO;
+            [self.delegate unexpandPressed:self];
+        }
     }
     else if (idx == 2)
     {

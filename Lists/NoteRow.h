@@ -17,4 +17,8 @@
 
 @property (nonatomic, strong) id<NoteRowDelegate> delegate;
 
+@property (readonly) BOOL isExpanded;
+
+-(int) numberOfSubNotes;
+
 @end

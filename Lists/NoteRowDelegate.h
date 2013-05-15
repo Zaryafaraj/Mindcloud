@@ -16,6 +16,7 @@
 -(void) starPressed:(UIView<ListRow> *) sender;
 -(void) clockPressed:(UIView<ListRow> *) sender;
 -(void) expandPressed:(UIView<ListRow> *) sender;
+-(void) unexpandPressed:(UIView<ListRow> *)sender;
 -(void) tappedRow:(UIView<ListRow> *) sender;
 -(BOOL) isEditingRows;
 -(void) openSpaceForSubnotes:(int) noOfSubNotes;
