@@ -11,7 +11,7 @@
 #import "ThemeFactory.h"
 #import "ITheme.h"
 #import "CenteredListTableViewLayoutManager.h"
-#import "ListTableSlideAnimationManager.h"
+#import "PaperTableAnimator.h"
 #import "StubListTableViewDatasource.h"
 #import "ScrollViewRowRecycler.h"
 #import "ListRow.h"
@@ -55,11 +55,11 @@
     return _layoutManager;
 }
 
--(id<ListTableAnimationManager>) animationManager
+-(id<TableAnimator>) animationManager
 {
     if (_animationManager == nil)
     {
-        _animationManager = [[ListTableSlideAnimationManager alloc] init];
+        _animationManager = [[PaperTableAnimator alloc] init];
     }
     return _animationManager;
 }

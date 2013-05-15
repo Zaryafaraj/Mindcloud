@@ -7,7 +7,6 @@
 //
 
 #import "ScrollViewRowRecycler.h"
-#import "RotatingRecylerAcimationManager.h"
 
 @interface ScrollViewRowRecycler()
 
@@ -33,7 +32,6 @@
     self = [super init];
     self.visibleViews = [NSMutableSet set];
     self.recycledViews = [NSMutableSet set];
-    self.animationManager = [[RotatingRecylerAcimationManager alloc] init];
     return self;
 }
 
@@ -47,22 +45,14 @@
     {
         if (row.index < lowestIndex)
         {
-            [self.animationManager animateViewDidMoveOutOfTop:row
-                                                 withCallback:^{
-                                                     [row removeFromSuperview];
-                                                     [self.recycledViews addObject:row];
-                                                     
-                                                 }];
+            [row removeFromSuperview];
+            [self.recycledViews addObject:row];
         }
         if (row.index > highestIndex)
         {
-            [self.animationManager animateViewDidMoveOutOfBottom:row
-                                                    withCallback:^{
-                                                        [row removeFromSuperview];
-                                                        [self.recycledViews addObject:row];
-                                                        
-                                                    }];
             
+            [row removeFromSuperview];
+            [self.recycledViews addObject:row];
         }
     }
     [self.visibleViews minusSet:self.recycledViews];
@@ -92,8 +82,8 @@
             }
         }
     }
-//    NSLog(@"Visible --> %d", [self.visibleViews count]);
-//    NSLog(@"Recycled --> %d", [self.recycledViews count]);
+    //    NSLog(@"Visible --> %d", [self.visibleViews count]);
+    //    NSLog(@"Recycled --> %d", [self.recycledViews count]);
 }
 
 -(BOOL) isDisplayingRowForIndex:(int) index
@@ -129,7 +119,7 @@
     
     int lowestIndex = [self.delegate lowestIndexInView];
     int highestIndex = [self.delegate highestIndexInView];
-
+    
     
     //recycle
     for (UIView <ListRow> * row in self.visibleViews)
@@ -175,8 +165,8 @@
     }
     
     [self.visibleViews addObject:result];
-//    NSLog(@"Visible ==> %d", [self.visibleViews count]);
-//    NSLog(@"Recycled ==> %d", [self.recycledViews count]);
+    //    NSLog(@"Visible ==> %d", [self.visibleViews count]);
+    //    NSLog(@"Recycled ==> %d", [self.recycledViews count]);
     [result removeFromSuperview];
     return result;
     
@@ -190,7 +180,7 @@
     
     int lowestIndex = [self.delegate lowestIndexInView];
     int highestIndex = [self.delegate highestIndexInView];
-
+    
     //recycle
     for (UIView <ListRow> * row in self.visibleViews)
     {

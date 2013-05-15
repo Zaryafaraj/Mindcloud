@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ListTableAnimationManager.h"
+#import "TableAnimator.h"
 
-
-@interface ListTableSlideAnimationManager : NSObject <ListTableAnimationManager>
+@interface PaperTableAnimator : NSObject <TableAnimator>
 @end

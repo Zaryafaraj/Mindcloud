@@ -6,11 +6,11 @@
 //
 
 #import "MainScreenRow.h"
-#import "ListTableSlideAnimationManager.h"
+#import "PaperTableAnimator.h"
 #import "ThemeFactory.h"
 #import "ITheme.h"
-#import "ListTableAnimationManager.h"
-#import "ListRowSlideAnimationManager.h"
+#import "RowAnimator.h"
+#import "SlidingRowAnimator.h"
 #import <QuartzCore/QuartzCore.h>
 #import "SlidingTableRowLayoutManager.h"
 
@@ -51,7 +51,7 @@
         [self addforgroundLayer];
         [self addLabelPlaceholder];
         [self addGestureRecognizers];
-        self.animationManager = [[ListRowSlideAnimationManager alloc] init];
+        self.animationManager = [[SlidingRowAnimator alloc] init];
         self.layoutManager = [[SlidingTableRowLayoutManager alloc] init];
         self.isEditing = NO;
     }

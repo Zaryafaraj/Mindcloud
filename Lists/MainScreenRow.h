@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ListRow.h"
-#import "ListRowAnimationManager.h"
+#import "RowAnimator.h"
 #import "MainScreenRowViewDelegate.h"
 #import "ListTableRowLayoutManager.h"
 

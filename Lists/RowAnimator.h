@@ -10,7 +10,7 @@
 
 typedef void (^row_animation_completion_callback)(void);
 
-@protocol ListRowAnimationManager <NSObject>
+@protocol RowAnimator <NSObject>
 
 -(void) slideOpenMainScreenRow:(UIView *) row
                    withButtons: (NSArray *) buttons

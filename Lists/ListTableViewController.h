@@ -8,7 +8,7 @@
 
 
 #import "ScrollViewRecyclerDelegate.h"
-#import "ListTableAnimationManager.h"
+#import "TableAnimator.h"
 #import "ListTableViewLayoutManager.h"
 #import "ListTableViewDatasource.h"
 
@@ -16,7 +16,7 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) id<ListTableViewLayoutManager> layoutManager;
-@property (nonatomic, strong) id<ListTableAnimationManager> animationManager;
+@property (nonatomic, strong) id<TableAnimator> animationManager;
 
 @property (nonatomic, strong) id<ListTableViewDatasource> dataSource;
 

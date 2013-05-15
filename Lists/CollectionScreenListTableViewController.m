@@ -8,7 +8,7 @@
 
 #import "CollectionScreenListTableViewController.h"
 #import "ThemeFactory.h"
-#import "ListTableSlideAnimationManager.h"
+#import "PaperTableAnimator.h"
 #import "CenteredListTableViewLayoutManager.h"
 #import "NoteRow.h"
 #import "AwesomeMenu.h"
@@ -25,7 +25,7 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        self.animationManager = [[ListTableSlideAnimationManager alloc] init];
+        self.animationManager = [[PaperTableAnimator alloc] init];
         NoteRow * row = [[NoteRow alloc] init];
         row.delegate = self;
         self.prototypeRow = row;

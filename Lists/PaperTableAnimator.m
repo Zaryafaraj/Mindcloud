@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 MindCloud. All rights reserved.
 //
 
-#import "ListTableSlideAnimationManager.h"
+#import "PaperTableAnimator.h"
 #import <QuartzCore/QuartzCore.h>
 #import <QuartzCore/CAAnimation.h>
 #import "ThemeFactory.h"
@@ -47,7 +47,7 @@
 
 @end
 
-@implementation ListTableSlideAnimationManager
+@implementation PaperTableAnimator
 
 -(void) slideMainScreenRow:(UIView *) row
                    toFrame:(CGRect) frame

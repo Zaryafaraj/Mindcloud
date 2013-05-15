@@ -7,14 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ListRowAnimationManager.h"
+#import "RowAnimator.h"
 #import "AwesomeMenu.h"
 
 @protocol ListRow <NSObject>
 
 @property (strong, nonatomic) NSString * text;
 @property NSInteger index;
-@property (nonatomic, strong) id<ListRowAnimationManager> animationManager;
+@property (nonatomic, strong) id<RowAnimator> animationManager;
 @property (nonatomic, strong) UIView * foregroundView;
 -(UIView<ListRow> *) prototypeSelf;
 

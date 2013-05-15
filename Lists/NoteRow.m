@@ -9,8 +9,8 @@
 #import "NoteRow.h"
 #import "ThemeFactory.h"
 #import "NoteTableRowLayoutManager.h"
-#import "CollectionRowPaperAnimationManager.h"
 #import "AwesomeMenu.h"
+#import "SlidingRowAnimator.h"
 
 #define LABEL_INSET_HOR 10
 #define LABEL_INSET_VER 10
@@ -41,7 +41,7 @@
     if (self)
     {
         self.layoutManager = [[NoteTableRowLayoutManager alloc] init];
-        self.animationManager = [[CollectionRowPaperAnimationManager alloc] init];
+        self.animationManager = [[SlidingRowAnimator alloc] init];
         self.backgroundColor = [UIColor clearColor];
         [self addBackgroundLayer];
         [self addActionButtons];

@@ -6,11 +6,9 @@
 //  Copyright (c) 2013 MindCloud. All rights reserved.
 //
 
-#import "ListRowSlideAnimationManager.h"
+#import "SlidingRowAnimator.h"
 
-@implementation ListRowSlideAnimationManager
-
-
+@implementation SlidingRowAnimator
 
 -(void) slideOpenMainScreenRow:(UIView *) row
                    withButtons: (NSArray *) buttons
