@@ -9,25 +9,25 @@
 #import "ScrollViewRecyclerDelegate.h"
 #import "TableAnimatorProtocol.h"
 #import "TableLayoutManagerProtocol.h"
-#import "ListTableViewDatasource.h"
+#import "ListDataSource.h"
 
-@interface ListTableViewController : UIViewController <UIScrollViewDelegate, ScrollViewRecyclerDelegate>
+@interface ListsViewController : UIViewController <UIScrollViewDelegate, ScrollViewRecyclerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) id<TableLayoutManagerProtocol> layoutManager;
 @property (nonatomic, strong) id<TableAnimatorProtocol> animationManager;
 
-@property (nonatomic, strong) id<ListTableViewDatasource> dataSource;
+@property (nonatomic, strong) id<ListDatasource> dataSource;
 
-@property (nonatomic, strong) UIView<ListRow> * prototypeRow;
+@property (nonatomic, strong) UIView<ListRowProtocol> * prototypeRow;
 
-@property UIView <ListRow> * editingRow;
+@property UIView <ListRowProtocol> * editingRow;
 
 @property BOOL isInEditMode;
 
--(UIView<ListRow> *) addRowToTop;
+-(UIView<ListRowProtocol> *) addRowToTop;
 
--(void) removeRow:(UIView<ListRow> *) row;
+-(void) removeRow:(UIView<ListRowProtocol> *) row;
 
 -(void) scrollViewTapped:(UISwipeGestureRecognizer *) sender;
 

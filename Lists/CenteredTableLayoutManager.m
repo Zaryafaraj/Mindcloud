@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 MindCloud. All rights reserved.
 //
 
-#import "CenteredListTableViewLayoutManager.h"
-#import "ListRow.h"
+#import "CenteredTableLayoutManager.h"
+#import "ListRowProtocol.h"
 
-@implementation CenteredListTableViewLayoutManager
+@implementation CenteredTableLayoutManager
 
 -(CGFloat) verticalOffsetFromTop
 {
@@ -92,7 +92,7 @@
     return result;
 }
 
--(CGRect) frameForContextualMenuInRow:(UIView<ListRow> *) row
+-(CGRect) frameForContextualMenuInRow:(UIView<ListRowProtocol> *) row
 {
     //the menu resizes to the image so this size doesn matter . Only the origins
     CGSize menuSize = CGSizeMake(row.frame.size.width/4, row.frame.size.height);

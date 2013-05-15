@@ -5,10 +5,10 @@
 //  Copyright (c) 2013 MindCloud. All rights reserved.
 //
 
-#import "MainScreenRow.h"
+#import "CollectionRow.h"
 #import "PaperTableAnimator.h"
 #import "ThemeFactory.h"
-#import "ITheme.h"
+#import "ThemeProtocol.h"
 #import "RowAnimatorProtocol.h"
 #import "SlidingRowAnimator.h"
 #import <QuartzCore/QuartzCore.h>
@@ -21,7 +21,7 @@
 #define IMG_INSET_VER 5
 #define IMG_WIDTH 70
 
-@interface MainScreenRow()
+@interface CollectionRow()
 
 @property (strong, nonatomic) UILabel * collectionLabel;
 @property (strong, nonatomic) UIImageView * collectionImage;
@@ -34,7 +34,7 @@
 @property  BOOL isEditing;
 
 @end
-@implementation MainScreenRow
+@implementation CollectionRow
 
 @synthesize index = _index;
 @synthesize animationManager = _animationManager;
@@ -431,9 +431,9 @@
     self.isEditing = NO;
 }
 
--(UIView<ListRow> *) prototypeSelf
+-(UIView<ListRowProtocol> *) prototypeSelf
 {
-    MainScreenRow * prototype = [[MainScreenRow alloc] init];
+    CollectionRow * prototype = [[CollectionRow alloc] init];
     prototype.frame = self.frame;
     prototype.text = self.text;
     prototype.delegate = self.delegate;

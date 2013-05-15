@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol ListCollectionViewDelegate <NSObject>
+@protocol CollectionViewParentProtocol <NSObject>
 
 -(void) finishedWorkingWithCollection:(NSString *) collectionName;
 

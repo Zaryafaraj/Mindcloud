@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol ListTableViewDatasource <NSObject>
+@protocol ListDatasource <NSObject>
 
 -(void) addItemWithTitle:(NSString *) title
                  atIndex:(int) index;

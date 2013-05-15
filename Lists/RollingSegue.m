@@ -7,7 +7,7 @@
 //
 
 #import "RollingSegue.h"
-#import "CollectionScreenListTableViewController.h"
+#import "CollectionViewController.h"
 #import "MultimediaHelper.h"
 #import <QuartzCore/QuartzCore.h>
 

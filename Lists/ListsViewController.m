@@ -6,17 +6,17 @@
 //
 //
 
-#import "ListTableViewController.h"
+#import "ListsViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "ThemeFactory.h"
-#import "ITheme.h"
+#import "ThemeProtocol.h"
 #import "CenteredTableLayoutManager.h"
 #import "PaperTableAnimator.h"
 #import "StubListTableViewDatasource.h"
 #import "ScrollViewRowRecycler.h"
-#import "ListRow.h"
+#import "ListRowProtocol.h"
 
-@interface ListTableViewController ()
+@interface ListsViewController ()
 
 @property (strong, nonatomic) ScrollViewRowRecycler * recycler;
 @property UIEdgeInsets originalContentInset;
@@ -24,9 +24,9 @@
 @property BOOL savedOriginalCoordinates;
 
 @end
-@implementation ListTableViewController
+@implementation ListsViewController
 
--(void) setPrototypeRow:(UIView<ListRow> *)prototypeRow
+-(void) setPrototypeRow:(UIView<ListRowProtocol> *)prototypeRow
 {
     _prototypeRow = prototypeRow;
     self.recycler.prototype = prototypeRow;
@@ -64,7 +64,7 @@
     return _animationManager;
 }
 
--(id<ListTableViewDatasource>) dataSource
+-(id<ListDatasource>) dataSource
 {
     if (_dataSource == nil)
     {
@@ -73,13 +73,13 @@
     return _dataSource;
 }
 
--(UIView<ListRow> *) addRowToTop
+-(UIView<ListRowProtocol> *) addRowToTop
 {
     [self.scrollView setContentOffset:CGPointZero animated:NO];
     
     NSString * title = [NSString stringWithFormat:@"%d", 0];
     [self.dataSource addItemWithTitle:title atIndex:0];
-    UIView<ListRow> * row =  [self.recycler dequeRowForAdditionTo:self.scrollView atIndex:0];
+    UIView<ListRowProtocol> * row =  [self.recycler dequeRowForAdditionTo:self.scrollView atIndex:0];
     
     row.text = title;
     if ([row respondsToSelector:@selector(setImage:)])
@@ -100,7 +100,7 @@
     return row;
 }
 
--(void) removeRow:(UIView<ListRow> *) row
+-(void) removeRow:(UIView<ListRowProtocol> *) row
 {
     int index = row.index;
     //get the frame
@@ -118,9 +118,9 @@
 - (void) moveRowsDownAfterIndex:(int) index
 {
     int lowestIndex = [self.dataSource count];
-    for(UIView<ListRow> * row in self.scrollView.subviews)
+    for(UIView<ListRowProtocol> * row in self.scrollView.subviews)
     {
-        if ([row conformsToProtocol:@protocol(ListRow)])
+        if ([row conformsToProtocol:@protocol(ListRowProtocol)])
         {
             if (row.index <= index) continue;
             
@@ -147,9 +147,9 @@
 -(void) moveRowsUpAfterIndex:(int) index
 {
     int lowestIndex = [self.dataSource count];
-    for(UIView<ListRow> * row in self.scrollView.subviews)
+    for(UIView<ListRowProtocol> * row in self.scrollView.subviews)
     {
-        if ([row conformsToProtocol:@protocol(ListRow)])
+        if ([row conformsToProtocol:@protocol(ListRowProtocol)])
         {
             if (row.index > index)
             {
@@ -262,8 +262,8 @@
 }
 
 #pragma mark - recycler delegate
--(UIView<ListRow> *)rowForIndex:(int)index
-                  withPrototype:(UIView<ListRow> *)prototype
+-(UIView<ListRowProtocol> *)rowForIndex:(int)index
+                  withPrototype:(UIView<ListRowProtocol> *)prototype
 {
     
     if (index >= [self.dataSource count]) return nil;
@@ -287,7 +287,7 @@
     return prototype;
 }
 
--(void) didRecycledRow:(UIView<ListRow> *)recycledView
+-(void) didRecycledRow:(UIView<ListRowProtocol> *)recycledView
               ForIndex:(int)index
 {
     

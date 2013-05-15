@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MindCloud. All rights reserved.
 //
 
-#import "SlidingTableRowLayoutManager.h"
+#import "CollectionRowLayoutManager.h"
 
-@implementation SlidingTableRowLayoutManager
+@implementation CollectionRowLayoutManager
 
 - (CGRect) frameForOpenedRow:(CGRect) closedFrame
 {

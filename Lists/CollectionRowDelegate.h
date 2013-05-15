@@ -7,15 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ListRow.h"
+#import "ListRowProtocol.h"
 
-@protocol MainScreenRowViewDelegate <NSObject>
+@protocol CollectionRowDelegate <NSObject>
 
--(void) deletePressed:(UIView<ListRow> *) sender;
--(void) renamePressed:(UIView<ListRow> *) sender;
--(void) sharePressed:(UIView<ListRow> *) sender;
--(void) selectedRow:(UIView<ListRow> *) sender;
--(void) tappedRow:(UIView<ListRow> *) sender;
+-(void) deletePressed:(UIView<ListRowProtocol> *) sender;
+-(void) renamePressed:(UIView<ListRowProtocol> *) sender;
+-(void) sharePressed:(UIView<ListRowProtocol> *) sender;
+-(void) selectedRow:(UIView<ListRowProtocol> *) sender;
+-(void) tappedRow:(UIView<ListRowProtocol> *) sender;
 -(BOOL) isEditingRows;
 
 @end

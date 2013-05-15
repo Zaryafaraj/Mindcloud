@@ -10,13 +10,13 @@
 #import "RowAnimatorProtocol.h"
 #import "AwesomeMenu.h"
 
-@protocol ListRow <NSObject>
+@protocol ListRowProtocol <NSObject>
 
 @property (strong, nonatomic) NSString * text;
 @property NSInteger index;
 @property (nonatomic, strong) id<RowAnimatorProtocol> animationManager;
 @property (nonatomic, strong) UIView * foregroundView;
--(UIView<ListRow> *) prototypeSelf;
+-(UIView<ListRowProtocol> *) prototypeSelf;
 
 -(void) enableEditing :(BOOL) makeFirstResponder;
 -(void) disableEditing:(BOOL) resignFirstResponser;

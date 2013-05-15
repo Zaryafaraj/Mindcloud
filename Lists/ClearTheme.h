@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ITheme.h"
+#import "ThemeProtocol.h"
 
-@interface GlassyTheme : NSObject <ITheme>
+@interface ClearTheme : NSObject <ThemeProtocol>
 
-+(id<ITheme>) theme;
++(id<ThemeProtocol>) theme;
 
 @end

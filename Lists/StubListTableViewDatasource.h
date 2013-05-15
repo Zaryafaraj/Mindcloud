@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ListTableViewDatasource.h"
+#import "ListDataSource.h"
 
-@interface StubListTableViewDatasource : NSObject <ListTableViewDatasource>
+@interface StubListTableViewDatasource : NSObject <ListDatasource>
 
 @end

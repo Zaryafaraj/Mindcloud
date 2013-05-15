@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol ITheme <NSObject>
+@protocol ThemeProtocol <NSObject>
 
 -(UIImage *) imageForMainScreenRowDeleteButton;
 -(UIImage *) imageForMainScreenRowShareButton;

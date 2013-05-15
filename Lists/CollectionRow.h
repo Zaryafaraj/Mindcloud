@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ListRow.h"
+#import "ListRowProtocol.h"
 #import "RowAnimatorProtocol.h"
-#import "MainScreenRowViewDelegate.h"
+#import "CollectionRowDelegate.h"
 #import "RowLayoutManagerProtocol.h"
 
-@interface MainScreenRow : UIView <ListRow, UITextFieldDelegate>
+@interface CollectionRow : UIView <ListRowProtocol, UITextFieldDelegate>
 
-@property (nonatomic, strong) id<MainScreenRowViewDelegate> delegate;
+@property (nonatomic, strong) id<CollectionRowDelegate> delegate;
 
 @property (nonatomic, strong) id<RowLayoutManagerProtocol> layoutManager;
 

@@ -6,19 +6,19 @@
 //  Copyright (c) 2013 MindCloud. All rights reserved.
 //
 
-#import "CollectionScreenListTableViewController.h"
+#import "CollectionViewController.h"
 #import "ThemeFactory.h"
 #import "PaperTableAnimator.h"
-#import "CenteredListTableViewLayoutManager.h"
+#import "CenteredTableLayoutManager.h"
 #import "NoteRow.h"
 #import "AwesomeMenu.h"
 #import "AwesomeMenuItem.h"
 
-@interface CollectionScreenListTableViewController ()
+@interface CollectionViewController ()
 
 @end
 
-@implementation CollectionScreenListTableViewController
+@implementation CollectionViewController
 
 -(id) initWithCoder:(NSCoder *)aDecoder
 {
@@ -31,7 +31,7 @@
         self.prototypeRow = row;
         self.isInEditMode = NO;
         CGFloat divider = [[ThemeFactory currentTheme] spaceBetweenRowsInCollectionScreen];
-        self.layoutManager = [[CenteredListTableViewLayoutManager alloc] initWithDivider:divider];
+        self.layoutManager = [[CenteredTableLayoutManager alloc] initWithDivider:divider];
     }
     return self;
 }
@@ -60,7 +60,7 @@
         self.isInEditMode = NO;
     }
     
-    UIView<ListRow> * row = [self addRowToTop];
+    UIView<ListRowProtocol> * row = [self addRowToTop];
     AwesomeMenu * contextualMenu = [self createContextualMenu:row];
     row.contextualMenu = contextualMenu;
 
@@ -79,9 +79,9 @@
                                                 inSuperView:self.scrollView];
 }
 
--(AwesomeMenu *) createContextualMenu:(UIView<ListRow> *) row
+-(AwesomeMenu *) createContextualMenu:(UIView<ListRowProtocol> *) row
 {
-    id <ITheme> theme = [ThemeFactory currentTheme];
+    id <ThemeProtocol> theme = [ThemeFactory currentTheme];
     UIImage * background = [theme getContextualMenuItemBackground];
     UIImage * backgroundHighlighted = [theme getContextualMenuItemBackgroundHighlighted];
     UIImage * doneContent = [theme getContextualMenuContentLeft];
@@ -157,9 +157,9 @@
 
 #pragma mark - recycler delegate
 
--(UIView<ListRow> *) rowForIndex:(int)index withPrototype:(id<ListRow>)prototype
+-(UIView<ListRowProtocol> *) rowForIndex:(int)index withPrototype:(id<ListRowProtocol>)prototype
 {
-    UIView<ListRow> * row = [super rowForIndex:index withPrototype:prototype];
+    UIView<ListRowProtocol> * row = [super rowForIndex:index withPrototype:prototype];
     
     if (row == nil) return nil;
     
@@ -175,7 +175,7 @@
     return row;
 }
 
--(void) didRecycledRow:(UIView<ListRow> *)row
+-(void) didRecycledRow:(UIView<ListRowProtocol> *)row
               ForIndex:(int)index
 {
     AwesomeMenu * contextualMenu = row.contextualMenu;
@@ -199,7 +199,7 @@
 
 #pragma mark - Note Row Delegate
 
--(void) deletePressed:(UIView<ListRow> *) sender
+-(void) deletePressed:(UIView<ListRowProtocol> *) sender
 {
     [self removeRow:sender];
     [self.animationManager animateRemovalForContextualMenu:sender.contextualMenu inSuperView:self.scrollView withCompletionHandler:^{
@@ -207,37 +207,37 @@
     }];
 }
 
--(void) doneTaskPressed:(UIView<ListRow> *)sender
+-(void) doneTaskPressed:(UIView<ListRowProtocol> *)sender
 {
     [self.animationManager animateSetToDone:sender];
 }
 
--(void) undoneTaskPressed:(UIView<ListRow> *) sender
+-(void) undoneTaskPressed:(UIView<ListRowProtocol> *) sender
 {
     [self.animationManager animateSetToUndone:sender];
 }
 
--(void) starPressed:(UIView<ListRow> *) sender
+-(void) starPressed:(UIView<ListRowProtocol> *) sender
 {
     [self.animationManager animateSetToStar:sender];
 }
 
--(void) clockPressed:(UIView<ListRow> *) sender
+-(void) clockPressed:(UIView<ListRowProtocol> *) sender
 {
     [self.animationManager animateSetTimer:sender];
 }
 
--(void) expandPressed:(UIView<ListRow> *) sender
+-(void) expandPressed:(UIView<ListRowProtocol> *) sender
 {
     [self.animationManager animateExpandRow:sender];
 }
 
--(void) unexpandPressed:(UIView<ListRow> *)sender
+-(void) unexpandPressed:(UIView<ListRowProtocol> *)sender
 {
     
 }
 
--(void) tappedRow:(UIView<ListRow> *) sender
+-(void) tappedRow:(UIView<ListRowProtocol> *) sender
 {
     [self.editingRow disableEditing:NO];
     [sender enableEditing:NO];

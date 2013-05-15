@@ -15,7 +15,7 @@
 		DB10D5CC171A21A3009D1566 /* GlassyMainRowShare.png in Resources */ = {isa = PBXBuildFile; fileRef = DB10D5CB171A21A3009D1566 /* GlassyMainRowShare.png */; };
 		DB10D5CE171A2334009D1566 /* GlassyMainRowEditLight.png in Resources */ = {isa = PBXBuildFile; fileRef = DB10D5CD171A2334009D1566 /* GlassyMainRowEditLight.png */; };
 		DB10D5D0171A23C6009D1566 /* GlassyMainRowEdit.png in Resources */ = {isa = PBXBuildFile; fileRef = DB10D5CF171A23C6009D1566 /* GlassyMainRowEdit.png */; };
-		DB116FC3172E1E090082D314 /* CollectionScreenListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB116FC2172E1E090082D314 /* CollectionScreenListTableViewController.m */; };
+		DB116FC3172E1E090082D314 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB116FC2172E1E090082D314 /* CollectionViewController.m */; };
 		DB116FC8172E49DC0082D314 /* MultimediaHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB116FC7172E49DC0082D314 /* MultimediaHelper.m */; };
 		DB1A2C9B1734E46E009017D1 /* tablerowbg.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1A2C9A1734E46E009017D1 /* tablerowbg.png */; };
 		DB1A2CAA1735C4E7009017D1 /* bg-menuitem.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1A2CA81735C4E7009017D1 /* bg-menuitem.png */; };
@@ -60,10 +60,10 @@
 		DB3C8E611710D52F00A69D3B /* BGBlurHigh.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E561710D52F00A69D3B /* BGBlurHigh.png */; };
 		DB3C8E621710D52F00A69D3B /* BGBlurMed.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E571710D52F00A69D3B /* BGBlurMed.png */; };
 		DB3C8E631710D52F00A69D3B /* BGBlurNo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E581710D52F00A69D3B /* BGBlurNo.jpg */; };
-		DB3C8E661710D68E00A69D3B /* MainScreenListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3C8E651710D68E00A69D3B /* MainScreenListTableViewController.m */; };
+		DB3C8E661710D68E00A69D3B /* MainScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3C8E651710D68E00A69D3B /* MainScreenViewController.m */; };
 		DB3CDB5F17112FED004CB440 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3CDB5E17112FED004CB440 /* QuartzCore.framework */; };
 		DB3CDB6717123FB8004CB440 /* ThemeFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3CDB6617123FB8004CB440 /* ThemeFactory.m */; };
-		DB3CDB6A17124001004CB440 /* GlassyTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3CDB6917124001004CB440 /* GlassyTheme.m */; };
+		DB3CDB6A17124001004CB440 /* ClearTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3CDB6917124001004CB440 /* ClearTheme.m */; };
 		DB488BAA171BA70900294966 /* ScrollViewRowRecycler.m in Sources */ = {isa = PBXBuildFile; fileRef = DB488BA9171BA70900294966 /* ScrollViewRowRecycler.m */; };
 		DB4BD6ED172E0F060024305C /* woodenBG.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB4BD6EC172E0F060024305C /* woodenBG.jpg */; };
 		DB4BD6F1172E16DB0024305C /* RollingSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4BD6F0172E16DB0024305C /* RollingSegue.m */; };
@@ -82,11 +82,11 @@
 		DB9CF09A173F82BB00CADDAA /* icon-detach.png in Resources */ = {isa = PBXBuildFile; fileRef = DB9CF098173F82BA00CADDAA /* icon-detach.png */; };
 		DB9CF09B173F82BB00CADDAA /* icon-detach@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB9CF099173F82BA00CADDAA /* icon-detach@2x.png */; };
 		DB9CF09E1740937100CADDAA /* ExpandableCenteredTableLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9CF09D1740937100CADDAA /* ExpandableCenteredTableLayoutManager.m */; };
-		DBBDEFC41713BFAF009ADF1A /* MainScreenRow.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFC31713BFAF009ADF1A /* MainScreenRow.m */; };
+		DBBDEFC41713BFAF009ADF1A /* CollectionRow.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFC31713BFAF009ADF1A /* CollectionRow.m */; };
 		DBBDEFC91713D9F8009ADF1A /* Test.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBDEFC81713D9F8009ADF1A /* Test.png */; };
 		DBBDEFCC1713E367009ADF1A /* CenteredTableLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFCB1713E367009ADF1A /* CenteredTableLayoutManager.m */; };
 		DBE411D2172B8CF300F26E17 /* CollectionRowLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE411D1172B8CF300F26E17 /* CollectionRowLayoutManager.m */; };
-		DBE5680F172490140009050F /* ListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE5680E172490140009050F /* ListTableViewController.m */; };
+		DBE5680F172490140009050F /* ListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE5680E172490140009050F /* ListsViewController.m */; };
 		DBEBB4C01715267500D0DFD5 /* PaperTableAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEBB4BF1715267500D0DFD5 /* PaperTableAnimator.m */; };
 /* End PBXBuildFile section */
 
@@ -109,9 +109,9 @@
 		DB10D5CB171A21A3009D1566 /* GlassyMainRowShare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlassyMainRowShare.png; sourceTree = "<group>"; };
 		DB10D5CD171A2334009D1566 /* GlassyMainRowEditLight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlassyMainRowEditLight.png; sourceTree = "<group>"; };
 		DB10D5CF171A23C6009D1566 /* GlassyMainRowEdit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlassyMainRowEdit.png; sourceTree = "<group>"; };
-		DB116FC1172E1E090082D314 /* CollectionScreenListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionScreenListTableViewController.h; sourceTree = "<group>"; };
-		DB116FC2172E1E090082D314 /* CollectionScreenListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionScreenListTableViewController.m; sourceTree = "<group>"; };
-		DB116FC4172E353D0082D314 /* ListCollectionViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListCollectionViewDelegate.h; sourceTree = "<group>"; };
+		DB116FC1172E1E090082D314 /* CollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewController.h; sourceTree = "<group>"; };
+		DB116FC2172E1E090082D314 /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
+		DB116FC4172E353D0082D314 /* CollectionViewParentProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewParentProtocol.h; sourceTree = "<group>"; };
 		DB116FC6172E49DC0082D314 /* MultimediaHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultimediaHelper.h; sourceTree = "<group>"; };
 		DB116FC7172E49DC0082D314 /* MultimediaHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultimediaHelper.m; sourceTree = "<group>"; };
 		DB1A2C9A1734E46E009017D1 /* tablerowbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tablerowbg.png; sourceTree = "<group>"; };
@@ -163,14 +163,14 @@
 		DB3C8E561710D52F00A69D3B /* BGBlurHigh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BGBlurHigh.png; sourceTree = "<group>"; };
 		DB3C8E571710D52F00A69D3B /* BGBlurMed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BGBlurMed.png; sourceTree = "<group>"; };
 		DB3C8E581710D52F00A69D3B /* BGBlurNo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = BGBlurNo.jpg; sourceTree = "<group>"; };
-		DB3C8E641710D68E00A69D3B /* MainScreenListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenListTableViewController.h; sourceTree = "<group>"; };
-		DB3C8E651710D68E00A69D3B /* MainScreenListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenListTableViewController.m; sourceTree = "<group>"; };
+		DB3C8E641710D68E00A69D3B /* MainScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenViewController.h; sourceTree = "<group>"; };
+		DB3C8E651710D68E00A69D3B /* MainScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenViewController.m; sourceTree = "<group>"; };
 		DB3CDB5E17112FED004CB440 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		DB3CDB6417123E93004CB440 /* ITheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITheme.h; sourceTree = "<group>"; };
+		DB3CDB6417123E93004CB440 /* ThemeProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeProtocol.h; sourceTree = "<group>"; };
 		DB3CDB6517123FB8004CB440 /* ThemeFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeFactory.h; sourceTree = "<group>"; };
 		DB3CDB6617123FB8004CB440 /* ThemeFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeFactory.m; sourceTree = "<group>"; };
-		DB3CDB6817124001004CB440 /* GlassyTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlassyTheme.h; sourceTree = "<group>"; };
-		DB3CDB6917124001004CB440 /* GlassyTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlassyTheme.m; sourceTree = "<group>"; };
+		DB3CDB6817124001004CB440 /* ClearTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClearTheme.h; sourceTree = "<group>"; };
+		DB3CDB6917124001004CB440 /* ClearTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClearTheme.m; sourceTree = "<group>"; };
 		DB488BA8171BA70900294966 /* ScrollViewRowRecycler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewRowRecycler.h; sourceTree = "<group>"; };
 		DB488BA9171BA70900294966 /* ScrollViewRowRecycler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewRowRecycler.m; sourceTree = "<group>"; };
 		DB4BD6EC172E0F060024305C /* woodenBG.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woodenBG.jpg; sourceTree = "<group>"; };
@@ -181,12 +181,12 @@
 		DB4CC5B31730DF11005331F0 /* NoteRowLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteRowLayoutManager.h; sourceTree = "<group>"; };
 		DB4CC5B41730DF11005331F0 /* NoteRowLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteRowLayoutManager.m; sourceTree = "<group>"; };
 		DB9661DF17225FD900C04AC3 /* TableLayoutManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableLayoutManagerProtocol.h; sourceTree = "<group>"; };
-		DB9661E317226EDE00C04AC3 /* ListRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListRow.h; sourceTree = "<group>"; };
+		DB9661E317226EDE00C04AC3 /* ListRowProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListRowProtocol.h; sourceTree = "<group>"; };
 		DB9661E4172272BA00C04AC3 /* TableAnimatorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableAnimatorProtocol.h; sourceTree = "<group>"; };
 		DB9661E51722754400C04AC3 /* RowAnimatorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RowAnimatorProtocol.h; sourceTree = "<group>"; };
 		DB9661E6172275AB00C04AC3 /* SlidingRowAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlidingRowAnimator.h; sourceTree = "<group>"; };
 		DB9661E7172275AB00C04AC3 /* SlidingRowAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlidingRowAnimator.m; sourceTree = "<group>"; };
-		DB9661E917233FDA00C04AC3 /* ListTableViewDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableViewDatasource.h; sourceTree = "<group>"; };
+		DB9661E917233FDA00C04AC3 /* ListDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListDataSource.h; sourceTree = "<group>"; };
 		DB9661EA1723416100C04AC3 /* StubListTableViewDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StubListTableViewDatasource.h; sourceTree = "<group>"; };
 		DB9661EB1723416100C04AC3 /* StubListTableViewDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StubListTableViewDatasource.m; sourceTree = "<group>"; };
 		DB9CF084173E1F9E00CADDAA /* GlassyCollectionRowDone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlassyCollectionRowDone.png; sourceTree = "<group>"; };
@@ -201,8 +201,8 @@
 		DB9CF099173F82BA00CADDAA /* icon-detach@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-detach@2x.png"; sourceTree = "<group>"; };
 		DB9CF09C1740937100CADDAA /* ExpandableCenteredTableLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandableCenteredTableLayoutManager.h; sourceTree = "<group>"; };
 		DB9CF09D1740937100CADDAA /* ExpandableCenteredTableLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpandableCenteredTableLayoutManager.m; sourceTree = "<group>"; };
-		DBBDEFC21713BFAF009ADF1A /* MainScreenRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenRow.h; sourceTree = "<group>"; };
-		DBBDEFC31713BFAF009ADF1A /* MainScreenRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenRow.m; sourceTree = "<group>"; };
+		DBBDEFC21713BFAF009ADF1A /* CollectionRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionRow.h; sourceTree = "<group>"; };
+		DBBDEFC31713BFAF009ADF1A /* CollectionRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionRow.m; sourceTree = "<group>"; };
 		DBBDEFC81713D9F8009ADF1A /* Test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Test.png; sourceTree = "<group>"; };
 		DBBDEFCA1713E367009ADF1A /* CenteredTableLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CenteredTableLayoutManager.h; sourceTree = "<group>"; };
 		DBBDEFCB1713E367009ADF1A /* CenteredTableLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenteredTableLayoutManager.m; sourceTree = "<group>"; };
@@ -210,9 +210,9 @@
 		DBE411CF172B8CD300F26E17 /* RowLayoutManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RowLayoutManagerProtocol.h; sourceTree = "<group>"; };
 		DBE411D0172B8CF300F26E17 /* CollectionRowLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionRowLayoutManager.h; sourceTree = "<group>"; };
 		DBE411D1172B8CF300F26E17 /* CollectionRowLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionRowLayoutManager.m; sourceTree = "<group>"; };
-		DBE5680D172490140009050F /* ListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = ListTableViewController.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
-		DBE5680E172490140009050F /* ListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = ListTableViewController.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
-		DBE5681017249B0F0009050F /* MainScreenRowViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenRowViewDelegate.h; sourceTree = "<group>"; };
+		DBE5680D172490140009050F /* ListsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = ListsViewController.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		DBE5680E172490140009050F /* ListsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = ListsViewController.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		DBE5681017249B0F0009050F /* CollectionRowDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionRowDelegate.h; sourceTree = "<group>"; };
 		DBEBB4BE1715267500D0DFD5 /* PaperTableAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperTableAnimator.h; sourceTree = "<group>"; };
 		DBEBB4BF1715267500D0DFD5 /* PaperTableAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperTableAnimator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -242,13 +242,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		DB116FC5172E49C50082D314 /* Helpers */ = {
+		DB116FC5172E49C50082D314 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				DB116FC6172E49DC0082D314 /* MultimediaHelper.h */,
 				DB116FC7172E49DC0082D314 /* MultimediaHelper.m */,
 			);
-			name = Helpers;
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 		DB1A2C911734D98A009017D1 /* Textures */ = {
@@ -286,7 +286,7 @@
 			name = ContextMenu;
 			sourceTree = "<group>";
 		};
-		DB1A2CD41735C9DD009017D1 /* AwesomeMenu */ = {
+		DB1A2CD41735C9DD009017D1 /* ContextualMenu */ = {
 			isa = PBXGroup;
 			children = (
 				DB1A2CCE1735C824009017D1 /* AwesomeMenu.h */,
@@ -294,7 +294,7 @@
 				DB1A2CD01735C824009017D1 /* AwesomeMenu.m */,
 				DB1A2CD11735C824009017D1 /* AwesomeMenuItem.m */,
 			);
-			name = AwesomeMenu;
+			name = ContextualMenu;
 			sourceTree = "<group>";
 		};
 		DB3C8E0A1710D3DE00A69D3B = {
@@ -331,7 +331,7 @@
 		DB3C8E1C1710D3DE00A69D3B /* Lists */ = {
 			isa = PBXGroup;
 			children = (
-				DB116FC5172E49C50082D314 /* Helpers */,
+				DB116FC5172E49C50082D314 /* Utilities */,
 				DBBDEFBF1713BF63009ADF1A /* UI */,
 				DB3CDB6017113BC7004CB440 /* Themes */,
 				DB3C8E251710D3DE00A69D3B /* AppDelegate.h */,
@@ -401,24 +401,24 @@
 		DB3CDB6017113BC7004CB440 /* Themes */ = {
 			isa = PBXGroup;
 			children = (
-				DB3CDB6417123E93004CB440 /* ITheme.h */,
+				DB3CDB6417123E93004CB440 /* ThemeProtocol.h */,
 				DB3CDB6517123FB8004CB440 /* ThemeFactory.h */,
 				DB3CDB6617123FB8004CB440 /* ThemeFactory.m */,
-				DB3CDB6817124001004CB440 /* GlassyTheme.h */,
-				DB3CDB6917124001004CB440 /* GlassyTheme.m */,
+				DB3CDB6817124001004CB440 /* ClearTheme.h */,
+				DB3CDB6917124001004CB440 /* ClearTheme.m */,
 			);
 			name = Themes;
 			path = ..;
 			sourceTree = "<group>";
 		};
-		DB488BAB171BA71100294966 /* Utilities */ = {
+		DB488BAB171BA71100294966 /* ViewUtilities */ = {
 			isa = PBXGroup;
 			children = (
 				DB488BA8171BA70900294966 /* ScrollViewRowRecycler.h */,
 				DB488BA9171BA70900294966 /* ScrollViewRowRecycler.m */,
 				DB378C47171E7AD2008C6216 /* ScrollViewRecyclerDelegate.h */,
 			);
-			name = Utilities;
+			name = ViewUtilities;
 			sourceTree = "<group>";
 		};
 		DB4BD6EE172E16950024305C /* Segue */ = {
@@ -433,14 +433,14 @@
 		DBBDEFBF1713BF63009ADF1A /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				DB1A2CD41735C9DD009017D1 /* AwesomeMenu */,
+				DB3C8E4B1710D4B800A69D3B /* Storyboard.storyboard */,
 				DB4BD6EE172E16950024305C /* Segue */,
-				DB488BAB171BA71100294966 /* Utilities */,
+				DB488BAB171BA71100294966 /* ViewUtilities */,
 				DBEBB4BD1715265E00D0DFD5 /* Animation */,
 				DBBDEFCD1713E76E009ADF1A /* Layout */,
 				DBBDEFC11713BF81009ADF1A /* Views */,
 				DBBDEFC01713BF6F009ADF1A /* ViewControllers */,
-				DB3C8E4B1710D4B800A69D3B /* Storyboard.storyboard */,
+				DBFD26EE17436E76009C2071 /* DataSource */,
 			);
 			name = UI;
 			path = ..;
@@ -449,16 +449,13 @@
 		DBBDEFC01713BF6F009ADF1A /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				DBE5680D172490140009050F /* ListTableViewController.h */,
-				DBE5680E172490140009050F /* ListTableViewController.m */,
-				DB3C8E641710D68E00A69D3B /* MainScreenListTableViewController.h */,
-				DB3C8E651710D68E00A69D3B /* MainScreenListTableViewController.m */,
-				DB9661E917233FDA00C04AC3 /* ListTableViewDatasource.h */,
-				DB9661EA1723416100C04AC3 /* StubListTableViewDatasource.h */,
-				DB9661EB1723416100C04AC3 /* StubListTableViewDatasource.m */,
-				DB116FC1172E1E090082D314 /* CollectionScreenListTableViewController.h */,
-				DB116FC2172E1E090082D314 /* CollectionScreenListTableViewController.m */,
-				DB116FC4172E353D0082D314 /* ListCollectionViewDelegate.h */,
+				DBE5680D172490140009050F /* ListsViewController.h */,
+				DBE5680E172490140009050F /* ListsViewController.m */,
+				DB3C8E641710D68E00A69D3B /* MainScreenViewController.h */,
+				DB3C8E651710D68E00A69D3B /* MainScreenViewController.m */,
+				DB116FC1172E1E090082D314 /* CollectionViewController.h */,
+				DB116FC2172E1E090082D314 /* CollectionViewController.m */,
+				DB116FC4172E353D0082D314 /* CollectionViewParentProtocol.h */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -466,13 +463,8 @@
 		DBBDEFC11713BF81009ADF1A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				DBBDEFC21713BFAF009ADF1A /* MainScreenRow.h */,
-				DBBDEFC31713BFAF009ADF1A /* MainScreenRow.m */,
-				DB9661E317226EDE00C04AC3 /* ListRow.h */,
-				DBE5681017249B0F0009050F /* MainScreenRowViewDelegate.h */,
-				DB4CC5B01730DEB6005331F0 /* NoteRow.h */,
-				DB4CC5B11730DEB6005331F0 /* NoteRow.m */,
-				DBD43D3C173382E70046ACA3 /* NoteRowDelegate.h */,
+				DB1A2CD41735C9DD009017D1 /* ContextualMenu */,
+				DBFD26EC17436A1A009C2071 /* Row */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -562,6 +554,30 @@
 				DB4CC5B41730DF11005331F0 /* NoteRowLayoutManager.m */,
 			);
 			name = Row;
+			sourceTree = "<group>";
+		};
+		DBFD26EC17436A1A009C2071 /* Row */ = {
+			isa = PBXGroup;
+			children = (
+				DB9661E317226EDE00C04AC3 /* ListRowProtocol.h */,
+				DBBDEFC21713BFAF009ADF1A /* CollectionRow.h */,
+				DBBDEFC31713BFAF009ADF1A /* CollectionRow.m */,
+				DBE5681017249B0F0009050F /* CollectionRowDelegate.h */,
+				DB4CC5B01730DEB6005331F0 /* NoteRow.h */,
+				DB4CC5B11730DEB6005331F0 /* NoteRow.m */,
+				DBD43D3C173382E70046ACA3 /* NoteRowDelegate.h */,
+			);
+			name = Row;
+			sourceTree = "<group>";
+		};
+		DBFD26EE17436E76009C2071 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				DB9661E917233FDA00C04AC3 /* ListDataSource.h */,
+				DB9661EA1723416100C04AC3 /* StubListTableViewDatasource.h */,
+				DB9661EB1723416100C04AC3 /* StubListTableViewDatasource.m */,
+			);
+			name = DataSource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -722,19 +738,19 @@
 				DB1A2CD81735CA0B009017D1 /* AwesomeMenuItem.m in Sources */,
 				DB3C8E231710D3DE00A69D3B /* main.m in Sources */,
 				DB3C8E271710D3DE00A69D3B /* AppDelegate.m in Sources */,
-				DB3C8E661710D68E00A69D3B /* MainScreenListTableViewController.m in Sources */,
+				DB3C8E661710D68E00A69D3B /* MainScreenViewController.m in Sources */,
 				DB3CDB6717123FB8004CB440 /* ThemeFactory.m in Sources */,
-				DB3CDB6A17124001004CB440 /* GlassyTheme.m in Sources */,
-				DBBDEFC41713BFAF009ADF1A /* MainScreenRow.m in Sources */,
+				DB3CDB6A17124001004CB440 /* ClearTheme.m in Sources */,
+				DBBDEFC41713BFAF009ADF1A /* CollectionRow.m in Sources */,
 				DBBDEFCC1713E367009ADF1A /* CenteredTableLayoutManager.m in Sources */,
 				DBEBB4C01715267500D0DFD5 /* PaperTableAnimator.m in Sources */,
 				DB488BAA171BA70900294966 /* ScrollViewRowRecycler.m in Sources */,
 				DB9661E8172275AC00C04AC3 /* SlidingRowAnimator.m in Sources */,
 				DB9661EC1723416100C04AC3 /* StubListTableViewDatasource.m in Sources */,
-				DBE5680F172490140009050F /* ListTableViewController.m in Sources */,
+				DBE5680F172490140009050F /* ListsViewController.m in Sources */,
 				DBE411D2172B8CF300F26E17 /* CollectionRowLayoutManager.m in Sources */,
 				DB4BD6F1172E16DB0024305C /* RollingSegue.m in Sources */,
-				DB116FC3172E1E090082D314 /* CollectionScreenListTableViewController.m in Sources */,
+				DB116FC3172E1E090082D314 /* CollectionViewController.m in Sources */,
 				DB116FC8172E49DC0082D314 /* MultimediaHelper.m in Sources */,
 				DB4CC5B21730DEB6005331F0 /* NoteRow.m in Sources */,
 				DB4CC5B51730DF11005331F0 /* NoteRowLayoutManager.m in Sources */,

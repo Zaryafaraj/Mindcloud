@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ListTableViewLayoutManager.h"
+#import "TableLayoutManagerProtocol.h"
 
-@interface CenteredListTableViewLayoutManager : NSObject <ListTableViewLayoutManager>
+@interface CenteredTableLayoutManager : NSObject <TableLayoutManagerProtocol>
 
 @property CGFloat rowDivider;
 @property (nonatomic) CGFloat verticalOffsetFromTop;

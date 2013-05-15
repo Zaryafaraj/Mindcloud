@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ListTableRowLayoutManager.h"
+#import "RowLayoutManagerProtocol.h"
 
-@interface SlidingTableRowLayoutManager : NSObject<ListTableRowLayoutManager>
+@interface CollectionRowLayoutManager : NSObject<RowLayoutManagerProtocol>
 
 @end

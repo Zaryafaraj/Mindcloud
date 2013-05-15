@@ -6,19 +6,19 @@
 //  Copyright (c) 2013 MindCloud. All rights reserved.
 //
 
-#import "MainScreenListTableViewController.h"
+#import "MainScreenViewController.h"
 #import "CollectionRow.h"
-#import "CollectionScreenListTableViewController.h"
+#import "CollectionViewController.h"
 #import "ThemeFactory.h"
 #import "CenteredTableLayoutManager.h"
 
-@interface MainScreenListTableViewController ()
+@interface MainScreenViewController ()
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 
 @end
 
-@implementation MainScreenListTableViewController
+@implementation MainScreenViewController
 
 -(id) initWithCoder:(NSCoder *)aDecoder
 {
@@ -102,7 +102,7 @@
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     [self.animationManager hideNavigationBar:self.navigationBar];
-    CollectionScreenListTableViewController * dest = segue.destinationViewController;
+    CollectionViewController * dest = segue.destinationViewController;
     CollectionRow * senderRow = sender;
     dest.name = senderRow.text;
     dest.navigationBar.alpha = 0;

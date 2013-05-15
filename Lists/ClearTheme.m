@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 MindCloud. All rights reserved.
 //
 
-#import "GlassyTheme.h"
+#import "ClearTheme.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface GlassyTheme()
+@interface ClearTheme()
 
 @property (nonatomic, strong) UIImage * rowBackgroundImage;
 @property (nonatomic, strong) UIColor * doneColor;
@@ -18,11 +18,11 @@
 
 @end
 
-@implementation GlassyTheme
+@implementation ClearTheme
 
-+(id<ITheme>) theme
++(id<ThemeProtocol>) theme
 {
-    return [[GlassyTheme alloc] init];
+    return [[ClearTheme alloc] init];
 }
 
 -(UIImage *) imageForRowBackground

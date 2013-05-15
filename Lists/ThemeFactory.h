@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ITheme.h"
+#import "ThemeProtocol.h"
 
 @interface ThemeFactory : NSObject
 
-+(id<ITheme>) currentTheme;
++(id<ThemeProtocol>) currentTheme;
 
 @end

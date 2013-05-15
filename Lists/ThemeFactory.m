@@ -7,16 +7,16 @@
 //
 
 #import "ThemeFactory.h"
-#import "GlassyTheme.h"
+#import "ClearTheme.h"
 
 @implementation ThemeFactory
 
-+(id<ITheme>) currentTheme
++(id<ThemeProtocol>) currentTheme
 {
-    static id<ITheme>  currentTheme = nil;
+    static id<ThemeProtocol>  currentTheme = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        currentTheme = [GlassyTheme theme];
+        currentTheme = [ClearTheme theme];
     });
     return currentTheme;
 }
