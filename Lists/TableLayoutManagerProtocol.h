@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ListRow.h"
+#import "ListRowProtocol.h"
 
 @protocol TableLayoutManagerProtocol <NSObject>
 
@@ -21,7 +21,7 @@
 - (int) highestRowIndexInFrame:(CGRect) frame;
 
 
--(CGRect) frameForContextualMenuInRow:(UIView<ListRow> *) row;
+-(CGRect) frameForContextualMenuInRow:(UIView<ListRowProtocol> *) row;
 
 -(CGFloat) distanceFromRowToContextualMenu;
 

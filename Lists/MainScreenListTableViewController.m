@@ -7,7 +7,7 @@
 //
 
 #import "MainScreenListTableViewController.h"
-#import "MainScreenRow.h"
+#import "CollectionRow.h"
 #import "CollectionScreenListTableViewController.h"
 #import "ThemeFactory.h"
 #import "CenteredTableLayoutManager.h"
@@ -25,7 +25,7 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        MainScreenRow * row = [[MainScreenRow alloc] init];
+        CollectionRow * row = [[CollectionRow alloc] init];
         self.navigationBar.alpha = [[ThemeFactory currentTheme] alphaForMainScreenNavigationBar];
         self.navigationBar.tintColor = [[ThemeFactory currentTheme] colorForMainScreenNavigationBar];
         row.delegate = self;
@@ -50,24 +50,24 @@
 }
 
 #pragma mark - MainScreenRow Delegate
--(void) deletePressed:(MainScreenRow *)sender
+-(void) deletePressed:(CollectionRow *)sender
 {
     [self removeRow:sender];
 }
 
--(void) sharePressed:(MainScreenRow *)sender
+-(void) sharePressed:(CollectionRow *)sender
 {
     
 }
 
--(void) renamePressed:(MainScreenRow *)sender
+-(void) renamePressed:(CollectionRow *)sender
 {
     [sender enableEditing:YES];
     self.isInEditMode = YES;
     self.editingRow = sender;
 }
 
--(void) tappedRow:(UIView<ListRow> *) sender
+-(void) tappedRow:(UIView<ListRowProtocol> *) sender
 {
     if (self.isInEditMode)
     {
@@ -76,7 +76,7 @@
         self.isInEditMode = NO;
     }
 }
--(void) selectedRow:(UIView<ListRow> *)sender
+-(void) selectedRow:(UIView<ListRowProtocol> *)sender
 {
     [self performSegueWithIdentifier:@"RollingSegue" sender:sender];
 }
@@ -103,7 +103,7 @@
 {
     [self.animationManager hideNavigationBar:self.navigationBar];
     CollectionScreenListTableViewController * dest = segue.destinationViewController;
-    MainScreenRow * senderRow = sender;
+    CollectionRow * senderRow = sender;
     dest.name = senderRow.text;
     dest.navigationBar.alpha = 0;
     dest.parentDelegate = self;

@@ -41,7 +41,7 @@
     int highestIndex = [self.delegate highestIndexInView];
     
     //recycle
-    for (UIView <ListRow> * row in self.visibleViews)
+    for (UIView <ListRowProtocol> * row in self.visibleViews)
     {
         if (row.index < lowestIndex)
         {
@@ -62,8 +62,8 @@
     {
         if (![self isDisplayingRowForIndex:index])
         {
-            UIView<ListRow> * prototype = [self dequeueRow];
-            UIView<ListRow> * recycledView = [self.delegate rowForIndex:index
+            UIView<ListRowProtocol> * prototype = [self dequeueRow];
+            UIView<ListRowProtocol> * recycledView = [self.delegate rowForIndex:index
                                                           withPrototype:prototype];
             if (recycledView != nil)
             {
@@ -88,7 +88,7 @@
 
 -(BOOL) isDisplayingRowForIndex:(int) index
 {
-    for(UIView<ListRow> * row in self.visibleViews)
+    for(UIView<ListRowProtocol> * row in self.visibleViews)
     {
         if (row.index == index)
         {
@@ -98,11 +98,11 @@
     return NO;
 }
 
--(UIView<ListRow> *) dequeueRow
+-(UIView<ListRowProtocol> *) dequeueRow
 {
     if([self.recycledViews count] > 0)
     {
-        UIView<ListRow> * result = [self.recycledViews anyObject];
+        UIView<ListRowProtocol> * result = [self.recycledViews anyObject];
         [self.recycledViews removeObject:result];
         return result;
     }
@@ -112,7 +112,7 @@
     }
 }
 
--(UIView<ListRow> *) dequeRowForAdditionTo:(UIScrollView *) scrollView
+-(UIView<ListRowProtocol> *) dequeRowForAdditionTo:(UIScrollView *) scrollView
                                    atIndex:(int) newRowIndex;
 {
     if (self.prototype == nil) return nil;
@@ -122,7 +122,7 @@
     
     
     //recycle
-    for (UIView <ListRow> * row in self.visibleViews)
+    for (UIView <ListRowProtocol> * row in self.visibleViews)
     {
         
         if (row.index < lowestIndex || row.index > highestIndex)
@@ -138,8 +138,8 @@
     {
         if (newRowIndex != index && ![self isDisplayingRowForIndex:index])
         {
-            UIView<ListRow> * prototype = [self dequeueRow];
-            UIView<ListRow> * recycledView = [self.delegate rowForIndex:index
+            UIView<ListRowProtocol> * prototype = [self dequeueRow];
+            UIView<ListRowProtocol> * recycledView = [self.delegate rowForIndex:index
                                                           withPrototype:prototype];
             if (recycledView != nil)
             {
@@ -153,7 +153,7 @@
         }
     }
     
-    UIView<ListRow> * result = nil;
+    UIView<ListRowProtocol> * result = nil;
     if([self.recycledViews count] > 0)
     {
         result = [self.recycledViews anyObject];
@@ -172,7 +172,7 @@
     
 }
 
--(void) returnRowForRecyling:(UIView<ListRow> *) row
+-(void) returnRowForRecyling:(UIView<ListRowProtocol> *) row
                 inScrollView:(UIScrollView *) scrollView
 {
     
@@ -182,7 +182,7 @@
     int highestIndex = [self.delegate highestIndexInView];
     
     //recycle
-    for (UIView <ListRow> * row in self.visibleViews)
+    for (UIView <ListRowProtocol> * row in self.visibleViews)
     {
         if (row.index < lowestIndex || row.index > highestIndex)
         {
@@ -197,8 +197,8 @@
     {
         if (![self isDisplayingRowForIndex:index])
         {
-            UIView<ListRow> * prototype = [self dequeueRow];
-            UIView<ListRow> * recycledView = [self.delegate rowForIndex:index
+            UIView<ListRowProtocol> * prototype = [self dequeueRow];
+            UIView<ListRowProtocol> * recycledView = [self.delegate rowForIndex:index
                                                           withPrototype:prototype];
             if (recycledView != nil)
             {

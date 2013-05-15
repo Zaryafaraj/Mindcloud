@@ -10,14 +10,14 @@
 
 @protocol NoteRowDelegate <NSObject>
 
--(void) deletePressed:(UIView<ListRow> *) sender;
--(void) doneTaskPressed:(UIView<ListRow> *) sender;
--(void) undoneTaskPressed:(UIView<ListRow> *) sender;
--(void) starPressed:(UIView<ListRow> *) sender;
--(void) clockPressed:(UIView<ListRow> *) sender;
--(void) expandPressed:(UIView<ListRow> *) sender;
--(void) unexpandPressed:(UIView<ListRow> *)sender;
--(void) tappedRow:(UIView<ListRow> *) sender;
+-(void) deletePressed:(UIView<ListRowProtocol> *) sender;
+-(void) doneTaskPressed:(UIView<ListRowProtocol> *) sender;
+-(void) undoneTaskPressed:(UIView<ListRowProtocol> *) sender;
+-(void) starPressed:(UIView<ListRowProtocol> *) sender;
+-(void) clockPressed:(UIView<ListRowProtocol> *) sender;
+-(void) expandPressed:(UIView<ListRowProtocol> *) sender;
+-(void) unexpandPressed:(UIView<ListRowProtocol> *)sender;
+-(void) tappedRow:(UIView<ListRowProtocol> *) sender;
 -(BOOL) isEditingRows;
 -(void) openSpaceForSubnotes:(int) noOfSubNotes;
 @end

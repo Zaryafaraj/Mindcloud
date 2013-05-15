@@ -11,7 +11,7 @@
 #import "NoteRowDelegate.h"
 #import "AwesomeMenu.h"
 
-@interface NoteRow : UIView <ListRow, UITextFieldDelegate, AwesomeMenuDelegate>
+@interface NoteRow : UIView <ListRowProtocol, UITextFieldDelegate, AwesomeMenuDelegate>
 
 @property (nonatomic, strong) id<RowLayoutManagerProtocol> layoutManager;
 

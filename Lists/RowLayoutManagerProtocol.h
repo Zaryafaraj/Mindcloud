@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ListRow.h"
+#import "ListRowProtocol.h"
 
 @protocol RowLayoutManagerProtocol <NSObject>
 

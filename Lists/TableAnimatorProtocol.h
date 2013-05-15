@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ListRow.h"
+#import "ListRowProtocol.h"
 
 typedef void (^row_modification_callback)(void);
 
@@ -17,7 +17,7 @@ typedef void (^row_modification_callback)(void);
                    toFrame:(CGRect) frame
                       fast:(BOOL) fast;
 
--(void) animateAdditionForRow:(UIView<ListRow> *) row
+-(void) animateAdditionForRow:(UIView<ListRowProtocol> *) row
                       toFrame:(CGRect) fram
                   inSuperView:(UIView *) superView
         withCompletionHandler:(row_modification_callback) callback;
@@ -25,7 +25,7 @@ typedef void (^row_modification_callback)(void);
 -(void) animateAdditionForContextualMenu:(UIView *) menu
                              inSuperView:(UIView *) superView;
 
--(void) animateRemovalForRow:(UIView<ListRow> *) row
+-(void) animateRemovalForRow:(UIView<ListRowProtocol> *) row
                   inSuperView:(UIView *) superView
        withCompletionHandler:(row_modification_callback) callback;
 
@@ -43,10 +43,10 @@ typedef void (^row_modification_callback)(void);
 
 
 @optional
--(void) animateSetToDone:(UIView<ListRow> *) row;
--(void) animateSetToUndone:(UIView<ListRow> *) row;
--(void) animateSetToStar:(UIView<ListRow> *) row;
--(void) animateSetTimer:(UIView<ListRow> *) row;
--(void) animateExpandRow:(UIView<ListRow> *) row;
+-(void) animateSetToDone:(UIView<ListRowProtocol> *) row;
+-(void) animateSetToUndone:(UIView<ListRowProtocol> *) row;
+-(void) animateSetToStar:(UIView<ListRowProtocol> *) row;
+-(void) animateSetTimer:(UIView<ListRowProtocol> *) row;
+-(void) animateExpandRow:(UIView<ListRowProtocol> *) row;
 
 @end

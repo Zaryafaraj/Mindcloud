@@ -7,17 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MainScreenRow.h"
+#import "CollectionRow.h"
 
 @protocol ScrollViewRecyclerDelegate <NSObject>
--(UIView<ListRow> *) rowForIndex:(int) index
-             withPrototype:(id<ListRow> ) prototype;
+-(UIView<ListRowProtocol> *) rowForIndex:(int) index
+             withPrototype:(id<ListRowProtocol> ) prototype;
 
 -(int) lowestIndexInView;
 
 -(int) highestIndexInView;
 
--(void) didRecycledRow:(UIView<ListRow> *)recycledView
+-(void) didRecycledRow:(UIView<ListRowProtocol> *)recycledView
               ForIndex:(int) index;
 
 @end

@@ -355,7 +355,7 @@
     self.isEditing = NO;
 }
 
--(UIView<ListRow> *) prototypeSelf
+-(UIView<ListRowProtocol> *) prototypeSelf
 {
     NoteRow * prototype = [[NoteRow alloc] init];
     prototype.frame = self.frame;

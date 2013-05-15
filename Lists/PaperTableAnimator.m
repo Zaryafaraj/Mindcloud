@@ -70,7 +70,7 @@
 }
 
 
--(void) animateAdditionForRow:(UIView<ListRow> *) row
+-(void) animateAdditionForRow:(UIView<ListRowProtocol> *) row
                       toFrame:(CGRect) frame
                   inSuperView:(UIView *) superView
         withCompletionHandler:(row_modification_callback) callback
@@ -165,7 +165,7 @@
 //    [layer addAnimation:bounceAnime forKey:@"rotation1"];
 }
 
--(void) animateRemovalForRow:(UIView<ListRow> *) row
+-(void) animateRemovalForRow:(UIView<ListRowProtocol> *) row
                  inSuperView:(UIView *) superView
        withCompletionHandler:(row_modification_callback) callback
 {
@@ -236,7 +236,7 @@
 }
 
 
--(void) animateSetToDone:(UIView<ListRow> *)row
+-(void) animateSetToDone:(UIView<ListRowProtocol> *)row
 {
     UIColor * doneColor = [[ThemeFactory currentTheme] colorForTaskStateDone];
     [UIView animateWithDuration: 0.2 animations:^{
@@ -249,7 +249,7 @@
     
 }
 
--(void) animateSetToUndone:(UIView<ListRow> *) row
+-(void) animateSetToUndone:(UIView<ListRowProtocol> *) row
 {
     UIColor * doneColor = [[ThemeFactory currentTheme] colorForTaskStateUndone];
     [UIView animateWithDuration: 0.2 animations:^{
@@ -257,7 +257,7 @@
     }];
 }
 
--(void) animateSetToStar:(UIView<ListRow> *) row
+-(void) animateSetToStar:(UIView<ListRowProtocol> *) row
 {
     UIColor * starColor = [[ThemeFactory currentTheme] colorForTaskStateStarred];
     [UIView animateWithDuration: 0.2 animations:^{
@@ -265,7 +265,7 @@
     }];
 }
 
--(void) animateSetTimer:(UIView<ListRow> *) row
+-(void) animateSetTimer:(UIView<ListRowProtocol> *) row
 {
     UIColor * timedColor = [[ThemeFactory currentTheme] colorForTaskStateTimed];
     [UIView animateWithDuration: 0.2 animations:^{
@@ -273,7 +273,7 @@
     }];
 }
 
--(void) animateExpandRow:(UIView<ListRow> *) row
+-(void) animateExpandRow:(UIView<ListRowProtocol> *) row
 {
     
 }

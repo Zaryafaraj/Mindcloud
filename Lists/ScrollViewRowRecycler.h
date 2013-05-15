@@ -7,21 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MainScreenRow.h"
+#import "CollectionRow.h"
 #import "ScrollViewRecyclerDelegate.h"
 @interface ScrollViewRowRecycler : NSObject
 
 @property (nonatomic, strong) id<ScrollViewRecyclerDelegate> delegate;
-@property (nonatomic, strong) UIView<ListRow> * prototype;
+@property (nonatomic, strong) UIView<ListRowProtocol> * prototype;
 
 +(ScrollViewRowRecycler *) recycler;
 
 -(void) recycleRows:(UIScrollView *)scrollView;
 
--(UIView<ListRow> *) dequeRowForAdditionTo:(UIScrollView *) scrollView
+-(UIView<ListRowProtocol> *) dequeRowForAdditionTo:(UIScrollView *) scrollView
                                    atIndex:(int) newRowIndex;
 
--(void) returnRowForRecyling:(UIView<ListRow> *) row
+-(void) returnRowForRecyling:(UIView<ListRowProtocol> *) row
                 inScrollView:(UIScrollView *) scrollView;
 
 @end
