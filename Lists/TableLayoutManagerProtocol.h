@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ListRow.h"
 
-@protocol ListTableViewLayoutManager <NSObject>
+@protocol TableLayoutManagerProtocol <NSObject>
 
 - (CGRect) frameForRowforIndex:(int) index
           inSuperView:(UIView *) superView;

@@ -8,7 +8,7 @@
 
 #import "NoteRow.h"
 #import "ThemeFactory.h"
-#import "NoteTableRowLayoutManager.h"
+#import "NoteRowLayoutManager.h"
 #import "AwesomeMenu.h"
 #import "SlidingRowAnimator.h"
 
@@ -40,7 +40,7 @@
     self = [super init];
     if (self)
     {
-        self.layoutManager = [[NoteTableRowLayoutManager alloc] init];
+        self.layoutManager = [[NoteRowLayoutManager alloc] init];
         self.animationManager = [[SlidingRowAnimator alloc] init];
         self.backgroundColor = [UIColor clearColor];
         [self addBackgroundLayer];

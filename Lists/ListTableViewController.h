@@ -6,17 +6,16 @@
 //
 //
 
-
 #import "ScrollViewRecyclerDelegate.h"
-#import "TableAnimator.h"
-#import "ListTableViewLayoutManager.h"
+#import "TableAnimatorProtocol.h"
+#import "TableLayoutManagerProtocol.h"
 #import "ListTableViewDatasource.h"
 
 @interface ListTableViewController : UIViewController <UIScrollViewDelegate, ScrollViewRecyclerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (nonatomic, strong) id<ListTableViewLayoutManager> layoutManager;
-@property (nonatomic, strong) id<TableAnimator> animationManager;
+@property (nonatomic, strong) id<TableLayoutManagerProtocol> layoutManager;
+@property (nonatomic, strong) id<TableAnimatorProtocol> animationManager;
 
 @property (nonatomic, strong) id<ListTableViewDatasource> dataSource;
 

@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "ThemeFactory.h"
 #import "ITheme.h"
-#import "CenteredListTableViewLayoutManager.h"
+#import "CenteredTableLayoutManager.h"
 #import "PaperTableAnimator.h"
 #import "StubListTableViewDatasource.h"
 #import "ScrollViewRowRecycler.h"
@@ -46,16 +46,16 @@
     return _recycler;
 }
 
--(id<ListTableViewLayoutManager>) layoutManager
+-(id<TableLayoutManagerProtocol>) layoutManager
 {
     if (_layoutManager == nil)
     {
-        _layoutManager = [[CenteredListTableViewLayoutManager alloc] init];
+        _layoutManager = [[CenteredTableLayoutManager alloc] init];
     }
     return _layoutManager;
 }
 
--(id<TableAnimator>) animationManager
+-(id<TableAnimatorProtocol>) animationManager
 {
     if (_animationManager == nil)
     {

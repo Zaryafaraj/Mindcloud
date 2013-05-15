@@ -11,7 +11,7 @@
 
 typedef void (^row_modification_callback)(void);
 
-@protocol TableAnimator <NSObject>
+@protocol TableAnimatorProtocol <NSObject>
 
 -(void) slideMainScreenRow:(UIView *) row
                    toFrame:(CGRect) frame

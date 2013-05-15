@@ -9,10 +9,10 @@
 #import "PaperTableAnimator.h"
 #import "ThemeFactory.h"
 #import "ITheme.h"
-#import "RowAnimator.h"
+#import "RowAnimatorProtocol.h"
 #import "SlidingRowAnimator.h"
 #import <QuartzCore/QuartzCore.h>
-#import "SlidingTableRowLayoutManager.h"
+#import "CollectionRowLayoutManager.h"
 
 
 #define LABEL_INSET_HOR 10
@@ -52,7 +52,7 @@
         [self addLabelPlaceholder];
         [self addGestureRecognizers];
         self.animationManager = [[SlidingRowAnimator alloc] init];
-        self.layoutManager = [[SlidingTableRowLayoutManager alloc] init];
+        self.layoutManager = [[CollectionRowLayoutManager alloc] init];
         self.isEditing = NO;
     }
     return self;

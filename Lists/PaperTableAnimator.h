@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TableAnimator.h"
+#import "TableAnimatorProtocol.h"
 
-@interface PaperTableAnimator : NSObject <TableAnimator>
+@interface PaperTableAnimator : NSObject <TableAnimatorProtocol>
 @end

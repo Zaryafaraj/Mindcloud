@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ListRow.h"
 
-@protocol ListTableRowLayoutManager <NSObject>
+@protocol RowLayoutManagerProtocol <NSObject>
 
 - (CGRect) frameForOpenedRow:(CGRect) closedFrame;
 

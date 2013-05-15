@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CenteredListTableViewLayoutManager.h"
+#import "CenteredTableLayoutManager.h"
 
-@interface ExpandableCenteredTableViewLayoutManager : CenteredListTableViewLayoutManager
+@interface ExpandableCenteredTableLayoutManager : CenteredTableLayoutManager
 @end

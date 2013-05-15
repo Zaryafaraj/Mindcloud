@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MindCloud. All rights reserved.
 //
 
-#import "NoteTableRowLayoutManager.h"
+#import "NoteRowLayoutManager.h"
 
-@implementation NoteTableRowLayoutManager
+@implementation NoteRowLayoutManager
 
 - (CGRect) frameForOpenedRow:(CGRect) closedFrame
 {

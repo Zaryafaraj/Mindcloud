@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 MindCloud. All rights reserved.
 //
 
-#import "ExpandableCenteredTableViewLayoutManager.h"
+#import "ExpandableCenteredTableLayoutManager.h"
 
-@implementation ExpandableCenteredTableViewLayoutManager
+@implementation ExpandableCenteredTableLayoutManager
 
 @end

@@ -68,7 +68,7 @@
 		DB4BD6ED172E0F060024305C /* woodenBG.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB4BD6EC172E0F060024305C /* woodenBG.jpg */; };
 		DB4BD6F1172E16DB0024305C /* RollingSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4BD6F0172E16DB0024305C /* RollingSegue.m */; };
 		DB4CC5B21730DEB6005331F0 /* NoteRow.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC5B11730DEB6005331F0 /* NoteRow.m */; };
-		DB4CC5B51730DF11005331F0 /* NoteTableRowLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC5B41730DF11005331F0 /* NoteTableRowLayoutManager.m */; };
+		DB4CC5B51730DF11005331F0 /* NoteRowLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4CC5B41730DF11005331F0 /* NoteRowLayoutManager.m */; };
 		DB9661E8172275AC00C04AC3 /* SlidingRowAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9661E7172275AB00C04AC3 /* SlidingRowAnimator.m */; };
 		DB9661EC1723416100C04AC3 /* StubListTableViewDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9661EB1723416100C04AC3 /* StubListTableViewDatasource.m */; };
 		DB9CF085173E1F9E00CADDAA /* GlassyCollectionRowDone.png in Resources */ = {isa = PBXBuildFile; fileRef = DB9CF084173E1F9E00CADDAA /* GlassyCollectionRowDone.png */; };
@@ -81,11 +81,11 @@
 		DB9CF097173F7F9A00CADDAA /* icon-expand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB9CF095173F7F9A00CADDAA /* icon-expand@2x.png */; };
 		DB9CF09A173F82BB00CADDAA /* icon-detach.png in Resources */ = {isa = PBXBuildFile; fileRef = DB9CF098173F82BA00CADDAA /* icon-detach.png */; };
 		DB9CF09B173F82BB00CADDAA /* icon-detach@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB9CF099173F82BA00CADDAA /* icon-detach@2x.png */; };
-		DB9CF09E1740937100CADDAA /* ExpandableCenteredTableViewLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9CF09D1740937100CADDAA /* ExpandableCenteredTableViewLayoutManager.m */; };
+		DB9CF09E1740937100CADDAA /* ExpandableCenteredTableLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9CF09D1740937100CADDAA /* ExpandableCenteredTableLayoutManager.m */; };
 		DBBDEFC41713BFAF009ADF1A /* MainScreenRow.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFC31713BFAF009ADF1A /* MainScreenRow.m */; };
 		DBBDEFC91713D9F8009ADF1A /* Test.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBDEFC81713D9F8009ADF1A /* Test.png */; };
-		DBBDEFCC1713E367009ADF1A /* CenteredListTableViewLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFCB1713E367009ADF1A /* CenteredListTableViewLayoutManager.m */; };
-		DBE411D2172B8CF300F26E17 /* SlidingTableRowLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE411D1172B8CF300F26E17 /* SlidingTableRowLayoutManager.m */; };
+		DBBDEFCC1713E367009ADF1A /* CenteredTableLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFCB1713E367009ADF1A /* CenteredTableLayoutManager.m */; };
+		DBE411D2172B8CF300F26E17 /* CollectionRowLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE411D1172B8CF300F26E17 /* CollectionRowLayoutManager.m */; };
 		DBE5680F172490140009050F /* ListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE5680E172490140009050F /* ListTableViewController.m */; };
 		DBEBB4C01715267500D0DFD5 /* PaperTableAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEBB4BF1715267500D0DFD5 /* PaperTableAnimator.m */; };
 /* End PBXBuildFile section */
@@ -178,12 +178,12 @@
 		DB4BD6F0172E16DB0024305C /* RollingSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RollingSegue.m; sourceTree = "<group>"; };
 		DB4CC5B01730DEB6005331F0 /* NoteRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteRow.h; sourceTree = "<group>"; };
 		DB4CC5B11730DEB6005331F0 /* NoteRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteRow.m; sourceTree = "<group>"; };
-		DB4CC5B31730DF11005331F0 /* NoteTableRowLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTableRowLayoutManager.h; sourceTree = "<group>"; };
-		DB4CC5B41730DF11005331F0 /* NoteTableRowLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTableRowLayoutManager.m; sourceTree = "<group>"; };
-		DB9661DF17225FD900C04AC3 /* ListTableViewLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableViewLayoutManager.h; sourceTree = "<group>"; };
+		DB4CC5B31730DF11005331F0 /* NoteRowLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteRowLayoutManager.h; sourceTree = "<group>"; };
+		DB4CC5B41730DF11005331F0 /* NoteRowLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteRowLayoutManager.m; sourceTree = "<group>"; };
+		DB9661DF17225FD900C04AC3 /* TableLayoutManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableLayoutManagerProtocol.h; sourceTree = "<group>"; };
 		DB9661E317226EDE00C04AC3 /* ListRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListRow.h; sourceTree = "<group>"; };
-		DB9661E4172272BA00C04AC3 /* TableAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableAnimator.h; sourceTree = "<group>"; };
-		DB9661E51722754400C04AC3 /* RowAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RowAnimator.h; sourceTree = "<group>"; };
+		DB9661E4172272BA00C04AC3 /* TableAnimatorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableAnimatorProtocol.h; sourceTree = "<group>"; };
+		DB9661E51722754400C04AC3 /* RowAnimatorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RowAnimatorProtocol.h; sourceTree = "<group>"; };
 		DB9661E6172275AB00C04AC3 /* SlidingRowAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlidingRowAnimator.h; sourceTree = "<group>"; };
 		DB9661E7172275AB00C04AC3 /* SlidingRowAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlidingRowAnimator.m; sourceTree = "<group>"; };
 		DB9661E917233FDA00C04AC3 /* ListTableViewDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableViewDatasource.h; sourceTree = "<group>"; };
@@ -199,17 +199,17 @@
 		DB9CF095173F7F9A00CADDAA /* icon-expand@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-expand@2x.png"; sourceTree = "<group>"; };
 		DB9CF098173F82BA00CADDAA /* icon-detach.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-detach.png"; sourceTree = "<group>"; };
 		DB9CF099173F82BA00CADDAA /* icon-detach@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-detach@2x.png"; sourceTree = "<group>"; };
-		DB9CF09C1740937100CADDAA /* ExpandableCenteredTableViewLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandableCenteredTableViewLayoutManager.h; sourceTree = "<group>"; };
-		DB9CF09D1740937100CADDAA /* ExpandableCenteredTableViewLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpandableCenteredTableViewLayoutManager.m; sourceTree = "<group>"; };
+		DB9CF09C1740937100CADDAA /* ExpandableCenteredTableLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandableCenteredTableLayoutManager.h; sourceTree = "<group>"; };
+		DB9CF09D1740937100CADDAA /* ExpandableCenteredTableLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpandableCenteredTableLayoutManager.m; sourceTree = "<group>"; };
 		DBBDEFC21713BFAF009ADF1A /* MainScreenRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenRow.h; sourceTree = "<group>"; };
 		DBBDEFC31713BFAF009ADF1A /* MainScreenRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenRow.m; sourceTree = "<group>"; };
 		DBBDEFC81713D9F8009ADF1A /* Test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Test.png; sourceTree = "<group>"; };
-		DBBDEFCA1713E367009ADF1A /* CenteredListTableViewLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CenteredListTableViewLayoutManager.h; sourceTree = "<group>"; };
-		DBBDEFCB1713E367009ADF1A /* CenteredListTableViewLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenteredListTableViewLayoutManager.m; sourceTree = "<group>"; };
+		DBBDEFCA1713E367009ADF1A /* CenteredTableLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CenteredTableLayoutManager.h; sourceTree = "<group>"; };
+		DBBDEFCB1713E367009ADF1A /* CenteredTableLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenteredTableLayoutManager.m; sourceTree = "<group>"; };
 		DBD43D3C173382E70046ACA3 /* NoteRowDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteRowDelegate.h; sourceTree = "<group>"; };
-		DBE411CF172B8CD300F26E17 /* ListTableRowLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableRowLayoutManager.h; sourceTree = "<group>"; };
-		DBE411D0172B8CF300F26E17 /* SlidingTableRowLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlidingTableRowLayoutManager.h; sourceTree = "<group>"; };
-		DBE411D1172B8CF300F26E17 /* SlidingTableRowLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlidingTableRowLayoutManager.m; sourceTree = "<group>"; };
+		DBE411CF172B8CD300F26E17 /* RowLayoutManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RowLayoutManagerProtocol.h; sourceTree = "<group>"; };
+		DBE411D0172B8CF300F26E17 /* CollectionRowLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionRowLayoutManager.h; sourceTree = "<group>"; };
+		DBE411D1172B8CF300F26E17 /* CollectionRowLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionRowLayoutManager.m; sourceTree = "<group>"; };
 		DBE5680D172490140009050F /* ListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = ListTableViewController.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		DBE5680E172490140009050F /* ListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = ListTableViewController.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		DBE5681017249B0F0009050F /* MainScreenRowViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenRowViewDelegate.h; sourceTree = "<group>"; };
@@ -488,16 +488,8 @@
 		DBBDEFCD1713E76E009ADF1A /* Layout */ = {
 			isa = PBXGroup;
 			children = (
-				DBBDEFCA1713E367009ADF1A /* CenteredListTableViewLayoutManager.h */,
-				DBBDEFCB1713E367009ADF1A /* CenteredListTableViewLayoutManager.m */,
-				DB9661DF17225FD900C04AC3 /* ListTableViewLayoutManager.h */,
-				DBE411CF172B8CD300F26E17 /* ListTableRowLayoutManager.h */,
-				DBE411D0172B8CF300F26E17 /* SlidingTableRowLayoutManager.h */,
-				DBE411D1172B8CF300F26E17 /* SlidingTableRowLayoutManager.m */,
-				DB4CC5B31730DF11005331F0 /* NoteTableRowLayoutManager.h */,
-				DB4CC5B41730DF11005331F0 /* NoteTableRowLayoutManager.m */,
-				DB9CF09C1740937100CADDAA /* ExpandableCenteredTableViewLayoutManager.h */,
-				DB9CF09D1740937100CADDAA /* ExpandableCenteredTableViewLayoutManager.m */,
+				DBFD26EB17436849009C2071 /* Row */,
+				DBFD26EA17436843009C2071 /* Table */,
 			);
 			name = Layout;
 			sourceTree = "<group>";
@@ -522,14 +514,54 @@
 		DBEBB4BD1715265E00D0DFD5 /* Animation */ = {
 			isa = PBXGroup;
 			children = (
+				DBFD26E917436784009C2071 /* Row */,
+				DBFD26E81743677C009C2071 /* Table */,
+			);
+			name = Animation;
+			sourceTree = "<group>";
+		};
+		DBFD26E81743677C009C2071 /* Table */ = {
+			isa = PBXGroup;
+			children = (
+				DB9661E4172272BA00C04AC3 /* TableAnimatorProtocol.h */,
 				DBEBB4BE1715267500D0DFD5 /* PaperTableAnimator.h */,
 				DBEBB4BF1715267500D0DFD5 /* PaperTableAnimator.m */,
-				DB9661E4172272BA00C04AC3 /* TableAnimator.h */,
-				DB9661E51722754400C04AC3 /* RowAnimator.h */,
+			);
+			name = Table;
+			sourceTree = "<group>";
+		};
+		DBFD26E917436784009C2071 /* Row */ = {
+			isa = PBXGroup;
+			children = (
+				DB9661E51722754400C04AC3 /* RowAnimatorProtocol.h */,
 				DB9661E6172275AB00C04AC3 /* SlidingRowAnimator.h */,
 				DB9661E7172275AB00C04AC3 /* SlidingRowAnimator.m */,
 			);
-			name = Animation;
+			name = Row;
+			sourceTree = "<group>";
+		};
+		DBFD26EA17436843009C2071 /* Table */ = {
+			isa = PBXGroup;
+			children = (
+				DB9661DF17225FD900C04AC3 /* TableLayoutManagerProtocol.h */,
+				DB9CF09C1740937100CADDAA /* ExpandableCenteredTableLayoutManager.h */,
+				DB9CF09D1740937100CADDAA /* ExpandableCenteredTableLayoutManager.m */,
+				DBBDEFCA1713E367009ADF1A /* CenteredTableLayoutManager.h */,
+				DBBDEFCB1713E367009ADF1A /* CenteredTableLayoutManager.m */,
+			);
+			name = Table;
+			sourceTree = "<group>";
+		};
+		DBFD26EB17436849009C2071 /* Row */ = {
+			isa = PBXGroup;
+			children = (
+				DBE411CF172B8CD300F26E17 /* RowLayoutManagerProtocol.h */,
+				DBE411D0172B8CF300F26E17 /* CollectionRowLayoutManager.h */,
+				DBE411D1172B8CF300F26E17 /* CollectionRowLayoutManager.m */,
+				DB4CC5B31730DF11005331F0 /* NoteRowLayoutManager.h */,
+				DB4CC5B41730DF11005331F0 /* NoteRowLayoutManager.m */,
+			);
+			name = Row;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -694,19 +726,19 @@
 				DB3CDB6717123FB8004CB440 /* ThemeFactory.m in Sources */,
 				DB3CDB6A17124001004CB440 /* GlassyTheme.m in Sources */,
 				DBBDEFC41713BFAF009ADF1A /* MainScreenRow.m in Sources */,
-				DBBDEFCC1713E367009ADF1A /* CenteredListTableViewLayoutManager.m in Sources */,
+				DBBDEFCC1713E367009ADF1A /* CenteredTableLayoutManager.m in Sources */,
 				DBEBB4C01715267500D0DFD5 /* PaperTableAnimator.m in Sources */,
 				DB488BAA171BA70900294966 /* ScrollViewRowRecycler.m in Sources */,
 				DB9661E8172275AC00C04AC3 /* SlidingRowAnimator.m in Sources */,
 				DB9661EC1723416100C04AC3 /* StubListTableViewDatasource.m in Sources */,
 				DBE5680F172490140009050F /* ListTableViewController.m in Sources */,
-				DBE411D2172B8CF300F26E17 /* SlidingTableRowLayoutManager.m in Sources */,
+				DBE411D2172B8CF300F26E17 /* CollectionRowLayoutManager.m in Sources */,
 				DB4BD6F1172E16DB0024305C /* RollingSegue.m in Sources */,
 				DB116FC3172E1E090082D314 /* CollectionScreenListTableViewController.m in Sources */,
 				DB116FC8172E49DC0082D314 /* MultimediaHelper.m in Sources */,
 				DB4CC5B21730DEB6005331F0 /* NoteRow.m in Sources */,
-				DB4CC5B51730DF11005331F0 /* NoteTableRowLayoutManager.m in Sources */,
-				DB9CF09E1740937100CADDAA /* ExpandableCenteredTableViewLayoutManager.m in Sources */,
+				DB4CC5B51730DF11005331F0 /* NoteRowLayoutManager.m in Sources */,
+				DB9CF09E1740937100CADDAA /* ExpandableCenteredTableLayoutManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,14 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "ListRow.h"
-#import "RowAnimator.h"
+#import "RowAnimatorProtocol.h"
 #import "MainScreenRowViewDelegate.h"
-#import "ListTableRowLayoutManager.h"
+#import "RowLayoutManagerProtocol.h"
 
 @interface MainScreenRow : UIView <ListRow, UITextFieldDelegate>
 
 @property (nonatomic, strong) id<MainScreenRowViewDelegate> delegate;
 
-@property (nonatomic, strong) id<ListTableRowLayoutManager> layoutManager;
+@property (nonatomic, strong) id<RowLayoutManagerProtocol> layoutManager;
 
 @end

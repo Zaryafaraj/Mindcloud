@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RowAnimator.h"
+#import "RowAnimatorProtocol.h"
 
 
-@interface SlidingRowAnimator : NSObject <RowAnimator>
+@interface SlidingRowAnimator : NSObject <RowAnimatorProtocol>
 
 @end
