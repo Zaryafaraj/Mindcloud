@@ -88,6 +88,8 @@
 		DBE411D2172B8CF300F26E17 /* CollectionRowLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE411D1172B8CF300F26E17 /* CollectionRowLayoutManager.m */; };
 		DBE5680F172490140009050F /* ListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE5680E172490140009050F /* ListsViewController.m */; };
 		DBEBB4C01715267500D0DFD5 /* PaperTableAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEBB4BF1715267500D0DFD5 /* PaperTableAnimator.m */; };
+		DBFD26F41746F7D8009C2071 /* ListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFD26F31746F7D4009C2071 /* ListItem.m */; };
+		DBFD26F71746F811009C2071 /* ListSubItem.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFD26F61746F811009C2071 /* ListSubItem.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -216,8 +218,10 @@
 		DBEBB4BE1715267500D0DFD5 /* PaperTableAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperTableAnimator.h; sourceTree = "<group>"; };
 		DBEBB4BF1715267500D0DFD5 /* PaperTableAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperTableAnimator.m; sourceTree = "<group>"; };
 		DBFD26EF1746F349009C2071 /* ListDataSourceIndexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListDataSourceIndexer.h; sourceTree = "<group>"; };
-		DBFD26F01746F4A6009C2071 /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
-		DBFD26F11746F4CA009C2071 /* ListSubItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListSubItem.h; sourceTree = "<group>"; };
+		DBFD26F21746F7D2009C2071 /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
+		DBFD26F31746F7D4009C2071 /* ListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListItem.m; sourceTree = "<group>"; };
+		DBFD26F51746F810009C2071 /* ListSubItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListSubItem.h; sourceTree = "<group>"; };
+		DBFD26F61746F811009C2071 /* ListSubItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListSubItem.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -576,12 +580,14 @@
 		DBFD26EE17436E76009C2071 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				DBFD26F21746F7D2009C2071 /* ListItem.h */,
+				DBFD26F31746F7D4009C2071 /* ListItem.m */,
 				DB9661E917233FDA00C04AC3 /* ListDataSource.h */,
 				DB9661EA1723416100C04AC3 /* StubListTableViewDatasource.h */,
 				DB9661EB1723416100C04AC3 /* StubListTableViewDatasource.m */,
 				DBFD26EF1746F349009C2071 /* ListDataSourceIndexer.h */,
-				DBFD26F01746F4A6009C2071 /* ListItem.h */,
-				DBFD26F11746F4CA009C2071 /* ListSubItem.h */,
+				DBFD26F51746F810009C2071 /* ListSubItem.h */,
+				DBFD26F61746F811009C2071 /* ListSubItem.m */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";
@@ -761,6 +767,8 @@
 				DB4CC5B21730DEB6005331F0 /* NoteRow.m in Sources */,
 				DB4CC5B51730DF11005331F0 /* NoteRowLayoutManager.m in Sources */,
 				DB9CF09E1740937100CADDAA /* ExpandableCenteredTableLayoutManager.m in Sources */,
+				DBFD26F41746F7D8009C2071 /* ListItem.m in Sources */,
+				DBFD26F71746F811009C2071 /* ListSubItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol ListSubItem <NSObject>
+@interface ListSubItem : NSObject
 @property (nonatomic, strong) NSString * name;
 @property (nonatomic, strong) UIImage * image;
 @end
