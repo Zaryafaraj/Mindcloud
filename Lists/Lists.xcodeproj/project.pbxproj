@@ -215,6 +215,9 @@
 		DBE5681017249B0F0009050F /* CollectionRowDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionRowDelegate.h; sourceTree = "<group>"; };
 		DBEBB4BE1715267500D0DFD5 /* PaperTableAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperTableAnimator.h; sourceTree = "<group>"; };
 		DBEBB4BF1715267500D0DFD5 /* PaperTableAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperTableAnimator.m; sourceTree = "<group>"; };
+		DBFD26EF1746F349009C2071 /* ListDataSourceIndexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListDataSourceIndexer.h; sourceTree = "<group>"; };
+		DBFD26F01746F4A6009C2071 /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
+		DBFD26F11746F4CA009C2071 /* ListSubItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListSubItem.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -440,7 +443,7 @@
 				DBBDEFCD1713E76E009ADF1A /* Layout */,
 				DBBDEFC11713BF81009ADF1A /* Views */,
 				DBBDEFC01713BF6F009ADF1A /* ViewControllers */,
-				DBFD26EE17436E76009C2071 /* DataSource */,
+				DBFD26EE17436E76009C2071 /* ViewModels */,
 			);
 			name = UI;
 			path = ..;
@@ -570,14 +573,17 @@
 			name = Row;
 			sourceTree = "<group>";
 		};
-		DBFD26EE17436E76009C2071 /* DataSource */ = {
+		DBFD26EE17436E76009C2071 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
 				DB9661E917233FDA00C04AC3 /* ListDataSource.h */,
 				DB9661EA1723416100C04AC3 /* StubListTableViewDatasource.h */,
 				DB9661EB1723416100C04AC3 /* StubListTableViewDatasource.m */,
+				DBFD26EF1746F349009C2071 /* ListDataSourceIndexer.h */,
+				DBFD26F01746F4A6009C2071 /* ListItem.h */,
+				DBFD26F11746F4CA009C2071 /* ListSubItem.h */,
 			);
-			name = DataSource;
+			name = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

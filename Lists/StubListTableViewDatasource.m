@@ -124,9 +124,35 @@
     return -1;
 }
 
+
 -(int) count
 {
     return [self.model count];
 }
 
+#pragma mark - DataSource Indexer Protocol
+-(int) numberOfItemsBeforeIndex:(int) index
+{
+    return 0;
+}
+
+-(int) numberOfItemsAfterIndex:(int) index
+{
+    return 0;
+}
+
+-(int) numberOfSubItemsBeforeIndex:(int) index
+{
+    return 0;
+}
+
+-(int) numberOfSubItemsAfterIndex:(int) index
+{
+    return 0;
+}
+
+-(int) numberOfSubItemsInIndex:(int) index
+{
+    return 0;
+}
 @end
