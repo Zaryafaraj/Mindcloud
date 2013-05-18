@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSString * name;
 @property (nonatomic, strong) UIImage * image;
 @property int index;
+@property BOOL areSubItemsVisible;
 
 -(id) initWithName:(NSString *) name
           andIndex:(int) index;
