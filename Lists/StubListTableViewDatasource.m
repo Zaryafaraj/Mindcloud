@@ -10,6 +10,7 @@
 
 @interface StubListTableViewDatasource()
 
+//dictionary of list items
 @property (strong, nonatomic) NSMutableDictionary * model;
 
 @end
@@ -26,12 +27,13 @@
 -(NSString *) titleForItemAtIndex:(int) index
 {
     NSNumber * indexObj = [NSNumber numberWithInt:index];
-    return self.model[indexObj];
+    ListItem * item = self.model[indexObj];
+    return item.name;
 }
 
 -(UIImage *) imageForItemAtIndex:(int) index
 {
-    return [UIImage imageNamed:@"Test.png"];
+    return nil;
 }
 
 -(void) setTitle:(NSString *) title
@@ -40,7 +42,8 @@
     NSNumber * indexObject = [NSNumber numberWithInt:index];
     if (self.model[indexObject])
     {
-        self.model[indexObject] = title;
+        ListItem * item = self.model[indexObject];
+        item.name = title;
     }
 }
 
@@ -50,12 +53,12 @@
     ;
 }
 
--(void) addItemWithTitle:(NSString *)title
-                 atIndex:(int) index
+-(void) addItem:(ListItem *) item
+        atIndex:(int) index;
 {
     [self incrementAllIndexesAfterIndex:index-1];
     NSNumber * indexObj = [NSNumber numberWithInt:index];
-    self.model[indexObj] = title;
+    self.model[indexObj] = item;
 }
 
 -(void) incrementAllIndexesAfterIndex:(int) afterIndex
@@ -64,21 +67,21 @@
     for(NSNumber * index in self.model.allKeys)
     {
         int newIndex = -1;
-        NSString * title = nil;
+        ListItem * newItem = nil;
         if ([index intValue] > afterIndex)
         {
             newIndex = [index intValue]+1;
-            title = [NSString stringWithFormat:@"%d", newIndex];
-            
+            NSString * title = [NSString stringWithFormat:@"%d", newIndex];
+            newItem =  [[ListItem alloc] initWithName:title andIndex:newIndex];
         }
         else
         {
             newIndex = [index intValue];
-            title = self.model[index];
+            newItem = self.model[index];
         }
         
         NSNumber * newIndexObj = [NSNumber numberWithInt:newIndex];
-        newModel[newIndexObj] = title;
+        newModel[newIndexObj] = newItem;
     }
     self.model = newModel;
 }
@@ -106,6 +109,8 @@
         NSNumber * newIndexObj = [NSNumber numberWithInt:newIndex];
         if (newIndex >= 0)
         {
+            ListItem * item = self.model[index];
+            item.index = newIndex;
             newModel[newIndexObj] = self.model[index];
         }
     }
@@ -116,9 +121,10 @@
 {
     for (NSNumber * index in self.model.allKeys)
     {
-        if ([self.model[index] isEqualToString:title])
+        ListItem * item = self.model[index];
+        if ([item.name isEqualToString:title])
         {
-            return [index intValue];
+            return item.index;
         }
     }
     return -1;

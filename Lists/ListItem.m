@@ -23,6 +23,18 @@
     return self;
 }
 
+-(id) initWithName:(NSString *) name
+          andIndex:(int) index
+{
+    self = [self init];
+    if (self)
+    {
+        self.name = name;
+        self.index = index;
+    }
+    return self;
+}
+
 -(int) numberOfSubItems
 {
     return [self.subNotes count];

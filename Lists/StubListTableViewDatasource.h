@@ -10,6 +10,6 @@
 #import "ListDataSource.h"
 #import "ListDataSourceIndexer.h"
 
-@interface StubListTableViewDatasource : NSObject <ListDatasource>
+@interface StubListTableViewDatasource : NSObject <ListDatasource, ListDataSourceIndexer>
 
 @end

@@ -78,7 +78,8 @@
     [self.scrollView setContentOffset:CGPointZero animated:NO];
     
     NSString * title = [NSString stringWithFormat:@"%d", 0];
-    [self.dataSource addItemWithTitle:title atIndex:0];
+    ListItem * item = [[ListItem alloc] initWithName:title andIndex:0];
+    [self.dataSource addItem:item atIndex:0];
     UIView<ListRowProtocol> * row =  [self.recycler dequeRowForAdditionTo:self.scrollView atIndex:0];
     
     row.text = title;

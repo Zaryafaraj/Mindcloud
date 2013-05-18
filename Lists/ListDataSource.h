@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ListItem.h"
 
 @protocol ListDatasource <NSObject>
 
--(void) addItemWithTitle:(NSString *) title
-                 atIndex:(int) index;
+-(void) addItem:(ListItem *) item
+        atIndex:(int) index;
 
 -(void) removeItemAtIndex:(int) index;
 

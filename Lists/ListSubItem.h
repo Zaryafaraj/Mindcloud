@@ -11,4 +11,5 @@
 @interface ListSubItem : NSObject
 @property (nonatomic, strong) NSString * name;
 @property (nonatomic, strong) UIImage * image;
+@property int subIndex;
 @end
