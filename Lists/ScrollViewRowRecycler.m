@@ -37,8 +37,11 @@
 
 -(void) recycleRows:(UIScrollView *)scrollView
 {
-    int lowestIndex = [self.delegate lowestIndexInView];
-    int highestIndex = [self.delegate highestIndexInView];
+    NSArray * lowestandHighestIndex = [self.delegate lowestAndHighestIndexInView];
+    NSNumber * lowestIndexNumber = lowestandHighestIndex[0];
+    NSNumber * highestIndexNumber = lowestandHighestIndex[1];
+    int lowestIndex = [lowestIndexNumber intValue];
+    int highestIndex = [highestIndexNumber intValue];
     
     //recycle
     for (UIView <ListRowProtocol> * row in self.visibleViews)
@@ -82,8 +85,8 @@
             }
         }
     }
-    //    NSLog(@"Visible --> %d", [self.visibleViews count]);
-    //    NSLog(@"Recycled --> %d", [self.recycledViews count]);
+//        NSLog(@"Visible --> %d", [self.visibleViews count]);
+//        NSLog(@"Recycled --> %d", [self.recycledViews count]);
 }
 
 -(BOOL) isDisplayingRowForIndex:(int) index
@@ -116,11 +119,12 @@
                                    atIndex:(int) newRowIndex;
 {
     if (self.prototype == nil) return nil;
-    
-    int lowestIndex = [self.delegate lowestIndexInView];
-    int highestIndex = [self.delegate highestIndexInView];
-    
-    
+    NSArray * lowestandHighestIndex = [self.delegate lowestAndHighestIndexInView];
+    NSNumber * lowestIndexNumber = lowestandHighestIndex[0];
+    NSNumber * highestIndexNumber = lowestandHighestIndex[1];
+    int lowestIndex = [lowestIndexNumber intValue];
+    int highestIndex = [highestIndexNumber intValue];
+ 
     //recycle
     for (UIView <ListRowProtocol> * row in self.visibleViews)
     {
@@ -178,9 +182,12 @@
     
     [self.visibleViews removeObject:row];
     
-    int lowestIndex = [self.delegate lowestIndexInView];
-    int highestIndex = [self.delegate highestIndexInView];
-    
+    NSArray * lowestandHighestIndex = [self.delegate lowestAndHighestIndexInView];
+    NSNumber * lowestIndexNumber = lowestandHighestIndex[0];
+    NSNumber * highestIndexNumber = lowestandHighestIndex[1];
+    int lowestIndex = [lowestIndexNumber intValue];
+    int highestIndex = [highestIndexNumber intValue];
+ 
     //recycle
     for (UIView <ListRowProtocol> * row in self.visibleViews)
     {

@@ -9,7 +9,7 @@
 #import "ListItem.h"
 
 @interface ListItem()
-@property (nonatomic, strong) NSMutableDictionary * subNotes;
+@property (nonatomic, strong) NSMutableDictionary * subItems;
 @end
 @implementation ListItem
 
@@ -18,7 +18,7 @@
     self = [super init];
     if (self)
     {
-        self.subNotes = [NSMutableDictionary dictionary];
+        self.subItems = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -37,15 +37,15 @@
 
 -(int) numberOfSubItems
 {
-    return [self.subNotes count];
+    return [self.subItems count];
 }
 
 -(ListSubItem *) subItemAtIndex:(int) index
 {
     NSNumber * number = [NSNumber numberWithInt:index];
-    if (self.subNotes[number])
+    if (self.subItems[number])
     {
-        return self.subNotes[number];
+        return self.subItems[number];
     }
     return nil;
 }
@@ -53,17 +53,48 @@
 -(void) addSubItem: (ListSubItem *) subItem
            atIndex:(int) index
 {
+    NSMutableDictionary * newSubItems = [NSMutableDictionary dictionary];
+    for (NSNumber * itemIndex in self.subItems.allKeys)
+    {
+        if([itemIndex intValue] >= index)
+        {
+            ListSubItem * subItem = self.subItems[itemIndex];
+            subItem.subIndex += 1;
+        }
+        int newIndex = subItem.subIndex;
+        NSNumber * newIndexObj = [NSNumber numberWithInt:newIndex];
+        newSubItems[newIndexObj] = subItem;
+    }
+    
+    subItem.subIndex = index;
     NSNumber * number = [NSNumber numberWithInt:index];
-    self.subNotes[number] = subItem;
+    newSubItems[number] = subItem;
+    self.subItems = newSubItems;
+    
+}
+
+-(void) appendSubItem:(ListSubItem *)subItem
+{
+    subItem.subIndex = [self numberOfSubItems];
+    NSNumber * number = [NSNumber numberWithInt:[self numberOfSubItems]];
+    self.subItems[number] = subItem;
 }
 
 -(void) removeSubItem:(ListSubItem *) subItem
               atIndex:(int) index
 {
     NSNumber * number = [NSNumber numberWithInt:index];
-    if (self.subNotes[number])
+    if (self.subItems[number])
     {
-        [self.subNotes removeObjectForKey:number];
+        [self.subItems removeObjectForKey:number];
+    }
+    for (NSNumber * itemIndex in self.subItems.allKeys)
+    {
+        if([itemIndex intValue]> index)
+        {
+            ListSubItem * subItem = self.subItems[itemIndex];
+            subItem.subIndex -= 1;
+        }
     }
 }
 
@@ -72,12 +103,12 @@
 {
     NSNumber * number1 = [NSNumber numberWithInt:index1];
     NSNumber * number2 = [NSNumber numberWithInt:index2];
-    ListSubItem * item1 = self.subNotes[number1];
-    ListSubItem * item2 = self.subNotes[number2];
+    ListSubItem * item1 = self.subItems[number1];
+    ListSubItem * item2 = self.subItems[number2];
     if (item1 && item2)
     {
-        self.subNotes[number1] = item2;
-        self.subNotes[number2] = item1;
+        self.subItems[number1] = item2;
+        self.subItems[number2] = item1;
     }
 }
 

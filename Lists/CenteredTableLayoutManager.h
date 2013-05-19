@@ -15,6 +15,7 @@
 @property (nonatomic) CGFloat verticalOffsetFromTop;
 @property (nonatomic) CGFloat rowWidth;
 @property (nonatomic) CGFloat rowHeight;
+@property (nonatomic) CGFloat subItemHeight;
 @property (nonatomic) CGFloat contextualMenuHoriziontalOffset;
 
 -(id) initWithDivider:(CGFloat) dividerSpace;

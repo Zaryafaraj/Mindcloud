@@ -29,6 +29,15 @@
     return _rowWidth;
 }
 
+-(CGFloat) subItemHeight
+{
+    if (!_subItemHeight)
+    {
+        _subItemHeight = 400;
+    }
+    return _subItemHeight;
+}
+
 -(CGFloat) rowHeight
 {
     if (!_rowHeight)
@@ -58,7 +67,7 @@
 }
 
 - (CGRect) frameForRowforIndex:(int) index
-          inSuperView:(UIView *) superView;
+          inSuperView:(UIView *) superView
 {
     
     CGPoint origin = CGPointMake(superView.bounds.size.width/2 - self.rowWidth/2,
@@ -90,6 +99,17 @@
     int result = floorf((effectiveBottomVisiblePart - 1)/ (self.rowHeight + self.rowDivider))+1;
     result += 4;
     return result;
+}
+
+
+-(NSArray *) lowestAndHighestIndexForFrame:(CGRect)frame
+                               inSuperView:(UIView *) superView
+{
+    int lowest = [self lowestRowIndexInFrame:frame];
+    int highest = [self highestRowIndexInFrame:frame];
+    NSNumber * lowestNumber = [NSNumber numberWithInt:lowest];
+    NSNumber * highestNumber = [NSNumber numberWithInt:highest];
+    return @[lowestNumber, highestNumber];
 }
 
 -(CGRect) frameForContextualMenuInRow:(UIView<ListRowProtocol> *) row

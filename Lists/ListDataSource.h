@@ -14,7 +14,11 @@
 -(void) addItem:(ListItem *) item
         atIndex:(int) index;
 
--(void) removeItemAtIndex:(int) index;
+-(void) addSubItem:(ListSubItem *) subItem
+     toItemAtIndex:(int) index;
+
+-(void) appendSubItem:(ListSubItem *) subItem
+        toItemAtIndex:(int) index;
 
 -(void) incrementAllIndexesAfterIndex:(int) afterIndex;
 
@@ -31,5 +35,11 @@
 -(UIImage *) imageForItemAtIndex:(int) index;
 
 -(int) count;
+
+-(void) removeItemAtIndex:(int)index;
+
+-(void) itemClosed:(int) index;
+
+-(void) itemOpened:(int) index;
 
 @end

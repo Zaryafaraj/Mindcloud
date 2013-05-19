@@ -26,6 +26,18 @@
 @end
 @implementation ListsViewController
 
+-(id) initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        self.layoutManager = [[CenteredTableLayoutManager alloc] init];
+        self.animationManager = [[PaperTableAnimator alloc] init];
+        self.dataSource = [[StubListTableViewDatasource alloc] init];
+    }
+    return self;
+}
+
 -(void) setPrototypeRow:(UIView<ListRowProtocol> *)prototypeRow
 {
     _prototypeRow = prototypeRow;
@@ -44,33 +56,6 @@
         _recycler.prototype = self.prototypeRow;
     }
     return _recycler;
-}
-
--(id<TableLayoutManagerProtocol>) layoutManager
-{
-    if (_layoutManager == nil)
-    {
-        _layoutManager = [[CenteredTableLayoutManager alloc] init];
-    }
-    return _layoutManager;
-}
-
--(id<TableAnimatorProtocol>) animationManager
-{
-    if (_animationManager == nil)
-    {
-        _animationManager = [[PaperTableAnimator alloc] init];
-    }
-    return _animationManager;
-}
-
--(id<ListDatasource>) dataSource
-{
-    if (_dataSource == nil)
-    {
-        _dataSource = [[StubListTableViewDatasource alloc] init];
-    }
-    return _dataSource;
 }
 
 -(UIView<ListRowProtocol> *) addRowToTop
@@ -284,7 +269,6 @@
     }
     prototype.contextualMenu.frame = frame;
     [self.scrollView addSubview:prototype.contextualMenu];
-    NSLog(@"Setting for : %@", prototype.text);
     return prototype;
 }
 
@@ -293,14 +277,11 @@
 {
     
 }
-- (int) lowestIndexInView
-{
-    return [self.layoutManager lowestRowIndexInFrame:self.scrollView.bounds];
-}
 
-- (int) highestIndexInView
+-(NSArray *) lowestAndHighestIndexInView
 {
-    return [self.layoutManager highestRowIndexInFrame:self.scrollView.bounds];
+    return [self.layoutManager lowestAndHighestIndexForFrame:self.scrollView.bounds
+                                                 inSuperView:self.scrollView];
 }
 
 #pragma mark - keyboard notification

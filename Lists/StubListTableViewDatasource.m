@@ -201,6 +201,46 @@ fromCumilitiveSubItemsAfterIndex:(int) index
     return -1;
 }
 
+-(void) addSubItem:(ListSubItem *) subItem
+     toItemAtIndex:(int) index
+{
+    NSNumber * indexObj = [NSNumber numberWithInt:index];
+    ListItem * item = self.model[indexObj];
+    [item addSubItem:subItem atIndex:index];
+}
+
+-(void) appendSubItem:(ListSubItem *)subItem
+        toItemAtIndex:(int)index
+{
+    NSNumber * indexObj = [NSNumber numberWithInt:index];
+    ListItem * item = self.model[indexObj];
+    if (item)
+    {
+        [item appendSubItem:subItem];
+    }
+}
+
+-(void) itemClosed:(int) index
+{
+    NSNumber * indexObj = [NSNumber numberWithInt:index];
+    ListItem * item = self.model[indexObj];
+    if (item.areSubItemsVisible)
+    {
+        [self removeSubItemsOfItem:item fromCumilitiveSubItemsAfterIndex:index];
+        item.areSubItemsVisible = NO;
+    }
+}
+
+-(void) itemOpened:(int) index
+{
+    NSNumber * indexObj = [NSNumber numberWithInt:index];
+    ListItem * item = self.model[indexObj];
+    if (!item.areSubItemsVisible)
+    {
+        [self addSubItemsOfItem:item toCumilitiveSubItemsAfterIndex:index];
+        item.areSubItemsVisible = YES;
+    }
+}
 
 -(int) count
 {
@@ -243,4 +283,10 @@ fromCumilitiveSubItemsAfterIndex:(int) index
     ListItem * item = self.model[indexObj];
     return [item numberOfSubItems];
 }
+
+-(int) numberOfIndexes
+{
+    return [self.model count];
+}
+
 @end

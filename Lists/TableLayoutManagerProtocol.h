@@ -15,13 +15,9 @@
           inSuperView:(UIView *) superView;
 
 - (CGPoint) originForFrameAfterFrame:(CGRect) frame;
-
-- (int) lowestRowIndexInFrame:(CGRect) frame;
-
-- (int) highestRowIndexInFrame:(CGRect) frame;
-
-
--(CGRect) frameForContextualMenuInRow:(UIView<ListRowProtocol> *) row;
+-(NSArray *) lowestAndHighestIndexForFrame:(CGRect)frame
+                               inSuperView:(UIView *) superView;
+- (CGRect) frameForContextualMenuInRow:(UIView<ListRowProtocol> *) row;
 
 -(CGFloat) distanceFromRowToContextualMenu;
 

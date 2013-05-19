@@ -25,6 +25,7 @@
 
 -(void) addSubItem: (ListSubItem *) subItem
            atIndex:(int) index;
+-(void) appendSubItem:(ListSubItem *) subItem;
 
 -(void) removeSubItem:(ListSubItem *) subItem
               atIndex:(int) index;

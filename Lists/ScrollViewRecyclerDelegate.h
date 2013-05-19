@@ -13,9 +13,7 @@
 -(UIView<ListRowProtocol> *) rowForIndex:(int) index
              withPrototype:(id<ListRowProtocol> ) prototype;
 
--(int) lowestIndexInView;
-
--(int) highestIndexInView;
+-(NSArray *) lowestAndHighestIndexInView;
 
 -(void) didRecycledRow:(UIView<ListRowProtocol> *)recycledView
               ForIndex:(int) index;

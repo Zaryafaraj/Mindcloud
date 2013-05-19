@@ -9,10 +9,11 @@
 #import "CollectionViewController.h"
 #import "ThemeFactory.h"
 #import "PaperTableAnimator.h"
-#import "CenteredTableLayoutManager.h"
+#import "ExpandableCenteredTableLayoutManager.h"
 #import "NoteRow.h"
 #import "AwesomeMenu.h"
 #import "AwesomeMenuItem.h"
+#import "StubListTableViewDatasource.h"
 
 @interface CollectionViewController ()
 
@@ -30,8 +31,11 @@
         row.delegate = self;
         self.prototypeRow = row;
         self.isInEditMode = NO;
+        StubListTableViewDatasource * dataSource = [[StubListTableViewDatasource alloc] init];
+        self.dataSource = dataSource;
         CGFloat divider = [[ThemeFactory currentTheme] spaceBetweenRowsInCollectionScreen];
-        self.layoutManager = [[CenteredTableLayoutManager alloc] initWithDivider:divider];
+        self.layoutManager = [[ExpandableCenteredTableLayoutManager alloc] initWithDivider:divider
+                                                                            andItemIndexer:dataSource];
     }
     return self;
 }

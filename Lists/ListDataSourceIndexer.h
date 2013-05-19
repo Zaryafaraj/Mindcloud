@@ -15,5 +15,6 @@
 -(int) numberOfSubItemsBeforeIndex:(int) index;
 -(int) numberOfSubItemsAfterIndex:(int) index;
 -(int) numberOfSubItemsInIndex:(int) index;
+-(int) numberOfIndexes;
 
 @end
