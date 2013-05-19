@@ -85,8 +85,8 @@
             }
         }
     }
-//        NSLog(@"Visible --> %d", [self.visibleViews count]);
-//        NSLog(@"Recycled --> %d", [self.recycledViews count]);
+        NSLog(@"Visible --> %d", [self.visibleViews count]);
+        NSLog(@"Recycled --> %d", [self.recycledViews count]);
 }
 
 -(BOOL) isDisplayingRowForIndex:(int) index

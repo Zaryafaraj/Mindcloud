@@ -44,10 +44,11 @@
                                          InView:(UIView *) superView
 {
     int numberOfIndexes = [self.indexer numberOfIndexes];
-    int mid = numberOfIndexes/2;
-    while (mid > 0 && mid < numberOfIndexes-1)
+    int begin = 0;
+    int end = numberOfIndexes - 1;
+    while (begin <= end)
     {
-        
+        int mid = (begin + end) /2;
         CGRect midRect = [self frameForRowforIndex:mid inSuperView:superView];
         if (CGRectIntersectsRect(frame, midRect))
         {
@@ -55,25 +56,16 @@
         }
         else if (midRect.origin.y < frame.origin.y)
         {
-            mid = (mid + numberOfIndexes)/2;
+            begin = mid +1;
         }
         else
         {
-            mid = mid/2;
+            end = mid - 1;
         }
     }
     
-   //last check if mid didn't enter the lloop
-    CGRect midRect = [self frameForRowforIndex:mid inSuperView:superView];
-    if (CGRectIntersectsRect(frame, midRect))
-    {
-        return mid;
-    }
-    else
-    {
-        NSLog(@"lowestAndHighestIndex-Non of the subViews intersect with the frame");
-        @throw NSInternalInconsistencyException;
-    }
+    NSLog(@"lowestAndHighestIndex-Non of the subViews intersect with the frame");
+    @throw NSInternalInconsistencyException;
 }
 
 -(NSArray *) lowestAndHighestIndexForFrame:(CGRect)frame
@@ -118,10 +110,12 @@
         }
     }
     
-    int highestIndex = movingIndex - 1;
+    //bump the highest index to have one reserver not showing so that delete animations
+    //will be smooth
+    int highestIndex = movingIndex + 1;
     NSNumber * highestIndexNumber = [NSNumber numberWithInt:highestIndex];
     
-    NSLog(@"Lowest Index %@, Highest Index %@", lowestIndexNumber, highestIndexNumber);
+    //NSLog(@"Lowest Index %@, Highest Index %@", lowestIndexNumber, highestIndexNumber);
     return @[lowestIndexNumber, highestIndexNumber];
 }
 
