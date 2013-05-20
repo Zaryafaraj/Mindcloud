@@ -85,8 +85,8 @@
             }
         }
     }
-        NSLog(@"Visible --> %d", [self.visibleViews count]);
-        NSLog(@"Recycled --> %d", [self.recycledViews count]);
+//        NSLog(@"Visible --> %d", [self.visibleViews count]);
+//        NSLog(@"Recycled --> %d", [self.recycledViews count]);
 }
 
 -(BOOL) isDisplayingRowForIndex:(int) index
@@ -107,11 +107,14 @@
     {
         UIView<ListRowProtocol> * result = [self.recycledViews anyObject];
         [self.recycledViews removeObject:result];
+        [result reset];
         return result;
     }
     else
     {
-        return [self.prototype prototypeSelf];
+        UIView<ListRowProtocol> * result = [self.prototype prototypeSelf];
+        [result reset];
+        return result;
     }
 }
 
@@ -172,6 +175,7 @@
     //    NSLog(@"Visible ==> %d", [self.visibleViews count]);
     //    NSLog(@"Recycled ==> %d", [self.recycledViews count]);
     [result removeFromSuperview];
+    [result reset];
     return result;
     
 }

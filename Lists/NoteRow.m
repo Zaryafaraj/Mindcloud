@@ -336,7 +336,6 @@
 }
 
 
-
 -(void) enableEditing:(BOOL)makeFirstResponder
 {
     if (makeFirstResponder)
@@ -366,6 +365,14 @@
 
 -(void) reset
 {
+    self.isDone = NO;
+    
+    self.foregroundView.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor whiteColor];
+    UIImage * doneImage = [[ThemeFactory currentTheme] imageForCollectionRowDone];
+    [self.doneButton setBackgroundImage:doneImage
+                               forState:UIControlStateNormal];
+    [[ThemeFactory currentTheme] stylizeCollectionScreenRowButton:self.doneButton];
     [self closeView];
 }
 

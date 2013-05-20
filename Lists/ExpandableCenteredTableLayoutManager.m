@@ -65,7 +65,8 @@
     }
     
     NSLog(@"lowestAndHighestIndex-Non of the subViews intersect with the frame");
-    @throw NSInternalInconsistencyException;
+//    @throw NSInternalInconsistencyException;
+    return 0;
 }
 
 -(NSArray *) lowestAndHighestIndexForFrame:(CGRect)frame

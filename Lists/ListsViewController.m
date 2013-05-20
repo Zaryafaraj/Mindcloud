@@ -254,6 +254,7 @@
     
     if (index >= [self.dataSource count]) return nil;
     
+    [prototype reset];
     prototype.text = [self.dataSource titleForItemAtIndex:index];
     if ([prototype respondsToSelector:@selector(setImage:)])
     {
