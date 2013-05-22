@@ -85,6 +85,7 @@
 		DBBDEFC41713BFAF009ADF1A /* CollectionRow.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFC31713BFAF009ADF1A /* CollectionRow.m */; };
 		DBBDEFC91713D9F8009ADF1A /* Test.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBDEFC81713D9F8009ADF1A /* Test.png */; };
 		DBBDEFCC1713E367009ADF1A /* CenteredTableLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFCB1713E367009ADF1A /* CenteredTableLayoutManager.m */; };
+		DBDD9D8B174C8B9500DE3EEC /* FlatTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDD9D8A174C8B9500DE3EEC /* FlatTheme.m */; };
 		DBE411D2172B8CF300F26E17 /* CollectionRowLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE411D1172B8CF300F26E17 /* CollectionRowLayoutManager.m */; };
 		DBE5680F172490140009050F /* ListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE5680E172490140009050F /* ListsViewController.m */; };
 		DBEBB4C01715267500D0DFD5 /* PaperTableAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEBB4BF1715267500D0DFD5 /* PaperTableAnimator.m */; };
@@ -209,6 +210,8 @@
 		DBBDEFCA1713E367009ADF1A /* CenteredTableLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CenteredTableLayoutManager.h; sourceTree = "<group>"; };
 		DBBDEFCB1713E367009ADF1A /* CenteredTableLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenteredTableLayoutManager.m; sourceTree = "<group>"; };
 		DBD43D3C173382E70046ACA3 /* NoteRowDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteRowDelegate.h; sourceTree = "<group>"; };
+		DBDD9D89174C8B9500DE3EEC /* FlatTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlatTheme.h; sourceTree = "<group>"; };
+		DBDD9D8A174C8B9500DE3EEC /* FlatTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlatTheme.m; sourceTree = "<group>"; };
 		DBE411CF172B8CD300F26E17 /* RowLayoutManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RowLayoutManagerProtocol.h; sourceTree = "<group>"; };
 		DBE411D0172B8CF300F26E17 /* CollectionRowLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionRowLayoutManager.h; sourceTree = "<group>"; };
 		DBE411D1172B8CF300F26E17 /* CollectionRowLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionRowLayoutManager.m; sourceTree = "<group>"; };
@@ -413,6 +416,8 @@
 				DB3CDB6617123FB8004CB440 /* ThemeFactory.m */,
 				DB3CDB6817124001004CB440 /* ClearTheme.h */,
 				DB3CDB6917124001004CB440 /* ClearTheme.m */,
+				DBDD9D89174C8B9500DE3EEC /* FlatTheme.h */,
+				DBDD9D8A174C8B9500DE3EEC /* FlatTheme.m */,
 			);
 			name = Themes;
 			path = ..;
@@ -769,6 +774,7 @@
 				DB9CF09E1740937100CADDAA /* ExpandableCenteredTableLayoutManager.m in Sources */,
 				DBFD26F41746F7D8009C2071 /* ListItem.m in Sources */,
 				DBFD26F71746F811009C2071 /* ListSubItem.m in Sources */,
+				DBDD9D8B174C8B9500DE3EEC /* FlatTheme.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

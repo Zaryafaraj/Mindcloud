@@ -12,7 +12,7 @@
 
 //dictionary of list items
 @property (strong, nonatomic) NSMutableDictionary * model;
-
+@property (strong, nonatomic) UIImage * dummy;
 //Keyed on index. For each index indicates how many open subItems are before it
 @property (strong, nonatomic) NSMutableDictionary * cumalitiveSubItems;
 @end
@@ -36,7 +36,12 @@
 
 -(UIImage *) imageForItemAtIndex:(int) index
 {
-    return nil;
+    if (self.dummy == nil)
+    {
+        self.dummy = [UIImage imageNamed:@"BGBlurNo.jpg"];
+    }
+    return self.dummy;
+//    return nil;
 }
 
 -(void) setTitle:(NSString *) title

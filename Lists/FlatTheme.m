@@ -1,15 +1,15 @@
 //
-//  GlassyTheme.m
+//  FlatTheme.m
 //  Lists
 //
-//  Created by Ali Fathalian on 4/7/13.
+//  Created by Ali Fathalian on 5/21/13.
 //  Copyright (c) 2013 MindCloud. All rights reserved.
 //
 
-#import "ClearTheme.h"
+#import "FlatTheme.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface ClearTheme()
+@interface FlatTheme()
 
 @property (nonatomic, strong) UIImage * rowBackgroundImage;
 @property (nonatomic, strong) UIColor * doneColor;
@@ -17,20 +17,21 @@
 @property (nonatomic, strong) UIColor * starredColor;
 
 @end
-
-@implementation ClearTheme
+@implementation FlatTheme
 
 -(CGFloat) rowWidth
 {
-    return 750;
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    return screenWidth - 50;
 }
 -(CGFloat) rowHeight
 {
-    return 50;
+    return 100;
 }
 -(CGFloat) subItemHeight
 {
-    return 150;
+    return 100;
 }
 -(CGFloat) contextualMenuOffset
 {
@@ -48,21 +49,21 @@
 
 -(CGFloat) mainScreenImageInsetHorizontal
 {
-    return 5;
+    return 0;
 }
 -(CGFloat) mainScreenImageInsetVertical
 {
-    return 5;
+    return 0;
 }
 
 -(CGFloat) mainScreenImageWidth
 {
-    return 100;
+    return [self rowWidth]/4;
 }
 
 +(id<ThemeProtocol>) theme
 {
-    return [[ClearTheme alloc] init];
+    return [[FlatTheme alloc] init];
 }
 
 -(UIImage *) imageForRowBackground
@@ -106,53 +107,26 @@
 
 -(UIView *) stylizeMainscreenRowForeground:(UIView *) view
                                     isOpen:(BOOL) isOpen
-                              withOpenBounds:(CGRect) openBounds
+                            withOpenBounds:(CGRect) openBounds
 {
     view.layer.shouldRasterize = YES;
-    view.layer.cornerRadius = 0;
-    if (isOpen)
-    {
-        view.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:openBounds
-                                                           cornerRadius:view.layer.cornerRadius].CGPath;
-        view.layer.shadowPath = nil;
-        view.layer.shadowColor = [UIColor blackColor].CGColor;
-        view.layer.shadowOffset = CGSizeMake(-2, 1);
-        view.layer.shadowOpacity =  1;
-        view.layer.shadowRadius = 1.0;
-        return view;
-    }
-    else
-    {
-        CGRect newRect = view.superview.layer.bounds;
-        view.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:newRect
-                                                           cornerRadius:view.layer.cornerRadius].CGPath;
-        view.layer.shadowColor = [UIColor blackColor].CGColor;
-        view.layer.shadowOffset = CGSizeMake(0, 1);
-        view.layer.shadowOpacity = 1;
-        view.layer.shadowRadius = 1.0;
-        return view;
-    }
+    view.layer.borderWidth = 1;
+    view.layer.borderColor = [UIColor blackColor].CGColor;
+    return view;
 }
 
 -(UIView *) stylizeMainScreenRowButton:(UIButton *) button
 {
     
-        //button.layer.shadowPath = [UIBezierPath bezierPathWithRect:button.bounds].CGPath;
-        button.layer.cornerRadius = 0;
-        button.layer.shouldRasterize = YES;
-        button.layer.shadowColor = [UIColor blackColor].CGColor;
-        button.layer.shadowOffset = CGSizeMake(0, 1);
-        button.layer.shadowOpacity = 1;
-        button.layer.shadowRadius = 1.0;
-        button.clipsToBounds = NO;
-//        button.layer.borderColor = [UIColor blackColor].CGColor;
-//    button.layer.borderWidth = 0.5;
+    button.layer.shouldRasterize = YES;
+    button.layer.borderWidth = 1;
+    button.layer.borderColor = [UIColor blackColor].CGColor;
     return button;
 }
 
 -(UIView *) stylizeCollectionScreenRowForeground:(UIView *) view
-                                    isOpen:(BOOL) isOpen
-                              withOpenBounds:(CGRect) openBounds
+                                          isOpen:(BOOL) isOpen
+                                  withOpenBounds:(CGRect) openBounds
 {
     view.layer.shouldRasterize = YES;
     view.layer.cornerRadius = 0;
@@ -178,7 +152,7 @@
         view.layer.shadowRadius = 2.0;
         return view;
     }
-
+    
     return view;
     
 }
@@ -198,7 +172,7 @@
 -(UIColor *) colorForMainScreenRowSelected
 {
     return [UIColor colorWithWhite:0.85 alpha:1];
-   //[UIColor colorWithHue:0.41 saturation:0.93 brightness:0.66 alpha:1];
+    //[UIColor colorWithHue:0.41 saturation:0.93 brightness:0.66 alpha:1];
 }
 
 -(CGFloat) alphaForMainScreenNavigationBar
@@ -222,7 +196,7 @@
 
 -(CGFloat) spaceBetweenRowsInMainScreen
 {
-    return 5;
+    return 0;
 }
 -(CGFloat) spaceBetweenRowsInCollectionScreen
 {
@@ -314,5 +288,6 @@
     }
     return self.timedColor;
 }
+
 
 @end

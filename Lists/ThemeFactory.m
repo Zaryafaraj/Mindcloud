@@ -8,6 +8,7 @@
 
 #import "ThemeFactory.h"
 #import "ClearTheme.h"
+#import "FlatTheme.h"
 
 @implementation ThemeFactory
 
@@ -16,7 +17,7 @@
     static id<ThemeProtocol>  currentTheme = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        currentTheme = [ClearTheme theme];
+        currentTheme = [FlatTheme theme];
     });
     return currentTheme;
 }

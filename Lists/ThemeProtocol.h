@@ -10,6 +10,16 @@
 
 @protocol ThemeProtocol <NSObject>
 
+-(CGFloat) rowWidth;
+-(CGFloat) rowHeight;
+-(CGFloat) subItemHeight;
+-(CGFloat) contextualMenuOffset;
+-(CGFloat) mainScreenLabelInsetHorizontal;
+-(CGFloat) mainScreenLabelInsetVertical;
+-(CGFloat) mainScreenImageInsetHorizontal;
+-(CGFloat) mainScreenImageInsetVertical;
+-(CGFloat) mainScreenImageWidth;
+
 -(UIImage *) imageForMainScreenRowDeleteButton;
 -(UIImage *) imageForMainScreenRowShareButton;
 -(UIImage *) imageForMainscreenRowRenameButton;

@@ -14,13 +14,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "CollectionRowLayoutManager.h"
 
-
-#define LABEL_INSET_HOR 10
-#define LABEL_INSET_VER 10
-#define IMG_INSET_HOR 5
-#define IMG_INSET_VER 5
-#define IMG_WIDTH 70
-
 @interface CollectionRow()
 
 @property (strong, nonatomic) UILabel * collectionLabel;
@@ -362,10 +355,12 @@
 
 -(CGRect) labelFrameWithForegroundRect:(CGRect) newFrame;
 {
-    CGSize labelSize = CGSizeMake(newFrame.size.width - 2 * LABEL_INSET_HOR - self.collectionImage.frame.size.width,
-                                  newFrame.size.height - 2 * LABEL_INSET_VER);
-    CGPoint labelOrigin = CGPointMake(newFrame.origin.x + LABEL_INSET_HOR + self.collectionImage.frame.size.width,
-                                      LABEL_INSET_VER);
+    CGFloat labelInsetHor = [[ThemeFactory currentTheme] mainScreenLabelInsetHorizontal];
+    CGFloat labelVertical = [[ThemeFactory currentTheme] mainScreenLabelInsetVertical];
+    CGSize labelSize = CGSizeMake(newFrame.size.width - 2 * labelInsetHor - self.collectionImage.frame.size.width,
+                                  newFrame.size.height - 2 * labelVertical);
+    CGPoint labelOrigin = CGPointMake(newFrame.origin.x + labelInsetHor + self.collectionImage.frame.size.width,
+                                      labelVertical);
     CGRect labelFrame = CGRectMake(labelOrigin.x, labelOrigin.y,
                                    labelSize.width, labelSize.height);
     return labelFrame;
@@ -382,10 +377,13 @@
 
 -(CGRect) imageFrame
 {
-    CGRect imgFrame = CGRectMake(self.bounds.origin.x + IMG_INSET_HOR,
-                                 self.bounds.origin.y + IMG_INSET_VER,
-                                 IMG_WIDTH,
-                                 self.bounds.size.height - 2 * IMG_INSET_VER);
+    CGFloat imgInsetHor = [[ThemeFactory currentTheme] mainScreenImageInsetHorizontal];
+    CGFloat imgInsetVer = [[ThemeFactory currentTheme] mainScreenImageInsetVertical];
+    CGFloat imgWidth = [[ThemeFactory currentTheme] mainScreenImageWidth];
+    CGRect imgFrame = CGRectMake(self.bounds.origin.x + imgInsetHor,
+                                 self.bounds.origin.y + imgInsetVer,
+                                 imgWidth,
+                                 self.bounds.size.height - 2 * imgInsetVer);
     return imgFrame;
 }
 

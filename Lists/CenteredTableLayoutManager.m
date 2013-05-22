@@ -8,6 +8,7 @@
 
 #import "CenteredTableLayoutManager.h"
 #import "ListRowProtocol.h"
+#import "ThemeFactory.h"
 
 @implementation CenteredTableLayoutManager
 
@@ -22,38 +23,31 @@
 
 -(CGFloat) rowWidth
 {
-    if (!_rowWidth)
-    {
-        _rowWidth = 500;
-    }
-    return _rowWidth;
+    return [[ThemeFactory currentTheme] rowWidth];
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+//    CGFloat screenHeight = screenRect.size.height;
+//    if (!_rowWidth)
+//    {
+//        _rowWidth = 750;
+//    }
+    return screenWidth - 20;
 }
 
 -(CGFloat) subItemHeight
 {
-    if (!_subItemHeight)
-    {
-        _subItemHeight = 400;
-    }
-    return _subItemHeight;
+    return [[ThemeFactory currentTheme] subItemHeight];
 }
 
 -(CGFloat) rowHeight
 {
-    if (!_rowHeight)
-    {
-        _rowHeight = 50;
-    }
-    return _rowHeight;
+    return [[ThemeFactory currentTheme] rowHeight];
 }
 
 -(CGFloat) contextualMenuHoriziontalOffset
 {
-    if (!_contextualMenuHoriziontalOffset)
-    {
-        _contextualMenuHoriziontalOffset = 40;
-    }
-    return _contextualMenuHoriziontalOffset;
+    
+    return [[ThemeFactory currentTheme] contextualMenuOffset];
 }
 
 -(id) initWithDivider:(CGFloat) dividerSpace
