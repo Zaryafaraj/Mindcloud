@@ -14,7 +14,7 @@
 
 -(CGFloat) verticalOffsetFromTop
 {
-    return [[ThemeFactory currentTheme] verticalOffsetFromTop];
+    return [[ThemeFactory currentTheme] verticalDistanceFromTop];
 }
 
 -(CGFloat) rowWidth

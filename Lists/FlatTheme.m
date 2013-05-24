@@ -24,19 +24,56 @@
 //    CGRect screenRect = [[UIScreen mainScreen] bounds];
 //    CGFloat screenWidth = screenRect.size.width;
 //    return screenWidth;
-    return 650;
+    UIUserInterfaceIdiom  device = [UIDevice currentDevice].userInterfaceIdiom;
+    if (device == UIUserInterfaceIdiomPad)
+    {
+        return 650;
+    }
+    else
+    {
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        CGFloat screenWidth = screenRect.size.width;
+        return screenWidth;
+    }
+
 }
 -(CGFloat) rowHeight
 {
-    return 100;
+    UIUserInterfaceIdiom  device = [UIDevice currentDevice].userInterfaceIdiom;
+    if (device == UIUserInterfaceIdiomPad)
+    {
+        return 100;
+    }
+    else
+    {
+        return 50;
+    }
 }
+
 -(CGFloat) subItemHeight
 {
-    return 100;
+    UIUserInterfaceIdiom  device = [UIDevice currentDevice].userInterfaceIdiom;
+    if (device == UIUserInterfaceIdiomPad)
+    {
+        return 100;
+    }
+    else
+    {
+        return 50;
+    }
 }
 -(CGFloat) contextualMenuOffset
 {
-    return 40;
+    UIUserInterfaceIdiom  device = [UIDevice currentDevice].userInterfaceIdiom;
+    if (device == UIUserInterfaceIdiomPad)
+    {
+        return 40;
+    }
+    else
+    {
+        return 20;
+    }
+
 }
 
 -(CGFloat) mainScreenLabelInsetHorizontal
@@ -202,7 +239,16 @@
 
 -(CGFloat) spaceBetweenRowsInMainScreen
 {
-    return 2;
+    UIUserInterfaceIdiom  device = [UIDevice currentDevice].userInterfaceIdiom;
+    if (device == UIUserInterfaceIdiomPad)
+    {
+        return 2;
+    }
+    else
+    {
+        return 0;
+    }
+
 }
 -(CGFloat) spaceBetweenRowsInCollectionScreen
 {
