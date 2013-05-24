@@ -19,6 +19,7 @@
 -(CGFloat) mainScreenImageInsetHorizontal;
 -(CGFloat) mainScreenImageInsetVertical;
 -(CGFloat) mainScreenImageWidth;
+-(CGFloat) verticalDistanceFromTop;
 
 -(UIImage *) imageForMainScreenRowDeleteButton;
 -(UIImage *) imageForMainScreenRowShareButton;

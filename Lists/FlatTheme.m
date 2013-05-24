@@ -62,6 +62,11 @@
     return [self rowWidth]/4;
 }
 
+-(CGFloat) verticalDistanceFromTop
+{
+    return 0;
+}
+
 +(id<ThemeProtocol>) theme
 {
     return [[FlatTheme alloc] init];

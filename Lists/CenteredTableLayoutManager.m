@@ -14,24 +14,12 @@
 
 -(CGFloat) verticalOffsetFromTop
 {
-    if (!_verticalOffsetFromTop)
-    {
-        _verticalOffsetFromTop = 100;
-    }
-    return _verticalOffsetFromTop;
+    return [[ThemeFactory currentTheme] verticalOffsetFromTop];
 }
 
 -(CGFloat) rowWidth
 {
     return [[ThemeFactory currentTheme] rowWidth];
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat screenWidth = screenRect.size.width;
-//    CGFloat screenHeight = screenRect.size.height;
-//    if (!_rowWidth)
-//    {
-//        _rowWidth = 750;
-//    }
-    return screenWidth - 20;
 }
 
 -(CGFloat) subItemHeight

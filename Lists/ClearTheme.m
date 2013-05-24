@@ -65,6 +65,11 @@
     return [[ClearTheme alloc] init];
 }
 
+-(CGFloat) verticalDistanceFromTop
+{
+    return 0;
+}
+
 -(UIImage *) imageForRowBackground
 {
     if (_rowBackgroundImage == nil)
