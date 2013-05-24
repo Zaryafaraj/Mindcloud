@@ -47,10 +47,9 @@
 -(UIColor *) colorForTaskStateUndone;
 -(UIColor *) colorForTaskStateStarred;
 -(UIColor *) colorForTaskStateTimed;
-
 -(CGFloat) alphaForMainScreenNavigationBar;
 -(UIColor *) colorForMainScreenNavigationBar;
-
+-(UIColor *) colorForMainScreenText;
 -(CGFloat) alphaForCollectionScreenNavigationBar;
 -(UIColor *) colorForCollectionScreenNavigationBar;
 
@@ -78,4 +77,5 @@
 -(UIImage *) getContextualMenuButtonContent;
 
 -(UIImage *) getContextualMenuButtonContentHighlighted;
+-(UIFont *) fontForMainScreenText;
 @end

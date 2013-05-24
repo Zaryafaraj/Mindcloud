@@ -315,4 +315,13 @@
     return self.timedColor;
 }
 
+-(UIColor *) colorForMainScreenText
+{
+    return [UIColor blackColor];
+}
+
+-(UIFont *) fontForMainScreenText
+{
+    return [UIFont fontWithName:@"Helvetica" size:38];
+}
 @end

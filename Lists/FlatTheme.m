@@ -21,9 +21,10 @@
 
 -(CGFloat) rowWidth
 {
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat screenWidth = screenRect.size.width;
-    return screenWidth - 50;
+//    CGRect screenRect = [[UIScreen mainScreen] bounds];
+//    CGFloat screenWidth = screenRect.size.width;
+//    return screenWidth;
+    return 650;
 }
 -(CGFloat) rowHeight
 {
@@ -40,11 +41,11 @@
 
 -(CGFloat) mainScreenLabelInsetHorizontal
 {
-    return 10;
+    return 0;
 }
 -(CGFloat) mainScreenLabelInsetVertical
 {
-    return 10;
+    return 0;
 }
 
 -(CGFloat) mainScreenImageInsetHorizontal
@@ -109,9 +110,9 @@
                                     isOpen:(BOOL) isOpen
                             withOpenBounds:(CGRect) openBounds
 {
-    view.layer.shouldRasterize = YES;
-    view.layer.borderWidth = 1;
-    view.layer.borderColor = [UIColor blackColor].CGColor;
+    
+//    view.backgroundColor = [UIColor colorWithRed:0.9254 green:0.9411 blue:0.9450 alpha:1];
+    view.layer.cornerRadius = 0;
     return view;
 }
 
@@ -119,8 +120,8 @@
 {
     
     button.layer.shouldRasterize = YES;
-    button.layer.borderWidth = 1;
-    button.layer.borderColor = [UIColor blackColor].CGColor;
+    
+    button.layer.borderColor = [UIColor lightGrayColor].CGColor;
     return button;
 }
 
@@ -196,7 +197,7 @@
 
 -(CGFloat) spaceBetweenRowsInMainScreen
 {
-    return 0;
+    return 2;
 }
 -(CGFloat) spaceBetweenRowsInCollectionScreen
 {
@@ -289,5 +290,14 @@
     return self.timedColor;
 }
 
+-(UIColor *) colorForMainScreenText
+{
+    return [UIColor blackColor];
+}
+
+-(UIFont *) fontForMainScreenText
+{
+    return [UIFont fontWithName:@"Helvetica" size:34];
+}
 
 @end

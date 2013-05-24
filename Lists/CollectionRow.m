@@ -61,6 +61,9 @@
         textField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
         textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         textField.textAlignment = NSTextAlignmentCenter;
+        textField.textColor = [[ThemeFactory currentTheme] colorForMainScreenText];
+        UIFont * font = [[ThemeFactory currentTheme] fontForMainScreenText];
+        textField.font = font;
         textField.delegate = self;
         _textField = textField;
     }
@@ -347,7 +350,10 @@
     UILabel * label = [[UILabel alloc] initWithFrame:labelFrame];
     label.backgroundColor = [UIColor clearColor];
     label.textAlignment = NSTextAlignmentCenter;
-    label.adjustsFontSizeToFitWidth = YES;
+    label.adjustsFontSizeToFitWidth = NO;
+    label.textColor = [[ThemeFactory currentTheme] colorForMainScreenText];
+    UIFont * font = [[ThemeFactory currentTheme] fontForMainScreenText];
+    label.font = font;
     
     [self addSubview:label];
     self.collectionLabel = label;

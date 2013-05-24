@@ -48,7 +48,7 @@
 		DB3C8E371710D3DE00A69D3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3C8E181710D3DE00A69D3B /* Foundation.framework */; };
 		DB3C8E3F1710D3DE00A69D3B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E3D1710D3DE00A69D3B /* InfoPlist.strings */; };
 		DB3C8E421710D3DE00A69D3B /* ListsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3C8E411710D3DE00A69D3B /* ListsTests.m */; };
-		DB3C8E4C1710D4B800A69D3B /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E4B1710D4B800A69D3B /* Storyboard.storyboard */; };
+		DB3C8E4C1710D4B800A69D3B /* ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E4B1710D4B800A69D3B /* ipad.storyboard */; };
 		DB3C8E591710D52F00A69D3B /* BG2Blur.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E4E1710D52F00A69D3B /* BG2Blur.png */; };
 		DB3C8E5A1710D52F00A69D3B /* BG3BlurHigh.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E4F1710D52F00A69D3B /* BG3BlurHigh.png */; };
 		DB3C8E5B1710D52F00A69D3B /* BG3BlurLow.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3C8E501710D52F00A69D3B /* BG3BlurLow.png */; };
@@ -85,7 +85,9 @@
 		DBBDEFC41713BFAF009ADF1A /* CollectionRow.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFC31713BFAF009ADF1A /* CollectionRow.m */; };
 		DBBDEFC91713D9F8009ADF1A /* Test.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBDEFC81713D9F8009ADF1A /* Test.png */; };
 		DBBDEFCC1713E367009ADF1A /* CenteredTableLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBDEFCB1713E367009ADF1A /* CenteredTableLayoutManager.m */; };
+		DBBFE646174F2F35003AE902 /* iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBBFE645174F2F35003AE902 /* iPhone.storyboard */; };
 		DBDD9D8B174C8B9500DE3EEC /* FlatTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDD9D8A174C8B9500DE3EEC /* FlatTheme.m */; };
+		DBE0AC4B174DEAED003B4146 /* light grey.png in Resources */ = {isa = PBXBuildFile; fileRef = DBE0AC4A174DEAED003B4146 /* light grey.png */; };
 		DBE411D2172B8CF300F26E17 /* CollectionRowLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE411D1172B8CF300F26E17 /* CollectionRowLayoutManager.m */; };
 		DBE5680F172490140009050F /* ListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE5680E172490140009050F /* ListsViewController.m */; };
 		DBEBB4C01715267500D0DFD5 /* PaperTableAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEBB4BF1715267500D0DFD5 /* PaperTableAnimator.m */; };
@@ -154,7 +156,7 @@
 		DB3C8E3E1710D3DE00A69D3B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DB3C8E401710D3DE00A69D3B /* ListsTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListsTests.h; sourceTree = "<group>"; };
 		DB3C8E411710D3DE00A69D3B /* ListsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListsTests.m; sourceTree = "<group>"; };
-		DB3C8E4B1710D4B800A69D3B /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Storyboard.storyboard; path = Lists/Storyboard.storyboard; sourceTree = "<group>"; };
+		DB3C8E4B1710D4B800A69D3B /* ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ipad.storyboard; path = Lists/ipad.storyboard; sourceTree = "<group>"; };
 		DB3C8E4E1710D52F00A69D3B /* BG2Blur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BG2Blur.png; sourceTree = "<group>"; };
 		DB3C8E4F1710D52F00A69D3B /* BG3BlurHigh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BG3BlurHigh.png; sourceTree = "<group>"; };
 		DB3C8E501710D52F00A69D3B /* BG3BlurLow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BG3BlurLow.png; sourceTree = "<group>"; };
@@ -209,9 +211,11 @@
 		DBBDEFC81713D9F8009ADF1A /* Test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Test.png; sourceTree = "<group>"; };
 		DBBDEFCA1713E367009ADF1A /* CenteredTableLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CenteredTableLayoutManager.h; sourceTree = "<group>"; };
 		DBBDEFCB1713E367009ADF1A /* CenteredTableLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenteredTableLayoutManager.m; sourceTree = "<group>"; };
+		DBBFE645174F2F35003AE902 /* iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPhone.storyboard; sourceTree = "<group>"; };
 		DBD43D3C173382E70046ACA3 /* NoteRowDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteRowDelegate.h; sourceTree = "<group>"; };
 		DBDD9D89174C8B9500DE3EEC /* FlatTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlatTheme.h; sourceTree = "<group>"; };
 		DBDD9D8A174C8B9500DE3EEC /* FlatTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlatTheme.m; sourceTree = "<group>"; };
+		DBE0AC4A174DEAED003B4146 /* light grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "light grey.png"; path = "../light grey.png"; sourceTree = "<group>"; };
 		DBE411CF172B8CD300F26E17 /* RowLayoutManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RowLayoutManagerProtocol.h; sourceTree = "<group>"; };
 		DBE411D0172B8CF300F26E17 /* CollectionRowLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionRowLayoutManager.h; sourceTree = "<group>"; };
 		DBE411D1172B8CF300F26E17 /* CollectionRowLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionRowLayoutManager.m; sourceTree = "<group>"; };
@@ -392,6 +396,7 @@
 		DB3C8E4D1710D52F00A69D3B /* BGs */ = {
 			isa = PBXGroup;
 			children = (
+				DBE0AC4A174DEAED003B4146 /* light grey.png */,
 				DB4BD6EC172E0F060024305C /* woodenBG.jpg */,
 				DB3C8E4E1710D52F00A69D3B /* BG2Blur.png */,
 				DB3C8E4F1710D52F00A69D3B /* BG3BlurHigh.png */,
@@ -445,7 +450,8 @@
 		DBBDEFBF1713BF63009ADF1A /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				DB3C8E4B1710D4B800A69D3B /* Storyboard.storyboard */,
+				DB3C8E4B1710D4B800A69D3B /* ipad.storyboard */,
+				DBBFE645174F2F35003AE902 /* iPhone.storyboard */,
 				DB4BD6EE172E16950024305C /* Segue */,
 				DB488BAB171BA71100294966 /* ViewUtilities */,
 				DBEBB4BD1715265E00D0DFD5 /* Animation */,
@@ -672,7 +678,7 @@
 				DB3C8E291710D3DE00A69D3B /* Default.png in Resources */,
 				DB3C8E2B1710D3DE00A69D3B /* Default@2x.png in Resources */,
 				DB3C8E2D1710D3DE00A69D3B /* Default-568h@2x.png in Resources */,
-				DB3C8E4C1710D4B800A69D3B /* Storyboard.storyboard in Resources */,
+				DB3C8E4C1710D4B800A69D3B /* ipad.storyboard in Resources */,
 				DB3C8E591710D52F00A69D3B /* BG2Blur.png in Resources */,
 				DB3C8E5A1710D52F00A69D3B /* BG3BlurHigh.png in Resources */,
 				DB3C8E5B1710D52F00A69D3B /* BG3BlurLow.png in Resources */,
@@ -717,6 +723,8 @@
 				DB9CF097173F7F9A00CADDAA /* icon-expand@2x.png in Resources */,
 				DB9CF09A173F82BB00CADDAA /* icon-detach.png in Resources */,
 				DB9CF09B173F82BB00CADDAA /* icon-detach@2x.png in Resources */,
+				DBE0AC4B174DEAED003B4146 /* light grey.png in Resources */,
+				DBBFE646174F2F35003AE902 /* iPhone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -882,8 +890,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Lists/Lists-Prefix.pch";
 				INFOPLIST_FILE = "Lists/Lists-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -894,8 +903,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Lists/Lists-Prefix.pch";
 				INFOPLIST_FILE = "Lists/Lists-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
