@@ -151,7 +151,12 @@
     }
 }
 
--(void) tapped:(UISwipeGestureRecognizer *) sender
+-(void) doubleTapped:(UITapGestureRecognizer *) sender
+{
+    [self.delegate doubleTappedRow:self];
+}
+
+-(void) tapped:(UITapGestureRecognizer *) sender
 {
     if (!self.isEditing && !self.isOpen && ![self.delegate isEditingRows])
     {
@@ -401,11 +406,15 @@
     UISwipeGestureRecognizer * rsgr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swippedRight:)];
     rsgr.direction = UISwipeGestureRecognizerDirectionRight;
     UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+    UITapGestureRecognizer * doubleTgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapped:)];
+    doubleTgr.numberOfTapsRequired = 2;
     [tgr requireGestureRecognizerToFail:lsgr];
     [tgr requireGestureRecognizerToFail:rsgr];
+    [tgr requireGestureRecognizerToFail:doubleTgr];
     [self addGestureRecognizer:lsgr];
     [self addGestureRecognizer:rsgr];
     [self addGestureRecognizer:tgr];
+    [self addGestureRecognizer:doubleTgr];
     
 }
 

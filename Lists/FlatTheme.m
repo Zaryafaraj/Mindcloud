@@ -33,7 +33,7 @@
     {
         CGRect screenRect = [[UIScreen mainScreen] bounds];
         CGFloat screenWidth = screenRect.size.width;
-        return screenWidth;
+        return screenWidth - 5;
     }
 
 }
@@ -46,7 +46,7 @@
     }
     else
     {
-        return 50;
+        return 80;
     }
 }
 
@@ -101,7 +101,7 @@
 
 -(CGFloat) verticalDistanceFromTop
 {
-    return 0;
+    return 5;
 }
 
 +(id<ThemeProtocol>) theme
@@ -155,6 +155,8 @@
     
 //    view.backgroundColor = [UIColor colorWithRed:0.9254 green:0.9411 blue:0.9450 alpha:1];
     view.layer.cornerRadius = 0;
+    view.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    view.layer.borderWidth = 0.5;
     return view;
 }
 
@@ -348,7 +350,7 @@
 
 -(UIFont *) fontForMainScreenText
 {
-    return [UIFont fontWithName:@"Helvetica" size:34];
+    return [UIFont fontWithName:@"Helvetica" size:20];
 }
 
 @end

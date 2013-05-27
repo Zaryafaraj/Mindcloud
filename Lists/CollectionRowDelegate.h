@@ -16,6 +16,7 @@
 -(void) sharePressed:(UIView<ListRowProtocol> *) sender;
 -(void) selectedRow:(UIView<ListRowProtocol> *) sender;
 -(void) tappedRow:(UIView<ListRowProtocol> *) sender;
+-(void) doubleTappedRow:(UIView<ListRowProtocol> *) sender;
 -(BOOL) isEditingRows;
 
 @end

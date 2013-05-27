@@ -147,6 +147,7 @@
         <class className="MainScreenViewController" superclassName="ListsViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainScreenViewController.h"/>
             <relationships>
+                <relationship kind="action" name="addPressed:"/>
                 <relationship kind="outlet" name="navigationBar" candidateClass="UINavigationBar"/>
             </relationships>
         </class>

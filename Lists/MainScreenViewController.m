@@ -37,7 +37,7 @@
     return self;
 }
 
-- (IBAction)addPressed:(id)sender
+-(void) exitFromEditing
 {
     if (self.isInEditMode)
     {
@@ -45,7 +45,17 @@
         self.editingRow = nil;
         self.isInEditMode = NO;
     }
-    
+}
+
+-(void) screenDoubleTapped:(UITapGestureRecognizer *) sender
+{
+    [self exitFromEditing];
+    [self addRowToTop];
+}
+
+- (IBAction)addPressed:(id)sender
+{
+    [self exitFromEditing];
     [self addRowToTop];
 }
 
@@ -76,6 +86,13 @@
         self.isInEditMode = NO;
     }
 }
+
+-(void) doubleTappedRow:(UIView<ListRowProtocol> *)sender
+{
+    [self exitFromEditing];
+    [self addRowToTop];
+}
+
 -(void) selectedRow:(UIView<ListRowProtocol> *)sender
 {
     [self performSegueWithIdentifier:@"RollingSegue" sender:sender];
@@ -97,6 +114,12 @@
     return self.isInEditMode;
 }
 
+-(void) viewDidLoad
+{
+    UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenDoubleTapped:)];
+    tgr.numberOfTapsRequired = 2;
+    [self.scrollView addGestureRecognizer:tgr];
+}
 #pragma mark - Segue
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

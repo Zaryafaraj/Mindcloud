@@ -21,41 +21,21 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                             </scrollView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2b2-gk-TTH">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <items>
-                                    <navigationItem id="JD8-Tu-MLS">
-                                        <barButtonItem key="leftBarButtonItem" title="Subscribe" id="H3u-4p-kCb">
-                                            <color key="tintColor" red="0.15948872629999999" green="0.15948872629999999" blue="0.15948872629999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="HkJ-mh-qg5">
-                                            <color key="tintColor" red="0.15948872629999999" green="0.15948872629999999" blue="0.15948872629999999" alpha="1" colorSpace="calibratedRGB"/>
-                                            <connections>
-                                                <action selector="addPressed:" destination="lCu-zW-xHi" id="mDe-5U-UFr"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="2b2-gk-TTH" firstAttribute="trailing" secondItem="tQq-KA-1U5" secondAttribute="trailing" type="default" id="6zR-va-VJz"/>
-                            <constraint firstItem="2b2-gk-TTH" firstAttribute="top" secondItem="tQq-KA-1U5" secondAttribute="top" type="default" id="8NH-oy-5JM"/>
+                            <constraint firstItem="guH-TY-X0T" firstAttribute="top" secondItem="tQq-KA-1U5" secondAttribute="top" type="default" id="GSA-MX-mQ7"/>
                             <constraint firstItem="V5w-fi-rwj" firstAttribute="trailing" secondItem="tQq-KA-1U5" secondAttribute="trailing" type="default" id="K4N-pE-EDq"/>
                             <constraint firstItem="guH-TY-X0T" firstAttribute="leading" secondItem="tQq-KA-1U5" secondAttribute="leading" type="default" id="QxZ-ld-otc"/>
                             <constraint firstItem="V5w-fi-rwj" firstAttribute="top" secondItem="tQq-KA-1U5" secondAttribute="top" type="default" id="SKb-hx-wbT"/>
                             <constraint firstItem="guH-TY-X0T" firstAttribute="bottom" secondItem="tQq-KA-1U5" secondAttribute="bottom" type="default" id="cdX-wq-cQs"/>
                             <constraint firstItem="V5w-fi-rwj" firstAttribute="leading" secondItem="tQq-KA-1U5" secondAttribute="leading" type="default" id="fKv-Jh-TzP"/>
-                            <constraint firstItem="2b2-gk-TTH" firstAttribute="leading" secondItem="tQq-KA-1U5" secondAttribute="leading" type="default" id="mL8-ei-Kdd"/>
-                            <constraint firstItem="guH-TY-X0T" firstAttribute="top" secondItem="2b2-gk-TTH" secondAttribute="bottom" type="default" id="t4u-GM-eop"/>
                             <constraint firstItem="guH-TY-X0T" firstAttribute="trailing" secondItem="tQq-KA-1U5" secondAttribute="trailing" type="default" id="vg1-RD-fqQ"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="navigationBar" destination="2b2-gk-TTH" id="b46-uy-zJH"/>
                         <outlet property="scrollView" destination="guH-TY-X0T" id="e2B-HD-r2Z"/>
                         <segue destination="Ymt-ss-Y4F" kind="custom" identifier="RollingSegue" customClass="RollingSegue" id="dVl-vz-Lf2"/>
                     </connections>
