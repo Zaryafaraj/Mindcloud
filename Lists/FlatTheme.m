@@ -17,8 +17,10 @@
 @property (nonatomic, strong) UIColor * starredColor;
 
 @end
+
 @implementation FlatTheme
 
+#define OFFSET_FROM_SIDES 2.5
 -(CGFloat) rowWidth
 {
 //    CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -33,7 +35,7 @@
     {
         CGRect screenRect = [[UIScreen mainScreen] bounds];
         CGFloat screenWidth = screenRect.size.width;
-        return screenWidth - 5;
+        return screenWidth - 2 * OFFSET_FROM_SIDES;
     }
 
 }
@@ -101,7 +103,12 @@
 
 -(CGFloat) verticalDistanceFromTop
 {
-    return 5;
+    return OFFSET_FROM_SIDES;
+}
+
+-(CGFloat) verticalDistanceFromBottom
+{
+    return OFFSET_FROM_SIDES;
 }
 
 +(id<ThemeProtocol>) theme

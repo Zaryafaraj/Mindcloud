@@ -70,6 +70,11 @@
     return 0;
 }
 
+-(CGFloat) verticalDistanceFromBottom
+{
+    return 0;
+}
+
 -(UIImage *) imageForRowBackground
 {
     if (_rowBackgroundImage == nil)

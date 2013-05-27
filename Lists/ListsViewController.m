@@ -164,13 +164,14 @@
 - (void) adjustScrollViewForLowestIndex:(int) index
 {
     CGSize contentSize = self.scrollView.contentSize;
-    CGRect frame = [self.layoutManager frameForRowforIndex:index
+    CGRect frame = [self.layoutManager frameForRowforIndex:index-1
                                                inSuperView:self.scrollView];
     CGPoint lowerPart = [self.layoutManager originForFrameAfterFrame:frame];
     if (lowerPart.y > self.scrollView.bounds.size.height)
     {
+        CGFloat spaceFromBottom = [[ThemeFactory currentTheme] verticalDistanceFromBottom];
         CGSize newContentSize = CGSizeMake(contentSize.width,
-                                           lowerPart.y);
+                                           lowerPart.y + spaceFromBottom);
         self.scrollView.contentSize = newContentSize;
     }
     
