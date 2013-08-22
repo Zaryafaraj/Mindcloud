@@ -14,13 +14,10 @@
 		D70947251523DC27008E4AD9 /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = D709471C1523DC27008E4AD9 /* DDXMLDocument.m */; };
 		D70947261523DC27008E4AD9 /* DDXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = D709471E1523DC27008E4AD9 /* DDXMLElement.m */; };
 		D70947271523DC27008E4AD9 /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = D70947201523DC27008E4AD9 /* DDXMLNode.m */; };
-		D709473115244557008E4AD9 /* IdeaStockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D709473015244557008E4AD9 /* IdeaStockTests.m */; };
-		D709473715245416008E4AD9 /* XoomlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D709473615245416008E4AD9 /* XoomlTests.m */; };
 		D715B4B815707F63006975A6 /* noteselected.png in Resources */ = {isa = PBXBuildFile; fileRef = D715B4B415707F63006975A6 /* noteselected.png */; };
 		D715B4BA15707F63006975A6 /* stackSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = D715B4B615707F63006975A6 /* stackSelected.png */; };
 		D71EA17F154BA19600496663 /* pile boardBig.png in Resources */ = {isa = PBXBuildFile; fileRef = D71EA17D154BA19600496663 /* pile boardBig.png */; };
 		D71EA185154CD3FB00496663 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D71EA184154CD3FB00496663 /* CollectionViewController.m */; };
-		D731B4C11535F17B0015C325 /* MockDropBoxDatamodel.m in Sources */ = {isa = PBXBuildFile; fileRef = D731B4C01535F17B0015C325 /* MockDropBoxDatamodel.m */; };
 		D74E48201524F3DF00BC8B9D /* XoomlAttributeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D74E481F1524F3DF00BC8B9D /* XoomlAttributeHelper.m */; };
 		D7A53CF11522F39500183CB6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53CF01522F39500183CB6 /* UIKit.framework */; };
 		D7A53CF31522F39500183CB6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53CF21522F39500183CB6 /* Foundation.framework */; };
@@ -54,7 +51,6 @@
 		D7F19837157189A1008DA24F /* Background_Blue.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D7F19836157189A1008DA24F /* Background_Blue.jpg */; };
 		D7F1FF2C154D1A3300D07B58 /* NoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F1FF2B154D1A3300D07B58 /* NoteView.m */; };
 		D7F85EB41528D80300F16D25 /* XoomlCollectionManifest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F85EB31528D80300F16D25 /* XoomlCollectionManifest.m */; };
-		D7FAD4301534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D7FAD42F1534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.m */; };
 		DB03C357169FEB0000C38FD7 /* CollectionNotesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C356169FEB0000C38FD7 /* CollectionNotesAction.m */; };
 		DB03C35B169FEE6C00C38FD7 /* NoteAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35A169FEE6C00C38FD7 /* NoteAction.m */; };
 		DB03C35E169FF1F800C38FD7 /* NoteImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35D169FF1F800C38FD7 /* NoteImageAction.m */; };
@@ -157,10 +153,6 @@
 		D709471F1523DC27008E4AD9 /* DDXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLNode.h; sourceTree = "<group>"; };
 		D70947201523DC27008E4AD9 /* DDXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLNode.m; sourceTree = "<group>"; };
 		D70947221523DC27008E4AD9 /* DDXMLPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLPrivate.h; sourceTree = "<group>"; };
-		D709472F1524454A008E4AD9 /* IdeaStockTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdeaStockTests.h; sourceTree = "<group>"; };
-		D709473015244557008E4AD9 /* IdeaStockTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdeaStockTests.m; sourceTree = "<group>"; };
-		D709473515245416008E4AD9 /* XoomlTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlTests.h; sourceTree = "<group>"; };
-		D709473615245416008E4AD9 /* XoomlTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlTests.m; sourceTree = "<group>"; };
 		D715B4B415707F63006975A6 /* noteselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noteselected.png; sourceTree = "<group>"; };
 		D715B4B615707F63006975A6 /* stackSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stackSelected.png; sourceTree = "<group>"; };
 		D71D934B152301F10043E573 /* CollectionDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionDataSource.h; sourceTree = "<group>"; };
@@ -169,8 +161,6 @@
 		D71EA17D154BA19600496663 /* pile boardBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pile boardBig.png"; sourceTree = "<group>"; };
 		D71EA183154CD3FB00496663 /* CollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewController.h; sourceTree = "<group>"; };
 		D71EA184154CD3FB00496663 /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
-		D731B4BF1535F17B0015C325 /* MockDropBoxDatamodel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MockDropBoxDatamodel.h; path = IdeaStockTests/MockDropBoxDatamodel.h; sourceTree = SOURCE_ROOT; };
-		D731B4C01535F17B0015C325 /* MockDropBoxDatamodel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MockDropBoxDatamodel.m; path = IdeaStockTests/MockDropBoxDatamodel.m; sourceTree = SOURCE_ROOT; };
 		D74E481E1524F3DF00BC8B9D /* XoomlAttributeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlAttributeHelper.h; sourceTree = "<group>"; };
 		D74E481F1524F3DF00BC8B9D /* XoomlAttributeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlAttributeHelper.m; sourceTree = "<group>"; };
 		D78970D41569E376002EC56F /* NoteViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteViewDelegate.h; sourceTree = "<group>"; };
@@ -219,8 +209,6 @@
 		D7F85EAE1528D29E00F16D25 /* CollectionManifestProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionManifestProtocol.h; sourceTree = "<group>"; };
 		D7F85EB21528D80300F16D25 /* XoomlCollectionManifest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XoomlCollectionManifest.h; path = ../XoomlCollectionManifest.h; sourceTree = "<group>"; };
 		D7F85EB31528D80300F16D25 /* XoomlCollectionManifest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XoomlCollectionManifest.m; path = ../XoomlCollectionManifest.m; sourceTree = "<group>"; };
-		D7FAD42E1534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxAssociativeBulletinBoardTests.h; sourceTree = "<group>"; };
-		D7FAD42F1534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxAssociativeBulletinBoardTests.m; sourceTree = "<group>"; };
 		DB03C355169FEB0000C38FD7 /* CollectionNotesAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionNotesAction.h; sourceTree = "<group>"; };
 		DB03C356169FEB0000C38FD7 /* CollectionNotesAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionNotesAction.m; sourceTree = "<group>"; };
 		DB03C359169FEE6B00C38FD7 /* NoteAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteAction.h; sourceTree = "<group>"; };
@@ -548,15 +536,7 @@
 		D7A53D141522F39500183CB6 /* MindcloudTests */ = {
 			isa = PBXGroup;
 			children = (
-				D731B4BF1535F17B0015C325 /* MockDropBoxDatamodel.h */,
-				D731B4C01535F17B0015C325 /* MockDropBoxDatamodel.m */,
-				D7FAD42E1534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.h */,
-				D7FAD42F1534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.m */,
-				D709473015244557008E4AD9 /* IdeaStockTests.m */,
-				D709472F1524454A008E4AD9 /* IdeaStockTests.h */,
 				D7A53D151522F39500183CB6 /* Supporting Files */,
-				D709473515245416008E4AD9 /* XoomlTests.h */,
-				D709473615245416008E4AD9 /* XoomlTests.m */,
 			);
 			name = MindcloudTests;
 			path = IdeaStockTests;
@@ -893,6 +873,11 @@
 				CLASSPREFIX = IdeaStock;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "University of Washington";
+				TargetAttributes = {
+					D7A53CEB1522F39500183CB6 = {
+						DevelopmentTeam = 9QVJUYLZ2D;
+					};
+				};
 			};
 			buildConfigurationList = D7A53CE61522F39400183CB6 /* Build configuration list for PBXProject "Mindcloud" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1063,10 +1048,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D709473115244557008E4AD9 /* IdeaStockTests.m in Sources */,
-				D709473715245416008E4AD9 /* XoomlTests.m in Sources */,
-				D7FAD4301534DBDE0072E35B /* DropboxAssociativeBulletinBoardTests.m in Sources */,
-				D731B4C11535F17B0015C325 /* MockDropBoxDatamodel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1162,6 +1143,7 @@
 		D7A53D201522F39500183CB6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1169,7 +1151,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IdeaStock/Mindcloud-Prefix.pch";
 				INFOPLIST_FILE = "IdeaStock/Mindcloud-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = Mindcloud;
 				REZ_SEARCH_PATHS = /usr/include/libxml2;
 				"REZ_SEARCH_PATHS[sdk=*]" = "$(SDKROOT)/usr/include/libxml2";
@@ -1182,6 +1164,7 @@
 		D7A53D211522F39500183CB6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1189,7 +1172,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IdeaStock/Mindcloud-Prefix.pch";
 				INFOPLIST_FILE = "IdeaStock/Mindcloud-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = Mindcloud;
 				REZ_SEARCH_PATHS = /usr/include/libxml2;
 				"REZ_SEARCH_PATHS[sdk=*]" = "$(SDKROOT)/usr/include/libxml2";
