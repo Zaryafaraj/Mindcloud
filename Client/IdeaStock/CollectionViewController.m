@@ -165,7 +165,7 @@
     for (NSString * noteId in result)
     {
         CollectionNote * noteObj = [self.board getNoteContent:noteId];
-        XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
+        CollectionNoteAttribute * noteModel = [self.board getNoteModelFor:noteId];
         
         if (noteObj == nil || noteModel == nil) break;
         
@@ -219,7 +219,7 @@
     {
         NSLog(@"CollectionViewController: Image Added Event Received for %@", noteId);
         CollectionNote * noteObj = [self.board getNoteContent:noteId];
-        XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
+        CollectionNoteAttribute * noteModel = [self.board getNoteModelFor:noteId];
         
         if (noteObj == nil || noteModel == nil) break;
         
@@ -259,7 +259,7 @@
     for(NSString * noteId in result)
     {
         NSLog(@"CollectionViewController: Note Updated Event Received for %@", noteId);
-        XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteId];
+        CollectionNoteAttribute * noteModel = [self.board getNoteModelFor:noteId];
         NoteView * noteView = [self getNoteView:noteId];
         if (noteView == nil) break;
         
@@ -350,7 +350,7 @@
     }
 }
 
--(NSArray *) getAllNoteViewsForStacking:(XoomlStackingModel *) stacking
+-(NSArray *) getAllNoteViewsForStacking:(StackingModel *) stacking
 {
     //get All the NoteViews
     NSMutableArray * stackNotes = [NSMutableArray array];
@@ -374,7 +374,7 @@
     for (NSString * stackId in result)
     {
         NSLog(@"CollectionViewController: Stacking Added Event Received for %@", stackId);
-        XoomlStackingModel * stacking = [self.board getStackModelFor:stackId];
+        StackingModel * stacking = [self.board getStackModelFor:stackId];
         if (stacking)
         {
             NSArray * stackNotes = [self getAllNoteViewsForStacking:stacking];
@@ -495,7 +495,7 @@
     for (NSString * stackId in result)
     {
         NSLog(@"CollectionViewController: Stacking update Event Received for %@", stackId);
-        XoomlStackingModel * stacking = [self.board getStackModelFor:stackId];
+        StackingModel * stacking = [self.board getStackModelFor:stackId];
         
         if (stacking == nil) break;
     
@@ -626,7 +626,7 @@
 }
 
 -(NoteView * ) addNote:(NSString *) noteID
-   toViewWithNoteModel:(XoomlNoteModel *) noteModel
+   toViewWithNoteModel:(CollectionNoteAttribute *) noteModel
         andNoteContent:(CollectionNote *) noteContent
 {
     
@@ -1069,7 +1069,7 @@
     self.noteCount = [allNotes count];
     for(NSString* noteID in allNotes){
         CollectionNote * noteObj = allNotes[noteID];
-        XoomlNoteModel * noteModel = [self.board getNoteModelFor:noteID];
+        CollectionNoteAttribute * noteModel = [self.board getNoteModelFor:noteID];
         
         [self addNote:noteID
   toViewWithNoteModel:noteModel
@@ -1086,7 +1086,7 @@
     //Find out which notes belong to the stacking and put them there
     for(NSString * stackingID in stackings){
         NSMutableArray * views = [[NSMutableArray alloc] init];
-        XoomlStackingModel * stackingModel = stackings[stackingID];
+        StackingModel * stackingModel = stackings[stackingID];
         NSArray * noteRefIds = [stackingModel.refIds allObjects];
         UIView * mainView = [self storeNotesViewsForNotes:noteRefIds into:views];
         CGFloat scale = [stackingModel.scale floatValue];
@@ -1103,7 +1103,7 @@
 -(NSString *) addNoteToModel: (NoteView *) note withID:(NSString *) noteID
 {
     
-    XoomlNoteModel * noteModel = [self createXoomlNoteModel:note];
+    CollectionNoteAttribute * noteModel = [self createXoomlNoteModel:note];
     CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteID];
     noteItem.noteText = note.text;
     note.ID = noteID;
@@ -1118,7 +1118,7 @@
 -(NSString *) addImageNoteToModel: (ImageView *) note withId:(NSString *) noteID
 {
     
-    XoomlNoteModel * noteModel = [self createXoomlNoteModel:note];
+    CollectionNoteAttribute * noteModel = [self createXoomlNoteModel:note];
     CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteID];
     noteItem.noteText = note.text;
     note.ID = noteID;
@@ -1133,7 +1133,7 @@
     return noteID;
 }
 
--(XoomlNoteModel *) createXoomlNoteModel: (NoteView *) note
+-(CollectionNoteAttribute *) createXoomlNoteModel: (NoteView *) note
 {
     
     if (self.noteCount < 0 ) self.noteCount = 1;
@@ -1147,7 +1147,7 @@
     NSString * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
     NSString * scale = [NSString stringWithFormat:@"%f", note.scaleOffset];
     
-    return [[XoomlNoteModel alloc] initWithName:noteName
+    return [[CollectionNoteAttribute alloc] initWithName:noteName
                                    andPositionX:positionX
                                    andPositionY:positionY
                                      andScaling:scale];
@@ -1163,7 +1163,7 @@
     float positionFloatY = mainView.frame.origin.y;
     NSString * positionY = [NSString stringWithFormat:@"%f",positionFloatY];
     
-    XoomlNoteModel * oldModel = [self.board getNoteModelFor:view.ID];
+    CollectionNoteAttribute * oldModel = [self.board getNoteModelFor:view.ID];
     oldModel.positionX = positionX;
     oldModel.positionY = positionY;
     [self.board updateNoteAttributes:noteID withModel:oldModel];
@@ -1176,7 +1176,7 @@
     positionFloat = view.frame.origin.y;
     NSString * positionY = [NSString stringWithFormat:@"%f",positionFloat];
     
-    XoomlNoteModel * oldModel = [self.board getNoteModelFor:view.ID];
+    CollectionNoteAttribute * oldModel = [self.board getNoteModelFor:view.ID];
     oldModel.positionX = positionX;
     oldModel.positionY = positionY;
     [self.board updateNoteAttributes:noteID withModel:oldModel];
@@ -1185,7 +1185,7 @@
 -(void) updateScaleForNote:(NSString *) noteId withScale:(CGFloat) scaleOffset
 {
     NSString * scale = [NSString stringWithFormat:@"%f", scaleOffset];
-    XoomlNoteModel * oldModel = [self.board getNoteModelFor:noteId];
+    CollectionNoteAttribute * oldModel = [self.board getNoteModelFor:noteId];
     oldModel.scaling = scale;
     [self.board updateNoteAttributes:noteId withModel:oldModel];
 }
@@ -1200,7 +1200,7 @@
     NSString * positionY = [NSString stringWithFormat:@"%f",positionFloat];
     NSString * scale = [NSString stringWithFormat:@"%f", view.scaleOffset];
     
-    XoomlNoteModel * oldModel = [self.board getNoteModelFor:view.ID];
+    CollectionNoteAttribute * oldModel = [self.board getNoteModelFor:view.ID];
     oldModel.positionX = positionX;
     oldModel.positionY = positionY;
     oldModel.scaling = scale;
@@ -1210,7 +1210,7 @@
 {
     
     NSString * scale = [NSString stringWithFormat:@"%f", scaleOffset];
-    XoomlStackingModel * oldModel = [self.board getStackModelFor:stackID];
+    StackingModel * oldModel = [self.board getStackModelFor:stackID];
     oldModel.scale = scale;
     [self.board updateStacking:stackID withNewModel:oldModel];
 }

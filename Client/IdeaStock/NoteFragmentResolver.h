@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XoomlNoteModel.h"
+#import "CollectionNoteAttribute.h"
 #import "NoteProtocol.h"
 @interface NoteFragmentResolver : NSObject
 
@@ -16,7 +16,7 @@
 -(void) noteContentReceived: (id <NoteProtocol>) noteContent
                   forNoteId:(NSString *) noteId;
 
--(void) noteModelReceived:(XoomlNoteModel *) noteModel
+-(void) noteModelReceived:(CollectionNoteAttribute *) noteModel
                 forNoteId:(NSString *) noteId;
 
 -(void) noteImagePathReceived:(NSString *) imagePath

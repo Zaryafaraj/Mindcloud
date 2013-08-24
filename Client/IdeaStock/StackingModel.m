@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 University of Washington. All rights reserved.
 //
 
-#import "XoomlStackingModel.h"
+#import "StackingModel.h"
 
-@implementation XoomlStackingModel
+@implementation StackingModel
 
 -(id) initWithName:(NSString *)name andScale:(NSString *)scale andRefIds:(NSSet *)refIds
 {

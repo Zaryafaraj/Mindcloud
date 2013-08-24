@@ -1,6 +1,6 @@
 //
-//  XoomlBulletinBoard.m
-//  IdeaStock
+//  MindcloudCollection.m
+//  Mindcloud
 //
 //  Created by Ali Fathalian on 3/30/12.
 //  Copyright (c) 2012 University of Washington. All rights reserved.
@@ -23,38 +23,6 @@
 #import "cachedCollectionContainer.h"
 
 #pragma mark - Definitions
-#define POSITION_X @"positionX"
-#define POSITION_Y @"positionY"
-#define IS_VISIBLE @"isVisible"
-#define SCALE_VALUE @"scale"
-
-#define POSITION_TYPE @"position"
-#define SCALE_TYPE @"scale"
-#define VISIBILITY_TYPE @"visibility"
-#define LINKAGE_TYPE @"linkage"
-#define STACKING_TYPE @"stacking"
-#define GROUPING_TYPE @"grouping"
-#define NOTE_NAME_TYPE @"name"
-
-#define DEFAULT_X_POSITION @"0"
-#define DEFAULT_Y_POSITION @"0"
-#define DEFAULT_VISIBILITY  @"true"
-#define NOTE_NAME @"name"
-#define NOTE_ID @"ID"
-
-#define LINKAGE_NAME @"name"
-#define STACKING_NAME @"name"
-#define REF_IDS @"refIDs"
-
-#define ADD_BULLETIN_BOARD_ACTION @"addBulletinBoard"
-#define UPDATE_BULLETIN_BOARD_ACTION @"updateBulletinBoard"
-#define ADD_NOTE_ACTION @"addNote"
-
-#define UPDATE_NOTE_ACTION @"updateNote"
-#define ADD_IMAGE_NOTE_ACTION @"addImage"
-#define ACTION_TYPE_CREATE_FOLDER @"createFolder"
-#define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
-
 
 #define SHARED_SYNCH_PERIOD 1
 #define UNSHARED_SYNCH_PERIOD 30
@@ -65,22 +33,21 @@
  Holds the actual individual note contents. This dictonary is keyed on the noteID.
  The noteIDs in this dictionary determine whether a note belongs to this bulletin board or not.
  */
-@property (nonatomic,strong) NSMutableDictionary * noteContents;
+@property (nonatomic,strong) NSMutableDictionary * collectionNoteAttributes;
 
-@property (nonatomic, strong) NSMutableDictionary * collectionAttributes;
+@property (nonatomic, strong) NSMutableDictionary * stackings;
 /*
- keyed on noteId and valued on XoomlNoteModel
+ keyed on noteId and valued on XoomlcollectionNoteAttribute
  */
-@property (nonatomic,strong) NSMutableDictionary * noteAttributes;
+@property (nonatomic,strong) NSMutableDictionary * collectionAttributesForNotes;
 /*
  Keyed on noteID and values are image paths;
  */
-@property (nonatomic,strong) NSMutableDictionary * noteImages;
-
+@property (nonatomic,strong) NSMutableDictionary * imagePathsForNotes;
 /*
  For performance reason we hold this map between noteId and stackId ; if the note belongs to a stack id
  */
-@property (nonatomic, strong) NSMutableDictionary * noteStacking;
+@property (nonatomic, strong) NSMutableDictionary * noteToStackingMap;
 /*
  The datasource is connected to the mindcloud servers and can be viewed as the expensive
  permenant storage
@@ -91,7 +58,6 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
  The manifest of the loaded collection
  */
 @property (nonatomic,strong) id <CollectionManifestProtocol> manifest;
-
 /*
  The main interface to carry all the sharing specified actions; note that anything 
  sharing related will be done server side. This is for querying about sharing info and 
@@ -122,19 +88,12 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
  */
 @property NSString * originalThumbnail;
 @property (nonatomic, strong) NSMutableArray * thumbnailStack;
-
-/*
- determines the number of files that need to be downloaded during initialization
- probably I can make this a local var
- */
-@property int fileCounter;
 /*
  this indicates that we need to synchronize
  any action that changes the bulletinBoard data model calls
  this and then nothing else is needed
  */
 @property BOOL needSynchronization;
-
 /*
  Determined based on whether the collection is Shared or Not
  */
@@ -143,31 +102,20 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
  Synchronization Timer
  */
 @property NSTimer * timer;
-
 /*
  To record any possible conflicting items for synchronization
  */
 @property (strong, atomic) CollectionRecorder * recorder;
-
 /*
  For resolving different parts of a new note that arrive separately
  */
 @property (strong, atomic) NoteFragmentResolver * noteResolver;
-
 @property BOOL hasStartedListening;
 @property BOOL isInSynchWithServer;
-
-/*
- Related to listeners
- All the notes that the listener download but are waiting for the manifest
- */
 
 @end
 
 @implementation MindcloudCollection
-
-#pragma mark - synthesis
-@synthesize bulletinBoardName = _bulletinBoardName;
 
 #pragma mark - Initialization
 -(id) initCollection:(NSString *)collectionName
@@ -178,12 +126,12 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     self.recorder = [[CollectionRecorder alloc] init];
     self.thumbnailStack = [NSMutableArray array];
     self.downloadableImageNotes = [NSMutableSet set];
-    self.noteImages = [NSMutableDictionary dictionary];
-    self.noteContents = [NSMutableDictionary dictionary];
-    self.noteAttributes = [NSMutableDictionary dictionary];
-    self.collectionAttributes = [NSMutableDictionary dictionary];
+    self.imagePathsForNotes = [NSMutableDictionary dictionary];
+    self.collectionNoteAttributes = [NSMutableDictionary dictionary];
+    self.collectionAttributesForNotes = [NSMutableDictionary dictionary];
+    self.stackings = [NSMutableDictionary dictionary];
     self.waitingNoteImages = [NSMutableDictionary dictionary];
-    self.noteStacking = [NSMutableDictionary dictionary];
+    self.noteToStackingMap = [NSMutableDictionary dictionary];
     self.noteResolver = [[NoteFragmentResolver alloc] initWithCollectionName:collectionName];
     self.hasStartedListening = NO;
     self.isInSynchWithServer = NO;
@@ -287,8 +235,8 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
         
         //for each note create a note Object by reading its separate xooml files
         //from the data model
-        XoomlNoteModel * noteModel = noteInfo[noteID];
-        NSString * noteName = noteModel.noteName;
+        CollectionNoteAttribute * collectionNoteAttribute = noteInfo[noteID];
+        NSString * noteName = collectionNoteAttribute.noteName;
         NSData * noteData = [self.dataSource getNoteForTheCollection:self.bulletinBoardName
                                                             WithName:noteName];
         if (!noteData)
@@ -299,7 +247,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
         {
             [self initiateNoteContent:noteData
                             forNoteID:noteID
-                            withModel:noteModel];
+                            withModel:collectionNoteAttribute];
         }
         
     }
@@ -309,30 +257,30 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 
 -(void) initiateNoteContent: (NSData *) noteData
                   forNoteID: (NSString *) noteID
-                  withModel:(XoomlNoteModel *) noteModel
+                  withModel:(CollectionNoteAttribute *) collectionNoteAttribute
 {
     
     id <NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
     if (!noteObj) return ;
     
-    (self.noteContents)[noteID] = noteObj;
+    (self.collectionNoteAttributes)[noteID] = noteObj;
     //note could have an image or not. If it has an image we have to also add it to note images
     NSString * imgName = noteObj.image;
     if (imgName != nil)
     {
         [self.downloadableImageNotes addObject:noteID];
-        NSString * imagePath = [self.dataSource getImagePathForNote:noteModel.noteName
+        NSString * imagePath = [self.dataSource getImagePathForNote:collectionNoteAttribute.noteName
                                                       andCollection:self.bulletinBoardName];
         if (imagePath)
         {
-            self.noteImages[noteID] = imagePath;
+            self.imagePathsForNotes[noteID] = imagePath;
             [self.thumbnailStack addObject:noteID];
         }
-        [self.waitingNoteImages setObject:noteID forKey:noteModel.noteName];
+        [self.waitingNoteImages setObject:noteID forKey:collectionNoteAttribute.noteName];
     }
     
     
-    self.noteAttributes[noteID] = noteModel;
+    self.collectionAttributesForNotes[noteID] = collectionNoteAttribute;
 }
 
 -(void) initiateStacking{
@@ -340,11 +288,11 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     NSDictionary *stackingInfo = [self.manifest getAllStackingsInfo];
     for (NSString * stackingName in stackingInfo)
     {
-        XoomlStackingModel * stackModel = stackingInfo[stackingName];
-        self.collectionAttributes[stackingName] = stackModel;
+        StackingModel * stackModel = stackingInfo[stackingName];
+        self.stackings[stackingName] = stackModel;
         for (NSString * refId in stackModel.refIds)
         {
-            self.noteStacking[refId] = stackingName;
+            self.noteToStackingMap[refId] = stackingName;
         }
     }
 }
@@ -405,8 +353,8 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     NSDictionary * noteInfos = [manifest getAllNotesBasicInfo];
     for(NSString * noteId in noteInfos)
     {
-        XoomlNoteModel * noteModel = noteInfos[noteId];
-        NSString * noteName = noteModel.noteName;
+        CollectionNoteAttribute * collectionNoteAttribute = noteInfos[noteId];
+        NSString * noteName = collectionNoteAttribute.noteName;
         NSData * noteData = [self.dataSource getNoteForTheCollection:self.bulletinBoardName
                                                             WithName:noteName];
         
@@ -415,7 +363,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
         {
             [self initiateDownloadedNoteContent:noteData
                                       forNoteId:noteId
-                                   andNoteModel:noteModel];
+                                   andcollectionNoteAttribute:collectionNoteAttribute];
         }
     }
     
@@ -431,7 +379,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 
 -(void) initiateDownloadedNoteContent:(NSData *) noteData
                             forNoteId:(NSString *) noteID
-                         andNoteModel:(XoomlNoteModel *)noteModel
+                         andcollectionNoteAttribute:(CollectionNoteAttribute *)collectionNoteAttribute
 {
     
     id <NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
@@ -439,20 +387,20 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     
     [self.noteResolver noteContentReceived:noteObj forNoteId:noteID];
     //set the note content as soon as you receive it
-    self.noteContents[noteID] = noteObj;
+    self.collectionNoteAttributes[noteID] = noteObj;
     //note could have an image or not. If it has an image we have to also add it to note images
     NSString * imgName = noteObj.image;
     if (imgName != nil)
     {
         [self.downloadableImageNotes addObject:noteID];
-        NSString * imagePath = [self.dataSource getImagePathForNote:noteModel.noteName
+        NSString * imagePath = [self.dataSource getImagePathForNote:collectionNoteAttribute.noteName
                                                       andCollection:self.bulletinBoardName];
         if (imagePath)
         {
             [self.noteResolver noteImagePathReceived:imagePath forNoteId:noteID];
             [self.thumbnailStack addObject:noteID];
         }
-        [self.waitingNoteImages setObject:noteID forKey:noteModel.noteName];
+        [self.waitingNoteImages setObject:noteID forKey:collectionNoteAttribute.noteName];
     }
 }
 
@@ -506,12 +454,12 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     if ([self.bulletinBoardName isEqualToString:noteResolution.collectionName])
     {
         NSString * noteId = noteResolution.noteId;
-        self.noteContents[noteId] = noteResolution.noteContent;
-        self.noteAttributes[noteId] = noteResolution.noteModel;
+        self.collectionNoteAttributes[noteId] = noteResolution.noteContent;
+        self.collectionAttributesForNotes[noteId] = noteResolution.collectionNoteAttribute;
         NSDictionary * userInfo =  @{@"result" :  @[noteId]};
         if (noteResolution.hasImage)
         {
-            self.noteImages[noteId] = noteResolution.noteImagePath;
+            self.imagePathsForNotes[noteId] = noteResolution.noteImagePath;
             [self.thumbnailStack addObject:noteId];
             [[NSNotificationCenter defaultCenter] postNotificationName:IMAGE_NOTE_ADDED_EVENT
                                                                 object:self
@@ -543,7 +491,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
         NSString * noteID = self.waitingNoteImages[noteName];
         if (noteID)
         {
-            (self.noteImages)[noteID] = imgPath;
+            (self.imagePathsForNotes)[noteID] = imgPath;
             //if we are waiting for this let the resolver know
             if ([self.noteResolver hasNoteWaitingForResolution:noteID])
             {
@@ -579,10 +527,10 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
             
             
             //if its just an update , update it
-            if (self.noteContents[noteId])
+            if (self.collectionNoteAttributes[noteId])
             {
                 //just update the content
-                self.noteContents[noteId] = noteObj;
+                self.collectionNoteAttributes[noteId] = noteObj;
                 NSDictionary * userInfo =  @{@"result" :  @[noteId]};
                 [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_CONTENT_UPDATED_EVENT
                                                                     object:self
@@ -615,10 +563,10 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
         NSString * noteId = [noteObj noteTextID];
         
         //if this is only an update, update the image path and send the notification
-        if (self.noteImages[noteId] && self.noteContents[noteId])
+        if (self.imagePathsForNotes[noteId] && self.collectionNoteAttributes[noteId])
         {
-            self.noteImages[noteId] = imagePath;
-            self.noteContents[noteId] = noteObj;
+            self.imagePathsForNotes[noteId] = imagePath;
+            self.collectionNoteAttributes[noteId] = noteObj;
             
             //update thumbnail
             [self.thumbnailStack addObject:noteId];
@@ -673,18 +621,18 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 #pragma mark - Creation
 
 -(void) addNoteContent: (id <NoteProtocol>) note
-              andModel:(XoomlNoteModel *) noteModel
+              andModel:(CollectionNoteAttribute *) collectionNoteAttribute
          forNoteWithID:(NSString *) noteID
 {
-    NSString * noteName = noteModel.noteName;
+    NSString * noteName = collectionNoteAttribute.noteName;
     if (!noteID || !noteName) [NSException raise:NSInvalidArgumentException
                                           format:@"A Values is missing from the required properties dictionary"];
-    (self.noteContents)[noteID] = note;
+    (self.collectionNoteAttributes)[noteID] = note;
     
     
-    [self.manifest addNoteWithID:noteID andModel:noteModel];
+    [self.manifest addNoteWithID:noteID andModel:collectionNoteAttribute];
     
-    self.noteAttributes[noteID] = noteModel;
+    self.collectionAttributesForNotes[noteID] = collectionNoteAttribute;
     
     NSData * noteData = [XoomlCollectionParser convertNoteToXooml:note];
     [self.dataSource addNote:noteName
@@ -696,19 +644,19 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 }
 
 -(void) addImageNoteContent:(id <NoteProtocol> )noteItem
-                   andModel:(XoomlNoteModel *) noteModel
+                   andModel:(CollectionNoteAttribute *) collectionNoteAttribute
                    andImage: (NSData *) img
                     forNote:(NSString *) noteID
 {
-    NSString * noteName = noteModel.noteName;
+    NSString * noteName = collectionNoteAttribute.noteName;
     if (!noteID || !noteName) [NSException raise:NSInvalidArgumentException
                                           format:@"A Values is missing from the required properties dictionary"];
     
-    (self.noteContents)[noteID] = noteItem;
+    (self.collectionNoteAttributes)[noteID] = noteItem;
     
-    [self.manifest addNoteWithID:noteID andModel:noteModel];
+    [self.manifest addNoteWithID:noteID andModel:collectionNoteAttribute];
     
-    self.noteAttributes[noteID] = noteModel;
+    self.collectionAttributesForNotes[noteID] = collectionNoteAttribute;
     
     //just save the noteID that has images not the image itself. This is
     //for performance reasons, anytime that an image is needed we will load
@@ -717,7 +665,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     NSString * imgName = [XoomlCollectionParser getXoomlImageReference: noteItem];
     NSString * imgPath = [FileSystemHelper getPathForNoteImageforNoteName:noteName
                                                           inBulletinBoard:self.bulletinBoardName];
-    (self.noteImages)[noteID] = imgPath;
+    (self.imagePathsForNotes)[noteID] = imgPath;
     [self.thumbnailStack addObject:noteID];
     self.originalThumbnail = nil;
     [self.manifest updateThumbnailWithImageOfNote:noteID];
@@ -737,17 +685,17 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 {
     //validate that all the notes exist
     for (NSString * noteId in noteIDs){
-        if (!self.noteContents[noteId]) return;
+        if (!self.collectionNoteAttributes[noteId]) return;
     }
     
     NSSet * noteRefs = [NSSet setWithArray:noteIDs];
-    XoomlStackingModel * stackingModel = self.collectionAttributes[stackingName];
+    StackingModel * stackingModel = self.stackings[stackingName];
     if (!stackingModel)
     {
-        stackingModel = [[XoomlStackingModel alloc] initWithName:stackingName
+        stackingModel = [[StackingModel alloc] initWithName:stackingName
                                                         andScale:@"1.0"
                                                        andRefIds:noteRefs];
-        self.collectionAttributes[stackingName] = stackingModel;
+        self.stackings[stackingName] = stackingModel;
         [self.recorder recordUpdateStack:stackingName];
     }
     else
@@ -758,7 +706,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     
     for(NSString * noteId in noteIDs)
     {
-        self.noteStacking[noteId] = stackingName;
+        self.noteToStackingMap[noteId] = stackingName;
     }
     
     [self.manifest addStacking:stackingName withModel:stackingModel];
@@ -770,14 +718,14 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 
 -(void) removeNoteFromAllStackings:(NSString *) noteId
 {
-    for (NSString * stacking in self.collectionAttributes)
+    for (NSString * stacking in self.stackings)
     {
-        XoomlStackingModel * stackingModel = self.collectionAttributes[stacking];
+        StackingModel * stackingModel = self.stackings[stacking];
         if ([stackingModel.refIds containsObject:noteId])
         {
             [stackingModel deleteNotes:[NSSet setWithObject:noteId]];
             [self.recorder recordUpdateStack:stacking];
-            [self.noteStacking removeObjectForKey:noteId];
+            [self.noteToStackingMap removeObjectForKey:noteId];
         }
     }
 }
@@ -785,28 +733,28 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 -(void) removeNotesFromAllStackings:(NSSet *) noteIds
 {
     //could be more optmized using the noteStacking mapping instead of this iteration
-    for (NSString * stacking in self.collectionAttributes)
+    for (NSString * stacking in self.stackings)
     {
-        XoomlStackingModel * stackingModel = self.collectionAttributes[stacking];
+        StackingModel * stackingModel = self.stackings[stacking];
         [stackingModel deleteNotes:noteIds];
     }
     
     for(NSString * noteId in noteIds)
     {
-        [self.noteStacking removeObjectForKey:noteId];
+        [self.noteToStackingMap removeObjectForKey:noteId];
     }
 }
 
 -(void) removeNoteWithID:(NSString *)delNoteID{
     
-    id <NoteProtocol> note = (self.noteContents)[delNoteID];
+    id <NoteProtocol> note = (self.collectionNoteAttributes)[delNoteID];
     if (!note) return;
     
-    XoomlNoteModel * noteModel = self.noteAttributes[delNoteID];
-    NSString *noteName = noteModel.noteName;
-    [self.noteContents removeObjectForKey:delNoteID];
-    [self.noteAttributes removeObjectForKey:delNoteID];
-    if (self.noteImages[delNoteID])
+    CollectionNoteAttribute * collectionNoteAttribute = self.collectionAttributesForNotes[delNoteID];
+    NSString *noteName = collectionNoteAttribute.noteName;
+    [self.collectionNoteAttributes removeObjectForKey:delNoteID];
+    [self.collectionAttributesForNotes removeObjectForKey:delNoteID];
+    if (self.imagePathsForNotes[delNoteID])
     {
         [self removeNoteImage:delNoteID];
     }
@@ -824,7 +772,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 -(void) removeNoteImage:(NSString *) delNoteID
 {
     
-    [self.noteImages removeObjectForKey:delNoteID];
+    [self.imagePathsForNotes removeObjectForKey:delNoteID];
     if (delNoteID != nil && [self.originalThumbnail isEqualToString:delNoteID])
     {
         //its no longer the original thumbnail
@@ -845,11 +793,11 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
       fromStacking:(NSString *) stackingName
 {
     //if the noteId is not valid return
-    if (!(self.noteContents)[noteID]) return;
+    if (!(self.collectionNoteAttributes)[noteID]) return;
     
-    XoomlStackingModel * stacking = self.collectionAttributes[stackingName];
+    StackingModel * stacking = self.stackings[stackingName];
     [stacking deleteNotes:[NSSet setWithObject:noteID]];
-    [self.noteStacking removeObjectForKey:noteID];
+    [self.noteToStackingMap removeObjectForKey:noteID];
     
     //reflect the change in the xooml structure
     [self.manifest removeNotes:@[noteID] fromStacking:stackingName];
@@ -861,13 +809,13 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 -(void) removeStacking:(NSString *) stackingName
 {
     
-    XoomlStackingModel * stackingModel = self.collectionAttributes[stackingName];
+    StackingModel * stackingModel = self.stackings[stackingName];
     for(NSString * noteId in stackingModel.refIds)
     {
-        [self.noteStacking removeObjectForKey:noteId];
+        [self.noteToStackingMap removeObjectForKey:noteId];
     }
     
-    [self.collectionAttributes removeObjectForKey:stackingName];
+    [self.stackings removeObjectForKey:stackingName];
     
     [self.manifest deleteStacking:stackingName];
     [self.recorder recordDeleteStack:stackingName];
@@ -880,7 +828,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 - (void) updateNoteContentOf:(NSString *)noteID
               withContentsOf:(id<NoteProtocol>)newNote{
     
-    id <NoteProtocol> oldNote = self.noteContents[noteID];
+    id <NoteProtocol> oldNote = self.collectionNoteAttributes[noteID];
     if (!oldNote) return;
     
     //for attributes in newNote that a value is specified; update those
@@ -889,7 +837,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     if (newNote.noteTextID) oldNote.noteTextID = newNote.noteTextID;
     
     NSData * noteData = nil;
-    if (self.noteImages[noteID])
+    if (self.imagePathsForNotes[noteID])
     {
         noteData = [XoomlCollectionParser convertImageNoteToXooml:oldNote];
     }
@@ -898,8 +846,8 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
         noteData = [XoomlCollectionParser convertNoteToXooml:oldNote];
     }
     
-    XoomlNoteModel * noteModel = self.noteAttributes[noteID];
-    NSString * noteName = noteModel.noteName;
+    CollectionNoteAttribute * collectionNoteAttribute = self.collectionAttributesForNotes[noteID];
+    NSString * noteName = collectionNoteAttribute.noteName;
     
     [self.dataSource updateNote:noteName
                     withContent:noteData
@@ -908,15 +856,15 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 }
 
 -(void) updateNoteAttributes: (NSString *) noteID
-                   withModel: (XoomlNoteModel *) noteModel
+                   withModel: (CollectionNoteAttribute *) collectionNoteAttribute
 {
     
-    if (!(self.noteContents)[noteID]) return;
+    if (!(self.collectionNoteAttributes)[noteID]) return;
     
-    XoomlNoteModel * oldNoteModel = self.noteAttributes[noteID];
-    oldNoteModel.scaling = noteModel.scaling;
+    CollectionNoteAttribute * oldcollectionNoteAttribute = self.collectionAttributesForNotes[noteID];
+    oldcollectionNoteAttribute.scaling = collectionNoteAttribute.scaling;
     
-    [self.manifest updateNote:noteID withNewModel:noteModel];
+    [self.manifest updateNote:noteID withNewModel:collectionNoteAttribute];
     [self.recorder recordUpdateNote:noteID];
     self.needSynchronization = YES;
 }
@@ -924,9 +872,9 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 //this is ugly as it isn't consistent and doesn't update the notes in the stacking
 //its for performance reasons
 -(void) updateStacking:(NSString *) stackingName
-          withNewModel:(XoomlStackingModel *) stackingModel
+          withNewModel:(StackingModel *) stackingModel
 {
-    XoomlStackingModel * oldStackingModel =  self.collectionAttributes[stackingName];
+    StackingModel * oldStackingModel =  self.stackings[stackingName];
     if (stackingModel.scale)
     {
         oldStackingModel.scale = stackingModel.scale;
@@ -947,50 +895,50 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 
 - (NSDictionary *) getAllNotesContents{
     
-    return [self.noteContents copy];
+    return [self.collectionNoteAttributes copy];
 }
 
--(XoomlNoteModel *) getNoteModelFor: (NSString *) noteID
+-(CollectionNoteAttribute *) getcollectionNoteAttributeFor: (NSString *) noteID
 {
-    return self.noteAttributes[noteID] ;
+    return self.collectionAttributesForNotes[noteID] ;
 }
 
 -(NSArray *) getAllNoteNames
 {
     NSMutableArray * result = [NSMutableArray array];
-    for (NSString * noteId in self.noteAttributes)
+    for (NSString * noteId in self.collectionAttributesForNotes)
     {
-        XoomlNoteModel * noteModel = self.noteAttributes[noteId];
-        NSString * noteName = noteModel.noteName;
+        CollectionNoteAttribute * collectionNoteAttribute = self.collectionAttributesForNotes[noteId];
+        NSString * noteName = collectionNoteAttribute.noteName;
         [result addObject:noteName];
     }
     return [result copy];
 }
 
--(XoomlStackingModel *) getStackModelFor:(NSString *) stackID
+-(StackingModel *) getStackModelFor:(NSString *) stackID
 {
-    return self.collectionAttributes[stackID];
+    return self.stackings[stackID];
 }
 -(NSDictionary *) getAllStackings
 {
-    return [self.collectionAttributes copy];
+    return [self.stackings copy];
 }
 
 -(NSString *) stackingForNote:(NSString *)noteId
 {
-    NSString * stackId =  self.noteStacking[noteId];
+    NSString * stackId =  self.noteToStackingMap[noteId];
     return stackId;
 }
 
 - (id <NoteProtocol>) getNoteContent: (NSString *) noteID{
     
     //ToDo: maybe add a clone method to note to return a clone not the obj itself
-    return (self.noteContents)[noteID];
+    return (self.collectionNoteAttributes)[noteID];
 }
 
 -(NSData *) getImageForNote:(NSString *) noteID
 {
-    NSString * imgPath = self.noteImages[noteID];
+    NSString * imgPath = self.imagePathsForNotes[noteID];
     
     if (!imgPath) return nil;
     
@@ -1000,15 +948,15 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 
 -(BOOL) doesNoteHaveImage:(NSString *)noteId
 {
-    return [self.downloadableImageNotes containsObject:noteId] || self.noteImages[noteId];
+    return [self.downloadableImageNotes containsObject:noteId] || self.imagePathsForNotes[noteId];
 }
 
 -(NSDictionary *) getAllNoteImages{
     
     NSMutableDictionary * images = [[NSMutableDictionary alloc] init];
-    for (NSString * noteID in self.noteImages){
+    for (NSString * noteID in self.imagePathsForNotes){
         
-        NSString * imgPath = (self.noteImages)[noteID];
+        NSString * imgPath = (self.imagePathsForNotes)[noteID];
         NSData * imgData = [self getImageDataForPath:imgPath];
         if (imgData != nil){
             images[noteID] = imgData;
@@ -1024,13 +972,13 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     for(AddNoteNotification * notification in notifications)
     {
         NSString * noteId = notification.getNoteId;
-        XoomlNoteModel * noteModel = [[XoomlNoteModel alloc] initWithName:notification.getNoteName
+        CollectionNoteAttribute * collectionNoteAttribute = [[CollectionNoteAttribute alloc] initWithName:notification.getNoteName
                                                              andPositionX:notification.getPositionX
                                                              andPositionY:notification.getPositionY
                                                                andScaling:notification.getScale];
         
         //the note resolver takes care of updates when all the information is at hand
-        [self.noteResolver noteModelReceived:noteModel forNoteId:noteId];
+        [self.noteResolver collectionNoteAttributeReceived:collectionNoteAttribute forNoteId:noteId];
     }
 }
 
@@ -1039,7 +987,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     NSMutableArray * updatedNotes = [NSMutableArray array];
     for (UpdateNoteNotification * notification in notifications)
     {
-        XoomlNoteModel * note = self.noteAttributes[notification.getNoteId];
+        CollectionNoteAttribute * note = self.collectionAttributesForNotes[notification.getNoteId];
         note.positionX = notification.getNotePositionX;
         note.positionY = notification.getNotePositionY;
         note.scaling = notification.getNoteScale;
@@ -1061,13 +1009,13 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     NSMutableDictionary * deletedNotes = [NSMutableDictionary dictionary];
     for (DeleteNoteNotification * notification in notifications)
     {
-        [self.noteContents removeObjectForKey:notification.getNoteId];
-        [self.noteAttributes removeObjectForKey:notification.getNoteId];
-        if (self.noteImages[notification.getNoteId])
+        [self.collectionNoteAttributes removeObjectForKey:notification.getNoteId];
+        [self.collectionAttributesForNotes removeObjectForKey:notification.getNoteId];
+        if (self.imagePathsForNotes[notification.getNoteId])
         {
             [self removeNoteImage:notification.getNoteId];
         }
-        NSString * correspondingStacking = self.noteStacking[notification.getNoteId];
+        NSString * correspondingStacking = self.noteToStackingMap[notification.getNoteId];
         if (correspondingStacking)
         {
             deletedNotes[notification.getNoteId] = @{@"stacking":correspondingStacking};
@@ -1099,13 +1047,13 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     for (AddStackingNotification * notification in notifications)
     {
         NSSet * refIds = [NSSet setWithArray:notification.getNoteRefs];
-        XoomlStackingModel * stackingModel = [[XoomlStackingModel alloc] initWithName:notification.getStackId
+        StackingModel * stackingModel = [[StackingModel alloc] initWithName:notification.getStackId
                                                                              andScale:notification.getScale
                                                                             andRefIds:refIds];
-        self.collectionAttributes[notification.getStackId] = stackingModel;
+        self.stackings[notification.getStackId] = stackingModel;
         for (NSString * noteId in stackingModel.refIds)
         {
-            self.noteStacking[noteId] = stackingModel.name;
+            self.noteToStackingMap[noteId] = stackingModel.name;
         }
         [addedStackings addObject:notification.getStackId];
     }
@@ -1129,29 +1077,29 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     {
         
         NSSet * refIds = [NSSet setWithArray:notification.getNoteRefs];
-        XoomlStackingModel * stackingModel = [[XoomlStackingModel alloc] initWithName:notification.getStackId
+        StackingModel * stackingModel = [[StackingModel alloc] initWithName:notification.getStackId
                                                                              andScale:notification.getScale
                                                                             andRefIds:refIds];
         
         //get the old stacking and remove the deleted notes
-        XoomlStackingModel * oldStacking = self.collectionAttributes[notification.getStackId];
+        StackingModel * oldStacking = self.stackings[notification.getStackId];
         if (oldStacking)
         {
             NSMutableSet * deletedNotes = [oldStacking.refIds mutableCopy];
             [deletedNotes minusSet:stackingModel.refIds];
             for (NSString * deletedNote in deletedNotes)
             {
-                [self.noteStacking removeObjectForKey:deletedNote];
+                [self.noteToStackingMap removeObjectForKey:deletedNote];
                 
             }
         }
         
         for (NSString * noteId in stackingModel.refIds)
         {
-            self.noteStacking[noteId] = stackingModel.name;
+            self.noteToStackingMap[noteId] = stackingModel.name;
         }
         
-        self.collectionAttributes[notification.getStackId] = stackingModel;
+        self.stackings[notification.getStackId] = stackingModel;
         [updatedStackings addObject:notification.getStackId];
     }
     
@@ -1171,13 +1119,13 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     for (DeleteStackingNotification * notification in notifications)
     {
         NSString * stackingName = notification.getStackingId;
-        XoomlStackingModel * stackingModel = self.collectionAttributes[stackingName];
+        StackingModel * stackingModel = self.stackings[stackingName];
         for (NSString * noteId in stackingModel.refIds)
         {
-            [self.noteStacking removeObjectForKey:noteId];
+            [self.noteToStackingMap removeObjectForKey:noteId];
         }
         
-        [self.collectionAttributes removeObjectForKey:stackingName];
+        [self.stackings removeObjectForKey:stackingName];
         [deletedStackings addObject:stackingName];
     }
     
@@ -1298,7 +1246,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     if([self.thumbnailStack count] == 0) return nil;
     
     NSString * thumbnailNoteId = [self.thumbnailStack lastObject];
-    NSString * thumbnailPath = self.noteImages[thumbnailNoteId];
+    NSString * thumbnailPath = self.imagePathsForNotes[thumbnailNoteId];
     if (thumbnailPath == nil) return nil;
     NSData * thumbnailData = [ self getImageDataForPath:thumbnailPath];
     return thumbnailData;

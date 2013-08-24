@@ -6,8 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XoomlNoteModel.h"
-#import "XoomlStackingModel.h"
+#import "CollectionNoteAttribute.h"
+#import "StackingModel.h"
 #import "DDXMLDocument.h"
 
 /*
@@ -18,11 +18,11 @@
 @protocol CollectionManifestProtocol <NSObject>
 
 -(void) addNoteWithID: (NSString *) ID
-              andModel: (XoomlNoteModel *)properties;
+              andModel: (CollectionNoteAttribute *)properties;
 
 //doesn't update the notes
 -(void) addStacking:(NSString *) stackingName
-          withModel:(XoomlStackingModel *)model;
+          withModel:(StackingModel *)model;
 
 -(void) addNotes:(NSArray *) noteIds
       toStacking:(NSString *) stackingName;
@@ -36,10 +36,10 @@
 
 -(void) deleteThumbnailForNote:(NSString *) noteId;
 -(void) updateNote: (NSString *) noteID
-     withNewModel: (XoomlNoteModel *)  noteModel;
+     withNewModel: (CollectionNoteAttribute *)  noteModel;
 
 -(void) updateStacking:(NSString *) stackingName
-          withNewModel:(XoomlStackingModel *) stackingModel;
+          withNewModel:(StackingModel *) stackingModel;
 
 -(void) updateThumbnailWithImageOfNote:(NSString *) noteId;
 

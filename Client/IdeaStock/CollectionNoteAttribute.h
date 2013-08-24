@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface XoomlNoteModel : NSObject
+@interface CollectionNoteAttribute : NSObject
 @property (readonly, strong) NSString * noteName;
 @property (nonatomic, strong) NSString * positionX;
 @property (nonatomic, strong) NSString * positionY;

@@ -9,7 +9,7 @@
 #import "XoomlCollectionManifest.h"
 #import "DDXML.h"
 #import "XoomlCollectionParser.h"
-#import "XoomlStackingModel.h"
+#import "StackingModel.h"
 
 
 @interface XoomlCollectionManifest()
@@ -140,7 +140,7 @@
             NSString * refID = [[refIDElem attributeForName:REF_ID] stringValue];
             [refNotesArray addObject:refID];
         }
-        XoomlStackingModel * model = [[XoomlStackingModel alloc] initWithName:name
+        StackingModel * model = [[StackingModel alloc] initWithName:name
                                                            andScale:scaleString
                                                                     andRefIds:[NSSet setWithArray:refNotesArray]];
         result[name] =  model;
@@ -190,7 +190,7 @@
                 }
             }
         }
-        XoomlNoteModel * noteModel = [[XoomlNoteModel alloc] initWithName:noteName
+        CollectionNoteAttribute * noteModel = [[CollectionNoteAttribute alloc] initWithName:noteName
                                                              andPositionX: notePositionX
                                                              andPositionY: notePositionY
                                                                andScaling:noteScaling];
@@ -229,7 +229,7 @@
 }
 
 -(void) addStackingWithName: (NSString *) stackingName
-           andStackingModel:(XoomlStackingModel *) model
+           andStackingModel:(StackingModel *) model
 {
 
     DDXMLElement * stacking = [self getStackingElementForStackingWithName:stackingName];
@@ -270,7 +270,7 @@
 }
 
 - (void) addNoteWithID: (NSString *) noteId
-              andModel: (XoomlNoteModel *)model
+              andModel: (CollectionNoteAttribute *)model
 {
     
     //get the required attributes from the properties dictionary
@@ -304,7 +304,7 @@
 }
 
 -(void) addStacking:(NSString *) stackingName
-          withModel:(XoomlStackingModel *)model
+          withModel:(StackingModel *)model
 {
     [self addStackingWithName:stackingName andStackingModel:model];
 }
@@ -357,7 +357,7 @@
 #pragma mark - Update
 
 -(void) updateNote: (NSString *) noteID
-     withNewModel: (XoomlNoteModel *)  noteModel
+     withNewModel: (CollectionNoteAttribute *)  noteModel
 {
     //lookup the note if it doesnt exist return
     DDXMLElement * note = [self getNoteElementFor:noteID];
@@ -414,7 +414,7 @@
 
 
 -(void) updateStacking:(NSString *) stackingName
-               withNewModel:(XoomlStackingModel *) model
+               withNewModel:(StackingModel *) model
 {
     DDXMLElement * bulletinBoardAttribute = [self getStackingElementForStackingWithName:stackingName];
     if (bulletinBoardAttribute == nil) return;

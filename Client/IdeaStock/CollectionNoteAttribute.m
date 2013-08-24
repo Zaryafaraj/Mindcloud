@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 University of Washington. All rights reserved.
 //
 
-#import "XoomlNoteModel.h"
+#import "CollectionNoteAttribute.h"
 
-@implementation XoomlNoteModel
+@implementation CollectionNoteAttribute
 
 -(id) initWithName:(NSString *) noteName
       andPositionX:(NSString *) positionX

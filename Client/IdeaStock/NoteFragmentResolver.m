@@ -88,7 +88,7 @@
     }
 }
 
--(void) noteModelReceived:(XoomlNoteModel *)noteModel
+-(void) noteModelReceived:(CollectionNoteAttribute *)noteModel
                 forNoteId:(NSString *)noteId
 {
     

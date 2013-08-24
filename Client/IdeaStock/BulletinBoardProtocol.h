@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "NoteProtocol.h"
-#import "XoomlNoteModel.h"
-#import "XoomlStackingModel.h"
+#import "CollectionNoteAttribute.h"
+#import "StackingModel.h"
 
 @protocol BulletinBoardProtocol <NSObject>
 
@@ -17,10 +17,10 @@
 @property (nonatomic,strong) NSString * bulletinBoardName;
 
 -(void) addNoteContent: (id <NoteProtocol>) note
-              andModel: (XoomlNoteModel *) noteModel forNoteWithID:(NSString *) noteId;
+              andModel: (CollectionNoteAttribute *) noteModel forNoteWithID:(NSString *) noteId;
 
 -(void) addImageNoteContent:(id <NoteProtocol> )noteItem
-              andModel:(XoomlNoteModel *) noteModel
+              andModel:(CollectionNoteAttribute *) noteModel
                    andImage: (NSData *) img
                     forNote:(NSString *) noteId;
 
@@ -38,10 +38,10 @@
               withContentsOf: (id <NoteProtocol>) newNote;
 
 -(void) updateNoteAttributes: (NSString *) noteID
-                   withModel: (XoomlNoteModel *) noteModel;
+                   withModel: (CollectionNoteAttribute *) noteModel;
 
 -(void) updateStacking:(NSString *) stackingName
-          withNewModel:(XoomlStackingModel *) stackingModel;
+          withNewModel:(StackingModel *) stackingModel;
 
 
 -(NSDictionary *) getAllNotesContents;
@@ -52,11 +52,11 @@
 
 -(NSDictionary *) getAllNoteImages;
 
--(XoomlNoteModel *) getNoteModelFor: (NSString *) noteID;
+-(CollectionNoteAttribute *) getNoteModelFor: (NSString *) noteID;
 
 -(NSArray *) getAllNoteNames;
 
--(XoomlStackingModel *) getStackModelFor:(NSString *) stackID;
+-(StackingModel *) getStackModelFor:(NSString *) stackID;
 
 -(NSDictionary *) getAllStackings;
 

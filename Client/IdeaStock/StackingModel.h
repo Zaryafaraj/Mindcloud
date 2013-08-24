@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface XoomlStackingModel : NSObject
+@interface StackingModel : NSObject
 
 @property (readonly, strong, nonatomic) NSSet * refIds;
 @property NSString * scale;

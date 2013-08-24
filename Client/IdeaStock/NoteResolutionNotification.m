@@ -10,7 +10,7 @@
 
 @implementation NoteResolutionNotification
 
--(id) initWithNoteModel:(XoomlNoteModel *) noteModel
+-(id) initWithNoteModel:(CollectionNoteAttribute *) noteModel
          andNoteContent:(id<NoteProtocol>) noteContent
       forCollectionName:(NSString *) collectionName
               andNoteId:(NSString *) noteId
@@ -24,7 +24,7 @@
     return self;
 }
 
--(id) initWithNoteModel:(XoomlNoteModel *) noteModel
+-(id) initWithNoteModel:(CollectionNoteAttribute *) noteModel
          andNoteContent:(id<NoteProtocol>) noteContent
            andImagePath:(NSString *) imagePath
       forCollectionName:(NSString *) collectionName
