@@ -13,7 +13,7 @@
 @interface NoteResolutionNotification : NSObject
 
 @property (atomic, readonly) BOOL hasImage;
-@property (strong, atomic, readonly) CollectionNoteAttribute * noteModel;
+@property (strong, atomic, readonly) CollectionNoteAttribute * collectionNoteAttribute;
 @property (strong, atomic, readonly) id<NoteProtocol> noteContent;
 @property (strong, atomic, readonly) NSString * noteImagePath;
 @property (strong, atomic, readonly) NSString * collectionName;

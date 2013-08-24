@@ -36,7 +36,7 @@
 
 -(void) deleteNotes:(NSSet *) notes
 {
-    NSMutableArray * newRefs = [NSMutableSet set];
+    NSMutableSet * newRefs = [NSMutableSet set];
     for (NSString * note in _refIds)
     {
         if (![notes containsObject:note])

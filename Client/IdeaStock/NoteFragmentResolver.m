@@ -88,7 +88,7 @@
     }
 }
 
--(void) noteModelReceived:(CollectionNoteAttribute *)noteModel
+-(void) CollectionNoteAttributeReceived:(CollectionNoteAttribute *)noteModel
                 forNoteId:(NSString *)noteId
 {
     

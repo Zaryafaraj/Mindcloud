@@ -116,6 +116,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 @end
 
 @implementation MindcloudCollection
+@synthesize bulletinBoardName = _bulletinBoardName;
 
 #pragma mark - Initialization
 -(id) initCollection:(NSString *)collectionName
@@ -898,7 +899,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     return [self.collectionNoteAttributes copy];
 }
 
--(CollectionNoteAttribute *) getcollectionNoteAttributeFor: (NSString *) noteID
+-(CollectionNoteAttribute *) getNoteModelFor: (NSString *) noteID
 {
     return self.collectionAttributesForNotes[noteID] ;
 }
@@ -978,7 +979,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
                                                                andScaling:notification.getScale];
         
         //the note resolver takes care of updates when all the information is at hand
-        [self.noteResolver collectionNoteAttributeReceived:collectionNoteAttribute forNoteId:noteId];
+        [self.noteResolver CollectionNoteAttributeReceived:collectionNoteAttribute forNoteId:noteId];
     }
 }
 

@@ -16,7 +16,7 @@
 -(void) noteContentReceived: (id <NoteProtocol>) noteContent
                   forNoteId:(NSString *) noteId;
 
--(void) noteModelReceived:(CollectionNoteAttribute *) noteModel
+-(void) CollectionNoteAttributeReceived:(CollectionNoteAttribute *) noteModel
                 forNoteId:(NSString *) noteId;
 
 -(void) noteImagePathReceived:(NSString *) imagePath

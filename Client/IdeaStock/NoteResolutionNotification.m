@@ -19,7 +19,7 @@
     _noteId = noteId;
     _collectionName = collectionName;
     _noteContent = noteContent;
-    _noteModel = noteModel;
+    _collectionNoteAttribute = noteModel;
     _hasImage = NO;
     return self;
 }
