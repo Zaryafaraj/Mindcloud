@@ -668,8 +668,8 @@
     if (imgData)
     {
         
-        path = [FileSystemHelper getPathForNoteImageforNoteName:noteName
-                                                inBulletinBoard:collectionName];
+        path = [FileSystemHelper getPathForSubCollectionImageforSubCollectionName:noteName
+                                                inCollection:collectionName];
     }
     //images are always cached whether for shared or unshared collections
     if (!self.collectionImagesCache[collectionName][noteName])
@@ -820,7 +820,7 @@
              forCollection:(NSString *) collectionName
                    andNote: (NSString *)noteName
 {
-    NSString * path = [FileSystemHelper getPathForNoteWithName:noteName
+    NSString * path = [FileSystemHelper getPathForSubCollectionWithName:noteName
                                           inCollectionWithName:collectionName];
     [FileSystemHelper createMissingDirectoryForPath:path];
     NSError * err;
@@ -837,8 +837,8 @@
                   forCollection:(NSString *) collectionName
                         andNote:(NSString *) noteName
 {
-    NSString * path = [FileSystemHelper getPathForNoteImageforNoteName:noteName
-                                                       inBulletinBoard:collectionName];
+    NSString * path = [FileSystemHelper getPathForSubCollectionImageforSubCollectionName:noteName
+                                                       inCollection:collectionName];
     
     NSError * err;
     BOOL didWrite = [data writeToFile:path options:NSDataWritingAtomic error:&err];
@@ -852,7 +852,7 @@
 -(BOOL) removeFromDiskNote: (NSString *) noteName
             fromCollection: (NSString *) collectionName;
 {
-    BOOL result = [FileSystemHelper removeNote:noteName fromCollection:collectionName];
+    BOOL result = [FileSystemHelper removeSubCollection:noteName fromCollection:collectionName];
     return result;
 }
 
@@ -865,7 +865,7 @@
 -(NSData *) getFromDiskNote: (NSString *) noteName fromCollection:(NSString *) collectionName
 {
     
-    NSString * path = [FileSystemHelper getPathForNoteWithName:noteName inCollectionWithName:collectionName];
+    NSString * path = [FileSystemHelper getPathForSubCollectionWithName:noteName inCollectionWithName:collectionName];
     NSError * err;
     NSString *data = [NSString stringWithContentsOfFile:path  encoding:NSUTF8StringEncoding error:&err];
     if (!data){
@@ -881,8 +881,8 @@
                           andCollection: (NSString *) collectionName
 {
     
-    NSString * path = [FileSystemHelper getPathForNoteImageforNoteName:noteName
-                                                       inBulletinBoard:collectionName];
+    NSString * path = [FileSystemHelper getPathForSubCollectionImageforSubCollectionName:noteName
+                                                       inCollection:collectionName];
     
     NSData * data = [NSData dataWithContentsOfFile:path];
     if (!data){

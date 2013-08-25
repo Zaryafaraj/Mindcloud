@@ -189,8 +189,8 @@
     //it from the disk. The dictionary holds noteID and imageFile Path
     NSData * noteData = [XoomlCollectionParser convertImageNoteToXooml:noteItem];
     NSString * imgName = [XoomlCollectionParser getXoomlImageReference: noteItem];
-    NSString * imgPath = [FileSystemHelper getPathForNoteImageforNoteName:noteName
-                                                          inBulletinBoard:self.bulletinBoardName];
+    NSString * imgPath = [FileSystemHelper getPathForSubCollectionImageforSubCollectionName:noteName
+                                                          inCollection:self.bulletinBoardName];
     (self.imagePathsForNotes)[noteID] = imgPath;
     [self.thumbnailStack addObject:noteID];
     self.originalThumbnail = nil;

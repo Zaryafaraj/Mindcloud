@@ -477,8 +477,8 @@ CachedObject> dataSource;
     NSDictionary * dict = notification.userInfo[@"result"];
     NSString * collectionName = dict[@"collectionName"];
     NSString * noteName = dict[@"noteName"];
-    NSString * imgPath = [FileSystemHelper getPathForNoteImageforNoteName:noteName
-                                                          inBulletinBoard:self.collectionName];
+    NSString * imgPath = [FileSystemHelper getPathForSubCollectionImageforSubCollectionName:noteName
+                                                          inCollection:self.collectionName];
     if (imgPath != nil && ![imgPath isEqualToString:@""])
     {
         NSString * noteID = self.waitingNoteImages[noteName];

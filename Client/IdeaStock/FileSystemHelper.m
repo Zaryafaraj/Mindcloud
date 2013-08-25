@@ -11,11 +11,11 @@
 @implementation FileSystemHelper
 
 //files are saved in lowercase
-#define BULLETINBOARD_XOOML_FILE_NAME @"collection.xml"
-#define NOTE_XOOML_FILE_NAME @"note.xml"
-#define NOTE_IMG_FILE_NAME @"img.jpg"
-#define CATEGORIES_FILE_NAME @"categories.xml"
-#define THUMBNAIL_FILE_NAME @"thumbnail.jpg"
+#define COLLECTION_FILENAME @"collection.xml"
+#define SUB_COLLECTION_FILENAME @"note.xml"
+#define SUB_COLLECTION_IMG_FILENAME @"img.jpg"
+#define CATEGORIES_FILENAME @"categories.xml"
+#define THUMBNAIL_FILENAME @"thumbnail.jpg"
 
 +(NSString *) getPathForAllCollections
 {
@@ -27,14 +27,14 @@
 +(NSString *) getPathForCategories
 {
     NSString * path = [NSHomeDirectory() stringByAppendingString:@"/Documents/Cache/"];
-    path = [path stringByAppendingString:CATEGORIES_FILE_NAME];
+    path = [path stringByAppendingString:CATEGORIES_FILENAME];
     [self createMissingDirectoryForPath:path];
     return path;
 }
 + (NSString *) getPathForCollectionWithName:(NSString *) collectionName{
     
     NSString * pathExtension = [[collectionName stringByAppendingString:@"/"]
-                                stringByAppendingString:BULLETINBOARD_XOOML_FILE_NAME];
+                                stringByAppendingString:COLLECTION_FILENAME];
     
     NSString *path = [[NSHomeDirectory() stringByAppendingString:@"/Documents/Cache/"]
                       stringByAppendingString:pathExtension];
@@ -47,16 +47,16 @@
     NSString * pathExtension = [collectionName stringByAppendingString:@"/"];
     NSString * path = [[[NSHomeDirectory() stringByAppendingString:@"/Documents/Cache/"]
                        stringByAppendingString:pathExtension]
-                       stringByAppendingString:THUMBNAIL_FILE_NAME];
+                       stringByAppendingString:THUMBNAIL_FILENAME];
     return path;
 }
-+ (NSString *) getPathForNoteWithName: (NSString *) noteName
++ (NSString *) getPathForSubCollectionWithName: (NSString *) subCollectionName
                  inCollectionWithName: (NSString *) collectionName{
     
-    NSString * bulletinBoardPath = [collectionName stringByAppendingString:@"/"];
-    NSString * noteExtension = [[[bulletinBoardPath stringByAppendingString:noteName]
+    NSString * collectionPath = [collectionName stringByAppendingString:@"/"];
+    NSString * noteExtension = [[[collectionPath stringByAppendingString:subCollectionName]
                                  stringByAppendingString:@"/"]
-                                stringByAppendingString:NOTE_XOOML_FILE_NAME];
+                                stringByAppendingString:SUB_COLLECTION_FILENAME];
     
     NSString * path = [[NSHomeDirectory() stringByAppendingString: @"/Documents/Cache/"]
                        stringByAppendingString:noteExtension];
@@ -68,9 +68,9 @@
     
     NSString *lastComponent = [path lastPathComponent];
     BOOL isFile = NO;
-    if ([lastComponent isEqualToString:BULLETINBOARD_XOOML_FILE_NAME] ||
-        [lastComponent isEqualToString:NOTE_XOOML_FILE_NAME] ||
-        [lastComponent isEqualToString:CATEGORIES_FILE_NAME]){
+    if ([lastComponent isEqualToString:COLLECTION_FILENAME] ||
+        [lastComponent isEqualToString:SUB_COLLECTION_FILENAME] ||
+        [lastComponent isEqualToString:CATEGORIES_FILENAME]){
         isFile = true;;
     }
     
@@ -108,14 +108,14 @@
     }
 }
 
-+ (NSString *) getPathForNoteImageforNoteName: (NSString *) noteName
-                              inBulletinBoard: (NSString *) bulletinBoardName;
++ (NSString *) getPathForSubCollectionImageforSubCollectionName: (NSString *) subCollectionName
+                              inCollection: (NSString *) collectionName;
 {
-    NSString * imgPath = [FileSystemHelper getPathForNoteWithName:noteName
-                                             inCollectionWithName:bulletinBoardName];
+    NSString * imgPath = [FileSystemHelper getPathForSubCollectionWithName:subCollectionName
+                                             inCollectionWithName:collectionName];
     imgPath = [imgPath stringByDeletingLastPathComponent];
     [self createMissingDirectoryForPath:imgPath];
-    imgPath = [imgPath stringByAppendingFormat:@"/%@",NOTE_IMG_FILE_NAME];
+    imgPath = [imgPath stringByAppendingFormat:@"/%@",SUB_COLLECTION_IMG_FILENAME];
     
     return imgPath;
 }
@@ -134,16 +134,16 @@
     return result;
 }
 
-+ (BOOL) removeNote:(NSString *) noteName
++ (BOOL) removeSubCollection:(NSString *) subCollectionName
      fromCollection:(NSString *) collectionName
 {
-    NSString * notePath = [FileSystemHelper getPathForNoteWithName:noteName
+    NSString * notePath = [FileSystemHelper getPathForSubCollectionWithName:subCollectionName
                                               inCollectionWithName:collectionName];
     NSError * err;
     BOOL result = [[NSFileManager defaultManager] removeItemAtPath:notePath error:&err];
     if (!result)
     {
-        NSLog(@"Failed to remove note %@ from collection %@ from filesystem",noteName, collectionName);
+        NSLog(@"Failed to remove note %@ from collection %@ from filesystem",subCollectionName, collectionName);
     }
     return result;
     

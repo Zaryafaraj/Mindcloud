@@ -16,20 +16,20 @@
 
 + (NSString *) getPathForCollectionWithName:(NSString *) collectionName;
 
-+ (NSString *) getPathForNoteWithName: (NSString *) noteName inCollectionWithName: (NSString *) bulletinBoardName;
++ (NSString *) getPathForSubCollectionWithName: (NSString *) subCollectionName inCollectionWithName: (NSString *) collectionName;
 
 + (NSString *) getPathForThumbnailForCollectionWithName:(NSString *) collectionName;
 
 + (void) createMissingDirectoryForPath: (NSString *) path;
 
-+ (NSString *) getPathForNoteImageforNoteName: (NSString *) noteName
-                              inBulletinBoard: (NSString *) bulletinBoardName;
++ (NSString *) getPathForSubCollectionImageforSubCollectionName: (NSString *) subCollectionName
+                              inCollection: (NSString *) collectionName;
 
 + (BOOL) doesFileExist: (NSString *) path;
 
 + (BOOL) removeCollection:(NSString *) collectionName;
 
-+ (BOOL) removeNote:(NSString *) noteName
++ (BOOL) removeSubCollection:(NSString *) subCollectionName
      fromCollection:(NSString *) collectionName;
 
 @end
