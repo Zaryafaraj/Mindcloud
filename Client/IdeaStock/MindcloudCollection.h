@@ -8,23 +8,24 @@
 
 #import <Foundation/Foundation.h>
 #import "BulletinBoardProtocol.h"
-#import "CollectionDataSource.h"
-#import "CollectionManifestProtocol.h"
 #import "SynchronizedObject.h"
 #import "ThumbnailManagerProtocol.h"
+#import "MindcloudCollectionGordonDelegate.h"
 
 #define STACKING @"stacking"
 #define GROUPING @"grouping"
 #define LINKAGE @"linkage"
 #define POSITION @"position"
 
-@interface MindcloudCollection : NSObject <BulletinBoardProtocol,ThumbnailManagerProtocol, SynchronizedObject>
+@interface MindcloudCollection : NSObject <BulletinBoardProtocol,ThumbnailManagerProtocol, MindcloudCollectionGordonDelegate>
 
 /*
  Reads and fills up a bulletin board from the external structure of the datamodel
  */
-- (id) initCollection: (NSString *) collectionName
-       withDataSource: (id <MindcloudDataSource>) dataSource;
-
+- (id) initCollection: (NSString *) collectionName;
+- (void) refresh;
+- (void) save;
+//temporarily until we implement background synch
+- (void) pause;
 
 @end

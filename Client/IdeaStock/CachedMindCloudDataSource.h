@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CollectionDataSource.h"
+#import "MindcloudDataSource.h"
 #import "CachedObject.h"
 #import "CollectionContentNotificationHandler.h"
 #import "CollectionSharingAdapterDelegate.h"

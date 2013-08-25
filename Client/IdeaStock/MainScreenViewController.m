@@ -17,7 +17,7 @@
 #import "CachedMindCloudDataSource.h"
 #import "NetworkActivityHelper.h"
 #import "EventTypes.h"
-#import "CollectionDataSource.h"
+#import "MindcloudDataSource.h"
 #import "CachedMindCloudDataSource.h"
 #import "SharingViewController.h"
 #import "MindcloudSharingAdapter.h"
@@ -1006,7 +1006,7 @@
         collectionView.bulletinBoardName = name;
         collectionView.parent = self;
         MindcloudCollection * board =
-        [[MindcloudCollection alloc] initCollection:name withDataSource:[CachedMindCloudDataSource getInstance:name]];
+        [[MindcloudCollection alloc] initCollection:name];
         collectionView.board = board;
         
         collectionView.modalPresentationStyle = UIModalPresentationFullScreen;

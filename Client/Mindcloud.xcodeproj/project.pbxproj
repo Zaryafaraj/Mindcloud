@@ -124,6 +124,7 @@
 		DBDD1ABE15CF215A00F55223 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DBDD1ABD15CF215A00F55223 /* libxml2.dylib */; };
 		DBE13375163E13AE00EF0AF7 /* CollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE13374163E13AE00EF0AF7 /* CollectionCell.m */; };
 		DBEE54B61640F16300BD9F93 /* HTTPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEE54B51640F16300BD9F93 /* HTTPHelper.m */; };
+		DBF1CEDD17C94A9C000777F7 /* MindcloudCollectionGordon.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF1CEDC17C94A9C000777F7 /* MindcloudCollectionGordon.m */; };
 		DBFB7AE21644D5C2004049A9 /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFB7AE11644D5C2004049A9 /* CategoriesViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -155,7 +156,7 @@
 		D70947221523DC27008E4AD9 /* DDXMLPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLPrivate.h; sourceTree = "<group>"; };
 		D715B4B415707F63006975A6 /* noteselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noteselected.png; sourceTree = "<group>"; };
 		D715B4B615707F63006975A6 /* stackSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stackSelected.png; sourceTree = "<group>"; };
-		D71D934B152301F10043E573 /* CollectionDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionDataSource.h; sourceTree = "<group>"; };
+		D71D934B152301F10043E573 /* MindcloudDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudDataSource.h; sourceTree = "<group>"; };
 		D71D934F15230B3D0043E573 /* BulletinBoardProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletinBoardProtocol.h; sourceTree = "<group>"; };
 		D71D935015230B820043E573 /* NoteProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteProtocol.h; sourceTree = "<group>"; };
 		D71EA17D154BA19600496663 /* pile boardBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pile boardBig.png"; sourceTree = "<group>"; };
@@ -347,6 +348,9 @@
 		DBE13374163E13AE00EF0AF7 /* CollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionCell.m; path = ../CollectionCell.m; sourceTree = "<group>"; };
 		DBEE54B41640F16300BD9F93 /* HTTPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPHelper.h; sourceTree = "<group>"; };
 		DBEE54B51640F16300BD9F93 /* HTTPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPHelper.m; sourceTree = "<group>"; };
+		DBF1CEDB17C94A9C000777F7 /* MindcloudCollectionGordon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudCollectionGordon.h; sourceTree = "<group>"; };
+		DBF1CEDC17C94A9C000777F7 /* MindcloudCollectionGordon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudCollectionGordon.m; sourceTree = "<group>"; };
+		DBF1CEDE17C958E9000777F7 /* MindcloudCollectionGordonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudCollectionGordonDelegate.h; sourceTree = "<group>"; };
 		DBFB7AE01644D5C2004049A9 /* CategoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesViewController.h; sourceTree = "<group>"; };
 		DBFB7AE11644D5C2004049A9 /* CategoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -477,6 +481,7 @@
 		D7A53CF61522F39500183CB6 /* Mindcloud */ = {
 			isa = PBXGroup;
 			children = (
+				DBF1CEDA17C94A6A000777F7 /* Gordon */,
 				DB7AC5E51643AA32007756E6 /* ViewDeck */,
 				DB99FFBB160E66690042ED2A /* Helpers */,
 				DB99FFB1160E5C2D0042ED2A /* Services */,
@@ -651,7 +656,7 @@
 				D7F85EB21528D80300F16D25 /* XoomlCollectionManifest.h */,
 				D7F85EB31528D80300F16D25 /* XoomlCollectionManifest.m */,
 				D7F85EAE1528D29E00F16D25 /* CollectionManifestProtocol.h */,
-				D71D934B152301F10043E573 /* CollectionDataSource.h */,
+				D71D934B152301F10043E573 /* MindcloudDataSource.h */,
 				DB43382B169D2E09000353DA /* CachedMindCloudDataSource.h */,
 				DB43382C169D2E09000353DA /* CachedMindCloudDataSource.m */,
 				DB3FD52E16B77FA400024AC6 /* StackingModel.h */,
@@ -825,6 +830,16 @@
 			name = Sharing;
 			sourceTree = "<group>";
 		};
+		DBF1CEDA17C94A6A000777F7 /* Gordon */ = {
+			isa = PBXGroup;
+			children = (
+				DBF1CEDB17C94A9C000777F7 /* MindcloudCollectionGordon.h */,
+				DBF1CEDC17C94A9C000777F7 /* MindcloudCollectionGordon.m */,
+				DBF1CEDE17C958E9000777F7 /* MindcloudCollectionGordonDelegate.h */,
+			);
+			name = Gordon;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -871,7 +886,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = IdeaStock;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "University of Washington";
 				TargetAttributes = {
 					D7A53CEB1522F39500183CB6 = {
@@ -982,6 +997,7 @@
 				D7B1432D1526A50400DC7556 /* MindcloudCollection.m in Sources */,
 				D7F85EB41528D80300F16D25 /* XoomlCollectionManifest.m in Sources */,
 				D7DEF2C41530D37800D13CF4 /* FileSystemHelper.m in Sources */,
+				DBF1CEDD17C94A9C000777F7 /* MindcloudCollectionGordon.m in Sources */,
 				D7BF46661547303700F06412 /* MainScreenViewController.m in Sources */,
 				D71EA185154CD3FB00496663 /* CollectionViewController.m in Sources */,
 				D7F1FF2C154D1A3300D07B58 /* NoteView.m in Sources */,
@@ -1085,9 +1101,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1103,10 +1120,13 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "/usr/include/libxml2/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lxml2";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1117,9 +1137,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1128,7 +1149,9 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "/usr/include/libxml2/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;

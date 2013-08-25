@@ -12,6 +12,6 @@
 
 -(void) refreshCacheForKey:(NSString *)key;
 
--(BOOL) isKeyCached:(NSString *) key;
+-(BOOL) cacheHasBeenUpdatedLocalyForKey:(NSString *) key;
 
 @end

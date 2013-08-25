@@ -8,24 +8,12 @@
 
 #import "MindcloudCollection.h"
 #import "XoomlCollectionParser.h"
-#import "SharingAwareObject.h"
-#import "CachedObject.h"
-
-#import "XoomlCollectionManifest.h"
-#import "FileSystemHelper.h"
+#import "MindcloudCollectionGordon.h"
 #import "EventTypes.h"
 #import "CollectionRecorder.h"
-#import "MergerThread.h"
-#import "MergeResult.h"
 #import "NoteResolutionNotification.h"
 #import "NoteFragmentResolver.h"
-#import "CollectionSharingAdapter.h"
-#import "cachedCollectionContainer.h"
-
-#pragma mark - Definitions
-
-#define SHARED_SYNCH_PERIOD 1
-#define UNSHARED_SYNCH_PERIOD 30
+#import "FileSystemHelper.h"
 
 @interface MindcloudCollection()
 
@@ -48,27 +36,6 @@
  For performance reason we hold this map between noteId and stackId ; if the note belongs to a stack id
  */
 @property (nonatomic, strong) NSMutableDictionary * noteToStackingMap;
-/*
- The datasource is connected to the mindcloud servers and can be viewed as the expensive
- permenant storage
- */
-@property (nonatomic,strong) id<MindcloudDataSource,CollectionSharingAdapterDelegate,
-SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
-/*
- The manifest of the loaded collection
- */
-@property (nonatomic,strong) id <CollectionManifestProtocol> manifest;
-/*
- The main interface to carry all the sharing specified actions; note that anything 
- sharing related will be done server side. This is for querying about sharing info and 
- getting notified of the listeners
- */
-@property (nonatomic, strong) CollectionSharingAdapter * sharingAdapter;
-/*
- Keyed on noteName - valued on noteID. All the noteImages for which we have sent
- a request but we are waiting for response
- */
-@property (nonatomic, strong) NSMutableDictionary * waitingNoteImages;
 
 /*
  Most of the times that we start from empty cache we only know that certain notes have image but
@@ -87,31 +54,22 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
  and return it. If no new thing had happened we just return the stack
  */
 @property NSString * originalThumbnail;
+
 @property (nonatomic, strong) NSMutableArray * thumbnailStack;
-/*
- this indicates that we need to synchronize
- any action that changes the bulletinBoard data model calls
- this and then nothing else is needed
- */
-@property BOOL needSynchronization;
-/*
- Determined based on whether the collection is Shared or Not
- */
-@property long synchronizationPeriod;
-/*
- Synchronization Timer
- */
-@property NSTimer * timer;
+
 /*
  To record any possible conflicting items for synchronization
  */
 @property (strong, atomic) CollectionRecorder * recorder;
+
+@property (strong, atomic) MindcloudCollectionGordon * gordonDataSource;
+
 /*
- For resolving different parts of a new note that arrive separately
+ For resolving different parts of a new note that arrive separately. 
+ We register events when a part arrives and this class is smart enough to know whether everything is in place.
+ When a subcollection is completely in place. This object sends out a notification
  */
 @property (strong, atomic) NoteFragmentResolver * noteResolver;
-@property BOOL hasStartedListening;
-@property BOOL isInSynchWithServer;
 
 @end
 
@@ -120,7 +78,6 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 
 #pragma mark - Initialization
 -(id) initCollection:(NSString *)collectionName
-      withDataSource:(id<MindcloudDataSource, CollectionSharingAdapterDelegate, SharingAwareObject, cachedCollectionContainer, CachedObject>) dataSource
 {
     self = [super init];
     
@@ -131,56 +88,12 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     self.collectionNoteAttributes = [NSMutableDictionary dictionary];
     self.collectionAttributesForNotes = [NSMutableDictionary dictionary];
     self.stackings = [NSMutableDictionary dictionary];
-    self.waitingNoteImages = [NSMutableDictionary dictionary];
     self.noteToStackingMap = [NSMutableDictionary dictionary];
-    self.noteResolver = [[NoteFragmentResolver alloc] initWithCollectionName:collectionName];
-    self.hasStartedListening = NO;
-    self.isInSynchWithServer = NO;
     
-    self.dataSource = dataSource;
-    self.sharingAdapter = [[CollectionSharingAdapter alloc] initWithCollectionName:collectionName
-                                                                       andDelegate:dataSource];
     self.bulletinBoardName = collectionName;
-    //first thing to do is figure out if it is sharing or not. We will get
-    //notified of the results later
-    [self.sharingAdapter getSharingInfo];
-    //now ask to download and get the collection
     
-    //we should listen to this before we get the data
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(cacheIsSynched:)
-                                                 name:CACHE_IS_IN_SYNCH_WITH_SERVER
-                                               object:nil];
-    NSData * collectionData = [self.dataSource getCollection:collectionName];
-    self.synchronizationPeriod = UNSHARED_SYNCH_PERIOD;
-    
-    //If there is a partial collection on the disk from previous usage use that
-    //temporarily until its updated. Note that getCollection takes care of the
-    //update
-    if (collectionData == nil)
-    {
-        self.manifest = [[XoomlCollectionManifest alloc] initAsEmpty];
-    }
-    else
-    {
-        [self loadOfflineCollection:collectionData];
-    }
-    
-    //In any case listen for the download to get finished
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(collectionFilesDownloaded:)
-                                                 name:COLLECTION_DOWNLOADED_EVENT
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(mergeFinished:)
-                                                 name:MANIFEST_MERGE_FINISHED_EVENT
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(noteImageDownloaded:)
-                                                 name:IMAGE_DOWNLOADED_EVENT
-                                               object:nil];
+    self.gordonDataSource = [[MindcloudCollectionGordon alloc] initWithCollectionName:collectionName
+                                                                          andDelegate:self];
     
     
     //notifications for note resolver
@@ -189,260 +102,14 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
                                                  name:NOTE_RESOLVED_EVENT
                                                object:nil];
     
-    //notification for the nature of the sharing
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(collectionIsShared:)
-                                                 name:COLLECTION_IS_SHARED
-                                               object:nil];
-    //notifications for listener updates
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(listenerDownloadedNote:)
-                                                 name:LISTENER_DOWNLOADED_NOTE
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(listenerDownloadedNoteImage:)
-                                                 name:LISTENER_DOWNLOADED_IMAGE
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(listenerDeletedNote:)
-                                                 name:LISTENER_DELETED_NOTE
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(listenerDownloadedManifest:)
-                                                 name:LISTENER_DOWNLOADED_MANIFEST
-                                               object:nil];
     
     
-    //Start the synchronization timer
+    
+    
     return self;
 }
 
-
--(void) loadOfflineCollection:(NSData *) bulletinBoardData{
-    
-    if (!bulletinBoardData)
-    {
-        NSLog(@"Collection Files haven't been downloaded properly");
-        return;
-    }
-    self.manifest = [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
-    
-    self.originalThumbnail = [self.manifest getCollectionThumbnailNoteId];
-    //get notes from manifest and initalize those
-    NSDictionary * noteInfo = [self.manifest getAllNotesBasicInfo];
-    for(NSString * noteID in noteInfo){
-        
-        //for each note create a note Object by reading its separate xooml files
-        //from the data model
-        CollectionNoteAttribute * collectionNoteAttribute = noteInfo[noteID];
-        NSString * noteName = collectionNoteAttribute.noteName;
-        NSData * noteData = [self.dataSource getNoteForTheCollection:self.bulletinBoardName
-                                                            WithName:noteName];
-        if (!noteData)
-        {
-            NSLog(@"Could not retreive note data from dataSource");
-        }
-        else
-        {
-            [self initiateNoteContent:noteData
-                            forNoteID:noteID
-                            withModel:collectionNoteAttribute];
-        }
-        
-    }
-    
-    [self initiateStacking];
-}
-
--(void) initiateNoteContent: (NSData *) noteData
-                  forNoteID: (NSString *) noteID
-                  withModel:(CollectionNoteAttribute *) collectionNoteAttribute
-{
-    
-    id <NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
-    if (!noteObj) return ;
-    
-    (self.collectionNoteAttributes)[noteID] = noteObj;
-    //note could have an image or not. If it has an image we have to also add it to note images
-    NSString * imgName = noteObj.image;
-    if (imgName != nil)
-    {
-        [self.downloadableImageNotes addObject:noteID];
-        NSString * imagePath = [self.dataSource getImagePathForNote:collectionNoteAttribute.noteName
-                                                      andCollection:self.bulletinBoardName];
-        if (imagePath)
-        {
-            self.imagePathsForNotes[noteID] = imagePath;
-            [self.thumbnailStack addObject:noteID];
-        }
-        [self.waitingNoteImages setObject:noteID forKey:collectionNoteAttribute.noteName];
-    }
-    
-    
-    self.collectionAttributesForNotes[noteID] = collectionNoteAttribute;
-}
-
--(void) initiateStacking{
-    //get the stacking information and cache them
-    NSDictionary *stackingInfo = [self.manifest getAllStackingsInfo];
-    for (NSString * stackingName in stackingInfo)
-    {
-        StackingModel * stackModel = stackingInfo[stackingName];
-        self.stackings[stackingName] = stackModel;
-        for (NSString * refId in stackModel.refIds)
-        {
-            self.noteToStackingMap[refId] = stackingName;
-        }
-    }
-}
 #pragma mark - Notifications
--(void) cacheIsSynched:(NSNotification *) notification
-{
-    self.isInSynchWithServer = YES;
-}
-
--(void) collectionIsShared:(NSNotification *) notification
-{
-    NSDictionary * result = notification.userInfo[@"result"];
-    NSString * collectionName = result[@"collectionName"];
-    if (collectionName != nil &&
-        [collectionName isEqualToString:self.bulletinBoardName])
-    {
-        [self.dataSource collectionIsShared:collectionName];
-        if ([self.dataSource isKeyCached:self.bulletinBoardName])
-        {
-            [self.dataSource refreshCacheForKey:self.bulletinBoardName];
-        }
-        
-        //if we start listenenign or synching too fast before being in synch we will overwrite the server
-        //with stale data
-        if (!self.hasStartedListening && self.isInSynchWithServer)
-        {
-            self.synchronizationPeriod = SHARED_SYNCH_PERIOD;
-            [self.sharingAdapter startListening];
-            self.hasStartedListening = YES;
-            [self restartTimer];
-        }
-    }
-}
--(void) collectionFilesDownloaded: (NSNotification *) notification{
-    NSData * bulletinBoardData = [self.dataSource getCollectionFromCache:self.bulletinBoardName];
-    if (!bulletinBoardData)
-    {
-        NSLog(@"Collection Files haven't been downloaded properly");
-        return;
-    }
-    id<CollectionManifestProtocol> serverManifest = [[XoomlCollectionManifest alloc]  initWithData:bulletinBoardData];
-    id<CollectionManifestProtocol> clientManifest = [self.manifest copy];
-    MergerThread * mergerThread = [MergerThread getInstance];
-    [self initiateNotesFromDownloadedManifest:serverManifest];
-    //when the merge is finished we will be notified
-    [mergerThread submitClientManifest:clientManifest
-                     andServerManifest:serverManifest
-                     andActionRecorder:self.recorder
-                     ForCollectionName:self.bulletinBoardName];
-    
-    self.originalThumbnail = [serverManifest getCollectionThumbnailNoteId];
-}
-
-
--(void) initiateNotesFromDownloadedManifest:(id<CollectionManifestProtocol>) manifest
-{
-    //make sure to add the notes that are downloaded separately
-    NSDictionary * noteInfos = [manifest getAllNotesBasicInfo];
-    for(NSString * noteId in noteInfos)
-    {
-        CollectionNoteAttribute * collectionNoteAttribute = noteInfos[noteId];
-        NSString * noteName = collectionNoteAttribute.noteName;
-        NSData * noteData = [self.dataSource getNoteForTheCollection:self.bulletinBoardName
-                                                            WithName:noteName];
-        
-        if (!noteData) NSLog(@"Could not retreive note data from dataSource");
-        else
-        {
-            [self initiateDownloadedNoteContent:noteData
-                                      forNoteId:noteId
-                                   andcollectionNoteAttribute:collectionNoteAttribute];
-        }
-    }
-    
-    //send out a note content update
-    if (noteInfos != nil)
-    {
-        NSDictionary * userDict = @{@"result": noteInfos.allKeys};
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_CONTENT_UPDATED_EVENT
-                                                            object:self
-                                                          userInfo:userDict];
-    }
-}
-
--(void) initiateDownloadedNoteContent:(NSData *) noteData
-                            forNoteId:(NSString *) noteID
-                         andcollectionNoteAttribute:(CollectionNoteAttribute *)collectionNoteAttribute
-{
-    
-    id <NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
-    if (!noteObj) return ;
-    
-    [self.noteResolver noteContentReceived:noteObj forNoteId:noteID];
-    //set the note content as soon as you receive it
-    self.collectionNoteAttributes[noteID] = noteObj;
-    //note could have an image or not. If it has an image we have to also add it to note images
-    NSString * imgName = noteObj.image;
-    if (imgName != nil)
-    {
-        [self.downloadableImageNotes addObject:noteID];
-        NSString * imagePath = [self.dataSource getImagePathForNote:collectionNoteAttribute.noteName
-                                                      andCollection:self.bulletinBoardName];
-        if (imagePath)
-        {
-            [self.noteResolver noteImagePathReceived:imagePath forNoteId:noteID];
-            [self.thumbnailStack addObject:noteID];
-        }
-        [self.waitingNoteImages setObject:noteID forKey:collectionNoteAttribute.noteName];
-    }
-}
-
--(void) mergeFinished:(NSNotification *) notification
-{
-    NSLog(@"merge Finished");
-    MergeResult * mergeResult = notification.userInfo[@"result"];
-    
-    if (!mergeResult) return;
-    
-    if (![mergeResult.collectionName isEqualToString:self.bulletinBoardName]) return;
-    
-    NotificationContainer * notifications = mergeResult.notifications;
-    //The order of these updates are optimized
-    [self updateCollectionForDeleteStackingNotifications:notifications.getDeleteStackingNotifications];
-    [self updateCollectionForDeleteNoteNotifications: notifications.getDeleteNoteNotifications];
-    [self updateCollectionForAddNoteNotifications:notifications.getAddNoteNotifications];
-    [self updateCollectionForAddStackingNotifications:notifications.getAddStackingNotifications];
-    [self updateCollectionForUpdateStackingNotifications:notifications.getUpdateStackingNotifications];
-    [self updateCollectionForUpdateNoteNotifications:notifications.getUpdateNoteNotifications];
-    
-    self.manifest = mergeResult.finalManifest;
-    [self startTimer];
-    
-    if ([self.recorder hasAnythingBeenTouched])
-    {
-        //rest because we have updated ourselves
-        [self.recorder reset];
-        self.needSynchronization = YES;
-    }
-    
-    //if its the first time that we are synching a shared collection then start listening here
-    if (self.sharingAdapter.isShared && !self.isInSynchWithServer)
-    {
-        self.synchronizationPeriod = SHARED_SYNCH_PERIOD;
-        [self.sharingAdapter startListening];
-        self.hasStartedListening = YES;
-        [self restartTimer];
-    }
-    self.isInSynchWithServer = YES;
-}
 
 //for a new note to appear on the screen, different pieces of an update must arrive.
 //the note update in manifest, the note content in a separate xooml, and a note image
@@ -468,7 +135,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
             
             [self.thumbnailStack addObject:noteId];
             self.originalThumbnail = nil;
-            [self.manifest updateThumbnailWithImageOfNote:noteId];
+            [self.gordonDataSource updateCollectionThumbnailWithImageOfSubCollection:noteId];
         }
         else
         {
@@ -477,145 +144,6 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
                                                               userInfo:userInfo];
             
         }
-    }
-}
--(void) noteImageDownloaded:(NSNotification *) notification
-{
-    
-    NSDictionary * dict = notification.userInfo[@"result"];
-    NSString * collectionName = dict[@"collectionName"];
-    NSString * noteName = dict[@"noteName"];
-    NSString * imgPath = [FileSystemHelper getPathForNoteImageforNoteName:noteName
-                                                          inBulletinBoard:self.bulletinBoardName];
-    if (imgPath != nil && ![imgPath isEqualToString:@""])
-    {
-        NSString * noteID = self.waitingNoteImages[noteName];
-        if (noteID)
-        {
-            (self.imagePathsForNotes)[noteID] = imgPath;
-            //if we are waiting for this let the resolver know
-            if ([self.noteResolver hasNoteWaitingForResolution:noteID])
-            {
-                [self.noteResolver noteImagePathReceived:imgPath forNoteId:noteID];
-            }
-            [self.waitingNoteImages removeObjectForKey:noteName];
-            //send out a notification
-            NSDictionary * userInfo = @{@"result" :
-                                            @{@"collectionName":collectionName,
-                                              @"noteId":noteID}
-                                        };
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_IMAGE_READY_EVENT
-                                                                object:self
-                                                              userInfo:userInfo];
-        }
-    }
-}
-
-
--(void) listenerDownloadedNote:(NSNotification *) notification
-{
-    NSDictionary * result = notification.userInfo[@"result"];
-    NSString * collectionName = result[@"collectionName"];
-    NSArray * notes = result[@"notes"];
-    if ([collectionName isEqualToString:self.bulletinBoardName])
-    {
-        for (NSString * noteName in notes)
-        {
-            NSData * noteData = [self.dataSource getNoteForTheCollection:collectionName
-                                                                WithName:noteName];
-            id<NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
-            NSString * noteId = [noteObj noteTextID];
-            
-            
-            //if its just an update , update it
-            if (self.collectionNoteAttributes[noteId])
-            {
-                //just update the content
-                self.collectionNoteAttributes[noteId] = noteObj;
-                NSDictionary * userInfo =  @{@"result" :  @[noteId]};
-                [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_CONTENT_UPDATED_EVENT
-                                                                    object:self
-                                                                  userInfo:userInfo];
-            }
-            //if its a new note submit the piece of the note that was received to resolver
-            else
-            {
-                [self.noteResolver noteContentReceived:noteObj
-                                             forNoteId:noteId];
-            }
-            
-        }
-    }
-}
-
--(void) listenerDownloadedNoteImage:(NSNotification *) notification
-{
-    NSDictionary * result = notification.userInfo[@"result"];
-    NSString * collectionName = result[@"collectionName"];
-    NSString * noteName = result[@"noteName"];
-    if ([collectionName isEqualToString:self.bulletinBoardName])
-    {
-        NSString * imagePath = [self.dataSource getImagePathForNote:noteName
-                                                      andCollection:collectionName];
-        NSData * noteData = [self.dataSource getNoteForTheCollection:collectionName
-                                                            WithName:noteName];
-        
-        id<NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:noteData];
-        NSString * noteId = [noteObj noteTextID];
-        
-        //if this is only an update, update the image path and send the notification
-        if (self.imagePathsForNotes[noteId] && self.collectionNoteAttributes[noteId])
-        {
-            self.imagePathsForNotes[noteId] = imagePath;
-            self.collectionNoteAttributes[noteId] = noteObj;
-            
-            //update thumbnail
-            [self.thumbnailStack addObject:noteId];
-            self.originalThumbnail = nil;
-            [self.manifest updateThumbnailWithImageOfNote:noteId];
-            
-            NSDictionary * userInfo =  @{@"result" :  @[noteId]};
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_IMAGE_UPDATED_EVENT
-                                                                object:self
-                                                              userInfo:userInfo];
-            
-        }
-        else
-        {
-            [self.noteResolver noteImagePathReceived:imagePath forNoteId:noteId];
-        }
-    }
-}
-
--(void) listenerDeletedNote:(NSNotification *) notification
-{
-    //nothing to do here, since the manifest update will remove this note and update the UI
-//    NSLog(@"Note Deleted");
-}
-
--(void) listenerDownloadedManifest:(NSNotification *) notification
-{
-    NSDictionary * result = notification.userInfo[@"result"];
-    NSString * collectionName = result[@"collectionName"];
-    if ([collectionName isEqualToString:self.bulletinBoardName])
-    {
-        NSData * manifestData = [self.dataSource getCollectionFromCache:collectionName];
-        if (!manifestData)
-        {
-            NSLog(@"Collection File didn't download properly");
-            return;
-        }
-        id<CollectionManifestProtocol> serverManifest = [[XoomlCollectionManifest alloc]
-                                                         initWithData:manifestData];
-        
-        id<CollectionManifestProtocol> clientManifest = [self.manifest copy];
-        MergerThread * mergerThread = [MergerThread getInstance];
-        //when the merge is finished we will be notified
-        [mergerThread submitClientManifest:clientManifest
-                         andServerManifest:serverManifest
-                         andActionRecorder:self.recorder
-                         ForCollectionName:self.bulletinBoardName];
-            
     }
 }
 
@@ -631,17 +159,15 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     (self.collectionNoteAttributes)[noteID] = note;
     
     
-    [self.manifest addNoteWithID:noteID andModel:collectionNoteAttribute];
     
     self.collectionAttributesForNotes[noteID] = collectionNoteAttribute;
     
     NSData * noteData = [XoomlCollectionParser convertNoteToXooml:note];
-    [self.dataSource addNote:noteName
-                 withContent:noteData
-                ToCollection:self.bulletinBoardName];
+    [self.gordonDataSource  addSubCollectionContentWithId:noteID
+                                              withContent:noteData
+                                  andCollectionAttributes:collectionNoteAttribute];
     
     [self.recorder recordUpdateNote:noteID];
-    self.needSynchronization = YES;
 }
 
 -(void) addImageNoteContent:(id <NoteProtocol> )noteItem
@@ -655,7 +181,6 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     
     (self.collectionNoteAttributes)[noteID] = noteItem;
     
-    [self.manifest addNoteWithID:noteID andModel:collectionNoteAttribute];
     
     self.collectionAttributesForNotes[noteID] = collectionNoteAttribute;
     
@@ -669,16 +194,13 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     (self.imagePathsForNotes)[noteID] = imgPath;
     [self.thumbnailStack addObject:noteID];
     self.originalThumbnail = nil;
-    [self.manifest updateThumbnailWithImageOfNote:noteID];
     
-    [self.dataSource addImageNote: noteName
-                  withNoteContent: noteData
-                         andImage: img
-                withImageFileName: imgName
-                     toCollection:self.bulletinBoardName];
-    
+    [self.gordonDataSource addSubCollectionContentWithId:noteID
+                                             withContent:noteData
+                                                andImage:img
+                                            andImageName:imgName
+                                 andCollectionAttributes:collectionNoteAttribute];
     [self.recorder recordUpdateNote:noteID];
-    self.needSynchronization = YES;
 }
 
 -(void) addNotesWithIDs: (NSArray *) noteIDs
@@ -710,9 +232,8 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
         self.noteToStackingMap[noteId] = stackingName;
     }
     
-    [self.manifest addStacking:stackingName withModel:stackingModel];
-    
-    self.needSynchronization = YES;
+    [self.gordonDataSource addCollectionAttributeWithName:stackingName
+                                                withModel:stackingModel];
 }
 
 #pragma mark - Deletion
@@ -761,13 +282,9 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     }
     [self removeNoteFromAllStackings:delNoteID];
     
-    [self.manifest deleteNote:delNoteID];
-    
-    [self.dataSource removeNote:noteName
-                 FromCollection:self.bulletinBoardName];
+    [self.gordonDataSource removeSubCollectionWithId:delNoteID andName:noteName];
     
     [self.recorder recordDeleteNote:noteName];
-    self.needSynchronization = YES;
 }
 
 -(void) removeNoteImage:(NSString *) delNoteID
@@ -783,13 +300,14 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     if ([self.thumbnailStack count] > 0)
     {
         NSString * lastThumbnailNoteId = [self.thumbnailStack lastObject];
-        [self.manifest updateThumbnailWithImageOfNote:lastThumbnailNoteId];
+        [self.gordonDataSource updateCollectionThumbnailWithImageOfSubCollection:lastThumbnailNoteId];
     }
     else
     {
-        [self.manifest deleteThumbnailForNote:delNoteID];
+        [self.gordonDataSource removeSubCollectionThumbnailForSubCollection:delNoteID];
     }
 }
+
 -(void) removeNote:(NSString *) noteID
       fromStacking:(NSString *) stackingName
 {
@@ -800,11 +318,9 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     [stacking deleteNotes:[NSSet setWithObject:noteID]];
     [self.noteToStackingMap removeObjectForKey:noteID];
     
-    //reflect the change in the xooml structure
-    [self.manifest removeNotes:@[noteID] fromStacking:stackingName];
+    [self.gordonDataSource removeSubCollectionWithId:noteID forCollectionAttributeOfName:stackingName];
     [self.recorder recordUpdateStack:stackingName];
     
-    self.needSynchronization = YES;
 }
 
 -(void) removeStacking:(NSString *) stackingName
@@ -818,10 +334,8 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     
     [self.stackings removeObjectForKey:stackingName];
     
-    [self.manifest deleteStacking:stackingName];
+    [self.gordonDataSource removeCollectionAttributeOfName:stackingName];
     [self.recorder recordDeleteStack:stackingName];
-    
-    self.needSynchronization = YES;
 }
 
 #pragma mark - Update
@@ -850,9 +364,8 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     CollectionNoteAttribute * collectionNoteAttribute = self.collectionAttributesForNotes[noteID];
     NSString * noteName = collectionNoteAttribute.noteName;
     
-    [self.dataSource updateNote:noteName
-                    withContent:noteData
-                   inCollection:self.bulletinBoardName];
+    [self.gordonDataSource updateSubCollectionContentofSubCollectionWithName:noteName
+                                                                 withContent:noteData];
     [self.recorder recordUpdateNote:noteID];
 }
 
@@ -865,9 +378,8 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     CollectionNoteAttribute * oldcollectionNoteAttribute = self.collectionAttributesForNotes[noteID];
     oldcollectionNoteAttribute.scaling = collectionNoteAttribute.scaling;
     
-    [self.manifest updateNote:noteID withNewModel:collectionNoteAttribute];
+    [self.gordonDataSource updateCollectionAttributesForSubCollection:noteID withCollectionAttributes:collectionNoteAttribute];
     [self.recorder recordUpdateNote:noteID];
-    self.needSynchronization = YES;
 }
 
 //this is ugly as it isn't consistent and doesn't update the notes in the stacking
@@ -885,11 +397,9 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
         oldStackingModel.name = stackingModel.name;
     }
     
-    [self.manifest updateStacking:stackingName
-                     withNewModel:stackingModel];
+    [self.gordonDataSource updateCollectionAttributeWithName:stackingName withNewModel:stackingModel];
     
     [self.recorder recordUpdateStack:stackingName];
-    self.needSynchronization = YES;
 }
 
 #pragma mark - Query
@@ -1140,73 +650,6 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
                                                       userInfo:userInfo];
 }
 
-#pragma mark - Synchronization Helpers
-/*
- Every SYNCHRONIZATION_PERIOD seconds we try to synchrnoize.
- If the synchronize flag is set the bulletin board is updated from Xooml Data in manifest
- */
-+(void) saveBulletinBoard:(id) bulletinBoard{
-    
-    if ([bulletinBoard isKindOfClass:[MindcloudCollection class]]){
-        
-        MindcloudCollection * board = (MindcloudCollection *) bulletinBoard;
-        [board.dataSource updateCollectionWithName:board.bulletinBoardName
-                                        andContent:[board.manifest data]];
-        [board.recorder reset];
-    }
-}
-
--(void) startTimer{
-    
-    if (self.timer.isValid) return;
-    
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:self.synchronizationPeriod
-                                                  target:self
-                                                selector:@selector(synchronize:)
-                                                userInfo:nil
-                                                 repeats:YES];
-    NSLog(@"Timer started for %ld seconds", self.synchronizationPeriod);
-}
-
--(void) stopTimer{
-    [self.timer invalidate];
-}
-
--(void)restartTimer{
-    [self stopTimer];
-    [self startTimer];
-}
-
--(void)synchronize
-{
-    [self synchronize:self.timer];
-}
-
--(void) synchronize:(NSTimer *) timer{
-    
-    //only save the manifest file in case its in synch with the server
-    if (self.needSynchronization && self.isInSynchWithServer){
-        self.needSynchronization = NO;
-        [MindcloudCollection saveBulletinBoard: self];
-    }
-}
-
--(void) stopSynchronization
-{
-    if (self.sharingAdapter.isShared)
-    {
-        [self.sharingAdapter stopListening];
-    }
-}
-
--(void) refresh
-{
-    if (self.sharingAdapter.isShared)
-    {
-        [self.sharingAdapter adjustListeners];
-    }
-    [self.dataSource getCollection:self.bulletinBoardName];
-}
 
 #pragma mark - Helpers
 -(NSData *) getImageDataForPath: (NSString *) path{
@@ -1223,8 +666,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 #pragma mark - cleanup
 -(void) cleanUp{
     //check out of the notification center
-    [self.sharingAdapter stopListening];
-    [self stopTimer];
+    [self.gordonDataSource cleanup];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.recorder reset];
 }
@@ -1232,7 +674,7 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
 #pragma - thumbnail related actions
 -(void) saveThumbnail:(NSData *)thumbnailData
 {
-    [self.dataSource setThumbnail:thumbnailData forCollection:self.bulletinBoardName];
+    [self.gordonDataSource setCollectionThumbnailWithData:thumbnailData];
 }
 
 #pragma mark - thumbnail delegate
@@ -1252,4 +694,187 @@ SharingAwareObject, cachedCollectionContainer, CachedObject> dataSource;
     NSData * thumbnailData = [ self getImageDataForPath:thumbnailPath];
     return thumbnailData;
 }
+
+#pragma mark - Gordon delegate
+
+-(void) collectionHasThumbnailAtSubCollectionWithId:(NSString *)subCollectionId
+{
+    if (subCollectionId != nil)
+    {
+        self.originalThumbnail = subCollectionId;
+    }
+}
+
+-(void) collectionHasSubCollectionWithId:(NSString *)subCollectionId
+                                 andData:(NSData *) subCollectionData
+                           andAttributes:(CollectionNoteAttribute *)attribute
+{
+    
+    id <NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:subCollectionData];
+    if (!noteObj) return ;
+    
+    (self.collectionNoteAttributes)[subCollectionId] = noteObj;
+    //note could have an image or not. If it has an image we have to also add it to note images
+    NSString * imgName = noteObj.image;
+    if (imgName != nil)
+    {
+        [self.downloadableImageNotes addObject:subCollectionId];
+        NSString * imagePath = [self.gordonDataSource getImagePathForSubCollectionWithName:attribute.noteName];
+        if (imagePath)
+        {
+            self.imagePathsForNotes[subCollectionId] = imagePath;
+            [self.thumbnailStack addObject:subCollectionId];
+        }
+        
+        [self.gordonDataSource subCollectionisWaitingForImageWithSubCollectionId:subCollectionId andSubCollectionName:attribute.noteName];
+    }
+    
+    
+    self.collectionAttributesForNotes[subCollectionId] = attribute;
+}
+
+-(void) collectionHasCollectionAttributeOfType:(NSString *) subCollectionType
+                                       andName:(NSString *) attributeName
+                                       andData:(StackingModel *) stackingModel
+{
+    //Get STacking type and check against subCollectionType
+    self.stackings[attributeName] = stackingModel;
+    for (NSString * refId in stackingModel.refIds)
+    {
+        self.noteToStackingMap[refId] = attributeName;
+    }
+}
+
+
+-(void) subCollectionPartiallyDownloadedWithId:(NSString *) subCollectionId
+                                       andData:(NSData *) subCollectionData
+                    andSubCollectionAttributes:(CollectionNoteAttribute *) subCollectionAttribute
+{
+    
+    id <NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:subCollectionData];
+    if (!noteObj) return ;
+    
+    //register the
+    [self.noteResolver noteContentReceived:noteObj forNoteId:subCollectionId];
+    
+    
+    //set the note content as soon as you receive it
+    self.collectionNoteAttributes[subCollectionId] = noteObj;
+    //note could have an image or not. If it has an image we have to also add it to note images
+    NSString * imgName = noteObj.image;
+    if (imgName != nil)
+    {
+        [self.downloadableImageNotes addObject:subCollectionId];
+        NSString * imagePath = [self.gordonDataSource getImagePathForSubCollectionWithName:subCollectionAttribute.noteName];
+        
+        if (imagePath)
+        {
+            [self.noteResolver noteImagePathReceived:imagePath forNoteId:subCollectionId];
+            [self.thumbnailStack addObject:subCollectionId];
+        }
+        [self.gordonDataSource subCollectionisWaitingForImageWithSubCollectionId:subCollectionId andSubCollectionName:subCollectionAttribute.noteName];
+    }
+}
+
+
+//when anything happens to a collection you will get these info
+-(void) eventsOccurredWithNotifications: (NotificationContainer *) notifications
+{
+    //The order of these updates are optimized
+    [self updateCollectionForDeleteStackingNotifications:notifications.getDeleteStackingNotifications];
+    [self updateCollectionForDeleteNoteNotifications: notifications.getDeleteNoteNotifications];
+    [self updateCollectionForAddNoteNotifications:notifications.getAddNoteNotifications];
+    [self updateCollectionForAddStackingNotifications:notifications.getAddStackingNotifications];
+    [self updateCollectionForUpdateStackingNotifications:notifications.getUpdateStackingNotifications];
+    [self updateCollectionForUpdateNoteNotifications:notifications.getUpdateNoteNotifications];
+}
+
+-(void) subCollectionWithId:(NSString *) subCollectionId
+    downloadedImageWithPath:(NSString *) imagePath
+{
+    
+    (self.imagePathsForNotes)[subCollectionId] = imagePath;
+    //if we are waiting for this let the resolver know
+    if ([self.noteResolver hasNoteWaitingForResolution:subCollectionId])
+    {
+        [self.noteResolver noteImagePathReceived:imagePath forNoteId:subCollectionId];
+    }
+}
+
+-(void) eventOccuredWithDownloadingOfSubColection:(NSString *) subCollectionName
+                             andSubCollectionData:(NSData *) subCollectionData
+{
+    id<NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:subCollectionData];
+    NSString * noteId = [noteObj noteTextID];
+    
+    
+    //if its just an update , update it
+    if (self.collectionNoteAttributes[noteId])
+    {
+        //just update the content
+        self.collectionNoteAttributes[noteId] = noteObj;
+        NSDictionary * userInfo =  @{@"result" :  @[noteId]};
+        [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_CONTENT_UPDATED_EVENT
+                                                            object:self
+                                                          userInfo:userInfo];
+    }
+    //if its a new note submit the piece of the note that was received to resolver
+    else
+    {
+        [self.noteResolver noteContentReceived:noteObj
+                                     forNoteId:noteId];
+    }
+    
+}
+
+-(void) eventOccuredWithDownloadingOfSubCollectionImage:(NSString *) subCollectionId
+                                          withImagePath:(NSString *) imagePath
+                                   andSubCollectionData:(NSData *) subCollectionData
+{
+    id<NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:subCollectionData];
+    NSString * noteId = [noteObj noteTextID];
+    
+    //if this is only an update, update the image path and send the notification
+    if (self.imagePathsForNotes[noteId] && self.collectionNoteAttributes[noteId])
+    {
+        self.imagePathsForNotes[noteId] = imagePath;
+        self.collectionNoteAttributes[noteId] = noteObj;
+        
+        //update thumbnail
+        [self.thumbnailStack addObject:noteId];
+        self.originalThumbnail = nil;
+        [self.gordonDataSource updateCollectionThumbnailWithImageOfSubCollection:subCollectionId];
+        
+        NSDictionary * userInfo =  @{@"result" :  @[noteId]};
+        [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_IMAGE_UPDATED_EVENT
+                                                            object:self
+                                                          userInfo:userInfo];
+        
+    }
+    else
+    {
+        [self.noteResolver noteImagePathReceived:imagePath forNoteId:noteId];
+    }
+}
+
+-(CollectionRecorder *) getEventRecorder
+{
+    return self.recorder;
+}
+
+-(void) refresh
+{
+    [self.gordonDataSource refresh];
+}
+
+-(void) pause
+{
+    [self.gordonDataSource stopSynchronization];
+}
+
+-(void) save
+{
+    [self.gordonDataSource synchronize];
+}
+
 @end

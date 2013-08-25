@@ -66,8 +66,7 @@
 -(MindcloudCollection *) board{
     
     if (!_board){
-        _board = [[MindcloudCollection alloc] initCollection:self.bulletinBoardName
-                                              withDataSource:[CachedMindCloudDataSource getInstance:self.bulletinBoardName]];
+        _board = [[MindcloudCollection alloc] initCollection:self.bulletinBoardName];
     }
     return _board;
 }
@@ -100,7 +99,7 @@
 -(void) ApplicationHasGoneInBackground:(NSNotification *) notification
 {
     NSLog(@"Gone to BG");
-    [self.board stopSynchronization];
+    [self.board pause];
 //    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -1043,7 +1042,7 @@
     
     [self.lastPopOver dismissPopoverAnimated:YES];
     NSData * thumbnailData = [self saveCollectionThumbnail];
-    [self.board synchronize];
+    [self.board save];
     [self.board cleanUp];
     [self.parent finishedWorkingWithCollection:self.bulletinBoardName withThumbnailData:thumbnailData];
 }

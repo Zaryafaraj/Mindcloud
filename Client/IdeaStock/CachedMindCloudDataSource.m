@@ -911,7 +911,7 @@
     [self getCollectionFromServer:collectionName];
 }
 
--(BOOL) isKeyCached:(NSString *)collectionName
+-(BOOL) cacheHasBeenUpdatedLocalyForKey:(NSString *)collectionName
 {
     return self.collectionHasUpdatedCache[collectionName] ? YES: NO;
 }
