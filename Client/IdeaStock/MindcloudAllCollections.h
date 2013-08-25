@@ -10,12 +10,13 @@
 #import "CategoryModelProtocol.h"
 #import "MindcloudAllCollectionsDelegate.h"
 #import "SynchronizedObject.h"
+#import "MindcloudAllCollectionsGordonDelegate.h"
 
 #define SHARED_COLLECTIONS_KEY @"Shared"
 #define UNCATEGORIZED_KEY @"Uncategorized"
 #define ALL @"All Collections"
 
-@interface MindcloudAllCollections : NSObject <CategoryModelProtocol, SynchronizedObject>
+@interface MindcloudAllCollections : NSObject <CategoryModelProtocol, MindcloudAllCollectionsGordonDelegate>
 
 -(id) initWithDelegate:(id<MindcloudAllCollectionsDelegate>) delegate;
 
@@ -39,7 +40,7 @@
 
 -(NSArray *) getCollectionsForCategory: (NSString *) category;
 
--(void) saveAllCategories:(BOOL) stopSynchingAfter;
+-(void) cleanup;
 
 //promises to save the categories at one point not neccessarily now
 -(void) promiseSavingAllCategories;
@@ -90,5 +91,7 @@
 -(void) shareCollection:(NSString *) collectionName;
 
 -(void) unshareCollection:(NSString *) collectionName;
+
+-(void) refresh;
 
 @end

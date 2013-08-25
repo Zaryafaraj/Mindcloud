@@ -374,7 +374,6 @@
 - (IBAction)refreshPressed:(id)sender {
     
     [self dismissPopOver];
-    //wait for the notification  of the retrieval
     [self.model refresh];
 }
 
@@ -481,7 +480,6 @@
     //to synchronize the categories with reality
     [self configureCategoriesPanel];
     [self.collectionView reloadData];
-    [self.model startTimer];
 }
 
 -(void) configureCategoriesPanel
@@ -562,7 +560,7 @@
 -(void) viewDidUnload{
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.model saveAllCategories:YES];
+    [self.model cleanup];
     [super viewDidUnload];
 }
 
@@ -576,7 +574,7 @@
 -(void) ApplicationHasGoneInBackground:(NSNotification *) notification
 {
     //[[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.model saveAllCategories:YES];
+    [self.model cleanup];
 }
 
 -(void) applicationWillEnterForeground:(NSNotification *) notification

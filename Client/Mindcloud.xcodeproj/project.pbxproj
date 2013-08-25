@@ -89,6 +89,7 @@
 		DB7AC5E31643A9AF007756E6 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5E01643A9AE007756E6 /* IIViewDeckController.m */; };
 		DB7AC5E41643A9AF007756E6 /* WrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5E21643A9AF007756E6 /* WrapController.m */; };
 		DB8F48A117CAA57500DDDB2D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A53CFC1522F39500183CB6 /* main.m */; };
+		DB8F48A417CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8F48A317CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m */; };
 		DB99FFB5160E5C5D0042ED2A /* UserPropertiesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */; };
 		DB99FFBF160E66870042ED2A /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFBE160E66870042ED2A /* StringUtils.m */; };
 		DB99FFC3160E73230042ED2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC2160E73230042ED2A /* QuartzCore.framework */; };
@@ -278,6 +279,9 @@
 		DB7AC5E11643A9AE007756E6 /* WrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WrapController.h; path = ../WrapController.h; sourceTree = "<group>"; };
 		DB7AC5E21643A9AF007756E6 /* WrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WrapController.m; path = ../WrapController.m; sourceTree = "<group>"; };
 		DB8F489F17CA8D0000DDDB2D /* MindcloudAllCollectionsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAllCollectionsDelegate.h; sourceTree = "<group>"; };
+		DB8F48A217CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAllCollectionsGordon.h; sourceTree = "<group>"; };
+		DB8F48A317CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudAllCollectionsGordon.m; sourceTree = "<group>"; };
+		DB8F48A817CAC15D00DDDB2D /* MindcloudAllCollectionsGordonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAllCollectionsGordonDelegate.h; sourceTree = "<group>"; };
 		DB99FFB3160E5C5D0042ED2A /* UserPropertiesHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPropertiesHelper.h; sourceTree = "<group>"; };
 		DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPropertiesHelper.m; sourceTree = "<group>"; };
 		DB99FFBD160E66870042ED2A /* StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtils.h; sourceTree = "<group>"; };
@@ -837,6 +841,9 @@
 				DB99FFB1160E5C2D0042ED2A /* Services */,
 				DBF1CEDB17C94A9C000777F7 /* MindcloudCollectionGordon.h */,
 				DBF1CEDC17C94A9C000777F7 /* MindcloudCollectionGordon.m */,
+				DB8F48A217CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.h */,
+				DB8F48A317CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m */,
+				DB8F48A817CAC15D00DDDB2D /* MindcloudAllCollectionsGordonDelegate.h */,
 				DBF1CEDE17C958E9000777F7 /* MindcloudCollectionGordonDelegate.h */,
 			);
 			name = Gordon;
@@ -1044,6 +1051,7 @@
 				DBBA28BB16CCC5FD007C7B4A /* DeleteNoteNotification.m in Sources */,
 				DBBA28BE16CCC62F007C7B4A /* AddNoteNotification.m in Sources */,
 				DBBA28C116CCC6A8007C7B4A /* AddStackingNotification.m in Sources */,
+				DB8F48A417CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m in Sources */,
 				DBBA28C416CCC81D007C7B4A /* DeleteStackingNotification.m in Sources */,
 				DBBA28C716CCC84F007C7B4A /* UpdateNoteContentNotification.m in Sources */,
 				DBBA28CA16CCC8CC007C7B4A /* UpdateNoteImageNotification.m in Sources */,
