@@ -10,7 +10,7 @@
 #import "UserPropertiesHelper.h"
 #import "Mindcloud.h"
 #import "CollectionsViewController.h"
-#import "MainScreenViewController.h"
+#import "AllCollectionsViewController.h"
 
 @implementation IdeaStockAppDelegate
 

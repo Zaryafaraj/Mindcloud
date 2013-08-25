@@ -336,10 +336,10 @@
             </objects>
             <point key="canvasLocation" x="105" y="-2924"/>
         </scene>
-        <!--Main Screen View Controller-->
+        <!--All Collections View Controller-->
         <scene sceneID="cXb-B5-PaF">
             <objects>
-                <viewController restorationIdentifier="MainScreenViewController" storyboardIdentifier="MainScreenViewController" id="C4k-Gx-gPL" customClass="MainScreenViewController" sceneMemberID="viewController">
+                <viewController restorationIdentifier="MainScreenViewController" storyboardIdentifier="MainScreenViewController" id="C4k-Gx-gPL" customClass="AllCollectionsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="eaJ-JW-xx3"/>
                         <viewControllerLayoutGuide type="bottom" id="aHI-ji-Rbg"/>

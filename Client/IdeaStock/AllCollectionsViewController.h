@@ -10,8 +10,9 @@
 #import "CategoriesViewController.h"
 #import "UIEditableTableViewDelegate.h"
 #import "CategorizationViewDelegate.h"
+#import "MindcloudAllCollectionsDelegate.h"
 
-@interface MainScreenViewController : UIViewController
+@interface AllCollectionsViewController : UIViewController
 <UICollectionViewDataSource,
 UICollectionViewDelegateFlowLayout,
 UICollectionViewDelegate,
@@ -19,7 +20,8 @@ UIActionSheetDelegate,
 UITableViewDataSource,
 UIEditableTableViewDelegate,
 UIPopoverControllerDelegate,
-CategorizationViewDelegate>
+CategorizationViewDelegate,
+MindcloudAllCollectionsDelegate>
 
 @property (atomic) BOOL actionInProgress;
 @property (weak, nonatomic) CategoriesViewController * categoriesController;

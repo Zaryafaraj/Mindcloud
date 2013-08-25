@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>F13A27DC-95C9-4BDB-91A1-459D1B0416FD</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Mindcloud</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>E5B89BE1-CD76-47D2-889A-EA72C8AC4E37</key>
+		<string>https://github.com/Fathalian/Mindcloud.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Client/Mindcloud.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>E5B89BE1-CD76-47D2-889A-EA72C8AC4E37</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/Fathalian/Mindcloud.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>E5B89BE1-CD76-47D2-889A-EA72C8AC4E37</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>E5B89BE1-CD76-47D2-889A-EA72C8AC4E37</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Mindcloud</string>
+		</dict>
+	</array>
+</dict>
+</plist>

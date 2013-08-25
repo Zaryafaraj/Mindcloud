@@ -7,7 +7,7 @@
 //
 
 #import "CollectionsViewController.h"
-#import "MainScreenViewController.h"
+#import "AllCollectionsViewController.h"
 #import "CategoriesViewController.h"
 
 @interface CollectionsViewController ()
@@ -20,7 +20,7 @@
 {
     if (self) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryBoard" bundle:nil];
-        MainScreenViewController * mainScreen = [storyboard instantiateViewControllerWithIdentifier:@"MainScreenViewController"];
+        AllCollectionsViewController * mainScreen = [storyboard instantiateViewControllerWithIdentifier:@"MainScreenViewController"];
         CategoriesViewController * categoriesScreen = [storyboard instantiateViewControllerWithIdentifier:@"CategoriesViewController"];
         categoriesScreen.dataSource = mainScreen;
         categoriesScreen.delegate = mainScreen;

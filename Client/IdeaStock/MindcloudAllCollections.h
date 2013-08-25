@@ -8,34 +8,61 @@
 
 #import <Foundation/Foundation.h>
 #import "CategoryModelProtocol.h"
+#import "MindcloudAllCollectionsDelegate.h"
+#import "SynchronizedObject.h"
+
+#define SHARED_COLLECTIONS_KEY @"Shared"
 #define UNCATEGORIZED_KEY @"Uncategorized"
 #define ALL @"All Collections"
-#define SHARED_COLLECTIONS_KEY @"Shared"
 
-@interface CollectionsModel : NSObject <CategoryModelProtocol>
+@interface MindcloudAllCollections : NSObject <CategoryModelProtocol, SynchronizedObject>
 
--(id) init;
+-(id) initWithDelegate:(id<MindcloudAllCollectionsDelegate>) delegate;
+
 -(id) initWithCollections:(NSArray *) collections;
+
 -(id) initWithCollections:(NSArray *)collections andCategories: (NSDictionary *) categories;
 
 -(void) applyCategories:(NSDictionary *) categories;
 
+//async
+-(NSArray *) getAllCollections;
+
 -(NSArray *) getAllCategories;
+
+-(NSDictionary *) getAllCategoriesMappings;
+
 -(NSArray *) getEditableCategories;
+
 -(NSArray *) getCollectionsForCategory: (NSString *) category;
 
+-(void) saveAllCategories:(BOOL) stopSynchingAfter;
+
+//promises to save the categories at one point not neccessarily now
+-(void) promiseSavingAllCategories;
+
 -(void) addCollection: (NSString *) collection toCategory: (NSString *) category;
+
 -(void) addCategory: (NSString *) category;
+
 -(void) removeCollection:(NSString *) collection fromCategory: (NSString *) cateogry;
+
+-(void) batchRemoveCollections:(NSArray *) collections
+                  fromCategory:(NSString *) category;
+
 -(void) removeCategory: (NSString *) category;
+
 -(void) renameCategory: (NSString *) category
               toNewCategory: (NSString *) newCategory;
+
 -(void) renameCollection:(NSString *) collection
                    inCategory: (NSString *) category
               toNewCollection: (NSString *) newCollection;
+
 -(void) moveCollection: (NSString *) collectionName
           fromCategory: (NSString *) oldCategory
          toNewCategory: (NSString *) newCategory;
+
 
 -(BOOL) doesNameExist: (NSString *) name;
 
@@ -54,4 +81,11 @@
        forCollection: (NSString *) collectionName;
 
 -(NSData *) getImageDataForCollection: (NSString *) collectionName;
+
+-(void) subscribeToCollectionWithSecret:(NSString *) sharingSecret;
+
+-(void) shareCollection:(NSString *) collectionName;
+
+-(void) unshareCollection:(NSString *) collectionName;
+
 @end

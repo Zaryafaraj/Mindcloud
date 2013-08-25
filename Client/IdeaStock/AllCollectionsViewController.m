@@ -6,28 +6,22 @@
 //  Copyright (c) 2012 University of Washington. All rights reserved.
 //
 
-#import "MainScreenViewController.h"
+#import "AllCollectionsViewController.h"
 #import "CollectionViewController.h"
-#import "Mindcloud.h"
 #import "UserPropertiesHelper.h"
-#import "CollectionsModel.h"
+#import "MindcloudAllCollections.h"
 #import "CollectionCell.h"
 #import "IIViewDeckController.h"
 #import "XoomlCategoryParser.h"
-#import "CachedMindCloudDataSource.h"
 #import "NetworkActivityHelper.h"
 #import "EventTypes.h"
-#import "MindcloudDataSource.h"
-#import "CachedMindCloudDataSource.h"
 #import "SharingViewController.h"
-#import "MindcloudSharingAdapter.h"
-#import "SharingAwareObject.h"
 #import "CategorizationViewController.h"
 
 #define ACTION_TYPE_CREATE_FOLDER @"createFolder"
 #define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
 
-@interface MainScreenViewController()
+@interface AllCollectionsViewController()
 
 @property (weak, nonatomic) UIView * lastView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -43,16 +37,11 @@
 @property (weak, nonatomic) UIActionSheet * activeSheet;
 @property BOOL didCategoriesPresentAlertView;
 @property BOOL isInSharingMode;
-@property CollectionsModel * model;
+@property MindcloudAllCollections * model;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *categorizeButton;
 @property (strong, nonatomic) UIColor * lastCategorizeButtonColor;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
-@property BOOL shouldSaveCategories;
-@property (atomic,strong) NSTimer * timer;
-
-@property (strong, nonatomic) id<MindcloudDataSource, SharingAwareObject> dataSource;
-@property (strong, nonatomic) MindcloudSharingAdapter * sharingAdapter;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *SharingModeButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButton;
@@ -64,7 +53,7 @@
 
 @end
 
-@implementation MainScreenViewController
+@implementation AllCollectionsViewController
 
 @synthesize currentCategory = _currentCategory;
 
@@ -100,54 +89,11 @@
     self.pageTitle.text = _currentCategory;
 }
 
--(id<MindcloudDataSource, SharingAwareObject>) dataSource
-{
-    if (!_dataSource)
-    {
-        _dataSource = [[CachedMindCloudDataSource alloc] init];
-    }
-    return _dataSource;
-}
-
--(MindcloudSharingAdapter *) sharingAdapter
-{
-    if (!_sharingAdapter)
-    {
-        _sharingAdapter = [[MindcloudSharingAdapter alloc] init];
-    }
-    return _sharingAdapter;
-}
-
-#pragma mark - Timer
-#define SYNCHRONIZATION_PERIOD 10
--(void) startTimer{
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:SYNCHRONIZATION_PERIOD
-                                                  target:self
-                                                selector:@selector(saveCategories:)
-                                                userInfo:nil
-                                                 repeats:YES];
-}
-
--(void) stopTimer{
-    [self.timer invalidate];
-}
-
-#pragma mark - Initilizers
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
-    
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 #pragma mark - UI Events Helpers
 
 -(void) disableEditButtons
 {
-    
     for(UIBarButtonItem * button in self.editToolbar)
     {
         if ([button.title isEqual:DELETE_BUTTON] ||
@@ -164,10 +110,10 @@
     self.shareButton.enabled = NO;
     self.unshareButton.enabled = NO;
 }
+
 -(void) addCollection: (NSString *) name
 {
     name = [self validateName: name];
-    [self.dataSource addCollectionWithName:name];
     NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
     [self.model addCollection:name toCategory:self.currentCategory];
     [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
@@ -184,7 +130,6 @@
         if ([newName isEqualToString:currentName]) continue;
         
         NSString * actualNewName = [self validateName:newName];
-        [self.dataSource renameCollectionWithName:currentName to:newName];
         
         [self.model renameCollection:currentName
                           inCategory:self.currentCategory
@@ -227,25 +172,14 @@
 -(void) deleteCollection
 {
     NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
-    NSMutableArray * deletedCollections = [NSMutableArray array];
+    NSMutableArray * batchDeleteCollections = [NSMutableArray array];
     for (NSIndexPath * selectedItem in selectedItems)
     {
         NSString * collectionName = [self.model getCollectionAt:selectedItem.item forCategory:self.currentCategory];
-        if (collectionName)
-        {
-            
-            CachedMindCloudDataSource * collectionDataSource = [CachedMindCloudDataSource getInstance:collectionName];
-            [collectionDataSource deleteCollectionFor:collectionName];
-            [deletedCollections addObject:collectionName];
-            
-        }
+        [batchDeleteCollections addObject:collectionName];
     }
     
-    //we now delete the model so we don't mess it up when we are querying it for collectionNames
-    for(NSString * collectionName in deletedCollections)
-    {
-        [self.model removeCollection:collectionName fromCategory:self.currentCategory];
-    }
+    [self.model batchRemoveCollections:batchDeleteCollections fromCategory:self.currentCategory];
     
     [self.collectionView performBatchUpdates:^{
         [self.collectionView deleteItemsAtIndexPaths:selectedItems];
@@ -261,7 +195,6 @@
     int indexInt = [[self.model getAllCategories] indexOfObject:categoryName];
     NSIndexPath * index =  [NSIndexPath indexPathForItem:indexInt inSection:0];
     [self.categoriesController.table insertRowsAtIndexPaths:@[index] withRowAnimation: UITableViewRowAnimationAutomatic];
-    
 }
 
 -(void) updateCollectionView:(NSString *) categoryName
@@ -376,6 +309,7 @@
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alert show];
 }
+
 #define ADD_BUTTON_TITLE @"Add"
 -(IBAction) addPressed:(id)sender {
     
@@ -388,6 +322,7 @@
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alert show];
 }
+
 #define RENAME_BUTTON_TITLE @"Rename"
 #define CREATE_CATEGORY_BUTTON @"Create"
 
@@ -417,7 +352,6 @@
                 NSString * newCategoryName = [[alertView textFieldAtIndex:0] text];
                 [self.model renameCategory:categoryName toNewCategory:newCategoryName];
                 selectedCell.textLabel.text = newCategoryName;
-                self.shouldSaveCategories = YES;
             }
         }
         else
@@ -427,14 +361,12 @@
             {
                 NSString * name = [[alertView textFieldAtIndex:0] text];
                 [self addCollection:name];
-                self.shouldSaveCategories = YES;
             }
             else if ([[alertView buttonTitleAtIndex:buttonIndex]
                       isEqualToString:RENAME_BUTTON_TITLE])
             {
                 NSString * newName = [[alertView textFieldAtIndex:0] text];
                 [self renameCollection:newName];
-                self.shouldSaveCategories = YES;
                 [self disableEditButtons];
                 self.toolbar.items = self.navigateToolbar;
                 [self deselectAll];
@@ -446,14 +378,13 @@
             {
                 NSString * newName = [[alertView textFieldAtIndex:0] text];
                 [self addNewCategory:newName];
-                self.shouldSaveCategories = YES;
             }
             else if ([[alertView buttonTitleAtIndex:buttonIndex]
                       isEqualToString:SUBSCRIBE_BUTTON_TITLE])
             {
                 NSString * sharingSecret =[[alertView textFieldAtIndex:0] text];
                 sharingSecret = [sharingSecret uppercaseString];
-                [self.sharingAdapter subscriberToCollection:sharingSecret];
+                [self.model subscribeToCollectionWithSecret:sharingSecret];
             }
         }
     }
@@ -467,6 +398,7 @@
         [self.collectionView deselectItemAtIndexPath:index animated:YES];
     }
 }
+
 - (IBAction)deletePressed:(id)sender {
     [self dismissPopOver];
     UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil
@@ -490,7 +422,7 @@
     
     [self dismissPopOver];
     //wait for the notification  of the retrieval
-    [self.dataSource getAllCollections];
+    [self.model refresh];
 }
 
 - (IBAction)categorizedPressed:(id)sender {
@@ -543,7 +475,7 @@
                     permittedArrowDirections:UIPopoverArrowDirectionAny
                                     animated:YES];
     
-    [self.sharingAdapter shareCollection:collectionName];
+    [self.model shareCollection:collectionName];
 }
 
 - (IBAction)showCategoriesPressed:(id)sender {
@@ -551,10 +483,7 @@
     [self.viewDeckController toggleLeftViewAnimated:YES];
 }
 
--(void) viewWillAppear:(BOOL)animated{
-    
-    //[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-}
+
 
 -(void) addInitialListeners
 {
@@ -565,20 +494,7 @@
                                              selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(allCollectionsReceived:)
-                                                 name: ALL_COLLECTIONS_LIST_DOWNLOADED_EVENT
-                                               object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(categoriesReceived:)
-                                                 name: CATEGORIES_RECEIVED_EVENT
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(thumbnailReceived:)
-                                                 name: THUMBNAIL_RECEIVED_EVENT
-                                               object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(resizePopOver:)
@@ -590,16 +506,9 @@
                                                  name:SUBSCRIBED_TO_COLLECTION
                                                object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(collectionShared:)
-                                                 name:COLLECTION_SHARED
-                                               object:nil];
 }
+
 -(void) viewDidLoad{
-    //self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.png"]];
-//    self.toolbar.tintColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"Toolbar.png"]];
-    //self.toolbar.tintColor = self.view.backgroundColor;
-    //self.toolbar.backgroundColor = self.view.backgroundColor;
     [super viewDidLoad];
     [self.collectionView setAllowsMultipleSelection:NO];
     [self manageToolbars];
@@ -610,64 +519,20 @@
     
     [self addInitialListeners];
     //temproary use this tell you get further notification
-    NSArray * allCollections = [self.dataSource getAllCollections];
     
-    self.model = [[CollectionsModel alloc] initWithCollections:allCollections];
+    NSArray * allCollections = [self.model getAllCollections];
     
-    NSDictionary* dict = [self.dataSource getCategories];
+    self.model = [[MindcloudAllCollections alloc] initWithCollections:allCollections];
+    
+    NSDictionary* dict = [self.model getAllCategoriesMappings];
     [self.model applyCategories:dict];
     [self.categoriesController.table reloadData];
     //to synchronize the categories with reality
     [self configureCategoriesPanel];
     [self.collectionView reloadData];
-    [self startTimer];
+    [self.model startTimer];
 }
 
--(void) allCollectionsReceived:(NSNotification *) notification
-{
-    NSArray* allCollections = notification.userInfo[@"result"];
-    self.model = [[CollectionsModel alloc] initWithCollections:allCollections];
-    [self.collectionView reloadData];
-    [self.categoriesController.table reloadData];
-}
-
--(void) categoriesReceived:(NSNotification *) notification
-{
-    
-    NSDictionary * dict = notification.userInfo[@"result"];
-    [self.model applyCategories:dict];
-    [self.collectionView reloadData];
-    [self.categoriesController.table reloadData];
-    //to synchronize the categories with reality
-    self.shouldSaveCategories = YES;
-    [self saveCategories];
-    [self configureCategoriesPanel];
-}
-
--(void) thumbnailReceived:(NSNotification *) notification
-{
-    
-    NSDictionary * dict = notification.userInfo[@"result"];
-    NSString * collectionName = dict[@"collectionName"];
-    NSData * imgData = dict[@"data"];
-    //if there is no image on the server use our default image
-    if (!imgData)
-    {
-        UIImage * defaultImage = [UIImage imageNamed: @"felt-red-ipad-background.jpg"];
-        imgData = UIImageJPEGRepresentation(defaultImage, 1);
-    }
-    
-    [self.model setImageData:imgData forCollection:collectionName];
-    
-    NSIndexPath * updatedItem = [self getIndexPathForCollectionIfVisible:collectionName];
-    if (updatedItem)
-    {
-        //[self.collectionView reloadItemsAtIndexPaths:@[updatedItem]];
-        UICollectionViewCell * cell = [self.collectionView cellForItemAtIndexPath:updatedItem];
-        CollectionCell * actualCell = (CollectionCell *) cell;
-        actualCell.img =[UIImage imageWithData:imgData];
-    }
-}
 -(void) configureCategoriesPanel
 {
     //make sure that viewDecks ledges are correct
@@ -711,11 +576,6 @@
         self.categoriesController.table.frame = newFrame;
         
     }
-    
-//    if (self.viewDeckController.leftControllerIsOpen)
-//    {
-//        [self.viewDeckController openLeftView];
-//    }
     
 }
 -(void) manageToolbars
@@ -768,8 +628,7 @@
 -(void) viewDidUnload{
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self saveCategories];
-    [self stopTimer];
+    [self.model saveAllCategories:YES];
     [super viewDidUnload];
 }
 
@@ -787,8 +646,7 @@
 -(void) ApplicationHasGoneInBackground:(NSNotification *) notification
 {
     //[[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self saveCategories];
-    [self stopTimer];
+    [self.model saveAllCategories:YES];
 }
 
 -(void) applicationWillEnterForeground:(NSNotification *) notification
@@ -834,7 +692,6 @@
         {
             [self.model addCollection:collectionName toCategory:SHARED_COLLECTIONS_KEY];
             [self swithToCategory:SHARED_COLLECTIONS_KEY];
-            self.shouldSaveCategories = YES;
             self.isInSharingMode = NO;
             self.isEditing = NO;
             self.toolbar.items = self.navigateToolbar;
@@ -856,17 +713,6 @@
     }
 }
 
--(void) collectionShared:(NSNotification *) notification
-{
-    NSDictionary * result = notification.userInfo[@"result"];
-    NSString * collectionName = result[@"collectionName"];
-    if (collectionName)
-    {
-        [self.model moveCollection:collectionName fromCategory:self.currentCategory toNewCategory:SHARED_COLLECTIONS_KEY];
-        //        [self swithToCategory:SHARED_COLLECTIONS_KEY];
-        self.shouldSaveCategories = YES;
-    }
-}
 
 #pragma mark - Operation Helpers
 
@@ -950,24 +796,9 @@
         
         if (previewImageData == nil)
         {
-            //these are collection specific data sources
-            CachedMindCloudDataSource * dataSource = [CachedMindCloudDataSource getInstance:collectionName];
-            NSData * imgData = [dataSource getThumbnailForCollection:collectionName];
-            
-            if (imgData)
-            {
-                [self.model setImageData: imgData forCollection: collectionName];
-                if ([colCell.text isEqualToString:collectionName])
-                {
-                    colCell.img = [UIImage imageWithData:imgData];
-                }
-            }
-            else
-            {
-                colCell.img = [UIImage imageNamed:@"felt-red-ipad-background.jpg"];
-            }
+            colCell.img = [UIImage imageNamed:@"felt-red-ipad-background.jpg"];
         }
-        else
+        else if ([colCell.text isEqualToString:collectionName])
         {
             colCell.img = [UIImage imageWithData:previewImageData];
         }
@@ -1098,7 +929,6 @@
         alert.alertViewStyle = UIAlertViewStylePlainTextInput;
         [alert show];
     }
-    self.shouldSaveCategories = YES;
 }
 
 -(UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1134,7 +964,7 @@
     if ([actionName isEqualToString:DELETE_ACTION])
     {
         [self deleteCollection];
-        self.shouldSaveCategories = YES;
+        [self.model promiseSavingAllCategories];
         //make sure after deletion DELETE and RENAME buttons are disabled
         [self disableEditButtons];
         self.toolbar.items = self.navigateToolbar;
@@ -1146,9 +976,7 @@
         NSString * collectionName = [self getSelectedCollectionName];
         if (collectionName != nil)
         {
-            [self.sharingAdapter unshareCollection:collectionName];
-            [self.dataSource collectionIsNotShared:collectionName];
-            
+            [self.model unshareCollection:collectionName];
         }
         NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
         for (NSIndexPath * index in selectedItems)
@@ -1218,20 +1046,7 @@
     self.isInSharingMode = NO;
     
 }
--(void) saveCategories:(NSTimer *) timer
-{
-    [self saveCategories];
-}
 
--(void) saveCategories
-{
-    if (self.shouldSaveCategories)
-    {
-        NSData * categoriesData = [XoomlCategoryParser serializeToXooml:self.model];
-        [self.dataSource saveCategories:categoriesData];
-        self.shouldSaveCategories = NO;
-    }
-}
 
 #pragma mark - Categorization delegate
 
@@ -1267,8 +1082,40 @@
     {
         [self exitCategorizeMode];
     }
-    self.shouldSaveCategories = YES;
+    [self.model promiseSavingAllCategories];
     [self deselectAll];
     
+}
+
+#pragma mark - MindcloudAllCollectionsDelegate
+-(NSString *) activeCategory
+{
+    return self.currentCategory;
+}
+
+-(void) collectionsLoaded;
+{
+    [self.collectionView reloadData];
+    [self.categoriesController.table reloadData];
+}
+
+-(void) categoriesLoaded
+{
+    [self.collectionView reloadData];
+    [self.categoriesController.table reloadData];
+    [self configureCategoriesPanel];
+}
+
+-(void) thumbnailLoadedForCollection:(NSString *) collectionName
+                       withImageData:(NSData *) imgData
+{
+    NSIndexPath * updatedItem = [self getIndexPathForCollectionIfVisible:collectionName];
+    if (updatedItem)
+    {
+        //[self.collectionView reloadItemsAtIndexPaths:@[updatedItem]];
+        UICollectionViewCell * cell = [self.collectionView cellForItemAtIndexPath:updatedItem];
+        CollectionCell * actualCell = (CollectionCell *) cell;
+        actualCell.img =[UIImage imageWithData:imgData];
+    }
 }
 @end

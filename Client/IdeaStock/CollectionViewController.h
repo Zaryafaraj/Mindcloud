@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MainScreenViewController.h"
+#import "AllCollectionsViewController.h"
 #import "StackViewController.h"
 #import "NoteViewDelegate.h"
 #import "MindcloudCollection.h"
@@ -22,7 +22,7 @@
 
 @property (strong,nonatomic) NSString * bulletinBoardName;
 @property (strong, nonatomic) MindcloudCollection * board;
-@property (weak,nonatomic) MainScreenViewController * parent;
+@property (weak,nonatomic) AllCollectionsViewController * parent;
 
 //because modal view does'nt provide this notification 
 -(void) applicationWillEnterForeground:(NSNotification *) notification;

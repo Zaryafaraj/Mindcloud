@@ -6,51 +6,89 @@
 //  Copyright (c) 2012 University of Washington. All rights reserved.
 //
 
-#import "CollectionsModel.h"
+#import "MindcloudAllCollections.h"
+#import "MindcloudDataSource.h"
+#import "SharingAwareObject.h"
+#import "MindcloudSharingAdapter.h"
+#import "CachedMindCloudDataSource.h"
+#import "EventTypes.h"
+#import "XoomlCategoryParser.h"
 
-
-@interface CollectionsModel()
+#define SYNCHRONIZATION_PERIOD 10
+@interface MindcloudAllCollections()
 
 /*Dictionary of arrays keyed on the category name. Each array contains all the collections
  belonging to that category*/
 @property (nonatomic, strong) NSMutableDictionary * collections;
 @property (atomic, strong) NSMutableDictionary * collectionImages;
 
+@property (strong, nonatomic) id<MindcloudDataSource, SharingAwareObject> dataSource;
+@property (strong, nonatomic) MindcloudSharingAdapter * sharingAdapter;
+@property (weak, nonatomic) id<MindcloudAllCollectionsDelegate> delegate;
+@property (atomic,strong) NSTimer * timer;
+@property BOOL shouldSaveCategories;
 @end
 
-@implementation CollectionsModel
+@implementation MindcloudAllCollections
 
-
-@synthesize collectionImages = _collectionImages;
-
--(NSMutableDictionary *) collectionImages
-{
-    if (_collectionImages == nil)
-    {
-        _collectionImages = [NSMutableDictionary dictionary];
-    }
-    return _collectionImages;
-}
-
--(void) setCollectionImages:(NSMutableDictionary *)collectionImages
-{
-    self.collectionImages = collectionImages;
-}
-
--(id) init
+-(id) initWithDelegate:(id<MindcloudAllCollectionsDelegate>)delegate
 {
     self = [super init];
-    self.collections = [NSMutableDictionary dictionary];
+    if (self)
+    {
+        self.collections = [NSMutableDictionary dictionary];
+        self.collectionImages = [NSMutableDictionary dictionary];
+        self.dataSource = [[CachedMindCloudDataSource alloc] init];
+        self.sharingAdapter = [[MindcloudSharingAdapter alloc] init];
+        self.delegate = delegate;
+        
+        
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(collectionShared:)
+                                                 name:COLLECTION_SHARED
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(allCollectionsReceived:)
+                                                 name: ALL_COLLECTIONS_LIST_DOWNLOADED_EVENT
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(categoriesReceived:)
+                                                 name: CATEGORIES_RECEIVED_EVENT
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(thumbnailReceived:)
+                                                 name: THUMBNAIL_RECEIVED_EVENT
+                                               object:nil];
+    }
     return self;
+}
+
+-(id<MindcloudAllCollectionsDelegate>) delegate
+{
+    if (_delegate != nil)
+    {
+        id<MindcloudAllCollectionsDelegate> tempDel = _delegate;
+        return tempDel;
+    }
+    return nil;
 }
 
 -(id) initWithCollections:(NSArray *)collections
 {
     self = [self init];
+    [self reloadCollectionsWithNewCollections:collections];
+    return self;
+}
+
+-(void) reloadCollectionsWithNewCollections:(NSArray *) collections
+{
     self.collections[ALL] = [collections mutableCopy];
     self.collections[UNCATEGORIZED_KEY] = [collections mutableCopy];
     self.collections[SHARED_COLLECTIONS_KEY] = [NSMutableArray array];
-    return self;
+    
 }
 
 -(id) initWithCollections:(NSArray *)collections andCategories:(NSDictionary *)categories
@@ -63,10 +101,13 @@
 -(void) applyCategories:(NSDictionary *)categories
 {
     [self applyCategories:categories toCollections:self.collections[UNCATEGORIZED_KEY]];
+    self.shouldSaveCategories = YES;
 }
 
 -(void) addCollection: (NSString *) collection toCategory: (NSString *) category
 {
+    
+    [self.dataSource addCollectionWithName:collection];
     if (self.collections[category]) [self.collections[category] insertObject:collection atIndex:0];
     else self.collections[category] = [NSMutableArray arrayWithObject:collection];
     
@@ -86,6 +127,8 @@
             [self.collections[ALL] addObject:collection];
         }
     }
+    
+    self.shouldSaveCategories = YES;
 }
 
 -(void) addCategory: (NSString *) category
@@ -94,6 +137,27 @@
         ![category isEqualToString:UNCATEGORIZED_KEY] &&
         ![category isEqualToString:SHARED_COLLECTIONS_KEY]){
         self.collections[category] = [NSMutableArray array];
+    }
+    self.shouldSaveCategories = YES;
+}
+
+-(void) batchRemoveCollections:(NSArray *) collections fromCategory:(NSString *) category
+{
+    for(NSString * collectionName in collections)
+    {
+        if (collectionName)
+        {
+            
+            CachedMindCloudDataSource * collectionDataSource = [CachedMindCloudDataSource getInstance:collectionName];
+            [collectionDataSource deleteCollectionFor:collectionName];
+            
+        }
+    }
+    
+    //we now delete the model so we don't mess it up when we are querying it for collectionNames
+    for(NSString * collectionName in collections)
+    {
+        [self removeCollection:collectionName fromCategory:category];
     }
 }
 
@@ -150,6 +214,13 @@
     }
     
     [self.collections removeObjectForKey:category];
+    
+    self.shouldSaveCategories = YES;
+}
+
+-(NSArray *) getAllCollections
+{
+    return [self.dataSource getAllCollections];
 }
 
 -(NSArray *) getAllCategories
@@ -189,6 +260,25 @@
     return answer;
 }
 
+-(NSDictionary *) getAllCategoriesMappings
+{
+   return [self.dataSource getCategories];
+}
+
+-(void) saveAllCategories:(BOOL) stopSynchingAfter;
+{
+    [self saveCategories];
+    if(stopSynchingAfter)
+    {
+        [self stopTimer];
+    }
+    
+}
+
+-(void) promiseSavingAllCategories
+{
+    self.shouldSaveCategories = YES;
+}
 -(NSArray *) getEditableCategories
 {
     
@@ -248,12 +338,16 @@
         self.collections[newCategory] = [self.collections[category] mutableCopy];
         [self.collections removeObjectForKey:category];
     }
+    
+    self.shouldSaveCategories = YES;
 }
 
 -(void) renameCollection:(NSString *)collection
               inCategory:(NSString *)category
          toNewCollection:(NSString *)newCollection
 {
+    
+    [self.dataSource renameCollectionWithName:collection to:newCollection];
     if (self.collections[category])
     {
         [self.collections[category] addObject:newCollection];
@@ -285,6 +379,8 @@
             self.collectionImages[newCollection] = tempImgData;
         }
     }
+    
+    self.shouldSaveCategories = YES;
 }
 
 -(void) moveCollection:(NSString *)collectionName
@@ -416,7 +512,123 @@
 
 -(NSData *)getImageDataForCollection:(NSString *)collectionName
 {
-    return self.collectionImages[collectionName];
+    if(self.collectionImages[collectionName])
+    {
+        return self.collectionImages[collectionName];
+    }
+    else
+    {
+        //these are collection specific data sources
+        CachedMindCloudDataSource * dataSource = [CachedMindCloudDataSource getInstance:collectionName];
+        NSData * imgData = [dataSource getThumbnailForCollection:collectionName];
+        if(imgData != nil)
+        {
+            [self setImageData: imgData forCollection: collectionName];
+        }
+        return imgData;
+    }
+}
+
+-(void) subscribeToCollectionWithSecret:(NSString *) sharingSecret
+{
+    [self.sharingAdapter subscriberToCollection:sharingSecret];
+}
+
+-(void) shareCollection:(NSString *) collectionName
+{
+    [self.sharingAdapter shareCollection:collectionName];
+}
+
+
+-(void) unshareCollection:(NSString *) collectionName
+{
+    [self.sharingAdapter unshareCollection:collectionName];
+    [self.dataSource collectionIsNotShared:collectionName];
+}
+
+#pragma mark notification events
+
+-(void) collectionShared:(NSNotification *) notification
+{
+    NSDictionary * result = notification.userInfo[@"result"];
+    NSString * collectionName = result[@"collectionName"];
+    if (collectionName)
+    {
+        id<MindcloudAllCollectionsDelegate> tempDel = self.delegate;
+        if (tempDel)
+        {
+            [self moveCollection:collectionName fromCategory:[tempDel activeCategory]
+                   toNewCategory:SHARED_COLLECTIONS_KEY];
+        //        [self swithToCategory:SHARED_COLLECTIONS_KEY];
+            
+        }
+        self.shouldSaveCategories = YES;
+    }
+}
+
+
+-(void) allCollectionsReceived:(NSNotification *) notification
+{
+    NSArray* allCollections = notification.userInfo[@"result"];
+    [self reloadCollectionsWithNewCollections:allCollections];
+    id <MindcloudAllCollectionsDelegate> tempDel = self.delegate;
+    if (tempDel)
+    {
+        [tempDel collectionsLoaded];
+    }
+}
+
+-(void) categoriesReceived:(NSNotification *) notification
+{
+    
+    NSDictionary * dict = notification.userInfo[@"result"];
+    [self applyCategories:dict];
+    //to synchronize the categories with reality
+    [self saveCategories];
+    id <MindcloudAllCollectionsDelegate> tempDel = self.delegate;
+    if (tempDel)
+    {
+        [tempDel categoriesLoaded];
+    }
+}
+
+-(void) thumbnailReceived:(NSNotification *) notification
+{
+    
+    NSDictionary * dict = notification.userInfo[@"result"];
+    NSString * collectionName = dict[@"collectionName"];
+    NSData * imgData = dict[@"data"];
+    //if there is no image on the server use our default image
+    if (!imgData)
+    {
+        UIImage * defaultImage = [UIImage imageNamed: @"felt-red-ipad-background.jpg"];
+        imgData = UIImageJPEGRepresentation(defaultImage, 1);
+    }
+    
+    [self setImageData:imgData forCollection:collectionName];
+    
+    id <MindcloudAllCollectionsDelegate> tempDel = self.delegate;
+    if (tempDel)
+    {
+        [tempDel thumbnailLoadedForCollection:collectionName
+                                withImageData:imgData];
+    }
+}
+
+#pragma mark - synchronization
+-(void) saveCategories
+{
+    if (self.shouldSaveCategories)
+    {
+        NSData * categoriesData = [XoomlCategoryParser serializeToXooml:self];
+        [self.dataSource saveCategories:categoriesData];
+        self.shouldSaveCategories = NO;
+    }
+}
+
+-(void) saveCategories:(NSTimer *) timer
+{
+    [self saveCategories];
 }
 
 #pragma mark CategoryModelProtocol
@@ -438,5 +650,35 @@
     {
         return [self getCollectionsForCategory:category];
     }
+}
+
+#pragma mark - syncrhonized object
+-(void) refresh
+{
+    [self stopTimer];
+    [self getAllCollections];
+    [self startTimer];
+}
+
+-(void) synchronize
+{
+    [self saveCategories];
+}
+
+-(void) stopSynchronization
+{
+    [self stopTimer];
+}
+
+-(void) startTimer{
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:SYNCHRONIZATION_PERIOD
+                                                  target:self
+                                                selector:@selector(saveCategories:)
+                                                userInfo:nil
+                                                 repeats:YES];
+}
+
+-(void) stopTimer{
+    [self.timer invalidate];
 }
 @end

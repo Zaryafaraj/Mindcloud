@@ -23,7 +23,6 @@
 		D7A53CF31522F39500183CB6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53CF21522F39500183CB6 /* Foundation.framework */; };
 		D7A53CF51522F39500183CB6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53CF41522F39500183CB6 /* CoreGraphics.framework */; };
 		D7A53CFB1522F39500183CB6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D7A53CF91522F39500183CB6 /* InfoPlist.strings */; };
-		D7A53CFD1522F39500183CB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A53CFC1522F39500183CB6 /* main.m */; };
 		D7A53D011522F39500183CB6 /* IdeaStockAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A53D001522F39500183CB6 /* IdeaStockAppDelegate.m */; };
 		D7A53D0F1522F39500183CB6 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53D0E1522F39500183CB6 /* SenTestingKit.framework */; };
 		D7A53D101522F39500183CB6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53CF01522F39500183CB6 /* UIKit.framework */; };
@@ -33,7 +32,7 @@
 		D7AB7DEE152FB52C00FC6BC0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53D271522F4E100183CB6 /* Security.framework */; };
 		D7B1432D1526A50400DC7556 /* MindcloudCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B1432C1526A50400DC7556 /* MindcloudCollection.m */; };
 		D7BF465D154728DD00F06412 /* MainStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7BF465C154728DD00F06412 /* MainStoryBoard.storyboard */; };
-		D7BF46661547303700F06412 /* MainScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BF46651547303700F06412 /* MainScreenViewController.m */; };
+		D7BF46661547303700F06412 /* AllCollectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BF46651547303700F06412 /* AllCollectionsViewController.m */; };
 		D7D86C741570A95400FE2E21 /* note.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D86C731570A95400FE2E21 /* note.png */; };
 		D7D86C761570AE7100FE2E21 /* stack0.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D86C751570AE7100FE2E21 /* stack0.png */; };
 		D7D86C821570C20E00FE2E21 /* mainnote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D86C811570C20E00FE2E21 /* mainnote.png */; };
@@ -72,7 +71,7 @@
 		DB4338A0169D4B14000353DA /* XoomlCollectionParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DB43389F169D4B14000353DA /* XoomlCollectionParser.m */; };
 		DB4338A8169E8AAF000353DA /* CollectionAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4338A7169E8AAF000353DA /* CollectionAction.m */; };
 		DB4D940D16E337DB007FE65A /* TempImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4D940C16E337DB007FE65A /* TempImageAction.m */; };
-		DB4E0AC9163DCD3D00AB82E6 /* CollectionsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4E0AC8163DCD3D00AB82E6 /* CollectionsModel.m */; };
+		DB4E0AC9163DCD3D00AB82E6 /* MindcloudAllCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4E0AC8163DCD3D00AB82E6 /* MindcloudAllCollections.m */; };
 		DB4FF4CE16ACA8DB00DC6DAA /* MultimediaHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4FF4CD16ACA8DB00DC6DAA /* MultimediaHelper.m */; };
 		DB54E2771645122F008A5BBB /* ButtonMenu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB54E2761645122F008A5BBB /* ButtonMenu@2x.png */; };
 		DB601A3916E2C2380007A636 /* ListenerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB601A3816E2C2380007A636 /* ListenerAction.m */; };
@@ -89,6 +88,7 @@
 		DB7AC5DA1643A52A007756E6 /* CollectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5D91643A52A007756E6 /* CollectionsViewController.m */; };
 		DB7AC5E31643A9AF007756E6 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5E01643A9AE007756E6 /* IIViewDeckController.m */; };
 		DB7AC5E41643A9AF007756E6 /* WrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5E21643A9AF007756E6 /* WrapController.m */; };
+		DB8F48A117CAA57500DDDB2D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A53CFC1522F39500183CB6 /* main.m */; };
 		DB99FFB5160E5C5D0042ED2A /* UserPropertiesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */; };
 		DB99FFBF160E66870042ED2A /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFBE160E66870042ED2A /* StringUtils.m */; };
 		DB99FFC3160E73230042ED2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC2160E73230042ED2A /* QuartzCore.framework */; };
@@ -183,8 +183,8 @@
 		D7B1432B1526A50400DC7556 /* MindcloudCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudCollection.h; sourceTree = "<group>"; };
 		D7B1432C1526A50400DC7556 /* MindcloudCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudCollection.m; sourceTree = "<group>"; };
 		D7BF465C154728DD00F06412 /* MainStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryBoard.storyboard; sourceTree = "<group>"; };
-		D7BF46641547303700F06412 /* MainScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenViewController.h; sourceTree = "<group>"; };
-		D7BF46651547303700F06412 /* MainScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenViewController.m; sourceTree = "<group>"; };
+		D7BF46641547303700F06412 /* AllCollectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllCollectionsViewController.h; sourceTree = "<group>"; };
+		D7BF46651547303700F06412 /* AllCollectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllCollectionsViewController.m; sourceTree = "<group>"; };
 		D7D86C731570A95400FE2E21 /* note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = note.png; sourceTree = "<group>"; };
 		D7D86C751570AE7100FE2E21 /* stack0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stack0.png; sourceTree = "<group>"; };
 		D7D86C811570C20E00FE2E21 /* mainnote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainnote.png; sourceTree = "<group>"; };
@@ -250,8 +250,8 @@
 		DB4D940716E31E1B007FE65A /* CollectionSharingAdapterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionSharingAdapterDelegate.h; sourceTree = "<group>"; };
 		DB4D940B16E337DB007FE65A /* TempImageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempImageAction.h; sourceTree = "<group>"; };
 		DB4D940C16E337DB007FE65A /* TempImageAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempImageAction.m; sourceTree = "<group>"; };
-		DB4E0AC7163DCD3D00AB82E6 /* CollectionsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionsModel.h; sourceTree = "<group>"; };
-		DB4E0AC8163DCD3D00AB82E6 /* CollectionsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionsModel.m; sourceTree = "<group>"; };
+		DB4E0AC7163DCD3D00AB82E6 /* MindcloudAllCollections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAllCollections.h; sourceTree = "<group>"; };
+		DB4E0AC8163DCD3D00AB82E6 /* MindcloudAllCollections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudAllCollections.m; sourceTree = "<group>"; };
 		DB4E25B016C78A4200E85334 /* ThumbnailManagerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThumbnailManagerProtocol.h; sourceTree = "<group>"; };
 		DB4FF4CC16ACA8DB00DC6DAA /* MultimediaHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultimediaHelper.h; sourceTree = "<group>"; };
 		DB4FF4CD16ACA8DB00DC6DAA /* MultimediaHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultimediaHelper.m; sourceTree = "<group>"; };
@@ -277,6 +277,7 @@
 		DB7AC5E01643A9AE007756E6 /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IIViewDeckController.m; path = ../IIViewDeckController.m; sourceTree = "<group>"; };
 		DB7AC5E11643A9AE007756E6 /* WrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WrapController.h; path = ../WrapController.h; sourceTree = "<group>"; };
 		DB7AC5E21643A9AF007756E6 /* WrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WrapController.m; path = ../WrapController.m; sourceTree = "<group>"; };
+		DB8F489F17CA8D0000DDDB2D /* MindcloudAllCollectionsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAllCollectionsDelegate.h; sourceTree = "<group>"; };
 		DB99FFB3160E5C5D0042ED2A /* UserPropertiesHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPropertiesHelper.h; sourceTree = "<group>"; };
 		DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPropertiesHelper.m; sourceTree = "<group>"; };
 		DB99FFBD160E66870042ED2A /* StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtils.h; sourceTree = "<group>"; };
@@ -590,9 +591,6 @@
 		DB3174FF16337E3E001229FE /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
-				D78970D41569E376002EC56F /* NoteViewDelegate.h */,
-				DBA5B8EE1648CAFA00C68212 /* UIEditableTableViewDelegate.h */,
-				DBB7455516F676E50029AE72 /* CategorizationViewDelegate.h */,
 			);
 			name = Delegates;
 			sourceTree = "<group>";
@@ -604,6 +602,7 @@
 				DBE13374163E13AE00EF0AF7 /* CollectionCell.m */,
 				D7E44BF7156476360080EF71 /* BulletinBoardObject.h */,
 				D7F1FF2A154D1A3300D07B58 /* NoteView.h */,
+				D78970D41569E376002EC56F /* NoteViewDelegate.h */,
 				D7F1FF2B154D1A3300D07B58 /* NoteView.m */,
 				D7DD09E11572190C00918BDF /* ImageView.h */,
 				D7DD09E21572190C00918BDF /* ImageView.m */,
@@ -620,8 +619,10 @@
 				D7E44C02156573800080EF71 /* StackViewController.m */,
 				D71EA183154CD3FB00496663 /* CollectionViewController.h */,
 				D71EA184154CD3FB00496663 /* CollectionViewController.m */,
-				D7BF46641547303700F06412 /* MainScreenViewController.h */,
-				D7BF46651547303700F06412 /* MainScreenViewController.m */,
+				D7BF46641547303700F06412 /* AllCollectionsViewController.h */,
+				D7BF46651547303700F06412 /* AllCollectionsViewController.m */,
+				DBB7455516F676E50029AE72 /* CategorizationViewDelegate.h */,
+				DBA5B8EE1648CAFA00C68212 /* UIEditableTableViewDelegate.h */,
 				DB3174FC16337636001229FE /* SignInViewController.h */,
 				DB3174FD16337636001229FE /* SignInViewController.m */,
 				DB7AC5D81643A52A007756E6 /* CollectionsViewController.h */,
@@ -695,9 +696,10 @@
 			children = (
 				D7B1432B1526A50400DC7556 /* MindcloudCollection.h */,
 				D7B1432C1526A50400DC7556 /* MindcloudCollection.m */,
-				DB4E0AC7163DCD3D00AB82E6 /* CollectionsModel.h */,
-				DB4E0AC8163DCD3D00AB82E6 /* CollectionsModel.m */,
+				DB4E0AC7163DCD3D00AB82E6 /* MindcloudAllCollections.h */,
+				DB4E0AC8163DCD3D00AB82E6 /* MindcloudAllCollections.m */,
 				DB225AC2164CD67B0094BFC9 /* CategoryModelProtocol.h */,
+				DB8F489F17CA8D0000DDDB2D /* MindcloudAllCollectionsDelegate.h */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -985,7 +987,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7A53CFD1522F39500183CB6 /* main.m in Sources */,
+				DB8F48A117CAA57500DDDB2D /* main.m in Sources */,
 				D7A53D011522F39500183CB6 /* IdeaStockAppDelegate.m in Sources */,
 				D709470B1523BDFE008E4AD9 /* CollectionNote.m in Sources */,
 				D70947231523DC27008E4AD9 /* DDXMLElementAdditions.m in Sources */,
@@ -998,7 +1000,7 @@
 				D7F85EB41528D80300F16D25 /* XoomlCollectionManifest.m in Sources */,
 				D7DEF2C41530D37800D13CF4 /* FileSystemHelper.m in Sources */,
 				DBF1CEDD17C94A9C000777F7 /* MindcloudCollectionGordon.m in Sources */,
-				D7BF46661547303700F06412 /* MainScreenViewController.m in Sources */,
+				D7BF46661547303700F06412 /* AllCollectionsViewController.m in Sources */,
 				D71EA185154CD3FB00496663 /* CollectionViewController.m in Sources */,
 				D7F1FF2C154D1A3300D07B58 /* NoteView.m in Sources */,
 				D7E44BEE15643AA90080EF71 /* StackView.m in Sources */,
@@ -1011,7 +1013,7 @@
 				DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */,
 				DBC7C4C316327F1900BF3F2D /* CollectionsAction.m in Sources */,
 				DB3174FE16337636001229FE /* SignInViewController.m in Sources */,
-				DB4E0AC9163DCD3D00AB82E6 /* CollectionsModel.m in Sources */,
+				DB4E0AC9163DCD3D00AB82E6 /* MindcloudAllCollections.m in Sources */,
 				DBE13375163E13AE00EF0AF7 /* CollectionCell.m in Sources */,
 				DBEE54B61640F16300BD9F93 /* HTTPHelper.m in Sources */,
 				DB7AC5DA1643A52A007756E6 /* CollectionsViewController.m in Sources */,
