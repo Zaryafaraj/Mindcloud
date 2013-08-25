@@ -77,8 +77,9 @@
 }
 
 -(id) initWithCollections:(NSArray *)collections
+              andDelegate:(id<MindcloudAllCollectionsDelegate>)delegate
 {
-    self = [self init];
+    self = [self initWithDelegate:delegate];
     [self reloadCollectionsWithNewCollections:collections];
     return self;
 }
@@ -91,9 +92,11 @@
     
 }
 
--(id) initWithCollections:(NSArray *)collections andCategories:(NSDictionary *)categories
+-(id) initWithCollections:(NSArray *)collections
+            andCategories: (NSDictionary *) categories
+              andDelegate:(id<MindcloudAllCollectionsDelegate>) delegate;
 {
-    self = [self init];
+    self = [self initWithDelegate:delegate];
     [self applyCategories:categories toCollections:collections];
     return self;
 }
@@ -447,19 +450,17 @@
 }
 
 
--(BOOL) doesNameExist:(NSString *)name
+-(NSSet *) getAllCollectionNames
 {
+    NSMutableSet * result = [NSMutableSet set];
     for (NSString * category in self.collections)
     {
         for (NSString * collection in self.collections[category])
         {
-            if ([name isEqualToString:collection])
-            {
-                return true;
-            }
+            [result addObject:collection];
         }
     }
-    return false;
+    return result;
 }
 
 -(int) numberOfCollectionsInCategory: (NSString *) category

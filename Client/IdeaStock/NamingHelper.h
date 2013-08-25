@@ -12,4 +12,7 @@
 
 +(NSString *) getBestNameFor:(NSString *) nameCandidate
                amongAllNAmes:(NSArray *) allName;
+
++(NSString *) validateCollectionName: (NSString *) nameCandidate
+                       amongAllNames:(NSSet *) allNames;
 @end

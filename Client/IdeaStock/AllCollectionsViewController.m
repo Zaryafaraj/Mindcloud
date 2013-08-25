@@ -12,15 +12,11 @@
 #import "MindcloudAllCollections.h"
 #import "CollectionCell.h"
 #import "IIViewDeckController.h"
-#import "XoomlCategoryParser.h"
 #import "NetworkActivityHelper.h"
 #import "EventTypes.h"
 #import "SharingViewController.h"
 #import "CategorizationViewController.h"
-
-#define ACTION_TYPE_CREATE_FOLDER @"createFolder"
-#define ACTION_TYPE_UPLOAD_FILE @"uploadFile"
-
+#import "NamingHelper.h"
 @interface AllCollectionsViewController()
 
 @property (weak, nonatomic) UIView * lastView;
@@ -30,14 +26,6 @@
 @property (strong, nonatomic) NSArray * cancelToolbar;
 @property (strong, nonatomic) NSArray * shareToolbar;
 
-@property (weak, nonatomic) IBOutlet UILabel *pageTitle;
-@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-@property BOOL isEditing;
-@property (strong, nonatomic) NSString * currentCategory;
-@property (weak, nonatomic) UIActionSheet * activeSheet;
-@property BOOL didCategoriesPresentAlertView;
-@property BOOL isInSharingMode;
-@property MindcloudAllCollections * model;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *categorizeButton;
 @property (strong, nonatomic) UIColor * lastCategorizeButtonColor;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
@@ -50,6 +38,15 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *showSideMenuButton;
 
 @property (strong, nonatomic) UIPopoverController * lastPopOver;
+@property (weak, nonatomic) IBOutlet UILabel *pageTitle;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+@property BOOL isEditing;
+@property (strong, nonatomic) NSString * currentCategory;
+@property (weak, nonatomic) UIActionSheet * activeSheet;
+@property BOOL didCategoriesPresentAlertView;
+@property BOOL isInSharingMode;
+
+@property MindcloudAllCollections * model;
 
 @end
 
@@ -57,7 +54,6 @@
 
 @synthesize currentCategory = _currentCategory;
 
-#define DONE_BUTTON @"Done"
 #define DELETE_BUTTON @"Delete"
 #define CANCEL_BUTTON @"Cancel"
 #define RENAME_BUTTON @"Rename"
@@ -70,7 +66,9 @@
 #define UNSHARE_ACTION @"Unshare Collection"
 #define DELETE_ACTION @"Delete Collection"
 #define SUBSCRIBE_BUTTON_TITLE @"Subscribe"
-
+#define RENAME_BUTTON_TITLE @"Rename"
+#define CREATE_CATEGORY_BUTTON @"Create"
+#define ADD_BUTTON_TITLE @"Add"
 #define CATEGORIZATION_ROW_HEIGHT 44
 
 -(NSString *) currentCategory
@@ -89,9 +87,7 @@
     self.pageTitle.text = _currentCategory;
 }
 
-
-#pragma mark - UI Events Helpers
-
+#pragma mark - UI events
 -(void) disableEditButtons
 {
     for(UIBarButtonItem * button in self.editToolbar)
@@ -113,7 +109,8 @@
 
 -(void) addCollection: (NSString *) name
 {
-    name = [self validateName: name];
+    NSSet * allNames = [self.model getAllCollectionNames];
+    name = [NamingHelper validateCollectionName:name amongAllNames:allNames];
     NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
     [self.model addCollection:name toCategory:self.currentCategory];
     [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
@@ -129,7 +126,8 @@
         
         if ([newName isEqualToString:currentName]) continue;
         
-        NSString * actualNewName = [self validateName:newName];
+        NSSet * allNames = [self.model getAllCollectionNames];
+        NSString * actualNewName = [NamingHelper validateCollectionName:currentName amongAllNames:allNames];
         
         [self.model renameCollection:currentName
                           inCategory:self.currentCategory
@@ -139,35 +137,6 @@
         
     }
 }
-
-/*
- Perform some simple error checking on a collection name
- Return the suggested name
- */
--(NSString *) validateName: (NSString *) name
-{
-    int counter = 1;
-    NSString * finalName = name;
-    while ([self.model doesNameExist:finalName])
-    {
-        finalName = [NSString stringWithFormat:@"%@%d",name,counter];
-        counter++;
-    }
-    
-    //so that no one can hack folder hierarchy
-    finalName = [finalName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
-    //protect escape characters
-    finalName = [finalName stringByReplacingOccurrencesOfString:@"\\" withString:@"_"];
-    finalName = [finalName stringByReplacingOccurrencesOfString:@"~" withString:@"_"];
-    NSString * withoutSpaces = [finalName stringByReplacingOccurrencesOfString:@" " withString:@""];
-    if (withoutSpaces.length == 0)
-    {
-        finalName = [finalName stringByReplacingOccurrencesOfString:@" " withString:@"_"];
-    }
-    
-    return finalName;
-}
-
 
 -(void) deleteCollection
 {
@@ -189,7 +158,9 @@
 -(void) addNewCategory: (NSString *) categoryName
 {
     //validate the name
-    categoryName = [self validateCategoryName:categoryName];
+    NSArray * categoryNames = [self.model getAllCategories];
+    categoryName = [NamingHelper getBestNameFor:categoryName
+                                  amongAllNAmes:categoryNames];
     [self.model addCategory:categoryName];
     //find the right place for the item in the sorted order
     int indexInt = [[self.model getAllCategories] indexOfObject:categoryName];
@@ -211,19 +182,6 @@
     self.toolbar.items = self.navigateToolbar;
     [self.categoriesController exitEditMode];
 }
--(NSString *) validateCategoryName: (NSString *) candidateName
-{
-    //fix duplicates
-    NSArray * categoryNames = [self.model getAllCategories];
-    NSString * tempName = candidateName;
-    int counter = 1;
-    while ([categoryNames containsObject:tempName])
-    {
-        tempName = [candidateName stringByAppendingFormat:@"%d",counter];
-        counter++;
-    }
-    return tempName;
-}
 
 -(void) dismissPopOver
 {
@@ -244,7 +202,6 @@
         self.categoriesController.renameMode = YES;
     }
 }
-#pragma mark - UI Events
 
 - (IBAction)cancelPressed:(id)sender {
     
@@ -310,7 +267,6 @@
     [alert show];
 }
 
-#define ADD_BUTTON_TITLE @"Add"
 -(IBAction) addPressed:(id)sender {
     
     [self dismissPopOver];
@@ -322,9 +278,6 @@
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alert show];
 }
-
-#define RENAME_BUTTON_TITLE @"Rename"
-#define CREATE_CATEGORY_BUTTON @"Create"
 
 - (IBAction)renamePressed:(id)sender {
     [self dismissPopOver];
@@ -495,7 +448,6 @@
                                                object:nil];
     
     
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(resizePopOver:)
                                                  name:RESIZE_POPOVER_FOR_SECRET
@@ -516,13 +468,12 @@
     self.isInSharingMode = NO;
     self.toolbar.items = self.navigateToolbar;
     [self configureCategoriesPanel];
-    
     [self addInitialListeners];
-    //temproary use this tell you get further notification
     
     NSArray * allCollections = [self.model getAllCollections];
     
-    self.model = [[MindcloudAllCollections alloc] initWithCollections:allCollections];
+    self.model = [[MindcloudAllCollections alloc] initWithCollections:allCollections
+                                                          andDelegate:self];
     
     NSDictionary* dict = [self.model getAllCategoriesMappings];
     [self.model applyCategories:dict];
@@ -539,10 +490,6 @@
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
     {
-        if (self.viewDeckController.leftControllerIsOpen)
-        {
-            NSLog(@"NAY");
-        }
         CGFloat screenHeight = screenRect.size.height;
         self.viewDeckController.leftLedge = 2.25 * screenHeight / 3 ;
         CGRect newFrame = CGRectMake(self.categoriesController.view.frame.origin.x,
@@ -551,33 +498,20 @@
                                      self.categoriesController.view.frame.size.height);
         self.categoriesController.table.frame = newFrame;
         
-        if (self.viewDeckController.leftControllerIsOpen)
-        {
-            NSLog(@"YAA2");
-        }
     }
     else
     {
-        if (self.viewDeckController.leftControllerIsOpen)
-        {
-            NSLog(@"NAY3");
-        }
         CGFloat screenWidth = screenRect.size.width;
         self.viewDeckController.leftLedge = 2.00 * screenWidth / 3 ;
         
-        if (self.viewDeckController.leftControllerIsOpen)
-        {
-            NSLog(@"YAA3");
-        }
         CGRect newFrame = CGRectMake(self.categoriesController.view.frame.origin.x,
                                      self.categoriesController.view.frame.origin.y,
                                      screenWidth - self.viewDeckController.leftLedge,
                                      self.categoriesController.view.frame.size.height);
         self.categoriesController.table.frame = newFrame;
-        
     }
-    
 }
+
 -(void) manageToolbars
 {
     NSMutableArray *  editbar = [NSMutableArray array];
@@ -632,10 +566,6 @@
     [super viewDidUnload];
 }
 
--(BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    return YES;
-}
-
 -(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self configureCategoriesPanel];
@@ -677,7 +607,8 @@
     NSString * collectionName = result[@"collectionName"];
     if (collectionName)
     {
-        if ([self.model doesNameExist:collectionName])
+        NSSet * allNames = [self.model getAllCollectionNames];
+        if ([allNames containsObject:collectionName])
         {
             NSString * alertViewMsg = [NSString stringWithFormat:@"You have already subscribed to collection %@", collectionName];
             UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Existing Subscription"
@@ -695,10 +626,6 @@
             self.isInSharingMode = NO;
             self.isEditing = NO;
             self.toolbar.items = self.navigateToolbar;
-            
-            //        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
-            //        [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
-            //[self addCollection:collectionName];
         }
     }
     else
@@ -749,8 +676,7 @@
     return nil;
 }
 
-#pragma mark - Bulletinboard Delegates
-
+#pragma mark - CollectionViewController Delegates
 
 -(void) finishedWorkingWithCollection:(NSString *)collectionName
                     withThumbnailData:(NSData *)imgData
@@ -768,7 +694,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - CollectionView Delegates
+#pragma mark - UICollectionView Delegates
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -1046,7 +972,6 @@
     self.isInSharingMode = NO;
     
 }
-
 
 #pragma mark - Categorization delegate
 

@@ -19,9 +19,12 @@
 
 -(id) initWithDelegate:(id<MindcloudAllCollectionsDelegate>) delegate;
 
--(id) initWithCollections:(NSArray *) collections;
+-(id) initWithCollections:(NSArray *) collections
+              andDelegate:(id<MindcloudAllCollectionsDelegate>) delegate;
 
--(id) initWithCollections:(NSArray *)collections andCategories: (NSDictionary *) categories;
+-(id) initWithCollections:(NSArray *)collections
+            andCategories: (NSDictionary *) categories
+              andDelegate:(id<MindcloudAllCollectionsDelegate>) delegate;
 
 -(void) applyCategories:(NSDictionary *) categories;
 
@@ -64,7 +67,7 @@
          toNewCategory: (NSString *) newCategory;
 
 
--(BOOL) doesNameExist: (NSString *) name;
+-(NSSet *) getAllCollectionNames;
 
 -(BOOL) canRemoveCategory: (NSString *) category;
 
