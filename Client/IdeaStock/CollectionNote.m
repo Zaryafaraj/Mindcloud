@@ -8,7 +8,7 @@
 
 #import "CollectionNote.h"
 #import "XoomlCollectionParser.h"
-#import "XoomlAttributeHelper.h"
+#import "AttributeHelper.h"
 
 @implementation CollectionNote
 
@@ -38,7 +38,7 @@
 -(CollectionNote *) initWithText: (NSString *) text{
 
     self = [[CollectionNote alloc] init];
-    self.noteTextID = [XoomlAttributeHelper generateUUID];
+    self.noteTextID = [AttributeHelper generateUUID];
     self.noteText = text;
     return  self;
 }

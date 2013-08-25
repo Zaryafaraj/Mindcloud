@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface XoomlAttributeHelper : NSObject
+@interface AttributeHelper : NSObject
 
 + (NSString *) generateUUID;
 
-+ (NSString *) generateCurrentTimeForXooml;
++ (NSString *) generateCurrentTime;
 
 @end

@@ -8,7 +8,7 @@
 
 #import "XoomlCollectionParser.h"
 #import "DDXML.h"
-#import "XoomlAttributeHelper.h"
+#import "AttributeHelper.h"
 
 @interface XoomlCollectionParser()
 
@@ -140,7 +140,7 @@
 {
     DDXMLElement * attributeRoot = [DDXMLNode elementWithName:MINDCLOUD_NOTE_ATTRIBUTE];
     
-    [attributeRoot addAttribute: [DDXMLNode attributeWithName:ATTRIBUTE_ID stringValue: [XoomlAttributeHelper generateUUID]]];
+    [attributeRoot addAttribute: [DDXMLNode attributeWithName:ATTRIBUTE_ID stringValue: [AttributeHelper generateUUID]]];
     [attributeRoot addAttribute: [DDXMLNode attributeWithName:ATTRIBUTE_TYPE stringValue:attributeType]];
     [attributeRoot addAttribute: [DDXMLNode attributeWithName:ATTRIBUTE_NAME stringValue:attributeName]];
     return  attributeRoot;
@@ -151,7 +151,7 @@
     
     DDXMLElement * attributeRoot = [DDXMLNode elementWithName:MINDCLOUD_NOTE_ATTRIBUTE];
     
-    [attributeRoot addAttribute: [DDXMLNode attributeWithName:ATTRIBUTE_ID stringValue: [XoomlAttributeHelper generateUUID]]];
+    [attributeRoot addAttribute: [DDXMLNode attributeWithName:ATTRIBUTE_ID stringValue: [AttributeHelper generateUUID]]];
     [attributeRoot addAttribute: [DDXMLNode attributeWithName:ATTRIBUTE_TYPE stringValue:attributeType]];
     return  attributeRoot;
 }
@@ -162,7 +162,7 @@
     
     DDXMLElement * attributeRoot = [DDXMLNode elementWithName:MINDCLOUD_COLLECTION_ATTRIBUTE];
     
-    [attributeRoot addAttribute: [DDXMLNode attributeWithName:ATTRIBUTE_ID stringValue: [XoomlAttributeHelper generateUUID]]];
+    [attributeRoot addAttribute: [DDXMLNode attributeWithName:ATTRIBUTE_ID stringValue: [AttributeHelper generateUUID]]];
     [attributeRoot addAttribute: [DDXMLNode attributeWithName:ATTRIBUTE_TYPE stringValue:attributeType]];
     [attributeRoot addAttribute: [DDXMLNode attributeWithName:ATTRIBUTE_NAME stringValue:attributeName]];
     [attributeRoot addAttribute: [DDXMLNode attributeWithName:SCALING stringValue:@"1.000"]];

@@ -18,7 +18,7 @@
 		D715B4BA15707F63006975A6 /* stackSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = D715B4B615707F63006975A6 /* stackSelected.png */; };
 		D71EA17F154BA19600496663 /* pile boardBig.png in Resources */ = {isa = PBXBuildFile; fileRef = D71EA17D154BA19600496663 /* pile boardBig.png */; };
 		D71EA185154CD3FB00496663 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D71EA184154CD3FB00496663 /* CollectionViewController.m */; };
-		D74E48201524F3DF00BC8B9D /* XoomlAttributeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D74E481F1524F3DF00BC8B9D /* XoomlAttributeHelper.m */; };
+		D74E48201524F3DF00BC8B9D /* AttributeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D74E481F1524F3DF00BC8B9D /* AttributeHelper.m */; };
 		D7A53CF11522F39500183CB6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53CF01522F39500183CB6 /* UIKit.framework */; };
 		D7A53CF31522F39500183CB6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53CF21522F39500183CB6 /* Foundation.framework */; };
 		D7A53CF51522F39500183CB6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7A53CF41522F39500183CB6 /* CoreGraphics.framework */; };
@@ -162,8 +162,8 @@
 		D71EA17D154BA19600496663 /* pile boardBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pile boardBig.png"; sourceTree = "<group>"; };
 		D71EA183154CD3FB00496663 /* CollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewController.h; sourceTree = "<group>"; };
 		D71EA184154CD3FB00496663 /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
-		D74E481E1524F3DF00BC8B9D /* XoomlAttributeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlAttributeHelper.h; sourceTree = "<group>"; };
-		D74E481F1524F3DF00BC8B9D /* XoomlAttributeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlAttributeHelper.m; sourceTree = "<group>"; };
+		D74E481E1524F3DF00BC8B9D /* AttributeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributeHelper.h; sourceTree = "<group>"; };
+		D74E481F1524F3DF00BC8B9D /* AttributeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributeHelper.m; sourceTree = "<group>"; };
 		D78970D41569E376002EC56F /* NoteViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteViewDelegate.h; sourceTree = "<group>"; };
 		D7A53CEC1522F39500183CB6 /* Mindcloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mindcloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7A53CF01522F39500183CB6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -435,7 +435,6 @@
 				DBBA28A616CC7983007C7B4A /* Sharing */,
 				DB03C35F169FFD2B00C38FD7 /* Types */,
 				DB4338A2169D5400000353DA /* Mixins */,
-				DB4338A1169D5169000353DA /* Helpers */,
 				DB43382A169D2D86000353DA /* Models */,
 				DB225ABD164CD5B70094BFC9 /* Parsers */,
 			);
@@ -484,7 +483,6 @@
 				DBF1CEDA17C94A6A000777F7 /* Gordon */,
 				DB7AC5E51643AA32007756E6 /* ViewDeck */,
 				DB99FFBB160E66690042ED2A /* Helpers */,
-				DB99FFB1160E5C2D0042ED2A /* Services */,
 				D7BF466315472E0D00F06412 /* UI */,
 				D70947131523DC27008E4AD9 /* KissXML */,
 				D709472B15242BA4008E4AD9 /* Model */,
@@ -672,8 +670,12 @@
 		DB4338A1169D5169000353DA /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				D74E481E1524F3DF00BC8B9D /* XoomlAttributeHelper.h */,
-				D74E481F1524F3DF00BC8B9D /* XoomlAttributeHelper.m */,
+				DBEE54B41640F16300BD9F93 /* HTTPHelper.h */,
+				DBEE54B51640F16300BD9F93 /* HTTPHelper.m */,
+				DB99FFB3160E5C5D0042ED2A /* UserPropertiesHelper.h */,
+				DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */,
+				D74E481E1524F3DF00BC8B9D /* AttributeHelper.h */,
+				D74E481F1524F3DF00BC8B9D /* AttributeHelper.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -758,14 +760,10 @@
 		DB99FFBB160E66690042ED2A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				DB99FFB3160E5C5D0042ED2A /* UserPropertiesHelper.h */,
-				DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */,
 				D7DEF2C21530D37800D13CF4 /* FileSystemHelper.h */,
 				D7DEF2C31530D37800D13CF4 /* FileSystemHelper.m */,
 				DB99FFBD160E66870042ED2A /* StringUtils.h */,
 				DB99FFBE160E66870042ED2A /* StringUtils.m */,
-				DBEE54B41640F16300BD9F93 /* HTTPHelper.h */,
-				DBEE54B51640F16300BD9F93 /* HTTPHelper.m */,
 				DB9CA54A16BF8F2D0030B3F7 /* NamingHelper.h */,
 				DB9CA54B16BF8F2D0030B3F7 /* NamingHelper.m */,
 			);
@@ -833,6 +831,8 @@
 		DBF1CEDA17C94A6A000777F7 /* Gordon */ = {
 			isa = PBXGroup;
 			children = (
+				DB4338A1169D5169000353DA /* Helpers */,
+				DB99FFB1160E5C2D0042ED2A /* Services */,
 				DBF1CEDB17C94A9C000777F7 /* MindcloudCollectionGordon.h */,
 				DBF1CEDC17C94A9C000777F7 /* MindcloudCollectionGordon.m */,
 				DBF1CEDE17C958E9000777F7 /* MindcloudCollectionGordonDelegate.h */,
@@ -993,7 +993,7 @@
 				D70947251523DC27008E4AD9 /* DDXMLDocument.m in Sources */,
 				D70947261523DC27008E4AD9 /* DDXMLElement.m in Sources */,
 				D70947271523DC27008E4AD9 /* DDXMLNode.m in Sources */,
-				D74E48201524F3DF00BC8B9D /* XoomlAttributeHelper.m in Sources */,
+				D74E48201524F3DF00BC8B9D /* AttributeHelper.m in Sources */,
 				D7B1432D1526A50400DC7556 /* MindcloudCollection.m in Sources */,
 				D7F85EB41528D80300F16D25 /* XoomlCollectionManifest.m in Sources */,
 				D7DEF2C41530D37800D13CF4 /* FileSystemHelper.m in Sources */,

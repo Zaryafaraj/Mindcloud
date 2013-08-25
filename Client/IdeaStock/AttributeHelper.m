@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 University of Washington. All rights reserved.
 //
 
-#import "XoomlAttributeHelper.h"
+#import "AttributeHelper.h"
 
-@implementation XoomlAttributeHelper
+@implementation AttributeHelper
 
 + (NSString *) generateUUID{
     // create a new UUID which you own
@@ -25,7 +25,7 @@
 }
 
 //Date as XooML uses : 3/28/2012 12:43 PM
-+(NSString *) generateCurrentTimeForXooml{
++(NSString *) generateCurrentTime{
     NSDate * now = [NSDate date];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"EN"]];

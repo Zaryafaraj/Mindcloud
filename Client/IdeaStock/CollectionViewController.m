@@ -12,7 +12,7 @@
 #import "StackView.h"
 #import "StackViewController.h"
 #import "CollectionNote.h"
-#import "XoomlAttributeHelper.h"
+#import "AttributeHelper.h"
 #import "ImageView.h"
 #import "CachedMindCloudDataSource.h"
 #import "EventTypes.h"
@@ -684,7 +684,7 @@
                                                  AddedToPoint:location
                                              InCollectionView:self.collectionView];
     NoteView * note = [[NoteView alloc] initWithFrame:frame];
-    NSString * noteID = [XoomlAttributeHelper generateUUID];
+    NSString * noteID = [AttributeHelper generateUUID];
     note.ID = noteID;
     //use weak ref to avoid leakage
     NoteView * noteRef = note;
@@ -1400,7 +1400,7 @@ withDestinationView:(UIView *) destinationView
 -(NSString *) mergeItems: (NSArray *)items
 intoStackingWithMainView: (UIView *) mainView
 {
-    NSString * stackingID = [XoomlAttributeHelper generateUUID];
+    NSString * stackingID = [AttributeHelper generateUUID];
     
     NSMutableArray * stackingNoteIDs = [NSMutableArray array];
     for(UIView * view in items)
@@ -1704,7 +1704,7 @@ intoStackingWithMainView: (UIView *) mainView
     
     ImageView * note = [[ImageView alloc] initWithFrame:frame
                                                andImage:image];
-    NSString * noteID = [XoomlAttributeHelper generateUUID];
+    NSString * noteID = [AttributeHelper generateUUID];
     note.ID = noteID;
     note.delegate = self;
     

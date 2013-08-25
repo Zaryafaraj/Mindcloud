@@ -8,7 +8,7 @@
 
 #import "XoomlCategoryParser.h"
 #import "DDXML.h"
-#import "XoomlAttributeHelper.h"
+#import "AttributeHelper.h"
 
 @implementation XoomlCategoryParser
 
@@ -48,7 +48,7 @@
         {
             DDXMLElement * collection = [[DDXMLElement alloc] initWithName:XOOML_ASSOCIATION];
             [collection addAttribute:[DDXMLNode attributeWithName:@"ID"
-                                                       stringValue:[XoomlAttributeHelper generateUUID]]];
+                                                       stringValue:[AttributeHelper generateUUID]]];
             [collection addAttribute:[DDXMLNode attributeWithName:ASSOCIATED_FRAGMENT stringValue:collectionName]];
             
             [category addChild:collection];
