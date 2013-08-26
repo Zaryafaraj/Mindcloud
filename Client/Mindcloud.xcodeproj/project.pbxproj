@@ -86,7 +86,7 @@
 		DB73DEE616FFDDD500269593 /* bg0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB73DEE516FFDDD500269593 /* bg0.jpg */; };
 		DB73DEE816FFEFF900269593 /* stacknoshadow.png in Resources */ = {isa = PBXBuildFile; fileRef = DB73DEE716FFEFF900269593 /* stacknoshadow.png */; };
 		DB7AC5DA1643A52A007756E6 /* MasterSwipableSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5D91643A52A007756E6 /* MasterSwipableSplitViewController.m */; };
-		DB7AC5E31643A9AF007756E6 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5E01643A9AE007756E6 /* IIViewDeckController.m */; };
+		DB7AC5E31643A9AF007756E6 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5E01643A9AE007756E6 /* IIViewDeckController.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		DB7AC5E41643A9AF007756E6 /* WrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5E21643A9AF007756E6 /* WrapController.m */; };
 		DB8F48A117CAA57500DDDB2D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A53CFC1522F39500183CB6 /* main.m */; };
 		DB8F48A417CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8F48A317CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m */; };
