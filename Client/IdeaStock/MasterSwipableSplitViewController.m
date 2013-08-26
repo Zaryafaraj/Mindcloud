@@ -6,15 +6,15 @@
 //  Copyright (c) 2012 University of Washington. All rights reserved.
 //
 
-#import "CollectionsViewController.h"
+#import "MasterSwipableSplitViewController.h"
 #import "AllCollectionsViewController.h"
 #import "CategoriesViewController.h"
 
-@interface CollectionsViewController ()
+@interface MasterSwipableSplitViewController ()
 
 @end
 
-@implementation CollectionsViewController
+@implementation MasterSwipableSplitViewController
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {

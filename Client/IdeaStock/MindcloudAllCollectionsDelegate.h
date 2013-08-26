@@ -15,4 +15,9 @@
 -(void) categoriesLoaded;
 -(void) thumbnailLoadedForCollection:(NSString *) collectionName
                        withImageData:(NSData *) imgData;
+-(void) failedToSubscribeToSecret;
+-(void) subscribedToCollectionWithName:(NSString *) collectionName;
+-(void) alreadySubscribedToCollectionWithName:(NSString *) collectionName;
+-(void) sharedCollection:(NSString *) collectionName
+              withSecret:(NSString *) sharingSecret;
 @end

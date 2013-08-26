@@ -56,6 +56,11 @@
                                                      name: THUMBNAIL_RECEIVED_EVENT
                                                    object:nil];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(subscribedToCollection:)
+                                                     name:SUBSCRIBED_TO_COLLECTION
+                                                   object:nil];
+        
         [self startTimer];
     }
     return self;
@@ -137,19 +142,39 @@
 {
     NSDictionary * result = notification.userInfo[@"result"];
     NSString * collectionName = result[@"collectionName"];
+    NSString * sharingSecret = result[@"sharingSecret"];
     if (collectionName)
     {
         
         id<MindcloudAllCollectionsGordonDelegate> tempDel = self.delegate;
         if (tempDel)
         {
-            [tempDel collectionGotShared:collectionName];
+            [tempDel collectionGotShared:collectionName
+                              withSecret:sharingSecret];
             
         }
         self.shouldSaveCategories = YES;
     }
 }
 
+-(void) subscribedToCollection:(NSNotification *) notification
+{
+    NSDictionary * result = notification.userInfo[@"result"];
+    NSString * collectionName = result[@"collectionName"];
+    id<MindcloudAllCollectionsGordonDelegate> tempDel = self.delegate;
+    if (tempDel)
+    {
+        if (collectionName)
+        {
+            [tempDel subscribedToSharingSpaceForCollection:collectionName];
+            
+        }
+        else
+        {
+            [tempDel failedToSubscribeToSharingSpace];
+        }
+    }
+}
 -(void) allCollectionsReceived:(NSNotification *) notification
 {
     NSArray* allCollections = notification.userInfo[@"result"];

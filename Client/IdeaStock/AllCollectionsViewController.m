@@ -13,7 +13,7 @@
 #import "CollectionCell.h"
 #import "IIViewDeckController.h"
 #import "NetworkActivityHelper.h"
-#import "EventTypes.h"
+#import "UIEventTypes.h"
 #import "SharingViewController.h"
 #import "CategorizationViewController.h"
 #import "NamingHelper.h"
@@ -436,7 +436,6 @@
 }
 
 
-
 -(void) addInitialListeners
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -452,10 +451,6 @@
                                                  name:RESIZE_POPOVER_FOR_SECRET
                                                object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(subscribedToCollection:)
-                                                 name:SUBSCRIBED_TO_COLLECTION
-                                               object:nil];
     
 }
 
@@ -599,44 +594,6 @@
     }
 }
 
--(void) subscribedToCollection:(NSNotification *) notification
-{
-    NSDictionary * result = notification.userInfo[@"result"];
-    NSString * collectionName = result[@"collectionName"];
-    if (collectionName)
-    {
-        NSSet * allNames = [self.model getAllCollectionNames];
-        if ([allNames containsObject:collectionName])
-        {
-            NSString * alertViewMsg = [NSString stringWithFormat:@"You have already subscribed to collection %@", collectionName];
-            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Existing Subscription"
-                                                             message:alertViewMsg
-                                                            delegate:self
-                                                   cancelButtonTitle:@"OK"
-                                                   otherButtonTitles:nil];
-            [alert show];
-            
-        }
-        else
-        {
-            [self.model addCollection:collectionName toCategory:SHARED_COLLECTIONS_KEY];
-            [self swithToCategory:SHARED_COLLECTIONS_KEY];
-            self.isInSharingMode = NO;
-            self.isEditing = NO;
-            self.toolbar.items = self.navigateToolbar;
-        }
-    }
-    else
-    {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Sharing Secret Not Recognized, Try again"
-                                                         message:nil
-                                                        delegate:self
-                                               cancelButtonTitle:@"Cancel"
-                                               otherButtonTitles:SUBSCRIBE_BUTTON_TITLE,nil];
-        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-        [alert show];
-    }
-}
 
 
 #pragma mark - Operation Helpers
@@ -1041,4 +998,57 @@
         actualCell.img =[UIImage imageWithData:imgData];
     }
 }
+
+-(void) sharedCollection:(NSString *)collectionName
+              withSecret:(NSString *)sharingSecret
+{
+   //highlight the sharedcollection
+    //see if the last pop over is still for sharingViewController and pass the
+    //sharing secret to it if it is
+    if (self.lastPopOver != nil)
+    {
+        UIViewController * vc = self.lastPopOver.contentViewController;
+        if (vc != nil && [vc isKindOfClass:[SharingViewController class]])
+        {
+            SharingViewController * presentedPopOver = (SharingViewController *) vc;
+            NSString * presentedCollectionName = presentedPopOver.collectionName;
+            if ([presentedCollectionName isEqualToString:collectionName])
+            {
+                presentedPopOver.sharingSecret = sharingSecret;
+            }
+        }
+    }
+}
+-(void) failedToSubscribeToSecret
+{
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Sharing Secret Not Recognized, Try again"
+                                                     message:nil
+                                                    delegate:self
+                                           cancelButtonTitle:@"Cancel"
+                                           otherButtonTitles:SUBSCRIBE_BUTTON_TITLE,nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+}
+
+-(void) subscribedToCollectionWithName:(NSString *) collectionName
+{
+    //highlight the colleciton in the UI
+    [self swithToCategory:SHARED_COLLECTIONS_KEY];
+    self.isInSharingMode = NO;
+    self.isEditing = NO;
+    self.toolbar.items = self.navigateToolbar;
+}
+
+-(void) alreadySubscribedToCollectionWithName:(NSString *) collectionName
+{
+    NSString * alertViewMsg = [NSString stringWithFormat:@"You have already subscribed to collection %@", collectionName];
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Existing Subscription"
+                                                     message:alertViewMsg
+                                                    delegate:self
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles:nil];
+    [self swithToCategory:SHARED_COLLECTIONS_KEY];
+    [alert show];
+}
+
 @end

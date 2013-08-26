@@ -212,10 +212,10 @@
             </objects>
             <point key="canvasLocation" x="66" y="-509"/>
         </scene>
-        <!--Collections View Controller-->
+        <!--Master Swipable Split View Controller-->
         <scene sceneID="8nM-dN-INH">
             <objects>
-                <viewController id="Dza-ZL-mu1" customClass="CollectionsViewController" sceneMemberID="viewController">
+                <viewController id="Dza-ZL-mu1" customClass="MasterSwipableSplitViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="k6W-9N-W2m"/>
                         <viewControllerLayoutGuide type="bottom" id="LP0-JE-JA7"/>

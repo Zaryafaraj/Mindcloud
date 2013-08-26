@@ -7,7 +7,7 @@
 //
 
 #import "SharingViewController.h"
-#import "EventTypes.h"
+#import "UIEventTypes.h"
 
 @interface SharingViewController()
 @property (weak, nonatomic) IBOutlet UILabel *sharingLabel;
@@ -18,6 +18,27 @@
 @end
 @implementation SharingViewController
 
+-(void) setSharingSecret:(NSString *)sharingSecret
+{
+    
+    [self.activityIndicator stopAnimating];
+    [self.activityIndicator setHidden:YES];
+    [self.sharingLabel setHidden:NO];
+    if (sharingSecret != nil)
+    {
+        [self.SharingSecretText setHidden:NO];
+        self.SharingSecretText.text = sharingSecret;
+        self.SharingSecretText.enabled = NO;
+        [self.emailButton setHidden:NO];
+        [self.textCopyButton setHidden:NO];
+    }
+    else
+    {
+        self.sharingLabel.text = @"There was a problem with sharing the collection. Try again later";
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:RESIZE_POPOVER_FOR_SECRET object:self];
+}
 -(void) viewWillAppear:(BOOL)animated
 {
     
@@ -27,10 +48,6 @@
     [self.emailButton setHidden:YES];
     [self.textCopyButton setHidden:YES];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(sharingSecretReceived:)
-                                                 name:COLLECTION_SHARED
-                                               object:nil];
 }
 
 - (IBAction)textCopyPressed:(id)sender {
@@ -49,9 +66,9 @@
         [mailer setSubject:subject];
         NSArray *toRecipients = @[];
         [mailer setToRecipients:toRecipients];
-//        UIImage *myImage = [UIImage imageNamed:@"mobiletuts-logo.png"];
-//        NSData *imageData = UIImagePNGRepresentation(myImage);
-//        [mailer addAttachmentData:imageData mimeType:@"image/png" fileName:@"mobiletutsImage"];
+        //        UIImage *myImage = [UIImage imageNamed:@"mobiletuts-logo.png"];
+        //        NSData *imageData = UIImagePNGRepresentation(myImage);
+        //        [mailer addAttachmentData:imageData mimeType:@"image/png" fileName:@"mobiletutsImage"];
         NSString *emailBody = [NSString stringWithFormat:@"I have shared a mindcloud named %@ with you.\n To subscribe, use the following secret key: %@ \n\n You can get mindcloud from :www.mindcloud.com", self.collectionName, self.SharingSecretText.text];
         [mailer setMessageBody:emailBody isHTML:NO];
         mailer.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -72,34 +89,6 @@
 -(void) viewDidDisappear:(BOOL)animated
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-
--(void) sharingSecretReceived:(NSNotification *) notification
-{
-    NSDictionary * result = notification.userInfo[@"result"];
-    NSString * collectionName = result[@"collectionName"];
-    if ([collectionName isEqualToString:self.collectionName])
-    {
-        [self.activityIndicator stopAnimating];
-        [self.activityIndicator setHidden:YES];
-        NSString * sharingSecret = result[@"sharingSecret"];
-        [self.sharingLabel setHidden:NO];
-        if (sharingSecret != nil)
-        {
-            [self.SharingSecretText setHidden:NO];
-            self.SharingSecretText.text = sharingSecret;
-            self.SharingSecretText.enabled = NO;
-            [self.emailButton setHidden:NO];
-            [self.textCopyButton setHidden:NO];
-        }
-        else
-        {
-            self.sharingLabel.text = @"There was a problem with sharing the collection. Try again later";
-        }
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:RESIZE_POPOVER_FOR_SECRET object:self];
-    }
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error

@@ -8,5 +8,5 @@
 
 #import <UIKit/UIKit.h>
 #import "IIViewDeckController.h"
-@interface CollectionsViewController : IIViewDeckController
+@interface MasterSwipableSplitViewController : IIViewDeckController
 @end

@@ -10,7 +10,10 @@
 
 @protocol MindcloudAllCollectionsGordonDelegate <NSObject>
 
--(void) collectionGotShared:(NSString *) collectionName;
+-(void) collectionGotShared:(NSString *) collectionName
+                 withSecret:(NSString *) secret;
+-(void) failedToSubscribeToSharingSpace;
+-(void) subscribedToSharingSpaceForCollection:(NSString *) collectionName;
 -(void) collectionsLoaded:(NSArray *) allCollections;
 -(void) categoriesLoaded:(NSDictionary *) allCategoriesMappings;
 -(void) thumbnailLoadedForCollection:(NSString *) collectionName

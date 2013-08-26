@@ -514,12 +514,14 @@
 #pragma mark notification events
 
 -(void) collectionGotShared:(NSString *) collectionName
+                 withSecret:(NSString *)secret
 {
     id<MindcloudAllCollectionsDelegate> tempDel = self.delegate;
+    [self moveCollection:collectionName fromCategory:[tempDel activeCategory]
+           toNewCategory:SHARED_COLLECTIONS_KEY];
     if (tempDel)
     {
-        [self moveCollection:collectionName fromCategory:[tempDel activeCategory]
-               toNewCategory:SHARED_COLLECTIONS_KEY];
+        [tempDel sharedCollection:collectionName withSecret:secret];
         
     }
 }
@@ -559,6 +561,51 @@
                                 withImageData:imgData];
     }
     
+}
+
+-(void) failedToSubscribeToSharingSpace
+{
+    id <MindcloudAllCollectionsDelegate> tempDel = self.delegate;
+    if (tempDel)
+    {
+        [tempDel failedToSubscribeToSecret];
+    }
+}
+
+-(void) subscribedToSharingSpaceForCollection:(NSString *) collectionName
+{
+    
+    id <MindcloudAllCollectionsDelegate> tempDel = self.delegate;
+    if (self.collections[SHARED_COLLECTIONS_KEY])
+    {
+        for (NSString * existingCollection in self.collections[SHARED_COLLECTIONS_KEY])
+        {
+            if ([existingCollection isEqualToString:collectionName])
+            {
+                if (tempDel)
+                {
+                    [tempDel alreadySubscribedToCollectionWithName:collectionName];
+                    return;
+                }
+            }
+        }
+        
+        [self addCollection:collectionName toCategory:SHARED_COLLECTIONS_KEY];
+        
+        if (tempDel)
+        {
+            [tempDel subscribedToCollectionWithName:collectionName];
+        }
+    }
+    else
+    {
+        [self addCollection:collectionName toCategory:SHARED_COLLECTIONS_KEY];
+        
+        if (tempDel)
+        {
+            [tempDel subscribedToCollectionWithName:collectionName];
+        }
+    }
 }
 
 #pragma mark CategoryModelProtocol
