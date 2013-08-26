@@ -15,7 +15,7 @@ typedef void (^get_temp_image_callback)(NSData * imgData);
 
 -(id) initWithUserId:(NSString *) userId
        andCollection:(NSString *) collectionName
-             andNote:(NSString *) noteName
+    andSubCollection:(NSString *) subCollectionName
        andTempSecret:(NSString *) imgSecret
               andURL:(NSString *) baseURL
     andSharingSecret:(NSString *) sharingSecret;

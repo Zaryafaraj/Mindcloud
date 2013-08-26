@@ -1,24 +1,23 @@
 //
-//  NoteImageAction.m
+//  PreviewImageAction.m
 //  Mindcloud
 //
-//  Created by Ali Fathalian on 1/10/13.
-//  Copyright (c) 2013 University of Washington. All rights reserved.
+//  Created by Ali Fathalian on 11/10/12.
+//  Copyright (c) 2012 University of Washington. All rights reserved.
 //
 
-#import "NoteImageAction.h"
+#import "CollectionImageAction.h"
 #import "HTTPHelper.h"
 
-@implementation NoteImageAction
+@implementation CollectionImageAction
 
--(id) initWithUserId: (NSString *) userID
-       andCollection: (NSString *) collectionName
-             andNote: (NSString *) noteName
+-(id) initWithUserID:(NSString *)userID
+       andCollection:(NSString *)collectionsName
 {
     self = [super init];
-    NSString * resourcePath = [NSString stringWithFormat:@"%@/Collections/%@/Notes/%@/Image", userID, collectionName, noteName];
+    NSString * resourcePath = [NSString
+                               stringWithFormat:@"%@/Collections/%@/Thumbnail", userID, collectionsName];
     resourcePath = [resourcePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
     NSURL * url = [NSURL URLWithString:
                    [self.baseURL stringByAppendingString:resourcePath]];
     NSMutableURLRequest * theRequest = [NSMutableURLRequest requestWithURL:url
@@ -31,8 +30,7 @@
 -(void) connectionDidFinishLoading:(NSURLConnection *)connection
 {
     [super connectionDidFinishLoading:connection];
-    
-    if ([self.request.HTTPMethod isEqualToString:@"GET"])
+    if (self.getCallback != nil)
     {
         
         if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
@@ -44,12 +42,16 @@
         
         self.getCallback(self.receivedData);
     }
-    else if ([self.request.HTTPMethod isEqualToString:@"POST"])
+    else if (self.postCallback != nil)
     {
+        
         if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
         {
             NSLog(@"Received status %d", self.lastStatusCode);
+            self.postCallback();
+            return;
         }
+        
         self.postCallback();
     }
 }
@@ -57,13 +59,11 @@
 -(void) executePOST
 {
     [self.request setHTTPMethod:@"POST"];
-    self.request = [HTTPHelper addPostFile:self.postData
-                                  withName:@"note.jpg"
-                                 andParams:@{}
+    self.request = [HTTPHelper addPostFile:self.previewData
+                                  withName:@"thumbnail.jpg"
+                                 andParams:nil
                                         to:self.request];
-    
-    NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:self.request
-                                                                     delegate:self];
+    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:self.request delegate:self];
     if (!theConnection)
     {
         NSLog(@"Failed to connect to %@", self.request.URL);

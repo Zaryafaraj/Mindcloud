@@ -8,13 +8,13 @@
 
 #import "MindcloudBaseAction.h"
 
-@interface PreviewImageAction : MindcloudBaseAction
+@interface CollectionImageAction : MindcloudBaseAction
 
-typedef void (^get_preview_callback)(NSData * imgData);
-typedef void (^save_preview_callback)(void);
+typedef void (^get_collection_image_callback)(NSData * imgData);
+typedef void (^save_collection_image_callback)(void);
 
-@property (nonatomic, strong) get_preview_callback getCallback;
-@property (nonatomic, strong) save_preview_callback postCallback;
+@property (nonatomic, strong) get_collection_image_callback getCallback;
+@property (nonatomic, strong) save_collection_image_callback postCallback;
 @property (nonatomic, strong) NSData * previewData;
 
 -(id) initWithUserID:(NSString *) userID

@@ -50,9 +50,9 @@
 		D7F19837157189A1008DA24F /* Background_Blue.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D7F19836157189A1008DA24F /* Background_Blue.jpg */; };
 		D7F1FF2C154D1A3300D07B58 /* NoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F1FF2B154D1A3300D07B58 /* NoteView.m */; };
 		D7F85EB41528D80300F16D25 /* XoomlCollectionManifest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F85EB31528D80300F16D25 /* XoomlCollectionManifest.m */; };
-		DB03C357169FEB0000C38FD7 /* CollectionNotesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C356169FEB0000C38FD7 /* CollectionNotesAction.m */; };
-		DB03C35B169FEE6C00C38FD7 /* NoteAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35A169FEE6C00C38FD7 /* NoteAction.m */; };
-		DB03C35E169FF1F800C38FD7 /* NoteImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35D169FF1F800C38FD7 /* NoteImageAction.m */; };
+		DB03C357169FEB0000C38FD7 /* CollectionSubCollectionsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C356169FEB0000C38FD7 /* CollectionSubCollectionsAction.m */; };
+		DB03C35B169FEE6C00C38FD7 /* SubCollectionAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35A169FEE6C00C38FD7 /* SubCollectionAction.m */; };
+		DB03C35E169FF1F800C38FD7 /* SubCollectionImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35D169FF1F800C38FD7 /* SubCollectionImageAction.m */; };
 		DB225AC1164CD5D90094BFC9 /* XoomlCategoryParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DB225AC0164CD5D90094BFC9 /* XoomlCategoryParser.m */; };
 		DB2A587516F99865007BD78B /* BG4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB2A587416F99865007BD78B /* BG4.jpg */; };
 		DB2A587716F99B72007BD78B /* bg3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB2A587616F99B72007BD78B /* bg3.jpg */; };
@@ -81,7 +81,7 @@
 		DB6EFA0416FE642900C36EB9 /* Colle.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6EFA0316FE642900C36EB9 /* Colle.png */; };
 		DB6EFA0616FE708700C36EB9 /* Toolbar.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6EFA0516FE708700C36EB9 /* Toolbar.png */; };
 		DB712C87164EF678008E68C6 /* CategoriesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB712C86164EF678008E68C6 /* CategoriesAction.m */; };
-		DB712C8B164F42D1008E68C6 /* PreviewImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB712C8A164F42D1008E68C6 /* PreviewImageAction.m */; };
+		DB712C8B164F42D1008E68C6 /* CollectionImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB712C8A164F42D1008E68C6 /* CollectionImageAction.m */; };
 		DB73DEE416FFDC2900269593 /* notelight5.png in Resources */ = {isa = PBXBuildFile; fileRef = DB73DEE316FFDC2900269593 /* notelight5.png */; };
 		DB73DEE616FFDDD500269593 /* bg0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB73DEE516FFDDD500269593 /* bg0.jpg */; };
 		DB73DEE816FFEFF900269593 /* stacknoshadow.png in Resources */ = {isa = PBXBuildFile; fileRef = DB73DEE716FFEFF900269593 /* stacknoshadow.png */; };
@@ -212,12 +212,12 @@
 		D7F85EAE1528D29E00F16D25 /* CollectionManifestProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionManifestProtocol.h; sourceTree = "<group>"; };
 		D7F85EB21528D80300F16D25 /* XoomlCollectionManifest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XoomlCollectionManifest.h; path = ../XoomlCollectionManifest.h; sourceTree = "<group>"; };
 		D7F85EB31528D80300F16D25 /* XoomlCollectionManifest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XoomlCollectionManifest.m; path = ../XoomlCollectionManifest.m; sourceTree = "<group>"; };
-		DB03C355169FEB0000C38FD7 /* CollectionNotesAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionNotesAction.h; sourceTree = "<group>"; };
-		DB03C356169FEB0000C38FD7 /* CollectionNotesAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionNotesAction.m; sourceTree = "<group>"; };
-		DB03C359169FEE6B00C38FD7 /* NoteAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteAction.h; sourceTree = "<group>"; };
-		DB03C35A169FEE6C00C38FD7 /* NoteAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteAction.m; sourceTree = "<group>"; };
-		DB03C35C169FF1F800C38FD7 /* NoteImageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteImageAction.h; sourceTree = "<group>"; };
-		DB03C35D169FF1F800C38FD7 /* NoteImageAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteImageAction.m; sourceTree = "<group>"; };
+		DB03C355169FEB0000C38FD7 /* CollectionSubCollectionsAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionSubCollectionsAction.h; sourceTree = "<group>"; };
+		DB03C356169FEB0000C38FD7 /* CollectionSubCollectionsAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionSubCollectionsAction.m; sourceTree = "<group>"; };
+		DB03C359169FEE6B00C38FD7 /* SubCollectionAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCollectionAction.h; sourceTree = "<group>"; };
+		DB03C35A169FEE6C00C38FD7 /* SubCollectionAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCollectionAction.m; sourceTree = "<group>"; };
+		DB03C35C169FF1F800C38FD7 /* SubCollectionImageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCollectionImageAction.h; sourceTree = "<group>"; };
+		DB03C35D169FF1F800C38FD7 /* SubCollectionImageAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCollectionImageAction.m; sourceTree = "<group>"; };
 		DB03C360169FFD3B00C38FD7 /* EventTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventTypes.h; sourceTree = "<group>"; };
 		DB15E9ED16E71BB80024BA4C /* SharingAwareObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharingAwareObject.h; sourceTree = "<group>"; };
 		DB15E9EE16E725DB0024BA4C /* cachedCollectionContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cachedCollectionContainer.h; sourceTree = "<group>"; };
@@ -268,8 +268,8 @@
 		DB6EFA0516FE708700C36EB9 /* Toolbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Toolbar.png; sourceTree = "<group>"; };
 		DB712C85164EF678008E68C6 /* CategoriesAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesAction.h; sourceTree = "<group>"; };
 		DB712C86164EF678008E68C6 /* CategoriesAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesAction.m; sourceTree = "<group>"; };
-		DB712C89164F42D0008E68C6 /* PreviewImageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewImageAction.h; sourceTree = "<group>"; };
-		DB712C8A164F42D1008E68C6 /* PreviewImageAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviewImageAction.m; sourceTree = "<group>"; };
+		DB712C89164F42D0008E68C6 /* CollectionImageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionImageAction.h; sourceTree = "<group>"; };
+		DB712C8A164F42D1008E68C6 /* CollectionImageAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionImageAction.m; sourceTree = "<group>"; };
 		DB73DEE316FFDC2900269593 /* notelight5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notelight5.png; sourceTree = "<group>"; };
 		DB73DEE516FFDDD500269593 /* bg0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg0.jpg; sourceTree = "<group>"; };
 		DB73DEE716FFEFF900269593 /* stacknoshadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stacknoshadow.png; sourceTree = "<group>"; };
@@ -744,16 +744,16 @@
 				DBC7C4C216327F1900BF3F2D /* CollectionsAction.m */,
 				DB712C85164EF678008E68C6 /* CategoriesAction.h */,
 				DB712C86164EF678008E68C6 /* CategoriesAction.m */,
-				DB712C89164F42D0008E68C6 /* PreviewImageAction.h */,
-				DB712C8A164F42D1008E68C6 /* PreviewImageAction.m */,
+				DB712C89164F42D0008E68C6 /* CollectionImageAction.h */,
+				DB712C8A164F42D1008E68C6 /* CollectionImageAction.m */,
 				DB4338A6169E8AAF000353DA /* CollectionAction.h */,
 				DB4338A7169E8AAF000353DA /* CollectionAction.m */,
-				DB03C355169FEB0000C38FD7 /* CollectionNotesAction.h */,
-				DB03C356169FEB0000C38FD7 /* CollectionNotesAction.m */,
-				DB03C359169FEE6B00C38FD7 /* NoteAction.h */,
-				DB03C35A169FEE6C00C38FD7 /* NoteAction.m */,
-				DB03C35C169FF1F800C38FD7 /* NoteImageAction.h */,
-				DB03C35D169FF1F800C38FD7 /* NoteImageAction.m */,
+				DB03C355169FEB0000C38FD7 /* CollectionSubCollectionsAction.h */,
+				DB03C356169FEB0000C38FD7 /* CollectionSubCollectionsAction.m */,
+				DB03C359169FEE6B00C38FD7 /* SubCollectionAction.h */,
+				DB03C35A169FEE6C00C38FD7 /* SubCollectionAction.m */,
+				DB03C35C169FF1F800C38FD7 /* SubCollectionImageAction.h */,
+				DB03C35D169FF1F800C38FD7 /* SubCollectionImageAction.m */,
 				DBD06A8F16D98F9C00463ECC /* SharingAction.h */,
 				DBD06A9016D98F9C00463ECC /* SharingAction.m */,
 				DBD06A9C16DAB6F900463ECC /* SubscriptionAction.h */,
@@ -1047,13 +1047,13 @@
 				DBFB7AE21644D5C2004049A9 /* CategoriesViewController.m in Sources */,
 				DB225AC1164CD5D90094BFC9 /* XoomlCategoryParser.m in Sources */,
 				DB712C87164EF678008E68C6 /* CategoriesAction.m in Sources */,
-				DB712C8B164F42D1008E68C6 /* PreviewImageAction.m in Sources */,
+				DB712C8B164F42D1008E68C6 /* CollectionImageAction.m in Sources */,
 				DB43382D169D2E09000353DA /* CachedMindCloudDataSource.m in Sources */,
 				DB4338A0169D4B14000353DA /* XoomlCollectionParser.m in Sources */,
 				DB4338A8169E8AAF000353DA /* CollectionAction.m in Sources */,
-				DB03C357169FEB0000C38FD7 /* CollectionNotesAction.m in Sources */,
-				DB03C35B169FEE6C00C38FD7 /* NoteAction.m in Sources */,
-				DB03C35E169FF1F800C38FD7 /* NoteImageAction.m in Sources */,
+				DB03C357169FEB0000C38FD7 /* CollectionSubCollectionsAction.m in Sources */,
+				DB03C35B169FEE6C00C38FD7 /* SubCollectionAction.m in Sources */,
+				DB03C35E169FF1F800C38FD7 /* SubCollectionImageAction.m in Sources */,
 				DBB9313E16AB7B78005652AA /* CollectionLayoutHelper.m in Sources */,
 				DBB9314116ABDEA4005652AA /* CollectionAnimationHelper.m in Sources */,
 				DB4FF4CE16ACA8DB00DC6DAA /* MultimediaHelper.m in Sources */,

@@ -163,22 +163,22 @@ static Mindcloud * instance;
     [action executePOST];
 }
 
--(void) getPreviewImageForUser: (NSString *) userName
+-(void) getCollectionImageForUser: (NSString *) userName
                  forCollection: (NSString *) collectionName
-                  withCallback:(get_preview_callback) callback
+                  withCallback:(get_collection_image_callback) callback
 {
-    PreviewImageAction * action = [[PreviewImageAction alloc] initWithUserID:userName
+    CollectionImageAction * action = [[CollectionImageAction alloc] initWithUserID:userName
                                                                andCollection:collectionName];
     action.getCallback = callback;
     [action executeGET];
 }
 
--(void) setPreviewImageForUser: (NSString *) userName
+-(void) setCollectionImageForUser: (NSString *) userName
                  forCollection: (NSString *) collectionName
                   andImageData: (NSData *) imgData
-                  withCallback: (save_preview_callback) callback
+                  withCallback: (save_collection_image_callback) callback
 {
-    PreviewImageAction * action = [[PreviewImageAction alloc] initWithUserID:userName
+    CollectionImageAction * action = [[CollectionImageAction alloc] initWithUserID:userName
                                                                andCollection:collectionName];
     action.postCallback = callback;
     action.previewData = imgData;
@@ -195,37 +195,37 @@ static Mindcloud * instance;
     [action executeGET];
 }
 
--(void) getAllNotesForUser:(NSString *) userID
+-(void) getAllSubCollectionsForUser:(NSString *) userID
              forCollection:(NSString *) collectionName
-              withCallback: (get_all_notes_callback)callback
+              withCallback: (get_all_subcollections_callback)callback
 {
-    CollectionNotesAction * action = [[CollectionNotesAction alloc] initWithUserID:userID andCollectionName:collectionName];
+    CollectionSubCollectionsAction * action = [[CollectionSubCollectionsAction alloc] initWithUserID:userID andCollectionName:collectionName];
     
     action.getCallback = callback;
     [action executeGET];
     
 }
 
--(void) getNoteManifestforUser:(NSString *)userID
-                       forNote: (NSString *) noteName
+-(void) getSubCollectionManifestforUser:(NSString *)userID
+                       forSubCollection: (NSString *) subCollection
                 fromCollection:(NSString *) collectionName
-                  withCallback: (get_note_callback) callback
+                  withCallback: (get_subcollection_callback) callback
 {
-    NoteAction * action = [[NoteAction alloc] initWithUserId: userID
+    SubCollectionAction * action = [[SubCollectionAction alloc] initWithUserId: userID
                                                andCollection:collectionName
-                                                     andNote:noteName];
+                                                     andSubCollection:subCollection];
     action.getCallback = callback;
     [action executeGET];
 }
 
--(void) getNoteImageForUser: (NSString *) userID
-                    forNote: (NSString *)noteName
+-(void) getSubCollectionImageForUser: (NSString *) userID
+                    forSubCollection: (NSString *)subCollection
              fromCollection:(NSString *) collectionName
-               withCallback:(get_note_image_callback) callback
+               withCallback:(get_subcollection_image_callback) callback
 {
-    NoteImageAction * action = [[NoteImageAction alloc] initWithUserId:userID
+    SubCollectionImageAction * action = [[SubCollectionImageAction alloc] initWithUserId:userID
                                                          andCollection:collectionName
-                                                               andNote:noteName];
+                                                               andSubCollection:subCollection];
     
     action.getCallback = callback;
     [action executeGET];
@@ -245,59 +245,59 @@ static Mindcloud * instance;
     [action executePOST];
 }
 
-#define NOTE_NAME_KEY @"noteName"
+#define SUBCOLLECTION_NAME_KEY @"noteName"
 
--(void) updateNoteForUser: (NSString *) userID
+-(void) updateSubCollectionForUser: (NSString *) userID
             forCollection: (NSString *) collectionName
-                  andNote: (NSString *) noteName
+                  andSubCollection: (NSString *) subCollection
                  withData: (NSData *) data
-             withCallback:(add_note_callback) callback
+             withCallback:(add_subcollection_callback) callback
 {
-    CollectionNotesAction * action = [[CollectionNotesAction alloc] initWithUserID:userID
+    CollectionSubCollectionsAction * action = [[CollectionSubCollectionsAction alloc] initWithUserID:userID
                                                                  andCollectionName:collectionName];
     action.postCallback = callback;
-    action.postArguments = @{NOTE_NAME_KEY:noteName};
+    action.postArguments = @{SUBCOLLECTION_NAME_KEY:subCollection};
     action.postData = data;
     
     [action executePOST];
 }
 
--(void) updateNoteAndNoteImageForUser: (NSString *) userID
+-(void) updateSubCollectionAndSubCollectionImageForUser: (NSString *) userID
                         forCollection: (NSString *) collectionName
-                              andNote: (NSString *) noteName
-                         withNoteData: (NSData *) noteData
+                              andSubCollection: (NSString *) subCollection
+                         withSubCollectionData: (NSData *) subCollectionData
                          andImageData: (NSData *) imageData
-                         withCallback: (add_note_image_callback) callback
+                         withCallback: (add_subcollection_image_callback) callback
 {
     
-    CollectionNotesAction * action = [[CollectionNotesAction alloc] initWithUserID:userID
+    CollectionSubCollectionsAction * action = [[CollectionSubCollectionsAction alloc] initWithUserID:userID
                                                                  andCollectionName:collectionName];
     action.postCallback = ^(void){
         //now upload image
-        NoteImageAction * imgAction = [[NoteImageAction alloc] initWithUserId:userID
+        SubCollectionImageAction * imgAction = [[SubCollectionImageAction alloc] initWithUserId:userID
                                                                 andCollection:collectionName
-                                                                      andNote:noteName];
+                                                                      andSubCollection:subCollection];
         imgAction.postData = imageData;
         imgAction.postCallback = callback;
         
         [imgAction executePOST];
     };
     
-    action.postArguments = @{NOTE_NAME_KEY:noteName};
-    action.postData = noteData;
+    action.postArguments = @{SUBCOLLECTION_NAME_KEY:subCollection};
+    action.postData = subCollectionData;
     
     [action executePOST];
     
 }
 
--(void) deleteNoteForUser:(NSString *) userID
+-(void) deleteSubCollectionForUser:(NSString *) userID
             forCollection: (NSString *) collectionName
-                  andNote:(NSString *) noteName
-             withCallback: (delete_note_callback) callback
+                  andSubCollection:(NSString *) subCollection
+             withCallback: (delete_subcollection_callback) callback
 {
-    NoteAction * action = [[NoteAction alloc] initWithUserId:userID
+    SubCollectionAction * action = [[SubCollectionAction alloc] initWithUserId:userID
                                                andCollection:collectionName
-                                                     andNote:noteName];
+                                                     andSubCollection:subCollection];
     
     action.deleteCallback = callback;
     
@@ -387,7 +387,7 @@ static Mindcloud * instance;
 //super ugly !
 -(void) getTempImageForUser:(NSString *) userId
               andCollection:(NSString *) collectionName
-                    andNote:(NSString *) noteName
+                    andSubCollection:(NSString *) subCollection
            andSharingSecret:(NSString *) sharingSecret
              andImageSecret:(NSString *) imgSecret
                  fromBaseUR:(NSString *) baseURL
@@ -395,7 +395,7 @@ static Mindcloud * instance;
 {
     TempImageAction * action = [[TempImageAction alloc] initWithUserId:userId
                                                          andCollection:collectionName
-                                                               andNote:noteName
+                                                               andSubCollection:subCollection
                                                          andTempSecret:imgSecret
                                                                 andURL:baseURL andSharingSecret:sharingSecret];
     

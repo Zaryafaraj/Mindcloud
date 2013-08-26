@@ -10,11 +10,11 @@
 #import "CollectionsAction.h"
 #import "AuthorizationDelegate.h"
 #import "CategoriesAction.h"
-#import "PreviewImageAction.h"
+#import "CollectionImageAction.h"
 #import "CollectionAction.h"
-#import "CollectionNotesAction.h"
-#import "NoteAction.h"
-#import "NoteImageAction.h"
+#import "CollectionSubCollectionsAction.h"
+#import "SubCollectionAction.h"
+#import "SubCollectionImageAction.h"
 #import "SharingAction.h"
 #import "SubscriptionAction.h"
 #import "ListenerAction.h"
@@ -55,56 +55,56 @@
               withData:(NSData *)categoriesData
            andCallback: (save_categories_callback) callback;
 
--(void) getPreviewImageForUser: (NSString *) userName
-                 forCollection: (NSString *) collectionName
-                  withCallback:(get_preview_callback) callback;
+-(void) getCollectionImageForUser: (NSString *) userName
+                    forCollection: (NSString *) collectionName
+                     withCallback:(get_collection_image_callback) callback;
 
--(void) setPreviewImageForUser: (NSString *) userName
-                 forCollection: (NSString *) collectionName
-                  andImageData: (NSData *) imgData
-                  withCallback: (save_preview_callback) callback;
+-(void) setCollectionImageForUser: (NSString *) userName
+                    forCollection: (NSString *) collectionName
+                     andImageData: (NSData *) imgData
+                     withCallback: (save_collection_image_callback) callback;
 
 -(void) getCollectionManifestForUser: (NSString *) userName
                        forCollection:(NSString *) collectionName
                         withCallback:(get_collection_callback) callback;
 
--(void) getAllNotesForUser:(NSString *) userID
-             forCollection:(NSString *) collectionName
-              withCallback: (get_all_notes_callback)callback;
+-(void) getAllSubCollectionsForUser:(NSString *) userID
+                      forCollection:(NSString *) collectionName
+                       withCallback: (get_all_subcollections_callback)callback;
 
 
--(void) getNoteManifestforUser:(NSString *)userID
-                       forNote: (NSString *) noteName
-                fromCollection:(NSString *) collectionName
-                  withCallback: (get_note_callback) callback;
+-(void) getSubCollectionManifestforUser:(NSString *)userID
+                                forSubCollection: (NSString *) subCollectionName
+                         fromCollection:(NSString *) collectionName
+                           withCallback: (get_subcollection_callback) callback;
 
--(void) getNoteImageForUser: (NSString *) userID
-                    forNote: (NSString *)noteName
-             fromCollection:(NSString *) collectionName
-               withCallback:(get_note_image_callback) callback;
+-(void) getSubCollectionImageForUser: (NSString *) userID
+                             forSubCollection: (NSString *)subCollectionName
+                      fromCollection:(NSString *) collectionName
+                        withCallback:(get_subcollection_image_callback) callback;
 
 -(void) updateCollectionManifestForUser: (NSString *) userID
                           forCollection: (NSString *) collectionName
                                withData:(NSData *) data
                            withCallback:(update_collection_callback) callback;
 
--(void) updateNoteForUser: (NSString *) userID
-            forCollection: (NSString *) collectionName
-                  andNote: (NSString *) noteName
-                 withData: (NSData *) data
-             withCallback:(add_note_callback) callback;
+-(void) updateSubCollectionForUser: (NSString *) userID
+                     forCollection: (NSString *) collectionName
+                  andSubCollection: (NSString *) subCollectionName
+                          withData: (NSData *) data
+                      withCallback:(add_subcollection_callback) callback;
 
--(void) updateNoteAndNoteImageForUser: (NSString *) userID
+-(void) updateSubCollectionAndSubCollectionImageForUser: (NSString *) userID
                         forCollection: (NSString *) collectionName
-                              andNote: (NSString *) noteName
-                         withNoteData: (NSData *) noteData
+                              andSubCollection: (NSString *) subCollectionName
+                         withSubCollectionData: (NSData *) subCollectionData
                          andImageData: (NSData *) imageData
-                         withCallback: (add_note_image_callback) callback;
+                         withCallback: (add_subcollection_image_callback) callback;
 
--(void) deleteNoteForUser:(NSString *) userID
+-(void) deleteSubCollectionForUser:(NSString *) userID
             forCollection: (NSString *) collectionName
-                  andNote:(NSString *) noteName
-             withCallback: (delete_note_callback) callback;
+                  andSubCollection:(NSString *) subCollectionName
+             withCallback: (delete_subcollection_callback) callback;
 
 
 -(void) shareCollection:(NSString *) collectionName
@@ -138,7 +138,7 @@
 
 -(void) getTempImageForUser:(NSString *) userId
               andCollection:(NSString *) collectionName
-                    andNote:(NSString *) noteName
+                    andSubCollection:(NSString *) subCollectionName
            andSharingSecret:(NSString *) sharingSecret
              andImageSecret:(NSString *) imgSecret
                  fromBaseUR:(NSString *) baseURL

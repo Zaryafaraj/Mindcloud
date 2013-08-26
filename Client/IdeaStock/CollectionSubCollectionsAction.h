@@ -1,5 +1,4 @@
 //
-//  CollectionNotesAction.h
 //  Mindcloud
 //
 //  Created by Ali Fathalian on 1/10/13.
@@ -8,13 +7,13 @@
 
 #import "MindcloudBaseAction.h"
 
-@interface CollectionNotesAction : MindcloudBaseAction
+@interface CollectionSubCollectionsAction : MindcloudBaseAction
 
-typedef void (^get_all_notes_callback)(NSArray * allNotes);
-typedef void (^add_note_callback)(void);
+typedef void (^get_all_subcollections_callback)(NSArray * allSubCollections);
+typedef void (^add_subcollection_callback)(void);
 
-@property (nonatomic, strong) get_all_notes_callback getCallback;
-@property (nonatomic, strong) add_note_callback postCallback;
+@property (nonatomic, strong) get_all_subcollections_callback getCallback;
+@property (nonatomic, strong) add_subcollection_callback postCallback;
 
 @property (nonatomic, strong) NSDictionary * postArguments;
 @property (nonatomic, strong) NSData * postData;

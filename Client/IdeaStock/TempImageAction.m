@@ -12,13 +12,13 @@
 
 -(id) initWithUserId:(NSString *) userId
        andCollection:(NSString *) collectionName
-             andNote:(NSString *) noteName
+             andSubCollection:(NSString *) subCollectionName
        andTempSecret:(NSString *) imgSecret
               andURL:(NSString *) baseURL
     andSharingSecret:(NSString *) sharingSecret
 {
     self = [super init];
-    NSString * resourcePath = [NSString stringWithFormat:@"/SharingSpace/%@/%@/%@/%@/%@", sharingSecret,userId, collectionName, noteName, imgSecret];
+    NSString * resourcePath = [NSString stringWithFormat:@"/SharingSpace/%@/%@/%@/%@/%@", sharingSecret,userId, collectionName, subCollectionName, imgSecret];
     resourcePath = [resourcePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL * url = [NSURL URLWithString:[baseURL stringByAppendingString:resourcePath]];
     NSMutableURLRequest * theRequest = [NSMutableURLRequest requestWithURL:url

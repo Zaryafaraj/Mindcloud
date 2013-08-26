@@ -239,7 +239,7 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
             Mindcloud * mindcloud = [Mindcloud getMindCloud];
             NSString * userID = [UserPropertiesHelper userID];
             
-            [mindcloud getPreviewImageForUser:userID
+            [mindcloud getCollectionImageForUser:userID
                                 forCollection:collectionName
                                  withCallback:^(NSData * imgData){
                                      
@@ -288,7 +288,7 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     [self saveThumbnailToDisk:thumbnailData forCollection:collectionName];
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userID = [UserPropertiesHelper userID];
-    [mindcloud setPreviewImageForUser:userID
+    [mindcloud setCollectionImageForUser:userID
                         forCollection:collectionName
                          andImageData:thumbnailData
                          withCallback:^(void){
@@ -324,9 +324,9 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
         
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
-        [mindcloud updateNoteForUser:userID
+        [mindcloud updateSubCollectionForUser:userID
                        forCollection:collectionName
-                             andNote:noteName
+                             andSubCollection:noteName
                             withData:note
                         withCallback:^(void){
                             self.inProgressNoteUpdates[noteName] = @NO;
@@ -381,10 +381,10 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
         
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
-        [mindcloud updateNoteAndNoteImageForUser:userID
+        [mindcloud updateSubCollectionAndSubCollectionImageForUser:userID
                                    forCollection:collectionName
-                                         andNote:noteName
-                                    withNoteData:note
+                                         andSubCollection:noteName
+                                    withSubCollectionData:note
                                     andImageData:img
                                     withCallback:^(void) {
                                         
@@ -476,7 +476,7 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
         
-        [mindcloud deleteNoteForUser:userID forCollection:collectionName andNote:noteName withCallback:^(void){
+        [mindcloud deleteSubCollectionForUser:userID forCollection:collectionName andSubCollection:noteName withCallback:^(void){
             NSLog(@"Deleted Note %@ in collection %@", noteName, collectionName);
         }];
     }
@@ -540,7 +540,7 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
 {
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userID = [UserPropertiesHelper userID];
-    [mindcloud getAllNotesForUser:userID
+    [mindcloud getAllSubCollectionsForUser:userID
                     forCollection:collectionName
                      withCallback:^(NSArray * allNotes){
                          int index = 0;
@@ -566,8 +566,8 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
         NSString * userID = [UserPropertiesHelper userID];
         NSString * noteName = allNotes[index];
         index++;
-        [mindcloud getNoteManifestforUser:userID
-                                  forNote:noteName
+        [mindcloud getSubCollectionManifestforUser:userID
+                                  forSubCollection:noteName
                            fromCollection:collectionName withCallback:^(NSData * noteData){
                                
                                [self saveToDiskNoteData:noteData
@@ -608,8 +608,8 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
         NSString * noteName = allNotes[index];
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
-        [mindcloud getNoteImageForUser:userID
-                               forNote:noteName
+        [mindcloud getSubCollectionImageForUser:userID
+                               forSubCollection:noteName
                         fromCollection:collectionName withCallback:^(NSData * noteData){
                             
                             [self saveToDiskNoteImageData:noteData
@@ -683,8 +683,8 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     {
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
-        [mindcloud getNoteImageForUser:userID
-                               forNote:noteName
+        [mindcloud getSubCollectionImageForUser:userID
+                               forSubCollection:noteName
                         fromCollection:collectionName withCallback:^(NSData * noteData){
                             
                             if (noteData)
@@ -1037,7 +1037,7 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
         NSString * noteNameClosure = noteName;
         [mindcloud getTempImageForUser:userID
                          andCollection:collectionName
-                               andNote:noteName
+                               andSubCollection:noteName
                       andSharingSecret:sharingSecret
                         andImageSecret:imageKey
                             fromBaseUR:baseURL

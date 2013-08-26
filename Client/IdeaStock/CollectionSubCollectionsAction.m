@@ -1,25 +1,25 @@
 //
-//  PreviewImageAction.m
 //  Mindcloud
 //
-//  Created by Ali Fathalian on 11/10/12.
-//  Copyright (c) 2012 University of Washington. All rights reserved.
+//  Created by Ali Fathalian on 1/10/13.
+//  Copyright (c) 2013 University of Washington. All rights reserved.
 //
 
-#import "PreviewImageAction.h"
+#import "CollectionSubCollectionsAction.h"
 #import "HTTPHelper.h"
 
-@implementation PreviewImageAction
+@implementation CollectionSubCollectionsAction
 
 -(id) initWithUserID:(NSString *)userID
-       andCollection:(NSString *)collectionsName
+   andCollectionName:(NSString *)collectionName
 {
     self = [super init];
-    NSString * resourcePath = [NSString
-                               stringWithFormat:@"%@/Collections/%@/Thumbnail", userID, collectionsName];
+    NSString * resourcePath = [NSString stringWithFormat:@"%@/Collections/%@/Notes", userID, collectionName];
     resourcePath = [resourcePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
     NSURL * url = [NSURL URLWithString:
                    [self.baseURL stringByAppendingString:resourcePath]];
+    
     NSMutableURLRequest * theRequest = [NSMutableURLRequest requestWithURL:url
                                         cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                            timeoutInterval:60.0];
@@ -27,10 +27,13 @@
     return self;
 }
 
+#define NOTES_KET @"Notes"
 -(void) connectionDidFinishLoading:(NSURLConnection *)connection
 {
     [super connectionDidFinishLoading:connection];
-    if (self.getCallback != nil)
+    NSDictionary *  result = self.getDataAsDictionary;
+    
+    if ([self.request.HTTPMethod isEqualToString:@"GET"])
     {
         
         if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
@@ -40,18 +43,15 @@
             return;
         }
         
-        self.getCallback(self.receivedData);
+        NSArray * resultArray = result[NOTES_KET];
+        self.getCallback(resultArray);
     }
-    else if (self.postCallback != nil)
+    else if ([self.request.HTTPMethod isEqualToString:@"POST"])
     {
-        
         if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
         {
             NSLog(@"Received status %d", self.lastStatusCode);
-            self.postCallback();
-            return;
         }
-        
         self.postCallback();
     }
 }
@@ -59,10 +59,11 @@
 -(void) executePOST
 {
     [self.request setHTTPMethod:@"POST"];
-    self.request = [HTTPHelper addPostFile:self.previewData
-                                  withName:@"thumbnail.jpg"
-                                 andParams:nil
+    self.request = [HTTPHelper addPostFile:self.postData
+                                  withName:@"note.xml"
+                                 andParams:self.postArguments
                                         to:self.request];
+    
     NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:self.request delegate:self];
     if (!theConnection)
     {

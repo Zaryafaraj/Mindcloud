@@ -1,21 +1,21 @@
 //
-//  NoteAction.m
 //  Mindcloud
 //
 //  Created by Ali Fathalian on 1/10/13.
 //  Copyright (c) 2013 University of Washington. All rights reserved.
 //
 
-#import "NoteAction.h"
+#import "SubCollectionImageAction.h"
+#import "HTTPHelper.h"
 
-@implementation NoteAction
+@implementation SubCollectionImageAction
 
 -(id) initWithUserId: (NSString *) userID
        andCollection: (NSString *) collectionName
-             andNote: (NSString *) noteName
+             andSubCollection: (NSString *) subCollectionName
 {
     self = [super init];
-    NSString * resourcePath = [NSString stringWithFormat:@"%@/Collections/%@/Notes/%@", userID, collectionName, noteName];
+    NSString * resourcePath = [NSString stringWithFormat:@"%@/Collections/%@/Notes/%@/Image", userID, collectionName, subCollectionName];
     resourcePath = [resourcePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     NSURL * url = [NSURL URLWithString:
@@ -27,7 +27,7 @@
     return self;
 }
 
-- (void) connectionDidFinishLoading:(NSURLConnection *)connection
+-(void) connectionDidFinishLoading:(NSURLConnection *)connection
 {
     [super connectionDidFinishLoading:connection];
     
@@ -43,15 +43,29 @@
         
         self.getCallback(self.receivedData);
     }
-    else if ([self.request.HTTPMethod isEqualToString:@"DELETE" ])
+    else if ([self.request.HTTPMethod isEqualToString:@"POST"])
     {
         if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
         {
             NSLog(@"Received status %d", self.lastStatusCode);
         }
-        
-        self.deleteCallback();
-        return;
+        self.postCallback();
+    }
+}
+
+-(void) executePOST
+{
+    [self.request setHTTPMethod:@"POST"];
+    self.request = [HTTPHelper addPostFile:self.postData
+                                  withName:@"note.jpg"
+                                 andParams:@{}
+                                        to:self.request];
+    
+    NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:self.request
+                                                                     delegate:self];
+    if (!theConnection)
+    {
+        NSLog(@"Failed to connect to %@", self.request.URL);
     }
 }
 @end
