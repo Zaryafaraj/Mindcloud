@@ -444,7 +444,6 @@
 			children = (
 				DB4338A2169D5400000353DA /* Mixins */,
 				DB43382A169D2D86000353DA /* Models */,
-				DB225ABD164CD5B70094BFC9 /* Parsers */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -651,18 +650,11 @@
 				D70947091523BDFE008E4AD9 /* CollectionNote.h */,
 				D709470A1523BDFE008E4AD9 /* CollectionNote.m */,
 				D71D934F15230B3D0043E573 /* BulletinBoardProtocol.h */,
-				D7F85EB21528D80300F16D25 /* XoomlCollectionManifest.h */,
-				D7F85EB31528D80300F16D25 /* XoomlCollectionManifest.m */,
-				D7F85EAE1528D29E00F16D25 /* CollectionManifestProtocol.h */,
-				D71D934B152301F10043E573 /* MindcloudDataSource.h */,
-				DB43382B169D2E09000353DA /* CachedMindCloudDataSource.h */,
-				DB43382C169D2E09000353DA /* CachedMindCloudDataSource.m */,
 				DB3FD52E16B77FA400024AC6 /* StackingModel.h */,
 				DB3FD52F16B77FA400024AC6 /* StackingModel.m */,
 				DB3FD53216B7A4D900024AC6 /* CollectionNoteAttribute.h */,
 				DB3FD53316B7A4D900024AC6 /* CollectionNoteAttribute.m */,
 				DB4E25B016C78A4200E85334 /* ThumbnailManagerProtocol.h */,
-				DB15E9EE16E725DB0024BA4C /* cachedCollectionContainer.h */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -703,6 +695,20 @@
 				DB8F489F17CA8D0000DDDB2D /* MindcloudAllCollectionsDelegate.h */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		DB739C7D17CAEC16006DE2D9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D7F85EB21528D80300F16D25 /* XoomlCollectionManifest.h */,
+				D7F85EB31528D80300F16D25 /* XoomlCollectionManifest.m */,
+				D7F85EAE1528D29E00F16D25 /* CollectionManifestProtocol.h */,
+				D71D934B152301F10043E573 /* MindcloudDataSource.h */,
+				DB43382B169D2E09000353DA /* CachedMindCloudDataSource.h */,
+				DB43382C169D2E09000353DA /* CachedMindCloudDataSource.m */,
+				DB15E9EE16E725DB0024BA4C /* cachedCollectionContainer.h */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		DB7AC5E51643AA32007756E6 /* ViewDeck */ = {
@@ -841,6 +847,8 @@
 		DBF1CEDA17C94A6A000777F7 /* Gordon */ = {
 			isa = PBXGroup;
 			children = (
+				DB225ABD164CD5B70094BFC9 /* Parsers */,
+				DB739C7D17CAEC16006DE2D9 /* Model */,
 				DB03C35F169FFD2B00C38FD7 /* Types */,
 				DBBA28A616CC7983007C7B4A /* Sharing */,
 				DB4338A1169D5169000353DA /* Helpers */,
