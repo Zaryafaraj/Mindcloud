@@ -7,12 +7,12 @@
 //
 
 #import "SignInViewController.h"
-#import "Mindcloud.h"
 #import "UserPropertiesHelper.h"
+#import "MindcloudAuthenticationGordon.h"
 
 @interface SignInViewController ()
 
-@property (strong, nonatomic) NSString * AuthURL;
+@property (atomic, strong) MindcloudAuthenticationGordon * gordonAuthorizer;
 
 @end
 
@@ -30,9 +30,9 @@
 {
     //open safari with the link to dropbox signin page
     //The call back after user signs in is in the appDelegate.m class
-    if (self.AuthURL)
+    if ([self.gordonAuthorizer authenticationURL])
     {
-        NSURL * url = [NSURL URLWithString:self.AuthURL];
+        NSURL * url = [NSURL URLWithString:[self.gordonAuthorizer authenticationURL]];
         [[UIApplication sharedApplication] openURL:url];
     }
     else
@@ -48,8 +48,7 @@
     //do the authorization from background
     [super viewDidLoad];
     NSString * userID = [UserPropertiesHelper userID];
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    [mindcloud authorize:userID withDelegate:self];
+    [self.gordonAuthorizer authorizeUser:userID];
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,29 +57,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*=========================
- Delegations
- =========================*/
-
--(void) authorizationFailed
+-(void) userIsAuthenticatedAndAuthorized:(NSString *) userID
 {
-    //retry again
-    NSString * userID = [UserPropertiesHelper userID];
-    Mindcloud * mindcloud = [Mindcloud getMindCloud];
-    [mindcloud authorize:userID withDelegate:self];
+    
+    [self performSegueWithIdentifier:@"MainScreenSegue" sender:self];
 }
--(void) didFinishAuthorizing:(NSString *)userID
-          andNeedsAuthenting:(BOOL)needAuthenticating
-                     withURL:(NSString *)url
-{
-    if (needAuthenticating)
-    {
-        self.AuthURL = url;
-    }
-    else
-    {
-      [self performSegueWithIdentifier:@"MainScreenSegue" sender:self];
-    }
-}
-
 @end

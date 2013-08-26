@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AuthorizationDelegate.h"
+#import "MindcloudAuthenticationGordonDelegate.h"
 
-@interface SignInViewController : UIViewController <AuthorizationDelegate>
+@interface SignInViewController : UIViewController <MindcloudAuthenticationGordonDelegate>
 
 @end

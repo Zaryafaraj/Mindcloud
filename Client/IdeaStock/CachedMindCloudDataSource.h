@@ -13,13 +13,14 @@
 #import "CollectionSharingAdapterDelegate.h"
 #import "SharingAwareObject.h"
 #import "cachedCollectionContainer.h"
+#import "AuthorizationDelegate.h"
 
 @interface CachedMindCloudDataSource : NSObject<MindcloudDataSource,
-                                                CachedObject,
-                                                SharingAwareObject,
-                                                CollectionContentNotificationHandler,
-                                                CollectionSharingAdapterDelegate,
-                                                cachedCollectionContainer>
+CachedObject,
+SharingAwareObject,
+CollectionContentNotificationHandler,
+CollectionSharingAdapterDelegate,
+cachedCollectionContainer>
 
 //always use this factory method to instantiate class
 +(id) getInstance: (NSString *) collectionName;

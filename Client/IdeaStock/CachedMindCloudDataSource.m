@@ -168,6 +168,13 @@
     [self deleteCollectionFromDisk:collectionName];
 }
 
+-(void) authorizeUser:(NSString *) userID
+withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
+{
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    [mindcloud authorize:userID withDelegate:del];
+}
+
 -(NSDictionary *) getCategories
 {
     NSData * categoriesData = [self readCategoriesFromDisk];

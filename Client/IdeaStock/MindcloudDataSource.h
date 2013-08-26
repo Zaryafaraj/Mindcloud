@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "BulletinBoardProtocol.h"
 #import "NoteProtocol.h"
+#import "AuthorizationDelegate.h"
 
 /**
  * The protocol for the datamodel. Includes essential behaviors for working 
@@ -16,6 +17,11 @@
  */
 @protocol MindcloudDataSource <NSObject>
 
+/*
+ Authorization
+ */
+-(void) authorizeUser:(NSString *) userID
+withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
 
 /*
  Adds one note with name noteName and content note to the bulletinBoard
