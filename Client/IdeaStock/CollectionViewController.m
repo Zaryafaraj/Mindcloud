@@ -113,32 +113,32 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteImageAddedEventOccured:)
-                                                 name:IMAGE_NOTE_ADDED_EVENT
+                                                 name:SUBCOLLECTION_WITH_IMAGE_ADDED_EVENT
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteAddedEventOccured:)
-                                                 name:NOTE_ADDED_EVENT
+                                                 name:SUBCOLLECTION_ADDED_EVENT
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteContentUpdateEventOccured:)
-                                                 name:NOTE_CONTENT_UPDATED_EVENT
+                                                 name:SUBCOLLECTION_CONTENT_UPDATED_EVENT
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteImageUpdateEventOccured:)
-                                                 name:NOTE_IMAGE_UPDATED_EVENT
+                                                 name:SUBCOLLECTION_IMAGE_UPDATED_EVENT
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteUpdatedEventOccured:)
-                                                 name:NOTE_UPDATED_EVENT
+                                                 name:SUBCOLLECTION_UPDATED_EVENT
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteDeletedEventOccured:)
-                                                 name:NOTE_DELETED_EVENT
+                                                 name:SUBCOLLECTION_DELETED_KEY
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -911,7 +911,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteImageReady:)
-                                                 name:NOTE_IMAGE_READY_EVENT
+                                                 name:SUBCOLLECTION_IMAGE_READY_EVENT
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self

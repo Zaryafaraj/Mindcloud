@@ -153,7 +153,7 @@ CachedObject> dataSource;
         //notifications for listener updates
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(listenerDownloadedNote:)
-                                                     name:LISTENER_DOWNLOADED_NOTE
+                                                     name:LISTENER_DOWNLOADED_SUBCOLLECTION
                                                    object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -163,7 +163,7 @@ CachedObject> dataSource;
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(listenerDeletedNote:)
-                                                     name:LISTENER_DELETED_NOTE
+                                                     name:LISTENER_DELETED_SUBCOLLECTION
                                                    object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -450,7 +450,7 @@ CachedObject> dataSource;
     if (subCollectionsInfo != nil)
     {
         NSDictionary * userDict = @{@"result": subCollectionsInfo.allKeys};
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_CONTENT_UPDATED_EVENT
+        [[NSNotificationCenter defaultCenter] postNotificationName:SUBCOLLECTION_CONTENT_UPDATED_EVENT
                                                             object:self
                                                           userInfo:userDict];
     }
@@ -498,7 +498,7 @@ CachedObject> dataSource;
                                             @{@"collectionName":collectionName,
                                               @"noteId":noteID}
                                         };
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_IMAGE_READY_EVENT
+            [[NSNotificationCenter defaultCenter] postNotificationName:SUBCOLLECTION_IMAGE_READY_EVENT
                                                                 object:self
                                                               userInfo:userInfo];
         }

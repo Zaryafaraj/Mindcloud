@@ -53,7 +53,7 @@
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(thumbnailReceived:)
-                                                     name: THUMBNAIL_RECEIVED_EVENT
+                                                     name: COLLECTION_IMAGE_RECEIVED_EVENT
                                                    object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self

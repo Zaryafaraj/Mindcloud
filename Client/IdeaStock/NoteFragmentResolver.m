@@ -57,7 +57,7 @@
                 
                 [self removeNoteFromResolver:noteId];
                 NSDictionary * userInfo = @{@"result" : notification};
-                [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_RESOLVED_EVENT
+                [[NSNotificationCenter defaultCenter] postNotificationName:SUB_COLLECTION_RESOLVED_EVENT
                                                                     object:self
                                                                   userInfo:userInfo];
             }
@@ -76,7 +76,7 @@
                                                                                                     andNoteId:noteId];
             [self removeNoteFromResolver:noteId];
             NSDictionary * userInfo = @{@"result" : notification};
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_RESOLVED_EVENT
+            [[NSNotificationCenter defaultCenter] postNotificationName:SUB_COLLECTION_RESOLVED_EVENT
                                                                 object:self
                                                               userInfo:userInfo];
         }
@@ -112,7 +112,7 @@
                 
                 [self removeNoteFromResolver:noteId];
                 NSDictionary * userInfo = @{@"result" : notification};
-                [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_RESOLVED_EVENT
+                [[NSNotificationCenter defaultCenter] postNotificationName:SUB_COLLECTION_RESOLVED_EVENT
                                                                     object:self
                                                                   userInfo:userInfo];
             }
@@ -130,7 +130,7 @@
                                                                                                     andNoteId:noteId];
             [self removeNoteFromResolver:noteId];
             NSDictionary * userInfo = @{@"result" : notification};
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_RESOLVED_EVENT
+            [[NSNotificationCenter defaultCenter] postNotificationName:SUB_COLLECTION_RESOLVED_EVENT
                                                                 object:self
                                                               userInfo:userInfo];
         }
@@ -159,7 +159,7 @@
             
             [self removeNoteFromResolver:noteId];
             NSDictionary * userInfo = @{@"result" : notification};
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_RESOLVED_EVENT
+            [[NSNotificationCenter defaultCenter] postNotificationName:SUB_COLLECTION_RESOLVED_EVENT
                                                                 object:self
                                                               userInfo:userInfo];
             

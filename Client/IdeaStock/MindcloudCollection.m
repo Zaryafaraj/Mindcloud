@@ -99,7 +99,7 @@
     //notifications for note resolver
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteResolved:)
-                                                 name:NOTE_RESOLVED_EVENT
+                                                 name:SUB_COLLECTION_RESOLVED_EVENT
                                                object:nil];
     
     
@@ -129,7 +129,7 @@
         {
             self.imagePathsForNotes[noteId] = noteResolution.noteImagePath;
             [self.thumbnailStack addObject:noteId];
-            [[NSNotificationCenter defaultCenter] postNotificationName:IMAGE_NOTE_ADDED_EVENT
+            [[NSNotificationCenter defaultCenter] postNotificationName:SUBCOLLECTION_WITH_IMAGE_ADDED_EVENT
                                                                 object:self
                                                               userInfo:userInfo];
             
@@ -139,7 +139,7 @@
         }
         else
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_ADDED_EVENT
+            [[NSNotificationCenter defaultCenter] postNotificationName:SUBCOLLECTION_ADDED_EVENT
                                                                 object:self
                                                               userInfo:userInfo];
             
@@ -510,7 +510,7 @@
     NSDictionary * userInfo = @{@"result" : [updatedNotes copy]};
     
     NSLog(@"MindcloudCollection: Update Note Event: %@", updatedNotes);
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_UPDATED_EVENT
+    [[NSNotificationCenter defaultCenter] postNotificationName:SUBCOLLECTION_UPDATED_EVENT
                                                         object:self
                                                       userInfo:userInfo];
 }
@@ -544,7 +544,7 @@
     NSDictionary * userInfo =  @{@"result" :  deletedNotes};
     
     NSLog(@"MindcloudCollection: Delete Note Event: %@", deletedNotes);
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_DELETED_EVENT
+    [[NSNotificationCenter defaultCenter] postNotificationName:SUBCOLLECTION_DELETED_KEY
                                                         object:self
                                                       userInfo:userInfo];
 }
@@ -814,7 +814,7 @@
         //just update the content
         self.collectionNoteAttributes[noteId] = noteObj;
         NSDictionary * userInfo =  @{@"result" :  @[noteId]};
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_CONTENT_UPDATED_EVENT
+        [[NSNotificationCenter defaultCenter] postNotificationName:SUBCOLLECTION_CONTENT_UPDATED_EVENT
                                                             object:self
                                                           userInfo:userInfo];
     }
@@ -846,7 +846,7 @@
         [self.gordonDataSource updateCollectionThumbnailWithImageOfSubCollection:subCollectionId];
         
         NSDictionary * userInfo =  @{@"result" :  @[noteId]};
-        [[NSNotificationCenter defaultCenter] postNotificationName:NOTE_IMAGE_UPDATED_EVENT
+        [[NSNotificationCenter defaultCenter] postNotificationName:SUBCOLLECTION_IMAGE_UPDATED_EVENT
                                                             object:self
                                                           userInfo:userInfo];
         

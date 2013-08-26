@@ -268,7 +268,7 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
                                                    }
                                            };
                                      }
-                                     [[NSNotificationCenter defaultCenter] postNotificationName:THUMBNAIL_RECEIVED_EVENT
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_IMAGE_RECEIVED_EVENT
                                                                                          object:self
                                                                                        userInfo:userDict];
                                      [NetworkActivityHelper removeActivityInProgress];
@@ -945,7 +945,7 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
                               @"notes" : noteDataMap.allKeys};
     
     NSDictionary * userInfo = @{@"result" : result};
-    [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DOWNLOADED_NOTE
+    [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DOWNLOADED_SUBCOLLECTION
                                                         object:self
                                                       userInfo:userInfo];
 }
@@ -989,7 +989,7 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
                               @"notes" : noteDataMap.allKeys};
     
     NSDictionary * userInfo = @{@"result" : result};
-    [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DELETED_NOTE
+    [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DELETED_SUBCOLLECTION
                                                         object:self
                                                       userInfo:userInfo];
 }
