@@ -8,8 +8,8 @@
 
 #import "CollectionRecorder.h"
 @interface CollectionRecorder()
-@property (strong, atomic) NSMutableSet * deletedNotes;
-@property (strong, atomic) NSMutableSet * updatedNotes;
+@property (strong, atomic) NSMutableSet * deletedSubCollections;
+@property (strong, atomic) NSMutableSet * updatedSubCollections;
 @property (strong, atomic) NSMutableSet * deletedStacks;
 @property (strong, atomic) NSMutableSet * updatedStacks;
 @end
@@ -18,21 +18,21 @@
 -(id) init
 {
     self = [super init];
-    self.deletedNotes = [NSMutableSet set];
-    self.updatedNotes = [NSMutableSet set];
+    self.deletedSubCollections = [NSMutableSet set];
+    self.updatedSubCollections = [NSMutableSet set];
     self.deletedStacks = [NSMutableSet set];
     self.updatedStacks = [NSMutableSet set];
     return self;
 }
 
--(void) recordDeleteNote:(NSString *)noteId
+-(void) recordDeleteSubCollection:(NSString *)subCollectionId
 {
-    [self.deletedNotes addObject:noteId];
+    [self.deletedSubCollections addObject:subCollectionId];
 }
 
--(void) recordUpdateNote:(NSString *)noteId
+-(void) recordUpdateSubCollection:(NSString *)subCollectionId
 {
-    [self.updatedNotes addObject:noteId];
+    [self.updatedSubCollections addObject:subCollectionId];
 }
 
 -(void) recordDeleteStack:(NSString *)stackId
@@ -44,14 +44,14 @@
     [self.updatedStacks addObject:stackId];
 }
 
--(NSSet *) getDeletedNotes
+-(NSSet *) getDeletedSubCollections
 {
-    return [self.deletedNotes copy];
+    return [self.deletedSubCollections copy];
 }
 
--(NSSet *) getUpdatedNotes
+-(NSSet *) getUpdatedSubCollections
 {
-    return [self.updatedNotes copy];
+    return [self.updatedSubCollections copy];
 }
 
 -(NSSet *) getDeletedStacks
@@ -77,11 +77,11 @@
 }
 
 
--(BOOL) hasNoteBeenTouched:(NSString *)noteId
+-(BOOL) hasSubCollectionBeenTouched:(NSString *)subCollectionId
 {
     BOOL hasBeenTouched = NO;
-    if ([self.updatedNotes containsObject:noteId] ||
-        [self.deletedNotes containsObject:noteId])
+    if ([self.updatedSubCollections containsObject:subCollectionId] ||
+        [self.deletedSubCollections containsObject:subCollectionId])
     {
         hasBeenTouched = YES;
     }
@@ -90,9 +90,9 @@
 
 -(BOOL) hasAnythingBeenTouched
 {
-    if ([self.deletedNotes count] == 0 &&
+    if ([self.deletedSubCollections count] == 0 &&
         [self.updatedStacks count] == 0 &&
-        [self.updatedNotes count] == 0 &&
+        [self.updatedSubCollections count] == 0 &&
         [self.deletedStacks count] == 0)
     {
         return NO;
@@ -105,9 +105,9 @@
 
 -(void) reset
 {
-    [self.deletedNotes removeAllObjects];
+    [self.deletedSubCollections removeAllObjects];
     [self.updatedStacks removeAllObjects];
-    [self.updatedNotes removeAllObjects];
+    [self.updatedSubCollections removeAllObjects];
     [self.deletedStacks removeAllObjects];
 }
 

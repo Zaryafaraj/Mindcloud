@@ -10,18 +10,18 @@
 
 @interface CollectionRecorder : NSObject
 
--(void) recordDeleteNote:(NSString *) noteId;
--(void) recordUpdateNote:(NSString *) noteId;
+-(void) recordDeleteSubCollection:(NSString *) subCollectionId;
+-(void) recordUpdateSubCollection:(NSString *) subCollectionId;
 -(void) recordDeleteStack:(NSString *) stackId;
 -(void) recordUpdateStack:(NSString *) stackId;
 
--(NSSet *) getDeletedNotes;
+-(NSSet *) getDeletedSubCollections;
 -(NSSet *) getDeletedStacks;
--(NSSet *) getUpdatedNotes;
+-(NSSet *) getUpdatedSubCollections;
 -(NSSet *) getUpdatedStacks;
 
 -(BOOL) hasStackingBeenTouched:(NSString *) stackingId;
--(BOOL) hasNoteBeenTouched:(NSString *) noteId;
+-(BOOL) hasSubCollectionBeenTouched:(NSString *) subCollectionId;
 -(BOOL) hasAnythingBeenTouched;
 -(void) reset;
 @end

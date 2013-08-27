@@ -112,6 +112,11 @@
 		DBBA28CA16CCC8CC007C7B4A /* UpdateNoteImageNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28C916CCC8CC007C7B4A /* UpdateNoteImageNotification.m */; };
 		DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */; };
 		DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF25C160EA1D800C81C25 /* Mindcloud.m */; };
+		DBBBB9B717CC64FC00081C3B /* XoomlFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9B617CC64FC00081C3B /* XoomlFragment.m */; };
+		DBBBB9BA17CC67AA00081C3B /* XoomlAssociation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9B917CC67AA00081C3B /* XoomlAssociation.m */; };
+		DBBBB9BD17CC686900081C3B /* XoomlAssociationNamespaceData.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9BC17CC686900081C3B /* XoomlAssociationNamespaceData.m */; };
+		DBBBB9C017CC6C4800081C3B /* XoomlFragmentNamespaceData.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9BF17CC6C4800081C3B /* XoomlFragmentNamespaceData.m */; };
+		DBBBB9C317CC6FA700081C3B /* XoomlNamespaceElement.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9C217CC6FA700081C3B /* XoomlNamespaceElement.m */; };
 		DBC1B7F317CACCBA0036431A /* MindcloudAuthenticationGordon.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC1B7F217CACCBA0036431A /* MindcloudAuthenticationGordon.m */; };
 		DBC7C4C316327F1900BF3F2D /* CollectionsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC7C4C216327F1900BF3F2D /* CollectionsAction.m */; };
 		DBD06A9116D98F9C00463ECC /* SharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD06A9016D98F9C00463ECC /* SharingAction.m */; };
@@ -329,6 +334,16 @@
 		DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthenticationAction.m; sourceTree = "<group>"; };
 		DBBAF25B160EA1D800C81C25 /* Mindcloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mindcloud.h; sourceTree = "<group>"; };
 		DBBAF25C160EA1D800C81C25 /* Mindcloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mindcloud.m; sourceTree = "<group>"; };
+		DBBBB9B517CC64FC00081C3B /* XoomlFragment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlFragment.h; sourceTree = "<group>"; };
+		DBBBB9B617CC64FC00081C3B /* XoomlFragment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlFragment.m; sourceTree = "<group>"; };
+		DBBBB9B817CC67AA00081C3B /* XoomlAssociation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlAssociation.h; sourceTree = "<group>"; };
+		DBBBB9B917CC67AA00081C3B /* XoomlAssociation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlAssociation.m; sourceTree = "<group>"; };
+		DBBBB9BB17CC686900081C3B /* XoomlAssociationNamespaceData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlAssociationNamespaceData.h; sourceTree = "<group>"; };
+		DBBBB9BC17CC686900081C3B /* XoomlAssociationNamespaceData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlAssociationNamespaceData.m; sourceTree = "<group>"; };
+		DBBBB9BE17CC6C4800081C3B /* XoomlFragmentNamespaceData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlFragmentNamespaceData.h; sourceTree = "<group>"; };
+		DBBBB9BF17CC6C4800081C3B /* XoomlFragmentNamespaceData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlFragmentNamespaceData.m; sourceTree = "<group>"; };
+		DBBBB9C117CC6FA700081C3B /* XoomlNamespaceElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlNamespaceElement.h; sourceTree = "<group>"; };
+		DBBBB9C217CC6FA700081C3B /* XoomlNamespaceElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlNamespaceElement.m; sourceTree = "<group>"; };
 		DBC1B7F117CACCBA0036431A /* MindcloudAuthenticationGordon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAuthenticationGordon.h; sourceTree = "<group>"; };
 		DBC1B7F217CACCBA0036431A /* MindcloudAuthenticationGordon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudAuthenticationGordon.m; sourceTree = "<group>"; };
 		DBC1B7F417CAD5350036431A /* MindcloudAuthenticationGordonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAuthenticationGordonDelegate.h; sourceTree = "<group>"; };
@@ -835,6 +850,23 @@
 			name = Sharing;
 			sourceTree = "<group>";
 		};
+		DBBBB9B417CC5AB600081C3B /* DAO */ = {
+			isa = PBXGroup;
+			children = (
+				DBBBB9B517CC64FC00081C3B /* XoomlFragment.h */,
+				DBBBB9B617CC64FC00081C3B /* XoomlFragment.m */,
+				DBBBB9B817CC67AA00081C3B /* XoomlAssociation.h */,
+				DBBBB9B917CC67AA00081C3B /* XoomlAssociation.m */,
+				DBBBB9BB17CC686900081C3B /* XoomlAssociationNamespaceData.h */,
+				DBBBB9BC17CC686900081C3B /* XoomlAssociationNamespaceData.m */,
+				DBBBB9BE17CC6C4800081C3B /* XoomlFragmentNamespaceData.h */,
+				DBBBB9BF17CC6C4800081C3B /* XoomlFragmentNamespaceData.m */,
+				DBBBB9C117CC6FA700081C3B /* XoomlNamespaceElement.h */,
+				DBBBB9C217CC6FA700081C3B /* XoomlNamespaceElement.m */,
+			);
+			name = DAO;
+			sourceTree = "<group>";
+		};
 		DBC1B7F517CAD9050036431A /* Types */ = {
 			isa = PBXGroup;
 			children = (
@@ -847,6 +879,7 @@
 		DBF1CEDA17C94A6A000777F7 /* Gordon */ = {
 			isa = PBXGroup;
 			children = (
+				DBBBB9B417CC5AB600081C3B /* DAO */,
 				DB225ABD164CD5B70094BFC9 /* Parsers */,
 				DB739C7D17CAEC16006DE2D9 /* Model */,
 				DB03C35F169FFD2B00C38FD7 /* Types */,
@@ -1020,6 +1053,7 @@
 				D70947261523DC27008E4AD9 /* DDXMLElement.m in Sources */,
 				D70947271523DC27008E4AD9 /* DDXMLNode.m in Sources */,
 				D74E48201524F3DF00BC8B9D /* AttributeHelper.m in Sources */,
+				DBBBB9B717CC64FC00081C3B /* XoomlFragment.m in Sources */,
 				D7B1432D1526A50400DC7556 /* MindcloudCollection.m in Sources */,
 				D7F85EB41528D80300F16D25 /* XoomlCollectionManifest.m in Sources */,
 				D7DEF2C41530D37800D13CF4 /* FileSystemHelper.m in Sources */,
@@ -1039,6 +1073,7 @@
 				DBC7C4C316327F1900BF3F2D /* CollectionsAction.m in Sources */,
 				DB3174FE16337636001229FE /* SignInViewController.m in Sources */,
 				DB4E0AC9163DCD3D00AB82E6 /* MindcloudAllCollections.m in Sources */,
+				DBBBB9BD17CC686900081C3B /* XoomlAssociationNamespaceData.m in Sources */,
 				DBE13375163E13AE00EF0AF7 /* CollectionCell.m in Sources */,
 				DBEE54B61640F16300BD9F93 /* HTTPHelper.m in Sources */,
 				DB7AC5DA1643A52A007756E6 /* MasterSwipableSplitViewController.m in Sources */,
@@ -1075,6 +1110,7 @@
 				DBBA28CA16CCC8CC007C7B4A /* UpdateNoteImageNotification.m in Sources */,
 				DBDB105716D032C200B5F7AE /* MergerThread.m in Sources */,
 				DBDB105A16D0388200B5F7AE /* MergeResult.m in Sources */,
+				DBBBB9BA17CC67AA00081C3B /* XoomlAssociation.m in Sources */,
 				DBDB106016D1E06A00B5F7AE /* NoteFragmentResolver.m in Sources */,
 				DBDB106316D1E08B00B5F7AE /* NoteResolutionNotification.m in Sources */,
 				DBD06A9116D98F9C00463ECC /* SharingAction.m in Sources */,
@@ -1082,9 +1118,11 @@
 				DBD06A9816D9D51700463ECC /* MindcloudSharingAdapter.m in Sources */,
 				DBD06A9E16DAB6F900463ECC /* SubscriptionAction.m in Sources */,
 				DB601A3916E2C2380007A636 /* ListenerAction.m in Sources */,
+				DBBBB9C317CC6FA700081C3B /* XoomlNamespaceElement.m in Sources */,
 				DB601A3D16E2CFED0007A636 /* CollectionSharingAdapter.m in Sources */,
 				DB4D940D16E337DB007FE65A /* TempImageAction.m in Sources */,
 				DBB7455416F647EC0029AE72 /* CategorizationViewController.m in Sources */,
+				DBBBB9C017CC6C4800081C3B /* XoomlFragmentNamespaceData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

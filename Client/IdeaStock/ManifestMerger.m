@@ -91,7 +91,7 @@
     for (NSString * noteId in notesUniqueToServer)
     {
         //accepting server side
-        if (![self.recorder hasNoteBeenTouched:noteId])
+        if (![self.recorder hasSubCollectionBeenTouched:noteId])
         {
             //case 1
             finalNotes[noteId] = serverNotes[noteId];
@@ -108,7 +108,7 @@
     for(NSString * noteId in notesUniqueToClient)
     {
         //accepting client side
-        if ([self.recorder hasNoteBeenTouched:noteId])
+        if ([self.recorder hasSubCollectionBeenTouched:noteId])
         {
             finalNotes[noteId] = clientNotes[noteId];
         }
@@ -127,7 +127,7 @@
     for(NSString * noteId in notesInBoth)
     {
         //accepting client side
-        if ([self.recorder hasNoteBeenTouched:noteId])
+        if ([self.recorder hasSubCollectionBeenTouched:noteId])
         {
             finalNotes[noteId] = clientNotes[noteId];
         }

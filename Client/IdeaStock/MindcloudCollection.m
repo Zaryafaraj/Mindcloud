@@ -167,7 +167,7 @@
                                               withContent:noteData
                                   andCollectionAttributes:collectionNoteAttribute];
     
-    [self.recorder recordUpdateNote:noteID];
+    [self.recorder recordUpdateSubCollection:noteID];
 }
 
 -(void) addImageNoteContent:(id <NoteProtocol> )noteItem
@@ -200,7 +200,7 @@
                                                 andImage:img
                                             andImageName:imgName
                                  andCollectionAttributes:collectionNoteAttribute];
-    [self.recorder recordUpdateNote:noteID];
+    [self.recorder recordUpdateSubCollection:noteID];
 }
 
 -(void) addNotesWithIDs: (NSArray *) noteIDs
@@ -284,7 +284,7 @@
     
     [self.gordonDataSource removeSubCollectionWithId:delNoteID andName:noteName];
     
-    [self.recorder recordDeleteNote:noteName];
+    [self.recorder recordDeleteSubCollection:noteName];
 }
 
 -(void) removeNoteImage:(NSString *) delNoteID
@@ -366,7 +366,7 @@
     
     [self.gordonDataSource updateSubCollectionContentofSubCollectionWithName:noteName
                                                                  withContent:noteData];
-    [self.recorder recordUpdateNote:noteID];
+    [self.recorder recordUpdateSubCollection:noteID];
 }
 
 -(void) updateNoteAttributes: (NSString *) noteID
@@ -379,7 +379,7 @@
     oldcollectionNoteAttribute.scaling = collectionNoteAttribute.scaling;
     
     [self.gordonDataSource updateCollectionAttributesForSubCollection:noteID withCollectionAttributes:collectionNoteAttribute];
-    [self.recorder recordUpdateNote:noteID];
+    [self.recorder recordUpdateSubCollection:noteID];
 }
 
 //this is ugly as it isn't consistent and doesn't update the notes in the stacking

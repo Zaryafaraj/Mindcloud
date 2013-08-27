@@ -12,7 +12,7 @@
 #import "CollectionContentNotificationHandler.h"
 #import "CollectionSharingAdapterDelegate.h"
 #import "SharingAwareObject.h"
-#import "cachedCollectionContainer.h"
+#import "CachedCollectionContainer.h"
 #import "AuthorizationDelegate.h"
 
 @interface CachedMindCloudDataSource : NSObject<MindcloudDataSource,
