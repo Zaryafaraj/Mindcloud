@@ -42,8 +42,8 @@
 #define POSITION_Y @"positionY"
 #define SCALING @"scale"
 
-#define FRAGMENT_NAMESPACE_DATA @"xooml:fragmentNamespaceData"
-#define ASSOCIATION_NAMESPACE_DATA @"xooml:associationNamespaceData"
+#define FRAGMENT_NAMESPACE_DATA @"xooml:fragmentNamespaceElement"
+#define ASSOCIATION_NAMESPACE_DATA @"xooml:associationNamespaceElement"
 #define REF_ID @"refID"
 
 #define LINKAGE_TYPE @"linkage"

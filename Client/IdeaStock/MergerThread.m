@@ -37,8 +37,8 @@ dispatch_queue_t queue;
     return queue;
 }
 
--(void) submitClientManifest:(id<CollectionManifestProtocol>) clientManifest
-           andServerManifest:(id<CollectionManifestProtocol>) serverManifest
+-(void) submitClientManifest:(id<XoomlProtocol>) clientManifest
+           andServerManifest:(id<XoomlProtocol>) serverManifest
            andActionRecorder:(CollectionRecorder *) recorder
            ForCollectionName:(NSString *)collectionName
 {
@@ -47,7 +47,7 @@ dispatch_queue_t queue;
     dispatch_queue_t queue = [self getDispatchQueue];
     dispatch_async(queue, ^{
         ManifestMerger * merger = [[ManifestMerger alloc] initWithClientManifest:clientManifest andServerManifest:serverManifest andActionRecorder:recorder];
-        id<CollectionManifestProtocol> result = merger.mergeManifests;
+        id<XoomlProtocol> result = merger.mergeManifests;
         NotificationContainer * notifications = merger.getNotifications;
         MergeResult * mergeResult = [[MergeResult alloc] initWithNotifications:notifications
                                                               andFinalManifest:result

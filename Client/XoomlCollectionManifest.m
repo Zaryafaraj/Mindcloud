@@ -269,7 +269,7 @@
     }
 }
 
-- (void) addNoteWithID: (NSString *) noteId
+- (void) addSubCollectionWithID: (NSString *) noteId
               andModel: (CollectionNoteAttribute *)model
 {
     
@@ -474,8 +474,8 @@
     if (thumbnailAttribute == nil)
     {
         DDXMLElement * thumbnailElement = [XoomlCollectionParser xoomlForThumbnailWithNoteRef:noteId];
-        DDXMLElement * fragmentNamespaceData = [self getCollectionAttributesElement];
-        [fragmentNamespaceData addChild:thumbnailElement];
+        DDXMLElement * fragmentNamespaceElement = [self getCollectionAttributesElement];
+        [fragmentNamespaceElement addChild:thumbnailElement];
     }
     else
     {

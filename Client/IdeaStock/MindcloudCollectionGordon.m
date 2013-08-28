@@ -14,7 +14,7 @@
 #import "MindcloudDataSource.h"
 #import "CachedMindCloudDataSource.h"
 #import "EventTypes.h"
-#import "CollectionManifestProtocol.h"
+#import "XoomlProtocol.h"
 #import "XoomlCollectionManifest.h"
 #import "MergerThread.h"
 #import "CollectionRecorder.h"
@@ -47,7 +47,7 @@ CachedObject> dataSource;
 /*
  The manifest of the loaded collection
  */
-@property (nonatomic,strong) id <CollectionManifestProtocol> manifest;
+@property (nonatomic,strong) id <XoomlProtocol> manifest;
 
 /*
  this indicates that we need to synchronize
@@ -187,7 +187,7 @@ CachedObject> dataSource;
               andCollectionAttributes:(CollectionNoteAttribute *) attributes
 {
     
-    [self.manifest addNoteWithID:subCollectionId andModel:attributes];
+    [self.manifest addSubCollectionWithID:subCollectionId andModel:attributes];
     NSString * subCollectionName = attributes.noteName;
     [self.dataSource addNote:subCollectionName
                  withContent:content
@@ -203,7 +203,7 @@ CachedObject> dataSource;
 {
     
     NSString * noteName = attributes.noteName;
-    [self.manifest addNoteWithID:subCollectionId andModel:attributes];
+    [self.manifest addSubCollectionWithID:subCollectionId andModel:attributes];
     [self.manifest updateThumbnailWithImageOfNote:subCollectionId];
     [self.dataSource addImageNote: noteName
                   withNoteContent: content
@@ -298,7 +298,7 @@ CachedObject> dataSource;
     
 }
 
--(void) notifyDelegateOfSubCollections:(id <CollectionManifestProtocol>) manifest
+-(void) notifyDelegateOfSubCollections:(id <XoomlProtocol>) manifest
 {
     //get notes from manifest and initalize those
     NSDictionary * noteInfo = [manifest getAllNotesBasicInfo];
@@ -328,7 +328,7 @@ CachedObject> dataSource;
     }
 }
 
--(void) notifyDelegateOfCollectionThumbnail:(id <CollectionManifestProtocol>) manifest
+-(void) notifyDelegateOfCollectionThumbnail:(id <XoomlProtocol>) manifest
 {
     //cause delegate is weak we need to do heavy checking so its not become nil
     if (self.delegate != nil)
@@ -339,7 +339,7 @@ CachedObject> dataSource;
     }
 }
 
--(void) notifyDelegateOfCollectionAttributes: (id <CollectionManifestProtocol>) manifest{
+-(void) notifyDelegateOfCollectionAttributes: (id <XoomlProtocol>) manifest{
     //get the stacking information and cache them
     
     //getAllCollectionAttributes instead
@@ -403,8 +403,8 @@ CachedObject> dataSource;
         NSLog(@"MindcloudCollectionGordon -Collection Data is nil. Data must have not been downloaded properly");
         return;
     }
-    id<CollectionManifestProtocol> serverManifest = [[XoomlCollectionManifest alloc]  initWithData:collectionData];
-    id<CollectionManifestProtocol> clientManifest = [self.manifest copy];
+    id<XoomlProtocol> serverManifest = [[XoomlCollectionManifest alloc]  initWithData:collectionData];
+    id<XoomlProtocol> clientManifest = [self.manifest copy];
     MergerThread * mergerThread = [MergerThread getInstance];
     
     [self initiateSubCollectionsFromDownloadedManifest:serverManifest];
@@ -426,7 +426,7 @@ CachedObject> dataSource;
     [self notifyDelegateOfCollectionThumbnail:serverManifest];
 }
 
--(void) initiateSubCollectionsFromDownloadedManifest:(id<CollectionManifestProtocol>) manifest
+-(void) initiateSubCollectionsFromDownloadedManifest:(id<XoomlProtocol>) manifest
 {
     //make sure to add the notes that are downloaded separately
     NSDictionary * subCollectionsInfo = [manifest getAllNotesBasicInfo];
@@ -612,10 +612,10 @@ CachedObject> dataSource;
             NSLog(@"Collection File didn't download properly");
             return;
         }
-        id<CollectionManifestProtocol> serverManifest = [[XoomlCollectionManifest alloc]
+        id<XoomlProtocol> serverManifest = [[XoomlCollectionManifest alloc]
                                                          initWithData:manifestData];
         
-        id<CollectionManifestProtocol> clientManifest = [self.manifest copy];
+        id<XoomlProtocol> clientManifest = [self.manifest copy];
         MergerThread * mergerThread = [MergerThread getInstance];
         
         CollectionRecorder * recorder = nil;

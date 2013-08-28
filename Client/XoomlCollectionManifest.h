@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CollectionManifestProtocol.h"
-
+#import "XoomlProtocol.h"
+#import "DDXMLDocument.h"
 /*
  Provides functionality for working the xooml datamodel of the bulletin 
  board. 
@@ -24,7 +24,7 @@
  has less perforamnce penality than keeping it in the xooml level. 
  */
 
-@interface XoomlCollectionManifest : NSObject <CollectionManifestProtocol>
+@interface XoomlCollectionManifest : NSObject <XoomlProtocol>
 
 /*Convinience method*/
 + (NSData *) getEmptyBulletinBoardData;

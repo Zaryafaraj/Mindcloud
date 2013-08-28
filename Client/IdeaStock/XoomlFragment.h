@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "XoomlAssociation.h"
-#import "XoomlFragmentNamespaceData.h"
+#import "XoomlFragmentNamespaceElement.h"
 @interface XoomlFragment : NSObject
 
 //Gordon
@@ -31,11 +31,11 @@
 
 -(void) removeAssociationWithId:(NSString *) associationId;
 
-/*! Keyed on fragmentNamespaceData Id and valued on XoomlFragmentNameSpaceData
+/*! Keyed on fragmentNamespaceElement Id and valued on XoomlFragmentNamespaceElement
  */
--(NSDictionary *) getAllFragmentNamespaceData;
+-(NSDictionary *) getAllFragmentNamespaceElement;
 
--(XoomlFragmentNamespaceData *) getFragmentNamespaceDataWithId:(NSString *) namespaceDataId;
+-(XoomlFragmentNamespaceElement *) getFragmentNamespaceElementWithId:(NSString *) NamespaceElementId;
 
--(void) removeFragmentNamespaceDataWithId:(NSString *) namespaceData;
+-(void) removeFragmentNamespaceElementWithId:(NSString *) NamespaceElement;
 @end

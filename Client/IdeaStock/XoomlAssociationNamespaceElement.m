@@ -1,14 +1,14 @@
 //
-//  XoomlAssociationNamespaceData.m
+//  XoomlAssociationNamespaceElement.m
 //  Mindcloud
 //
 //  Created by Ali Fathalian on 8/26/13.
 //  Copyright (c) 2013 University of Washington. All rights reserved.
 //
 
-#import "XoomlAssociationNamespaceData.h"
+#import "XoomlAssociationNamespaceElement.h"
 
-@implementation XoomlAssociationNamespaceData
+@implementation XoomlAssociationNamespaceElement
 
 -(NSDictionary *) getXoomlAssociationNamespaceAttributes
 {

@@ -12,10 +12,10 @@
 
 @interface MergeResult : NSObject
 @property (nonatomic, strong) NotificationContainer * notifications;
-@property (nonatomic, strong) id<CollectionManifestProtocol> finalManifest;
+@property (nonatomic, strong) id<XoomlProtocol> finalManifest;
 @property (nonatomic, strong) NSString * collectionName;
 
 -(id) initWithNotifications:(NotificationContainer *) notifications
-           andFinalManifest:(id<CollectionManifestProtocol>) finalManifest
+           andFinalManifest:(id<XoomlProtocol>) finalManifest
           andCollectionName:(NSString *) collectionName;
 @end

@@ -12,11 +12,11 @@
 #import "NotificationContainer.h"
 @interface ManifestMerger : NSObject
 
--(id) initWithClientManifest:(id <CollectionManifestProtocol>) clientManifest
-           andServerManifest:(id <CollectionManifestProtocol>) serverManifest
+-(id) initWithClientManifest:(id <XoomlProtocol>) clientManifest
+           andServerManifest:(id <XoomlProtocol>) serverManifest
            andActionRecorder:(CollectionRecorder *) recorder;
 
--(id<CollectionManifestProtocol>) mergeManifests;
+-(id<XoomlProtocol>) mergeManifests;
 
 -(NotificationContainer *) getNotifications;
 

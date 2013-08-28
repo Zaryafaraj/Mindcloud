@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XoomlAssociationNamespaceData.h"
+#import "XoomlAssociationNamespaceElement.h"
 
 @interface XoomlAssociation : NSObject
 
@@ -28,16 +28,16 @@
 
 -(NSString *) toXMLString;
 
-/*! Keyed on the AssociationNamespaceDataId and valued on XoomlAssociationNamespaceData obj
+/*! Keyed on the AssociationNamespaceElementId and valued on XoomlAssociationNamespaceElement obj
     Immutable.
 */
--(NSDictionary *) getAllAssociationNamespaceData;
+-(NSDictionary *) getAllAssociationNamespaceElement;
 
-/*! Keyed on the id of the XoomlAssociationNamespaceData and valued on the 
-    XoomlAssociationNamespaceData
+/*! Keyed on the id of the XoomlAssociationNamespaceElement and valued on the 
+    XoomlAssociationNamespaceElement
  */
--(NSDictionary *) addAssociationNameSpaceData:(XoomlAssociationNamespaceData *) data;
+-(NSDictionary *) addAssociationNamespaceElement:(XoomlAssociationNamespaceElement *) data;
 
--(void) removeAssociationNameSpaceDataWithId:(NSString *) ID;
+-(void) removeAssociationNamespaceElementWithId:(NSString *) ID;
 
 @end

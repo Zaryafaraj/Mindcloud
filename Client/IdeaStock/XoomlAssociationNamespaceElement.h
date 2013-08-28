@@ -1,5 +1,5 @@
 //
-//  XoomlFragmentNamespaceData.h
+//  XoomlAssociationNamespaceElement.h
 //  Mindcloud
 //
 //  Created by Ali Fathalian on 8/26/13.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "XoomlNamespaceElement.h"
 
-@interface XoomlFragmentNamespaceData : NSObject
+@interface XoomlAssociationNamespaceElement : NSObject
 
 @property (strong, nonatomic) NSString * ID;
 
@@ -21,15 +21,14 @@
 
 /*! Keyed on property. Values are strings of the values for the property
  */
--(NSDictionary *) getXoomlFragmentNamespaceAttributes;
+-(NSDictionary *) getXoomlAssociationNamespaceAttributes;
 
 /*! Keyed on subelement ID valued on XoomlNamespaceElement
  */
--(NSDictionary *) getAllXoomlFragmentsNamespaceSubElements;
+-(NSDictionary *) getAllXoomlAssociationNamespaceSubElements;
 
 -(void) addAttributeWithName:(NSString *) attributeName
                     andValue:(NSString *) value;
-
 -(void) addSubElement:(XoomlNamespaceElement *) subElement;
 
 -(void) removeSubElement:(NSString *) subElementId;

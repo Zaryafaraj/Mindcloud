@@ -11,7 +11,7 @@
 @implementation MergeResult
 
 -(id) initWithNotifications:(NotificationContainer *) notifications
-           andFinalManifest:(id<CollectionManifestProtocol>) finalManifest
+           andFinalManifest:(id<XoomlProtocol>) finalManifest
           andCollectionName:(NSString *) collectionName
 {
     self = [super init];

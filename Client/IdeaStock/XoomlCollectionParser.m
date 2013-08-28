@@ -229,16 +229,16 @@
 + (NSString *) xPathForCollectionAttributeWithName: (NSString *) attributeName
                                          andType: (NSString *) attributeType;
 {
-    return [NSString stringWithFormat:@"/xooml:fragment/xooml:fragmentNamespaceData/mindcloud:collectionAttribute[@type = \"%@\" and @name=\"%@\"]", attributeType, attributeName];
+    return [NSString stringWithFormat:@"/xooml:fragment/xooml:fragmentNamespaceElement/mindcloud:collectionAttribute[@type = \"%@\" and @name=\"%@\"]", attributeType, attributeName];
 }
 
 +(NSString *) xPathForThumbnail
 {
-    return [NSString stringWithFormat:@"/xooml:fragment/xooml:fragmentNamespaceData/mindcloud:thumbnail"];
+    return [NSString stringWithFormat:@"/xooml:fragment/xooml:fragmentNamespaceElement/mindcloud:thumbnail"];
 }
 ////xooml:fragmentToolAttributes[@type = "stacking"]
 + (NSString *) xPathForCollectionAttribute: (NSString *) attributeType{
-    return [NSString stringWithFormat:@"/xooml:fragment/xooml:fragmentNamespaceData/mindcloud:collectionAttribute[@type = \"%@\"]", attributeType];
+    return [NSString stringWithFormat:@"/xooml:fragment/xooml:fragmentNamespaceElement/mindcloud:collectionAttribute[@type = \"%@\"]", attributeType];
 }
 
 + (NSString *) xPathForAllNotes{
@@ -251,7 +251,7 @@
 
 + (NSString *) xPathForCollectionAttributeContainer
 {
-    return @"/xooml:fragment/xooml:fragmentNamespaceData";
+    return @"/xooml:fragment/xooml:fragmentNamespaceElement";
 }
 
 @end

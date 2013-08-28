@@ -11,15 +11,15 @@
 #import "XoomlCollectionManifest.h"
 
 @interface ManifestMerger()
-@property (atomic, strong) id<CollectionManifestProtocol> clientManifest;
-@property (atomic, strong) id<CollectionManifestProtocol> serverManifest;
+@property (atomic, strong) id<XoomlProtocol> clientManifest;
+@property (atomic, strong) id<XoomlProtocol> serverManifest;
 @property (atomic, strong) CollectionRecorder * recorder;
 @property (atomic, strong) NotificationContainer * notifications;
 @end
 @implementation ManifestMerger
 
--(id) initWithClientManifest:(id<CollectionManifestProtocol>)clientManifest
-           andServerManifest:(id<CollectionManifestProtocol>)serverManifest
+-(id) initWithClientManifest:(id<XoomlProtocol>)clientManifest
+           andServerManifest:(id<XoomlProtocol>)serverManifest
            andActionRecorder:(CollectionRecorder *)recorder
 {
     self = [super init];
@@ -35,7 +35,7 @@
     return self.notifications;
 }
 
--(id<CollectionManifestProtocol>) mergeManifests
+-(id<XoomlProtocol>) mergeManifests
 {
     DDXMLDocument * clientXML = [self.clientManifest document];
     DDXMLDocument * serverXML = [self.serverManifest document];
@@ -62,7 +62,7 @@
                                                       andStackings: finalStackings
                                                       andThumbnail: thumbnailElement];
     
-    id<CollectionManifestProtocol> result = [[XoomlCollectionManifest alloc] initWithDocument:document];
+    id<XoomlProtocol> result = [[XoomlCollectionManifest alloc] initWithDocument:document];
     return result;
 }
 
@@ -453,7 +453,7 @@
     }
     
     DDXMLElement * fragmentNamespace = nil;
-    //get the fragmentNameSpaceData element
+    //get the fragmentNamespaceElement element
     for (DDXMLElement * element in document.rootElement.children)
     {
         if ([element.name isEqualToString:FRAGMENT_NAMESPACE_DATA])

@@ -14,8 +14,8 @@
 
 +(id) getInstance;
 
--(void) submitClientManifest:(id<CollectionManifestProtocol>) clientManifest
-           andServerManifest:(id<CollectionManifestProtocol>) serverManifest
+-(void) submitClientManifest:(id<XoomlProtocol>) clientManifest
+           andServerManifest:(id<XoomlProtocol>) serverManifest
 andActionRecorder:(CollectionRecorder *) recorder
            ForCollectionName:(NSString *) collectionName;
 @end
