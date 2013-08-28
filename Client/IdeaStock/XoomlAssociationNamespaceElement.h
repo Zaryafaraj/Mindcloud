@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "XoomlNamespaceElement.h"
+#import "DDXMLElement.h"
 
 @interface XoomlAssociationNamespaceElement : NSObject
 
 @property (strong, nonatomic) NSString * ID;
-
 @property (strong, nonatomic) NSString * namespaceName;
+
+-(id) initWithName:(NSString *) name;
 
 -(id) initFromXmlString:(NSString *) xmlString;
 
@@ -29,10 +31,12 @@
 
 -(void) addAttributeWithName:(NSString *) attributeName
                     andValue:(NSString *) value;
--(void) addSubElement:(XoomlNamespaceElement *) subElement;
+-(void) addSubElement:(XoomlAssociationNamespaceElement *) subElement;
 
 -(void) removeSubElement:(NSString *) subElementId;
 
 -(void) removeAttributeWithName:(NSString *) attributeName;
+
+-(NSString *) description;
 
 @end
