@@ -11,7 +11,7 @@
 
 @interface XoomlAssociation : NSObject
 
-@property (strong, nonatomic, readonly) NSString * id;
+@property (strong, nonatomic, readonly) NSString * ID;
 
 @property (strong, nonatomic) NSString * associatedItem;
 

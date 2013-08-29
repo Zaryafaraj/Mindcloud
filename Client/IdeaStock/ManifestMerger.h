@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CollectionManifestProtocol.h"
+#import "XoomlProtocol.h"
 #import "CollectionRecorder.h"
 #import "NotificationContainer.h"
 @interface ManifestMerger : NSObject

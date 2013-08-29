@@ -43,7 +43,6 @@
     {
         self.ID = [AttributeHelper generateUUID];
         self.namespaceName = name;
-        self.element = [[DDXMLElement alloc] init];
         self.element = [DDXMLElement elementWithName:name];
     }
     return self;
@@ -51,6 +50,10 @@
 
 -(id) initFromXmlString:(NSString *) xmlString
 {
+    self = [super init];
+    
+    if (self == nil) return nil;
+    
     NSError * err = nil;
     DDXMLElement * element = [[DDXMLElement alloc] initWithXMLString:xmlString error:&err];
     if (element == nil)
@@ -58,7 +61,17 @@
         NSLog(@"XoomlAssociationNamespaceElement - Error creating XoomlAssociationNamespaceElement with Error %@", err.description);
         return nil;
     }
-    return nil;
+    
+    self.namespaceName = element.name;
+    //we don't want to go through the setter in the init
+    for (DDXMLNode * attribtue in self.element.attributes)
+    {
+        if ([attribtue.name isEqualToString:ID_KEY])
+        {
+            _ID = attribtue.stringValue;
+        }
+    }
+    return self;;
 }
 
 -(NSString *) toXMLString
@@ -128,15 +141,18 @@
 -(void) removeSubElement:(NSString *) subElementId
 {
     NSUInteger removeIndex ;
+    BOOL found = NO;
     for (DDXMLElement * element in self.element.children)
     {
         if ([[[element attributeForName:ID_KEY] stringValue] isEqualToString:subElementId])
         {
             removeIndex = element.index;
+            found = YES;
+            break;
         }
     }
     
-    [self.element removeChildAtIndex:removeIndex];
+    if (found) [self.element removeChildAtIndex:removeIndex];
 }
 
 -(void) removeAttributeWithName:(NSString *) attributeName

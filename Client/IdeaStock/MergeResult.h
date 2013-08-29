@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "NotificationContainer.h"
-#import "CollectionManifestProtocol.h"
+#import "XoomlProtocol.h"
 
 @interface MergeResult : NSObject
 @property (nonatomic, strong) NotificationContainer * notifications;

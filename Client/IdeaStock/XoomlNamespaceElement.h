@@ -10,11 +10,13 @@
 
 @interface XoomlNamespaceElement : NSObject
 
-@property (strong, nonatomic) NSString *name;
-
 @property (strong, nonatomic) NSString * ID;
 
 @property (strong, nonatomic) NSString * namespaceName;
+
+-(id) initWithName:(NSString *) name;
+
+-(id) initFromXMLString:(NSString *) xmlString;
 
 /*! keyed on attribute name valued on attribtue value string
     returns immutable objects
@@ -25,8 +27,6 @@
    returns immutable objects
  */
 -(NSDictionary *) getAllSubElements;
-
--(id) initFromXMLString:(NSString *) xmlString;
 
 -(NSString *) toXMLString;
 
@@ -42,5 +42,6 @@
 -(XoomlNamespaceElement *) getSubElementWithId:(NSString *) subElementId;
 
 -(NSString *) getAttributeWithName:(NSString *) attributeName;
+
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CollectionManifestProtocol.h"
+#import "XoomlProtocol.h"
 #import "CollectionRecorder.h"
 
 @interface MergerThread : NSObject
