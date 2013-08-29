@@ -10,9 +10,9 @@
 
 @interface XoomlNamespaceElement : NSObject
 
-@property (strong, nonatomic) NSString * ID;
+@property (strong, nonatomic, readonly) NSString * ID;
 
-@property (strong, nonatomic) NSString * namespaceName;
+@property (strong, nonatomic, readonly) NSString * namespaceName;
 
 -(id) initWithName:(NSString *) name;
 

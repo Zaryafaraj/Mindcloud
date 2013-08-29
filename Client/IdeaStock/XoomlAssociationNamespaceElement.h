@@ -10,14 +10,17 @@
 #import "XoomlNamespaceElement.h"
 #import "DDXMLElement.h"
 
+#define ASSOCIATON_NAMESPACE_NAME @"associationNamespaceData"
+
 @interface XoomlAssociationNamespaceElement : NSObject
 
-@property (strong, nonatomic) NSString * ID;
-@property (strong, nonatomic) NSString * namespaceName;
+@property (strong, nonatomic, readonly) NSString * ID;
 
--(id) initWithName:(NSString *) name;
+@property (strong, nonatomic, readonly) NSString * namespaceOwner;
 
--(id) initFromXmlString:(NSString *) xmlString;
+-(id) initWithNamespaceOwner:(NSString *) namespaceOwner;
+
+-(id) initFromXMLString:(NSString *) xmlString;
 
 -(NSString *) toXMLString ;
 
@@ -31,7 +34,7 @@
 
 -(void) addAttributeWithName:(NSString *) attributeName
                     andValue:(NSString *) value;
--(void) addSubElement:(XoomlAssociationNamespaceElement *) subElement;
+-(void) addSubElement:(XoomlNamespaceElement *) subElement;
 
 -(void) removeSubElement:(NSString *) subElementId;
 

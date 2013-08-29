@@ -10,45 +10,39 @@
 #import "DDXMLDocument.h"
 #import "AttributeHelper.h"
 
-#define ID_KEY @"ID"
+#define ASSOCIATION_NAMESPACE_ID @"ID"
+#define NAMESPACE_NAME @"xmlns"
 
 @interface XoomlAssociationNamespaceElement()
 
 @property (strong, nonatomic) DDXMLElement * element;
 
+@property (strong, nonatomic) NSString * ID;
+
+@property (strong, nonatomic) NSString * namespaceOwner;
+
 @end
 @implementation XoomlAssociationNamespaceElement
 
--(void) setNamespaceName:(NSString *)namespaceName
-{
-    self.namespaceName = namespaceName;
-    self.element = [DDXMLElement elementWithName:namespaceName];
-}
-
--(void) setID:(NSString *)ID
-{
-    self.ID = ID;
-    
-    if (self.element == nil) return;
-    
-    [self.element removeAttributeForName:ID_KEY];
-    DDXMLNode * newId = [DDXMLNode attributeWithName:ID_KEY stringValue:ID];
-    [self.element addAttribute:newId];
-}
-
--(id) initWithName:(NSString *) name
+-(id) initWithNamespaceOwner:(NSString *)namespaceOwner
 {
     self = [super init];
     if (self)
     {
         self.ID = [AttributeHelper generateUUID];
-        self.namespaceName = name;
-        self.element = [DDXMLElement elementWithName:name];
+        self.namespaceOwner = namespaceOwner;
+        self.element = [DDXMLElement elementWithName:ASSOCIATON_NAMESPACE_NAME];
+        DDXMLNode * idNode = [DDXMLNode attributeWithName:ASSOCIATION_NAMESPACE_ID
+                                              stringValue:self.ID];
+        [self.element addAttribute:idNode];
+        DDXMLNode * namespaceNode = [DDXMLNode attributeWithName:NAMESPACE_NAME
+                                                     stringValue:namespaceOwner];
+        [self.element addAttribute:namespaceNode];
     }
     return self;
 }
 
--(id) initFromXmlString:(NSString *) xmlString
+-(id) initFromXMLString:(NSString *) xmlString
 {
     self = [super init];
     
@@ -62,15 +56,28 @@
         return nil;
     }
     
-    self.namespaceName = element.name;
-    //we don't want to go through the setter in the init
-    for (DDXMLNode * attribtue in self.element.attributes)
+    
+    DDXMLNode * idAttribute = [self.element attributeForName:ASSOCIATION_NAMESPACE_ID];
+    if (idAttribute)
     {
-        if ([attribtue.name isEqualToString:ID_KEY])
-        {
-            _ID = attribtue.stringValue;
-        }
+        self.ID = idAttribute.stringValue;
     }
+    //if we don't have an id generate it
+    else
+    {
+        self.ID = [AttributeHelper generateUUID];
+        idAttribute = [DDXMLNode attributeWithName:ASSOCIATION_NAMESPACE_ID
+                                       stringValue:_ID];
+        [self.element addAttribute:idAttribute];
+    }
+    
+    DDXMLNode * namespaceName = [self.element attributeForName:ASSOCIATON_NAMESPACE_NAME];
+
+    if (namespaceName)
+    {
+        self.namespaceOwner = namespaceName.stringValue;
+    }
+    
     return self;;
 }
 
@@ -110,7 +117,7 @@
     
     for (DDXMLNode * element in self.element.children)
     {
-        XoomlAssociationNamespaceElement * childValue = [[XoomlAssociationNamespaceElement alloc] initFromXmlString:element.stringValue];
+        XoomlNamespaceElement * childValue = [[XoomlNamespaceElement alloc] initFromXMLString:element.stringValue];
         if (childValue != nil)
         {
             NSString * ID = childValue.ID;
@@ -131,11 +138,14 @@
 }
 
 
--(void) addSubElement:(XoomlAssociationNamespaceElement *) subElement
+-(void) addSubElement:(XoomlNamespaceElement *) subElement
 {
     if (subElement == nil || self.element == nil) return;
     
-    [self.element addChild:subElement.element];
+    NSString * subElementString = [subElement toXMLString];
+    DDXMLElement * subElementObj =  [DDXMLElement elementWithName:subElement.namespaceName
+                                                   stringValue:subElementString];
+    [self.element addChild:subElementObj];
 }
 
 -(void) removeSubElement:(NSString *) subElementId
@@ -144,7 +154,7 @@
     BOOL found = NO;
     for (DDXMLElement * element in self.element.children)
     {
-        if ([[[element attributeForName:ID_KEY] stringValue] isEqualToString:subElementId])
+        if ([[[element attributeForName:ASSOCIATION_NAMESPACE_ID] stringValue] isEqualToString:subElementId])
         {
             removeIndex = element.index;
             found = YES;
@@ -170,4 +180,5 @@
 {
     return [self.element stringValue];
 }
+
 @end

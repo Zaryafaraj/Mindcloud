@@ -24,6 +24,7 @@
 @property (strong, nonatomic, readonly) NSString * associatedXoomlDriver;
 
 
+-(id) initWithAssociatedItem:(NSString *) associatedItem;
 -(id) initWithXMLString:(NSString *) xmlString;
 
 -(NSString *) toXMLString;
@@ -36,7 +37,9 @@
 /*! Keyed on the id of the XoomlAssociationNamespaceElement and valued on the 
     XoomlAssociationNamespaceElement
  */
--(NSDictionary *) addAssociationNamespaceElement:(XoomlAssociationNamespaceElement *) data;
+-(void) addAssociationNamespaceElement:(XoomlAssociationNamespaceElement *) data;
+
+-(XoomlAssociationNamespaceElement *) getAssociationNamespaceElementWithId:(NSString *) namespaceId;
 
 -(void) removeAssociationNamespaceElementWithId:(NSString *) ID;
 
