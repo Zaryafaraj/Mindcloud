@@ -18,6 +18,8 @@
 
 @property (strong, nonatomic, readonly) NSString * namespaceOwner;
 
+@property (strong, nonatomic, readonly) DDXMLElement * element;
+
 -(id) initWithNamespaceOwner:(NSString *) namespaceOwner;
 
 -(id) initFromXMLString:(NSString *) xmlString;

@@ -88,6 +88,7 @@
 		DB7AC5DA1643A52A007756E6 /* MasterSwipableSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5D91643A52A007756E6 /* MasterSwipableSplitViewController.m */; };
 		DB7AC5E31643A9AF007756E6 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5E01643A9AE007756E6 /* IIViewDeckController.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		DB7AC5E41643A9AF007756E6 /* WrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7AC5E21643A9AF007756E6 /* WrapController.m */; };
+		DB7B876517D0393F001933FA /* XoomlFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7B876417D0393F001933FA /* XoomlFragment.m */; };
 		DB8F48A117CAA57500DDDB2D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A53CFC1522F39500183CB6 /* main.m */; };
 		DB8F48A417CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8F48A317CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m */; };
 		DB99FFB5160E5C5D0042ED2A /* UserPropertiesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */; };
@@ -112,7 +113,6 @@
 		DBBA28CA16CCC8CC007C7B4A /* UpdateNoteImageNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28C916CCC8CC007C7B4A /* UpdateNoteImageNotification.m */; };
 		DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */; };
 		DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF25C160EA1D800C81C25 /* Mindcloud.m */; };
-		DBBBB9B717CC64FC00081C3B /* XoomlFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9B617CC64FC00081C3B /* XoomlFragment.m */; };
 		DBBBB9BA17CC67AA00081C3B /* XoomlAssociation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9B917CC67AA00081C3B /* XoomlAssociation.m */; };
 		DBBBB9BD17CC686900081C3B /* XoomlAssociationNamespaceElement.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9BC17CC686900081C3B /* XoomlAssociationNamespaceElement.m */; };
 		DBBBB9C017CC6C4800081C3B /* XoomlFragmentNamespaceElement.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9BF17CC6C4800081C3B /* XoomlFragmentNamespaceElement.m */; };
@@ -284,6 +284,8 @@
 		DB7AC5E01643A9AE007756E6 /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IIViewDeckController.m; path = ../IIViewDeckController.m; sourceTree = "<group>"; };
 		DB7AC5E11643A9AE007756E6 /* WrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WrapController.h; path = ../WrapController.h; sourceTree = "<group>"; };
 		DB7AC5E21643A9AF007756E6 /* WrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WrapController.m; path = ../WrapController.m; sourceTree = "<group>"; };
+		DB7B876317D0393F001933FA /* XoomlFragment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlFragment.h; sourceTree = "<group>"; };
+		DB7B876417D0393F001933FA /* XoomlFragment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlFragment.m; sourceTree = "<group>"; };
 		DB8F489F17CA8D0000DDDB2D /* MindcloudAllCollectionsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAllCollectionsDelegate.h; sourceTree = "<group>"; };
 		DB8F48A217CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAllCollectionsGordon.h; sourceTree = "<group>"; };
 		DB8F48A317CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudAllCollectionsGordon.m; sourceTree = "<group>"; };
@@ -334,8 +336,6 @@
 		DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthenticationAction.m; sourceTree = "<group>"; };
 		DBBAF25B160EA1D800C81C25 /* Mindcloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mindcloud.h; sourceTree = "<group>"; };
 		DBBAF25C160EA1D800C81C25 /* Mindcloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mindcloud.m; sourceTree = "<group>"; };
-		DBBBB9B517CC64FC00081C3B /* XoomlFragment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlFragment.h; sourceTree = "<group>"; };
-		DBBBB9B617CC64FC00081C3B /* XoomlFragment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlFragment.m; sourceTree = "<group>"; };
 		DBBBB9B817CC67AA00081C3B /* XoomlAssociation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlAssociation.h; sourceTree = "<group>"; };
 		DBBBB9B917CC67AA00081C3B /* XoomlAssociation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlAssociation.m; sourceTree = "<group>"; };
 		DBBBB9BB17CC686900081C3B /* XoomlAssociationNamespaceElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlAssociationNamespaceElement.h; sourceTree = "<group>"; };
@@ -663,6 +663,8 @@
 				D7F85EAE1528D29E00F16D25 /* XoomlProtocol.h */,
 				D7F85EB21528D80300F16D25 /* XoomlCollectionManifest.h */,
 				D7F85EB31528D80300F16D25 /* XoomlCollectionManifest.m */,
+				DB7B876317D0393F001933FA /* XoomlFragment.h */,
+				DB7B876417D0393F001933FA /* XoomlFragment.m */,
 			);
 			name = DocumentModel;
 			sourceTree = "<group>";
@@ -859,8 +861,6 @@
 		DBBBB9B417CC5AB600081C3B /* DAO */ = {
 			isa = PBXGroup;
 			children = (
-				DBBBB9B517CC64FC00081C3B /* XoomlFragment.h */,
-				DBBBB9B617CC64FC00081C3B /* XoomlFragment.m */,
 				DBBBB9B817CC67AA00081C3B /* XoomlAssociation.h */,
 				DBBBB9B917CC67AA00081C3B /* XoomlAssociation.m */,
 				DBBBB9BB17CC686900081C3B /* XoomlAssociationNamespaceElement.h */,
@@ -1061,7 +1061,6 @@
 				D70947261523DC27008E4AD9 /* DDXMLElement.m in Sources */,
 				D70947271523DC27008E4AD9 /* DDXMLNode.m in Sources */,
 				D74E48201524F3DF00BC8B9D /* AttributeHelper.m in Sources */,
-				DBBBB9B717CC64FC00081C3B /* XoomlFragment.m in Sources */,
 				D7B1432D1526A50400DC7556 /* MindcloudCollection.m in Sources */,
 				D7F85EB41528D80300F16D25 /* XoomlCollectionManifest.m in Sources */,
 				D7DEF2C41530D37800D13CF4 /* FileSystemHelper.m in Sources */,
@@ -1076,6 +1075,7 @@
 				DB99FFBF160E66870042ED2A /* StringUtils.m in Sources */,
 				DB99FFCC160E8ABB0042ED2A /* MindcloudBaseAction.m in Sources */,
 				DBC1B7F317CACCBA0036431A /* MindcloudAuthenticationGordon.m in Sources */,
+				DB7B876517D0393F001933FA /* XoomlFragment.m in Sources */,
 				DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */,
 				DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */,
 				DBC7C4C316327F1900BF3F2D /* CollectionsAction.m in Sources */,

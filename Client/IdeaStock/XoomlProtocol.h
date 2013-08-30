@@ -11,7 +11,6 @@
 #import "XoomlAssociationNamespaceElement.h"
 #import "CollectionNoteAttribute.h"
 #import "StackingModel.h"
-#import "XoomlFragment.h"
 
 /*
  A higher level representation of the manifest of a collection.
@@ -20,16 +19,17 @@
 
 @protocol XoomlProtocol <NSObject>
 
--(id) initWithFragment:(XoomlFragment *) fragment;
-
 -(id) initWithXMLString:(NSString *) xmlString;
 
 -(id) initAsEmpty;
 
+-(id) initWithDocument:(DDXMLDocument *) document;
+
 -(id) copy;
+
 -(NSString *) toXmlString;
 
--(void) addFragmentNamespaceElement:(XoomlFragmentNamespaceElement *) namespaceElement;
+-(NSData *) data;
 
 -(void) addAssociation:(XoomlAssociation *) association;
 
@@ -37,9 +37,9 @@
                 toAssociationWithId:(NSString *) associationId;
 
 
--(void) removeFragmentNamespaceElement:(XoomlFragmentNamespaceElement *) namespaceElement;
+-(void) removeFragmentNamespaceElement:(NSString *) namespaceId;
 
--(void) removeAssociation:(XoomlAssociation *) association;
+-(void) removeAssociation:(NSString *) associationId;
 
 -(void) removeAssociationNamespaceElementWithAssociationId:(NSString *) associationId
                           andAssociationNamespaceElementId:(NSString *) namespaceId;
@@ -53,10 +53,6 @@
 -(void) updateAssociationNamespaceElementWithAssociationId:(NSString *) associationId
                                      andNamespaceElementId:(NSString *) namespaceElementId
                                             withNewElement:(XoomlAssociationNamespaceElement *) newNamespaceElement;
-
-/*! Get Xooml fragment representing this document
- */
--(XoomlFragment *) getFragment;
 
 /*! Keyed on fragmentId and valued on XoomlFragmentNamespaceElement objects
  */
@@ -80,5 +76,6 @@
 
 -(NSString *) description;
 
+-(DDXMLDocument *) document;
 @end
 

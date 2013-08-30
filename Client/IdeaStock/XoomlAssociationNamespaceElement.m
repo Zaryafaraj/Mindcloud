@@ -49,8 +49,8 @@
     if (self == nil) return nil;
     
     NSError * err = nil;
-    DDXMLElement * element = [[DDXMLElement alloc] initWithXMLString:xmlString error:&err];
-    if (element == nil)
+    self.element = [[DDXMLElement alloc] initWithXMLString:xmlString error:&err];
+    if (self.element == nil)
     {
         NSLog(@"XoomlAssociationNamespaceElement - Error creating XoomlAssociationNamespaceElement with Error %@", err.description);
         return nil;
@@ -118,7 +118,7 @@
     for (DDXMLNode * element in self.element.children)
     {
         XoomlNamespaceElement * childValue = [[XoomlNamespaceElement alloc] initFromXMLString:element.stringValue];
-        if (childValue != nil)
+        if (childValue != nil && childValue.ID != nil)
         {
             NSString * ID = childValue.ID;
             namespaceElements[ID] = childValue;

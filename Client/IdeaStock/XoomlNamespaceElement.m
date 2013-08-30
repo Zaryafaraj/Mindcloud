@@ -8,7 +8,6 @@
 
 #import "XoomlNamespaceElement.h"
 #import "AttributeHelper.h"
-#import "DDXMLElement.h"
 
 #define NAMESPACE_ID @"ID"
 

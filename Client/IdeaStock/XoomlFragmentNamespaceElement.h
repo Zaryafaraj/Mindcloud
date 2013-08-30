@@ -8,12 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import "XoomlNamespaceElement.h"
+#import "DDXMLElement.h"
 
 @interface XoomlFragmentNamespaceElement : NSObject
 
-@property (strong, nonatomic) NSString * ID;
+@property (strong, nonatomic, readonly) NSString * ID;
 
-@property (strong, nonatomic) NSString * namespaceName;
+@property (strong, nonatomic, readonly) NSString * namespaceName;
+
+@property (strong, nonatomic, readonly) DDXMLElement * element;
+
+-(id) initWithNamespacecName :(NSString *) namespaceName;
 
 -(id) initFromXmlString:(NSString *) xmlString;
 

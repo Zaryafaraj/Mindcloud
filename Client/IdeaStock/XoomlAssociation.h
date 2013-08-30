@@ -23,6 +23,7 @@
 
 @property (strong, nonatomic, readonly) NSString * associatedXoomlDriver;
 
+@property (strong, nonatomic, readonly) DDXMLElement * element;
 
 -(id) initWithAssociatedItem:(NSString *) associatedItem;
 -(id) initWithXMLString:(NSString *) xmlString;

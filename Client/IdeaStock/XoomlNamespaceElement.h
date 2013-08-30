@@ -7,12 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DDXMLElement.h"
 
 @interface XoomlNamespaceElement : NSObject
 
 @property (strong, nonatomic, readonly) NSString * ID;
 
 @property (strong, nonatomic, readonly) NSString * namespaceName;
+
+@property (strong, nonatomic, readonly) DDXMLElement * element;
 
 -(id) initWithName:(NSString *) name;
 
