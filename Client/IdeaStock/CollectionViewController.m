@@ -113,32 +113,32 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteImageAddedEventOccured:)
-                                                 name:SUBCOLLECTION_WITH_IMAGE_ADDED_EVENT
+                                                 name:ASSOCIATION_WITH_IMAGE_ADDED_EVENT
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteAddedEventOccured:)
-                                                 name:SUBCOLLECTION_ADDED_EVENT
+                                                 name:ASSOCIATION_ADDED_EVENT
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteContentUpdateEventOccured:)
-                                                 name:SUBCOLLECTION_CONTENT_UPDATED_EVENT
+                                                 name:ASSOCIATION_CONTENT_UPDATED_EVENT
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteImageUpdateEventOccured:)
-                                                 name:SUBCOLLECTION_IMAGE_UPDATED_EVENT
+                                                 name:ASSOCIATION_IMAGE_UPDATED_EVENT
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteUpdatedEventOccured:)
-                                                 name:SUBCOLLECTION_UPDATED_EVENT
+                                                 name:ASSOCIATION_UPDATED_EVENT
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteDeletedEventOccured:)
-                                                 name:SUBCOLLECTION_DELETED_KEY
+                                                 name:ASSOCIATION_DELETED_KEY
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -349,7 +349,7 @@
     }
 }
 
--(NSArray *) getAllNoteViewsForStacking:(StackingModel *) stacking
+-(NSArray *) getAllNoteViewsForStacking:(CollectionStackingAttribute *) stacking
 {
     //get All the NoteViews
     NSMutableArray * stackNotes = [NSMutableArray array];
@@ -373,7 +373,7 @@
     for (NSString * stackId in result)
     {
         NSLog(@"CollectionViewController: Stacking Added Event Received for %@", stackId);
-        StackingModel * stacking = [self.board getStackModelFor:stackId];
+        CollectionStackingAttribute * stacking = [self.board getStackModelFor:stackId];
         if (stacking)
         {
             NSArray * stackNotes = [self getAllNoteViewsForStacking:stacking];
@@ -494,7 +494,7 @@
     for (NSString * stackId in result)
     {
         NSLog(@"CollectionViewController: Stacking update Event Received for %@", stackId);
-        StackingModel * stacking = [self.board getStackModelFor:stackId];
+        CollectionStackingAttribute * stacking = [self.board getStackModelFor:stackId];
         
         if (stacking == nil) break;
     
@@ -911,7 +911,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteImageReady:)
-                                                 name:SUBCOLLECTION_IMAGE_READY_EVENT
+                                                 name:ASSOCIATION_IMAGE_READY_EVENT
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -1085,7 +1085,7 @@
     //Find out which notes belong to the stacking and put them there
     for(NSString * stackingID in stackings){
         NSMutableArray * views = [[NSMutableArray alloc] init];
-        StackingModel * stackingModel = stackings[stackingID];
+        CollectionStackingAttribute * stackingModel = stackings[stackingID];
         NSArray * noteRefIds = [stackingModel.refIds allObjects];
         UIView * mainView = [self storeNotesViewsForNotes:noteRefIds into:views];
         CGFloat scale = [stackingModel.scale floatValue];
@@ -1099,17 +1099,17 @@
 
 #pragma mark - Note Actions
 
--(NSString *) addNoteToModel: (NoteView *) note withID:(NSString *) noteID
+-(NSString *) addNoteToModel: (NoteView *) note
+                      withID:(NSString *) noteID
 {
     
-    CollectionNoteAttribute * noteModel = [self createXoomlNoteModel:note];
+    note.ID = noteID;
+    CollectionNoteAttribute * noteCollectionAttribute = [self createXoomlNoteModel:note];
     CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteID];
     noteItem.noteText = note.text;
-    note.ID = noteID;
     
-    [self.board addNoteContent:noteItem
-                      andModel:noteModel
-                 forNoteWithID:noteID];
+    [self.board addNoteWithContent:noteItem
+                      andCollectionAttributes:noteCollectionAttribute];
     
     return noteID;
 }
@@ -1145,8 +1145,10 @@
     NSString * positionX = [NSString stringWithFormat:@"%f", note.frame.origin.x];
     NSString * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
     NSString * scale = [NSString stringWithFormat:@"%f", note.scaleOffset];
+    NSString * noteId = note.ID;
     
     return [[CollectionNoteAttribute alloc] initWithName:noteName
+                                                andRefId:noteId
                                    andPositionX:positionX
                                    andPositionY:positionY
                                      andScaling:scale];
@@ -1209,7 +1211,7 @@
 {
     
     NSString * scale = [NSString stringWithFormat:@"%f", scaleOffset];
-    StackingModel * oldModel = [self.board getStackModelFor:stackID];
+    CollectionStackingAttribute * oldModel = [self.board getStackModelFor:stackID];
     oldModel.scale = scale;
     [self.board updateStacking:stackID withNewModel:oldModel];
 }

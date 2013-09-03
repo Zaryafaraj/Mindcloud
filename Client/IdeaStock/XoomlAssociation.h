@@ -11,7 +11,7 @@
 
 @interface XoomlAssociation : NSObject
 
-@property (strong, nonatomic, readonly) NSString * ID;
+@property (strong, nonatomic) NSString * ID;
 
 @property (strong, nonatomic) NSString * associatedItem;
 
@@ -23,9 +23,17 @@
 
 @property (strong, nonatomic, readonly) NSString * associatedXoomlDriver;
 
+
+@property (strong, nonatomic, readonly) NSString * refId;
+
 @property (strong, nonatomic, readonly) DDXMLElement * element;
 
--(id) initWithAssociatedItem:(NSString *) associatedItem;
+-(id) initSelfReferencingAssociationWithDisplayText:(NSString *) displayText
+                                          andSelfId:(NSString *) ID;
+
+-(id) initWithAssociatedItem:(NSString *) associatedItem
+         andAssociatedItemRefId:(NSString *) refId;
+
 -(id) initWithXMLString:(NSString *) xmlString;
 
 -(NSString *) toXMLString;
@@ -44,4 +52,7 @@
 
 -(void) removeAssociationNamespaceElementWithId:(NSString *) ID;
 
+/*! Determines whether this association refers to self fragment as opposed to a fragment outside
+ */
+-(BOOL) isSelfReferncing;
 @end

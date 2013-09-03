@@ -7,13 +7,13 @@
 //
 
 #import "MindcloudCollection.h"
-#import "XoomlCollectionParser.h"
 #import "MindcloudCollectionGordon.h"
 #import "EventTypes.h"
 #import "CollectionRecorder.h"
 #import "NoteResolutionNotification.h"
 #import "NoteFragmentResolver.h"
 #import "FileSystemHelper.h"
+#import "CollectionNote.h"
 
 @interface MindcloudCollection()
 
@@ -57,10 +57,6 @@
 
 @property (nonatomic, strong) NSMutableArray * thumbnailStack;
 
-/*
- To record any possible conflicting items for synchronization
- */
-@property (strong, atomic) CollectionRecorder * recorder;
 
 @property (strong, atomic) MindcloudCollectionGordon * gordonDataSource;
 
@@ -81,7 +77,6 @@
 {
     self = [super init];
     
-    self.recorder = [[CollectionRecorder alloc] init];
     self.thumbnailStack = [NSMutableArray array];
     self.downloadableImageNotes = [NSMutableSet set];
     self.imagePathsForNotes = [NSMutableDictionary dictionary];
@@ -99,7 +94,7 @@
     //notifications for note resolver
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteResolved:)
-                                                 name:SUB_COLLECTION_RESOLVED_EVENT
+                                                 name:ASSOCIATION_RESOLVED_EVENT
                                                object:nil];
     
     
@@ -129,17 +124,17 @@
         {
             self.imagePathsForNotes[noteId] = noteResolution.noteImagePath;
             [self.thumbnailStack addObject:noteId];
-            [[NSNotificationCenter defaultCenter] postNotificationName:SUBCOLLECTION_WITH_IMAGE_ADDED_EVENT
+            [[NSNotificationCenter defaultCenter] postNotificationName:ASSOCIATION_WITH_IMAGE_ADDED_EVENT
                                                                 object:self
                                                               userInfo:userInfo];
             
             [self.thumbnailStack addObject:noteId];
             self.originalThumbnail = nil;
-            [self.gordonDataSource updateCollectionThumbnailWithImageOfSubCollection:noteId];
+            [self.gordonDataSource setCollectionThumbnailWithImageOfAssociation:noteId];
         }
         else
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:SUBCOLLECTION_ADDED_EVENT
+            [[NSNotificationCenter defaultCenter] postNotificationName:ASSOCIATION_ADDED_EVENT
                                                                 object:self
                                                               userInfo:userInfo];
             
@@ -149,10 +144,10 @@
 
 #pragma mark - Creation
 
--(void) addNoteContent: (id <NoteProtocol>) note
-              andModel:(CollectionNoteAttribute *) collectionNoteAttribute
-         forNoteWithID:(NSString *) noteID
+-(void) addNoteWithContent: (id <NoteProtocol>) note
+              andCollectionAttributes:(CollectionNoteAttribute *) collectionNoteAttribute
 {
+    NSString * noteID = note.noteId;
     NSString * noteName = collectionNoteAttribute.noteName;
     if (!noteID || !noteName) [NSException raise:NSInvalidArgumentException
                                           format:@"A Values is missing from the required properties dictionary"];
@@ -162,12 +157,14 @@
     
     self.collectionAttributesForNotes[noteID] = collectionNoteAttribute;
     
-    NSData * noteData = [XoomlCollectionParser convertNoteToXooml:note];
-    [self.gordonDataSource  addSubCollectionContentWithId:noteID
-                                              withContent:noteData
-                                  andCollectionAttributes:collectionNoteAttribute];
     
-    [self.recorder recordUpdateSubCollection:noteID];
+    XoomlFragment * noteFragment = [note toXoomlFragment];
+    
+    
+    [self.gordonDataSource  addAssociationWithName:collectionNoteAttribute.noteName
+                                          andAssociatedItem:noteFragment
+                             andAssociation:[collectionNoteAttribute toXoomlAssociation]];
+    
 }
 
 -(void) addImageNoteContent:(id <NoteProtocol> )noteItem
@@ -187,20 +184,21 @@
     //just save the noteID that has images not the image itself. This is
     //for performance reasons, anytime that an image is needed we will load
     //it from the disk. The dictionary holds noteID and imageFile Path
-    NSData * noteData = [XoomlCollectionParser convertImageNoteToXooml:noteItem];
-    NSString * imgName = [XoomlCollectionParser getXoomlImageReference: noteItem];
-    NSString * imgPath = [FileSystemHelper getPathForSubCollectionImageforSubCollectionName:noteName
+    XoomlFragment * noteFragment =  [noteItem toXoomlFragment];
+    NSString * imgPath = [FileSystemHelper getPathForAssociatedItemImageforAssociatedItemName:noteName
                                                           inCollection:self.bulletinBoardName];
     (self.imagePathsForNotes)[noteID] = imgPath;
     [self.thumbnailStack addObject:noteID];
     self.originalThumbnail = nil;
     
-    [self.gordonDataSource addSubCollectionContentWithId:noteID
-                                             withContent:noteData
-                                                andImage:img
-                                            andImageName:imgName
-                                 andCollectionAttributes:collectionNoteAttribute];
-    [self.recorder recordUpdateSubCollection:noteID];
+    XoomlAssociation * association = [collectionNoteAttribute toXoomlAssociation];
+    
+    [self.gordonDataSource addAssociationWithName:noteName
+                                         andAssociatedItem:noteFragment
+                           andAssociation:association
+                                       andAssociationImageData:img
+                                       andImageName:noteItem.image];
+    
 }
 
 -(void) addNotesWithIDs: (NSArray *) noteIDs
@@ -212,19 +210,17 @@
     }
     
     NSSet * noteRefs = [NSSet setWithArray:noteIDs];
-    StackingModel * stackingModel = self.stackings[stackingName];
+    CollectionStackingAttribute * stackingModel = self.stackings[stackingName];
     if (!stackingModel)
     {
-        stackingModel = [[StackingModel alloc] initWithName:stackingName
+        stackingModel = [[CollectionStackingAttribute alloc] initWithName:stackingName
                                                         andScale:@"1.0"
                                                        andRefIds:noteRefs];
         self.stackings[stackingName] = stackingModel;
-        [self.recorder recordUpdateStack:stackingName];
     }
     else
     {
         [stackingModel addNotes:noteRefs];
-        [self.recorder recordUpdateStack:stackingName];
     }
     
     for(NSString * noteId in noteIDs)
@@ -232,8 +228,8 @@
         self.noteToStackingMap[noteId] = stackingName;
     }
     
-    [self.gordonDataSource addCollectionAttributeWithName:stackingName
-                                                withModel:stackingModel];
+    [self.gordonDataSource addCollectionFragmentNamespaceElementWithName:stackingName
+                                                andNamespaceElement:[stackingModel toXoomlNamespaceElement]];
 }
 
 #pragma mark - Deletion
@@ -242,11 +238,12 @@
 {
     for (NSString * stacking in self.stackings)
     {
-        StackingModel * stackingModel = self.stackings[stacking];
+        CollectionStackingAttribute * stackingModel = self.stackings[stacking];
         if ([stackingModel.refIds containsObject:noteId])
         {
             [stackingModel deleteNotes:[NSSet setWithObject:noteId]];
-            [self.recorder recordUpdateStack:stacking];
+            XoomlNamespaceElement * elemToUpdate = [stackingModel toXoomlNamespaceElement];
+            [self.gordonDataSource setCollectionFragmentNamespaceElementWithName:elemToUpdate.name toNamespaceElement:elemToUpdate];
             [self.noteToStackingMap removeObjectForKey:noteId];
         }
     }
@@ -257,7 +254,7 @@
     //could be more optmized using the noteStacking mapping instead of this iteration
     for (NSString * stacking in self.stackings)
     {
-        StackingModel * stackingModel = self.stackings[stacking];
+        CollectionStackingAttribute * stackingModel = self.stackings[stacking];
         [stackingModel deleteNotes:noteIds];
     }
     
@@ -282,9 +279,8 @@
     }
     [self removeNoteFromAllStackings:delNoteID];
     
-    [self.gordonDataSource removeSubCollectionWithId:delNoteID andName:noteName];
+    [self.gordonDataSource removeAssociationWithId:delNoteID andAssociatedItemName:noteName];
     
-    [self.recorder recordDeleteSubCollection:noteName];
 }
 
 -(void) removeNoteImage:(NSString *) delNoteID
@@ -300,11 +296,11 @@
     if ([self.thumbnailStack count] > 0)
     {
         NSString * lastThumbnailNoteId = [self.thumbnailStack lastObject];
-        [self.gordonDataSource updateCollectionThumbnailWithImageOfSubCollection:lastThumbnailNoteId];
+        [self.gordonDataSource setCollectionThumbnailWithImageOfAssociation:lastThumbnailNoteId];
     }
     else
     {
-        [self.gordonDataSource removeSubCollectionThumbnailForSubCollection:delNoteID];
+        [self.gordonDataSource removeThumbnailForAssociationWithId:delNoteID];
     }
 }
 
@@ -314,19 +310,20 @@
     //if the noteId is not valid return
     if (!(self.collectionNoteAttributes)[noteID]) return;
     
-    StackingModel * stacking = self.stackings[stackingName];
+    CollectionStackingAttribute * stacking = self.stackings[stackingName];
     [stacking deleteNotes:[NSSet setWithObject:noteID]];
     [self.noteToStackingMap removeObjectForKey:noteID];
     
-    [self.gordonDataSource removeSubCollectionWithId:noteID forCollectionAttributeOfName:stackingName];
-    [self.recorder recordUpdateStack:stackingName];
+    XoomlNamespaceElement * element = [stacking toXoomlNamespaceElement];
+    [self.gordonDataSource setCollectionFragmentNamespaceElementWithName:stackingName
+                                             toNamespaceElement:element];
     
 }
 
 -(void) removeStacking:(NSString *) stackingName
 {
     
-    StackingModel * stackingModel = self.stackings[stackingName];
+    CollectionStackingAttribute * stackingModel = self.stackings[stackingName];
     for(NSString * noteId in stackingModel.refIds)
     {
         [self.noteToStackingMap removeObjectForKey:noteId];
@@ -334,8 +331,7 @@
     
     [self.stackings removeObjectForKey:stackingName];
     
-    [self.gordonDataSource removeCollectionAttributeOfName:stackingName];
-    [self.recorder recordDeleteStack:stackingName];
+    [self.gordonDataSource removeCollectionFragmentNamespaceElementWithName:stackingName];
 }
 
 #pragma mark - Update
@@ -349,24 +345,15 @@
     //for attributes in newNote that a value is specified; update those
     
     if (newNote.noteText) oldNote.noteText = newNote.noteText;
-    if (newNote.noteTextID) oldNote.noteTextID = newNote.noteTextID;
+    if (newNote.noteId) oldNote.noteId = newNote.noteId;
     
-    NSData * noteData = nil;
-    if (self.imagePathsForNotes[noteID])
-    {
-        noteData = [XoomlCollectionParser convertImageNoteToXooml:oldNote];
-    }
-    else
-    {
-        noteData = [XoomlCollectionParser convertNoteToXooml:oldNote];
-    }
+    XoomlFragment * noteFragment = [newNote toXoomlFragment];
     
     CollectionNoteAttribute * collectionNoteAttribute = self.collectionAttributesForNotes[noteID];
     NSString * noteName = collectionNoteAttribute.noteName;
     
-    [self.gordonDataSource updateSubCollectionContentofSubCollectionWithName:noteName
-                                                                 withContent:noteData];
-    [self.recorder recordUpdateSubCollection:noteID];
+    [self.gordonDataSource setAssociatedItemWithName:noteName
+                                                                 toAssociatedItem:noteFragment];
 }
 
 -(void) updateNoteAttributes: (NSString *) noteID
@@ -378,16 +365,15 @@
     CollectionNoteAttribute * oldcollectionNoteAttribute = self.collectionAttributesForNotes[noteID];
     oldcollectionNoteAttribute.scaling = collectionNoteAttribute.scaling;
     
-    [self.gordonDataSource updateCollectionAttributesForSubCollection:noteID withCollectionAttributes:collectionNoteAttribute];
-    [self.recorder recordUpdateSubCollection:noteID];
+    [self.gordonDataSource setAssociationWithId:noteID toAssociation:[collectionNoteAttribute toXoomlAssociation]];
 }
 
 //this is ugly as it isn't consistent and doesn't update the notes in the stacking
 //its for performance reasons
 -(void) updateStacking:(NSString *) stackingName
-          withNewModel:(StackingModel *) stackingModel
+          withNewModel:(CollectionStackingAttribute *) stackingModel
 {
-    StackingModel * oldStackingModel =  self.stackings[stackingName];
+    CollectionStackingAttribute * oldStackingModel =  self.stackings[stackingName];
     if (stackingModel.scale)
     {
         oldStackingModel.scale = stackingModel.scale;
@@ -397,9 +383,8 @@
         oldStackingModel.name = stackingModel.name;
     }
     
-    [self.gordonDataSource updateCollectionAttributeWithName:stackingName withNewModel:stackingModel];
+    [self.gordonDataSource setCollectionFragmentNamespaceElementWithName:stackingName toNamespaceElement:[stackingModel toXoomlNamespaceElement]];
     
-    [self.recorder recordUpdateStack:stackingName];
 }
 
 #pragma mark - Query
@@ -426,7 +411,7 @@
     return [result copy];
 }
 
--(StackingModel *) getStackModelFor:(NSString *) stackID
+-(CollectionStackingAttribute *) getStackModelFor:(NSString *) stackID
 {
     return self.stackings[stackID];
 }
@@ -477,32 +462,40 @@
 }
 
 #pragma mark - merge helpers
--(void) updateCollectionForAddNoteNotifications:(NSArray *) notifications
+-(void) updateCollectionForAddNoteNotifications:(NSArray *) possibleNotifications
 {
     //the contents of these notes may be added later by another notifiaction
-    for(AddNoteNotification * notification in notifications)
+    for(AddAssociationNotification * associationNotification in possibleNotifications)
     {
-        NSString * noteId = notification.getNoteId;
-        CollectionNoteAttribute * collectionNoteAttribute = [[CollectionNoteAttribute alloc] initWithName:notification.getNoteName
-                                                             andPositionX:notification.getPositionX
-                                                             andPositionY:notification.getPositionY
-                                                               andScaling:notification.getScale];
+        CollectionNoteAttribute * newCollectionNoteAttribute = [CollectionNoteAttribute CollectionNoteAttributeFromAssociation:[associationNotification getAssociation]];
         
-        //the note resolver takes care of updates when all the information is at hand
-        [self.noteResolver CollectionNoteAttributeReceived:collectionNoteAttribute forNoteId:noteId];
+        NSString * noteId = [associationNotification getAssociation].refId;
+        
+        if (newCollectionNoteAttribute != nil && noteId != nil)
+        {
+            //the note resolver takes care of updates when all the information is at hand
+            [self.noteResolver CollectionNoteAttributeReceived:newCollectionNoteAttribute forNoteId:noteId];
+            
+        }
     }
 }
 
--(void) updateCollectionForUpdateNoteNotifications:(NSArray *) notifications
+-(void) updateCollectionForUpdateNoteNotifications:(NSArray *) possibleAssociations
 {
     NSMutableArray * updatedNotes = [NSMutableArray array];
-    for (UpdateNoteNotification * notification in notifications)
+    for (UpdateAssociationNotification * associationNotification in possibleAssociations)
     {
-        CollectionNoteAttribute * note = self.collectionAttributesForNotes[notification.getNoteId];
-        note.positionX = notification.getNotePositionX;
-        note.positionY = notification.getNotePositionY;
-        note.scaling = notification.getNoteScale;
-        [updatedNotes addObject:notification.getNoteId];
+        
+        CollectionNoteAttribute * newCollectionNoteAttribute = [CollectionNoteAttribute CollectionNoteAttributeFromAssociation:[associationNotification getAssociation]];
+        
+        //if we are not a note ignore
+        if (newCollectionNoteAttribute == nil) continue;
+        
+        NSString * noteId = [associationNotification getAssociation].refId;
+        
+        [updatedNotes addObject:noteId];
+        //TODO make sure we need to add this here
+        self.collectionNoteAttributes[noteId] = newCollectionNoteAttribute;
     }
     
     if ([updatedNotes count] == 0) return;
@@ -510,30 +503,35 @@
     NSDictionary * userInfo = @{@"result" : [updatedNotes copy]};
     
     NSLog(@"MindcloudCollection: Update Note Event: %@", updatedNotes);
-    [[NSNotificationCenter defaultCenter] postNotificationName:SUBCOLLECTION_UPDATED_EVENT
+    [[NSNotificationCenter defaultCenter] postNotificationName:ASSOCIATION_UPDATED_EVENT
                                                         object:self
                                                       userInfo:userInfo];
 }
 
--(void) updateCollectionForDeleteNoteNotifications:(NSArray *) notifications
+-(void) updateCollectionForDeleteNoteNotifications:(NSArray *) possibleAssociationsNotifications
 {
     NSMutableDictionary * deletedNotes = [NSMutableDictionary dictionary];
-    for (DeleteNoteNotification * notification in notifications)
+    for (DeleteAssociationNotification * notification in possibleAssociationsNotifications)
     {
-        [self.collectionNoteAttributes removeObjectForKey:notification.getNoteId];
-        [self.collectionAttributesForNotes removeObjectForKey:notification.getNoteId];
-        if (self.imagePathsForNotes[notification.getNoteId])
+        
+        NSString * noteId = [notification getRefId];
+        
+        if (noteId == nil) break;
+        
+        [self.collectionNoteAttributes removeObjectForKey:noteId];
+        [self.collectionAttributesForNotes removeObjectForKey:noteId];
+        if (self.imagePathsForNotes[noteId])
         {
-            [self removeNoteImage:notification.getNoteId];
+            [self removeNoteImage:noteId];
         }
-        NSString * correspondingStacking = self.noteToStackingMap[notification.getNoteId];
+        NSString * correspondingStacking = self.noteToStackingMap[noteId];
         if (correspondingStacking)
         {
-            deletedNotes[notification.getNoteId] = @{@"stacking":correspondingStacking};
+            deletedNotes[noteId] = @{@"stacking":correspondingStacking};
         }
         else
         {
-            deletedNotes[notification.getNoteId] = @{};
+            deletedNotes[noteId] = @{};
         }
     }
     
@@ -544,7 +542,7 @@
     NSDictionary * userInfo =  @{@"result" :  deletedNotes};
     
     NSLog(@"MindcloudCollection: Delete Note Event: %@", deletedNotes);
-    [[NSNotificationCenter defaultCenter] postNotificationName:SUBCOLLECTION_DELETED_KEY
+    [[NSNotificationCenter defaultCenter] postNotificationName:ASSOCIATION_DELETED_KEY
                                                         object:self
                                                       userInfo:userInfo];
 }
@@ -555,18 +553,20 @@
     //When a new note comes in that was part of the stacking but we didn't have it
     //the UI checks for it and adds it
     NSMutableArray * addedStackings = [NSMutableArray array];
-    for (AddStackingNotification * notification in notifications)
+    for (AddFragmentNamespaceSubElementNotification * notification in notifications)
     {
-        NSSet * refIds = [NSSet setWithArray:notification.getNoteRefs];
-        StackingModel * stackingModel = [[StackingModel alloc] initWithName:notification.getStackId
-                                                                             andScale:notification.getScale
-                                                                            andRefIds:refIds];
-        self.stackings[notification.getStackId] = stackingModel;
-        for (NSString * noteId in stackingModel.refIds)
+        CollectionStackingAttribute * newStackingModel = [CollectionStackingAttribute collectionSTackingAttributeFromNamespaceElement:[notification getSubElement]];
+        
+        //if its not a stacking ignore
+        if(newStackingModel == nil) continue;
+        
+        NSString * stackId = [notification getSubElement].ID;
+        self.stackings[stackId] = newStackingModel;
+        for (NSString * noteId in newStackingModel.refIds)
         {
-            self.noteToStackingMap[noteId] = stackingModel.name;
+            self.noteToStackingMap[noteId] = newStackingModel.name;
         }
-        [addedStackings addObject:notification.getStackId];
+        [addedStackings addObject:stackId];
     }
     
     if ([addedStackings count] == 0) return;
@@ -584,20 +584,21 @@
     //we treat update stacking just like add stacking. New notes will be added to
     //it once they arrive
     NSMutableArray * updatedStackings = [NSMutableArray array];
-    for(UpdateStackNotification * notification in notifications)
+    for(UpdateFragmentNamespaceSubElementNotification * notification in notifications)
     {
         
-        NSSet * refIds = [NSSet setWithArray:notification.getNoteRefs];
-        StackingModel * stackingModel = [[StackingModel alloc] initWithName:notification.getStackId
-                                                                             andScale:notification.getScale
-                                                                            andRefIds:refIds];
+        CollectionStackingAttribute * newStackingModel = [CollectionStackingAttribute collectionSTackingAttributeFromNamespaceElement:[notification getSubElement]];
         
+        //if its not a stacking ignore
+        if(newStackingModel == nil) continue;
+        
+        NSString * stackId = [notification getSubElement].ID;
         //get the old stacking and remove the deleted notes
-        StackingModel * oldStacking = self.stackings[notification.getStackId];
+        CollectionStackingAttribute * oldStacking = self.stackings[stackId];
         if (oldStacking)
         {
             NSMutableSet * deletedNotes = [oldStacking.refIds mutableCopy];
-            [deletedNotes minusSet:stackingModel.refIds];
+            [deletedNotes minusSet:newStackingModel.refIds];
             for (NSString * deletedNote in deletedNotes)
             {
                 [self.noteToStackingMap removeObjectForKey:deletedNote];
@@ -605,13 +606,13 @@
             }
         }
         
-        for (NSString * noteId in stackingModel.refIds)
+        for (NSString * noteId in newStackingModel.refIds)
         {
-            self.noteToStackingMap[noteId] = stackingModel.name;
+            self.noteToStackingMap[noteId] = newStackingModel.name;
         }
         
-        self.stackings[notification.getStackId] = stackingModel;
-        [updatedStackings addObject:notification.getStackId];
+        self.stackings[stackId] = newStackingModel;
+        [updatedStackings addObject:stackId];
     }
     
     if ([updatedStackings count] == 0) return;
@@ -627,17 +628,23 @@
 -(void) updateCollectionForDeleteStackingNotifications:(NSArray *) notifications
 {
     NSMutableArray * deletedStackings = [NSMutableArray array];
-    for (DeleteStackingNotification * notification in notifications)
+    for (DeleteFragmentNamespaceSubElementNotification * notification in notifications)
     {
-        NSString * stackingName = notification.getStackingId;
-        StackingModel * stackingModel = self.stackings[stackingName];
+        
+        NSString * stackingId = notification.getSubElementId;
+        
+        CollectionStackingAttribute * stackingModel = self.stackings[stackingId];
+        
+        //if its not there. Its either not a stacking or we don't have. Forget it
+        if (stackingModel == nil) continue;
+        
         for (NSString * noteId in stackingModel.refIds)
         {
             [self.noteToStackingMap removeObjectForKey:noteId];
         }
         
-        [self.stackings removeObjectForKey:stackingName];
-        [deletedStackings addObject:stackingName];
+        [self.stackings removeObjectForKey:stackingId];
+        [deletedStackings addObject:stackingId];
     }
     
     if ([deletedStackings count] == 0) return;
@@ -668,7 +675,6 @@
     //check out of the notification center
     [self.gordonDataSource cleanup];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.recorder reset];
 }
 
 #pragma - thumbnail related actions
@@ -697,82 +703,87 @@
 
 #pragma mark - Gordon delegate
 
--(void) collectionHasThumbnailAtSubCollectionWithId:(NSString *)subCollectionId
+-(void) collectionThumbnailIsForAssociationWithId:(NSString *)associationId
 {
-    if (subCollectionId != nil)
+    if (associationId != nil)
     {
-        self.originalThumbnail = subCollectionId;
+        self.originalThumbnail = associationId;
     }
 }
 
--(void) collectionHasSubCollectionWithId:(NSString *)subCollectionId
-                                 andData:(NSData *) subCollectionData
-                           andAttributes:(CollectionNoteAttribute *)attribute
+-(void) collectionFragmentHasAssociationWithId:(NSString *) associationId
+                                 andAssociatedItemFragment:(XoomlFragment *) noteFragment
+                           andAssociation:(XoomlAssociation *) association
 {
     
-    id <NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:subCollectionData];
+    CollectionNoteAttribute * attribute = [CollectionNoteAttribute CollectionNoteAttributeFromAssociation:association];
+    if (attribute == nil) return;
+    id <NoteProtocol> noteObj = [[CollectionNote alloc] initWithXoomlFragment:noteFragment];
     if (!noteObj) return ;
     
-    (self.collectionNoteAttributes)[subCollectionId] = noteObj;
+    (self.collectionNoteAttributes)[associationId] = noteObj;
     //note could have an image or not. If it has an image we have to also add it to note images
     NSString * imgName = noteObj.image;
     if (imgName != nil)
     {
-        [self.downloadableImageNotes addObject:subCollectionId];
-        NSString * imagePath = [self.gordonDataSource getImagePathForSubCollectionWithName:attribute.noteName];
+        [self.downloadableImageNotes addObject:associationId];
+        NSString * imagePath = [self.gordonDataSource getImagePathForAssociationWithName:association.associatedItem];
         if (imagePath)
         {
-            self.imagePathsForNotes[subCollectionId] = imagePath;
-            [self.thumbnailStack addObject:subCollectionId];
+            self.imagePathsForNotes[associationId] = imagePath;
+            [self.thumbnailStack addObject:associationId];
         }
         
-        [self.gordonDataSource subCollectionisWaitingForImageWithSubCollectionId:subCollectionId andSubCollectionName:attribute.noteName];
+        [self.gordonDataSource associatedItemIsWaitingForImageForAssociationWithId:associationId andAssociationName:association.associatedItem];
     }
     
     
-    self.collectionAttributesForNotes[subCollectionId] = attribute;
+    self.collectionAttributesForNotes[associationId] = attribute;
 }
 
--(void) collectionHasCollectionAttributeOfType:(NSString *) subCollectionType
-                                       andName:(NSString *) attributeName
-                                       andData:(StackingModel *) stackingModel
+-(void) collectionHasNamespaceElementWithName:(NSString *) namespaceType
+                                       andContent:(XoomlNamespaceElement *) namespaceElement
 {
-    //Get STacking type and check against subCollectionType
-    self.stackings[attributeName] = stackingModel;
+    CollectionStackingAttribute * stackingModel = [CollectionStackingAttribute collectionSTackingAttributeFromNamespaceElement:namespaceElement];
+    if (stackingModel == nil) return;
+    
+    
+    //Get STacking type and check against associationType
+    self.stackings[stackingModel.name] = stackingModel;
     for (NSString * refId in stackingModel.refIds)
     {
-        self.noteToStackingMap[refId] = attributeName;
+        self.noteToStackingMap[refId] = stackingModel.name;
     }
 }
 
 
--(void) subCollectionPartiallyDownloadedWithId:(NSString *) subCollectionId
-                                       andData:(NSData *) subCollectionData
-                    andSubCollectionAttributes:(CollectionNoteAttribute *) subCollectionAttribute
+-(void) associatedItemPartiallyDownloadedWithId:(NSString *) associationId
+                                       andFragment:(XoomlFragment *) noteFragment
+                    andAssociation:(XoomlAssociation *) association
 {
     
-    id <NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:subCollectionData];
+    id <NoteProtocol> noteObj = [[CollectionNote alloc] initWithXoomlFragment:noteFragment];
     if (!noteObj) return ;
     
     //register the
-    [self.noteResolver noteContentReceived:noteObj forNoteId:subCollectionId];
+    [self.noteResolver noteContentReceived:noteObj forNoteId:associationId];
     
     
     //set the note content as soon as you receive it
-    self.collectionNoteAttributes[subCollectionId] = noteObj;
+    self.collectionNoteAttributes[associationId] = noteObj;
     //note could have an image or not. If it has an image we have to also add it to note images
     NSString * imgName = noteObj.image;
     if (imgName != nil)
     {
-        [self.downloadableImageNotes addObject:subCollectionId];
-        NSString * imagePath = [self.gordonDataSource getImagePathForSubCollectionWithName:subCollectionAttribute.noteName];
+        [self.downloadableImageNotes addObject:associationId];
+        NSString * imagePath = [self.gordonDataSource getImagePathForAssociationWithName:association.associatedItem];
         
         if (imagePath)
         {
-            [self.noteResolver noteImagePathReceived:imagePath forNoteId:subCollectionId];
-            [self.thumbnailStack addObject:subCollectionId];
+            [self.noteResolver noteImagePathReceived:imagePath forNoteId:associationId];
+            [self.thumbnailStack addObject:associationId];
         }
-        [self.gordonDataSource subCollectionisWaitingForImageWithSubCollectionId:subCollectionId andSubCollectionName:subCollectionAttribute.noteName];
+        [self.gordonDataSource associatedItemIsWaitingForImageForAssociationWithId:associationId andAssociationName:association.associatedItem];
     }
 }
 
@@ -780,32 +791,41 @@
 //when anything happens to a collection you will get these info
 -(void) eventsOccurredWithNotifications: (NotificationContainer *) notifications
 {
+    //we pick the items we are intersted in from the notification container
     //The order of these updates are optimized
-    [self updateCollectionForDeleteStackingNotifications:notifications.getDeleteStackingNotifications];
-    [self updateCollectionForDeleteNoteNotifications: notifications.getDeleteNoteNotifications];
-    [self updateCollectionForAddNoteNotifications:notifications.getAddNoteNotifications];
-    [self updateCollectionForAddStackingNotifications:notifications.getAddStackingNotifications];
-    [self updateCollectionForUpdateStackingNotifications:notifications.getUpdateStackingNotifications];
-    [self updateCollectionForUpdateNoteNotifications:notifications.getUpdateNoteNotifications];
+    NSArray * possibleDeleteStackings = notifications.getDeleteFragmentNamespaceSubElementNotifications;
+    NSArray * possibleDeleteNotes = notifications.getDeleteAssociationNotifications;
+    NSArray * possibleAddNotes = notifications.getAddAssociationNotifications;
+    NSArray * possibleAddStackings = notifications.getAddFragmentNamespaceSubElementNotifications;
+    NSArray * possibleUpdateStackings = notifications.getUpdateFragmentNamespaceSubElementNotifications;
+    NSArray * possibleUpdateNotes = notifications.getUpdateAssociationNotifications;
+    
+    [self updateCollectionForDeleteStackingNotifications:possibleDeleteStackings];
+    [self updateCollectionForDeleteNoteNotifications: possibleDeleteNotes];
+    [self updateCollectionForAddNoteNotifications:possibleAddNotes];
+    [self updateCollectionForAddStackingNotifications:possibleAddStackings];
+    [self updateCollectionForUpdateStackingNotifications:possibleUpdateStackings];
+    [self updateCollectionForUpdateNoteNotifications:possibleUpdateNotes];
 }
 
--(void) subCollectionWithId:(NSString *) subCollectionId
+-(void) associationWithId:(NSString *) associationId
     downloadedImageWithPath:(NSString *) imagePath
 {
     
-    (self.imagePathsForNotes)[subCollectionId] = imagePath;
+    (self.imagePathsForNotes)[associationId] = imagePath;
     //if we are waiting for this let the resolver know
-    if ([self.noteResolver hasNoteWaitingForResolution:subCollectionId])
+    if ([self.noteResolver hasNoteWaitingForResolution:associationId])
     {
-        [self.noteResolver noteImagePathReceived:imagePath forNoteId:subCollectionId];
+        [self.noteResolver noteImagePathReceived:imagePath forNoteId:associationId];
     }
 }
 
--(void) eventOccuredWithDownloadingOfSubColection:(NSString *) subCollectionName
-                             andSubCollectionData:(NSData *) subCollectionData
+-(void) eventOccuredWithDownloadingOfAssociatedItemWithId:(NSString *) associationId
+                             andAssociatedItemFragment:(XoomlFragment *) noteFragment
 {
-    id<NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:subCollectionData];
-    NSString * noteId = [noteObj noteTextID];
+    
+    id <NoteProtocol> noteObj = [[CollectionNote alloc] initWithXoomlFragment:noteFragment];
+    NSString * noteId = noteObj.noteId ;
     
     
     //if its just an update , update it
@@ -814,25 +834,24 @@
         //just update the content
         self.collectionNoteAttributes[noteId] = noteObj;
         NSDictionary * userInfo =  @{@"result" :  @[noteId]};
-        [[NSNotificationCenter defaultCenter] postNotificationName:SUBCOLLECTION_CONTENT_UPDATED_EVENT
+        [[NSNotificationCenter defaultCenter] postNotificationName:ASSOCIATION_CONTENT_UPDATED_EVENT
                                                             object:self
                                                           userInfo:userInfo];
     }
     //if its a new note submit the piece of the note that was received to resolver
     else
     {
-        [self.noteResolver noteContentReceived:noteObj
-                                     forNoteId:noteId];
+        [self.noteResolver noteContentReceived:noteObj forNoteId:noteId];
     }
     
 }
 
--(void) eventOccuredWithDownloadingOfSubCollectionImage:(NSString *) subCollectionId
+-(void) eventOccuredWithDownloadingOfAssocitedItemImage:(NSString *) associationId
                                           withImagePath:(NSString *) imagePath
-                                   andSubCollectionData:(NSData *) subCollectionData
+                                   andAssociatedItemFragment:(XoomlFragment *) noteFragment
 {
-    id<NoteProtocol> noteObj = [XoomlCollectionParser xoomlNoteFromXML:subCollectionData];
-    NSString * noteId = [noteObj noteTextID];
+    id <NoteProtocol> noteObj = [[CollectionNote alloc] initWithXoomlFragment:noteFragment];
+    NSString * noteId = noteObj.noteId;
     
     //if this is only an update, update the image path and send the notification
     if (self.imagePathsForNotes[noteId] && self.collectionNoteAttributes[noteId])
@@ -843,10 +862,10 @@
         //update thumbnail
         [self.thumbnailStack addObject:noteId];
         self.originalThumbnail = nil;
-        [self.gordonDataSource updateCollectionThumbnailWithImageOfSubCollection:subCollectionId];
+        [self.gordonDataSource setCollectionThumbnailWithImageOfAssociation:associationId];
         
         NSDictionary * userInfo =  @{@"result" :  @[noteId]};
-        [[NSNotificationCenter defaultCenter] postNotificationName:SUBCOLLECTION_IMAGE_UPDATED_EVENT
+        [[NSNotificationCenter defaultCenter] postNotificationName:ASSOCIATION_IMAGE_UPDATED_EVENT
                                                             object:self
                                                           userInfo:userInfo];
         
@@ -855,11 +874,6 @@
     {
         [self.noteResolver noteImagePathReceived:imagePath forNoteId:noteId];
     }
-}
-
--(CollectionRecorder *) getEventRecorder
-{
-    return self.recorder;
 }
 
 -(void) refresh

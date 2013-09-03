@@ -12,13 +12,13 @@
 
 @interface XoomlFragmentNamespaceElement : NSObject
 
-@property (strong, nonatomic, readonly) NSString * ID;
+@property (strong, nonatomic)  NSString * ID;
 
-@property (strong, nonatomic, readonly) NSString * namespaceName;
+@property (strong, nonatomic, readonly) NSString * namespaceURL;
 
 @property (strong, nonatomic, readonly) DDXMLElement * element;
 
--(id) initWithNamespacecName :(NSString *) namespaceName;
+-(id) initWithNamespaceURL :(NSString *) namespaceURL;
 
 -(id) initFromXmlString:(NSString *) xmlString;
 

@@ -1,7 +1,5 @@
-//
-//  EventTypes.h
-//  Mindcloud
-//
+// //  EventTypes.h
+//  Mindcloud //
 //  Created by Ali Fathalian on 1/10/13.
 //  Copyright (c) 2013 University of Washington. All rights reserved.
 //
@@ -17,27 +15,27 @@
 #define CATEGORIES_RECEIVED_EVENT @"categoriesReceivedEvent"
 #define COLLECTION_IMAGE_RECEIVED_EVENT @"thumbnailReceivedEvent"
 #define IMAGE_DOWNLOADED_EVENT @"imageDownloaded"
-#define SUBCOLLECTION_IMAGE_READY_EVENT @"subCollectionImageReadyEvent"
-#define MANIFEST_MERGE_FINISHED_EVENT @"manifestMergeFinished"
+#define ASSOCIATION_IMAGE_READY_EVENT @"associationImageReadyEvent"
+#define FRAGMENT_MERGE_FINISHED_EVENT @"FragmentMergeFinishedEvent"
 
 //subCollection resolutoin events
-#define SUB_COLLECTION_RESOLVED_EVENT @"subCollectionResolvedEvent"
+#define ASSOCIATION_RESOLVED_EVENT @"associationResolvedEvent"
 //Events resulting from an event from the listerner controller to UI
-#define SUBCOLLECTION_UPDATED_EVENT @"subCollectionUpdatedEvent"
-#define SUBCOLLECTION_DELETED_KEY @"subCollectionDeletedEvent"
-#define SUBCOLLECTION_ADDED_EVENT @"subCollectionAddedEvent"
-#define SUBCOLLECTION_WITH_IMAGE_ADDED_EVENT @"imagesubCollectionAdded"
+#define ASSOCIATION_UPDATED_EVENT @"associationUpdatedEvent"
+#define ASSOCIATION_DELETED_KEY @"AssociationDeletedEvent"
+#define ASSOCIATION_ADDED_EVENT @"AssociationAddedEvent"
+#define ASSOCIATION_WITH_IMAGE_ADDED_EVENT @"imagesAssociationAdded"
 #define STACK_UPDATED_EVENT @"stackUpdated"
 #define STACK_DELETED_EVENT @"stackDeleted"
 #define STACK_ADDED_EVENT @"stackAdded"
-#define SUBCOLLECTION_CONTENT_UPDATED_EVENT @"subCollectionContentUpdated"
-#define SUBCOLLECTION_IMAGE_UPDATED_EVENT @"subCollectionImageUpdated"
+#define ASSOCIATION_CONTENT_UPDATED_EVENT @"AssociationContentUpdated"
+#define ASSOCIATION_IMAGE_UPDATED_EVENT @"AssociationImageUpdated"
 
 //Events resulting from something happening to the listener
-#define LISTENER_DOWNLOADED_SUBCOLLECTION @"listenerDownloadedsubCollection"
+#define LISTENER_DOWNLOADED_ASSOCIATION @"listenerDownloadedsubCollection"
 #define LISTENER_DOWNLOADED_IMAGE @"listenerDownloadedImage"
-#define LISTENER_DELETED_SUBCOLLECTION @"listenerDeletedImage"
-#define LISTENER_DOWNLOADED_MANIFEST @"listenerDownloadedManifest"
+#define LISTENER_DELETED_ASSOCIATION @"listenerDeletedAssociation"
+#define LISTENER_DOWNLOADED_FRAGMENT @"listenerDownloadedFragment"
 
 //Sharing management
 #define COLLECTION_SHARED @"collectionShared"

@@ -16,20 +16,20 @@
 
 + (NSString *) getPathForCollectionWithName:(NSString *) collectionName;
 
-+ (NSString *) getPathForSubCollectionWithName: (NSString *) subCollectionName inCollectionWithName: (NSString *) collectionName;
++ (NSString *) getPathForAssociatedItemWithName: (NSString *) subCollectionName inCollectionWithName: (NSString *) collectionName;
 
 + (NSString *) getPathForThumbnailForCollectionWithName:(NSString *) collectionName;
 
 + (void) createMissingDirectoryForPath: (NSString *) path;
 
-+ (NSString *) getPathForSubCollectionImageforSubCollectionName: (NSString *) subCollectionName
++ (NSString *) getPathForAssociatedItemImageforAssociatedItemName: (NSString *) subCollectionName
                               inCollection: (NSString *) collectionName;
 
 + (BOOL) doesFileExist: (NSString *) path;
 
 + (BOOL) removeCollection:(NSString *) collectionName;
 
-+ (BOOL) removeSubCollection:(NSString *) subCollectionName
++ (BOOL) removeAssociation:(NSString *) subCollectionName
      fromCollection:(NSString *) collectionName;
 
 @end

@@ -7,13 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BulletinBoardProtocol.h"
-#import "NoteProtocol.h"
 #import "AuthorizationDelegate.h"
 
 /**
- * The protocol for the datamodel. Includes essential behaviors for working 
- with bulletin boards and notes. 
+ * The protocol for the datamodel. Includes essential behaviors for working
+ with bulletin boards and notes.
  */
 @protocol MindcloudDataSource <NSObject>
 
@@ -23,85 +21,94 @@
 -(void) authorizeUser:(NSString *) userID
 withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
 
-/*
- Adds one note with name noteName and content note to the bulletinBoard
- with bulletinBoardName
+/*! adds an associatedItem in form of a folder inside the collection with
+ a xooml file.
  
- If the bulletinBoard specified by bulletinBoard does not exist, the method
- returns without doing anything. 
+ If the collection specified by does not exist, the method returns without doing anything.
  
- This method assumes that the content passed to it as NSData is verified 
+ This method assumes that the content passed to it as NSData is verified
  and is valid.
  */
+- (void) addAssociatedItemWithName: (NSString *) associatedItemName
+                andFragmentContent: (NSData *) associatedItemContent
+                      ToCollection: (NSString *) collectionName;
 
-- (void) addNote: (NSString *)noteName 
-     withContent: (NSData *) note 
- ToCollection: (NSString *) collectionName;
 
--(void) addImageNote: (NSString *) noteName
-     withNoteContent: (NSData *) note 
-            andImage: (NSData *) img 
-   withImageFileName: (NSString *)imgName
-     toCollection: (NSString *) collectionName;
-/*
- Updates the bulletinboard with name with the given content
+/*! adds an associatedItem in for of a folder inside the collection with a xooml file and an image inside.
  
- The method assumes that the bulletinboard with the name exists. 
- If the bulletinboard does not exist an error should be occured. 
  
- The method replaces the bulletinboard info with the new one. 
+ If the collection specified by does not exist, the method returns without doing anything.
+ 
+ This method assumes that the content passed to it as NSData is verified
+ and is valid.
+ */
+-(void) addAssociatedItemWithName: (NSString *) associatedItem
+               andFragmentContent: (NSData *) content
+                         andImage: (NSData *) img
+                withImageFileName: (NSString *)imgName
+                     toCollection: (NSString *) collectionName;
+
+/*! Updates the collection with name with the given content as xooml file
+ 
+ The method assumes that the collection with the name exists.
+ If the collection does not exist an error should be occured.
+ 
+ The method replaces the collection xooml with the content that is passed in
  */
 -(void) updateCollectionWithName: (NSString *) collectionName
-               andContent: (NSData *) content;
+              andFragmentContent: (NSData *) content;
 
-/*
- Updates a given note with noteName with the content. 
+/*! Updates a given associatedItem with noteName with the content.
  
- The note assumes that the noteName and bulletinBoardName already exist.
- If they don't exist an error will occure. 
+ The method assumes that the associatedItem and collection already exist.
+ If they don't exist an error will occure.
  
- The method replaces the old note content with the new one. 
+ The method replaces the old associatedITem fragment content with the new one.
  */
--(void) updateNote: (NSString *) noteName 
-       withContent: (NSData *) conetent
-   inCollection:(NSString *) collectionName;
-/*
- Removes a note with noteName from the bulletin board with bulletinBoardName.
- 
-If the boardName or noteName are invalid the method returns without doing anything.
- 
- This method is not responsible for deletion of the individual note data structures
- in the application. 
- */
-- (void) removeNote: (NSString *) noteName
-  FromCollection: (NSString *) collectionName;
+-(void) updateAssociatedItem: (NSString *) associatedItemName
+         withFragmentContent: (NSData *) conetent
+                inCollection:(NSString *) collectionName;
 
-/*
- Return a NSData object with the contents of the stored bulletinBoard for
- the bulletinBoardName. 
+/*! Removes an associatedItem with the name from the collection with collectionName.
+ 
+ If the collectionName or associatedItemName are invalid the method returns without doing anything.
+ 
+ This method is not responsible for deletion of the individual associatedItems in other xooml files
+ */
+- (void) removeAssociatedItem: (NSString *) associatedItemName
+               FromCollection: (NSString *) collectionName;
+
+/*! Return a NSData object with the contents of the stored collection fragment for the collectionName.
  
  In case of any error in storage or retrieval the method returns nil.
  
- The method does not gurantee the NSData returned is a valid bulletin board data. 
+ The method does not gurantee the NSData returned is a valid collection fragment data.
  */
 - (NSData *) getCollection: (NSString *) collectionName;
-/*
- Gets the note contents for the passed bulletin board name and noteName.
- Returns an NSData containing the data for the note. 
+
+/*! Gets the associtedItem fragment contents for the passed collectionName and associatedItemName.
  
- If the bulletin board and the noteName are not valid the method returns
- nil without doing anything. 
+ Returns an NSData containing the fragment data for the note.
  
- The method does not gurantee the NSData returned is a valid note data. 
+ If the collection and the associatedItem are not valid the method returns
+ nil without doing anything.
+ 
+ The method does not gurantee the NSData returned is a valid associatedItem xooml data.
  */
-- (NSData *) getNoteForTheCollection: (NSString *) collectionName
-                                   WithName: (NSString *) noteName;
+- (NSData *) getAssociatedItemForTheCollection: (NSString *) collectionName
+                                      WithName: (NSString *) associatedItemName;
 
 
-- (NSString *) getImagePathForNote: (NSString *)noteID
-            andCollection: (NSString *) bulletinBoardName;
+/*! Returns the path in the file system for the image associated with a given associatedItem in the collection.
+ 
+ If the image does not exists returns nil
+ */
+- (NSString *) getImagePathForAssociatedItem: (NSString *) associatedItemId
+                               andCollection: (NSString *) collectionName;
 
 
+/*! Returns all the top level collections in the app folder
+ */
 -(NSArray *) getAllCollections;
 
 -(void) addCollectionWithName:(NSString *) collectionName;
@@ -111,13 +118,16 @@ If the boardName or noteName are invalid the method returns without doing anythi
 
 -(void) deleteCollectionFor:(NSString *) collectionName;
 
--(NSDictionary *) getCategories;
+/*! Categories determine the relationship between top level collections
+ Returns the fragment represnting the categories object
+ */
+-(NSData *) getCategories;
 
 -(void) saveCategories:(NSData *) categoriesData;
 
 -(NSData *) getThumbnailForCollection:(NSString *) collectionName;
 
 -(void) setThumbnail:(NSData *)thumbnailData
-          forCollection:(NSString *)collectionName;
+       forCollection:(NSString *)collectionName;
 
 @end

@@ -10,16 +10,16 @@
 
 @protocol CollectionSharingAdapterDelegate <NSObject>
 
--(void) manifestGotUpdated:(NSString *) manifestContent
+-(void) collectionFragmentGotUpdated:(NSString *) collectionFragmentContent
              ForCollection:(NSString *) collectionName;
 
--(void) notesGotUpdated:(NSDictionary *) noteUpdateDict
+-(void) associatedItemGotUpdated:(NSDictionary *) associatedItemDict
       forCollectionName:(NSString *) collectionName;
 
--(void) notesGotDeleted:(NSDictionary *) noteDeleteDict
+-(void) associatedItemGotDeleted:(NSDictionary *) noteDeleteDict
       forCollectionName:(NSString *) collectionName;
 
--(void) noteImagesGotUpdated:(NSDictionary *)noteImagesDict
+-(void) associatedItemImagesGotUpdated:(NSDictionary *)noteImagesDict
            forCollectionName:(NSString *)collectionName
            withSharingSecret:(NSString *) sharingSecret
                   andBaseURL:(NSString *) baseURL;

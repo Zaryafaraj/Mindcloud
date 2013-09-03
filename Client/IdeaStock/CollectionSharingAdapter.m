@@ -11,14 +11,16 @@
 #import "UserPropertiesHelper.h"
 #import "EventTypes.h"
 
-#define UPDATE_MANIFEST_KEY @"update_manifest"
-#define UPDATE_NOTE_KEY @"update_note"
-#define UPDATE_NOTE_IMG_KEY @"update_note_img"
-#define DELETE_NOTE_KEY @"delete_note"
+#define UPDATE_COLLECTION_FRAGMENT_KEY @"update_manifest"
+#define UPDATE_ASSOCIATION_KEY @"update_note"
+#define UPDATE_ASSOCIATION_IMG_KEY @"update_note_img"
+#define DELETE_ASSOCIATION_KEY @"delete_note"
 #define UPDATE_THUMBNAIL_KEY @"update_thumbnail"
 #define TOTAL_LISTENERS 2
 #define MAX_FAILURE_RETRIES 5
+
 @interface CollectionSharingAdapter()
+
 @property (strong, nonatomic) NSString * collectionName;
 @property (strong, nonatomic) NSString * sharingSecret;
 @property (strong, nonatomic) NSString * sharingSpaceURL;
@@ -170,33 +172,33 @@
 {
     for (NSString * eventKey in result)
     {
-        if ([eventKey isEqualToString:UPDATE_MANIFEST_KEY])
+        if ([eventKey isEqualToString:UPDATE_COLLECTION_FRAGMENT_KEY])
         {
-            NSLog(@"listener returned update manifest");
-            [self.delegate manifestGotUpdated:result[eventKey]
+            NSLog(@"CollectionSharingAdapter - listener returned update Collection Fragment");
+            [self.delegate collectionFragmentGotUpdated:result[eventKey]
                                 ForCollection:self.collectionName];
         }
-        if ([eventKey isEqualToString:UPDATE_NOTE_KEY])
+        if ([eventKey isEqualToString:UPDATE_ASSOCIATION_KEY])
         {
-            NSLog(@"listener returned update note");
-            [self.delegate notesGotUpdated:result[eventKey]
+            NSLog(@"CollectionSharingAdapter - listener returned update Association");
+            [self.delegate associatedItemGotUpdated:result[eventKey]
                          forCollectionName:self.collectionName];
         }
-        if([eventKey isEqualToString:UPDATE_NOTE_IMG_KEY])
+        if([eventKey isEqualToString:UPDATE_ASSOCIATION_IMG_KEY])
         {
-            [self.delegate noteImagesGotUpdated:result[eventKey] forCollectionName:self.collectionName
+            [self.delegate associatedItemImagesGotUpdated:result[eventKey] forCollectionName:self.collectionName
                               withSharingSecret:self.sharingSecret
                                      andBaseURL:self.sharingSpaceURL];
-            NSLog(@"listener returned update note img");
+            NSLog(@"CollectionSharingAdapter - listener returned update association img");
         }
-        if ([eventKey isEqualToString:DELETE_NOTE_KEY])
+        if ([eventKey isEqualToString:DELETE_ASSOCIATION_KEY])
         {
-            [self.delegate notesGotDeleted:result[eventKey] forCollectionName:self.collectionName];
-            NSLog(@"listener returned Delete Note");
+            [self.delegate associatedItemGotDeleted:result[eventKey] forCollectionName:self.collectionName];
+            NSLog(@"CollectionSharingAdapter - listener returned Delete association");
         }
         if ([eventKey isEqualToString:UPDATE_THUMBNAIL_KEY])
         {
-            NSLog(@"listener returned update thumbnail");
+            NSLog(@"CollectionSharingAdapter -listener returned update thumbnail");
             [self.delegate thumbnailGotUpdated:result[eventKey] forCollectionName:self.collectionName
                              withSharingSecret:self.sharingSecret
                                     andBaseURL:self.sharingSpaceURL];

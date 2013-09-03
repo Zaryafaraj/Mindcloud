@@ -8,8 +8,8 @@
 
 #import "CollectionsAction.h"
 #import "HTTPHelper.h"
-#import "XoomlCollectionParser.h"
 #import "MindcloudBaseAction.h"
+#import "XoomlFragment.h"
 
 @interface CollectionsAction()
 
@@ -75,7 +75,7 @@
 -(void) executePOST
 {
     [self.request setHTTPMethod:@"POST"];
-    NSData * postFile = [XoomlCollectionParser getEmptyCollectionXooml];
+    NSData * postFile = [[[[XoomlFragment alloc] initAsEmpty] toXmlString] dataUsingEncoding:NSUTF8StringEncoding];
     self.request = [HTTPHelper addPostFile:postFile
                                   withName:@"collection.xml"
                                  andParams:self.postArguments

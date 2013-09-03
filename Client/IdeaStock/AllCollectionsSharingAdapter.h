@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Mindcloud.h"
 
-@interface MindcloudSharingAdapter : NSObject
+@interface AllCollectionsSharingAdapter : NSObject
 
 -(void) shareCollection:(NSString *) collectionName;
 -(void) unshareCollection:(NSString *) collectionName;

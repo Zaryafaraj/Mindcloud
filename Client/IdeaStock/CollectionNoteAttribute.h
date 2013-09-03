@@ -7,15 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "XoomlAssociation.h"
+#import "BoardsXoomlDefinitions.h"
+
 
 @interface CollectionNoteAttribute : NSObject
 @property (readonly, strong) NSString * noteName;
 @property (nonatomic, strong) NSString * positionX;
 @property (nonatomic, strong) NSString * positionY;
 @property (nonatomic, strong) NSString * scaling;
+@property (nonatomic, strong) NSString * referencingNoteId;
 
--(id) initWithName:(NSString *) noteName
-      andPositionX:(NSString *) positionX
-      andPositionY: (NSString *) positionY
-        andScaling:(NSString *) scaling;
++(instancetype) CollectionNoteAttributeFromAssociation:(XoomlAssociation *) association;
+
+-(instancetype) initWithName:(NSString *) noteName
+                    andRefId:(NSString *) refId
+                andPositionX:(NSString *) positionX
+                andPositionY: (NSString *) positionY
+                  andScaling:(NSString *) scaling;
+
+-(XoomlAssociation *) toXoomlAssociation;
+
 @end

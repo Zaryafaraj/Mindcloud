@@ -18,13 +18,43 @@
 
 @implementation XoomlNamespaceElement
 
--(id) initWithName:(NSString *)name
+-(void) setID:(NSString *)ID
+{
+    _ID = ID;
+    if (self.element)
+    {
+        DDXMLNode * newId = [DDXMLNode attributeWithName:NAMESPACE_ID
+                                                 stringValue:_ID];
+        [self.element removeAttributeForName:NAMESPACE_ID];
+        [self.element addAttribute:newId];
+    }
+}
+
+-(id) initWithNoImmediateFragmentNamespaceParentAndName:(NSString *)name
 {
     self = [super init];
     if (self)
     {
-        _namespaceName = name;
+        _name = name;
         _ID = [AttributeHelper generateUUID];
+        self.element = [DDXMLElement elementWithName:name];
+        DDXMLNode * elementId = [DDXMLNode attributeWithName:NAMESPACE_ID
+                                                 stringValue:_ID];
+        [self.element addAttribute:elementId];
+    }
+    return self;
+    
+}
+
+-(id) initWithName:(NSString *)name
+andParentNamespace:(NSString *) parentNamespace
+{
+    self = [super init];
+    if (self)
+    {
+        _name = name;
+        _ID = [AttributeHelper generateUUID];
+        _parentNamespace = parentNamespace;
         self.element = [DDXMLElement elementWithName:name];
         DDXMLNode * elementId = [DDXMLNode attributeWithName:NAMESPACE_ID
                                                  stringValue:_ID];
@@ -59,7 +89,7 @@
                                            stringValue:_ID];
             [self.element addAttribute:idAttribute];
         }
-        _namespaceName = self.element.name;
+        _name = self.element.name;
     }
     return self;
 }
@@ -176,6 +206,10 @@
     return [self.element attributeForName:attributeName].stringValue;
 }
 
+-(BOOL) isImmediateChildOfFragmentNamespace
+{
+    return self.parentNamespace != nil;
+}
 -(NSString *) description
 {
     return [self.element stringValue];

@@ -43,7 +43,7 @@ dispatch_queue_t queue;
            ForCollectionName:(NSString *)collectionName
 {
     if (recorder == nil) recorder = [[CollectionRecorder alloc] init];
-    NSLog(@"Merge Request Submitted");
+    NSLog(@"MergerThread - Merge Request Submitted");
     dispatch_queue_t queue = [self getDispatchQueue];
     dispatch_async(queue, ^{
         ManifestMerger * merger = [[ManifestMerger alloc] initWithClientManifest:clientManifest andServerManifest:serverManifest andActionRecorder:recorder];
@@ -56,7 +56,7 @@ dispatch_queue_t queue;
         dispatch_async(dispatch_get_main_queue(), ^{
             
             NSDictionary * userInfo = @{@"result" : mergeResult};
-            [[NSNotificationCenter defaultCenter] postNotificationName:MANIFEST_MERGE_FINISHED_EVENT
+            [[NSNotificationCenter defaultCenter] postNotificationName:FRAGMENT_MERGE_FINISHED_EVENT
                                                                 object:self
                                                               userInfo:userInfo];
         });

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "XoomlProtocol.h"
+
 @interface XoomlFragment : NSObject <XoomlProtocol>
 
 @end

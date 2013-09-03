@@ -18,27 +18,45 @@
 #define ASSOCIATED_XOOML_DRIVER @"associatedXooMLDriver"
 #define CURRENT_FRAGMENT @"./XooML2.xml";
 #define GORDON_DRIVER @"Gordon"
+#define ASSOCIATION_REF_ID @"refId"
 
 @interface XoomlAssociation()
 
 @property (strong, nonatomic) DDXMLElement * element;
-@property (strong, nonatomic) NSString * ID;
+@property BOOL isSelfReferencing;
+
 @end
 
 @implementation XoomlAssociation
 
+-(void) setID:(NSString *)ID
+{
+    _ID = ID;
+    if (self.element)
+    {
+        DDXMLNode * newId = [DDXMLNode attributeWithName:ASSOCIATION_ID
+                                             stringValue:_ID];
+        [self.element removeAttributeForName:ASSOCIATION_ID];
+        [self.element addAttribute:newId];
+    }
+}
+
 -(id) initWithAssociatedItem:(NSString *) associatedItem
+         andAssociatedItemRefId:(NSString *) refId;
 {
     self = [super init];
     if (self)
     {
+        self.isSelfReferencing = NO;
         _ID  = [AttributeHelper generateUUID];
         _associatedXoomlDriver = GORDON_DRIVER;
         _associatedItem = associatedItem;
         _displayText = associatedItem;
         _localItem = associatedItem;
+        _refId = refId;
         _associatedXooMLFragment = [NSString stringWithFormat:@"%@/XooML2.xml", associatedItem];
         DDXMLNode * idNode = [DDXMLNode attributeWithName:ASSOCIATION_ID stringValue:_ID];
+        DDXMLNode * refNode = [DDXMLNode attributeWithName:ASSOCIATION_REF_ID stringValue:refId];
         DDXMLNode * associatedItemNode = [DDXMLNode attributeWithName:ASSOCIATED_ITEM stringValue:_associatedItem];
         DDXMLNode * displayTextNode = [DDXMLNode attributeWithName:DISPLAY_TEXT stringValue:_displayText];
         DDXMLNode * localItemNode = [DDXMLNode attributeWithName:LOCAL_ITEM stringValue:_localItem];
@@ -51,6 +69,40 @@
         [self.element addAttribute:localItemNode];
         [self.element addAttribute:associatedXoomlFragmentNode];
         [self.element addAttribute:associatedXooMLDriver];
+        [self.element addAttribute:refNode];
+    }
+    return self;
+}
+
+-(id) initSelfReferencingAssociationWithDisplayText:(NSString *) displayText andSelfId:(NSString *)ID
+{
+    
+    self = [super init];
+    if (self)
+    {
+        _ID  = ID;
+        self.isSelfReferencing = YES;
+        _associatedXoomlDriver = GORDON_DRIVER;
+        _associatedItem = @"";
+        _displayText = displayText;
+        _localItem = @"";
+        _refId = ID;
+        _associatedXooMLFragment = @"";
+        DDXMLNode * idNode = [DDXMLNode attributeWithName:ASSOCIATION_ID stringValue:_ID];
+        DDXMLNode * refNode = [DDXMLNode attributeWithName:ASSOCIATION_REF_ID stringValue:_refId];
+        DDXMLNode * associatedItemNode = [DDXMLNode attributeWithName:ASSOCIATED_ITEM stringValue:_associatedItem];
+        DDXMLNode * displayTextNode = [DDXMLNode attributeWithName:DISPLAY_TEXT stringValue:_displayText];
+        DDXMLNode * localItemNode = [DDXMLNode attributeWithName:LOCAL_ITEM stringValue:_localItem];
+        DDXMLNode * associatedXoomlFragmentNode = [DDXMLNode attributeWithName:ASSOCIATED_XOOML_FRAGMENT stringValue:_associatedXooMLFragment];
+        DDXMLNode * associatedXooMLDriver = [DDXMLNode attributeWithName:ASSOCIATED_XOOML_DRIVER stringValue:_associatedXoomlDriver];
+        self.element = [DDXMLElement elementWithName:ASSOCIATON_NAME];
+        [self.element addAttribute:idNode];
+        [self.element addAttribute:associatedItemNode];
+        [self.element addAttribute:displayTextNode];
+        [self.element addAttribute:localItemNode];
+        [self.element addAttribute:associatedXoomlFragmentNode];
+        [self.element addAttribute:associatedXooMLDriver];
+        [self.element addAttribute:refNode];
     }
     return self;
 }
@@ -86,10 +138,15 @@
     if (associatedItemNode)
     {
         _associatedItem = associatedItemNode.stringValue;
+        if ([_associatedItem isEqualToString:@""] || [_associatedItem isEqualToString:@"."])
+        {
+            self.isSelfReferencing = YES;
+        }
     }
     else
     {
         _associatedItem = @".";
+        self.isSelfReferencing = YES;
         associatedItemNode = [DDXMLNode attributeWithName:ASSOCIATED_ITEM stringValue:_associatedItem];
     }
     
@@ -100,7 +157,18 @@
     if (localItemNode) _localItem = localItemNode.stringValue;
     
     DDXMLNode * associatedXooMLFragmentNode = [self.element attributeForName:ASSOCIATED_XOOML_FRAGMENT];
-    if (associatedXooMLFragmentNode) _associatedXooMLFragment = associatedXooMLFragmentNode.stringValue;
+    if (associatedXooMLFragmentNode)
+    {
+        _associatedXooMLFragment = associatedXooMLFragmentNode.stringValue;
+        if ([_associatedXooMLFragment isEqualToString:@""] || [_associatedXooMLFragment isEqualToString:@"."])
+        {
+            self.isSelfReferencing = YES;
+        }
+        else
+        {
+            self.isSelfReferencing = NO;
+        }
+    }
     
     DDXMLNode * associatedXoomlDriverNode = [self.element attributeForName:ASSOCIATED_XOOML_DRIVER];
     if (associatedXoomlDriverNode) _associatedXoomlDriver = associatedXooMLFragmentNode.stringValue;
@@ -229,4 +297,8 @@
     [self.element removeChildAtIndex:index];
 }
 
+-(BOOL) isSelfReferncing
+{
+    return self.isSelfReferncing;
+}
 @end

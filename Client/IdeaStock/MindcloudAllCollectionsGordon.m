@@ -8,17 +8,18 @@
 
 #import "MindcloudAllCollectionsGordon.h"
 #import "SharingAwareObject.h"
-#import "MindcloudSharingAdapter.h"
+#import "AllCollectionsSharingAdapter.h"
 #import "MindcloudDataSource.h"
 #import "CachedMindCloudDataSource.h"
 #import "EventTypes.h"
+#import "XoomlCategoryParser.h"
 
 #define SYNCHRONIZATION_PERIOD 10
 
 @interface MindcloudAllCollectionsGordon()
 
 @property (strong, nonatomic) id<MindcloudDataSource, SharingAwareObject> dataSource;
-@property (strong, nonatomic) MindcloudSharingAdapter * sharingAdapter;
+@property (strong, nonatomic) AllCollectionsSharingAdapter * sharingAdapter;
 @property (weak, nonatomic) id<MindcloudAllCollectionsGordonDelegate> delegate;
 @property (atomic,strong) NSTimer * timer;
 @property BOOL shouldSaveCategories;
@@ -35,7 +36,7 @@
     {
         self.shouldSaveCategories = NO;
         self.dataSource = [[CachedMindCloudDataSource alloc] init];
-        self.sharingAdapter = [[MindcloudSharingAdapter alloc] init];
+        self.sharingAdapter = [[AllCollectionsSharingAdapter alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(collectionShared:)
                                                      name:COLLECTION_SHARED
@@ -102,7 +103,9 @@
 
 -(NSDictionary *) getAllCategoriesMappings
 {
-    return [self.dataSource getCategories];
+    NSData * categoriesData= [self.dataSource getCategories];
+    NSDictionary * categoriesDict = [XoomlCategoryParser deserializeXooml:categoriesData];
+    return categoriesDict;
 }
 
 -(void) renameCollectionWithName:(NSString *) collectionName
@@ -190,12 +193,14 @@
 -(void) categoriesReceived:(NSNotification *) notification
 {
     
-    NSDictionary * dict = notification.userInfo[@"result"];
+    NSData * categoriesData = notification.userInfo[@"result"];
     
     id<MindcloudAllCollectionsGordonDelegate> tempDel = self.delegate;
     if (tempDel)
     {
-        [tempDel categoriesLoaded:dict];
+        
+        NSDictionary * categoriesDict = [XoomlCategoryParser deserializeXooml:categoriesData];
+        [tempDel categoriesLoaded:categoriesDict];
         
     }
 }

@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "MindcloudDataSource.h"
 #import "CachedObject.h"
-#import "CollectionContentNotificationHandler.h"
 #import "CollectionSharingAdapterDelegate.h"
 #import "SharingAwareObject.h"
 #import "CachedCollectionContainer.h"
@@ -18,7 +17,6 @@
 @interface CachedMindCloudDataSource : NSObject<MindcloudDataSource,
 CachedObject,
 SharingAwareObject,
-CollectionContentNotificationHandler,
 CollectionSharingAdapterDelegate,
 cachedCollectionContainer>
 

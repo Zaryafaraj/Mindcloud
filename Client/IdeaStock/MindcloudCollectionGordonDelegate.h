@@ -8,40 +8,39 @@
 
 #import <Foundation/Foundation.h>
 #import "CollectionNoteAttribute.h"
-#import "StackingModel.h"
+#import "CollectionStackingAttribute.h"
 #import "CollectionRecorder.h"
 #import "NotificationContainer.h"
+#import "XoomlFragment.h"
 
 @protocol MindcloudCollectionGordonDelegate <NSObject>
--(void) collectionHasThumbnailAtSubCollectionWithId:(NSString *) subCollectionId;
+
+-(void) collectionThumbnailIsForAssociationWithId:(NSString *) associationId;
 
 //TODO this should not be a CollectionNoteAttribute but be generic attribute that the delegate can pick stuff of of
--(void) collectionHasSubCollectionWithId: (NSString *) subCollectionId
-                                 andData:(NSData *) data
-                           andAttributes:(CollectionNoteAttribute *) attribute;
+-(void) collectionFragmentHasAssociationWithId: (NSString *) associationId
+                     andAssociatedItemFragment:(XoomlFragment *) associatedItemFragment
+                                andAssociation:(XoomlAssociation *) association;
 
 //TODO send actual NSDATA instead od stacking Model
--(void) collectionHasCollectionAttributeOfType:(NSString *) subCollectionType
-                                       andName:(NSString *) collectionName
-                                       andData:(StackingModel *) stackingModel;
+-(void) collectionHasNamespaceElementWithName:(NSString *) associationId
+                                   andContent:(XoomlNamespaceElement *) namespaceElement;
 
 
--(void) subCollectionPartiallyDownloadedWithId:(NSString *) subCollectionId
-                                       andData:(NSData *) subCollectionData
-                    andSubCollectionAttributes:(CollectionNoteAttribute *) subCollectionAttribute;;
-
--(CollectionRecorder *) getEventRecorder;
+-(void) associatedItemPartiallyDownloadedWithId:(NSString *) associationId
+                                    andFragment:(XoomlFragment *) associtedItemFragment
+                                 andAssociation:(XoomlAssociation *) association;
 
 -(void) eventsOccurredWithNotifications: (NotificationContainer *) notifications;
 
--(void) eventOccuredWithDownloadingOfSubColection:(NSString *) subCollectionId
-                             andSubCollectionData:(NSData *) subCollectionData;
+-(void) eventOccuredWithDownloadingOfAssociatedItemWithId:(NSString *) associationId
+                             andAssociatedItemFragment:(XoomlFragment *) associatedItemFragment;
 
--(void) eventOccuredWithDownloadingOfSubCollectionImage:(NSString *) subCollectionId
+-(void) eventOccuredWithDownloadingOfAssocitedItemImage:(NSString *) associationId
                                           withImagePath:(NSString *) imagePath
-                                   andSubCollectionData:(NSData *) subCollectionData;
+                                   andAssociatedItemFragment:(XoomlFragment *) associatedItemFragment;
 
--(void) subCollectionWithId:(NSString *) subCollectionId
+-(void) associationWithId:(NSString *) subCollectionId
     downloadedImageWithPath:(NSString *) imagePath;
 
 @end

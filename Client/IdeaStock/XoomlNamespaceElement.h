@@ -11,13 +11,19 @@
 
 @interface XoomlNamespaceElement : NSObject
 
-@property (strong, nonatomic, readonly) NSString * ID;
+@property (strong, nonatomic) NSString * ID;
 
-@property (strong, nonatomic, readonly) NSString * namespaceName;
+@property (strong, nonatomic, readonly) NSString * name;
+
+@property (strong, nonatomic, readonly) NSString * parentNamespace;
 
 @property (strong, nonatomic, readonly) DDXMLElement * element;
 
--(id) initWithName:(NSString *) name;
+-(id) initWithNoImmediateFragmentNamespaceParentAndName:(NSString *)name;
+
+-(id) initWithName:(NSString *)name
+andParentNamespace:(NSString *) parentNamespace;
+
 
 -(id) initFromXMLString:(NSString *) xmlString;
 
@@ -46,5 +52,6 @@
 
 -(NSString *) getAttributeWithName:(NSString *) attributeName;
 
+-(BOOL) isImmediateChildOfFragmentNamespace;
 
 @end

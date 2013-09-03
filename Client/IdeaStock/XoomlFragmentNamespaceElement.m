@@ -11,13 +11,11 @@
 
 #define ASSOCIATON_NAMESPACE_DATA_ID @"ID"
 #define ASSOCIATON_NAMESPACE_DATA_NAME @"associationNamespaceData"
-#define NAMESPACE_NAME @"xmlns"
+#define NAMESPACE_URL_NAME @"xmlns"
 
 @interface XoomlFragmentNamespaceElement()
 
-@property (strong, nonatomic) NSString * ID;
-
-@property (strong, nonatomic) NSString * namespaceName;
+@property (strong, nonatomic) NSString * namespaceURL;
 
 @property (strong, nonatomic) DDXMLElement * element;
 
@@ -25,21 +23,33 @@
 
 @implementation XoomlFragmentNamespaceElement
 
--(id) initWithNamespacecName :(NSString *) namespaceName
+-(void) setID:(NSString *)ID
+{
+    _ID = ID;
+    if (self.element)
+    {
+        DDXMLNode * newId = [DDXMLNode attributeWithName:ASSOCIATON_NAMESPACE_DATA_ID
+                                             stringValue:_ID];
+        [self.element removeAttributeForName:ASSOCIATON_NAMESPACE_DATA_ID];
+        [self.element addAttribute:newId];
+    }
+}
+
+-(id) initWithNamespaceURL:(NSString *)namespaceURL
 {
     self = [super init];
     if (self)
     {
         self.ID = [AttributeHelper generateUUID];
-        self.namespaceName = namespaceName;
+        self.namespaceURL = _namespaceURL;
         self.element = [DDXMLElement elementWithName:ASSOCIATON_NAMESPACE_DATA_NAME];
         
         DDXMLNode * idNode = [DDXMLNode attributeWithName:ASSOCIATON_NAMESPACE_DATA_ID
                                               stringValue:self.ID];
         [self.element addAttribute:idNode];
         
-        DDXMLNode * namespaceNode = [DDXMLNode attributeWithName:NAMESPACE_NAME
-                                                     stringValue:self.namespaceName];
+        DDXMLNode * namespaceNode = [DDXMLNode attributeWithName:NAMESPACE_URL_NAME
+                                                     stringValue:self.namespaceURL];
         [self.element addAttribute:namespaceNode];
     }
     return self;
@@ -74,11 +84,11 @@
         [self.element addAttribute:idAttribute];
     }
     
-    DDXMLNode * namespaceName = [self.element attributeForName:ASSOCIATON_NAMESPACE_DATA_NAME];
+    DDXMLNode * namespaceNode = [self.element attributeForName:NAMESPACE_URL_NAME];
     
-    if (namespaceName)
+    if (namespaceNode)
     {
-        self.namespaceName = namespaceName.stringValue;
+        self.namespaceURL = namespaceNode.stringValue;
     }
     
     return self;;
@@ -145,7 +155,7 @@
     if (subElement == nil || self.element == nil) return;
     
     NSString * subElementString = [subElement toXMLString];
-    DDXMLElement * subElementObj =  [DDXMLElement elementWithName:subElement.namespaceName
+    DDXMLElement * subElementObj =  [DDXMLElement elementWithName:subElement.name
                                                       stringValue:subElementString];
     [self.element addChild:subElementObj];
 }

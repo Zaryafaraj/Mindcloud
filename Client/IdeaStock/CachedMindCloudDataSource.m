@@ -12,30 +12,28 @@
 #import "UserPropertiesHelper.h"
 #import "EventTypes.h"
 #import "NetworkActivityHelper.h"
-#import "XoomlCategoryParser.h"
 
-#define THUMBNAIL_NOTE_NAME_KEY @"Thumbnail"
 
 @interface CachedMindCloudDataSource()
 //we make sure that we don't send out an action before another action of the same type on the same
 //resource is in progress, because of unreliable TCP/IP the second action might reach the server faster
 //and we want to avoid it.
 //These indicate whether an action is being in progress
-@property NSMutableDictionary * inProgressNoteUpdates;
-@property NSMutableDictionary * inProgressNoteImageUpdates;
-@property BOOL manifestUpdateInProgress;
+@property NSMutableDictionary * inProgressAssociatedItemUpdates;
+@property NSMutableDictionary * inProgressAssociatedItemImageUpdates;
+@property BOOL collectionFragmentUpdateInProgress;
 //Indicates which thumbnails are in the process of retreival.
 //This is because that the collectionView is very anxious and asks
 //for thumbnails multiple times before they get cached,
 //this way we ask once and ignore the rest of the requests until the first request comes back
 @property NSMutableDictionary * isInProgressOfGettingThumbnail;
 
-//dictionaries keyed on the note name and valued on noteData that contain the last update note
-//that is waiting. In case a new one comes in while the note update is in progress it just replaces
+//dictionaries keyed on the associatedItem name and valued on associatedItemData that contain the last update associatedItem
+//that is waiting. In case a new one comes in while the associatedItem update is in progress it just replaces
 //the old one
-@property NSMutableDictionary * noteUpdateQueue;
-@property NSMutableDictionary * noteImageUpdateQueue;
-@property NSMutableDictionary * waitingDeleteNotes;
+@property NSMutableDictionary * associatedItemUpdateQueue;
+@property NSMutableDictionary * associatedItemImageUpdateQueue;
+@property NSMutableDictionary * waitingDeleteAssociatedItems;
 @property NSData * waitingUpdateManifestData;
 /*
  The idea is that we cache item each time the app is run; ( app going to the background doesn't count). These two dictionaries make sure that we only refresh the cache once
@@ -44,10 +42,10 @@
 //keyed on collectionName
 @property NSMutableDictionary * thumbnailHasUpdatedCache;
 @property NSMutableDictionary * collectionHasUpdatedCache;
-//keyed on (collectionName + noteName + imgName) and valued on yes/no
+//keyed on (collectionName + associatedItemName + imgName) and valued on yes/no
 //these two are kinda redundant
 @property NSMutableDictionary * collectionImagesCache;
-//keyed on collection name value is a dictionary keyed on note name  and image path
+//keyed on collection name value is a dictionary keyed on associatedItem name  and image path
 @property BOOL isCategoriesUpdated;
 
 @property (nonatomic, strong) NSMutableDictionary * sharedCollections;
@@ -75,10 +73,10 @@
 -(id) init
 {
     self = [super init];
-    self.inProgressNoteImageUpdates = [NSMutableDictionary dictionary];
-    self.inProgressNoteUpdates = [NSMutableDictionary dictionary];
-    self.noteImageUpdateQueue = [NSMutableDictionary dictionary];
-    self.noteUpdateQueue = [NSMutableDictionary dictionary];
+    self.inProgressAssociatedItemImageUpdates = [NSMutableDictionary dictionary];
+    self.inProgressAssociatedItemUpdates = [NSMutableDictionary dictionary];
+    self.associatedItemImageUpdateQueue = [NSMutableDictionary dictionary];
+    self.associatedItemUpdateQueue = [NSMutableDictionary dictionary];
     self.collectionHasUpdatedCache = [NSMutableDictionary dictionary];
     self.collectionImagesCache = [NSMutableDictionary dictionary];
     self.thumbnailHasUpdatedCache = [NSMutableDictionary dictionary];
@@ -175,10 +173,9 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     [mindcloud authorize:userID withDelegate:del];
 }
 
--(NSDictionary *) getCategories
+-(NSData *) getCategories
 {
     NSData * categoriesData = [self readCategoriesFromDisk];
-    NSDictionary * categoriesDict = [XoomlCategoryParser deserializeXooml:categoriesData];
     //return the cached one and update the cache
     if (!self.isCategoriesUpdated)
     {
@@ -189,22 +186,18 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
              if (categories)
              {
                  NSLog(@"Categories Retrieved");
-                 NSDictionary * dict = [XoomlCategoryParser deserializeXooml:categories];
                  [self writeCategoriesToDisk:categories];
                  self.isCategoriesUpdated = YES;
-                 if (dict != nil)
-                 {
                      [[NSNotificationCenter defaultCenter] postNotificationName:CATEGORIES_RECEIVED_EVENT
                                                                          object:self
-                                                                       userInfo:@{@"result" : dict}];
-                 }
+                                                                       userInfo:@{@"result" : categoriesData}];
              }
              else{
                  NSLog(@"No Categories Received");
              }
          }];
     }
-    return categoriesDict;
+    return categoriesData;
 }
 
 -(void) saveCategories:(NSData *) categoriesData
@@ -297,52 +290,52 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
 }
 #pragma mark - Addition/Update
 
-- (void) addNote: (NSString *)noteName
-     withContent: (NSData *) note
+- (void) addAssociatedItemWithName: (NSString *) associatedItemName
+     andFragmentContent: (NSData *) associatedItem
     ToCollection: (NSString *) collectionName
 {
     
-    //If there was a plan to delete this note just cancel it
-    if (self.waitingDeleteNotes[noteName])
+    //If there was a plan to delete this associatedItem just cancel it
+    if (self.waitingDeleteAssociatedItems[associatedItemName])
     {
-        self.waitingDeleteNotes[noteName] = @NO;
+        self.waitingDeleteAssociatedItems[associatedItemName] = @NO;
     }
     
-    if ([self.inProgressNoteUpdates[noteName] isEqual:@YES])
+    if ([self.inProgressAssociatedItemUpdates[associatedItemName] isEqual:@YES])
     {
-        self.noteUpdateQueue[noteName] = note;
+        self.associatedItemUpdateQueue[associatedItemName] = associatedItem;
         return;
     }
     
     else
     {
-        self.inProgressNoteUpdates[noteName] = @YES;
+        self.inProgressAssociatedItemUpdates[associatedItemName] = @YES;
         
-        [self saveToDiskNoteData:note
+        [self saveToDiskAssociatedItemData:associatedItem
                    forCollection:collectionName
-                         andNote:noteName];
+                         andAssociatedItem:associatedItemName];
         
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
         [mindcloud updateSubCollectionForUser:userID
                        forCollection:collectionName
-                             andSubCollection:noteName
-                            withData:note
+                             andSubCollection:associatedItemName
+                            withData:associatedItem
                         withCallback:^(void){
-                            self.inProgressNoteUpdates[noteName] = @NO;
-                            NSLog(@"Updated Note %@ for Collection %@", noteName, collectionName);
+                            self.inProgressAssociatedItemUpdates[associatedItemName] = @NO;
+                            NSLog(@"Updated AssociatedItem %@ for Collection %@", associatedItemName, collectionName);
                             
-                            if (self.waitingDeleteNotes[noteName])
+                            if (self.waitingDeleteAssociatedItems[associatedItemName])
                             {
-                                [self removeNote:noteName FromCollection:collectionName];
+                                [self removeAssociatedItem:associatedItemName FromCollection:collectionName];
                             }
-                            else if (self.noteUpdateQueue[noteName])
+                            else if (self.associatedItemUpdateQueue[associatedItemName])
                             {
-                                NSData * latestNoteData = self.noteUpdateQueue[noteName];
-                                [self.noteUpdateQueue removeObjectForKey:noteName];
+                                NSData * latestAssociatedItemData = self.associatedItemUpdateQueue[associatedItemName];
+                                [self.associatedItemUpdateQueue removeObjectForKey:associatedItemName];
                                 
-                                [self addNote:noteName
-                                  withContent:latestNoteData
+                                [self addAssociatedItemWithName:associatedItemName
+                                  andFragmentContent:latestAssociatedItemData
                                  ToCollection:collectionName];
                             }
                         }];
@@ -350,61 +343,61 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     }
 }
 
--(void) addImageNote: (NSString *) noteName
-     withNoteContent: (NSData *) note
+-(void) addAssociatedItemWithName: (NSString *) associatedItemName
+     andFragmentContent: (NSData *) associatedItem
             andImage: (NSData *) img
    withImageFileName: (NSString *)imgName
         toCollection: (NSString *) collectionName;
 {
-    //If there was a plan to delete this note just cancel it
-    if (self.waitingDeleteNotes[noteName])
+    //If there was a plan to delete this associatedItem just cancel it
+    if (self.waitingDeleteAssociatedItems[associatedItemName])
     {
-        self.waitingDeleteNotes[noteName] = @NO;
+        self.waitingDeleteAssociatedItems[associatedItemName] = @NO;
     }
     
-    if ([self.inProgressNoteImageUpdates[noteName] isEqual:@YES])
+    if ([self.inProgressAssociatedItemImageUpdates[associatedItemName] isEqual:@YES])
     {
-        self.noteImageUpdateQueue[noteName] = note;
-        self.noteUpdateQueue[noteName] = img;
+        self.associatedItemImageUpdateQueue[associatedItemName] = associatedItem;
+        self.associatedItemUpdateQueue[associatedItemName] = img;
     }
     else
     {
-        self.inProgressNoteImageUpdates[noteName] = @YES;
+        self.inProgressAssociatedItemImageUpdates[associatedItemName] = @YES;
         
-        [self saveToDiskNoteData:note
+        [self saveToDiskAssociatedItemData:associatedItem
                    forCollection:collectionName
-                         andNote:noteName];
+                         andAssociatedItem:associatedItemName];
         
-        [self saveToDiskNoteImageData:img
+        [self saveToDiskAssociatedItemImageData:img
                         forCollection:collectionName
-                              andNote:noteName];
+                              andAssociatedItem:associatedItemName];
         
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
         [mindcloud updateSubCollectionAndSubCollectionImageForUser:userID
                                    forCollection:collectionName
-                                         andSubCollection:noteName
-                                    withSubCollectionData:note
+                                         andSubCollection:associatedItemName
+                                    withSubCollectionData:associatedItem
                                     andImageData:img
                                     withCallback:^(void) {
                                         
-                                        self.inProgressNoteImageUpdates[noteName] = @NO;
-                                        NSLog(@"Updated Note img %@ for Collection %@", noteName, collectionName);
+                                        self.inProgressAssociatedItemImageUpdates[associatedItemName] = @NO;
+                                        NSLog(@"Updated AssociatedItem img %@ for Collection %@", associatedItemName, collectionName);
                                         
-                                        if (self.waitingDeleteNotes[noteName])
+                                        if (self.waitingDeleteAssociatedItems[associatedItemName])
                                         {
-                                            [self removeNote:noteName FromCollection:collectionName];
+                                            [self removeAssociatedItem:associatedItemName FromCollection:collectionName];
                                         }
-                                        else if (self.noteUpdateQueue[noteName] && self.noteImageUpdateQueue[noteName])
+                                        else if (self.associatedItemUpdateQueue[associatedItemName] && self.associatedItemImageUpdateQueue[associatedItemName])
                                         {
-                                            NSData * latestImg = self.noteImageUpdateQueue[noteName];
-                                            NSData * latestNote = self.noteUpdateQueue[noteName];
-                                            [self.noteUpdateQueue removeObjectForKey:noteName];
-                                            [self.noteImageUpdateQueue removeObjectForKey:noteName];
-                                            [self addImageNote:noteName
-                                               withNoteContent:latestNote
+                                            NSData * latestImg = self.associatedItemImageUpdateQueue[associatedItemName];
+                                            NSData * latestAssociatedItem = self.associatedItemUpdateQueue[associatedItemName];
+                                            [self.associatedItemUpdateQueue removeObjectForKey:associatedItemName];
+                                            [self.associatedItemImageUpdateQueue removeObjectForKey:associatedItemName];
+                                            [self addAssociatedItemWithName:associatedItemName
+                                               andFragmentContent:latestAssociatedItem
                                                       andImage:latestImg
-                                             withImageFileName:@"note.jpg"
+                                             withImageFileName:@"associatedItem.jpg"
                                                   toCollection:collectionName];
                                         }
                                     }];
@@ -412,20 +405,20 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
 }
 
 -(void) updateCollectionWithName: (NSString *) collectionName
-                      andContent: (NSData *) content
+                      andFragmentContent: (NSData *) content
 {
     if ([content length] == 0)
     {
         return;
     }
     
-    if (self.manifestUpdateInProgress)
+    if (self.collectionFragmentUpdateInProgress)
     {
         self.waitingUpdateManifestData = content;
     }
     else
     {
-        self.manifestUpdateInProgress = YES;
+        self.collectionFragmentUpdateInProgress = YES;
         
         [self saveToDiskCollectionData:content
                          ForCollection:collectionName];
@@ -433,51 +426,51 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
         [mindcloud updateCollectionManifestForUser:userID forCollection:collectionName withData:content withCallback:^(void){
-            self.manifestUpdateInProgress = NO;
+            self.collectionFragmentUpdateInProgress = NO;
             NSLog(@"Update Manifest for collection %@", collectionName);
             if (self.waitingUpdateManifestData)
             {
                 NSData * latestData = self.waitingUpdateManifestData;
                 self.waitingUpdateManifestData = nil;
-                [self updateCollectionWithName:collectionName andContent:latestData];
+                [self updateCollectionWithName:collectionName andFragmentContent:latestData];
             }
         }];
     }
 }
 
--(void) updateNote: (NSString *) noteName
-       withContent: (NSData *) content
+-(void) updateAssociatedItem: (NSString *) associatedItemName
+       withFragmentContent: (NSData *) content
       inCollection:(NSString *) collectionName
 {
-    [self addNote:noteName withContent:content ToCollection:collectionName];
+    [self addAssociatedItemWithName:associatedItemName andFragmentContent:content ToCollection:collectionName];
 }
 
-- (void) removeNote: (NSString *) noteName
+- (void) removeAssociatedItem: (NSString *) associatedItemName
      FromCollection: (NSString *) collectionName
 {
     //we don't possibly want the delete to reach the server before the add. In that case it will get deleted and added again
-    if ([self.inProgressNoteImageUpdates[noteName] isEqual:@YES] || [self.inProgressNoteUpdates[noteName] isEqual:@YES])
+    if ([self.inProgressAssociatedItemImageUpdates[associatedItemName] isEqual:@YES] || [self.inProgressAssociatedItemUpdates[associatedItemName] isEqual:@YES])
     {
-        self.waitingDeleteNotes[noteName] = @YES;
-        //if there were prior actions that wait to be performed on the deleted note just cancel them
-        if (self.noteImageUpdateQueue[noteName])
+        self.waitingDeleteAssociatedItems[associatedItemName] = @YES;
+        //if there were prior actions that wait to be performed on the deleted associatedItem just cancel them
+        if (self.associatedItemImageUpdateQueue[associatedItemName])
         {
-            [self.noteImageUpdateQueue removeObjectForKey:noteName];
+            [self.associatedItemImageUpdateQueue removeObjectForKey:associatedItemName];
         }
-        if (self.noteUpdateQueue[noteName])
+        if (self.associatedItemUpdateQueue[associatedItemName])
         {
-            [self.noteUpdateQueue removeObjectForKey:noteName];
+            [self.associatedItemUpdateQueue removeObjectForKey:associatedItemName];
         }
     }
     else
     {
-        [self removeFromDiskNote:noteName fromCollection:collectionName];
+        [self removeFromDiskAssociatedItem:associatedItemName fromCollection:collectionName];
         
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
         
-        [mindcloud deleteSubCollectionForUser:userID forCollection:collectionName andSubCollection:noteName withCallback:^(void){
-            NSLog(@"Deleted Note %@ in collection %@", noteName, collectionName);
+        [mindcloud deleteSubCollectionForUser:userID forCollection:collectionName andSubCollection:associatedItemName withCallback:^(void){
+            NSLog(@"Deleted AssociatedItem %@ in collection %@", associatedItemName, collectionName);
         }];
     }
 }
@@ -527,8 +520,8 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
                                        
                                        [self saveToDiskCollectionData:collectionData
                                                         ForCollection:collectionName];
-                                       //get the rest of the notes
-                                       [self getAllNotes:collectionName];
+                                       //get the rest of the associatedItems
+                                       [self getAllAssociatedItems:collectionName];
                                    }
                                    else
                                    {
@@ -536,45 +529,45 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
                                    }
                                }];
 }
-- (void) getAllNotes:(NSString *) collectionName
+- (void) getAllAssociatedItems:(NSString *) collectionName
 {
     Mindcloud * mindcloud = [Mindcloud getMindCloud];
     NSString * userID = [UserPropertiesHelper userID];
     [mindcloud getAllSubCollectionsForUser:userID
                     forCollection:collectionName
-                     withCallback:^(NSArray * allNotes){
+                     withCallback:^(NSArray * allAssociatedItems){
                          int index = 0;
                          
                          //we are not going to download all the images in the beginning beccause we don't know what are they
-                         [self getRemainingNoteAtIndex: index
-                                             fromArray: allNotes
+                         [self getRemainingAssociatedItemAtIndex: index
+                                             fromArray: allAssociatedItems
                                          forCollection: collectionName
                                            chainImages:NO ];
                      }];
     
 }
 
--(void) getRemainingNoteAtIndex:(int) index
-                      fromArray:(NSArray *) allNotes
+-(void) getRemainingAssociatedItemAtIndex:(int) index
+                      fromArray:(NSArray *) allAssociatedItems
                   forCollection:(NSString *) collectionName
                     chainImages:(BOOL) chain
 {
-    if (index < [allNotes count])
+    if (index < [allAssociatedItems count])
     {
         
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
-        NSString * noteName = allNotes[index];
+        NSString * associatedItemName = allAssociatedItems[index];
         index++;
         [mindcloud getSubCollectionManifestforUser:userID
-                                  forSubCollection:noteName
-                           fromCollection:collectionName withCallback:^(NSData * noteData){
+                                  forSubCollection:associatedItemName
+                           fromCollection:collectionName withCallback:^(NSData * associatedItemData){
                                
-                               [self saveToDiskNoteData:noteData
+                               [self saveToDiskAssociatedItemData:associatedItemData
                                           forCollection:collectionName
-                                                andNote:noteName];
-                               [self getRemainingNoteAtIndex:index
-                                                   fromArray:allNotes
+                                                andAssociatedItem:associatedItemName];
+                               [self getRemainingAssociatedItemAtIndex:index
+                                                   fromArray:allAssociatedItems
                                                forCollection:collectionName
                                                  chainImages:chain];
                            }];
@@ -584,10 +577,10 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     {
         if (chain)
         {
-            [self getRemainingNoteImagesAtIndex:0
-                                      fromArray:allNotes
+            [self getRemainingAssociatedItemImagesAtIndex:0
+                                      fromArray:allAssociatedItems
                                   forCollection:collectionName
-                                     chainNotes:!chain];
+                                     chainAssociatedItems:!chain];
         }
         else
         {
@@ -596,37 +589,37 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     }
 }
 
--(void) getRemainingNoteImagesAtIndex: (int) index
-                            fromArray: (NSArray *) allNotes
+-(void) getRemainingAssociatedItemImagesAtIndex: (int) index
+                            fromArray: (NSArray *) allAssociatedItems
                         forCollection:(NSString *) collectionName
-                           chainNotes: (BOOL) chain
+                           chainAssociatedItems: (BOOL) chain
 {
-    if (index < [allNotes count])
+    if (index < [allAssociatedItems count])
     {
         
         index++;
-        NSString * noteName = allNotes[index];
+        NSString * associatedItemName = allAssociatedItems[index];
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
         [mindcloud getSubCollectionImageForUser:userID
-                               forSubCollection:noteName
-                        fromCollection:collectionName withCallback:^(NSData * noteData){
+                               forSubCollection:associatedItemName
+                        fromCollection:collectionName withCallback:^(NSData * associatedItemData){
                             
-                            [self saveToDiskNoteImageData:noteData
+                            [self saveToDiskAssociatedItemImageData:associatedItemData
                                             forCollection:collectionName
-                                                  andNote:noteName];
-                            [self getRemainingNoteImagesAtIndex:index
-                                                      fromArray:allNotes
+                                                  andAssociatedItem:associatedItemName];
+                            [self getRemainingAssociatedItemImagesAtIndex:index
+                                                      fromArray:allAssociatedItems
                                                   forCollection:collectionName
-                                                     chainNotes:chain];
+                                                     chainAssociatedItems:chain];
                         }];
     }
     else
     {
         if (chain)
         {
-            [self getRemainingNoteAtIndex:0
-                                fromArray:allNotes
+            [self getRemainingAssociatedItemAtIndex:0
+                                fromArray:allAssociatedItems
                             forCollection:collectionName
                               chainImages:!chain];
         }
@@ -650,60 +643,60 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     
 }
 
-- (NSData *) getNoteForTheCollection: (NSString *) collectionName
-                            WithName: (NSString *) noteName
+- (NSData *) getAssociatedItemForTheCollection: (NSString *) collectionName
+                            WithName: (NSString *) associatedItemName
 {
     //it is always assumed that the this method is called after a get collection which caches everything
     //so if we get a cache hit we trust that its most uptodate
-    NSData * noteData = [self getFromDiskNote:noteName fromCollection:collectionName];
-    if (!noteData)
+    NSData * associatedItemData = [self getFromDiskAssociatedItem:associatedItemName fromCollection:collectionName];
+    if (!associatedItemData)
     {
         return nil;
     }
     else
     {
-        return noteData;
+        return associatedItemData;
     }
 }
 
-- (NSString *) getImagePathForNote: (NSString *) noteName
+- (NSString *) getImagePathForAssociatedItem: (NSString *) associatedItemName
                      andCollection: (NSString *) collectionName;
 {
     //we retreive the images all the time. Only methods that sure there is an image should call this to stop making extra calls to the server
-    NSData * imgData = [self getFromDiskNoteImageForNote:noteName andCollection: collectionName];
+    NSData * imgData = [self getFromDiskAssociatedItemImageForAssociatedItem:associatedItemName andCollection: collectionName];
     NSString * path = nil;
     if (imgData)
     {
         
-        path = [FileSystemHelper getPathForSubCollectionImageforSubCollectionName:noteName
+        path = [FileSystemHelper getPathForAssociatedItemImageforAssociatedItemName:associatedItemName
                                                 inCollection:collectionName];
     }
     //images are always cached whether for shared or unshared collections
-    if (!self.collectionImagesCache[collectionName][noteName])
+    if (!self.collectionImagesCache[collectionName][associatedItemName])
     {
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
         [mindcloud getSubCollectionImageForUser:userID
-                               forSubCollection:noteName
-                        fromCollection:collectionName withCallback:^(NSData * noteData){
+                               forSubCollection:associatedItemName
+                        fromCollection:collectionName withCallback:^(NSData * associatedItemData){
                             
-                            if (noteData)
+                            if (associatedItemData)
                             {
-                                [self saveToDiskNoteImageData:noteData
+                                [self saveToDiskAssociatedItemImageData:associatedItemData
                                                 forCollection:collectionName
-                                                      andNote:noteName];
+                                                      andAssociatedItem:associatedItemName];
                                 if (!self.collectionImagesCache[collectionName])
                                 {
                                     self.collectionImagesCache[collectionName] = [NSMutableDictionary dictionary];
                                 }
-                                self.collectionImagesCache[collectionName][noteName] = @YES;
+                                self.collectionImagesCache[collectionName][associatedItemName] = @YES;
                                 
                                 NSDictionary * userDict =
                                 @{
                                   @"result":
                                       @{
                                           @"collectionName" : collectionName,
-                                          @"noteName" : noteName
+                                          @"associatedItemName" : associatedItemName
                                           }
                                   };
                                 
@@ -823,11 +816,11 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     return didWrite;
 }
 
--(BOOL) saveToDiskNoteData:(NSData *) data
+-(BOOL) saveToDiskAssociatedItemData:(NSData *) data
              forCollection:(NSString *) collectionName
-                   andNote: (NSString *)noteName
+                   andAssociatedItem: (NSString *)associatedItemName
 {
-    NSString * path = [FileSystemHelper getPathForSubCollectionWithName:noteName
+    NSString * path = [FileSystemHelper getPathForAssociatedItemWithName:associatedItemName
                                           inCollectionWithName:collectionName];
     [FileSystemHelper createMissingDirectoryForPath:path];
     NSError * err;
@@ -840,11 +833,11 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     return didWrite;
 }
 
--(BOOL) saveToDiskNoteImageData:(NSData *) data
+-(BOOL) saveToDiskAssociatedItemImageData:(NSData *) data
                   forCollection:(NSString *) collectionName
-                        andNote:(NSString *) noteName
+                        andAssociatedItem:(NSString *) associatedItemName
 {
-    NSString * path = [FileSystemHelper getPathForSubCollectionImageforSubCollectionName:noteName
+    NSString * path = [FileSystemHelper getPathForAssociatedItemImageforAssociatedItemName:associatedItemName
                                                        inCollection:collectionName];
     
     NSError * err;
@@ -856,10 +849,10 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     return didWrite;
 }
 
--(BOOL) removeFromDiskNote: (NSString *) noteName
+-(BOOL) removeFromDiskAssociatedItem: (NSString *) associatedItemName
             fromCollection: (NSString *) collectionName;
 {
-    BOOL result = [FileSystemHelper removeSubCollection:noteName fromCollection:collectionName];
+    BOOL result = [FileSystemHelper removeAssociation:associatedItemName fromCollection:collectionName];
     return result;
 }
 
@@ -869,14 +862,14 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     return result;
 }
 
--(NSData *) getFromDiskNote: (NSString *) noteName fromCollection:(NSString *) collectionName
+-(NSData *) getFromDiskAssociatedItem: (NSString *) associatedItemName fromCollection:(NSString *) collectionName
 {
     
-    NSString * path = [FileSystemHelper getPathForSubCollectionWithName:noteName inCollectionWithName:collectionName];
+    NSString * path = [FileSystemHelper getPathForAssociatedItemWithName:associatedItemName inCollectionWithName:collectionName];
     NSError * err;
     NSString *data = [NSString stringWithContentsOfFile:path  encoding:NSUTF8StringEncoding error:&err];
     if (!data){
-        NSLog(@"Failed to read note %@", err);
+        NSLog(@"Failed to read associatedItem %@", err);
         NSLog(@"%@", path);
         return nil;
     }
@@ -884,11 +877,11 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     return [data dataUsingEncoding:NSUTF8StringEncoding];
 }
 
--(NSData *) getFromDiskNoteImageForNote:(NSString *) noteName
+-(NSData *) getFromDiskAssociatedItemImageForAssociatedItem:(NSString *) associatedItem
                           andCollection: (NSString *) collectionName
 {
     
-    NSString * path = [FileSystemHelper getPathForSubCollectionImageforSubCollectionName:noteName
+    NSString * path = [FileSystemHelper getPathForAssociatedItemImageforAssociatedItemName:associatedItem
                                                        inCollection:collectionName];
     
     NSData * data = [NSData dataWithContentsOfFile:path];
@@ -925,50 +918,50 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
 
 #pragma mark - NotificationHandler
 
--(void) noteUpdatesReceivedForCollectionNamed: (NSString *) collectionName
-                                     andNotes:(NSDictionary *) noteDataMap
+-(void) associatedItemUpdatesReceivedForCollectionNamed: (NSString *) collectionName
+                                     andAssociatedItems:(NSDictionary *) associatedItemDataMap
 {
     
-    for(NSString * noteName in noteDataMap)
+    for(NSString * associatedItemName in associatedItemDataMap)
     {
-        NSString * noteDataStr = noteDataMap[noteName];
-        NSData * noteData = [noteDataStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSString * associatedItemDataStr = associatedItemDataMap[associatedItemName];
+        NSData * associatedItemData = [associatedItemDataStr dataUsingEncoding:NSUTF8StringEncoding];
         //first save it to disk
-        [self saveToDiskNoteData:noteData
+        [self saveToDiskAssociatedItemData:associatedItemData
                    forCollection:collectionName
-                         andNote:noteName];
+                         andAssociatedItem:associatedItemName];
         
     }
     
-    //send out a notification that the note is available to use
+    //send out a notification that the associatedItem is available to use
     NSDictionary * result = @{@"collectionName" : collectionName,
-                              @"notes" : noteDataMap.allKeys};
+                              @"associatedItems" : associatedItemDataMap.allKeys};
     
     NSDictionary * userInfo = @{@"result" : result};
-    [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DOWNLOADED_SUBCOLLECTION
+    [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DOWNLOADED_ASSOCIATION
                                                         object:self
                                                       userInfo:userInfo];
 }
 
--(void) noteImageUpdateReceivedForCollectionName:(NSString *)collectionName
-                                    andNoteNamed:(NSString *)noteName
-                               withNoteImageData:(NSData *)imageData
+-(void) associatedItemImageUpdateReceivedForCollectionName:(NSString *)collectionName
+                                    andAssociatedItemNamed:(NSString *)associatedItemName
+                               withAssociatedItemImageData:(NSData *)imageData
 {
-    [self saveToDiskNoteImageData:imageData
+    [self saveToDiskAssociatedItemImageData:imageData
                     forCollection:collectionName
-                          andNote:noteName];
+                          andAssociatedItem:associatedItemName];
     
-    if (!self.collectionImagesCache[collectionName][noteName])
+    if (!self.collectionImagesCache[collectionName][associatedItemName])
     {
         if (!self.collectionImagesCache[collectionName])
         {
             self.collectionImagesCache[collectionName] = [NSMutableDictionary dictionary];
         }
-        self.collectionImagesCache[collectionName][noteName] = @YES;
+        self.collectionImagesCache[collectionName][associatedItemName] = @YES;
     }
     
     NSDictionary * result = @{@"collectionName" : collectionName,
-                              @"noteName" : noteName};
+                              @"associatedItemName" : associatedItemName};
     
     NSDictionary * userInfo = @{@"result" : result};
     [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DOWNLOADED_IMAGE
@@ -976,25 +969,25 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
                                                       userInfo:userInfo];
 }
 
--(void) noteDeletesReceivedForCollectionName:(NSString *) collectionName
-                                    andNotes:(NSDictionary *) noteDataMap;
+-(void) associatedItemDeletesReceivedForCollectionName:(NSString *) collectionName
+                                    andAssociatedItem:(NSDictionary *) associatedItemDataMap;
 {
-    for(NSString * noteName in noteDataMap)
+    for(NSString * associatedItemName in associatedItemDataMap)
     {
-        [self removeFromDiskNote:noteName
+        [self removeFromDiskAssociatedItem:associatedItemName
                   fromCollection:collectionName];
     }
     
     NSDictionary * result = @{@"collectionName" : collectionName,
-                              @"notes" : noteDataMap.allKeys};
+                              @"associatedItems" : associatedItemDataMap.allKeys};
     
     NSDictionary * userInfo = @{@"result" : result};
-    [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DELETED_SUBCOLLECTION
+    [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DELETED_ASSOCIATION
                                                         object:self
                                                       userInfo:userInfo];
 }
 
--(void) collectionManifestReceivedForCollectionName:(NSString *)collectionName
+-(void) collectionFragmentReceivedForCollectionName:(NSString *)collectionName
                                            withData:(NSData *) manifestData
 {
     [self saveToDiskCollectionData:manifestData
@@ -1004,40 +997,40 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     NSDictionary * result = @{@"collectionName" : collectionName};
     
     NSDictionary * userInfo = @{@"result" : result};
-    [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DOWNLOADED_MANIFEST
+    [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DOWNLOADED_FRAGMENT
                                                         object:self
                                                       userInfo:userInfo];
 }
 
 #pragma mark - CollectionSharingAdapterDelegate
--(void) manifestGotUpdated:(NSString *)manifestContent
+-(void) collectionFragmentGotUpdated:(NSString *)manifestContent
              ForCollection:(NSString *)collectionName
 {
-    NSData * manifestData =[manifestContent dataUsingEncoding:NSUTF8StringEncoding];
-    [self collectionManifestReceivedForCollectionName:collectionName
-                                             withData:manifestData];
+    NSData * fragmentData =[manifestContent dataUsingEncoding:NSUTF8StringEncoding];
+    [self collectionFragmentReceivedForCollectionName:collectionName
+                                             withData:fragmentData];
 }
 
--(void) notesGotUpdated:(NSDictionary *)noteUpdateDict
+-(void) associatedItemGotUpdated:(NSDictionary *)associatedItemUpdateDict
       forCollectionName:(NSString *)collectionName
 {
-    [self noteUpdatesReceivedForCollectionNamed:collectionName andNotes:noteUpdateDict];
+    [self associatedItemUpdatesReceivedForCollectionNamed:collectionName andAssociatedItems:associatedItemUpdateDict];
 }
 
--(void) noteImagesGotUpdated:(NSDictionary *)noteImagesDict
+-(void) associatedItemImagesGotUpdated:(NSDictionary *)associatedItemImagesDict
            forCollectionName:(NSString *)collectionName
            withSharingSecret:(NSString *) sharingSecret
                   andBaseURL:(NSString *) baseURL
 {
-    for(NSString * noteName in noteImagesDict)
+    for(NSString * associatedItemName in associatedItemImagesDict)
     {
-        NSString * imageKey = noteImagesDict[noteName];
+        NSString * imageKey = associatedItemImagesDict[associatedItemName];
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
-        NSString * noteNameClosure = noteName;
+        NSString * associatedItemNameClosure = associatedItemName;
         [mindcloud getTempImageForUser:userID
                          andCollection:collectionName
-                               andSubCollection:noteName
+                               andSubCollection:associatedItemName
                       andSharingSecret:sharingSecret
                         andImageSecret:imageKey
                             fromBaseUR:baseURL
@@ -1045,20 +1038,20 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
                               NSLog(@"Received empty temp image");
                               if (imgData)
                               {
-                                  NSLog(@"Received temp image for note %@", noteName);
-                                  [self noteImageUpdateReceivedForCollectionName:collectionName
-                                                                    andNoteNamed:noteNameClosure
-                                                               withNoteImageData:imgData];
+                                  NSLog(@"Received temp image for associatedItem %@", associatedItemName);
+                                  [self associatedItemImageUpdateReceivedForCollectionName:collectionName
+                                                                    andAssociatedItemNamed:associatedItemNameClosure
+                                                               withAssociatedItemImageData:imgData];
                               }
                           }];
         
     }
 }
 
--(void) notesGotDeleted:(NSDictionary *)noteDeleteDict
+-(void) associatedItemGotDeleted:(NSDictionary *)associatedItemDeleteDict
       forCollectionName:(NSString *)collectionName
 {
-    [self noteDeletesReceivedForCollectionName:collectionName andNotes:noteDeleteDict];
+    [self associatedItemDeletesReceivedForCollectionName:collectionName andAssociatedItem:associatedItemDeleteDict];
 }
 
 -(void) thumbnailGotUpdated:(NSString *) thumbnailPath
@@ -1067,13 +1060,13 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
                  andBaseURL:(NSString *) baseURL
 {
     
-//we will figure out the thumbnail based on the actual note images that are received
+//we will figure out the thumbnail based on the actual associatedItem images that are received
 //no need for this
 //        Mindcloud * mindcloud = [Mindcloud getMindCloud];
 //        NSString * userID = [UserPropertiesHelper userID];
 //        [mindcloud getTempImageForUser:userID
 //                         andCollection:collectionName
-//                               andNote:THUMBNAIL_NOTE_NAME_KEY
+//                               andAssociatedItem:THUMBNAIL_NOTE_NAME_KEY
 //                      andSharingSecret:sharingSecret
 //                        andImageSecret:thumbnailPath
 //                            fromBaseUR:baseURL

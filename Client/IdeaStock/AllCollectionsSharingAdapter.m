@@ -6,17 +6,17 @@
 //  Copyright (c) 2013 University of Washington. All rights reserved.
 //
 
-#import "MindcloudSharingAdapter.h"
+#import "AllCollectionsSharingAdapter.h"
 #import "EventTypes.h"
 #import "UserPropertiesHelper.h"
 #import "NetworkActivityHelper.h"
 
-@interface MindcloudSharingAdapter()
+@interface AllCollectionsSharingAdapter()
 
 @property (strong, atomic) NSMutableDictionary * cache;
 
 @end
-@implementation MindcloudSharingAdapter
+@implementation AllCollectionsSharingAdapter
 
 -(id) init
 {

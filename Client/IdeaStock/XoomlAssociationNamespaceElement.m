@@ -143,8 +143,7 @@
     if (subElement == nil || self.element == nil) return;
     
     NSString * subElementString = [subElement toXMLString];
-    DDXMLElement * subElementObj =  [DDXMLElement elementWithName:subElement.namespaceName
-                                                   stringValue:subElementString];
+    DDXMLElement * subElementObj =  [DDXMLElement elementWithName:subElement.name                                                   stringValue:subElementString];
     [self.element addChild:subElementObj];
 }
 

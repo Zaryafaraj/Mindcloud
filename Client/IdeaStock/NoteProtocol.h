@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "XoomlFragment.h"
 /**
  *Object for holding a single notes basic information.
  
@@ -21,12 +21,16 @@
 @required
 @property (nonatomic,strong) NSString * noteText;
 
-@property (nonatomic,strong) NSString * noteTextID;
+@property (nonatomic,strong) NSString * noteId;
 
 @property (nonatomic,strong) NSString * image;
 
 @property (nonatomic, strong) NSString * name;
 
 - (NSString *) description;
+
+-(instancetype) initWithXoomlFragment:(XoomlFragment *) fragment;
+
+-(XoomlFragment *) toXoomlFragment;
 
 @end

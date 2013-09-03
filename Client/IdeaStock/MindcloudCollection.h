@@ -12,10 +12,6 @@
 #import "ThumbnailManagerProtocol.h"
 #import "MindcloudCollectionGordonDelegate.h"
 
-#define STACKING @"stacking"
-#define GROUPING @"grouping"
-#define LINKAGE @"linkage"
-#define POSITION @"position"
 
 @interface MindcloudCollection : NSObject <BulletinBoardProtocol,ThumbnailManagerProtocol, MindcloudCollectionGordonDelegate>
 

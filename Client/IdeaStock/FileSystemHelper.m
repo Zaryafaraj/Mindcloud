@@ -50,7 +50,7 @@
                        stringByAppendingString:THUMBNAIL_FILENAME];
     return path;
 }
-+ (NSString *) getPathForSubCollectionWithName: (NSString *) subCollectionName
++ (NSString *) getPathForAssociatedItemWithName: (NSString *) subCollectionName
                  inCollectionWithName: (NSString *) collectionName{
     
     NSString * collectionPath = [collectionName stringByAppendingString:@"/"];
@@ -108,10 +108,10 @@
     }
 }
 
-+ (NSString *) getPathForSubCollectionImageforSubCollectionName: (NSString *) subCollectionName
++ (NSString *) getPathForAssociatedItemImageforAssociatedItemName: (NSString *) subCollectionName
                               inCollection: (NSString *) collectionName;
 {
-    NSString * imgPath = [FileSystemHelper getPathForSubCollectionWithName:subCollectionName
+    NSString * imgPath = [FileSystemHelper getPathForAssociatedItemWithName:subCollectionName
                                              inCollectionWithName:collectionName];
     imgPath = [imgPath stringByDeletingLastPathComponent];
     [self createMissingDirectoryForPath:imgPath];
@@ -134,10 +134,10 @@
     return result;
 }
 
-+ (BOOL) removeSubCollection:(NSString *) subCollectionName
++ (BOOL) removeAssociation:(NSString *) subCollectionName
      fromCollection:(NSString *) collectionName
 {
-    NSString * notePath = [FileSystemHelper getPathForSubCollectionWithName:subCollectionName
+    NSString * notePath = [FileSystemHelper getPathForAssociatedItemWithName:subCollectionName
                                               inCollectionWithName:collectionName];
     NSError * err;
     BOOL result = [[NSFileManager defaultManager] removeItemAtPath:notePath error:&err];

@@ -7,39 +7,67 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UpdateNoteNotification.h"
-#import "DeleteNoteNotification.h"
-#import "AddNoteNotification.h"
-#import "AddStackingNotification.h"
-#import "DeleteStackingNotification.h"
-#import "UpdateStackNotification.h"
+#import "UpdateAssociationNotification.h"
+#import "DeleteAssociationNotification.h"
+#import "AddAssociationNotification.h"
+#import "AddFragmentNamespaceElementNotification.h"
+#import "UpdateFragmentNamespaceElementNotification.h"
+#import "DeleteFragmentNamespaceElementNotification.h"
+#import "AddFragmentNamespaceSubElementNotification.h"
+#import "DeleteFragmentNamespaceSubElementNotification.h"
+#import "UpdateFragmentNamespaceSubElementNotification.h"
 
 @interface NotificationContainer : NSObject
 
-//aray of update note notification objects
--(NSArray *) getUpdateNoteNotifications;
+/*! aray of UpdateAssociationNotification objects*/
+-(NSArray *) getUpdateAssociationNotifications;
 
-//array of delete note notification objects
--(NSArray *) getDeleteNoteNotifications;
+/*! array of DelteAssociationNotification objects */
+-(NSArray *) getDeleteAssociationNotifications;
 
-//array of add note notification objects
--(NSArray *) getAddNoteNotifications;
+/*! array of AddAssociationNotification objects*/
+-(NSArray *) getAddAssociationNotifications;
 
-//array of add stacking notification objects
--(NSArray *) getAddStackingNotifications;
+-(void) addUpdateAssociationNotification: (UpdateAssociationNotification *) notification;
 
-//array of update stacking notification objects
--(NSArray *) getUpdateStackingNotifications;
+-(void) addDeleteAssociationNotification: (DeleteAssociationNotification *) notificatoin;
 
-//array of delete stacking Notification objects
--(NSArray *) getDeleteStackingNotifications;
+-(void) addAddAssociationNotification: (AddAssociationNotification *) notification;
 
--(void) addUpdateNoteNotification: (UpdateNoteNotification *) notification;
--(void) addDeleteNoteNotification: (DeleteNoteNotification *) notificatoin;
--(void) addAddNoteNotification: (AddNoteNotification *) notification;
--(void) addAddStackingNotification: (AddStackingNotification *) notification;
--(void) addUpdateStackingNotification: (UpdateStackNotification *) notification;
--(void) addDeleteStackingNotification:(DeleteStackingNotification *) notification;
+
+
+
+/*! array of AddFragmentNamespaceNotification objects*/
+-(NSArray *) getAddFragmentNamespaceElementNotifications;
+
+/*! array of UpdateFragmentNamespaceElement objects*/
+-(NSArray *) getUpdateFragmentNamespaceElementNotifications;
+
+/*! array of UpdateFragmentNamespaceElement objects*/
+-(NSArray *) getDeleteFragmentNamespaceElementNotifications;
+
+-(void) addAddFragmentNamespaceElementNotification:(AddFragmentNamespaceElementNotification *) notification;
+
+-(void) addUpdateFragmentNamespaceElementNotification:(UpdateFragmentNamespaceElementNotification *) notification;
+
+-(void) addDeleteFragmentNamespaceElementNotification:(DeleteFragmentNamespaceElementNotification *) notification;
+
+
+
+/*! array of AddFragmentNamespaceSubElementNotification objects*/
+-(NSArray *) getAddFragmentNamespaceSubElementNotifications;
+
+/*! array of UpdateFragmentNamespaceSubElementNotification objects*/
+-(NSArray *) getUpdateFragmentNamespaceSubElementNotifications;
+
+/*! array of DeleteFragmentNamespaceSubElementNotification objects*/
+-(NSArray *) getDeleteFragmentNamespaceSubElementNotifications;
+
+-(void) addAddFragmentNamespaceSubElementNotification:(AddFragmentNamespaceSubElementNotification *) notification;
+
+-(void) addUpdateFragmentNamespaceSubElementNotification:(UpdateFragmentNamespaceSubElementNotification *) notification;
+
+-(void) addDeleteFragmentNamespaceSubElementNotification:(DeleteFragmentNamespaceSubElementNotification *) notification;
 
 -(void) clear;
 @end

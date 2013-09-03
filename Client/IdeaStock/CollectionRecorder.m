@@ -8,80 +8,151 @@
 
 #import "CollectionRecorder.h"
 @interface CollectionRecorder()
-@property (strong, atomic) NSMutableSet * deletedSubCollections;
-@property (strong, atomic) NSMutableSet * updatedSubCollections;
-@property (strong, atomic) NSMutableSet * deletedStacks;
-@property (strong, atomic) NSMutableSet * updatedStacks;
+@property (strong, atomic) NSMutableSet * deletedAssociations;
+@property (strong, atomic) NSMutableSet * updatedAssociations;
+@property (strong, atomic) NSMutableSet * deletedNamespaceElements;
+@property (strong, atomic) NSMutableSet * updatedNamespaceElements;
+@property (strong, atomic) NSMutableSet * deletedNamespaceSubElements;
+@property (strong, atomic) NSMutableSet * updatedNamespaceSubElements;
+@property (strong, atomic) NSMutableSet * deletedSubElementChildren;
+@property (strong, atomic) NSMutableSet * updatedSubElementChildren;
 @end
+
 @implementation CollectionRecorder
 
 -(id) init
 {
     self = [super init];
-    self.deletedSubCollections = [NSMutableSet set];
-    self.updatedSubCollections = [NSMutableSet set];
-    self.deletedStacks = [NSMutableSet set];
-    self.updatedStacks = [NSMutableSet set];
+    self.deletedAssociations = [NSMutableSet set];
+    self.updatedAssociations = [NSMutableSet set];
+    self.deletedNamespaceElements = [NSMutableSet set];
+    self.updatedNamespaceElements = [NSMutableSet set];
+    self.deletedNamespaceSubElements = [NSMutableSet set];
+    self.updatedNamespaceSubElements = [NSMutableSet set];
+    self.deletedSubElementChildren = [NSMutableSet set];
+    self.updatedSubElementChildren = [NSMutableSet set];
     return self;
 }
 
--(void) recordDeleteSubCollection:(NSString *)subCollectionId
+-(void) recordDeleteAssociation:(NSString *)associationId
 {
-    [self.deletedSubCollections addObject:subCollectionId];
+    [self.deletedAssociations addObject:associationId];
 }
 
--(void) recordUpdateSubCollection:(NSString *)subCollectionId
+-(void) recordUpdateAssociation:(NSString *)associationId
 {
-    [self.updatedSubCollections addObject:subCollectionId];
+    [self.updatedAssociations addObject:associationId];
 }
 
--(void) recordDeleteStack:(NSString *)stackId
+-(void) recordDeleteFragmentNamespaceElement: (NSString *) namespaceElementId
 {
-    [self.deletedStacks addObject:stackId];
-}
--(void) recordUpdateStack:(NSString *)stackId
-{
-    [self.updatedStacks addObject:stackId];
+    [self.deletedNamespaceElements addObject:namespaceElementId];
 }
 
--(NSSet *) getDeletedSubCollections
+-(void) recordUpdateFragmentNamespaceElement: (NSString *) namespaceElementId
 {
-    return [self.deletedSubCollections copy];
+    [self.updatedNamespaceElements addObject:namespaceElementId];
 }
 
--(NSSet *) getUpdatedSubCollections
+-(void) recordDeleteFragmentNamespaceSubElement: (NSString *) fragmentSubElementId
 {
-    return [self.updatedSubCollections copy];
+    [self.deletedNamespaceSubElements addObject:fragmentSubElementId];
 }
 
--(NSSet *) getDeletedStacks
+-(void) recordUpdateFragmentNamespaceSubElement: (NSString *) fragmentSubElementId
 {
-    return [self.deletedStacks copy];
+    [self.updatedNamespaceSubElements addObject:fragmentSubElementId];
 }
 
--(NSSet *) getUpdatedStacks
+-(void) recordUpdateFragmentSubElementsChild:(NSString *) subElementChildId
 {
-    return [self.updatedStacks copy];
+    [self.updatedSubElementChildren addObject:subElementChildId];
 }
 
--(BOOL) hasStackingBeenTouched:(NSString *)stackingId
+-(void) recordDeleteFragmentSubElementsChild:(NSString *) subElementChildId
+{
+    [self.deletedSubElementChildren addObject:subElementChildId];
+}
+
+-(NSSet *) getDeletedAssociations
+{
+    return [self.deletedAssociations copy];
+}
+
+-(NSSet *) getUpdatedAssociation
+{
+    return [self.updatedAssociations copy];
+}
+
+-(NSSet *) getDeletedFragmentNamespaceElements
+{
+    return [self.deletedNamespaceElements copy];
+}
+
+-(NSSet *) getUpdatedFragmentNamespaceElements
+{
+    return [self.updatedNamespaceElements copy];
+}
+
+-(NSSet *) getDeletedFragmentNamespaceSubElements
+{
+    return [self.deletedNamespaceSubElements copy];
+}
+
+-(NSSet *) getUpdatedFragmentNamespaceSubElements
+{
+    return [self.updatedNamespaceSubElements copy];
+}
+
+-(NSSet *) getDeletedFragmentSubElementChildren
+{
+    return [self.deletedSubElementChildren copy];
+}
+
+-(NSSet *) getUpdatedFragmentSubElementChildren
+{
+    return [self.updatedSubElementChildren copy];
+}
+
+-(BOOL) hasFragmentNamespaceElementBeenTouched:(NSString *) elementId
 {
     
     BOOL hasBeenTouched = NO;
-    if ([self.updatedStacks containsObject:stackingId] ||
-        [self.deletedStacks containsObject:stackingId])
+    if ([self.updatedNamespaceElements containsObject: elementId] ||
+        [self.deletedNamespaceElements containsObject: elementId])
     {
         hasBeenTouched = YES;
     }
     return hasBeenTouched;
 }
 
-
--(BOOL) hasSubCollectionBeenTouched:(NSString *)subCollectionId
+-(BOOL) hasFragmentNamespaceSubElementBeenTouched:(NSString *) subElementId
 {
     BOOL hasBeenTouched = NO;
-    if ([self.updatedSubCollections containsObject:subCollectionId] ||
-        [self.deletedSubCollections containsObject:subCollectionId])
+    if ([self.updatedNamespaceSubElements containsObject:subElementId] ||
+        [self.deletedNamespaceSubElements containsObject:subElementId])
+    {
+        hasBeenTouched = YES;
+    }
+    return hasBeenTouched;
+}
+
+-(BOOL) hasFragmentSubElementChildBeenTouched:(NSString *) childId
+{
+    BOOL hasBeenTouched = NO;
+    if ([self.updatedSubElementChildren containsObject:childId] ||
+        [self.deletedSubElementChildren containsObject:childId])
+    {
+        hasBeenTouched = YES;
+    }
+    return hasBeenTouched;
+    
+}
+-(BOOL) hasAssociationBeenTouched:(NSString *)subCollectionId
+{
+    BOOL hasBeenTouched = NO;
+    if ([self.updatedAssociations containsObject:subCollectionId] ||
+        [self.deletedAssociations containsObject:subCollectionId])
     {
         hasBeenTouched = YES;
     }
@@ -90,10 +161,14 @@
 
 -(BOOL) hasAnythingBeenTouched
 {
-    if ([self.deletedSubCollections count] == 0 &&
-        [self.updatedStacks count] == 0 &&
-        [self.updatedSubCollections count] == 0 &&
-        [self.deletedStacks count] == 0)
+    if ([self.deletedAssociations count] == 0 &&
+        [self.updatedNamespaceElements count] == 0 &&
+        [self.updatedAssociations count] == 0 &&
+        [self.deletedNamespaceElements count] == 0 &&
+        [self.updatedNamespaceSubElements count] == 0 &&
+        [self.deletedNamespaceSubElements count] == 0 &&
+        [self.updatedSubElementChildren count] == 0 &&
+        [self.deletedSubElementChildren count] == 0)
     {
         return NO;
     }
@@ -105,10 +180,14 @@
 
 -(void) reset
 {
-    [self.deletedSubCollections removeAllObjects];
-    [self.updatedStacks removeAllObjects];
-    [self.updatedSubCollections removeAllObjects];
-    [self.deletedStacks removeAllObjects];
+    [self.deletedAssociations removeAllObjects];
+    [self.updatedNamespaceElements removeAllObjects];
+    [self.updatedAssociations removeAllObjects];
+    [self.deletedNamespaceElements removeAllObjects];
+    [self.updatedNamespaceSubElements removeAllObjects];
+    [self.deletedNamespaceSubElements removeAllObjects];
+    [self.updatedSubElementChildren removeAllObjects];
+    [self.deletedSubElementChildren removeAllObjects];
 }
 
 @end

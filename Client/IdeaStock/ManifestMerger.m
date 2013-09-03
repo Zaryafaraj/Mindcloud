@@ -7,8 +7,9 @@
 //
 
 #import "ManifestMerger.h"
-#import "XoomlCollectionParser.h"
-#import "XoomlCollectionManifest.h"
+#import "XoomlFragment.h"
+#import "XoomlAttributeDefinitions.h"
+#import "NamespaceDefinitions.h"
 
 @interface ManifestMerger()
 @property (atomic, strong) id<XoomlProtocol> clientManifest;
@@ -16,8 +17,44 @@
 @property (atomic, strong) CollectionRecorder * recorder;
 @property (atomic, strong) NotificationContainer * notifications;
 @end
+
 @implementation ManifestMerger
 
+/*! Everything is resolved based on the following rule: 
+    If we are accepting something server side we should create a notification
+ 
+    I - if there is something in the server that isn't in the client; there are two possibilities:
+        1- It has never been in the client --> its a new thing and we should add it
+        2- It has been in the client before but was deleted ---> the client is more uptodate and
+ 
+    II - if there is something in the client that isn't in the server.there are two possibilities:
+        1- It has been in the server but got deleted --> we should not keep it
+        2- It has never been in the server and got added to the client --> we should keep it
+ 
+    III - if something is in both of them, then there are two cases:
+        1- The item has not been touched in the client --> accept the servers
+        2- The item has been touched in the client. This means something got touched on the client and possibly on the server at the same time. There are two subcases:
+                a- if that thing is an element that we can further break down to its components. We break it down and perform this algorithm on the smaller parts until we get a merge.
+                b- That thing is atomic (it cannot be broken down or we don't record actions on its sub parts). In that case we accept the client. If server had never touched it then we are correct. If server has touched it then there is a chance of us being wrong. But since merging is distributed this will eventualy work out: On the other clients machine the merge has accepted their own element so we have two fragments that differ by that one thing. In later synch periods we discover that one thing is different and send this notification. hopefully in the client that thing has not been touched during that time so we accept the servers and we become in synch. However if the client has touched it then we repeat this process until the system goes into a balance state.
+ 
+ 
+ Our atomic elements are : 
+    1- A single association. We don't go lower than that to associationNamespaceElements: 
+        <fragment> 
+            ....
+            <ASSOCIATION> ... </ASSOCIATION>
+            ....
+        </fragment>
+ 
+    2- A single subElement of a subElement of a fragmentNamespace Data
+        <fragment>
+            <fragmentNamespaceData>
+                <CustomElement>
+                    <CUSTOMSUBELEMENT> .... </CUSTOMSUBELEMENT>
+                </CustomElement>
+            </fragmentNamespaceData>
+        </fragment>
+ */
 -(id) initWithClientManifest:(id<XoomlProtocol>)clientManifest
            andServerManifest:(id<XoomlProtocol>)serverManifest
            andActionRecorder:(CollectionRecorder *)recorder
@@ -37,130 +74,126 @@
 
 -(id<XoomlProtocol>) mergeManifests
 {
-    DDXMLDocument * clientXML = [self.clientManifest document];
-    DDXMLDocument * serverXML = [self.serverManifest document];
-    NSMutableDictionary * clientStackings = [NSMutableDictionary dictionary];
-    NSMutableDictionary * clientNotes = [NSMutableDictionary dictionary];
-    [self processXoomlDocument:clientXML
-                 intoStackings: clientStackings
-                      andNotes: clientNotes];
     
-    NSMutableDictionary * serverStackings = [NSMutableDictionary dictionary];
-    NSMutableDictionary * serverNotes = [NSMutableDictionary dictionary];
-    [self processXoomlDocument:serverXML
-                 intoStackings:serverStackings
-                      andNotes:serverNotes];
+    NSMutableDictionary * clientFragmentNamespaces = [[self.clientManifest getAllFragmentNamespaceElements] mutableCopy];
     
-    NSDictionary * finalStackings = [self mergeServerStacking:serverStackings
-                                           withClientStacking:clientStackings];
+    NSMutableDictionary * clientAssociations = [[self.clientManifest getAllAssociations] mutableCopy];
     
-    NSDictionary * finalNotes = [self mergeServerNotes: serverNotes
-                                       withClientNotes: clientNotes];
+    //HERE
+    NSMutableDictionary * serverFragmentNamespaces = [[self.serverManifest getAllFragmentNamespaceElements] mutableCopy];
+    NSMutableDictionary * serverAssociations = [[self.serverManifest getAllAssociations] mutableCopy];
     
-    DDXMLElement * thumbnailElement = [self getThumbnailElement:clientXML];
-    DDXMLDocument * document = [self createMergedDocumentWithNotes: finalNotes
-                                                      andStackings: finalStackings
-                                                      andThumbnail: thumbnailElement];
+    NSDictionary * finalFragmentNamespaces = [self mergeServerFragmentNamespaceElements:serverFragmentNamespaces
+                                                    withClientFragmentNamespaceElements:clientFragmentNamespaces];
     
-    id<XoomlProtocol> result = [[XoomlCollectionManifest alloc] initWithDocument:document];
-    return result;
+    NSDictionary * finalAssociations = [self mergeServerAssociations: serverAssociations
+                                              withClientAssociations: clientAssociations];
+    
+    XoomlNamespaceElement * thumbnailElement = [self getThumbnailElement: clientFragmentNamespaces];
+    XoomlFragment * finalFragment = [self createFragmentWithAssociations:finalAssociations
+                                               fragmentNamespaceElements:finalFragmentNamespaces
+                                                            andThumbnail:thumbnailElement];
+    
+    return finalFragment;
 }
 
--(NSDictionary *) mergeServerNotes:(NSDictionary *) serverNotes
-                   withClientNotes:(NSDictionary *) clientNotes
+-(NSDictionary *) mergeServerAssociations:(NSDictionary *) serverAssociations
+                   withClientAssociations:(NSDictionary *) clientAssociations
 {
     
-    NSSet * clientNoteIds = [NSSet setWithArray:[clientNotes allKeys]];
-    NSSet * serverNoteIds = [NSSet setWithArray:[serverNotes allKeys]];
+    NSSet * clientAssociationIds = [NSSet setWithArray:[clientAssociations allKeys]];
+    NSSet * serverAssociationsIds = [NSSet setWithArray:[serverAssociations allKeys]];
     
     
-    NSMutableSet * notesUniqueToClient = [NSMutableSet setWithSet:clientNoteIds];
-    [notesUniqueToClient minusSet:serverNoteIds];
-    NSMutableSet * notesUniqueToServer = [NSMutableSet setWithSet:serverNoteIds];
-    [notesUniqueToServer minusSet:clientNoteIds];
-    NSMutableSet * notesInBoth = [NSMutableSet setWithSet:clientNoteIds];
-    [notesInBoth intersectSet:serverNoteIds];
+    NSMutableSet * associationsUniqueToClient = [NSMutableSet setWithSet:clientAssociationIds];
+    [associationsUniqueToClient minusSet:serverAssociationsIds];
     
-    NSMutableDictionary * finalNotes = [NSMutableDictionary dictionary];
+    NSMutableSet * associationsUniqueToServer = [NSMutableSet setWithSet:serverAssociationsIds];
+    [associationsUniqueToServer minusSet:clientAssociationIds];
+    
+    NSMutableSet * associationsInBoth = [NSMutableSet setWithSet:clientAssociationIds];
+    [associationsInBoth intersectSet:serverAssociationsIds];
+    
+    NSMutableDictionary * finalAssociations = [NSMutableDictionary dictionary];
+    
     //General Rule about notifications :
     // IF we are accepting something server side we should create a notification
     
     //if there is something in the server that isn't in the client; there are two possibilities:
     // 1- It has never been in the client --> its a new thing and we should add it
     // 2- It has been in the client before but was deleted ---> the client is more uptodate and
-    for (NSString * noteId in notesUniqueToServer)
+    for (NSString * associationId in associationsUniqueToServer)
     {
         //accepting server side
-        if (![self.recorder hasSubCollectionBeenTouched:noteId])
+        if (![self.recorder hasAssociationBeenTouched:associationId])
         {
             //case 1
-            finalNotes[noteId] = serverNotes[noteId];
-            DDXMLElement * noteElement = finalNotes[noteId];
-            AddNoteNotification * notification = [self createAddNoteNotification:noteElement];
-            [self.notifications addAddNoteNotification:notification];
+            finalAssociations[associationId] = serverAssociations[associationId];
+            XoomlAssociation * association = finalAssociations[associationId];
+            AddAssociationNotification * notification = [self createAddAssociationNotification:association];
+            [self.notifications addAddAssociationNotification:notification];
         }
-        //for case 2 we don't do anything
+        //for case 2 we don't do anything since client probably has deleted it
     }
     
     //if there is something in the client that isn't in the server.there are two possibilities:
     //1- It has been in the server but got deleted --> we should not keep it
     //2- It has never been in the server and got added to the client --> we should keep it
-    for(NSString * noteId in notesUniqueToClient)
+    for(NSString * associationId in associationsUniqueToClient)
     {
         //accepting client side
-        if ([self.recorder hasSubCollectionBeenTouched:noteId])
+        if ([self.recorder hasAssociationBeenTouched:associationId])
         {
-            finalNotes[noteId] = clientNotes[noteId];
+            finalAssociations[associationId] = clientAssociations[associationId];
         }
         //accepting server side
         else
         {
-            DDXMLElement * noteElement = clientNotes[noteId];
-            DeleteNoteNotification * notification = [self createDeleteNoteNotification:noteElement];
-            [self.notifications addDeleteNoteNotification:notification];
+            XoomlAssociation * association = clientAssociations[associationId];
+            DeleteAssociationNotification * notification = [self createDeleteAssociationNotification:association];
+            [self.notifications addDeleteAssociationNotification:notification];
         }
     }
     
     //if the note is in both of them, then there are two cases:
     // 1- The item has not been touched in the client --> accept the servers
     // 2- The item has been touched in the client --> accept the client
-    for(NSString * noteId in notesInBoth)
+    for(NSString * associationId in associationsInBoth)
     {
         //accepting client side
-        if ([self.recorder hasSubCollectionBeenTouched:noteId])
+        if ([self.recorder hasAssociationBeenTouched:associationId])
         {
-            finalNotes[noteId] = clientNotes[noteId];
+            finalAssociations[associationId] = clientAssociations[associationId];
         }
         //accepting server side
         else
         {
-            finalNotes[noteId] = serverNotes[noteId];
-            DDXMLElement * serverElement = serverNotes[noteId];
-            DDXMLElement * clientElement = clientNotes[noteId];
-            BOOL isServerSideDifferent = ![self isNoteElement:serverElement theSameAs:clientElement];
-            if (isServerSideDifferent)
-            {
-                UpdateNoteNotification * notification = [self createUpdateNoteNotification:serverElement];
-                [self.notifications addUpdateNoteNotification:notification];
-            }
+            finalAssociations[associationId] = serverAssociations[associationId];
+            XoomlAssociation * serverAssociation = serverAssociations[associationId];
+            UpdateAssociationNotification * notification = [self createUpdateAssociationNotification:serverAssociation];
+            [self.notifications addUpdateAssociationNotification:notification];
         }
     }
-    return finalNotes;
+    return finalAssociations;
 }
 
--(NSDictionary *) mergeServerStacking:(NSDictionary *) serverStackings
-         withClientStacking:(NSDictionary *) clientStackings
+-(NSDictionary *) mergeServerFragmentNamespaceElements:(NSDictionary *) serverNamespaceFragments
+                   withClientFragmentNamespaceElements:(NSDictionary *) clientNamespaceFragments
 {
     
-    NSSet * serverStackingIds = [NSSet setWithArray:[serverStackings allKeys]];
-    NSSet * clientStackingIds = [NSSet setWithArray:[clientStackings allKeys]];
-    NSMutableSet * stackingsUniqueToClient = [NSMutableSet setWithSet:clientStackingIds];
-    [stackingsUniqueToClient minusSet:serverStackingIds];
-    NSMutableSet * stackingsUniqueToServer = [NSMutableSet setWithSet:serverStackingIds];
-    [stackingsUniqueToServer minusSet:clientStackingIds];
-    NSMutableSet * stackingsInBoth = [NSMutableSet setWithSet:clientStackingIds];
-    [stackingsInBoth intersectSet:serverStackingIds];
-    NSMutableDictionary * finalStackings = [NSMutableDictionary dictionary];
+    NSSet * serverNamespaceIds = [NSSet setWithArray:[serverNamespaceFragments allKeys]];
+    NSSet * clientNamespaceIds = [NSSet setWithArray:[clientNamespaceFragments allKeys]];
+    
+    NSMutableSet * namespacesUniqueToClient = [NSMutableSet setWithSet:clientNamespaceIds];
+    [namespacesUniqueToClient minusSet:serverNamespaceIds];
+    
+    NSMutableSet * namespacesUniqueToServer = [NSMutableSet setWithSet:serverNamespaceIds];
+    [namespacesUniqueToServer minusSet:clientNamespaceIds];
+    
+    NSMutableSet * namespacesInBoth = [NSMutableSet setWithSet:clientNamespaceIds];
+    [namespacesInBoth intersectSet:serverNamespaceIds];
+    
+    NSMutableDictionary * finalNamespaces = [NSMutableDictionary dictionary];
     
     
     //General Rule about notifications :
@@ -169,324 +202,384 @@
     //if there is something in the server that isn't in the client; there are two possibilities:
     // 1- It has never been in the client --> its a new thing and we should add it
     // 2- It has been in the client before but was deleted ---> the client is more uptodate and
-    for (NSString * stackingId in stackingsUniqueToServer)
+    for (NSString * namespaceId in namespacesUniqueToServer)
     {
         //accepting server side
-        if (![self.recorder hasStackingBeenTouched:stackingId])
+        if (![self.recorder hasFragmentNamespaceElementBeenTouched:namespaceId])
         {
-            finalStackings[stackingId] = serverStackings[stackingId];
-            DDXMLElement * stackingElement = finalStackings[stackingId];
-            AddStackingNotification * notification = [self createAddStackingNotification: stackingElement];
-            [self.notifications addAddStackingNotification:notification];
+            finalNamespaces[namespaceId] = serverNamespaceFragments[namespaceId];
+            XoomlFragmentNamespaceElement * namespaceElement = finalNamespaces[namespaceId];
+            AddFragmentNamespaceElementNotification * notification = [self createAddFragmentNamespaceElementNotification: namespaceElement];
+            [self.notifications addAddFragmentNamespaceElementNotification:notification];
+        }
+        else
+        {
+            //dont do anything
         }
     }
     
     //if there is something in the client that isn't in the server.there are two possibilities:
     //1- It has been in the server but got deleted by someone else --> we should not keep it
     //2- It has never been in the server and got added to the client --> we should keep it
-    for(NSString * stackingId in stackingsUniqueToClient)
+    for(NSString * namespaceId in namespacesUniqueToClient)
     {
         //accepting client side
-        if ([self.recorder hasStackingBeenTouched:stackingId])
+        if ([self.recorder hasFragmentNamespaceElementBeenTouched:namespaceId])
         {
-            finalStackings[stackingId] = clientStackings[stackingId];
+            finalNamespaces[namespaceId] = clientNamespaceFragments[namespaceId];
         }
         //accepting server side, which is deleting the client side
         else
         {
-            DDXMLElement * stackingElement = clientStackings[stackingId];
-            DeleteStackingNotification * notification = [self createDeleteStackingNotification:stackingElement];
-            [self.notifications addDeleteStackingNotification:notification];
+            XoomlFragmentNamespaceElement * namespaceElement = clientNamespaceFragments[namespaceId];
+            DeleteFragmentNamespaceElementNotification * notification = [self createDeleteFragmentNamespaceElementNotification:namespaceElement.ID];
+            [self.notifications addDeleteFragmentNamespaceElementNotification:notification];
+        }
+    }
+    
+    //if the something is in both of them, then there are two cases:
+    // 1- The item has not been touched in the client --> accept the servers
+    // 2- The item has been touched in the client --> accept the client
+    for(NSString * namespaceId in namespacesInBoth)
+    {
+        XoomlFragmentNamespaceElement * mergedElement = nil;
+        XoomlFragmentNamespaceElement * serverElement = serverNamespaceFragments[namespaceId];
+        XoomlFragmentNamespaceElement * clientElement = clientNamespaceFragments[namespaceId];
+        
+        if (serverElement == nil && clientElement == nil)
+        {
+            continue;
+        }
+        if (serverElement == nil)
+        {
+            mergedElement = clientElement;
+            continue;
+        }
+        if (clientElement == nil)
+        {
+            mergedElement = serverElement;
+            continue;
+        }
+        
+        NSDictionary * allServerSubElements = [serverElement getAllXoomlFragmentsNamespaceSubElements];
+        NSDictionary * allClientSubElements = [clientElement getAllXoomlFragmentsNamespaceSubElements];
+        mergedElement = [self mergeFragmentNamespaceSubElementWithId:namespaceId
+                                                          fromServer:allServerSubElements
+                                                              withClient:allClientSubElements
+                                              andFragmenNamespaceElement:clientElement];
+        if (mergedElement != nil)
+        {
+            finalNamespaces[namespaceId] = mergedElement;
+            
+             UpdateFragmentNamespaceElementNotification * notification =[self createUpdateFragmentNamespaceElementNotification:mergedElement];
+            [self.notifications addUpdateFragmentNamespaceElementNotification:notification];
+        }
+    }
+    return finalNamespaces;
+}
+
+-(XoomlFragmentNamespaceElement *) mergeFragmentNamespaceSubElementWithId:(NSString *) ID
+                                                               fromServer:(NSDictionary *) serverFragmentSubElements
+                                                                   withClient:(NSDictionary *) clientFragmentSubElements andFragmenNamespaceElement:(XoomlFragmentNamespaceElement *) clientParent
+{
+    
+    NSSet * serverSubElementIds = [NSSet setWithArray:[serverFragmentSubElements allKeys]];
+    NSSet * clientSubElementIds = [NSSet setWithArray:[clientFragmentSubElements allKeys]];
+    
+    NSMutableSet * subElementsUniqueToClient = [NSMutableSet setWithSet:clientSubElementIds];
+    [subElementsUniqueToClient minusSet:serverSubElementIds];
+    
+    NSMutableSet * subElementsUniqueToServer = [NSMutableSet setWithSet:serverSubElementIds];
+    [subElementsUniqueToServer minusSet:clientSubElementIds];
+    
+    NSMutableSet * subElementsInBoth = [NSMutableSet setWithSet:clientSubElementIds];
+    [subElementsInBoth intersectSet:serverSubElementIds];
+    
+    XoomlFragmentNamespaceElement * result = [[XoomlFragmentNamespaceElement alloc] initWithNamespaceURL:clientParent.namespaceURL];
+    result.ID = ID;
+    
+    
+    //General Rule about notifications :
+    // IF we are accepting something server side we should create a notification
+    
+    //if there is something in the server that isn't in the client; there are two possibilities:
+    // 1- It has never been in the client --> its a new thing and we should add it
+    // 2- It has been in the client before but was deleted ---> the client is more uptodate and
+    for (NSString * subElementId in subElementsUniqueToServer)
+    {
+        //accepting server side
+        if (![self.recorder hasFragmentNamespaceSubElementBeenTouched:subElementId])
+        {
+            XoomlNamespaceElement * finalSubElement = serverFragmentSubElements[subElementId];
+            [result addSubElement:finalSubElement];
+            AddFragmentNamespaceSubElementNotification * notification = [self createAddFragmentNamespaceSubElementNotification:finalSubElement andParent:result];
+            [self.notifications addAddFragmentNamespaceSubElementNotification:notification];
+        }
+        else
+        {
+            //dont do anything
+        }
+    }
+    
+    //if there is something in the client that isn't in the server.there are two possibilities:
+    //1- It has been in the server but got deleted by someone else --> we should not keep it
+    //2- It has never been in the server and got added to the client --> we should keep it
+    for(NSString * subElementId in subElementsUniqueToClient)
+    {
+        //accepting client side
+        if ([self.recorder hasFragmentNamespaceSubElementBeenTouched:subElementId])
+        {
+            XoomlNamespaceElement * finalSubelement = clientFragmentSubElements[subElementId];
+            [result addSubElement:finalSubelement];
+        }
+        //accepting server side, which is deleting the client side
+        else
+        {
+            XoomlNamespaceElement * clientSubElem = clientFragmentSubElements[subElementId];
+            DeleteFragmentNamespaceSubElementNotification * notification = [self createDeleteFragmentNamespaceSubElementNotification:clientSubElem.ID
+                                                                                                                           andParent:result];
+            [self.notifications addDeleteFragmentNamespaceSubElementNotification:notification];
         }
     }
     
     //if the note is in both of them, then there are two cases:
     // 1- The item has not been touched in the client --> accept the servers
     // 2- The item has been touched in the client --> accept the client
-    for(NSString * stackingId in stackingsInBoth)
+    for(NSString * subElementId in subElementsInBoth)
     {
         //accepting client side
-        if ([self.recorder hasStackingBeenTouched:stackingId])
+        if ([self.recorder hasFragmentNamespaceSubElementBeenTouched:subElementId])
         {
-            finalStackings[stackingId] = clientStackings[stackingId];
+            XoomlNamespaceElement * mergedSubElement;
+            XoomlNamespaceElement * serverSubElement = serverFragmentSubElements[subElementId];
+            XoomlNamespaceElement * clientSubElement = clientFragmentSubElements[subElementId];
+            
+            if (serverSubElement == nil && clientSubElement == nil)
+            {
+                continue;
+            }
+            if (serverSubElement == nil)
+            {
+                mergedSubElement = clientSubElement;
+                continue;
+            }
+            if (clientSubElement == nil)
+            {
+                mergedSubElement = serverSubElement;
+                continue;
+            }
+            
+            NSDictionary * allClientLowSubElements = [clientSubElement getAllSubElements];
+            NSDictionary * allServerLowSubElements = [serverSubElement getAllSubElements];
+            mergedSubElement = [self mergeSubElementChildrenWithId:subElementId
+                                                 fromServer:allServerLowSubElements
+                                                           with:allClientLowSubElements andClientParentNamespaceElement:clientSubElement];
+            
+            if (mergedSubElement != nil)
+            {
+                [result addSubElement:mergedSubElement];
+                UpdateFragmentNamespaceSubElementNotification * notification = [self createUpdateFragmentNamespaceSubElementNotification:mergedSubElement andParent:result];
+                [self.notifications addUpdateFragmentNamespaceSubElementNotification:notification];
+            }
+        }
+        
+        //accepting server side
+        else
+        {
+            XoomlNamespaceElement * serverNamespace = serverFragmentSubElements[subElementId];
+            UpdateFragmentNamespaceSubElementNotification * notification = [self createUpdateFragmentNamespaceSubElementNotification:serverNamespace andParent:result];
+            [self.notifications addUpdateFragmentNamespaceSubElementNotification:notification];
+        }
+    }
+    
+    return result;
+}
+
+//This is the case III-2 (a & b)
+-(XoomlNamespaceElement *) mergeSubElementChildrenWithId:(NSString *) subElementId
+                                       fromServer:(NSDictionary *) serverSubElementChildren
+                                                 with:(NSDictionary *) clientSubElementChildren
+                      andClientParentNamespaceElement:(XoomlNamespaceElement *) clientParent
+{
+    NSSet * serverChildrenIds = [NSSet setWithArray:[serverSubElementChildren allKeys]];
+    NSSet * clientChildrenIds = [NSSet setWithArray:[clientSubElementChildren allKeys]];
+    
+    NSMutableSet * childrenUniqueToClient = [NSMutableSet setWithSet:clientChildrenIds];
+    [childrenUniqueToClient minusSet:serverChildrenIds];
+    
+    NSMutableSet * childrenUniqueToServer = [NSMutableSet setWithSet:serverChildrenIds];
+    [childrenUniqueToServer minusSet:clientChildrenIds];
+    
+    NSMutableSet * childrenInBoth = [NSMutableSet setWithSet:clientChildrenIds];
+    [childrenInBoth intersectSet:serverChildrenIds];
+    
+    XoomlNamespaceElement * result = [[XoomlNamespaceElement alloc] initWithNoImmediateFragmentNamespaceParentAndName:clientParent.name];
+    result.ID = subElementId;
+    
+    //because all of this falls under the updateXoomlFragmenNAmespaceSubelement we don't send individual notifications for those and all of them will be wrapped in an update notification sent with the result of this merge from the caller of this method.
+    //General Rule about notifications :
+    // IF we are accepting something server side we should create a notification
+    
+    //if there is something in the server that isn't in the client; there are two possibilities:
+    // 1- It has never been in the client --> its a new thing and we should add it
+    // 2- It has been in the client before but was deleted ---> the client is more uptodate and
+    for (NSString * childId in childrenUniqueToServer)
+    {
+        //accepting server side
+        if (![self.recorder hasFragmentSubElementChildBeenTouched:childId])
+        {
+            //case 1
+            XoomlNamespaceElement * finalChild = serverSubElementChildren[childId];
+            [result addSubElement:finalChild];
+        }
+        //for case 2 we don't do anything since client probably has deleted it
+    }
+    
+    //if there is something in the client that isn't in the server.there are two possibilities:
+    //1- It has been in the server but got deleted --> we should not keep it
+    //2- It has never been in the server and got added to the client --> we should keep it
+    for(NSString * childId in childrenUniqueToClient)
+    {
+        //accepting client side
+        if ([self.recorder hasFragmentSubElementChildBeenTouched:childId])
+        {
+            XoomlNamespaceElement * finalChild  =  clientSubElementChildren[childId];
+            [result addSubElement:finalChild];
         }
         //accepting server side
         else
         {
-            finalStackings[stackingId] = serverStackings[stackingId];
-            DDXMLElement * serverElement = serverStackings[stackingId];
-            DDXMLElement * clientElement = clientStackings[stackingId];
-            BOOL isServerSideDifferent = ![self isStackingElement: serverElement theSameAs: clientElement];
-            if (isServerSideDifferent)
-            {
-                UpdateStackNotification * notification = [self createUpdateStackingNotification:serverElement];
-                [self.notifications addUpdateStackingNotification:notification];
-            }
+            //server side must have deleted it. do nothing since the merged result will be treated as an update
         }
     }
-    return finalStackings;
+    
+    //if the note is in both of them, then there are two cases:
+    // 1- The item has not been touched in the client --> accept the servers
+    // 2- The item has been touched in the client --> accept the client
+    for(NSString * childId in childrenInBoth)
+    {
+        //accepting client side
+        if ([self.recorder hasFragmentSubElementChildBeenTouched:childId])
+        {
+            XoomlNamespaceElement * finalChild = clientSubElementChildren[childId];
+            [result addSubElement:finalChild];
+        }
+        //accepting server side
+        else
+        {
+            XoomlNamespaceElement * finalChild = serverSubElementChildren[childId];
+            [result addSubElement:finalChild];
+        }
+    }
+    
+    return result;
 }
--(void) processXoomlDocument:(DDXMLDocument *) doc
-               intoStackings: (NSMutableDictionary *) stackings
-                    andNotes:(NSMutableDictionary *) notes
+
+-(AddFragmentNamespaceElementNotification *) createAddFragmentNamespaceElementNotification:(XoomlFragmentNamespaceElement *) elem
+{
+    return [[AddFragmentNamespaceElementNotification alloc] initWithFragmentNamespace:elem];
+}
+
+-(UpdateFragmentNamespaceElementNotification *) createUpdateFragmentNamespaceElementNotification:(XoomlFragmentNamespaceElement *) elem
+{
+    return [[UpdateFragmentNamespaceElementNotification alloc] initWithFragmentNamespace:elem];
+}
+
+-(DeleteFragmentNamespaceElementNotification *) createDeleteFragmentNamespaceElementNotification:(NSString *) namespaceId
+{
+    return [[DeleteFragmentNamespaceElementNotification alloc] initWithFragmentNamespaceElementID:namespaceId];
+}
+
+-(AddFragmentNamespaceSubElementNotification *) createAddFragmentNamespaceSubElementNotification:(XoomlNamespaceElement *) subElement andParent:(XoomlFragmentNamespaceElement *) parent
+{
+    return [[AddFragmentNamespaceSubElementNotification alloc] initWithSubelement:subElement andFragmentNamespace:parent];
+}
+
+-(DeleteFragmentNamespaceSubElementNotification *) createDeleteFragmentNamespaceSubElementNotification:(NSString *) subElementId
+                                                                                             andParent:(XoomlFragmentNamespaceElement *) parent
+{
+    return [[DeleteFragmentNamespaceSubElementNotification alloc] initWithSubelement:subElementId andFragmentNamespace:parent];
+}
+
+-(UpdateFragmentNamespaceSubElementNotification *) createUpdateFragmentNamespaceSubElementNotification:(XoomlNamespaceElement *) subElement
+                                                                                             andParent:(XoomlFragmentNamespaceElement *) parent
 {
     
-    for (DDXMLElement * node in doc.rootElement.children)
+    return [[UpdateFragmentNamespaceSubElementNotification alloc] initWithSubelement:subElement andFragmentNamespace:parent];
+}
+
+-(AddAssociationNotification *) createAddAssociationNotification:(XoomlAssociation *) association
+{
+    AddAssociationNotification * result = [[AddAssociationNotification alloc] initWithAssociation:association];
+    return result;
+}
+
+-(DeleteAssociationNotification *) createDeleteAssociationNotification:(XoomlAssociation *) association
+{
+    DeleteAssociationNotification * result = [[DeleteAssociationNotification alloc] initWithAssociationId:association.ID
+                                                                                                 andRefId:association.refId];
+    return result;
+}
+
+-(UpdateAssociationNotification *) createUpdateAssociationNotification:(XoomlAssociation *) association
+{
+    
+    UpdateAssociationNotification * result = [[UpdateAssociationNotification alloc] initWithAssociation:association];
+    
+    return result;
+}
+
+
+-(XoomlNamespaceElement * ) getThumbnailElement:(NSMutableDictionary *) allFragmentNamespaces
+{
+    for(XoomlFragmentNamespaceElement * elem in allFragmentNamespaces)
     {
-        if ([node.name isEqualToString:FRAGMENT_NAMESPACE_DATA])
+        if ([elem.namespaceURL isEqualToString:MINDCLOUD_XMLNS])
         {
-            //process all the stackings
-            for(DDXMLElement * stackingElement in node.children)
+            NSArray * allSubElements = [elem getAllXoomlFragmentsNamespaceSubElements].allValues;
+            for(XoomlNamespaceElement * possibleThumbnail in allSubElements)
             {
-                NSString * elementType = [[stackingElement attributeForName:ATTRIBUTE_TYPE] stringValue];
-                if ([stackingElement.name isEqualToString:MINDCLOUD_COLLECTION_ATTRIBUTE] &&
-                    [elementType isEqualToString:STACKING_TYPE])
+                if ([possibleThumbnail.name isEqualToString:THUMBNAIL_ELEMENT_NAME])
                 {
-                    NSString * stackingId = [[stackingElement attributeForName:ATTRIBUTE_ID] stringValue];
-                    if (stackingId)
-                    {
-                        stackings[stackingId] = stackingElement;
-                    }
-                }
-            }
-        }
-        else if ([node.name isEqualToString:XOOML_ASSOCIATION])
-        {
-            NSString * noteId = [[node attributeForName:ATTRIBUTE_ID] stringValue];
-            notes[noteId] = node;
-        }
-    }
-}
-
--(AddStackingNotification *) createAddStackingNotification:(DDXMLElement *) stackingXml
-{
-    NSString * stackingName = [[stackingXml attributeForName:ATTRIBUTE_NAME] stringValue];
-    NSString *  stackingScale = [[stackingXml attributeForName:SCALING] stringValue];
-    NSMutableArray * refNotesArray = [NSMutableArray array];
-    for (DDXMLElement *refIDElem in [stackingXml children]){
-        NSString * refID = [[refIDElem attributeForName:REF_ID] stringValue];
-        [refNotesArray addObject:refID];
-    }
-    
-    AddStackingNotification * result = [[AddStackingNotification alloc] initWithStackingId:stackingName
-                                                                                  andScale:stackingScale
-                                                                               andNoteRefs:refNotesArray];
-    return result;
-}
-
--(DeleteStackingNotification *) createDeleteStackingNotification:(DDXMLElement *) stackingXml
-{
-    NSString * stackingName = [[stackingXml attributeForName:ATTRIBUTE_NAME] stringValue];
-    DeleteStackingNotification * result = [[DeleteStackingNotification alloc] initWithStackingId:stackingName];
-    return result;
-}
-
--(UpdateStackNotification *) createUpdateStackingNotification:(DDXMLElement *) stackingXml
-{
-    
-    NSString * stackingName = [[stackingXml attributeForName:ATTRIBUTE_NAME] stringValue];
-    NSString *  stackingScale = [[stackingXml attributeForName:SCALING] stringValue];
-    NSMutableArray * refNotesArray = [NSMutableArray array];
-    for (DDXMLElement *refIDElem in [stackingXml children]){
-        NSString * refID = [[refIDElem attributeForName:REF_ID] stringValue];
-        [refNotesArray addObject:refID];
-    }
-    
-    UpdateStackNotification * result = [[UpdateStackNotification alloc] initWithStackId:stackingName
-                                                                               andScale:stackingScale
-                                                                            andNoteRefs:refNotesArray];
-    return result;
-}
-
--(BOOL) isStackingElement:(DDXMLElement *) stackingXml1
-                theSameAs:(DDXMLElement *) stackingXml2
-{
-    NSString * stackingName1 = [[stackingXml1 attributeForName:ATTRIBUTE_NAME] stringValue];
-    NSString * stackingName2 = [[stackingXml2 attributeForName:ATTRIBUTE_NAME] stringValue];
-    if (![stackingName1 isEqualToString:stackingName2])
-    {
-        return NO;
-    }
-    
-    NSString *  stackingScale1 = [[stackingXml1 attributeForName:SCALING] stringValue];
-    NSString *  stackingScale2 = [[stackingXml2 attributeForName:SCALING] stringValue];
-    if (![stackingScale1 isEqualToString:stackingScale2])
-    {
-        return NO;
-    }
-    
-    NSMutableSet * refNotes1 = [NSMutableSet set];
-    for (DDXMLElement *refIDElem in [stackingXml1 children]){
-        NSString * refID = [[refIDElem attributeForName:REF_ID] stringValue];
-        [refNotes1 addObject:refID];
-    }
-    NSMutableSet * refNotes2 = [NSMutableSet set];
-    for (DDXMLElement *refIDElem in [stackingXml2 children]){
-        NSString * refID = [[refIDElem attributeForName:REF_ID] stringValue];
-        [refNotes2 addObject:refID];
-    }
-    
-    if (![refNotes1 isEqualToSet:refNotes2])
-    {
-        return NO;
-    }
-    
-    return YES;
-    
-}
-
--(AddNoteNotification *) createAddNoteNotification:(DDXMLElement *) noteXml
-{
-    NSString * noteId = [[noteXml attributeForName:ATTRIBUTE_ID] stringValue];
-    NSString * noteName = [[noteXml attributeForName:ASSOCIATED_XOOML_FRAGMENT] stringValue];
-    NSString * positionX = @"0";
-    NSString * positionY = @"0";
-    NSString * scale = @"1";
-    for (DDXMLElement * node in noteXml.children)
-    {
-        if ([node.name isEqualToString:ASSOCIATION_NAMESPACE_DATA])
-        {
-            for (DDXMLElement * noteProp in node.children)
-            {
-                if ([noteProp.name isEqualToString:MINDCLOUD_NOTE_ATTRIBUTE])
-                {
-                    if ([[[noteProp attributeForName:ATTRIBUTE_TYPE] stringValue] isEqualToString:MINDCLOUD_NOTE_POSITION_ATTRIBUTE_TYPE])
-                    {
-                        positionX = [[noteProp attributeForName:POSITION_X] stringValue];
-                        positionY = [[noteProp attributeForName:POSITION_Y] stringValue];
-                    }
-                    else if ([[[noteProp attributeForName:ATTRIBUTE_TYPE] stringValue] isEqualToString:MINDCLOUD_NOTE_SCALE_ATTRIBUTE_TYPE])
-                    {
-                        
-                        scale = [[noteProp attributeForName:SCALING] stringValue];
-                    }
+                    return possibleThumbnail;
                 }
             }
         }
     }
-    
-    AddNoteNotification * result = [[AddNoteNotification alloc] initWithNoteId:noteId
-                                                                      andName:noteName
-                                                                  andPositionX:positionX
-                                                                  andPositionY:positionY
-                                                                    andScaling:scale];
-    return result;
-}
-
--(DeleteNoteNotification *) createDeleteNoteNotification:(DDXMLElement *) noteXml
-{
-    NSString * noteId = [[noteXml attributeForName:ATTRIBUTE_ID] stringValue];
-    DeleteNoteNotification * result = [[DeleteNoteNotification alloc] initWithNoteId:noteId];
-    return result;
-}
-
--(UpdateNoteNotification *) createUpdateNoteNotification:(DDXMLElement *) noteXml
-{
-    
-    AddNoteNotification * temp = [self createAddNoteNotification:noteXml];
-    
-    UpdateNoteNotification * result = [[UpdateNoteNotification alloc] initWithNoteId:temp.getNoteId
-                                                                             andName:temp.getNoteName
-                                                                        andPositionX:temp.getPositionX
-                                                                        andPositionY:temp.getPositionY
-                                                                            andScale:temp.getScale];
-    return result;
-}
-
--(BOOL) isNoteElement:(DDXMLElement *) noteXml1
-            theSameAs:(DDXMLElement *) noteXml2
-{
-    //use the updatenotification to reuse code
-    UpdateNoteNotification * notification1 = [self createUpdateNoteNotification:noteXml1];
-    UpdateNoteNotification * notification2 = [self createUpdateNoteNotification:noteXml2];
-    //Separated for clarity
-    if (![notification1.getNoteId isEqualToString:notification2.getNoteId])
-    {
-        return NO;
-    }
-    if (![notification1.getNotePositionX isEqualToString:notification2.getNotePositionX])
-    {
-        return NO;
-    }
-    if (![notification1.getNotePositionY isEqualToString:notification2.getNotePositionY])
-    {
-        return NO;
-    }
-    if (![notification1.getNoteScale isEqualToString:notification2.getNoteScale])
-    {
-        return NO;
-    }
-    return YES;
-}
-
--(DDXMLElement * ) getThumbnailElement:(DDXMLDocument *) document
-{
-    for (DDXMLElement * element in document.rootElement.children)
-    {
-        if ([element.name isEqualToString:FRAGMENT_NAMESPACE_DATA])
-        {
-            for (DDXMLElement * child in element.children)
-            {
-                if ([child.name isEqualToString:MINDCLOUD_COLLECTION_THUMBNAIL])
-                {
-                    return child;
-                }
-            }
-        }
-    }
-    
     return nil;
 }
 
--(DDXMLDocument *) createMergedDocumentWithNotes: (NSDictionary *)finalNotes
-                                    andStackings: (NSDictionary *)finalStackings
-                                    andThumbnail: (DDXMLElement *)thumbnailElement
+-(XoomlFragment *) createFragmentWithAssociations:(NSDictionary *) associations
+                        fragmentNamespaceElements:(NSDictionary *) fragmentNamespaceElements
+                                     andThumbnail:(XoomlNamespaceElement *) thumbnailElement
 {
-    NSData * placeHolderData = [XoomlCollectionParser getEmptyCollectionXooml];
-    NSError * err;
-    DDXMLDocument * document = [[DDXMLDocument alloc] initWithData:placeHolderData options:0
-                                                             error:&err];
+    XoomlFragment * fragment = [[XoomlFragment alloc] initAsEmpty];
     
-    if (document == nil){
-        NSLog(@"Error reading the note XML File");
+    if (fragment == nil){
+        NSLog(@"ManifestMerger-Error creating empty fragment");
         return nil;
     }
     
-    DDXMLElement * fragmentNamespace = nil;
-    //get the fragmentNamespaceElement element
-    for (DDXMLElement * element in document.rootElement.children)
+    if (associations != nil)
     {
-        if ([element.name isEqualToString:FRAGMENT_NAMESPACE_DATA])
+        for(XoomlAssociation * association in associations.allValues)
         {
-            fragmentNamespace = element;
+            [fragment addAssociation:association];
         }
     }
-    if (!fragmentNamespace)
+    
+    if (fragmentNamespaceElements != nil)
     {
-        NSLog(@"Broken Xooml");
-        return nil;
+        for (XoomlFragmentNamespaceElement * fragmentNamespaceElem in fragmentNamespaceElements.allValues)
+        {
+            [fragment addFragmentNamespaceElement:fragmentNamespaceElem];
+        }
     }
     
-    //add thumbnail
     if (thumbnailElement != nil)
     {
-        [fragmentNamespace addChild:[thumbnailElement copy]];
+        [fragment setFragmentNamespaceSubElementWithElement:thumbnailElement];
     }
-    
-    //add stackings
-    for(NSString * stackingId in finalStackings)
-    {
-        DDXMLElement * stackingElement = finalStackings[stackingId];
-        [fragmentNamespace addChild:[stackingElement copy]];
-    }
-    
-    //now add notes
-    for(NSString * noteId in finalNotes)
-    {
-        DDXMLElement * noteElement = finalNotes[noteId];
-        [document.rootElement addChild:[noteElement copy]];
-    }
-    
-    return document;
+    return fragment;
 }
 @end

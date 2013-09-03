@@ -9,95 +9,149 @@
 #import "NotificationContainer.h"
 
 @interface NotificationContainer()
-@property (nonatomic, strong) NSMutableArray * updateNoteNotifications;
-@property (nonatomic, strong) NSMutableArray * deleteNoteNotifications;
-@property (nonatomic, strong) NSMutableArray * addNoteNotifications;
-@property (nonatomic, strong) NSMutableArray * addStackingNotifications;
-@property (nonatomic, strong) NSMutableArray * updateStackingNotifications;
-@property (nonatomic, strong) NSMutableArray * deleteStackingNotifications;
+@property (nonatomic, strong) NSMutableArray * updateAssociationNotifications;
+@property (nonatomic, strong) NSMutableArray * deleteAssociationNotifications;
+@property (nonatomic, strong) NSMutableArray * addAssociationNotifications;
+
+@property (nonatomic, strong) NSMutableArray * addFragmentNamespaceElementNotifications;
+@property (nonatomic, strong) NSMutableArray * deleteFragmentNamespaceElementNotifications;
+@property (nonatomic, strong) NSMutableArray * updateFragmentNamespaceElementNotifications;
+
+@property (nonatomic, strong) NSMutableArray * addFragmentNamespaceSubElementNotifications;
+@property (nonatomic, strong) NSMutableArray * deleteFragmentNamespaceSubElementNotifications;
+@property (nonatomic, strong) NSMutableArray * updateFragmentNamespaceSubElementNotifications;
+
 @end
 @implementation NotificationContainer
 
 -(id) init
 {
     self = [super init];
-    self.updateNoteNotifications = [NSMutableArray array];
-    self.deleteNoteNotifications = [NSMutableArray array];
-    self.addNoteNotifications = [NSMutableArray array];
-    self.addStackingNotifications = [NSMutableArray array];
-    self.updateStackingNotifications = [NSMutableArray array];
-    self.DeleteStackingNotifications = [NSMutableArray array];
+    self.updateAssociationNotifications = [NSMutableArray array];
+    self.deleteAssociationNotifications = [NSMutableArray array];
+    self.addAssociationNotifications = [NSMutableArray array];
+    
+    self.addFragmentNamespaceElementNotifications = [NSMutableArray array];
+    self.updateFragmentNamespaceElementNotifications = [NSMutableArray array];
+    self.deleteFragmentNamespaceElementNotifications = [NSMutableArray array];
+    
+    self.addFragmentNamespaceSubElementNotifications = [NSMutableArray array];
+    self.updateFragmentNamespaceSubElementNotifications = [NSMutableArray array];
+    self.deleteFragmentNamespaceSubElementNotifications = [NSMutableArray array];
+    
     return self;
 }
 
--(NSArray *) getUpdateNoteNotifications
+-(NSArray *) getUpdateAssociationNotifications
 {
-    return [self.updateNoteNotifications copy];
+    return [self.updateAssociationNotifications copy];
 }
 
--(NSArray *) getDeleteNoteNotifications
+-(NSArray *) getDeleteAssociationNotifications
 {
-    return [self.deleteNoteNotifications copy];
+    return [self.deleteAssociationNotifications copy];
 }
 
--(NSArray *) getAddNoteNotifications
+-(NSArray *) getAddAssociationNotifications
 {
-    return [self.addNoteNotifications copy];
+    return [self.addAssociationNotifications copy];
 }
 
--(NSArray *) getAddStackingNotifications
+-(void) addUpdateAssociationNotification:(UpdateAssociationNotification *)notification
 {
-    return [self.addStackingNotifications copy];
+    [self.updateAssociationNotifications addObject:notification];
 }
 
--(NSArray *) getUpdateStackingNotifications
+-(void) addDeleteAssociationNotification:(DeleteAssociationNotification *)notificatoin
 {
-    return [self.updateStackingNotifications copy];
+    [self.deleteAssociationNotifications addObject:notificatoin];
 }
 
--(NSArray *) getDeleteStackingNotifications
+-(void) addAddAssociationNotification:(AddAssociationNotification *)notification
 {
-    return [self.deleteStackingNotifications copy];
+    [self.addAssociationNotifications addObject:notification];
 }
 
--(void) addUpdateNoteNotification:(UpdateNoteNotification *)notification
+/*! array of AddFragmentNamespaceNotification objects*/
+-(NSArray *) getAddFragmentNamespaceElementNotifications
 {
-    [self.updateNoteNotifications addObject:notification];
+    return [self.addFragmentNamespaceElementNotifications copy];
 }
 
--(void) addDeleteNoteNotification:(DeleteNoteNotification *)notificatoin
+/*! array of UpdateFragmentNamespaceElement objects*/
+-(NSArray *) getUpdateFragmentNamespaceElementNotifications
 {
-    [self.deleteNoteNotifications addObject:notificatoin];
+    return [self.updateFragmentNamespaceElementNotifications copy];
 }
 
--(void) addAddNoteNotification:(AddNoteNotification *)notification
+/*! array of UpdateFragmentNamespaceElement objects*/
+-(NSArray *) getDeleteFragmentNamespaceElementNotifications
 {
-    [self.addNoteNotifications addObject:notification];
+    return [self.deleteFragmentNamespaceElementNotifications copy];
 }
 
--(void) addAddStackingNotification:(AddStackingNotification *)notification
+-(void) addAddFragmentNamespaceElementNotification:(AddFragmentNamespaceElementNotification *) notification
 {
-    [self.addStackingNotifications addObject:notification];
+    [self.addFragmentNamespaceElementNotifications addObject:notification];
 }
 
--(void) addUpdateStackingNotification:(UpdateStackNotification *)notification
+-(void) addUpdateFragmentNamespaceElementNotification:(UpdateFragmentNamespaceElementNotification *) notification
 {
-    [self.updateStackingNotifications addObject:notification];
+    [self.updateFragmentNamespaceElementNotifications addObject:notification];
 }
 
--(void) addDeleteStackingNotification:(DeleteStackingNotification *)notification
+-(void) addDeleteFragmentNamespaceElementNotification:(DeleteFragmentNamespaceElementNotification *) notification
 {
-    [self.deleteStackingNotifications addObject:notification];
+    [self.deleteFragmentNamespaceElementNotifications addObject:notification];
+}
+
+
+/*! array of AddFragmentNamespaceSubElementNotification objects*/
+-(NSArray *) getAddFragmentNamespaceSubElementNotifications
+{
+    return [self.addFragmentNamespaceSubElementNotifications copy];
+}
+
+/*! array of UpdateFragmentNamespaceSubElementNotification objects*/
+-(NSArray *) getUpdateFragmentNamespaceSubElementNotifications
+{
+    return [self.updateFragmentNamespaceSubElementNotifications copy];
+}
+
+/*! array of DeleteFragmentNamespaceSubElementNotification objects*/
+-(NSArray *) getDeleteFragmentNamespaceSubElementNotifications
+{
+    return [self.deleteFragmentNamespaceSubElementNotifications copy];
+}
+
+-(void) addAddFragmentNamespaceSubElementNotification:(AddFragmentNamespaceSubElementNotification *) notification
+{
+    [self.addFragmentNamespaceSubElementNotifications addObject:notification];
+}
+
+-(void) addUpdateFragmentNamespaceSubElementNotification:(UpdateFragmentNamespaceSubElementNotification *) notification
+{
+    [self.updateFragmentNamespaceSubElementNotifications addObject:notification];
+}
+
+-(void) addDeleteFragmentNamespaceSubElementNotification:(DeleteFragmentNamespaceSubElementNotification *) notification
+{
+    [self.deleteFragmentNamespaceSubElementNotifications addObject:notification];
 }
 
 -(void) clear
 {
-    [self.addNoteNotifications removeAllObjects];
-    [self.updateNoteNotifications removeAllObjects];
-    [self.deleteNoteNotifications removeAllObjects];
-    [self.addStackingNotifications removeAllObjects];
-    [self.updateStackingNotifications removeAllObjects];
-    [self.deleteStackingNotifications removeAllObjects];
+    [self.addAssociationNotifications removeAllObjects];
+    [self.updateAssociationNotifications removeAllObjects];
+    [self.deleteAssociationNotifications removeAllObjects];
+    
+    [self.addFragmentNamespaceElementNotifications removeAllObjects];
+    [self.updateFragmentNamespaceElementNotifications removeAllObjects];
+    [self.deleteFragmentNamespaceElementNotifications removeAllObjects];
+    
+    [self.addFragmentNamespaceSubElementNotifications removeAllObjects];
+    [self.updateFragmentNamespaceSubElementNotifications removeAllObjects];
+    [self.deleteFragmentNamespaceSubElementNotifications removeAllObjects];
 }
 
 @end

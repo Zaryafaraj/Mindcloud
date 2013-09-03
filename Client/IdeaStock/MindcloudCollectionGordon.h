@@ -9,52 +9,76 @@
 #import <Foundation/Foundation.h>
 #import "MindcloudCollectionGordonDelegate.h"
 #import "SynchronizedObject.h"
+#import "XoomlAssociation.h"
+#import "XoomlFragment.h"
 
 @interface MindcloudCollectionGordon : NSObject <SynchronizedObject>
 
 -(id) initWithCollectionName: (NSString *) collectionName
                  andDelegate:(id<MindcloudCollectionGordonDelegate>) delegate;
 
--(NSString *) getImagePathForSubCollectionWithName:(NSString *) subCollectionName;
+-(NSString *) getImagePathForAssociationWithName:(NSString *) associationName;
 
--(void) addSubCollectionContentWithId: (NSString *) subCollectionId
-                          withContent:(NSData *) content
-              andCollectionAttributes:(CollectionNoteAttribute *) attributes;
+#pragma mark - Association
 
--(void) addSubCollectionContentWithId:(NSString *)subCollectionId
-                          withContent:(NSData *)content
-                             andImage:(NSData *) img
-                         andImageName:(NSString *) imgName
-              andCollectionAttributes:(CollectionNoteAttribute *)attributes;
+-(void) addAssociationWithName:(NSString *) associationName
+                      andAssociatedItem:(XoomlFragment *) content
+         andAssociation:(XoomlAssociation *) association;
 
--(void) addCollectionAttributeWithName:(NSString *) stackingName
-                             withModel:(StackingModel *)stackingModel;
+-(void) addAssociationWithName: (NSString *) associationName
+                      andAssociatedItem:(XoomlFragment *)content
+        andAssociation:(XoomlAssociation *) association
+                    andAssociationImageData:(NSData *) img
+                    andImageName:(NSString *) imgName;
 
+/*! If the item is there it will update it, if its not it will create a new one
+ */
+-(void) setAssociatedItemWithName:(NSString *) associationName
+                                              toAssociatedItem:(XoomlFragment *) content;
+
+/*! If the item is there it will update it, if its not it will create a new one
+ */
+-(void) setAssociationWithId:(NSString *) associationId
+                          toAssociation:(XoomlAssociation *) association;
+
+-(void) removeAssociationWithId:(NSString *) associationId
+                          andAssociatedItemName:(NSString *) associatedItemName;
+
+#pragma mark - FragmentNamespaceElement
+
+-(void) addCollectionFragmentNamespaceElementWithName:(NSString *) namespaceElementName
+                             andNamespaceElement:(XoomlNamespaceElement *) namespaceElement;
+
+/*! If the item is there it will update it, if its not it will create a new one
+ */
 -(void) setCollectionThumbnailWithData:(NSData *) thumbnailData;
 
--(void) updateCollectionThumbnailWithImageOfSubCollection:(NSString *) subCollectionId;
+/*! If the item is there it will update it, if its not it will create a new one
+ */
+-(void) setCollectionThumbnailWithImageOfAssociation:(NSString *) associationId;
 
--(void) updateSubCollectionContentofSubCollectionWithName:(NSString *) subCollectionName
-                                              withContent:(NSData *) content;
 
--(void) updateCollectionAttributesForSubCollection:(NSString *) subCollectionId
-                          withCollectionAttributes:(CollectionNoteAttribute *) collectionAttribute;
+/*! If the item is there it will update it, if its not it will create a new one
+ */
+-(void) setCollectionFragmentNamespaceElementWithName:(NSString *) namespaceElementName
+                             toNamespaceElement:(XoomlNamespaceElement *) namespaceElement;
 
--(void) updateCollectionAttributeWithName:(NSString *) attributeName
-                             withNewModel:(StackingModel *)stackingModel;
 
--(void) removeSubCollectionWithId:(NSString *) subCollectionId
-                          andName:(NSString *) subCollectionName;
+-(void) removeThumbnailForAssociationWithId:(NSString *) subCollectionId;
 
--(void) removeSubCollectionThumbnailForSubCollection:(NSString *) subCollectionId;
 
--(void) removeSubCollectionWithId:(NSString *) subCollectionId
-       forCollectionAttributeOfName:(NSString *) collectionAttributeName;
+-(void) removeCollectionFragmentNamespaceElementWithName:(NSString *) collectionAttributeName;
 
--(void) removeCollectionAttributeOfName:(NSString *) collectionAttributeName;
+/*! Notifies Gordon that there are still parts that the association needs to have downloaded before it can be displayed. 
+    Use when there are multiple parts to the associatedITem and you want to show it atomically
+ */
 
--(void) subCollectionisWaitingForImageWithSubCollectionId:(NSString *) subCollectionId
-                                                  andSubCollectionName:(NSString *) subCollectionName;
+#pragma mark - downloading
+-(void) associatedItemIsWaitingForImageForAssociationWithId:(NSString *) subCollectionId
+                                     andAssociationName:(NSString *) subCollectionName;
+
+/*! Call this before you finish working with Gordon
+ */
 -(void) cleanup;
 
 @end

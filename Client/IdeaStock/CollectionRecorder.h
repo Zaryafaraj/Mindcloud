@@ -10,18 +10,31 @@
 
 @interface CollectionRecorder : NSObject
 
--(void) recordDeleteSubCollection:(NSString *) subCollectionId;
--(void) recordUpdateSubCollection:(NSString *) subCollectionId;
--(void) recordDeleteStack:(NSString *) stackId;
--(void) recordUpdateStack:(NSString *) stackId;
+-(void) recordDeleteAssociation:(NSString *) associationId;
+-(void) recordUpdateAssociation:(NSString *) associationId;
 
--(NSSet *) getDeletedSubCollections;
--(NSSet *) getDeletedStacks;
--(NSSet *) getUpdatedSubCollections;
--(NSSet *) getUpdatedStacks;
+-(void) recordDeleteFragmentNamespaceSubElement: (NSString *) namespaceElementId;
+-(void) recordUpdateFragmentNamespaceSubElement: (NSString *) namespaceElementId;
 
--(BOOL) hasStackingBeenTouched:(NSString *) stackingId;
--(BOOL) hasSubCollectionBeenTouched:(NSString *) subCollectionId;
+-(void) recordDeleteFragmentNamespaceElement: (NSString *) fragmentSubElementId;
+-(void) recordUpdateFragmentNamespaceElement: (NSString *) fragmentSubElementId;
+
+-(void) recordUpdateFragmentSubElementsChild:(NSString *) subElementChildId;
+-(void) recordDeleteFragmentSubElementsChild:(NSString *) subElementChildId;
+
+-(NSSet *) getDeletedAssociations;
+-(NSSet *) getDeletedFragmentNamespaceElements;
+-(NSSet *) getDeletedFragmentNamespaceSubElements;
+-(NSSet *) getDeletedFragmentSubElementChildren;
+-(NSSet *) getUpdatedAssociation;
+-(NSSet *) getUpdatedFragmentNamespaceElements;
+-(NSSet *) getUpdatedFragmentNamespaceSubElements;
+-(NSSet *) getUpdatedFragmentSubElementChildren;
+
+-(BOOL) hasFragmentNamespaceElementBeenTouched:(NSString *) fragmentNamespaceId;
+-(BOOL) hasFragmentNamespaceSubElementBeenTouched:(NSString *) subElementId;
+-(BOOL) hasFragmentSubElementChildBeenTouched:(NSString *) childId;
+-(BOOL) hasAssociationBeenTouched:(NSString *) subCollectionId;
 -(BOOL) hasAnythingBeenTouched;
 -(void) reset;
 @end

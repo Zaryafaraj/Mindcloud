@@ -49,7 +49,6 @@
 		D7F19834157184A9008DA24F /* felt-red-ipad-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D7F19833157184A9008DA24F /* felt-red-ipad-background.jpg */; };
 		D7F19837157189A1008DA24F /* Background_Blue.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D7F19836157189A1008DA24F /* Background_Blue.jpg */; };
 		D7F1FF2C154D1A3300D07B58 /* NoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F1FF2B154D1A3300D07B58 /* NoteView.m */; };
-		D7F85EB41528D80300F16D25 /* XoomlCollectionManifest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F85EB31528D80300F16D25 /* XoomlCollectionManifest.m */; };
 		DB03C357169FEB0000C38FD7 /* CollectionSubCollectionsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C356169FEB0000C38FD7 /* CollectionSubCollectionsAction.m */; };
 		DB03C35B169FEE6C00C38FD7 /* SubCollectionAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35A169FEE6C00C38FD7 /* SubCollectionAction.m */; };
 		DB03C35E169FF1F800C38FD7 /* SubCollectionImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35D169FF1F800C38FD7 /* SubCollectionImageAction.m */; };
@@ -60,7 +59,7 @@
 		DB3174F916336DEB001229FE /* cJOfLC.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DB3174F816336DEA001229FE /* cJOfLC.jpeg */; };
 		DB3174FB1633744F001229FE /* dropbox_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3174FA1633744F001229FE /* dropbox_icon.png */; };
 		DB3174FE16337636001229FE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3174FD16337636001229FE /* SignInViewController.m */; };
-		DB3FD53016B77FA400024AC6 /* StackingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD52F16B77FA400024AC6 /* StackingModel.m */; };
+		DB3FD53016B77FA400024AC6 /* CollectionStackingAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD52F16B77FA400024AC6 /* CollectionStackingAttribute.m */; };
 		DB3FD53416B7A4D900024AC6 /* CollectionNoteAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD53316B7A4D900024AC6 /* CollectionNoteAttribute.m */; };
 		DB40DEDF16AE619100ECAC54 /* Felt-Blue.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB40DEDB16AE618F00ECAC54 /* Felt-Blue.jpg */; };
 		DB40DEE016AE619100ECAC54 /* Leather.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB40DEDC16AE619000ECAC54 /* Leather.jpg */; };
@@ -68,7 +67,6 @@
 		DB40DEE216AE619100ECAC54 /* Galaxy.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB40DEDE16AE619000ECAC54 /* Galaxy.jpg */; };
 		DB42E73616AE58500021D6FA /* NetworkActivityHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB42E73516AE58500021D6FA /* NetworkActivityHelper.m */; };
 		DB43382D169D2E09000353DA /* CachedMindCloudDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DB43382C169D2E09000353DA /* CachedMindCloudDataSource.m */; };
-		DB4338A0169D4B14000353DA /* XoomlCollectionParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DB43389F169D4B14000353DA /* XoomlCollectionParser.m */; };
 		DB4338A8169E8AAF000353DA /* CollectionAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4338A7169E8AAF000353DA /* CollectionAction.m */; };
 		DB4D940D16E337DB007FE65A /* TempImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4D940C16E337DB007FE65A /* TempImageAction.m */; };
 		DB4E0AC9163DCD3D00AB82E6 /* MindcloudAllCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4E0AC8163DCD3D00AB82E6 /* MindcloudAllCollections.m */; };
@@ -96,6 +94,9 @@
 		DB99FFC3160E73230042ED2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC2160E73230042ED2A /* QuartzCore.framework */; };
 		DB99FFCC160E8ABB0042ED2A /* MindcloudBaseAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFCB160E8ABB0042ED2A /* MindcloudBaseAction.m */; };
 		DB9CA54C16BF8F2D0030B3F7 /* NamingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9CA54B16BF8F2D0030B3F7 /* NamingHelper.m */; };
+		DBAC849817D5190F003D2B7F /* UpdateFragmentNamespaceElementNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBAC849717D5190F003D2B7F /* UpdateFragmentNamespaceElementNotification.m */; };
+		DBAC849B17D5191E003D2B7F /* DeleteFragmentNamespaceElementNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBAC849A17D5191E003D2B7F /* DeleteFragmentNamespaceElementNotification.m */; };
+		DBAC849E17D519E2003D2B7F /* AddFragmentNamespaceSubElementNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBAC849D17D519E2003D2B7F /* AddFragmentNamespaceSubElementNotification.m */; };
 		DBB7455416F647EC0029AE72 /* CategorizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB7455316F647EC0029AE72 /* CategorizationViewController.m */; };
 		DBB7455916F6989C0029AE72 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = DBB7455816F6989C0029AE72 /* bg.png */; };
 		DBB9313E16AB7B78005652AA /* CollectionLayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */; };
@@ -103,14 +104,12 @@
 		DBBA28A916CC7996007C7B4A /* CollectionRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28A816CC7996007C7B4A /* CollectionRecorder.m */; };
 		DBBA28AC16CC88C6007C7B4A /* ManifestMerger.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28AB16CC88C6007C7B4A /* ManifestMerger.m */; };
 		DBBA28B216CC8B91007C7B4A /* NotificationContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28B116CC8B91007C7B4A /* NotificationContainer.m */; };
-		DBBA28B516CCC3EC007C7B4A /* UpdateNoteNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28B416CCC3EC007C7B4A /* UpdateNoteNotification.m */; };
-		DBBA28B816CCC574007C7B4A /* UpdateStackNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28B716CCC573007C7B4A /* UpdateStackNotification.m */; };
-		DBBA28BB16CCC5FD007C7B4A /* DeleteNoteNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28BA16CCC5FD007C7B4A /* DeleteNoteNotification.m */; };
-		DBBA28BE16CCC62F007C7B4A /* AddNoteNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28BD16CCC62F007C7B4A /* AddNoteNotification.m */; };
-		DBBA28C116CCC6A8007C7B4A /* AddStackingNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28C016CCC6A8007C7B4A /* AddStackingNotification.m */; };
-		DBBA28C416CCC81D007C7B4A /* DeleteStackingNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28C316CCC81D007C7B4A /* DeleteStackingNotification.m */; };
-		DBBA28C716CCC84F007C7B4A /* UpdateNoteContentNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28C616CCC84E007C7B4A /* UpdateNoteContentNotification.m */; };
-		DBBA28CA16CCC8CC007C7B4A /* UpdateNoteImageNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28C916CCC8CC007C7B4A /* UpdateNoteImageNotification.m */; };
+		DBBA28B516CCC3EC007C7B4A /* UpdateAssociationNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28B416CCC3EC007C7B4A /* UpdateAssociationNotification.m */; };
+		DBBA28B816CCC574007C7B4A /* UpdateFragmentNamespaceSubElementNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28B716CCC573007C7B4A /* UpdateFragmentNamespaceSubElementNotification.m */; };
+		DBBA28BB16CCC5FD007C7B4A /* DeleteAssociationNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28BA16CCC5FD007C7B4A /* DeleteAssociationNotification.m */; };
+		DBBA28BE16CCC62F007C7B4A /* AddAssociationNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28BD16CCC62F007C7B4A /* AddAssociationNotification.m */; };
+		DBBA28C116CCC6A8007C7B4A /* AddFragmentNamespaceElementNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28C016CCC6A8007C7B4A /* AddFragmentNamespaceElementNotification.m */; };
+		DBBA28C416CCC81D007C7B4A /* DeleteFragmentNamespaceSubElementNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28C316CCC81D007C7B4A /* DeleteFragmentNamespaceSubElementNotification.m */; };
 		DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */; };
 		DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF25C160EA1D800C81C25 /* Mindcloud.m */; };
 		DBBBB9BA17CC67AA00081C3B /* XoomlAssociation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9B917CC67AA00081C3B /* XoomlAssociation.m */; };
@@ -121,7 +120,7 @@
 		DBC7C4C316327F1900BF3F2D /* CollectionsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC7C4C216327F1900BF3F2D /* CollectionsAction.m */; };
 		DBD06A9116D98F9C00463ECC /* SharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD06A9016D98F9C00463ECC /* SharingAction.m */; };
 		DBD06A9516D9B6D100463ECC /* SharingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD06A9416D9B6D100463ECC /* SharingViewController.m */; };
-		DBD06A9816D9D51700463ECC /* MindcloudSharingAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD06A9716D9D51700463ECC /* MindcloudSharingAdapter.m */; };
+		DBD06A9816D9D51700463ECC /* AllCollectionsSharingAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD06A9716D9D51700463ECC /* AllCollectionsSharingAdapter.m */; };
 		DBD06A9E16DAB6F900463ECC /* SubscriptionAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD06A9D16DAB6F900463ECC /* SubscriptionAction.m */; };
 		DBD06AA316DC93BD00463ECC /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBD06AA216DC93BD00463ECC /* MessageUI.framework */; };
 		DBDB105716D032C200B5F7AE /* MergerThread.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB105616D032C200B5F7AE /* MergerThread.m */; };
@@ -215,8 +214,6 @@
 		D7F1FF2A154D1A3300D07B58 /* NoteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoteView.h; path = ../NoteView.h; sourceTree = "<group>"; };
 		D7F1FF2B154D1A3300D07B58 /* NoteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoteView.m; path = ../NoteView.m; sourceTree = "<group>"; };
 		D7F85EAE1528D29E00F16D25 /* XoomlProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlProtocol.h; sourceTree = "<group>"; };
-		D7F85EB21528D80300F16D25 /* XoomlCollectionManifest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XoomlCollectionManifest.h; path = ../XoomlCollectionManifest.h; sourceTree = "<group>"; };
-		D7F85EB31528D80300F16D25 /* XoomlCollectionManifest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XoomlCollectionManifest.m; path = ../XoomlCollectionManifest.m; sourceTree = "<group>"; };
 		DB03C355169FEB0000C38FD7 /* CollectionSubCollectionsAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionSubCollectionsAction.h; sourceTree = "<group>"; };
 		DB03C356169FEB0000C38FD7 /* CollectionSubCollectionsAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionSubCollectionsAction.m; sourceTree = "<group>"; };
 		DB03C359169FEE6B00C38FD7 /* SubCollectionAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCollectionAction.h; sourceTree = "<group>"; };
@@ -237,8 +234,8 @@
 		DB3174FC16337636001229FE /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		DB3174FD16337636001229FE /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		DB31750216337ED7001229FE /* AuthorizationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthorizationDelegate.h; sourceTree = "<group>"; };
-		DB3FD52E16B77FA400024AC6 /* StackingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StackingModel.h; sourceTree = "<group>"; };
-		DB3FD52F16B77FA400024AC6 /* StackingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StackingModel.m; sourceTree = "<group>"; };
+		DB3FD52E16B77FA400024AC6 /* CollectionStackingAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionStackingAttribute.h; sourceTree = "<group>"; };
+		DB3FD52F16B77FA400024AC6 /* CollectionStackingAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionStackingAttribute.m; sourceTree = "<group>"; };
 		DB3FD53216B7A4D900024AC6 /* CollectionNoteAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionNoteAttribute.h; sourceTree = "<group>"; };
 		DB3FD53316B7A4D900024AC6 /* CollectionNoteAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionNoteAttribute.m; sourceTree = "<group>"; };
 		DB40DEDB16AE618F00ECAC54 /* Felt-Blue.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Felt-Blue.jpg"; sourceTree = "<group>"; };
@@ -250,8 +247,6 @@
 		DB433829169CF6CC000353DA /* SynchronizedObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SynchronizedObject.h; sourceTree = "<group>"; };
 		DB43382B169D2E09000353DA /* CachedMindCloudDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CachedMindCloudDataSource.h; sourceTree = "<group>"; };
 		DB43382C169D2E09000353DA /* CachedMindCloudDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CachedMindCloudDataSource.m; sourceTree = "<group>"; };
-		DB43389F169D4B14000353DA /* XoomlCollectionParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlCollectionParser.m; sourceTree = "<group>"; };
-		DB4338A4169E112C000353DA /* XoomlCollectionParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlCollectionParser.h; sourceTree = "<group>"; };
 		DB4338A6169E8AAF000353DA /* CollectionAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionAction.h; sourceTree = "<group>"; };
 		DB4338A7169E8AAF000353DA /* CollectionAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionAction.m; sourceTree = "<group>"; };
 		DB4D940716E31E1B007FE65A /* CollectionSharingAdapterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionSharingAdapterDelegate.h; sourceTree = "<group>"; };
@@ -286,6 +281,9 @@
 		DB7AC5E21643A9AF007756E6 /* WrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WrapController.m; path = ../WrapController.m; sourceTree = "<group>"; };
 		DB7B876317D0393F001933FA /* XoomlFragment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlFragment.h; sourceTree = "<group>"; };
 		DB7B876417D0393F001933FA /* XoomlFragment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlFragment.m; sourceTree = "<group>"; };
+		DB87A9B017D2CFD000605E6A /* NamespaceDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NamespaceDefinitions.h; sourceTree = "<group>"; };
+		DB87A9B117D2D06300605E6A /* XoomlAttributeDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlAttributeDefinitions.h; sourceTree = "<group>"; };
+		DB87A9B317D2D47100605E6A /* BoardsXoomlDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardsXoomlDefinitions.h; sourceTree = "<group>"; };
 		DB8F489F17CA8D0000DDDB2D /* MindcloudAllCollectionsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAllCollectionsDelegate.h; sourceTree = "<group>"; };
 		DB8F48A217CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAllCollectionsGordon.h; sourceTree = "<group>"; };
 		DB8F48A317CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudAllCollectionsGordon.m; sourceTree = "<group>"; };
@@ -300,6 +298,12 @@
 		DB9CA54A16BF8F2D0030B3F7 /* NamingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NamingHelper.h; sourceTree = "<group>"; };
 		DB9CA54B16BF8F2D0030B3F7 /* NamingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NamingHelper.m; sourceTree = "<group>"; };
 		DBA5B8EE1648CAFA00C68212 /* UIEditableTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIEditableTableViewDelegate.h; sourceTree = "<group>"; };
+		DBAC849617D5190F003D2B7F /* UpdateFragmentNamespaceElementNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateFragmentNamespaceElementNotification.h; sourceTree = "<group>"; };
+		DBAC849717D5190F003D2B7F /* UpdateFragmentNamespaceElementNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateFragmentNamespaceElementNotification.m; sourceTree = "<group>"; };
+		DBAC849917D5191E003D2B7F /* DeleteFragmentNamespaceElementNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteFragmentNamespaceElementNotification.h; sourceTree = "<group>"; };
+		DBAC849A17D5191E003D2B7F /* DeleteFragmentNamespaceElementNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteFragmentNamespaceElementNotification.m; sourceTree = "<group>"; };
+		DBAC849C17D519E2003D2B7F /* AddFragmentNamespaceSubElementNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFragmentNamespaceSubElementNotification.h; sourceTree = "<group>"; };
+		DBAC849D17D519E2003D2B7F /* AddFragmentNamespaceSubElementNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFragmentNamespaceSubElementNotification.m; sourceTree = "<group>"; };
 		DBB7455216F647EC0029AE72 /* CategorizationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorizationViewController.h; sourceTree = "<group>"; };
 		DBB7455316F647EC0029AE72 /* CategorizationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorizationViewController.m; sourceTree = "<group>"; };
 		DBB7455516F676E50029AE72 /* CategorizationViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorizationViewDelegate.h; sourceTree = "<group>"; };
@@ -316,22 +320,18 @@
 		DBBA28AB16CC88C6007C7B4A /* ManifestMerger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManifestMerger.m; sourceTree = "<group>"; };
 		DBBA28B016CC8B91007C7B4A /* NotificationContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationContainer.h; sourceTree = "<group>"; };
 		DBBA28B116CC8B91007C7B4A /* NotificationContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationContainer.m; sourceTree = "<group>"; };
-		DBBA28B316CCC3EC007C7B4A /* UpdateNoteNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateNoteNotification.h; sourceTree = "<group>"; };
-		DBBA28B416CCC3EC007C7B4A /* UpdateNoteNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateNoteNotification.m; sourceTree = "<group>"; };
-		DBBA28B616CCC573007C7B4A /* UpdateStackNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateStackNotification.h; sourceTree = "<group>"; };
-		DBBA28B716CCC573007C7B4A /* UpdateStackNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateStackNotification.m; sourceTree = "<group>"; };
-		DBBA28B916CCC5FD007C7B4A /* DeleteNoteNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteNoteNotification.h; sourceTree = "<group>"; };
-		DBBA28BA16CCC5FD007C7B4A /* DeleteNoteNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteNoteNotification.m; sourceTree = "<group>"; };
-		DBBA28BC16CCC62F007C7B4A /* AddNoteNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNoteNotification.h; sourceTree = "<group>"; };
-		DBBA28BD16CCC62F007C7B4A /* AddNoteNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNoteNotification.m; sourceTree = "<group>"; };
-		DBBA28BF16CCC6A8007C7B4A /* AddStackingNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddStackingNotification.h; sourceTree = "<group>"; };
-		DBBA28C016CCC6A8007C7B4A /* AddStackingNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddStackingNotification.m; sourceTree = "<group>"; };
-		DBBA28C216CCC81D007C7B4A /* DeleteStackingNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteStackingNotification.h; sourceTree = "<group>"; };
-		DBBA28C316CCC81D007C7B4A /* DeleteStackingNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteStackingNotification.m; sourceTree = "<group>"; };
-		DBBA28C516CCC84E007C7B4A /* UpdateNoteContentNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateNoteContentNotification.h; sourceTree = "<group>"; };
-		DBBA28C616CCC84E007C7B4A /* UpdateNoteContentNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateNoteContentNotification.m; sourceTree = "<group>"; };
-		DBBA28C816CCC8CC007C7B4A /* UpdateNoteImageNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateNoteImageNotification.h; sourceTree = "<group>"; };
-		DBBA28C916CCC8CC007C7B4A /* UpdateNoteImageNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateNoteImageNotification.m; sourceTree = "<group>"; };
+		DBBA28B316CCC3EC007C7B4A /* UpdateAssociationNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateAssociationNotification.h; sourceTree = "<group>"; };
+		DBBA28B416CCC3EC007C7B4A /* UpdateAssociationNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateAssociationNotification.m; sourceTree = "<group>"; };
+		DBBA28B616CCC573007C7B4A /* UpdateFragmentNamespaceSubElementNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateFragmentNamespaceSubElementNotification.h; sourceTree = "<group>"; };
+		DBBA28B716CCC573007C7B4A /* UpdateFragmentNamespaceSubElementNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateFragmentNamespaceSubElementNotification.m; sourceTree = "<group>"; };
+		DBBA28B916CCC5FD007C7B4A /* DeleteAssociationNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteAssociationNotification.h; sourceTree = "<group>"; };
+		DBBA28BA16CCC5FD007C7B4A /* DeleteAssociationNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteAssociationNotification.m; sourceTree = "<group>"; };
+		DBBA28BC16CCC62F007C7B4A /* AddAssociationNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddAssociationNotification.h; sourceTree = "<group>"; };
+		DBBA28BD16CCC62F007C7B4A /* AddAssociationNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddAssociationNotification.m; sourceTree = "<group>"; };
+		DBBA28BF16CCC6A8007C7B4A /* AddFragmentNamespaceElementNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFragmentNamespaceElementNotification.h; sourceTree = "<group>"; };
+		DBBA28C016CCC6A8007C7B4A /* AddFragmentNamespaceElementNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFragmentNamespaceElementNotification.m; sourceTree = "<group>"; };
+		DBBA28C216CCC81D007C7B4A /* DeleteFragmentNamespaceSubElementNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteFragmentNamespaceSubElementNotification.h; sourceTree = "<group>"; };
+		DBBA28C316CCC81D007C7B4A /* DeleteFragmentNamespaceSubElementNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteFragmentNamespaceSubElementNotification.m; sourceTree = "<group>"; };
 		DBBAF257160E9E5000C81C25 /* AuthenticationAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthenticationAction.h; sourceTree = "<group>"; };
 		DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthenticationAction.m; sourceTree = "<group>"; };
 		DBBAF25B160EA1D800C81C25 /* Mindcloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mindcloud.h; sourceTree = "<group>"; };
@@ -354,8 +354,8 @@
 		DBD06A9016D98F9C00463ECC /* SharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharingAction.m; sourceTree = "<group>"; };
 		DBD06A9316D9B6D100463ECC /* SharingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharingViewController.h; sourceTree = "<group>"; };
 		DBD06A9416D9B6D100463ECC /* SharingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharingViewController.m; sourceTree = "<group>"; };
-		DBD06A9616D9D51700463ECC /* MindcloudSharingAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudSharingAdapter.h; sourceTree = "<group>"; };
-		DBD06A9716D9D51700463ECC /* MindcloudSharingAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudSharingAdapter.m; sourceTree = "<group>"; };
+		DBD06A9616D9D51700463ECC /* AllCollectionsSharingAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllCollectionsSharingAdapter.h; sourceTree = "<group>"; };
+		DBD06A9716D9D51700463ECC /* AllCollectionsSharingAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllCollectionsSharingAdapter.m; sourceTree = "<group>"; };
 		DBD06A9C16DAB6F900463ECC /* SubscriptionAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscriptionAction.h; sourceTree = "<group>"; };
 		DBD06A9D16DAB6F900463ECC /* SubscriptionAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscriptionAction.m; sourceTree = "<group>"; };
 		DBD06AA216DC93BD00463ECC /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -363,7 +363,6 @@
 		DBDB105616D032C200B5F7AE /* MergerThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MergerThread.m; sourceTree = "<group>"; };
 		DBDB105816D0388200B5F7AE /* MergeResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MergeResult.h; sourceTree = "<group>"; };
 		DBDB105916D0388200B5F7AE /* MergeResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MergeResult.m; sourceTree = "<group>"; };
-		DBDB105C16D0738200B5F7AE /* CollectionContentNotificationHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionContentNotificationHandler.h; sourceTree = "<group>"; };
 		DBDB105E16D1E06800B5F7AE /* NoteFragmentResolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteFragmentResolver.h; sourceTree = "<group>"; };
 		DBDB105F16D1E06800B5F7AE /* NoteFragmentResolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteFragmentResolver.m; sourceTree = "<group>"; };
 		DBDB106116D1E08800B5F7AE /* NoteResolutionNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteResolutionNotification.h; sourceTree = "<group>"; };
@@ -457,6 +456,8 @@
 		D709472B15242BA4008E4AD9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DB87A9B217D2D44F00605E6A /* Definitions */,
+				DB7B876617D070B3001933FA /* Categories */,
 				DB4338A2169D5400000353DA /* Mixins */,
 				DB43382A169D2D86000353DA /* Models */,
 			);
@@ -599,8 +600,6 @@
 		DB225ABD164CD5B70094BFC9 /* Parsers */ = {
 			isa = PBXGroup;
 			children = (
-				DB4338A4169E112C000353DA /* XoomlCollectionParser.h */,
-				DB43389F169D4B14000353DA /* XoomlCollectionParser.m */,
 				DB225ABF164CD5D90094BFC9 /* XoomlCategoryParser.h */,
 				DB225AC0164CD5D90094BFC9 /* XoomlCategoryParser.m */,
 			);
@@ -657,18 +656,6 @@
 			name = Delegates;
 			sourceTree = "<group>";
 		};
-		DB3FC68017CDAE8C00D7AD6A /* DocumentModel */ = {
-			isa = PBXGroup;
-			children = (
-				D7F85EAE1528D29E00F16D25 /* XoomlProtocol.h */,
-				D7F85EB21528D80300F16D25 /* XoomlCollectionManifest.h */,
-				D7F85EB31528D80300F16D25 /* XoomlCollectionManifest.m */,
-				DB7B876317D0393F001933FA /* XoomlFragment.h */,
-				DB7B876417D0393F001933FA /* XoomlFragment.m */,
-			);
-			name = DocumentModel;
-			sourceTree = "<group>";
-		};
 		DB43382A169D2D86000353DA /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -676,8 +663,8 @@
 				D70947091523BDFE008E4AD9 /* CollectionNote.h */,
 				D709470A1523BDFE008E4AD9 /* CollectionNote.m */,
 				D71D934F15230B3D0043E573 /* BulletinBoardProtocol.h */,
-				DB3FD52E16B77FA400024AC6 /* StackingModel.h */,
-				DB3FD52F16B77FA400024AC6 /* StackingModel.m */,
+				DB3FD52E16B77FA400024AC6 /* CollectionStackingAttribute.h */,
+				DB3FD52F16B77FA400024AC6 /* CollectionStackingAttribute.m */,
 				DB3FD53216B7A4D900024AC6 /* CollectionNoteAttribute.h */,
 				DB3FD53316B7A4D900024AC6 /* CollectionNoteAttribute.m */,
 				DB4E25B016C78A4200E85334 /* ThumbnailManagerProtocol.h */,
@@ -745,6 +732,30 @@
 			name = ViewDeck;
 			sourceTree = "<group>";
 		};
+		DB7B876617D070B3001933FA /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		DB87A9AF17D2CFB500605E6A /* Definitions */ = {
+			isa = PBXGroup;
+			children = (
+				DB87A9B017D2CFD000605E6A /* NamespaceDefinitions.h */,
+				DB87A9B117D2D06300605E6A /* XoomlAttributeDefinitions.h */,
+			);
+			name = Definitions;
+			sourceTree = "<group>";
+		};
+		DB87A9B217D2D44F00605E6A /* Definitions */ = {
+			isa = PBXGroup;
+			children = (
+				DB87A9B317D2D47100605E6A /* BoardsXoomlDefinitions.h */,
+			);
+			name = Definitions;
+			sourceTree = "<group>";
+		};
 		DB99FFB1160E5C2D0042ED2A /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -800,6 +811,57 @@
 			name = Helpers;
 			sourceTree = "<group>";
 		};
+		DBAC849217D516FA003D2B7F /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				DBAC849517D5187B003D2B7F /* FragmentNamespaceSubElement */,
+				DBAC849417D5186F003D2B7F /* FragmentNamespaceElement */,
+				DBAC849317D5186A003D2B7F /* Association */,
+				DBBA28B016CC8B91007C7B4A /* NotificationContainer.h */,
+				DBBA28B116CC8B91007C7B4A /* NotificationContainer.m */,
+			);
+			name = Notifications;
+			sourceTree = "<group>";
+		};
+		DBAC849317D5186A003D2B7F /* Association */ = {
+			isa = PBXGroup;
+			children = (
+				DBBA28B316CCC3EC007C7B4A /* UpdateAssociationNotification.h */,
+				DBBA28B416CCC3EC007C7B4A /* UpdateAssociationNotification.m */,
+				DBBA28B916CCC5FD007C7B4A /* DeleteAssociationNotification.h */,
+				DBBA28BA16CCC5FD007C7B4A /* DeleteAssociationNotification.m */,
+				DBBA28BC16CCC62F007C7B4A /* AddAssociationNotification.h */,
+				DBBA28BD16CCC62F007C7B4A /* AddAssociationNotification.m */,
+			);
+			name = Association;
+			sourceTree = "<group>";
+		};
+		DBAC849417D5186F003D2B7F /* FragmentNamespaceElement */ = {
+			isa = PBXGroup;
+			children = (
+				DBBA28BF16CCC6A8007C7B4A /* AddFragmentNamespaceElementNotification.h */,
+				DBBA28C016CCC6A8007C7B4A /* AddFragmentNamespaceElementNotification.m */,
+				DBAC849617D5190F003D2B7F /* UpdateFragmentNamespaceElementNotification.h */,
+				DBAC849717D5190F003D2B7F /* UpdateFragmentNamespaceElementNotification.m */,
+				DBAC849917D5191E003D2B7F /* DeleteFragmentNamespaceElementNotification.h */,
+				DBAC849A17D5191E003D2B7F /* DeleteFragmentNamespaceElementNotification.m */,
+			);
+			name = FragmentNamespaceElement;
+			sourceTree = "<group>";
+		};
+		DBAC849517D5187B003D2B7F /* FragmentNamespaceSubElement */ = {
+			isa = PBXGroup;
+			children = (
+				DBBA28C216CCC81D007C7B4A /* DeleteFragmentNamespaceSubElementNotification.h */,
+				DBBA28C316CCC81D007C7B4A /* DeleteFragmentNamespaceSubElementNotification.m */,
+				DBBA28B616CCC573007C7B4A /* UpdateFragmentNamespaceSubElementNotification.h */,
+				DBBA28B716CCC573007C7B4A /* UpdateFragmentNamespaceSubElementNotification.m */,
+				DBAC849C17D519E2003D2B7F /* AddFragmentNamespaceSubElementNotification.h */,
+				DBAC849D17D519E2003D2B7F /* AddFragmentNamespaceSubElementNotification.m */,
+			);
+			name = FragmentNamespaceSubElement;
+			sourceTree = "<group>";
+		};
 		DBB9313B16AB7B5B005652AA /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -818,39 +880,21 @@
 		DBBA28A616CC7983007C7B4A /* Sharing */ = {
 			isa = PBXGroup;
 			children = (
+				DBAC849217D516FA003D2B7F /* Notifications */,
 				DBBA28A716CC7996007C7B4A /* CollectionRecorder.h */,
 				DBBA28A816CC7996007C7B4A /* CollectionRecorder.m */,
 				DBBA28AA16CC88C6007C7B4A /* ManifestMerger.h */,
 				DBBA28AB16CC88C6007C7B4A /* ManifestMerger.m */,
-				DBBA28B016CC8B91007C7B4A /* NotificationContainer.h */,
-				DBBA28B116CC8B91007C7B4A /* NotificationContainer.m */,
-				DBBA28B316CCC3EC007C7B4A /* UpdateNoteNotification.h */,
-				DBBA28B416CCC3EC007C7B4A /* UpdateNoteNotification.m */,
-				DBBA28B616CCC573007C7B4A /* UpdateStackNotification.h */,
-				DBBA28B716CCC573007C7B4A /* UpdateStackNotification.m */,
-				DBBA28B916CCC5FD007C7B4A /* DeleteNoteNotification.h */,
-				DBBA28BA16CCC5FD007C7B4A /* DeleteNoteNotification.m */,
-				DBBA28BC16CCC62F007C7B4A /* AddNoteNotification.h */,
-				DBBA28BD16CCC62F007C7B4A /* AddNoteNotification.m */,
-				DBBA28BF16CCC6A8007C7B4A /* AddStackingNotification.h */,
-				DBBA28C016CCC6A8007C7B4A /* AddStackingNotification.m */,
-				DBBA28C216CCC81D007C7B4A /* DeleteStackingNotification.h */,
-				DBBA28C316CCC81D007C7B4A /* DeleteStackingNotification.m */,
-				DBBA28C516CCC84E007C7B4A /* UpdateNoteContentNotification.h */,
-				DBBA28C616CCC84E007C7B4A /* UpdateNoteContentNotification.m */,
-				DBBA28C816CCC8CC007C7B4A /* UpdateNoteImageNotification.h */,
-				DBBA28C916CCC8CC007C7B4A /* UpdateNoteImageNotification.m */,
 				DBDB105516D032C200B5F7AE /* MergerThread.h */,
 				DBDB105616D032C200B5F7AE /* MergerThread.m */,
 				DBDB105816D0388200B5F7AE /* MergeResult.h */,
 				DBDB105916D0388200B5F7AE /* MergeResult.m */,
-				DBDB105C16D0738200B5F7AE /* CollectionContentNotificationHandler.h */,
 				DBDB105E16D1E06800B5F7AE /* NoteFragmentResolver.h */,
 				DBDB105F16D1E06800B5F7AE /* NoteFragmentResolver.m */,
 				DBDB106116D1E08800B5F7AE /* NoteResolutionNotification.h */,
 				DBDB106216D1E08900B5F7AE /* NoteResolutionNotification.m */,
-				DBD06A9616D9D51700463ECC /* MindcloudSharingAdapter.h */,
-				DBD06A9716D9D51700463ECC /* MindcloudSharingAdapter.m */,
+				DBD06A9616D9D51700463ECC /* AllCollectionsSharingAdapter.h */,
+				DBD06A9716D9D51700463ECC /* AllCollectionsSharingAdapter.m */,
 				DB601A3B16E2CFEC0007A636 /* CollectionSharingAdapter.h */,
 				DB601A3C16E2CFEC0007A636 /* CollectionSharingAdapter.m */,
 				DB4D940716E31E1B007FE65A /* CollectionSharingAdapterDelegate.h */,
@@ -861,6 +905,9 @@
 		DBBBB9B417CC5AB600081C3B /* DAO */ = {
 			isa = PBXGroup;
 			children = (
+				D7F85EAE1528D29E00F16D25 /* XoomlProtocol.h */,
+				DB7B876317D0393F001933FA /* XoomlFragment.h */,
+				DB7B876417D0393F001933FA /* XoomlFragment.m */,
 				DBBBB9B817CC67AA00081C3B /* XoomlAssociation.h */,
 				DBBBB9B917CC67AA00081C3B /* XoomlAssociation.m */,
 				DBBBB9BB17CC686900081C3B /* XoomlAssociationNamespaceElement.h */,
@@ -885,8 +932,8 @@
 		DBF1CEDA17C94A6A000777F7 /* Gordon */ = {
 			isa = PBXGroup;
 			children = (
+				DB87A9AF17D2CFB500605E6A /* Definitions */,
 				D70947131523DC27008E4AD9 /* KissXML */,
-				DB3FC68017CDAE8C00D7AD6A /* DocumentModel */,
 				DBBBB9B417CC5AB600081C3B /* DAO */,
 				DB225ABD164CD5B70094BFC9 /* Parsers */,
 				DB739C7D17CAEC16006DE2D9 /* Model */,
@@ -1052,6 +1099,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBAC849B17D5191E003D2B7F /* DeleteFragmentNamespaceElementNotification.m in Sources */,
 				DB8F48A117CAA57500DDDB2D /* main.m in Sources */,
 				D7A53D011522F39500183CB6 /* IdeaStockAppDelegate.m in Sources */,
 				D709470B1523BDFE008E4AD9 /* CollectionNote.m in Sources */,
@@ -1062,7 +1110,6 @@
 				D70947271523DC27008E4AD9 /* DDXMLNode.m in Sources */,
 				D74E48201524F3DF00BC8B9D /* AttributeHelper.m in Sources */,
 				D7B1432D1526A50400DC7556 /* MindcloudCollection.m in Sources */,
-				D7F85EB41528D80300F16D25 /* XoomlCollectionManifest.m in Sources */,
 				D7DEF2C41530D37800D13CF4 /* FileSystemHelper.m in Sources */,
 				DBF1CEDD17C94A9C000777F7 /* MindcloudCollectionGordon.m in Sources */,
 				D7BF46661547303700F06412 /* AllCollectionsViewController.m in Sources */,
@@ -1092,7 +1139,6 @@
 				DB712C87164EF678008E68C6 /* CategoriesAction.m in Sources */,
 				DB712C8B164F42D1008E68C6 /* CollectionImageAction.m in Sources */,
 				DB43382D169D2E09000353DA /* CachedMindCloudDataSource.m in Sources */,
-				DB4338A0169D4B14000353DA /* XoomlCollectionParser.m in Sources */,
 				DB4338A8169E8AAF000353DA /* CollectionAction.m in Sources */,
 				DB03C357169FEB0000C38FD7 /* CollectionSubCollectionsAction.m in Sources */,
 				DB03C35B169FEE6C00C38FD7 /* SubCollectionAction.m in Sources */,
@@ -1101,21 +1147,19 @@
 				DBB9314116ABDEA4005652AA /* CollectionAnimationHelper.m in Sources */,
 				DB4FF4CE16ACA8DB00DC6DAA /* MultimediaHelper.m in Sources */,
 				DB42E73616AE58500021D6FA /* NetworkActivityHelper.m in Sources */,
-				DB3FD53016B77FA400024AC6 /* StackingModel.m in Sources */,
+				DB3FD53016B77FA400024AC6 /* CollectionStackingAttribute.m in Sources */,
 				DB3FD53416B7A4D900024AC6 /* CollectionNoteAttribute.m in Sources */,
 				DB9CA54C16BF8F2D0030B3F7 /* NamingHelper.m in Sources */,
 				DBBA28A916CC7996007C7B4A /* CollectionRecorder.m in Sources */,
 				DBBA28AC16CC88C6007C7B4A /* ManifestMerger.m in Sources */,
 				DBBA28B216CC8B91007C7B4A /* NotificationContainer.m in Sources */,
-				DBBA28B516CCC3EC007C7B4A /* UpdateNoteNotification.m in Sources */,
-				DBBA28B816CCC574007C7B4A /* UpdateStackNotification.m in Sources */,
-				DBBA28BB16CCC5FD007C7B4A /* DeleteNoteNotification.m in Sources */,
-				DBBA28BE16CCC62F007C7B4A /* AddNoteNotification.m in Sources */,
-				DBBA28C116CCC6A8007C7B4A /* AddStackingNotification.m in Sources */,
+				DBBA28B516CCC3EC007C7B4A /* UpdateAssociationNotification.m in Sources */,
+				DBBA28B816CCC574007C7B4A /* UpdateFragmentNamespaceSubElementNotification.m in Sources */,
+				DBBA28BB16CCC5FD007C7B4A /* DeleteAssociationNotification.m in Sources */,
+				DBBA28BE16CCC62F007C7B4A /* AddAssociationNotification.m in Sources */,
+				DBBA28C116CCC6A8007C7B4A /* AddFragmentNamespaceElementNotification.m in Sources */,
 				DB8F48A417CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m in Sources */,
-				DBBA28C416CCC81D007C7B4A /* DeleteStackingNotification.m in Sources */,
-				DBBA28C716CCC84F007C7B4A /* UpdateNoteContentNotification.m in Sources */,
-				DBBA28CA16CCC8CC007C7B4A /* UpdateNoteImageNotification.m in Sources */,
+				DBBA28C416CCC81D007C7B4A /* DeleteFragmentNamespaceSubElementNotification.m in Sources */,
 				DBDB105716D032C200B5F7AE /* MergerThread.m in Sources */,
 				DBDB105A16D0388200B5F7AE /* MergeResult.m in Sources */,
 				DBBBB9BA17CC67AA00081C3B /* XoomlAssociation.m in Sources */,
@@ -1123,11 +1167,13 @@
 				DBDB106316D1E08B00B5F7AE /* NoteResolutionNotification.m in Sources */,
 				DBD06A9116D98F9C00463ECC /* SharingAction.m in Sources */,
 				DBD06A9516D9B6D100463ECC /* SharingViewController.m in Sources */,
-				DBD06A9816D9D51700463ECC /* MindcloudSharingAdapter.m in Sources */,
+				DBD06A9816D9D51700463ECC /* AllCollectionsSharingAdapter.m in Sources */,
 				DBD06A9E16DAB6F900463ECC /* SubscriptionAction.m in Sources */,
 				DB601A3916E2C2380007A636 /* ListenerAction.m in Sources */,
+				DBAC849817D5190F003D2B7F /* UpdateFragmentNamespaceElementNotification.m in Sources */,
 				DBBBB9C317CC6FA700081C3B /* XoomlNamespaceElement.m in Sources */,
 				DB601A3D16E2CFED0007A636 /* CollectionSharingAdapter.m in Sources */,
+				DBAC849E17D519E2003D2B7F /* AddFragmentNamespaceSubElementNotification.m in Sources */,
 				DB4D940D16E337DB007FE65A /* TempImageAction.m in Sources */,
 				DBB7455416F647EC0029AE72 /* CategorizationViewController.m in Sources */,
 				DBBBB9C017CC6C4800081C3B /* XoomlFragmentNamespaceElement.m in Sources */,

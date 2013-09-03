@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "NoteProtocol.h"
+#import "XoomlFragment.h"
+
 @interface CollectionNote : NSObject <NoteProtocol>
 
--(CollectionNote *) initWithCreationDate: (NSString *) date;
-
--(CollectionNote *) initEmptyNoteWithID:(NSString *)noteID 
+-(CollectionNote *) initEmptyNoteWithID:(NSString *)noteID
                                    andDate: (NSString *)date;
 
 -(CollectionNote *) initWithText:(NSString *)text

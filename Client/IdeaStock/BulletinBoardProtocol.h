@@ -9,15 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "NoteProtocol.h"
 #import "CollectionNoteAttribute.h"
-#import "StackingModel.h"
+#import "CollectionStackingAttribute.h"
 
 @protocol BulletinBoardProtocol <NSObject>
 
 
 @property (nonatomic,strong) NSString * bulletinBoardName;
 
--(void) addNoteContent: (id <NoteProtocol>) note
-              andModel: (CollectionNoteAttribute *) noteModel forNoteWithID:(NSString *) noteId;
+-(void) addNoteWithContent: (id <NoteProtocol>) note
+              andCollectionAttributes: (CollectionNoteAttribute *) noteModel;
 
 -(void) addImageNoteContent:(id <NoteProtocol> )noteItem
               andModel:(CollectionNoteAttribute *) noteModel
@@ -41,7 +41,7 @@
                    withModel: (CollectionNoteAttribute *) noteModel;
 
 -(void) updateStacking:(NSString *) stackingName
-          withNewModel:(StackingModel *) stackingModel;
+          withNewModel:(CollectionStackingAttribute *) stackingModel;
 
 
 -(NSDictionary *) getAllNotesContents;
@@ -56,7 +56,7 @@
 
 -(NSArray *) getAllNoteNames;
 
--(StackingModel *) getStackModelFor:(NSString *) stackID;
+-(CollectionStackingAttribute *) getStackModelFor:(NSString *) stackID;
 
 -(NSDictionary *) getAllStackings;
 
