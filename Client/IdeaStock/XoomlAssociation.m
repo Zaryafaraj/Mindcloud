@@ -44,6 +44,19 @@
 -(id) initWithAssociatedItem:(NSString *) associatedItem
          andAssociatedItemRefId:(NSString *) refId;
 {
+    
+    self = [self initWithAssociatedItem:associatedItem];
+    if (self)
+    {
+        _refId = refId;
+        DDXMLNode * refNode = [DDXMLNode attributeWithName:ASSOCIATION_REF_ID stringValue:refId];
+        [self.element addAttribute:refNode];
+    }
+    return self;
+}
+
+-(id) initWithAssociatedItem:(NSString *) associatedItem
+{
     self = [super init];
     if (self)
     {
@@ -53,10 +66,8 @@
         _associatedItem = associatedItem;
         _displayText = associatedItem;
         _localItem = associatedItem;
-        _refId = refId;
         _associatedXooMLFragment = [NSString stringWithFormat:@"%@/XooML2.xml", associatedItem];
         DDXMLNode * idNode = [DDXMLNode attributeWithName:ASSOCIATION_ID stringValue:_ID];
-        DDXMLNode * refNode = [DDXMLNode attributeWithName:ASSOCIATION_REF_ID stringValue:refId];
         DDXMLNode * associatedItemNode = [DDXMLNode attributeWithName:ASSOCIATED_ITEM stringValue:_associatedItem];
         DDXMLNode * displayTextNode = [DDXMLNode attributeWithName:DISPLAY_TEXT stringValue:_displayText];
         DDXMLNode * localItemNode = [DDXMLNode attributeWithName:LOCAL_ITEM stringValue:_localItem];
@@ -69,11 +80,10 @@
         [self.element addAttribute:localItemNode];
         [self.element addAttribute:associatedXoomlFragmentNode];
         [self.element addAttribute:associatedXooMLDriver];
-        [self.element addAttribute:refNode];
     }
     return self;
+    
 }
-
 -(id) initSelfReferencingAssociationWithDisplayText:(NSString *) displayText andSelfId:(NSString *)ID
 {
     

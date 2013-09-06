@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "XoomlAssociationNamespaceElement.h"
 
+#define ASSOCIATED_XOOML_FRAGMENT @"associatedXooMLFragment"
+
 @interface XoomlAssociation : NSObject
 
 @property (strong, nonatomic) NSString * ID;
@@ -33,6 +35,8 @@
 
 -(id) initWithAssociatedItem:(NSString *) associatedItem
          andAssociatedItemRefId:(NSString *) refId;
+
+-(id) initWithAssociatedItem:(NSString *) associatedItem;
 
 -(id) initWithXMLString:(NSString *) xmlString;
 

@@ -18,5 +18,4 @@
 -(void) categoriesLoaded:(NSDictionary *) allCategoriesMappings;
 -(void) thumbnailLoadedForCollection:(NSString *) collectionName
                              andData:(NSData *) imgData;
--(NSData *) getCategoriesData;
 @end

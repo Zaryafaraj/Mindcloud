@@ -296,6 +296,22 @@
     }
 }
 
+-(void) removeFragmentNamespaceSubElementWithId:(NSString *) subElementId
+                                        andName:(NSString *) namespaceName
+                               fromNamespaceURL:(NSString *) namespaceURL
+{
+    NSString * xpath = [self xPathForNamespaceFragmentSubElementWithId:subElementId
+                                                               andName:namespaceName
+                                                       forNamespaceURL:namespaceURL];
+    DDXMLElement * elem = [self getSingleElementWithXPath:xpath];
+    if (elem)
+    {
+        NSUInteger index = [elem index];
+        DDXMLElement * parent = (DDXMLElement *) elem.parent;
+        [parent removeChildAtIndex:index];
+    }
+}
+
 -(void) setFragmentNamespaceSubElementWithElement:(XoomlNamespaceElement *) newNamespaceSubElement
 {
     
@@ -426,6 +442,22 @@
         NSUInteger index = [associationElem index];
         DDXMLElement * parent = (DDXMLElement *) associationElem.parent;
         [parent removeChildAtIndex:index];
+    }
+}
+
+-(void) removeAllAssociationsWithAssociatedFragmentName:(NSString *) associatedFragmentName
+{
+    NSString * xpath = [self xPathForAssociations];
+    NSArray * allAssociations = [self getAllElementsWithXPath:xpath];
+    for(DDXMLElement * association in allAssociations)
+    {
+        NSString * currentAssociatedFragmentName = [association attributeForName:ASSOCIATED_XOOML_FRAGMENT].stringValue;
+        if ([currentAssociatedFragmentName isEqualToString:associatedFragmentName])
+        {
+            NSUInteger index = [association index];
+            DDXMLElement * parent = (DDXMLElement *) association.parent;
+            [parent removeChildAtIndex:index];
+        }
     }
 }
 

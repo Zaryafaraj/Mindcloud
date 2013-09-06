@@ -464,13 +464,8 @@
     [self configureCategoriesPanel];
     [self addInitialListeners];
     
-    NSArray * allCollections = [self.model getAllCollections];
+    self.model = [[MindcloudAllCollections alloc] initWithDelegate:self];
     
-    self.model = [[MindcloudAllCollections alloc] initWithCollections:allCollections
-                                                          andDelegate:self];
-    
-    NSDictionary* dict = [self.model getAllCategoriesMappings];
-    [self.model applyCategories:dict];
     [self.categoriesController.table reloadData];
     //to synchronize the categories with reality
     [self configureCategoriesPanel];
@@ -555,7 +550,6 @@
 -(void) viewDidUnload{
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.model cleanup];
     [super viewDidUnload];
 }
 
@@ -569,7 +563,6 @@
 -(void) ApplicationHasGoneInBackground:(NSNotification *) notification
 {
     //[[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.model cleanup];
 }
 
 -(void) applicationWillEnterForeground:(NSNotification *) notification
@@ -845,7 +838,6 @@
     if ([actionName isEqualToString:DELETE_ACTION])
     {
         [self deleteCollection];
-        [self.model promiseSavingAllCategories];
         //make sure after deletion DELETE and RENAME buttons are disabled
         [self disableEditButtons];
         self.toolbar.items = self.navigateToolbar;
@@ -962,7 +954,6 @@
     {
         [self exitCategorizeMode];
     }
-    [self.model promiseSavingAllCategories];
     [self deselectAll];
     
 }

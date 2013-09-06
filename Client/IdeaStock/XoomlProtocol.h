@@ -80,6 +80,10 @@
 -(void) removeFragmentNamespaceSubElementWithName:(NSString *) subElementName
                                   forNamespaceURL:(NSString *) namespaceURL;
 
+-(void) removeFragmentNamespaceSubElementWithId:(NSString *) subElementId
+                                        andName:(NSString *) namespaceName
+                               fromNamespaceURL:(NSString *) namespaceURL;
+
 /*! If the item is there it will update it, if its not it will create a new one
     If namespaceURL doesn't have namespace fragment. It will get created
  */
@@ -107,6 +111,8 @@
 -(void) addAssociation:(XoomlAssociation *) association;
 
 -(void) removeAssociation:(NSString *) associationId;
+
+-(void) removeAllAssociationsWithAssociatedFragmentName:(NSString *) associatedFragmentName;
 
 /*! If the item is there it will update it, if its not it will create a new one
  */

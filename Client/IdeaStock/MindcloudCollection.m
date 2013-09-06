@@ -202,7 +202,7 @@
 }
 
 -(void) addNotesWithIDs: (NSArray *) noteIDs
-             toStacking:(NSString *) stackingName
+             toStacking:(NSString *) stackingId
 {
     //validate that all the notes exist
     for (NSString * noteId in noteIDs){
@@ -210,13 +210,13 @@
     }
     
     NSSet * noteRefs = [NSSet setWithArray:noteIDs];
-    CollectionStackingAttribute * stackingModel = self.stackings[stackingName];
+    CollectionStackingAttribute * stackingModel = self.stackings[stackingId];
     if (!stackingModel)
     {
-        stackingModel = [[CollectionStackingAttribute alloc] initWithName:stackingName
+        stackingModel = [[CollectionStackingAttribute alloc] initWithName:stackingId
                                                         andScale:@"1.0"
                                                        andRefIds:noteRefs];
-        self.stackings[stackingName] = stackingModel;
+        self.stackings[stackingId] = stackingModel;
     }
     else
     {
@@ -225,11 +225,10 @@
     
     for(NSString * noteId in noteIDs)
     {
-        self.noteToStackingMap[noteId] = stackingName;
+        self.noteToStackingMap[noteId] = stackingId;
     }
     
-    [self.gordonDataSource addCollectionFragmentNamespaceElementWithName:stackingName
-                                                andNamespaceElement:[stackingModel toXoomlNamespaceElement]];
+    [self.gordonDataSource addCollectionFragmentNamespaceSubElement:[stackingModel toXoomlNamespaceElement]];
 }
 
 #pragma mark - Deletion
@@ -243,7 +242,7 @@
         {
             [stackingModel deleteNotes:[NSSet setWithObject:noteId]];
             XoomlNamespaceElement * elemToUpdate = [stackingModel toXoomlNamespaceElement];
-            [self.gordonDataSource setCollectionFragmentNamespaceElementWithName:elemToUpdate.name toNamespaceElement:elemToUpdate];
+            [self.gordonDataSource setCollectionFragmentNamespaceSubElementWithNewElement:elemToUpdate];
             [self.noteToStackingMap removeObjectForKey:noteId];
         }
     }
@@ -300,38 +299,38 @@
     }
     else
     {
-        [self.gordonDataSource removeThumbnailForAssociationWithId:delNoteID];
+        //If there is no thumbnail available for the collection remove the association
+        [self.gordonDataSource removeThumbnailForCollection];
     }
 }
 
 -(void) removeNote:(NSString *) noteID
-      fromStacking:(NSString *) stackingName
+      fromStacking:(NSString *) stackingId
 {
     //if the noteId is not valid return
     if (!(self.collectionNoteAttributes)[noteID]) return;
     
-    CollectionStackingAttribute * stacking = self.stackings[stackingName];
+    CollectionStackingAttribute * stacking = self.stackings[stackingId];
     [stacking deleteNotes:[NSSet setWithObject:noteID]];
     [self.noteToStackingMap removeObjectForKey:noteID];
     
     XoomlNamespaceElement * element = [stacking toXoomlNamespaceElement];
-    [self.gordonDataSource setCollectionFragmentNamespaceElementWithName:stackingName
-                                             toNamespaceElement:element];
+    [self.gordonDataSource setCollectionFragmentNamespaceSubElementWithNewElement:element];
     
 }
 
--(void) removeStacking:(NSString *) stackingName
+-(void) removeStacking:(NSString *) stackingId
 {
     
-    CollectionStackingAttribute * stackingModel = self.stackings[stackingName];
+    CollectionStackingAttribute * stackingModel = self.stackings[stackingId];
     for(NSString * noteId in stackingModel.refIds)
     {
         [self.noteToStackingMap removeObjectForKey:noteId];
     }
     
-    [self.stackings removeObjectForKey:stackingName];
+    [self.stackings removeObjectForKey:stackingId];
     
-    [self.gordonDataSource removeCollectionFragmentNamespaceElementWithName:stackingName];
+    [self.gordonDataSource removeCollectionFragmentNamespaceSubElementWithId: stackingId fromNamespace:MINDCLOUD_BOARDS_NAMESPACE];
 }
 
 #pragma mark - Update
@@ -370,10 +369,10 @@
 
 //this is ugly as it isn't consistent and doesn't update the notes in the stacking
 //its for performance reasons
--(void) updateStacking:(NSString *) stackingName
+-(void) updateStacking:(NSString *) stackingId
           withNewModel:(CollectionStackingAttribute *) stackingModel
 {
-    CollectionStackingAttribute * oldStackingModel =  self.stackings[stackingName];
+    CollectionStackingAttribute * oldStackingModel =  self.stackings[stackingId];
     if (stackingModel.scale)
     {
         oldStackingModel.scale = stackingModel.scale;
@@ -383,7 +382,7 @@
         oldStackingModel.name = stackingModel.name;
     }
     
-    [self.gordonDataSource setCollectionFragmentNamespaceElementWithName:stackingName toNamespaceElement:[stackingModel toXoomlNamespaceElement]];
+    [self.gordonDataSource setCollectionFragmentNamespaceSubElementWithNewElement:[stackingModel toXoomlNamespaceElement]];
     
 }
 

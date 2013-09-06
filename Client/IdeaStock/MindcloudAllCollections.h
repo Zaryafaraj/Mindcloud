@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CategoryModelProtocol.h"
 #import "MindcloudAllCollectionsDelegate.h"
 #import "SynchronizedObject.h"
 #import "MindcloudAllCollectionsGordonDelegate.h"
@@ -16,12 +15,9 @@
 #define UNCATEGORIZED_KEY @"Uncategorized"
 #define ALL @"All Collections"
 
-@interface MindcloudAllCollections : NSObject <CategoryModelProtocol, MindcloudAllCollectionsGordonDelegate>
+@interface MindcloudAllCollections : NSObject <MindcloudAllCollectionsGordonDelegate>
 
 -(id) initWithDelegate:(id<MindcloudAllCollectionsDelegate>) delegate;
-
--(id) initWithCollections:(NSArray *) collections
-              andDelegate:(id<MindcloudAllCollectionsDelegate>) delegate;
 
 -(id) initWithCollections:(NSArray *)collections
             andCategories: (NSDictionary *) categories
@@ -40,16 +36,11 @@
 
 -(NSArray *) getCollectionsForCategory: (NSString *) category;
 
--(void) cleanup;
-
-//promises to save the categories at one point not neccessarily now
--(void) promiseSavingAllCategories;
-
 -(void) addCollection: (NSString *) collection toCategory: (NSString *) category;
 
 -(void) addCategory: (NSString *) category;
 
--(void) removeCollection:(NSString *) collection fromCategory: (NSString *) cateogry;
+-(void) removeInternalStructuresForCollection:(NSString *) collection fromCategory: (NSString *) cateogry;
 
 -(void) batchRemoveCollections:(NSArray *) collections
                   fromCategory:(NSString *) category;

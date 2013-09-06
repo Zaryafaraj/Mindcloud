@@ -52,7 +52,6 @@
 		DB03C357169FEB0000C38FD7 /* CollectionSubCollectionsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C356169FEB0000C38FD7 /* CollectionSubCollectionsAction.m */; };
 		DB03C35B169FEE6C00C38FD7 /* SubCollectionAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35A169FEE6C00C38FD7 /* SubCollectionAction.m */; };
 		DB03C35E169FF1F800C38FD7 /* SubCollectionImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35D169FF1F800C38FD7 /* SubCollectionImageAction.m */; };
-		DB225AC1164CD5D90094BFC9 /* XoomlCategoryParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DB225AC0164CD5D90094BFC9 /* XoomlCategoryParser.m */; };
 		DB2A587516F99865007BD78B /* BG4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB2A587416F99865007BD78B /* BG4.jpg */; };
 		DB2A587716F99B72007BD78B /* bg3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB2A587616F99B72007BD78B /* bg3.jpg */; };
 		DB3174F716336A44001229FE /* bg.001.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3174F616336A44001229FE /* bg.001.png */; };
@@ -223,9 +222,6 @@
 		DB03C360169FFD3B00C38FD7 /* EventTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EventTypes.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		DB15E9ED16E71BB80024BA4C /* SharingAwareObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharingAwareObject.h; sourceTree = "<group>"; };
 		DB15E9EE16E725DB0024BA4C /* cachedCollectionContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cachedCollectionContainer.h; sourceTree = "<group>"; };
-		DB225ABF164CD5D90094BFC9 /* XoomlCategoryParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlCategoryParser.h; sourceTree = "<group>"; };
-		DB225AC0164CD5D90094BFC9 /* XoomlCategoryParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlCategoryParser.m; sourceTree = "<group>"; };
-		DB225AC2164CD67B0094BFC9 /* CategoryModelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CategoryModelProtocol.h; sourceTree = "<group>"; };
 		DB2A587416F99865007BD78B /* BG4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = BG4.jpg; sourceTree = "<group>"; };
 		DB2A587616F99B72007BD78B /* bg3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg3.jpg; sourceTree = "<group>"; };
 		DB3174F616336A44001229FE /* bg.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.001.png; sourceTree = "<group>"; };
@@ -457,7 +453,6 @@
 			isa = PBXGroup;
 			children = (
 				DB87A9B217D2D44F00605E6A /* Definitions */,
-				DB7B876617D070B3001933FA /* Categories */,
 				DB4338A2169D5400000353DA /* Mixins */,
 				DB43382A169D2D86000353DA /* Models */,
 			);
@@ -597,15 +592,6 @@
 			name = Types;
 			sourceTree = "<group>";
 		};
-		DB225ABD164CD5B70094BFC9 /* Parsers */ = {
-			isa = PBXGroup;
-			children = (
-				DB225ABF164CD5D90094BFC9 /* XoomlCategoryParser.h */,
-				DB225AC0164CD5D90094BFC9 /* XoomlCategoryParser.m */,
-			);
-			name = Parsers;
-			sourceTree = "<group>";
-		};
 		DB31750016337E53001229FE /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -704,7 +690,6 @@
 				D7B1432C1526A50400DC7556 /* MindcloudCollection.m */,
 				DB4E0AC7163DCD3D00AB82E6 /* MindcloudAllCollections.h */,
 				DB4E0AC8163DCD3D00AB82E6 /* MindcloudAllCollections.m */,
-				DB225AC2164CD67B0094BFC9 /* CategoryModelProtocol.h */,
 				DB8F489F17CA8D0000DDDB2D /* MindcloudAllCollectionsDelegate.h */,
 			);
 			name = Models;
@@ -730,13 +715,6 @@
 				DB7AC5E21643A9AF007756E6 /* WrapController.m */,
 			);
 			name = ViewDeck;
-			sourceTree = "<group>";
-		};
-		DB7B876617D070B3001933FA /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Categories;
 			sourceTree = "<group>";
 		};
 		DB87A9AF17D2CFB500605E6A /* Definitions */ = {
@@ -935,7 +913,6 @@
 				DB87A9AF17D2CFB500605E6A /* Definitions */,
 				D70947131523DC27008E4AD9 /* KissXML */,
 				DBBBB9B417CC5AB600081C3B /* DAO */,
-				DB225ABD164CD5B70094BFC9 /* Parsers */,
 				DB739C7D17CAEC16006DE2D9 /* Model */,
 				DB03C35F169FFD2B00C38FD7 /* Types */,
 				DBBA28A616CC7983007C7B4A /* Sharing */,
@@ -1135,7 +1112,6 @@
 				DB7AC5E31643A9AF007756E6 /* IIViewDeckController.m in Sources */,
 				DB7AC5E41643A9AF007756E6 /* WrapController.m in Sources */,
 				DBFB7AE21644D5C2004049A9 /* CategoriesViewController.m in Sources */,
-				DB225AC1164CD5D90094BFC9 /* XoomlCategoryParser.m in Sources */,
 				DB712C87164EF678008E68C6 /* CategoriesAction.m in Sources */,
 				DB712C8B164F42D1008E68C6 /* CollectionImageAction.m in Sources */,
 				DB43382D169D2E09000353DA /* CachedMindCloudDataSource.m in Sources */,

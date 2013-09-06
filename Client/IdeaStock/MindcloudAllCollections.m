@@ -8,7 +8,6 @@
 
 #import "MindcloudAllCollections.h"
 #import "SharingAwareObject.h"
-#import "XoomlCategoryParser.h"
 #import "MindcloudAllCollectionsGordon.h"
 
 @interface MindcloudAllCollections()
@@ -22,6 +21,16 @@
 @end
 
 @implementation MindcloudAllCollections
+
+-(id<MindcloudAllCollectionsDelegate>) delegate
+{
+    if (_delegate != nil)
+    {
+        id<MindcloudAllCollectionsDelegate> tempDel = _delegate;
+        return tempDel;
+    }
+    return nil;
+}
 
 -(id) initWithDelegate:(id<MindcloudAllCollectionsDelegate>)delegate
 {
@@ -37,32 +46,6 @@
     return self;
 }
 
--(id<MindcloudAllCollectionsDelegate>) delegate
-{
-    if (_delegate != nil)
-    {
-        id<MindcloudAllCollectionsDelegate> tempDel = _delegate;
-        return tempDel;
-    }
-    return nil;
-}
-
--(id) initWithCollections:(NSArray *)collections
-              andDelegate:(id<MindcloudAllCollectionsDelegate>)delegate
-{
-    self = [self initWithDelegate:delegate];
-    [self reloadCollectionsWithNewCollections:collections];
-    return self;
-}
-
--(void) reloadCollectionsWithNewCollections:(NSArray *) collections
-{
-    self.collections[ALL] = [collections mutableCopy];
-    self.collections[UNCATEGORIZED_KEY] = [collections mutableCopy];
-    self.collections[SHARED_COLLECTIONS_KEY] = [NSMutableArray array];
-    
-}
-
 -(id) initWithCollections:(NSArray *)collections
             andCategories: (NSDictionary *) categories
               andDelegate:(id<MindcloudAllCollectionsDelegate>) delegate;
@@ -75,14 +58,13 @@
 -(void) applyCategories:(NSDictionary *)categories
 {
     [self applyCategories:categories toCollections:self.collections[UNCATEGORIZED_KEY]];
-    [self.gordonDataSource promiseSavingCategories];
 }
 
--(void) addCollection: (NSString *) collection toCategory: (NSString *) category
+-(void) addCollection: (NSString *) collection
+           toCategory: (NSString *) category
 {
-    
-    
     [self.gordonDataSource addCollectionWithName:collection];
+    
     if (self.collections[category]) [self.collections[category] insertObject:collection atIndex:0];
     else self.collections[category] = [NSMutableArray arrayWithObject:collection];
     
@@ -111,11 +93,14 @@
         ![category isEqualToString:SHARED_COLLECTIONS_KEY]){
         self.collections[category] = [NSMutableArray array];
     }
-    [self.gordonDataSource promiseSavingCategories];
+    [self.gordonDataSource addEmptyCategory:category];
 }
 
--(void) batchRemoveCollections:(NSArray *) collections fromCategory:(NSString *) category
+-(void) batchRemoveCollections:(NSArray *) collections
+                  fromCategory:(NSString *) category
 {
+    //deleting something in the category will cause it to get deleted forever
+    //to move between categories we use the move method
     for(NSString * collectionName in collections)
     {
         if (collectionName)
@@ -125,15 +110,24 @@
         }
     }
     
-    //we now delete the model so we don't mess it up when we are querying it for collectionNames
+    [self.gordonDataSource removeFromCategory:category collectionsWithName:collections];
+    
+    //a shared collection belongs to two categories so make sure you delete it from shared category too
+    //remove it from internal data strcutures
     for(NSString * collectionName in collections)
     {
-        [self removeCollection:collectionName fromCategory:category];
+        if ([self.collections[SHARED_COLLECTIONS_KEY] containsObject:collectionName])
+        {
+            [self.gordonDataSource removeFromCategory:SHARED_COLLECTIONS_KEY collectionsWithName:@[collectionName]];
+        }
+        [self removeInternalStructuresForCollection:collectionName fromCategory:category];
     }
 }
 
--(void) removeCollection:(NSString *) collection fromCategory: (NSString *) cateogry
+-(void) removeInternalStructuresForCollection:(NSString *) collection
+                                 fromCategory: (NSString *) cateogry
 {
+    //make sure we remove the collection from the data structures
     if (self.collections[cateogry])
     {
         if ([self.collections[cateogry] containsObject:collection])
@@ -149,15 +143,15 @@
     //if the deleted from all we need to delete it from the corresponding category
     if ([cateogry isEqualToString:ALL])
     {
-        for (NSString * category in self.collections)
+        for (NSString * otherCategory in self.collections)
         {
-            if (self.collections[category] == nil)
+            if (self.collections[otherCategory] == nil)
             {
                 NSLog(@"Null pointer in the collcetion Model");
                 return;
             }
             
-            [self.collections[category] removeObject:collection];
+            [self.collections[otherCategory] removeObject:collection];
         }
     }
     //if we deleted from something other than all we need to delete it from all and shared
@@ -172,8 +166,7 @@
 {
     //you can't remove the default categories
     if ([category isEqualToString:UNCATEGORIZED_KEY] ||
-        [category isEqualToString:ALL] ||
-        [category isEqualToString:SHARED_COLLECTIONS_KEY])
+        [category isEqualToString:ALL])
     {
         return;
     }
@@ -186,7 +179,7 @@
     
     [self.collections removeObjectForKey:category];
     
-    [self.gordonDataSource promiseSavingCategories];
+    [self.gordonDataSource removeCategory:category];
     
 }
 
@@ -237,20 +230,11 @@
     return [self.gordonDataSource getAllCategoriesMappings];
 }
 
--(void) cleanup
-{
-    [self.gordonDataSource cleanup];
-}
-
 -(void) refresh
 {
     [self.gordonDataSource refresh];
 }
 
--(void) promiseSavingAllCategories
-{
-    [self.gordonDataSource promiseSavingCategories];
-}
 -(NSArray *) getEditableCategories
 {
     
@@ -311,7 +295,7 @@
         [self.collections removeObjectForKey:category];
     }
     
-    [self.gordonDataSource promiseSavingCategories];
+    [self.gordonDataSource renameCategory:category toNewName:newCategory];
 }
 
 -(void) renameCollection:(NSString *)collection
@@ -350,7 +334,8 @@
             self.collectionImages[newCollection] = tempImgData;
         }
     }
-    
+    //no need to update gordon categories since renaming of the collection will
+    //take care of it
 }
 
 -(void) moveCollection:(NSString *)collectionName
@@ -364,9 +349,13 @@
         
         [self.collections[newCategory] addObject:collectionName];
         //you can't move stuff from all categories
+        //only update gordon for actual categories : ALL & UNCATEGORIZED are conceptual
         if (![oldCategory isEqualToString:ALL])
         {
             [self.collections[oldCategory] removeObject:collectionName];
+            [self.gordonDataSource moveCollection:collectionName
+                                  fromOldCategory:oldCategory
+                                    toNewCategory:newCategory];
         }
         else
         {
@@ -376,6 +365,8 @@
     }
 }
 
+/*! Categorises the collections based on the categories passed in.
+ categories is a map keyed on categoryName and valued on an array of collectionNames belonging to the category */
 -(void) applyCategories:(NSDictionary *)categories
           toCollections: (NSArray *) collections
 {
@@ -513,9 +504,25 @@
 
 #pragma mark notification events
 
+-(void) createSharedCategoryIfNeccessaryWithCollection:(NSString *) collectionName
+{
+    //if we never had a shared category first create it
+    if (self.collections[SHARED_COLLECTIONS_KEY] == nil)
+    {
+        self.collections[SHARED_COLLECTIONS_KEY] = [NSMutableArray array];
+    }
+    
+    if ([self.collections[SHARED_COLLECTIONS_KEY] count] == 0)
+    {
+        [self.gordonDataSource addCategory:SHARED_COLLECTIONS_KEY withCollections:@[collectionName]];
+    }
+    
+}
 -(void) collectionGotShared:(NSString *) collectionName
                  withSecret:(NSString *)secret
 {
+    
+    [self createSharedCategoryIfNeccessaryWithCollection:collectionName];
     id<MindcloudAllCollectionsDelegate> tempDel = self.delegate;
     [self moveCollection:collectionName fromCategory:[tempDel activeCategory]
            toNewCategory:SHARED_COLLECTIONS_KEY];
@@ -528,7 +535,11 @@
 
 -(void) collectionsLoaded:(NSArray *) allCollections
 {
-    [self reloadCollectionsWithNewCollections:allCollections];
+    if (allCollections == nil) return;
+    self.collections[ALL] = [allCollections mutableCopy];
+    self.collections[UNCATEGORIZED_KEY] = [allCollections mutableCopy];
+    self.collections[SHARED_COLLECTIONS_KEY] = [NSMutableArray array];
+    
     id <MindcloudAllCollectionsDelegate> tempDel = self.delegate;
     if (tempDel)
     {
@@ -540,8 +551,6 @@
 {
     [self applyCategories:allCategoriesMappings];
     
-    //We have now merged. Save the result of the merge
-    [self.gordonDataSource saveCategories];
     id <MindcloudAllCollectionsDelegate> tempDel = self.delegate;
     if (tempDel)
     {
@@ -575,6 +584,7 @@
 -(void) subscribedToSharingSpaceForCollection:(NSString *) collectionName
 {
     
+    [self createSharedCategoryIfNeccessaryWithCollection:collectionName];
     id <MindcloudAllCollectionsDelegate> tempDel = self.delegate;
     if (self.collections[SHARED_COLLECTIONS_KEY])
     {
@@ -606,32 +616,6 @@
             [tempDel subscribedToCollectionWithName:collectionName];
         }
     }
-}
-
-#pragma mark CategoryModelProtocol
--(NSArray *)getAllSerializableCategories
-{
-    NSMutableArray * serializableCategories = [[self.collections allKeys] mutableCopy];
-    [serializableCategories removeObject:ALL];
-    [serializableCategories removeObject:UNCATEGORIZED_KEY];
-    return [serializableCategories copy];
-}
-
--(NSArray *) getSerializableCollectionsForCategory:(NSString *)category
-{
-    if (self.collections[category] == nil)
-    {
-        return [NSArray array];
-    }
-    else
-    {
-        return [self getCollectionsForCategory:category];
-    }
-}
-
--(NSData *) getCategoriesData
-{
-    return [XoomlCategoryParser serializeToXooml:self];
 }
 
 @end

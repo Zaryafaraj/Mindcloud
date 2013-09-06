@@ -19,11 +19,15 @@
 #define ITEM_DESCRIBED_NAME @"itemDescribed"
 #define FRAGMENT_NAMESPACE_DATA @"fragmentNamespaceData"
 #define THUMBNAIL_ELEMENT_NAME @"thumbnail"
+#define CATEGORY_SUB_ELEMENT_NAME @"category"
+#define CATEGORY_NAME_ATTRIBUTE @"categoryName"
 #define THUMBNAIL_REF_ID @"refId"
 #define XMLNS_NAME @"xmlns"
 #define GUID_NAME @"GUIDGeneratedOnLastWrite"
 #define FRAGMENT_NAME @"fragment"
 #define ITEM_ID @"ID"
 #define ASSOCIATION_NAME @"association"
+#define REF_ID @"refId"
+#define REFERENCE_ELEMENT @"reference"
 
 @end

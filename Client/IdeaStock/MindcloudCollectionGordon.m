@@ -143,7 +143,7 @@ CachedObject> dataSource;
         
         //In any case listen for the download to get finished
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(collectionAssociatedItemsDownloaded:)
+                                                 selector:@selector(collectionDownloaded:)
                                                      name:COLLECTION_DOWNLOADED_EVENT
                                                    object:nil];
         
@@ -182,13 +182,13 @@ CachedObject> dataSource;
     return self;
 }
 
--(NSString *) getImagePathForAssociationWithName:(NSString *) associationName
-{
-    
-    NSString * imagePath = [self.dataSource getImagePathForAssociatedItem:associationName
-                                                            andCollection:self.collectionName];
-    return imagePath;
-}
+
+
+
+
+/*===============================================*/
+#pragma mark - Association
+/*===============================================*/
 
 -(void) addAssociationWithName:(NSString *) associationName
              andAssociatedItem:(XoomlFragment *) associatedItemFragment
@@ -233,46 +233,6 @@ CachedObject> dataSource;
     self.needSynchronization = YES;
 }
 
--(XoomlNamespaceElement *) createThumbnailNamespaceElementWithRefId:(NSString *) refId
-{
-    XoomlNamespaceElement * thumbnail = [[XoomlNamespaceElement alloc] initWithName:THUMBNAIL_ELEMENT_NAME
-                                                                 andParentNamespace: MINDCLOUD_XMLNS];
-    [thumbnail addAttributeWithName:THUMBNAIL_REF_ID andValue:refId];
-    return thumbnail;
-}
-
--(void) addCollectionFragmentNamespaceElementWithName:(NSString *) namespaceElementName
-                                  andNamespaceElement:(XoomlNamespaceElement *) namespaceElement
-{
-    [self.collectionFragment addFragmentNamespaceSubElement:namespaceElement];
-    
-    XoomlFragmentNamespaceElement * fragmentNamespaceElement = [self.collectionFragment getFragmentNamespaceElementWithNamespaceURL:namespaceElement.parentNamespace
-                                                                                              thatContainsNamespaceSubElementWithId:namespaceElement.ID];
-    if (fragmentNamespaceElement != nil)
-    {
-        [self.recorder recordUpdateFragmentNamespaceElement:fragmentNamespaceElement.ID];
-    }
-    self.needSynchronization = YES;
-    
-    [self.recorder recordUpdateFragmentNamespaceSubElement:namespaceElement.ID];
-    NSArray * allSubElements = [namespaceElement getAllSubElements].allValues;
-    for (XoomlNamespaceElement * namespaceSubElement in allSubElements)
-    {
-        [self.recorder recordUpdateFragmentSubElementsChild:namespaceSubElement.ID];
-    }
-}
-
--(void) setCollectionThumbnailWithData:(NSData *) thumbnailData
-{
-    [self.dataSource setThumbnail:thumbnailData forCollection:self.collectionName];
-}
-
--(void) setCollectionThumbnailWithImageOfAssociation:(NSString *) associationId
-{
-    XoomlNamespaceElement * thumbnailElement = [self createThumbnailNamespaceElementWithRefId:associationId];
-    [self.collectionFragment setFragmentNamespaceSubElementWithElement:thumbnailElement];
-}
-
 -(void) setAssociatedItemWithName:(NSString *) associationName
                  toAssociatedItem:(XoomlFragment *) associatedItemFragment
 {
@@ -293,12 +253,87 @@ CachedObject> dataSource;
     [self.recorder recordUpdateAssociation:associationId];
 }
 
--(void) setCollectionFragmentNamespaceElementWithName:(NSString *) namespaceElementName
-                                   toNamespaceElement:(XoomlNamespaceElement *) namespaceElement
+
+-(void) removeAssociationWithId:(NSString *)associationId
+          andAssociatedItemName:(NSString *)associationName
 {
+    [self.collectionFragment removeAssociation:associationId];
+    
+    [self.dataSource removeAssociatedItem:associationName
+                           FromCollection:self.collectionName];
+    
+    [self.recorder recordDeleteAssociation:associationId];
+    self.needSynchronization = YES;
+}
+
+-(NSString *) getImagePathForAssociationWithName:(NSString *) associationName
+{
+    
+    NSString * imagePath = [self.dataSource getImagePathForAssociatedItem:associationName
+                                                            andCollection:self.collectionName];
+    return imagePath;
+}
+
+
+
+
+/*===============================================*/
+#pragma mark - FragmentNamespaceElement
+/*===============================================*/
+
+
+-(void) addCollectionFragmentNamespaceSubElement:(XoomlNamespaceElement *) namespaceElement;
+{
+    [self.collectionFragment addFragmentNamespaceSubElement:namespaceElement];
+    
+    XoomlFragmentNamespaceElement * fragmentNamespaceElement = [self.collectionFragment getFragmentNamespaceElementWithNamespaceURL:namespaceElement.parentNamespace
+                                                                                              thatContainsNamespaceSubElementWithId:namespaceElement.ID];
+    //record update of parent
+    if (fragmentNamespaceElement != nil)
+    {
+        [self.recorder recordUpdateFragmentNamespaceElement:fragmentNamespaceElement.ID];
+    }
+    
+    //record update of self
+    [self.recorder recordUpdateFragmentNamespaceSubElement:namespaceElement.ID];
+    
+    //record update of children
+    NSArray * allSubElements = [namespaceElement getAllSubElements].allValues;
+    for (XoomlNamespaceElement * namespaceSubElement in allSubElements)
+    {
+        [self.recorder recordUpdateFragmentSubElementsChild:namespaceSubElement.ID];
+    }
+    
+    self.needSynchronization = YES;
+}
+
+-(void) setCollectionThumbnailWithData:(NSData *) thumbnailData
+{
+    [self.dataSource setThumbnail:thumbnailData forCollection:self.collectionName];
+}
+
+-(void) setCollectionThumbnailWithImageOfAssociation:(NSString *) associationId
+{
+    XoomlNamespaceElement * thumbnailElement = [self createThumbnailNamespaceElementWithRefId:associationId];
+    [self.collectionFragment setFragmentNamespaceSubElementWithElement:thumbnailElement];
+}
+
+-(XoomlNamespaceElement *) createThumbnailNamespaceElementWithRefId:(NSString *) refId
+{
+    XoomlNamespaceElement * thumbnail = [[XoomlNamespaceElement alloc] initWithName:THUMBNAIL_ELEMENT_NAME
+                                                                 andParentNamespace: MINDCLOUD_XMLNS];
+    [thumbnail addAttributeWithName:THUMBNAIL_REF_ID andValue:refId];
+    return thumbnail;
+}
+
+-(void) setCollectionFragmentNamespaceSubElementWithNewElement:(XoomlNamespaceElement *) namespaceElement
+{
+    
     XoomlNamespaceElement * previousElement = [self.collectionFragment getFragmentNamespaceSubElementWithId:namespaceElement.ID
-                                                                                                    andName:namespaceElementName
+                                                                                                    andName:namespaceElement.name
                                                                                            fromNamespaceURL:namespaceElement.parentNamespace];
+    
+    //make sure we correctly record the add/deletion/udpate of self/parent/children
     NSDictionary * beforeChildren = [previousElement getAllSubElements];
     NSDictionary * afterChildren = [namespaceElement getAllSubElements];
     
@@ -351,52 +386,57 @@ CachedObject> dataSource;
     }
 }
 
--(void) removeAssociationWithId:(NSString *)associationId
-          andAssociatedItemName:(NSString *)associationName
-{
-    [self.collectionFragment removeAssociation:associationId];
-    
-    [self.dataSource removeAssociatedItem:associationName
-                           FromCollection:self.collectionName];
-    
-    [self.recorder recordDeleteAssociation:associationId];
-    self.needSynchronization = YES;
-}
 
--(void) removeThumbnailForAssociationWithId:(NSString *) associationId
+-(void) removeThumbnailForCollection
 {
     [self.collectionFragment removeFragmentNamespaceSubElementWithName:THUMBNAIL_ELEMENT_NAME forNamespaceURL:MINDCLOUD_XMLNS];
 }
 
--(void) removeCollectionFragmentNamespaceElementWithName:(NSString *) namespaceName
+-(void) removeCollectionFragmentNamespaceSubElementWithId:(NSString *) subElementId
+                                            fromNamespace:(NSString *) parentNamespaceName
 {
     //get this before deleting
-    NSArray * elementsToDel = [self.collectionFragment getFragmentNamespaceSubElementsWithName:namespaceName forNamespaceURL:MINDCLOUD_XMLNS];
+    XoomlFragmentNamespaceElement * parent = [self.collectionFragment getFragmentNamespaceElementWithNamespaceURL:parentNamespaceName
+                                                                            thatContainsNamespaceSubElementWithId:subElementId];
     
-    [self.collectionFragment removeFragmentNamespaceSubElementWithName:namespaceName forNamespaceURL:MINDCLOUD_XMLNS];
+    
+    
+    
+    //record update of parent
+    [self.recorder recordUpdateFragmentNamespaceElement:parent.ID];
+    
+    
+    NSDictionary * allSubElementsToDel = [parent getAllXoomlFragmentsNamespaceSubElements];
+    
+    if (allSubElementsToDel == nil) return;
+    
+    XoomlNamespaceElement * subElement = allSubElementsToDel[subElementId];
+    
+    //delete the subElement and record the deletion
+    [self.collectionFragment removeFragmentNamespaceSubElementWithId:subElement.ID
+                                                             andName:subElement.name
+                                                    fromNamespaceURL:subElement.parentNamespace];
+    
+    [self.recorder recordDeleteFragmentNamespaceSubElement:subElement.ID];
+    
+    
+    //record the deletion of subelement children (the actual deletion is part of deleting the subelement)
+    NSDictionary * subElementChidlren = [subElement getAllSubElements];
+    
+    for(XoomlNamespaceElement * childToDelete in subElementChidlren.allValues)
+    {
+        [self.recorder recordDeleteFragmentSubElementsChild:childToDelete.ID];
+    }
     
     self.needSynchronization = YES;
-    
-    
-    
-    for(XoomlNamespaceElement * elem in elementsToDel)
-    {
-        
-        XoomlFragmentNamespaceElement * fragmentNamespaceElement = [self.collectionFragment getFragmentNamespaceElementWithNamespaceURL:elem.parentNamespace
-                                                                                                  thatContainsNamespaceSubElementWithId:elem.ID];
-        if (fragmentNamespaceElement != nil)
-        {
-            [self.recorder recordUpdateFragmentNamespaceElement:fragmentNamespaceElement.ID];
-        }
-        
-        [self.recorder recordDeleteFragmentNamespaceSubElement:elem.ID];
-        NSArray * childrenToDelete = [elem getAllSubElements].allKeys;
-        for(NSString * childToDelete in childrenToDelete)
-        {
-            [self.recorder recordDeleteFragmentSubElementsChild:childToDelete];
-        }
-    }
 }
+
+
+
+
+/*===============================================*/
+#pragma mark - downloading
+/*===============================================*/
 
 -(void) loadOfflineCollection:(NSData *) collectionData{
     
@@ -535,7 +575,7 @@ CachedObject> dataSource;
     [self.waitingAssociatedItemImages setObject:associationId forKey:associationName];
 }
 
--(void) collectionAssociatedItemsDownloaded: (NSNotification *) notification{
+-(void) collectionDownloaded: (NSNotification *) notification{
     
     NSData * collectionData = [self.dataSource getCollectionFromCache:self.collectionName];
     if (!collectionData)
@@ -824,7 +864,7 @@ CachedObject> dataSource;
  Every SYNCHRONIZATION_PERIOD seconds we try to synchrnoize.
  If the synchronize flag is set the bulletin board is updated from Xooml Data in manifest
  */
-+(void) saveBulletinBoard:(id) collectionObj{
++(void) saveCollection:(id) collectionObj{
     
     if ([collectionObj isKindOfClass:[self class]]){
         
