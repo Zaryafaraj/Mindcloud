@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 
 import re
-import os
 from StringIO import StringIO
 import urllib
 from tornado import gen
@@ -11,6 +10,7 @@ try:
     import json
 except ImportError:
     import simplejson as json
+
 
 def format_path(path):
     """Normalize path for use with the Dropbox API.
@@ -28,6 +28,7 @@ def format_path(path):
         return (u"" if isinstance(path, unicode) else "")
     else:
         return '/' + path.strip('/')
+
 
 class DropboxClient(object):
     """
@@ -71,7 +72,7 @@ class DropboxClient(object):
             - A tuple of (url, params, headers) that should be used to make the request.
               OAuth authentication information will be added as needed within these fields.
         """
-        assert method in ['GET','POST', 'PUT'], "Only 'GET', 'POST', and 'PUT' are allowed."
+        assert method in ['GET', 'POST', 'PUT'], "Only 'GET', 'POST', and 'PUT' are allowed."
         if params is None:
             params = {}
 
@@ -120,6 +121,7 @@ class DropboxClient(object):
         """Contains the logic around a chunked upload, which uploads a
         large file to Dropbox via the /chunked_upload endpoint
         """
+
         def __init__(self, client, file_obj, length):
             self.client = client
             self.offset = 0
@@ -130,7 +132,7 @@ class DropboxClient(object):
             self.target_length = length
 
 
-        def upload_chunked(self, chunk_size = 4 * 1024 * 1024):
+        def upload_chunked(self, chunk_size=4 * 1024 * 1024):
             """Uploads data from this ChunkedUploader's file_obj in chunks, until
             an error occurs. Throws an exception when an error occurs, and can
             be called again to resume the upload.
@@ -141,11 +143,12 @@ class DropboxClient(object):
 
             while self.offset < self.target_length:
                 next_chunk_size = min(chunk_size, self.target_length - self.offset)
-                if self.last_block == None:
+                if self.last_block is None:
                     self.last_block = self.file_obj.read(next_chunk_size)
 
                 try:
-                    (self.offset, self.upload_id) = self.client.upload_chunk(StringIO(self.last_block), next_chunk_size, self.offset, self.upload_id)
+                    (self.offset, self.upload_id) = self.client.upload_chunk(StringIO(self.last_block), next_chunk_size,
+                                                                             self.offset, self.upload_id)
                     self.last_block = None
                 except ErrorResponse, e:
                     reply = e.body
@@ -180,8 +183,8 @@ class DropboxClient(object):
             path = "/commit_chunked_upload/%s%s" % (self.client.session.root, format_path(path))
 
             params = dict(
-                overwrite = bool(overwrite),
-                upload_id = self.upload_id
+                overwrite=bool(overwrite),
+                upload_id=self.upload_id
             )
 
             if parent_rev is not None:
@@ -286,11 +289,10 @@ class DropboxClient(object):
 
         params = {
             'overwrite': bool(overwrite),
-            }
+        }
 
         if parent_rev is not None:
             params['parent_rev'] = parent_rev
-
 
         url, params, headers = self.request(path, params, method='PUT', content_server=True)
 
@@ -427,7 +429,7 @@ class DropboxClient(object):
         url, params, headers = self.request(path, params)
         http = AsyncHTTPClient()
         response = yield gen.Task(http.fetch, url,
-            method='POST', headers=headers, body=urllib.urlencode(params))
+                                  method='POST', headers=headers, body=urllib.urlencode(params))
         callback(response)
 
     def file_copy(self, from_path, to_path):
@@ -457,7 +459,7 @@ class DropboxClient(object):
         params = {'root': self.session.root,
                   'from_path': format_path(from_path),
                   'to_path': format_path(to_path),
-                  }
+        }
 
         url, params, headers = self.request("/fileops/copy", params)
 
@@ -488,7 +490,7 @@ class DropboxClient(object):
 
         http = AsyncHTTPClient()
         response = yield gen.Task(http.fetch, url, method='POST', headers=headers,
-        body=urllib.urlencode(params))
+                                  body=urllib.urlencode(params))
         callback(response)
 
     @gen.engine
@@ -514,20 +516,20 @@ class DropboxClient(object):
 
         http = AsyncHTTPClient()
         response = yield gen.Task(http.fetch, url, method='POST', headers=headers,
-            body=urllib.urlencode(params))
+                                  body=urllib.urlencode(params))
         #for 503 retry three times
         counter = 0
         while response.code == 503 and counter < 3:
             counter_closure = counter
             response = yield gen.Task(http.fetch, url, method='POST', headers=headers,
-                body=urllib.urlencode(params))
-            counter_closure+=1
+                                      body=urllib.urlencode(params))
+            counter_closure += 1
             counter = counter_closure
             print counter
 
         if response.code == 503:
             response = yield gen.Task(http.fetch, url, method='POST', headers=headers,
-                body=urllib.urlencode(params))
+                                      body=urllib.urlencode(params))
         callback(response)
 
 
@@ -562,7 +564,7 @@ class DropboxClient(object):
 
         http = AsyncHTTPClient()
         response = yield gen.Task(http.fetch, url, method='POST', headers=headers,
-            body=urllib.urlencode(params))
+                                  body=urllib.urlencode(params))
         callback(response)
 
 
@@ -659,7 +661,7 @@ class DropboxClient(object):
         params = {'file_limit': file_limit,
                   'list': 'true',
                   'include_deleted': include_deleted,
-                  }
+        }
 
         if not list:
             params['list'] = 'false'
@@ -671,7 +673,7 @@ class DropboxClient(object):
         url, params, headers = self.request(path, params, method='GET')
 
         http = AsyncHTTPClient()
-        response = yield gen.Task(http.fetch, url, method ='GET', headers=headers)
+        response = yield gen.Task(http.fetch, url, method='GET', headers=headers)
         response_json = json.loads(response.body)
         callback(response_json)
 
@@ -702,7 +704,7 @@ class DropboxClient(object):
             'query': query,
             'file_limit': file_limit,
             'include_deleted': include_deleted,
-            }
+        }
 
         url, params, headers = self.request(path, params)
 
