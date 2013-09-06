@@ -14,6 +14,7 @@ __author__ = 'afathali'
 
 from Accounts import Accounts
 
+
 class StorageServer:
     """
     A static class handling all the interactions with *all* the storage services.
@@ -22,9 +23,9 @@ class StorageServer:
     __log = Log.log()
     __cache = MindcloudCache()
     __THUMBNAIL_FILENAME = 'thumbnail.jpg'
-    __CATEGORIES_FILENAME = 'categories.xml'
-    __COLLECTION_FILE_NAME = 'collection.xml'
-    __NOTE_FILE_NAME = 'note.xml'
+    __CATEGORIES_FILENAME = 'XooML2.xml'
+    __COLLECTION_FILE_NAME = 'XooML2.xml'
+    __NOTE_FILE_NAME = 'XooML2.xml'
     __NOTE_IMG_FILE_NAME = 'img.jpg'
     __EMPTY_CATEGORIES = '<?xml version="1.0" encoding="UTF-8"?><root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xooml="http://kftf.ischool.washington.edu/xmlns/xooml" xsi:schemaLocation="http://kftf.ischool.washington.edu/xmlns/xooml http://kftf.ischool.washington.edu/XMLschema/0.41/XooML.xsd"></root>'
 
@@ -47,14 +48,14 @@ class StorageServer:
             callback(storage)
         else:
             #get it from DB
-            account_info = yield gen.Task(Accounts.get_account,user_id)
+            account_info = yield gen.Task(Accounts.get_account, user_id)
             if account_info is not None:
                 key = account_info['ticket'][0]
                 secret = account_info['ticket'][1]
                 #cache it
-                account_info_json = json.dumps({'key':key, 'secret':secret})
+                account_info_json = json.dumps({'key': key, 'secret': secret})
                 yield gen.Task(StorageServer.__cache.set_user_info,
-                    user_id, account_info_json)
+                               user_id, account_info_json)
                 storage = DropboxHelper.create_client(key, secret)
                 callback(storage)
             else:
@@ -81,10 +82,10 @@ class StorageServer:
         resource_name = ''
         if resource_type == StorageResourceType.NOTE_IMG:
             resource_name = StorageServer.__NOTE_IMG_FILE_NAME
-        elif  resource_type == StorageResourceType.NOTE_MANIFEST:
+        elif resource_type == StorageResourceType.NOTE_MANIFEST:
             resource_name = StorageServer.__NOTE_FILE_NAME
 
-        storage =yield gen.Task(StorageServer.__get_storage, user_id)
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
             path = '/'.join(['', collection_name, note_name, resource_name])
             result = yield gen.Task(DropboxHelper.does_file_exist, storage, path)
@@ -107,9 +108,9 @@ class StorageServer:
 
         """
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
-        if storage is not  None:
-            result = yield gen.Task(DropboxHelper.get_folders, db_client=storage,parent_name="/",
-                user_id=user_id)
+        if storage is not None:
+            result = yield gen.Task(DropboxHelper.get_folders, db_client=storage, parent_name="/",
+                                    user_id=user_id)
             callback(result)
         else:
             callback([])
@@ -155,9 +156,9 @@ class StorageServer:
                 #automatically creates
                 parent_path = '/' + collection_name
                 result_code = yield gen.Task(DropboxHelper.add_file, storage, parent_path,
-                    file, file_name = StorageServer.__COLLECTION_FILE_NAME)
+                                             file, file_name=StorageServer.__COLLECTION_FILE_NAME)
             else:
-                result_code = yield gen.Task(DropboxHelper.create_folder,storage, collection_name)
+                result_code = yield gen.Task(DropboxHelper.create_folder, storage, collection_name)
 
             if result_code != StorageResponse.OK:
                 StorageServer.__log.info('StorageServer - Received %s from dropbox' % str(result_code))
@@ -191,9 +192,10 @@ class StorageServer:
 
                 parent_path = '/' + collection_name
                 result_code = yield gen.Task(DropboxHelper.add_file, storage, parent_path,
-                    file_closure, file_name = StorageServer.__COLLECTION_FILE_NAME)
+                                             file_closure, file_name=StorageServer.__COLLECTION_FILE_NAME)
                 if result_code != StorageResponse.OK:
-                    StorageServer.__log.info('StorageServer - received error %s for user %s from dropbox' % (str(result_code), user_id))
+                    StorageServer.__log.info(
+                        'StorageServer - received error %s for user %s from dropbox' % (str(result_code), user_id))
 
                 callback(result_code)
             else:
@@ -253,7 +255,8 @@ class StorageServer:
             result_code = yield gen.Task(DropboxHelper.delete_folder, storage, collection_name)
 
             if result_code != StorageResponse.OK:
-                StorageServer.__log.info('StorageServer - received error %s for user %s from dropbox' % (str(result_code), user_id))
+                StorageServer.__log.info(
+                    'StorageServer - received error %s for user %s from dropbox' % (str(result_code), user_id))
             callback(result_code)
         else:
             StorageServer.__log.info('StorageServer - Could not retrieve user storage for user %s' % user_id)
@@ -290,10 +293,11 @@ class StorageServer:
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
             result_code = yield gen.Task(DropboxHelper.move_folder, storage,
-                old_collection_name, new_collection_name)
+                                         old_collection_name, new_collection_name)
 
             if result_code != StorageResponse.OK:
-                StorageServer.__log.info('StorageServer - received error %s for user %s from dropbox' % (str(result_code), user_id))
+                StorageServer.__log.info(
+                    'StorageServer - received error %s for user %s from dropbox' % (str(result_code), user_id))
 
             callback(result_code)
         else:
@@ -352,10 +356,11 @@ class StorageServer:
         if storage is not None:
             file_closure = file
             response = yield gen.Task(DropboxHelper.add_file, storage, thumbnail_path,
-            file_closure, file_name=StorageServer.__THUMBNAIL_FILENAME)
+                                      file_closure, file_name=StorageServer.__THUMBNAIL_FILENAME)
 
             if response != StorageResponse.OK:
-                StorageServer.__log.info('StorageServer - received error %s for user %s from dropbox' % (str(response), user_id))
+                StorageServer.__log.info(
+                    'StorageServer - received error %s for user %s from dropbox' % (str(response), user_id))
 
             callback(response)
         else:
@@ -382,18 +387,18 @@ class StorageServer:
             if response is None:
                 categories_template_file = cStringIO.StringIO(StorageServer.__EMPTY_CATEGORIES)
                 response_code = yield gen.Task(StorageServer.save_categories, user_id,
-                    categories_template_file)
+                                               categories_template_file)
                 #If file got created successfully include it in the response
                 if response_code == StorageResponse.OK:
-                   response =  categories_template_file
+                    response = categories_template_file
                 else:
-                    StorageServer.__log.info('StorageServer - received error %s for user %s from dropbox' % (str(response_code), user_id))
+                    StorageServer.__log.info(
+                        'StorageServer - received error %s for user %s from dropbox' % (str(response_code), user_id))
                     callback(StorageResponse.SERVER_EXCEPTION)
             callback(response)
         else:
             StorageServer.__log.info('StorageServer - Could not retrieve user storage for user %s' % user_id)
             callback(StorageResponse.SERVER_EXCEPTION)
-
 
 
     @staticmethod
@@ -409,15 +414,16 @@ class StorageServer:
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
             file_closure = categories_file
-            if categories_file is None :
+            if categories_file is None:
                 StorageServer.__log.info('StorageServer - categories file empty for user %s' % user_id)
                 callback(StorageResponse.SERVER_EXCEPTION)
             else:
                 response = yield gen.Task(DropboxHelper.add_file, storage, collections_path,
-                    file_closure, file_name=StorageServer.__CATEGORIES_FILENAME)
+                                          file_closure, file_name=StorageServer.__CATEGORIES_FILENAME)
 
                 if response != StorageResponse.OK:
-                    StorageServer.__log.info('StorageServer - received error %s for user %s from dropbox' % (str(response), user_id))
+                    StorageServer.__log.info(
+                        'StorageServer - received error %s for user %s from dropbox' % (str(response), user_id))
 
                 callback(response)
         else:
@@ -439,7 +445,8 @@ class StorageServer:
             result_code = yield gen.Task(DropboxHelper.delete_folder, storage, categories_path)
 
             if result_code != StorageResponse.OK:
-                StorageServer.__log.info('StorageServer - received error %s for user %s from dropbox' % (str(result_code), user_id))
+                StorageServer.__log.info(
+                    'StorageServer - received error %s for user %s from dropbox' % (str(result_code), user_id))
             callback(result_code)
         else:
             StorageServer.__log.info('StorageServer - Could not retrieve user storage for user %s' % user_id)
@@ -459,7 +466,7 @@ class StorageServer:
             -``collection_name``: Name of the collection that the note
             will be placed inside of
             -``note_name``: Name of the note to be put in the collection
-            -``note_file``: Optional, the file to be place under note.xml
+            -``note_file``: Optional, the file to be place under XooML2.xml
              inside the note. If it is None the note directory will be empty
 
         Returns:
@@ -472,12 +479,13 @@ class StorageServer:
             parent_path = '/'.join(['', collection_name, note_name])
             if file_closure is not None:
                 result_code = yield gen.Task(DropboxHelper.add_file, storage, parent_path,
-                    note_file, file_name = StorageServer.__NOTE_FILE_NAME)
+                                             note_file, file_name=StorageServer.__NOTE_FILE_NAME)
             else:
-                result_code = yield gen.Task(DropboxHelper.create_folder,storage, parent_path)
+                result_code = yield gen.Task(DropboxHelper.create_folder, storage, parent_path)
 
             if result_code != StorageResponse.OK:
-                StorageServer.__log.info('StorageServer - received error %s for user %s from dropbox' % (str(result_code), user_id))
+                StorageServer.__log.info(
+                    'StorageServer - received error %s for user %s from dropbox' % (str(result_code), user_id))
 
             callback(result_code)
         else:
@@ -500,12 +508,13 @@ class StorageServer:
             image does not exists; is passed to the callback.
         """
 
-        note_path = '/'.join(['',collection_name, note_name, StorageServer.__NOTE_FILE_NAME])
+        note_path = '/'.join(['', collection_name, note_name, StorageServer.__NOTE_FILE_NAME])
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
             response = yield gen.Task(DropboxHelper.get_file, storage, note_path)
             if response is None:
-                StorageServer.__log.info('StorageServer - Could not retrieve file for collection %s note %s user %s' % (collection_name, note_name, user_id))
+                StorageServer.__log.info('StorageServer - Could not retrieve file for collection %s note %s user %s' % (
+                collection_name, note_name, user_id))
             callback(response)
         else:
             StorageServer.__log.info('StorageServer - Could not retrieve user storage for user %s' % user_id)
@@ -542,10 +551,11 @@ class StorageServer:
                 #hopefully this decision is made by an image viewer and not the
                 #client itself
                 result_code = yield gen.Task(DropboxHelper.add_file, storage, parent_path,
-                    file_closure, file_name=StorageServer.__NOTE_IMG_FILE_NAME)
+                                             file_closure, file_name=StorageServer.__NOTE_IMG_FILE_NAME)
 
                 if result_code != StorageResponse.OK:
-                    StorageServer.__log.info('StorageServer - received error %s for user %s from dropbox' % (str(result_code), user_id))
+                    StorageServer.__log.info(
+                        'StorageServer - received error %s for user %s from dropbox' % (str(result_code), user_id))
 
                 callback(result_code)
         else:
@@ -568,12 +578,14 @@ class StorageServer:
                 in case no img exists for that note
         """
 
-        note_path = '/'.join(['',collection_name, note_name, StorageServer.__NOTE_IMG_FILE_NAME])
+        note_path = '/'.join(['', collection_name, note_name, StorageServer.__NOTE_IMG_FILE_NAME])
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
             response = yield gen.Task(DropboxHelper.get_file, storage, note_path)
             if response is None:
-                StorageServer.__log.info('StorageServer - Could not retrieve img file for collection %s note %s user %s' % (collection_name, note_name, user_id))
+                StorageServer.__log.info(
+                    'StorageServer - Could not retrieve img file for collection %s note %s user %s' % (
+                    collection_name, note_name, user_id))
             callback(response)
         else:
             StorageServer.__log.info('StorageServer - Could not retrieve user storage for user %s' % user_id)
@@ -602,7 +614,8 @@ class StorageServer:
             result_code = yield gen.Task(DropboxHelper.delete_folder, storage, path)
 
             if result_code != StorageResponse.OK:
-                StorageServer.__log.info('StorageServer - received error %s for user %s from dropbox' % (str(result_code), user_id))
+                StorageServer.__log.info(
+                    'StorageServer - received error %s for user %s from dropbox' % (str(result_code), user_id))
 
             callback(result_code)
         else:
@@ -625,10 +638,10 @@ class StorageServer:
         """
 
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
-        path = '/' +  collection_name + '/'
-        if storage is not  None:
+        path = '/' + collection_name + '/'
+        if storage is not None:
             result = yield gen.Task(DropboxHelper.get_folders,
-                db_client=storage, parent_name=path , user_id=user_id)
+                                    db_client=storage, parent_name=path, user_id=user_id)
             callback(result)
         else:
             callback([])
@@ -659,20 +672,22 @@ class StorageServer:
         """
 
         src_storage = yield gen.Task(StorageServer.__get_storage,
-            src_user_id)
+                                     src_user_id)
         dest_storage = yield gen.Task(StorageServer.__get_storage,
-            dest_user_id)
+                                      dest_user_id)
         if src_storage is not None and dest_storage is not None:
             response_code = yield gen.Task(DropboxHelper.copy_folder_between_accounts,
-                                      src_storage,
-                                      dest_storage,
-                                      '/' + src_collection_name,
-                                      '/' + dest_collection_name)
+                                           src_storage,
+                                           dest_storage,
+                                           '/' + src_collection_name,
+                                           '/' + dest_collection_name)
             if response_code != StorageResponse.OK:
-                StorageServer.__log.info('StorageServer - received error %s for user %s  and %s from dropbox' % (str(response_code), src_user_id, dest_user_id))
+                StorageServer.__log.info('StorageServer - received error %s for user %s  and %s from dropbox' % (
+                str(response_code), src_user_id, dest_user_id))
 
             callback(response_code)
         else:
-            StorageServer.__log.info('StorageServer - Could not retrieve user storage for user %s and %s' % (src_user_id, dest_user_id))
+            StorageServer.__log.info(
+                'StorageServer - Could not retrieve user storage for user %s and %s' % (src_user_id, dest_user_id))
             callback(StorageResponse.SERVER_EXCEPTION)
 
