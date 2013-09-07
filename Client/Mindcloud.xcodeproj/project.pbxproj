@@ -56,7 +56,6 @@
 		DB2A587716F99B72007BD78B /* bg3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB2A587616F99B72007BD78B /* bg3.jpg */; };
 		DB3174F716336A44001229FE /* bg.001.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3174F616336A44001229FE /* bg.001.png */; };
 		DB3174F916336DEB001229FE /* cJOfLC.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DB3174F816336DEA001229FE /* cJOfLC.jpeg */; };
-		DB3174FB1633744F001229FE /* dropbox_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3174FA1633744F001229FE /* dropbox_icon.png */; };
 		DB3174FE16337636001229FE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3174FD16337636001229FE /* SignInViewController.m */; };
 		DB3FD53016B77FA400024AC6 /* CollectionStackingAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD52F16B77FA400024AC6 /* CollectionStackingAttribute.m */; };
 		DB3FD53416B7A4D900024AC6 /* CollectionNoteAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD53316B7A4D900024AC6 /* CollectionNoteAttribute.m */; };
@@ -73,6 +72,7 @@
 		DB54E2771645122F008A5BBB /* ButtonMenu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB54E2761645122F008A5BBB /* ButtonMenu@2x.png */; };
 		DB601A3916E2C2380007A636 /* ListenerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB601A3816E2C2380007A636 /* ListenerAction.m */; };
 		DB601A3D16E2CFED0007A636 /* CollectionSharingAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = DB601A3C16E2CFEC0007A636 /* CollectionSharingAdapter.m */; };
+		DB64030717DABE5700DC9578 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB64030617DABE5700DC9578 /* Images.xcassets */; };
 		DB6EFA0016FD91D800C36EB9 /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6EF9FF16FD91D800C36EB9 /* frame.png */; };
 		DB6EFA0216FE567200C36EB9 /* light grey2.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6EFA0116FE567200C36EB9 /* light grey2.png */; };
 		DB6EFA0416FE642900C36EB9 /* Colle.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6EFA0316FE642900C36EB9 /* Colle.png */; };
@@ -226,7 +226,6 @@
 		DB2A587616F99B72007BD78B /* bg3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg3.jpg; sourceTree = "<group>"; };
 		DB3174F616336A44001229FE /* bg.001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.001.png; sourceTree = "<group>"; };
 		DB3174F816336DEA001229FE /* cJOfLC.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cJOfLC.jpeg; sourceTree = "<group>"; };
-		DB3174FA1633744F001229FE /* dropbox_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropbox_icon.png; sourceTree = "<group>"; };
 		DB3174FC16337636001229FE /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		DB3174FD16337636001229FE /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		DB31750216337ED7001229FE /* AuthorizationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthorizationDelegate.h; sourceTree = "<group>"; };
@@ -258,6 +257,7 @@
 		DB601A3816E2C2380007A636 /* ListenerAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListenerAction.m; sourceTree = "<group>"; };
 		DB601A3B16E2CFEC0007A636 /* CollectionSharingAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionSharingAdapter.h; sourceTree = "<group>"; };
 		DB601A3C16E2CFEC0007A636 /* CollectionSharingAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionSharingAdapter.m; sourceTree = "<group>"; };
+		DB64030617DABE5700DC9578 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Mindcloud/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		DB6EF9FF16FD91D800C36EB9 /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
 		DB6EFA0116FE567200C36EB9 /* light grey2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light grey2.png"; sourceTree = "<group>"; };
 		DB6EFA0316FE642900C36EB9 /* Colle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Colle.png; sourceTree = "<group>"; };
@@ -505,6 +505,7 @@
 				D709472B15242BA4008E4AD9 /* Model */,
 				D7A53CFF1522F39500183CB6 /* IdeaStockAppDelegate.h */,
 				D7A53D001522F39500183CB6 /* IdeaStockAppDelegate.m */,
+				DB64030617DABE5700DC9578 /* Images.xcassets */,
 				D7A53CF71522F39500183CB6 /* Supporting Files */,
 			);
 			name = Mindcloud;
@@ -514,6 +515,7 @@
 		D7A53CF71522F39500183CB6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DB64030817DAC05D00DC9578 /* ButtonImages */,
 				DB6EFA0516FE708700C36EB9 /* Toolbar.png */,
 				DB6EFA0316FE642900C36EB9 /* Colle.png */,
 				DB6EFA0116FE567200C36EB9 /* light grey2.png */,
@@ -527,7 +529,6 @@
 				DB73DEE316FFDC2900269593 /* notelight5.png */,
 				DB40DEDE16AE619000ECAC54 /* Galaxy.jpg */,
 				DB54E2761645122F008A5BBB /* ButtonMenu@2x.png */,
-				DB3174FA1633744F001229FE /* dropbox_icon.png */,
 				DB3174F816336DEA001229FE /* cJOfLC.jpeg */,
 				DB3174F616336A44001229FE /* bg.001.png */,
 				D7DD09DD1571CE2700918BDF /* notelight.png */,
@@ -693,6 +694,13 @@
 				DB8F489F17CA8D0000DDDB2D /* MindcloudAllCollectionsDelegate.h */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		DB64030817DAC05D00DC9578 /* ButtonImages */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ButtonImages;
 			sourceTree = "<group>";
 		};
 		DB739C7D17CAEC16006DE2D9 /* Model */ = {
@@ -1024,9 +1032,9 @@
 				D7DD09D41571B47100918BDF /* notenoshadow.png in Resources */,
 				D7DD09DA1571CBE300918BDF /* light grey.png in Resources */,
 				D7DD09DE1571CE2800918BDF /* notelight.png in Resources */,
+				DB64030717DABE5700DC9578 /* Images.xcassets in Resources */,
 				DB3174F716336A44001229FE /* bg.001.png in Resources */,
 				DB3174F916336DEB001229FE /* cJOfLC.jpeg in Resources */,
-				DB3174FB1633744F001229FE /* dropbox_icon.png in Resources */,
 				DB54E2771645122F008A5BBB /* ButtonMenu@2x.png in Resources */,
 				DB40DEDF16AE619100ECAC54 /* Felt-Blue.jpg in Resources */,
 				DB40DEE016AE619100ECAC54 /* Leather.jpg in Resources */,
@@ -1262,6 +1270,8 @@
 		D7A53D201522F39500183CB6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1283,6 +1293,8 @@
 		D7A53D211522F39500183CB6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

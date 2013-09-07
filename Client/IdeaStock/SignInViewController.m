@@ -12,20 +12,22 @@
 
 @interface SignInViewController ()
 
-@property (atomic, strong) MindcloudAuthenticationGordon * gordonAuthorizer;
+@property (nonatomic, strong) MindcloudAuthenticationGordon * gordonAuthorizer;
 
 @end
 
 @implementation SignInViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+-(MindcloudAuthenticationGordon *) gordonAuthorizer
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if(_gordonAuthorizer == nil)
+    {
+    NSString * userID = [UserPropertiesHelper userID];
+        _gordonAuthorizer = [[MindcloudAuthenticationGordon alloc] initWithUserId:userID andDelegate:self];
     }
-    return self;
+    return _gordonAuthorizer;
 }
+
 - (IBAction)signInPressed:(id)sender
 {
     //open safari with the link to dropbox signin page
@@ -47,6 +49,7 @@
 {
     //do the authorization from background
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"signin_backgroun_pattern"]];
     NSString * userID = [UserPropertiesHelper userID];
     [self.gordonAuthorizer authorizeUser:userID];
 }
@@ -61,5 +64,10 @@
 {
     
     [self performSegueWithIdentifier:@"MainScreenSegue" sender:self];
+}
+
+-(UIStatusBarStyle) preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 @end
