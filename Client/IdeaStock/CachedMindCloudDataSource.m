@@ -190,7 +190,7 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
                  self.isCategoriesUpdated = YES;
                      [[NSNotificationCenter defaultCenter] postNotificationName:CATEGORIES_RECEIVED_EVENT
                                                                          object:self
-                                                                       userInfo:@{@"result" : categoriesData}];
+                                                                       userInfo:@{@"result" : categories}];
              }
              else{
                  NSLog(@"No Categories Received");
