@@ -54,7 +54,7 @@
                    inCategory: (NSString *) category
               toNewCollection: (NSString *) newCollection;
 
--(void) moveCollection: (NSString *) collectionName
+-(void) moveCollections: (NSArray *) collections
           fromCategory: (NSString *) oldCategory
          toNewCategory: (NSString *) newCategory;
 

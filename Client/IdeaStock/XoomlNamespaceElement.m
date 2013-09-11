@@ -8,8 +8,8 @@
 
 #import "XoomlNamespaceElement.h"
 #import "AttributeHelper.h"
-
-#define NAMESPACE_ID @"ID"
+#import "NamespaceDefinitions.h"
+#import "XoomlAttributeDefinitions.h"
 
 @interface XoomlNamespaceElement()
 
@@ -37,9 +37,12 @@
     {
         _name = name;
         _ID = [AttributeHelper generateUUID];
+        _parentNamespace = MINDCLOUD_XMLNS;
         self.element = [DDXMLElement elementWithName:name];
         DDXMLNode * elementId = [DDXMLNode attributeWithName:NAMESPACE_ID
                                                  stringValue:_ID];
+        
+        
         [self.element addAttribute:elementId];
     }
     return self;
@@ -58,6 +61,11 @@ andParentNamespace:(NSString *) parentNamespace
         self.element = [DDXMLElement elementWithName:name];
         DDXMLNode * elementId = [DDXMLNode attributeWithName:NAMESPACE_ID
                                                  stringValue:_ID];
+        
+        DDXMLNode * elementNamespace = [DDXMLNode attributeWithName:XMLNS_NAME
+                                                 stringValue:_parentNamespace];
+        
+        [self.element addAttribute:elementNamespace];
         [self.element addAttribute:elementId];
     }
     return self;
@@ -90,6 +98,14 @@ andParentNamespace:(NSString *) parentNamespace
             [self.element addAttribute:idAttribute];
         }
         _name = self.element.name;
+        
+        DDXMLNode * namespaceAttribute = [self.element attributeForName:XMLNS_NAME];
+        if (namespaceAttribute)
+        {
+            _parentNamespace = namespaceAttribute.stringValue;
+        }
+        //if there is no namespace then don't add it since the item may be a
+        //no parent element
     }
     return self;
 }
@@ -98,7 +114,7 @@ andParentNamespace:(NSString *) parentNamespace
 {
     if (self.element)
     {
-        return [self.element stringValue];
+        return [self.element XMLString];
     }
     return nil;
 }
@@ -192,7 +208,7 @@ andParentNamespace:(NSString *) parentNamespace
         NSString * elemId = [elem attributeForName:NAMESPACE_ID].stringValue;
         if (elemId && [elemId isEqualToString:subElementId])
         {
-            return [[XoomlNamespaceElement alloc] initFromXMLString:elem.stringValue];
+            return [[XoomlNamespaceElement alloc] initFromXMLString:elem.description];
         }
     }
     
@@ -212,12 +228,12 @@ andParentNamespace:(NSString *) parentNamespace
 }
 -(NSString *) description
 {
-    return [self.element stringValue];
+    return [self.element description];
 }
 
 -(NSString *) debugDescription
 {
-    return [self.element stringValue];
+    return [self.element description];
 }
 
 @end

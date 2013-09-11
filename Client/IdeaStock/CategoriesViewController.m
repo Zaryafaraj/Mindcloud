@@ -45,7 +45,6 @@
     [super viewDidLoad];
     self.table.dataSource = self.dataSource;
     self.table.delegate = self.delegate;
-    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.png"]];
     
     self.editToolbarItems = [self.viewToolbar.items copy];
     NSMutableArray * tempToolbar = [self.viewToolbar.items mutableCopy];

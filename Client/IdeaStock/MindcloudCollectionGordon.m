@@ -286,7 +286,7 @@ CachedObject> dataSource;
 {
     [self.collectionFragment addFragmentNamespaceSubElement:namespaceElement];
     
-    XoomlFragmentNamespaceElement * fragmentNamespaceElement = [self.collectionFragment getFragmentNamespaceElementWithNamespaceURL:namespaceElement.parentNamespace
+    XoomlFragmentNamespaceElement * fragmentNamespaceElement = [self.collectionFragment getFragmentNamespaceElementWithNamespaceName:namespaceElement.parentNamespace
                                                                                               thatContainsNamespaceSubElementWithId:namespaceElement.ID];
     //record update of parent
     if (fragmentNamespaceElement != nil)
@@ -331,7 +331,7 @@ CachedObject> dataSource;
     
     XoomlNamespaceElement * previousElement = [self.collectionFragment getFragmentNamespaceSubElementWithId:namespaceElement.ID
                                                                                                     andName:namespaceElement.name
-                                                                                           fromNamespaceURL:namespaceElement.parentNamespace];
+                                                                                           fromNamespace:namespaceElement.parentNamespace];
     
     //make sure we correctly record the add/deletion/udpate of self/parent/children
     NSDictionary * beforeChildren = [previousElement getAllSubElements];
@@ -364,7 +364,7 @@ CachedObject> dataSource;
     [self.collectionFragment setFragmentNamespaceSubElementWithElement:namespaceElement];
     self.needSynchronization = YES;
     
-    XoomlFragmentNamespaceElement * fragmentNamespaceElement = [self.collectionFragment getFragmentNamespaceElementWithNamespaceURL:namespaceElement.parentNamespace
+    XoomlFragmentNamespaceElement * fragmentNamespaceElement = [self.collectionFragment getFragmentNamespaceElementWithNamespaceName:namespaceElement.parentNamespace
                                                                                               thatContainsNamespaceSubElementWithId:namespaceElement.ID];
     if (fragmentNamespaceElement != nil)
     {
@@ -389,14 +389,14 @@ CachedObject> dataSource;
 
 -(void) removeThumbnailForCollection
 {
-    [self.collectionFragment removeFragmentNamespaceSubElementWithName:THUMBNAIL_ELEMENT_NAME forNamespaceURL:MINDCLOUD_XMLNS];
+    [self.collectionFragment removeFragmentNamespaceSubElementWithName:THUMBNAIL_ELEMENT_NAME forNamespace:MINDCLOUD_XMLNS];
 }
 
 -(void) removeCollectionFragmentNamespaceSubElementWithId:(NSString *) subElementId
                                             fromNamespace:(NSString *) parentNamespaceName
 {
     //get this before deleting
-    XoomlFragmentNamespaceElement * parent = [self.collectionFragment getFragmentNamespaceElementWithNamespaceURL:parentNamespaceName
+    XoomlFragmentNamespaceElement * parent = [self.collectionFragment getFragmentNamespaceElementWithNamespaceName:parentNamespaceName
                                                                             thatContainsNamespaceSubElementWithId:subElementId];
     
     
@@ -415,7 +415,7 @@ CachedObject> dataSource;
     //delete the subElement and record the deletion
     [self.collectionFragment removeFragmentNamespaceSubElementWithId:subElement.ID
                                                              andName:subElement.name
-                                                    fromNamespaceURL:subElement.parentNamespace];
+                                                    fromNamespace:subElement.parentNamespace];
     
     [self.recorder recordDeleteFragmentNamespaceSubElement:subElement.ID];
     
@@ -500,7 +500,7 @@ CachedObject> dataSource;
     //cause delegate is weak we need to do heavy checking so its not become nil
     if (self.delegate != nil)
     {
-        NSArray * allElems = [manifest getFragmentNamespaceSubElementsWithName:THUMBNAIL_ELEMENT_NAME forNamespaceURL:MINDCLOUD_XMLNS];
+        NSArray * allElems = [manifest getFragmentNamespaceSubElementsWithName:THUMBNAIL_ELEMENT_NAME forNamespace:MINDCLOUD_XMLNS];
         if (allElems == nil || [allElems count] == 0)
         {
             NSLog(@"MindcloudCollectionGordon- No thumbnail found for manifest");
@@ -523,7 +523,7 @@ CachedObject> dataSource;
 -(void) notifyDelegateOfCollectionAttributes: (id <XoomlProtocol>) manifest{
     //get the stacking information and cache them
     
-    NSArray * allFragmentNamespaceElements = [manifest getAllFragmentNamespaceSubElementsForNamespaceURL:MINDCLOUD_XMLNS];
+    NSArray * allFragmentNamespaceElements = [manifest getAllFragmentNamespaceSubElementsForNamespace:MINDCLOUD_XMLNS];
     
     for (XoomlNamespaceElement * namespaceElement in allFragmentNamespaceElements)
     {
@@ -885,7 +885,8 @@ CachedObject> dataSource;
     //only save the manifest file in case its in synch with the server
     if (self.needSynchronization && self.isInSynchWithServer){
         self.needSynchronization = NO;
-        [MindcloudCollection saveBulletinBoard: self];
+        NSData * fragmentContent = [self.collectionFragment data];
+        [self.dataSource updateCollectionWithName:self.collectionName andFragmentContent:fragmentContent];
     }
 }
 

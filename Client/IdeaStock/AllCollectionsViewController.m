@@ -127,7 +127,7 @@
         if ([newName isEqualToString:currentName]) continue;
         
         NSSet * allNames = [self.model getAllCollectionNames];
-        NSString * actualNewName = [NamingHelper validateCollectionName:currentName amongAllNames:allNames];
+        NSString * actualNewName = [NamingHelper validateCollectionName:newName amongAllNames:allNames];
         
         [self.model renameCollection:currentName
                           inCategory:self.currentCategory
@@ -195,6 +195,7 @@
 {
     [self disableEditButtons];
     [self updateCollectionView:newCategoryName];
+    self.currentCategory = newCategoryName;
     if (![self.currentCategory isEqualToString:ALL] &&
         ![self.currentCategory isEqualToString:UNCATEGORIZED_KEY] &&
         ![self.currentCategory isEqualToString:SHARED_COLLECTIONS_KEY])
@@ -934,12 +935,18 @@
         return;
     }
     
+    NSMutableArray * collectionsToMove = [NSMutableArray array];
     for(NSIndexPath * index in [self.collectionView indexPathsForSelectedItems])
     {
         CollectionCell * collectionCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:index];
         NSString * collectionName = collectionCell.text;
-        [self.model moveCollection:collectionName fromCategory:self.currentCategory toNewCategory:categoryName];
+        [collectionsToMove addObject:collectionName];
     }
+    
+    [self.model moveCollections:collectionsToMove
+                fromCategory:self.currentCategory
+                  toNewCategory:categoryName];
+    
     if (![self.currentCategory isEqual:ALL] &&
         ![self.currentCategory isEqualToString:SHARED_COLLECTIONS_KEY])
     {
@@ -953,6 +960,7 @@
     else
     {
         [self exitCategorizeMode];
+        [self swithToCategory:categoryName];
     }
     [self deselectAll];
     

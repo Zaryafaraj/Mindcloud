@@ -10,7 +10,8 @@
 
 @protocol NamespaceDefinitions <NSObject>
 
-#define MINDCLOUD_XMLNS @"http://mindcloud.io/xmlns/mindcloud"
+#define MINDCLOUD_XMLNS @"mindcloud"
+
 #define XML_XSI @"http://www.w3.org/2001/XMLSchema-instance"
 #define XOOML_XMLNS @"http://kftf.ischool.washington.edu/xmlns/xooml"
 

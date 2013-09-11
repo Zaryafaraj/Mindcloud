@@ -15,7 +15,7 @@
 
 -(void) addCollectionWithName:(NSString *) collectionName;
 
--(void) deleteCollectionWithName:(NSString *) collectionName;
+-(void) deleteCollectionsWithName:(NSArray *) collectionNames;
 
 -(void) renameCollectionWithName:(NSString *) collectionName
 
@@ -42,7 +42,7 @@
 
 -(void) renameCategory:(NSString *) categoryName toNewName:(NSString *) newCategoryName;
 
--(void) moveCollection:(NSString *) collectionToMove
+-(void) moveCollections:(NSArray *) collectionsToMove
        fromOldCategory:(NSString *) oldCategory
          toNewCategory:(NSString *) newCategory;
 

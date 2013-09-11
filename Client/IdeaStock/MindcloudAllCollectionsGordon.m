@@ -42,6 +42,7 @@
         self.dataSource = [[CachedMindCloudDataSource alloc] init];
         self.sharingAdapter = [[AllCollectionsSharingAdapter alloc] init];
         
+        self.delegate = delegate;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(collectionShared:)
                                                      name:COLLECTION_SHARED
@@ -71,7 +72,7 @@
         NSData * categoriesData = [self.dataSource getCategories];
         
         //no offline daata
-        if (categoriesData == nil)
+        if (categoriesData == nil || categoriesData.length == 0)
         {
             self.categoriesFragment = [[XoomlFragment alloc] initAsEmpty];
         }
@@ -116,12 +117,16 @@
     [self saveCategories];
 }
 
--(void) deleteCollectionWithName:(NSString *) collectionName
+-(void) deleteCollectionsWithName:(NSArray *) collectionNames
 {
-    CachedMindCloudDataSource * collectionDataSource = [CachedMindCloudDataSource getInstance:collectionName];
-    [collectionDataSource deleteCollectionFor:collectionName];
-    [self.allCollectionNames removeObject:collectionName];
-    [self.categoriesFragment removeAllAssociationsWithAssociatedFragmentName:collectionName];
+    for(NSString * collectionName in collectionNames)
+    {
+        CachedMindCloudDataSource * collectionDataSource = [CachedMindCloudDataSource getInstance:collectionName];
+        [collectionDataSource deleteCollectionFor:collectionName];
+        [self.allCollectionNames removeObject:collectionName];
+        [self.categoriesFragment removeAllAssociationsWithAssociatedFragmentName:collectionName];
+    }
+    
     [self saveCategories];
 }
 
@@ -194,10 +199,11 @@
 -(void) addToCategory:(NSString *) categoryName collectionsWithNames:(NSArray *) collectionNAmes
 {
     NSArray * allCategories = [self.categoriesFragment getFragmentNamespaceSubElementsWithName:CATEGORY_SUB_ELEMENT_NAME
-                                                                               forNamespaceURL:MINDCLOUD_XMLNS];
+                                                                                  forNamespace:MINDCLOUD_XMLNS];
     
     NSDictionary * collectionNameToAsscoiationIdMap = [self getCollectionNameToAssociationIdMap];
     
+    BOOL shouldSave = NO;
     for(XoomlNamespaceElement * category in allCategories)
     {
         NSString * searchCategoryName = [category getAttributeWithName:CATEGORY_NAME_ATTRIBUTE];
@@ -211,20 +217,23 @@
                     XoomlNamespaceElement * categoryChild = [[XoomlNamespaceElement alloc] initWithNoImmediateFragmentNamespaceParentAndName:REFERENCE_ELEMENT];
                     [categoryChild addAttributeWithName:REF_ID andValue:associationId];
                     [category addSubElement:categoryChild];
-                    [self.categoriesFragment setFragmentNamespaceSubElementWithElement:category];
-                    [self saveCategories];
-                    return;
+                    shouldSave = YES;
                 }
             }
+            [self.categoriesFragment setFragmentNamespaceSubElementWithElement:category];
         }
+        
     }
+    
+    
+    if (shouldSave) [self saveCategories];
 }
 
 -(void) removeCategory:(NSString *) categoryName
 {
     
     NSArray * allCategories = [self.categoriesFragment getFragmentNamespaceSubElementsWithName:CATEGORY_SUB_ELEMENT_NAME
-                                                                               forNamespaceURL:MINDCLOUD_XMLNS];
+                                                                                  forNamespace:MINDCLOUD_XMLNS];
     
     for(XoomlNamespaceElement * category in allCategories)
     {
@@ -234,7 +243,7 @@
         {
             [self.categoriesFragment removeFragmentNamespaceSubElementWithId:category.ID
                                                                      andName:CATEGORY_SUB_ELEMENT_NAME
-                                                            fromNamespaceURL:MINDCLOUD_XMLNS];
+                                                               fromNamespace:MINDCLOUD_XMLNS];
             
             [self saveCategories];
             return;
@@ -245,15 +254,15 @@
 -(void) removeFromCategory:(NSString *) categoryName collectionsWithName:(NSArray *) collectionNames
 {
     NSArray * allCategories = [self.categoriesFragment getFragmentNamespaceSubElementsWithName:CATEGORY_SUB_ELEMENT_NAME
-                                                                               forNamespaceURL:MINDCLOUD_XMLNS];
+                                                                                  forNamespace:MINDCLOUD_XMLNS];
     
     
     NSMutableSet * refIdsToDelete = [NSMutableSet set];
-    NSDictionary * allAssociations = [self.categoriesFragment getAllAssociations];
+    NSArray * allAssociations = [self.categoriesFragment getAllAssociations].allValues;
     NSSet * collectionNamesSet = [NSSet setWithArray:collectionNames];
     for (XoomlAssociation * association in allAssociations)
     {
-        NSString * collectionName = association.associatedXooMLFragment;
+        NSString * collectionName = association.associatedItem;
         if ([collectionNamesSet containsObject:collectionName])
         {
             [refIdsToDelete addObject:association.ID];
@@ -285,28 +294,27 @@
     
 }
 
--(void) moveCollection:(NSString *) collectionToMove
-       fromOldCategory:(NSString *) oldCategory
-         toNewCategory:(NSString *) newCategory
+-(void) moveCollections:(NSArray *) collectionsToMove
+        fromOldCategory:(NSString *) oldCategory
+          toNewCategory:(NSString *) newCategory
 {
     
     NSArray * allCategories = [self.categoriesFragment getFragmentNamespaceSubElementsWithName:CATEGORY_SUB_ELEMENT_NAME
-                                                                               forNamespaceURL:MINDCLOUD_XMLNS];
+                                                                                  forNamespace:MINDCLOUD_XMLNS];
     
     
-    NSDictionary * allAssociations = [self.categoriesFragment getAllAssociations];
-    NSString * refIdToDelete;
+    NSArray * allAssociations = [self.categoriesFragment getAllAssociations].allValues;
+    NSMutableSet * refsIdToDelete = [NSMutableSet set];
     for (XoomlAssociation * association in allAssociations)
     {
-        NSString * collectionName = association.associatedXooMLFragment;
-        if ([collectionName isEqualToString:collectionToMove])
+        NSString * collectionName = association.associatedItem;
+        if ([collectionsToMove containsObject:collectionName])
         {
-            refIdToDelete = association.ID;
-            break;
+            [refsIdToDelete addObject:association.ID];
         }
     }
     
-    if (refIdToDelete == nil) return;
+    if (refsIdToDelete == nil) return;
     
     XoomlNamespaceElement * oldCategoryElem;
     XoomlNamespaceElement * newCategoryElem;
@@ -327,29 +335,32 @@
     
     NSDictionary * categoryRefElems = [oldCategoryElem getAllSubElements];
     
+    BOOL shouldSave = NO;
     for(NSString * categoryRefId in categoryRefElems)
     {
         XoomlNamespaceElement * categoryRefElem = categoryRefElems[categoryRefId];
         NSString * categoryRefId = [categoryRefElem getAttributeWithName:REF_ID];
-        if ([refIdToDelete isEqualToString:categoryRefId])
+        if ([refsIdToDelete containsObject:categoryRefId])
         {
             [oldCategoryElem removeSubElement:categoryRefElem.ID];
             [newCategoryElem addSubElement:categoryRefElem];
             [self.categoriesFragment setFragmentNamespaceSubElementWithElement:oldCategoryElem];
             [self.categoriesFragment setFragmentNamespaceSubElementWithElement:newCategoryElem];
-            [self saveCategories];
-            break;
+            shouldSave = YES;
         }
     }
     
+    if (shouldSave) [self saveCategories];
+    
     return;
 }
+
 -(void) renameCategory:(NSString *) categoryName
              toNewName:(NSString *) newCategoryName
 {
     
     NSArray * allCategories = [self.categoriesFragment getFragmentNamespaceSubElementsWithName:CATEGORY_SUB_ELEMENT_NAME
-                                                                               forNamespaceURL:MINDCLOUD_XMLNS];
+                                                                                  forNamespace:MINDCLOUD_XMLNS];
     
     for(XoomlNamespaceElement * category in allCategories)
     {
@@ -369,7 +380,7 @@
     
     //first remove everything
     [self.categoriesFragment removeFragmentNamespaceSubElementWithName:CATEGORY_SUB_ELEMENT_NAME
-                                                       forNamespaceURL:MINDCLOUD_XMLNS];
+                                                          forNamespace:MINDCLOUD_XMLNS];
     
     //For performance reasons we update the fragmentNamespaceElement instead of updating individual sub category subelements
     NSDictionary * allFragmentNamespaceElemts =[self.categoriesFragment getAllFragmentNamespaceElements];
@@ -378,7 +389,7 @@
     {
         //since we should only have one namespace element for mindcloud stop at the first one and return after
         //operation is finished
-        if([fragmentNamespaceElem.namespaceURL isEqualToString:MINDCLOUD_XMLNS])
+        if([fragmentNamespaceElem.namespaceName isEqualToString:MINDCLOUD_XMLNS])
         {
             //if its our namespace add the categories here
             NSDictionary * collectionNameToAsscoiationIdMap = [self getCollectionNameToAssociationIdMap];
@@ -400,8 +411,7 @@
                 [fragmentNamespaceElem addSubElement:categoryElem];
             }
             //now do the update
-            [self.categoriesFragment setFragmentNamespaceElementWithId:fragmentNamespaceElem.ID
-                                                           withElement:fragmentNamespaceElem];
+            [self.categoriesFragment setFragmentNamespaceElement:fragmentNamespaceElem];
             [self saveCategories];
             return;
         }
@@ -412,11 +422,11 @@
 {
     NSMutableDictionary * collectionNameToAsscoiationIdMap = [NSMutableDictionary dictionary];
     
-    NSDictionary * allAssociations = [self.categoriesFragment getAllAssociations];
+    NSArray * allAssociations = [self.categoriesFragment getAllAssociations].allValues;
     
     for (XoomlAssociation * association in allAssociations)
     {
-        NSString * collectionName = association.associatedXooMLFragment;
+        NSString * collectionName = association.associatedItem;
         collectionNameToAsscoiationIdMap[collectionName] = association.ID;
     }
     return collectionNameToAsscoiationIdMap;
@@ -483,13 +493,18 @@
     
     self.allCollectionNames = [NSMutableSet setWithArray:allCollections];
     
-    [self consolidateCategoriesAndCollections];
+    BOOL needsSaving = [self consolidateCategoriesAndCollections];
     
+    if (needsSaving)
+    {
+        [self saveCategories];
+    }
     id<MindcloudAllCollectionsGordonDelegate> tempDel = self.delegate;
     if (tempDel)
     {
         [tempDel collectionsLoaded:allCollections];
-        
+        NSDictionary * catMapping = [self getAllCategoriesMappings];
+        [tempDel categoriesLoaded:catMapping];
     }
 }
 
@@ -498,7 +513,7 @@
     
     NSData * categoriesData = notification.userInfo[@"result"];
     
-    if (categoriesData != nil)
+    if (categoriesData != nil && categoriesData.length != 0)
     {
         NSString * fragmentXML = [[NSString alloc] initWithData:categoriesData encoding:NSUTF8StringEncoding];
         self.categoriesFragment = [[XoomlFragment alloc] initWithXMLString:fragmentXML];
@@ -508,7 +523,9 @@
         self.categoriesFragment = [[XoomlFragment alloc] initAsEmpty];
     }
     
-    [self consolidateCategoriesAndCollections];
+    [self consolidateCategoriesAndCollections] ;
+    //always save the last categories received
+    [self saveCategories];
     
     id<MindcloudAllCollectionsGordonDelegate> tempDel = self.delegate;
     if (tempDel)
@@ -522,20 +539,21 @@
 /*! Makes sure that there is an association in categories XML to each collection so that they are in sync.
  Doesn't destory existing associations
  */
--(void) consolidateCategoriesAndCollections
+-(BOOL) consolidateCategoriesAndCollections
 {
     
+    BOOL needsSaving = NO;
     //All collections/categories  haven't been received yet, return and wait for consolodiation to happen when they are received
     if (self.allCollectionNames == nil || [self.allCollectionNames count] == 0|| self.categoriesFragment == nil)
     {
-        return;
+        return needsSaving;
     }
     
-    NSDictionary * allAssociations = [self.categoriesFragment getAllAssociations];
+    NSArray * allAssociations = [self.categoriesFragment getAllAssociations].allValues;
     NSMutableSet * allCollectionNamesInCategoriesFragment = [NSMutableSet set];
     for(XoomlAssociation * association in allAssociations)
     {
-        NSString * collectionName = association.associatedXooMLFragment;
+        NSString * collectionName = association.associatedItem;
         [allCollectionNamesInCategoriesFragment addObject:collectionName];
     }
     
@@ -548,7 +566,7 @@
         XoomlAssociation * association = [[XoomlAssociation alloc] initWithAssociatedItem:collectionName];
         [self.categoriesFragment addAssociation:association];
     }
-    
+    return collectionsNotInCategoriesFragment != 0;
 }
 
 /*! Returns a dictionary of arrays. Each key is a categoryName and each value is an array of collectionNames
@@ -563,7 +581,7 @@
     
     NSDictionary * allAssociatoins = [self.categoriesFragment getAllAssociations];
     NSArray * allSubElements = [self.categoriesFragment getFragmentNamespaceSubElementsWithName:CATEGORY_SUB_ELEMENT_NAME
-                                                                                forNamespaceURL:MINDCLOUD_XMLNS];
+                                                                                   forNamespace:MINDCLOUD_XMLNS];
     for (XoomlNamespaceElement * subElement in allSubElements)
     {
         NSString * categoryName = [subElement getAttributeWithName:CATEGORY_NAME_ATTRIBUTE];
@@ -575,7 +593,7 @@
         else
         {
             NSMutableArray * collectionNamesInCategory = [NSMutableArray array];
-            for(XoomlNamespaceElement * child in allSubElementChildren)
+            for(XoomlNamespaceElement * child in allSubElementChildren.allValues)
             {
                 NSString * refId = [child getAttributeWithName:REF_ID];
                 if (refId)
@@ -583,7 +601,7 @@
                     XoomlAssociation * referencedAssociation = allAssociatoins[refId];
                     if (referencedAssociation)
                     {
-                        NSString * collectionName = referencedAssociation.associatedXooMLFragment;
+                        NSString * collectionName = referencedAssociation.associatedItem;
                         if (collectionName)
                         {
                             [collectionNamesInCategory addObject:collectionName];

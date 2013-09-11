@@ -295,7 +295,7 @@
     NSMutableSet * subElementsInBoth = [NSMutableSet setWithSet:clientSubElementIds];
     [subElementsInBoth intersectSet:serverSubElementIds];
     
-    XoomlFragmentNamespaceElement * result = [[XoomlFragmentNamespaceElement alloc] initWithNamespaceURL:clientParent.namespaceURL];
+    XoomlFragmentNamespaceElement * result = [[XoomlFragmentNamespaceElement alloc] initWithNamespaceName:clientParent.namespaceName];
     result.ID = ID;
     
     
@@ -534,7 +534,7 @@
 {
     for(XoomlFragmentNamespaceElement * elem in allFragmentNamespaces)
     {
-        if ([elem.namespaceURL isEqualToString:MINDCLOUD_XMLNS])
+        if ([elem.namespaceName isEqualToString:MINDCLOUD_XMLNS])
         {
             NSArray * allSubElements = [elem getAllXoomlFragmentsNamespaceSubElements].allValues;
             for(XoomlNamespaceElement * possibleThumbnail in allSubElements)

@@ -49,22 +49,15 @@
 
 -(void) addFragmentNamespaceElement:(XoomlFragmentNamespaceElement *) namespaceElement;
 
--(void) removeFragmentNamespaceElement:(NSString *) namespaceId;
-
-
 /*! If the item is there it will update it, if its not it will create a new one
  */
--(void) setFragmentNamespaceElementWithId:(NSString *) namespaceElementId
-                               withElement:(XoomlFragmentNamespaceElement *) newNamespaceElement;
+-(void) setFragmentNamespaceElement:(XoomlFragmentNamespaceElement *) newNamespaceElement;
 
 /*! Keyed on fragmentId and valued on XoomlFragmentNamespaceElement objects
  */
 -(NSDictionary *) getAllFragmentNamespaceElements;
 
--(XoomlFragmentNamespaceElement *) getFragmentNamespaceElementWithId:(NSString *) namespaceId;
-
-
--(XoomlFragmentNamespaceElement *) getFragmentNamespaceElementWithNamespaceURL:(NSString *) namespaceName
+-(XoomlFragmentNamespaceElement *) getFragmentNamespaceElementWithNamespaceName:(NSString *) namespaceName
                    thatContainsNamespaceSubElementWithId:(NSString *) namespaceSubElementId;
 
 
@@ -73,32 +66,32 @@
 #pragma mark - Fragment NamespaceData SubElement
 //============================Fragment Namespace Data SubElement
 
-/*! If the namespaceURL doesn't have namespace fragment it will get created
+/*! If the namespace doesn't have namespace fragment it will get created
  */
 -(void) addFragmentNamespaceSubElement:(XoomlNamespaceElement *) subElement;
 
 -(void) removeFragmentNamespaceSubElementWithName:(NSString *) subElementName
-                                  forNamespaceURL:(NSString *) namespaceURL;
+                                  forNamespace:(NSString *) namespaceName;
 
 -(void) removeFragmentNamespaceSubElementWithId:(NSString *) subElementId
                                         andName:(NSString *) namespaceName
-                               fromNamespaceURL:(NSString *) namespaceURL;
+                               fromNamespace:(NSString *) namespaceName;
 
 /*! If the item is there it will update it, if its not it will create a new one
-    If namespaceURL doesn't have namespace fragment. It will get created
+    If namespace doesn't have namespace fragment. It will get created
  */
 -(void) setFragmentNamespaceSubElementWithElement:(XoomlNamespaceElement *) newNamespaceSubElement;
 
 
 //All the subelements of fragmentNamespaceData that have a specified name
 -(NSArray *) getFragmentNamespaceSubElementsWithName:(NSString *) namespaceDataName
-                                     forNamespaceURL:(NSString *) namespaceURL;
+                                     forNamespace:(NSString *) namespaceName;
 
--(NSArray *) getAllFragmentNamespaceSubElementsForNamespaceURL:(NSString *) namespaceURL;
+-(NSArray *) getAllFragmentNamespaceSubElementsForNamespace:(NSString *) namespaceName;
 
 -(XoomlNamespaceElement *) getFragmentNamespaceSubElementWithId: (NSString *) subElementId
                                                         andName:(NSString *) namespaceDataName
-                                               fromNamespaceURL:(NSString *) namespaceURL;
+                                               fromNamespace:(NSString *) namespaceName;
 
 
 

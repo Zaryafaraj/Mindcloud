@@ -251,7 +251,7 @@
     
     for (DDXMLElement * elem in self.element.children)
     {
-        XoomlAssociationNamespaceElement * namespaceElement = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.stringValue];
+        XoomlAssociationNamespaceElement * namespaceElement = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.description];
         result[namespaceElement.ID] = namespaceElement;
     }
     
@@ -277,7 +277,7 @@
     
     for (DDXMLElement * elem in self.element.children)
     {
-        XoomlAssociationNamespaceElement * namespaceElement = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.stringValue];
+        XoomlAssociationNamespaceElement * namespaceElement = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.description];
         if ([namespaceElement.ID isEqualToString:namespaceId])
         {
             return namespaceElement;
@@ -296,7 +296,7 @@
     
     for (DDXMLElement * elem in self.element.children)
     {
-        XoomlAssociationNamespaceElement * namespaceElement = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.stringValue];
+        XoomlAssociationNamespaceElement * namespaceElement = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.description];
         if ([namespaceElement.ID isEqualToString:ID])
         {
             found = YES;
@@ -311,4 +311,10 @@
 {
     return self.isSelfReferncing;
 }
+
+-(NSString *) description
+{
+    return self.element.stringValue;
+}
 @end
+

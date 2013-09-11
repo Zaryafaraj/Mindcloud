@@ -492,6 +492,7 @@
         
         NSString * noteId = [associationNotification getAssociation].refId;
         
+        if (noteId == nil) continue;
         [updatedNotes addObject:noteId];
         //TODO make sure we need to add this here
         self.collectionNoteAttributes[noteId] = newCollectionNoteAttribute;

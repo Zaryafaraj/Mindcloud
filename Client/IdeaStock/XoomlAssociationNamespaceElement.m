@@ -85,7 +85,7 @@
 {
     if (self.element)
     {
-        return [self.element stringValue];
+        return [self.element XMLString];
     }
     return nil;
 }
@@ -117,7 +117,7 @@
     
     for (DDXMLNode * element in self.element.children)
     {
-        XoomlNamespaceElement * childValue = [[XoomlNamespaceElement alloc] initFromXMLString:element.stringValue];
+        XoomlNamespaceElement * childValue = [[XoomlNamespaceElement alloc] initFromXMLString:element.description];
         if (childValue != nil && childValue.ID != nil)
         {
             NSString * ID = childValue.ID;
@@ -172,12 +172,12 @@
 
 -(NSString *) description
 {
-    return [self.element stringValue];
+    return [self.element description];
 }
 
 -(NSString *) debugDescription
 {
-    return [self.element stringValue];
+    return [self.element description];
 }
 
 @end

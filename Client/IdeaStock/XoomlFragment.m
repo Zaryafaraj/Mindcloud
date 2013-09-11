@@ -139,36 +139,23 @@
 //=====================================================================
 -(void) addFragmentNamespaceElement:(XoomlFragmentNamespaceElement *) namespaceElement
 {
-   if (namespaceElement != nil && self.doc != nil && self.doc.rootElement != nil)
-   {
-       [self.doc.rootElement addChild:namespaceElement.element];
-   }
-}
-
--(void) removeFragmentNamespaceElement:(NSString *) namespaceId
-{
-    NSString * xpath = [self xPathForNamespaceFragmentWithId:namespaceId];
-    DDXMLElement * namespaceElem = [self getSingleElementWithXPath:xpath];
-    if (namespaceElem != nil)
+    if (namespaceElement != nil && self.doc != nil && self.doc.rootElement != nil)
     {
-        NSUInteger index = [namespaceElem index];
-        DDXMLElement * parent = (DDXMLElement *) namespaceElem.parent;
-        [parent removeChildAtIndex:index];
+        [self.doc.rootElement addChild:namespaceElement.element];
     }
 }
 
--(void) setFragmentNamespaceElementWithId:(NSString *) namespaceId
-                               withElement:(XoomlFragmentNamespaceElement *) newNamespaceElement
+-(void) setFragmentNamespaceElement:(XoomlFragmentNamespaceElement *)newNamespaceElement
 {
-    NSString * xpath = [self xPathForNamespaceFragmentWithId:namespaceId];
-    DDXMLElement * namespaceElem = [self getSingleElementWithXPath:xpath];
     
+    NSArray * AllNamespaceElems = [self getAllFragmentNamespaceSubElementsForNamespace:newNamespaceElement.namespaceName];
+    DDXMLElement * namespaceElem = [AllNamespaceElems firstObject];
     if (namespaceElem != nil)
     {
         NSUInteger index = [namespaceElem index];
         DDXMLElement * parent = (DDXMLElement *) namespaceElem.parent;
         //ensue the id preserves
-        NSString * namespaceElemId = [namespaceElem attributeForName:ITEM_ID].stringValue;
+        NSString * namespaceElemId = [namespaceElem attributeForName:ITEM_ID].description;
         DDXMLElement * newElement = newNamespaceElement.element;
         [newElement removeAttributeForName:ITEM_ID];
         DDXMLNode * IDAttribute = [DDXMLNode attributeWithName:ITEM_ID stringValue:namespaceElemId];
@@ -188,13 +175,12 @@
 -(NSDictionary *) getAllFragmentNamespaceElements
 {
     NSMutableDictionary * result = [NSMutableDictionary dictionary];
-    NSString * xPath = [self xPathForFragmentNamespaces];
-    NSArray * allFragmentNamespaces = [self getAllElementsWithXPath:xPath];
+    NSArray * allFragmentNamespaces = [self getXMLAllFragmentNamespaces];
     if (allFragmentNamespaces != nil)
     {
         for(DDXMLElement * elem in allFragmentNamespaces)
         {
-            XoomlFragmentNamespaceElement * namespaceElem = [[XoomlFragmentNamespaceElement alloc] initFromXmlString:elem.stringValue];
+            XoomlFragmentNamespaceElement * namespaceElem = [[XoomlFragmentNamespaceElement alloc] initFromXmlString:elem.description];
             if (namespaceElem.ID)
             {
                 result[namespaceElem.ID] = namespaceElem;
@@ -204,24 +190,10 @@
     return  result;
 }
 
--(XoomlFragmentNamespaceElement *) getFragmentNamespaceElementWithId:(NSString *) namespaceId
+-(XoomlFragmentNamespaceElement *) getFragmentNamespaceElementWithNamespaceName:(NSString *) namespaceName
+                                          thatContainsNamespaceSubElementWithId:(NSString *) namespaceSubElementId
 {
-    NSString * xpath = [self xPathForNamespaceFragmentWithId:namespaceId];
-    DDXMLElement * namespaceElem = [self getSingleElementWithXPath:xpath];
-    if (namespaceElem != nil)
-    {
-        XoomlFragmentNamespaceElement * elem = [[XoomlFragmentNamespaceElement alloc] initFromXmlString:namespaceElem.stringValue];
-        return elem;
-    }
-    return nil;
-}
-
-
--(XoomlFragmentNamespaceElement *) getFragmentNamespaceElementWithNamespaceURL:(NSString *) namespaceName
-                   thatContainsNamespaceSubElementWithId:(NSString *) namespaceSubElementId
-{
-    NSString * xpath  = [self xpathForFragmentNamespaceElementWithNamespaceURL:namespaceName];
-    NSArray * allFragmentNamespaceData = [self getAllElementsWithXPath:xpath];
+    NSArray * allFragmentNamespaceData = [self getXMLFragmentNamespaceElementWithNamespace:namespaceName];
     
     if (allFragmentNamespaceData == nil) return nil;
     
@@ -232,33 +204,12 @@
             NSString * subElementId = [[subElement attributeForName:ITEM_ID] stringValue];
             if ([subElementId isEqualToString:namespaceSubElementId])
             {
-                XoomlFragmentNamespaceElement * result = [[XoomlFragmentNamespaceElement alloc] initFromXmlString:element.stringValue];
+                XoomlFragmentNamespaceElement * result = [[XoomlFragmentNamespaceElement alloc] initFromXmlString:element.description];
                 return result;
             }
         }
     }
     return nil;
-}
-
--(NSString *) xPathForFragment
-{
-    return [NSString stringWithFormat:@"/%@", FRAGMENT_NAME];
-}
-
--(NSString *) xPathForFragmentNamespaces
-{
-    return [NSString stringWithFormat:@"/%@/%@", FRAGMENT_NAME, FRAGMENT_NAMESPACE_DATA];
-}
-
--(NSString *) xpathForFragmentNamespaceElementWithNamespaceURL:(NSString *) namespaceURL
-{
-    return [NSString stringWithFormat:@"/%@/%@[@xmlns = \"%@\"]", FRAGMENT_NAME, FRAGMENT_NAMESPACE_DATA, namespaceURL];
-}
-
--(NSString *) xPathForNamespaceFragmentWithId:(NSString *) namespaceId
-{
-    
-    return [NSString stringWithFormat:@"/%@/%@[@ID = \"%@\"]", FRAGMENT_NAME, FRAGMENT_NAMESPACE_DATA, namespaceId];
 }
 
 #pragma mark - Fragment NamespaceData SubElement
@@ -267,13 +218,20 @@
 
 -(void) addFragmentNamespaceSubElement:(XoomlNamespaceElement *) subElement
 {
-    NSString * namespaceURL = subElement.parentNamespace;
-    NSString * xpath = [self xPathForFragmentNamespaceDataForNamespaceURL:namespaceURL];
-    DDXMLElement * fragmentNamespaceElement = [self getSingleElementWithXPath:xpath];
+    NSString * namespaceName = subElement.parentNamespace;
+    
+    NSArray * allElems = [self getXMLFragmentNamespaceElementWithNamespace:namespaceName];
+    DDXMLElement * fragmentNamespaceElement = nil;
+    if (allElems != nil &&
+        [allElems count] > 0)
+    {
+         fragmentNamespaceElement = allElems[0];
+    }
     
     if (fragmentNamespaceElement == nil)
     {
-        XoomlFragmentNamespaceElement * namespaceData = [[XoomlFragmentNamespaceElement alloc] initWithNamespaceURL:namespaceURL];
+        XoomlFragmentNamespaceElement * namespaceData = [[XoomlFragmentNamespaceElement alloc] initWithNamespaceName:namespaceName];
+        
         [namespaceData addSubElement:subElement];
         [self addFragmentNamespaceElement:namespaceData];
     }
@@ -284,10 +242,9 @@
 }
 
 -(void) removeFragmentNamespaceSubElementWithName:(NSString *) subElementName
-                                  forNamespaceURL:(NSString *)namespaceURL
+                                     forNamespace:(NSString *)namespaceName
 {
-    NSString * xpath = [self xPathForNamespaceFragmentSubElementWithName:subElementName forNamespace:namespaceURL];
-    NSArray * allSubElements = [self getAllElementsWithXPath:xpath];
+    NSArray * allSubElements = [self getXMLFragmentNamespaceSubElementsWithName:subElementName inNamespace:namespaceName];
     for (DDXMLElement * subElement in allSubElements)
     {
         NSUInteger index = [subElement index];
@@ -297,13 +254,15 @@
 }
 
 -(void) removeFragmentNamespaceSubElementWithId:(NSString *) subElementId
-                                        andName:(NSString *) namespaceName
-                               fromNamespaceURL:(NSString *) namespaceURL
+                                        andName:(NSString *) fragmentName
+                                  fromNamespace:(NSString *) namespaceName
 {
-    NSString * xpath = [self xPathForNamespaceFragmentSubElementWithId:subElementId
-                                                               andName:namespaceName
-                                                       forNamespaceURL:namespaceURL];
-    DDXMLElement * elem = [self getSingleElementWithXPath:xpath];
+    NSArray * allSubElems = [self getXMLFragmentNAmespaceSubElementsWithId:subElementId
+                                                                   andName:fragmentName
+                                                             fromNamespace:namespaceName];
+    
+    DDXMLElement * elem = allSubElems[0];
+    
     if (elem)
     {
         NSUInteger index = [elem index];
@@ -315,21 +274,21 @@
 -(void) setFragmentNamespaceSubElementWithElement:(XoomlNamespaceElement *) newNamespaceSubElement
 {
     
-    NSString * namespaceURL = newNamespaceSubElement.parentNamespace;
+    NSString * namespaceName = newNamespaceSubElement.parentNamespace;
     NSString * namespaceSubElementName = newNamespaceSubElement.name;
-    NSString * xpath = [self xPathForFragmentNamespaceDataForNamespaceURL:namespaceURL];
-    DDXMLElement * fragmentNamespaceElement = [self getSingleElementWithXPath:xpath];
+    NSArray * allElems = [self getXMLFragmentNamespaceElementWithNamespace:namespaceName];
+    DDXMLElement * fragmentNamespaceElement = allElems[0];
     
     if (fragmentNamespaceElement == nil)
     {
-        XoomlFragmentNamespaceElement * namespaceData = [[XoomlFragmentNamespaceElement alloc] initWithNamespaceURL:namespaceURL];
+        XoomlFragmentNamespaceElement * namespaceData = [[XoomlFragmentNamespaceElement alloc] initWithNamespaceName:namespaceName];
         [namespaceData addSubElement:newNamespaceSubElement];
         [self addFragmentNamespaceElement:namespaceData];
     }
     else
     {
-        xpath  = [self xPathForNamespaceFragmentSubElementWithName:namespaceSubElementName forNamespace:namespaceURL];
-        NSArray * subElements = [self getAllElementsWithXPath:xpath];
+        NSArray * subElements = [self getXMLFragmentNamespaceSubElementsWithName:namespaceSubElementName
+                                                                     inNamespace:namespaceName];
         if (subElements != nil && [subElements count] > 0)
         {
             for (DDXMLElement * subElement in subElements)
@@ -345,43 +304,52 @@
                 [newElement addAttribute:IDAttribute];
                 
                 [parent removeChildAtIndex:index];
+                [newElement detach];
                 [parent addChild:newElement];
             }
         }
         else if (subElements == nil || [subElements count] == 0)
         {
+            
+            NSUInteger index = newNamespaceSubElement.element.index;
+            DDXMLElement * parent = (DDXMLElement *) newNamespaceSubElement.element.parent;
+            if (parent != nil)
+            {
+                [parent removeChildAtIndex:index];
+            }
             [fragmentNamespaceElement addChild:newNamespaceSubElement.element];
         }
     }
 }
 
 -(NSArray *) getFragmentNamespaceSubElementsWithName:(NSString *) subElementName
-                                     forNamespaceURL:(NSString *) namespaceURL
+                                        forNamespace:(NSString *) namespaceName
 {
-    NSString * xpath = [self xPathForNamespaceFragmentSubElementWithName:subElementName forNamespace:namespaceURL];
-    NSArray * allSubElement = [self getAllElementsWithXPath:xpath];
+    NSArray * allSubElement = [self getXMLFragmentNamespaceSubElementsWithName:subElementName
+                                                                   inNamespace:namespaceName];
     NSMutableArray * result = [NSMutableArray array];
     
     if (allSubElement == nil) return result;
     
     for (DDXMLElement * subElement in allSubElement)
     {
-        XoomlNamespaceElement * elem = [[XoomlNamespaceElement alloc] initFromXMLString:subElement.stringValue];
+        XoomlNamespaceElement * elem = [[XoomlNamespaceElement alloc] initFromXMLString:subElement.description];
         [result addObject:elem];
     }
     return result;
 }
 
--(NSArray *) getAllFragmentNamespaceSubElementsForNamespaceURL:(NSString *) namespaceURL
+-(NSArray *) getAllFragmentNamespaceSubElementsForNamespace:(NSString *) namespaceName
 {
-    NSString * xpath = [self xPathForFragmentNamespaceDataForNamespaceURL:namespaceURL];
-    DDXMLElement * fragmentNamespaceData = [self getSingleElementWithXPath:xpath];
+    NSArray * allElems = [self getXMLFragmentNamespaceElementWithNamespace:namespaceName];
+    DDXMLElement * fragmentNamespaceData = allElems[0];
+    
     NSMutableArray * result = [NSMutableArray array];
     
     if (fragmentNamespaceData == nil) return result;
     for (DDXMLElement * subElement in fragmentNamespaceData.children)
     {
-        XoomlNamespaceElement * elem = [[XoomlNamespaceElement alloc] initFromXMLString:subElement.stringValue];
+        XoomlNamespaceElement * elem = [[XoomlNamespaceElement alloc] initFromXMLString:subElement.description];
         [result addObject:elem];
     }
     return result;
@@ -389,36 +357,18 @@
 
 -(XoomlNamespaceElement *) getFragmentNamespaceSubElementWithId: (NSString *) subElementId
                                                         andName:(NSString *) namespaceDataName
-                                               fromNamespaceURL:(NSString *) namespaceURL
+                                                  fromNamespace:(NSString *) namespaceName
 {
-    NSString * xpath = [self xPathForNamespaceFragmentSubElementWithId:subElementId andName:namespaceDataName forNamespaceURL:namespaceURL];
-    DDXMLElement * elem = [self getSingleElementWithXPath:xpath];
+    NSArray * allSubElems = [self getXMLFragmentNAmespaceSubElementsWithId:subElementId
+                                                                   andName:namespaceDataName
+                                                             fromNamespace:namespaceName];
+    
+    DDXMLElement * elem = [allSubElems firstObject];
     if (elem == nil) return nil;
     
-    XoomlNamespaceElement * result = [[XoomlNamespaceElement alloc] initFromXMLString:elem.stringValue];
+    XoomlNamespaceElement * result = [[XoomlNamespaceElement alloc] initFromXMLString:elem.description];
     return result;
 }
-
-
--(NSString *) xPathForNamespaceFragmentSubElementWithName:(NSString *) fragmentNamespaceSubelementName
-                                             forNamespace:(NSString *) namespaceURL
-{
-    return [NSString stringWithFormat:@"/%@/%@[@xmlns = \"%@\"]/%@", FRAGMENT_NAME, FRAGMENT_NAMESPACE_DATA, namespaceURL, fragmentNamespaceSubelementName];
-}
-
--(NSString *) xPathForNamespaceFragmentSubElementWithId:(NSString *) fragmentNamespaceSubElementId
-                                                andName:(NSString *) fragmentNamespaceSubElementName
-                                        forNamespaceURL:(NSString *) namespaceURL
-{
-    return [NSString stringWithFormat:@"/%@/%@[@xmlns = \"%@\"]/%@[@ID = \"%@\"]", FRAGMENT_NAME, FRAGMENT_NAMESPACE_DATA, namespaceURL, fragmentNamespaceSubElementName, fragmentNamespaceSubElementId];
-    
-}
-
--(NSString *) xPathForFragmentNamespaceDataForNamespaceURL:(NSString *) namespaceURL
-{
-    return [NSString stringWithFormat:@"/%@/%@[@xmlns = \"%@\"]", FRAGMENT_NAME, FRAGMENT_NAMESPACE_DATA, namespaceURL];
-}
-
 
 #pragma mark - Association
 
@@ -435,8 +385,8 @@
 
 -(void) removeAssociation:(NSString *) associationId
 {
-    NSString * xpath = [self xPathForAssociationWithId:associationId];
-    DDXMLElement * associationElem = [self getSingleElementWithXPath:xpath];
+    NSArray * associations = [self getXMLAssociationWithId:associationId];
+    DDXMLElement * associationElem = associations[0];
     if (associationElem != nil)
     {
         NSUInteger index = [associationElem index];
@@ -447,11 +397,10 @@
 
 -(void) removeAllAssociationsWithAssociatedFragmentName:(NSString *) associatedFragmentName
 {
-    NSString * xpath = [self xPathForAssociations];
-    NSArray * allAssociations = [self getAllElementsWithXPath:xpath];
+    NSArray * allAssociations = [self getXMLAllAssociations];
     for(DDXMLElement * association in allAssociations)
     {
-        NSString * currentAssociatedFragmentName = [association attributeForName:ASSOCIATED_XOOML_FRAGMENT].stringValue;
+        NSString * currentAssociatedFragmentName = [association attributeForName:ASSOCIATED_ITEM].stringValue;
         if ([currentAssociatedFragmentName isEqualToString:associatedFragmentName])
         {
             NSUInteger index = [association index];
@@ -462,10 +411,10 @@
 }
 
 -(void) setAssociationWithId:(NSString *) associationId
-             withNewAssociation:(XoomlAssociation *) element
+          withNewAssociation:(XoomlAssociation *) element
 {
-    NSString * xpath = [self xPathForAssociationWithId:associationId];
-    DDXMLElement * associationElem = [self getSingleElementWithXPath:xpath];
+    NSArray * associations = [self getXMLAssociationWithId:associationId];
+    DDXMLElement * associationElem = associations[0];
     if (associationElem != nil)
     {
         NSUInteger index = [associationElem index];
@@ -492,45 +441,33 @@
 -(NSDictionary *) getAllAssociations
 {
     NSMutableDictionary * result = [NSMutableDictionary dictionary];
-    NSString * xpath = [self xPathForAssociations];
-    NSArray * allAssociations = [self getAllElementsWithXPath:xpath];
+    NSArray * allAssociations = [self getXMLAllAssociations];
     if (allAssociations != nil)
     {
-       for (DDXMLElement * elem in allAssociations)
-       {
-           XoomlAssociation * association = [[XoomlAssociation alloc] initWithXMLString:elem.stringValue];
-           if (association.ID)
-           {
-               result[association.ID] = association;
-           }
-       }
+        for (DDXMLElement * elem in allAssociations)
+        {
+            XoomlAssociation * association = [[XoomlAssociation alloc] initWithXMLString:elem.description];
+            if (association.ID)
+            {
+                result[association.ID] = association;
+            }
+        }
     }
     return result;
 }
 
 -(XoomlAssociation *) getAssociationWithId:(NSString *) associationId
 {
-    NSString * xpath = [self xPathForAssociationWithId:associationId];
-    DDXMLElement * associationElem = [self getSingleElementWithXPath:xpath];
+    
+    NSArray * associations = [self getXMLAssociationWithId:associationId];
+    DDXMLElement * associationElem = associations[0];
     if (associationElem != nil)
     {
-        XoomlAssociation * association = [[XoomlAssociation alloc] initWithXMLString:associationElem.stringValue];
+        XoomlAssociation * association = [[XoomlAssociation alloc] initWithXMLString:associationElem.description];
         return association;
     }
     return nil;
 }
-
--(NSString *) xPathForAssociations
-{
-    return [NSString stringWithFormat:@"/%@/%@", FRAGMENT_NAME, ASSOCIATION_NAME];
-}
-
--(NSString *) xPathForAssociationWithId:(NSString *) associationId
-{
-    return [NSString stringWithFormat:@"/%@/%@[@ID = \"%@\"]", FRAGMENT_NAME, ASSOCIATION_NAME, associationId];
-}
-
-
 
 
 #pragma mark - Association NamespaceData
@@ -540,8 +477,8 @@
 -(void) addAssociationNamespaceElement:(XoomlAssociationNamespaceElement *) namespaceElement
                    toAssociationWithId:(NSString *) associationId
 {
-    NSString * xpath = [self xPathForAssociationWithId:associationId];
-    DDXMLElement * association = [self getSingleElementWithXPath:xpath];
+    NSArray * associations = [self getXMLAssociationWithId:associationId];
+    DDXMLElement * association = associations[0];
     if (association)
     {
         [association addChild:namespaceElement.element];
@@ -551,9 +488,9 @@
 -(void) removeAssociationNamespaceElementWithAssociationId:(NSString *) associationId
                           andAssociationNamespaceElementId:(NSString *) namespaceId
 {
-    NSString * xpath = [self xPathForAssociationNamespaceElementWithAssociationId:associationId
-                                                                   andnamespaceId:namespaceId];
-    DDXMLElement * associationNamespaceElem = [self getSingleElementWithXPath:xpath];
+    NSArray * allSubElemens = [self getXMLASsociationNamespaceElementsForAssociationWithId:associationId
+                                                                          andNamespaceName:namespaceId];
+    DDXMLElement * associationNamespaceElem = allSubElemens[0];
     if (associationNamespaceElem != nil)
     {
         NSUInteger index = [associationNamespaceElem index];
@@ -563,12 +500,13 @@
 }
 
 -(void) setAssociationNamespaceElementWithAssociationId:(NSString *) associationId
-                                     andNamespaceElementId:(NSString *) namespaceId
-                                            withNewElement:(XoomlAssociationNamespaceElement *) newNamespaceElement
+                                  andNamespaceElementId:(NSString *) namespaceId
+                                         withNewElement:(XoomlAssociationNamespaceElement *) newNamespaceElement
 {
-    NSString * xpath = [self xPathForAssociationNamespaceElementWithAssociationId:associationId
-                                                                   andnamespaceId:namespaceId];
-    DDXMLElement * associationNamespaceElem = [self getSingleElementWithXPath:xpath];
+    NSArray * allSubElemens = [self getXMLASsociationNamespaceElementsForAssociationWithId:associationId
+                                                                          andNamespaceName:namespaceId];
+    DDXMLElement * associationNamespaceElem = allSubElemens[0];
+
     if (associationNamespaceElem != nil)
     {
         NSUInteger index = [associationNamespaceElem index];
@@ -580,7 +518,7 @@
         [newElement removeAttributeForName:ITEM_ID];
         DDXMLNode * IDAttribute = [DDXMLNode attributeWithName:ITEM_ID stringValue:oldId];
         [newElement addAttribute:IDAttribute];
- 
+        
         [parent removeChildAtIndex:index];
         [parent addChild:newElement];
     }
@@ -596,18 +534,18 @@
 -(NSDictionary *) getAssocationNamespaceElementsForAssocation:(NSString *) associationId
 {
     NSMutableDictionary * result = [NSMutableDictionary dictionary];
-    NSString * xpath = [self xPathForAssociationNamespaceElementsForAssociationWithId:associationId];
-    NSArray * allAssociationNamespaceElements = [self getAllElementsWithXPath:xpath];
+    
+    NSArray * allAssociationNamespaceElements = [self getXMLAssociationNamespaceElementsForAssociationWithId:associationId];
     if (allAssociationNamespaceElements != nil)
     {
-       for (DDXMLElement * elem in allAssociationNamespaceElements)
-       {
-           XoomlAssociationNamespaceElement * namespaceElem = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.stringValue];
-           if (namespaceElem.ID)
-           {
-               result[namespaceElem.ID] = namespaceElem;
-           }
-       }
+        for (DDXMLElement * elem in allAssociationNamespaceElements)
+        {
+            XoomlAssociationNamespaceElement * namespaceElem = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.stringValue];
+            if (namespaceElem.ID)
+            {
+                result[namespaceElem.ID] = namespaceElem;
+            }
+        }
     }
     return result;
 }
@@ -615,9 +553,9 @@
 -(XoomlAssociationNamespaceElement *) getAssocationNamespaceElementWithId:(NSString *) namespaceId
                                                            forAssociation:(NSString *) associationId
 {
-    NSString * xpath = [self xPathForAssociationNamespaceElementWithAssociationId:associationId
-                                                                   andnamespaceId:namespaceId];
-    DDXMLElement * associationNamespaceElem = [self getSingleElementWithXPath:xpath];
+    NSArray * allSubElemens = [self getXMLASsociationNamespaceElementsForAssociationWithId:associationId
+                                                                          andNamespaceName:namespaceId];
+    DDXMLElement * associationNamespaceElem = allSubElemens[0];
     if (associationNamespaceElem != nil)
     {
         XoomlAssociationNamespaceElement * elem = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:associationNamespaceElem.stringValue];
@@ -626,45 +564,180 @@
     return nil;
 }
 
--(NSString *) xPathForAssociationNamespaceElementsForAssociationWithId:(NSString *) associationId
-{
-    return [NSString stringWithFormat:@"/%@/%@[@ID = \"%@\"]/%@", FRAGMENT_NAME, ASSOCIATION_NAME, associationId, ASSOCIATON_NAMESPACE_NAME];
-}
-
--(NSString *) xPathForAssociationNamespaceElementWithAssociationId:(NSString *) associationId
-                                                    andnamespaceId:(NSString *) namespaceId
-{
-    return [NSString stringWithFormat:@"/%@/%@[@ID = \"%@\"]/%@[@ID = \"%@\"]", FRAGMENT_NAME, ASSOCIATION_NAME, associationId, ASSOCIATON_NAMESPACE_NAME, namespaceId];
-}
-
-
 #pragma mark -  Helpers
 
--(DDXMLElement *) getSingleElementWithXPath:(NSString *) xpath
+-(DDXMLElement *) getXMLFragment
 {
-    
-    NSArray * elements = [self getAllElementsWithXPath:xpath];
-    if (elements)
-    {
-        return [elements lastObject];
-    }
-    return nil;
+    return self.doc.rootElement;
 }
 
--(NSArray *) getAllElementsWithXPath:(NSString *) xpath
+-(NSArray *) getXMLAllFragmentNamespaces
 {
-    NSError * err;
-    NSArray *elements = [self.doc.rootElement nodesForXPath: xpath error: &err];
-    
-    if (elements == nil){
-        NSLog(@"XoomlFragment-Error reading the content from XML");
-        return nil;
+    NSMutableArray * result = [NSMutableArray array];
+    for (DDXMLElement * child in self.doc.rootElement.children)
+    {
+        if ([child.name isEqualToString:FRAGMENT_NAMESPACE_DATA])
+        {
+            [result addObject:child];
+        }
     }
-    
-    if ([elements count] == 0 ){
-        NSLog(@"XoomlFragment- No element found for item with xpath");
-        return nil;
+    return result;
+}
+
+-(NSArray *) getXMLFragmentNamespaceElementWithNamespace:(NSString *) namespaceName
+{
+    NSMutableArray * result = [NSMutableArray array];
+    for (DDXMLElement * child in self.doc.rootElement.children)
+    {
+        if ([child.name isEqualToString:FRAGMENT_NAMESPACE_DATA])
+        {
+            DDXMLNode * childNamespaceNode = [child attributeForName:XMLNS_NAME];
+            if (childNamespaceNode != nil &&
+                [childNamespaceNode.stringValue isEqualToString:namespaceName])
+            {
+                [result addObject:child];
+            }
+        }
     }
-    return elements;
+    return result;
+}
+
+-(NSArray *) getXMLFragmentNamespaceSubElementsWithName: (NSString *) name
+                                            inNamespace:(NSString *) namespaceName
+{
+    NSMutableArray * result = [NSMutableArray array];
+    for (DDXMLElement * child in self.doc.rootElement.children)
+    {
+        if ([child.name isEqualToString:FRAGMENT_NAMESPACE_DATA])
+        {
+            DDXMLNode * childNamespaceNode = [child attributeForName:XMLNS_NAME];
+            if (childNamespaceNode != nil &&
+                [childNamespaceNode.stringValue isEqualToString:namespaceName])
+            {
+                for(DDXMLElement * subElementChild in child.children)
+                {
+                    if ([subElementChild.name isEqualToString:name])
+                    {
+                        [result addObject:subElementChild];
+                    }
+                }
+            }
+        }
+    }
+    return result;
+}
+
+-(NSArray *) getXMLFragmentNAmespaceSubElementsWithId:(NSString *) subElementId
+                                              andName:(NSString *) subElementName
+                                        fromNamespace:(NSString *) namespaceName
+{
+    NSMutableArray * result = [NSMutableArray array];
+    for (DDXMLElement * child in self.doc.rootElement.children)
+    {
+        if ([child.name isEqualToString:FRAGMENT_NAMESPACE_DATA])
+        {
+            DDXMLNode * childNamespaceNode = [child attributeForName:XMLNS_NAME];
+            if (childNamespaceNode != nil &&
+                [childNamespaceNode.stringValue isEqualToString:namespaceName])
+            {
+                for(DDXMLElement * subElementChild in child.children)
+                {
+                    DDXMLNode * idAttributeNode = [subElementChild attributeForName:ID_ATTRIBUTE];
+                    
+                    if ([subElementChild.name isEqualToString:subElementName] &&
+                        idAttributeNode != nil &&
+                        [idAttributeNode.stringValue isEqualToString:subElementId])
+                    {
+                        [result addObject:subElementChild];
+                    }
+                }
+            }
+        }
+    }
+    return result;
+}
+
+-(NSArray *) getXMLAllAssociations
+{
+    NSMutableArray * result = [NSMutableArray array];
+    for (DDXMLElement * child in self.doc.rootElement.children)
+    {
+        if ([child.name isEqualToString:ASSOCIATION_NAME])
+        {
+            [result addObject:child];
+        }
+    }
+    return result;
+}
+
+-(NSArray *) getXMLAssociationWithId:(NSString *) associationId
+{
+    NSMutableArray * result = [NSMutableArray array];
+    for (DDXMLElement * child in self.doc.rootElement.children)
+    {
+        if ([child.name isEqualToString:ASSOCIATION_NAME])
+        {
+            DDXMLNode * childIdNode = [child attributeForName:ID_ATTRIBUTE];
+            if (childIdNode != nil &&
+                [childIdNode.stringValue isEqualToString:associationId])
+            {
+                [result addObject:child];
+                
+            }
+            
+        }
+    }
+    return result;
+}
+
+-(NSArray *) getXMLAssociationNamespaceElementsForAssociationWithId:(NSString *) associationId
+{
+    NSMutableArray * result = [NSMutableArray array];
+    for (DDXMLElement * child in self.doc.rootElement.children)
+    {
+        if ([child.name isEqualToString:ASSOCIATION_NAME])
+        {
+            DDXMLNode * childIDNode = [child attributeForName:ID_ATTRIBUTE];
+            if (childIDNode != nil &&
+                [childIDNode.stringValue isEqualToString:associationId])
+            {
+                if (child.children != nil)
+                {
+                    [result addObjectsFromArray:child.children];
+                    return result;
+                }
+            }
+        }
+    }
+    return result;
+}
+
+-(NSArray *) getXMLASsociationNamespaceElementsForAssociationWithId:(NSString *) associationId
+                                                   andNamespaceName:(NSString *) namespaceName
+{
+    NSMutableArray * result = [NSMutableArray array];
+    for (DDXMLElement * child in self.doc.rootElement.children)
+    {
+        if ([child.name isEqualToString:ASSOCIATION_NAME])
+        {
+            DDXMLNode * childIDNode = [child attributeForName:ID_ATTRIBUTE];
+            if (childIDNode != nil &&
+                [childIDNode.stringValue isEqualToString:associationId])
+            {
+                for (DDXMLElement * childSubElement in child.children)
+                {
+                    DDXMLNode * namespaceNode = [childSubElement attributeForName:XMLNS_NAME];
+                    if (namespaceNode != nil &&
+                        [namespaceNode.stringValue isEqualToString:namespaceName])
+                    {
+                        [result addObject:childSubElement];
+                    }
+                }
+                
+                return result;
+            }
+        }
+    }
+    return result;
 }
 @end

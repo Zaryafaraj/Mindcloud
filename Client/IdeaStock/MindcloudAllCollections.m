@@ -57,7 +57,7 @@
 
 -(void) applyCategories:(NSDictionary *)categories
 {
-    [self applyCategories:categories toCollections:self.collections[UNCATEGORIZED_KEY]];
+    [self applyCategories:categories toCollections:self.collections[ALL]];
 }
 
 -(void) addCollection: (NSString *) collection
@@ -99,18 +99,8 @@
 -(void) batchRemoveCollections:(NSArray *) collections
                   fromCategory:(NSString *) category
 {
-    //deleting something in the category will cause it to get deleted forever
-    //to move between categories we use the move method
-    for(NSString * collectionName in collections)
-    {
-        if (collectionName)
-        {
-            [self.gordonDataSource deleteCollectionWithName:collectionName];
-            
-        }
-    }
-    
-    [self.gordonDataSource removeFromCategory:category collectionsWithName:collections];
+
+    [self.gordonDataSource deleteCollectionsWithName:collections];
     
     //a shared collection belongs to two categories so make sure you delete it from shared category too
     //remove it from internal data strcutures
@@ -334,37 +324,110 @@
             self.collectionImages[newCollection] = tempImgData;
         }
     }
-    //no need to update gordon categories since renaming of the collection will
-    //take care of it
+    [self.gordonDataSource renameCollectionWithName:collection to:newCollection];
 }
 
--(void) moveCollection:(NSString *)collectionName
-          fromCategory:(NSString *)oldCategory
-         toNewCategory:(NSString *)newCategory
+
+-(void) moveCollections: (NSArray *) collections
+           fromCategory: (NSString *) oldCategory
+          toNewCategory: (NSString *) newCategory;
 {
     
-    if (self.collections[oldCategory] && self.collections[newCategory])
+    if ([newCategory isEqualToString:ALL] ||
+        [newCategory isEqualToString:SHARED_COLLECTIONS_KEY])
     {
+        return;
+    }
+    
+    if (!self.collections[oldCategory] || !self.collections[newCategory])
+        return;
+    
+    
+    NSMutableArray * collectionsToAdd = [NSMutableArray array];
+    NSMutableArray * collectionsToMove = [NSMutableArray array];
+    NSString * originalOldCat = oldCategory;
+    for(NSString * collectionName in collections)
+    {
+        
         if ([self.collections[newCategory] containsObject:collectionName]) return;
         
+        //IF the old category is a conceptual category find the real category
+        if ([oldCategory isEqualToString:ALL] ||
+            [oldCategory isEqualToString:UNCATEGORIZED_KEY] ||
+            [oldCategory isEqualToString:SHARED_COLLECTIONS_KEY])
+        {
+            originalOldCat = [self findCategoryForCollection:collectionName];
+            
+            //always remove from uncategorized
+            [self.collections[UNCATEGORIZED_KEY] removeObject:collectionName];
+        }
+        
         [self.collections[newCategory] addObject:collectionName];
-        //you can't move stuff from all categories
-        //only update gordon for actual categories : ALL & UNCATEGORIZED are conceptual
+        
         if (![oldCategory isEqualToString:ALL])
         {
+            // only remove from any category (conceptual included) if the category is not ALL
             [self.collections[oldCategory] removeObject:collectionName];
-            [self.gordonDataSource moveCollection:collectionName
-                                  fromOldCategory:oldCategory
-                                    toNewCategory:newCategory];
+        }
+        
+        if (originalOldCat == nil)
+        {
+            //category was conceptual and the collection wasn't categorized.
+            //its not a move its an add
+            [collectionsToAdd addObject:collectionName];
         }
         else
         {
-            //remove it from uncategorized in case it is there
-            [self.collections[UNCATEGORIZED_KEY] removeObject:collectionName];
+            [collectionsToMove addObject:collectionName];
         }
     }
+    
+    //in this case we need to remove the collection from its category
+    if ([newCategory isEqualToString:UNCATEGORIZED_KEY])
+    {
+        [self.gordonDataSource removeFromCategory:oldCategory
+                              collectionsWithName:collections];
+    }
+    
+    if ([collectionsToAdd count] > 0)
+    {
+        [self.gordonDataSource addToCategory:newCategory
+                        collectionsWithNames:collectionsToAdd];
+    }
+    
+    if ([collectionsToMove count] > 0)
+    {
+        [self.gordonDataSource moveCollections:collectionsToMove
+                               fromOldCategory:originalOldCat
+                                 toNewCategory:newCategory];
+    }
+    
+    NSLog(@"old:");
+    NSLog(@"%@", self.collections[oldCategory]);
+    NSLog(@"new:");
+    NSLog(@"%@", self.collections[newCategory]);
+    
 }
 
+-(NSString *) findCategoryForCollection:(NSString *) collectionName
+{
+    for(NSString * categoryName in self.collections)
+    {
+        //these are all abstract categories. Try finding the true category
+        if ([categoryName isEqualToString:UNCATEGORIZED_KEY] ||
+            [categoryName isEqualToString:ALL] ||
+            [categoryName isEqualToString:SHARED_COLLECTIONS_KEY])
+        {
+            continue;
+        }
+        NSArray * allCollections = self.collections[categoryName];
+        if ([allCollections containsObject:collectionName])
+        {
+            return categoryName;
+        }
+    }
+    return nil;
+}
 /*! Categorises the collections based on the categories passed in.
  categories is a map keyed on categoryName and valued on an array of collectionNames belonging to the category */
 -(void) applyCategories:(NSDictionary *)categories
@@ -524,8 +587,8 @@
     
     [self createSharedCategoryIfNeccessaryWithCollection:collectionName];
     id<MindcloudAllCollectionsDelegate> tempDel = self.delegate;
-    [self moveCollection:collectionName fromCategory:[tempDel activeCategory]
-           toNewCategory:SHARED_COLLECTIONS_KEY];
+    [self moveCollections:@[collectionName] fromCategory:[tempDel activeCategory]
+            toNewCategory:SHARED_COLLECTIONS_KEY];
     if (tempDel)
     {
         [tempDel sharedCollection:collectionName withSecret:secret];
@@ -539,6 +602,7 @@
     self.collections[ALL] = [allCollections mutableCopy];
     self.collections[UNCATEGORIZED_KEY] = [allCollections mutableCopy];
     self.collections[SHARED_COLLECTIONS_KEY] = [NSMutableArray array];
+    
     
     id <MindcloudAllCollectionsDelegate> tempDel = self.delegate;
     if (tempDel)

@@ -29,5 +29,8 @@
 #define ASSOCIATION_NAME @"association"
 #define REF_ID @"refId"
 #define REFERENCE_ELEMENT @"reference"
-
+#define ASSOCIATED_XOOML_FRAGMENT @"associatedXooMLFragment"
+#define ASSOCIATED_ITEM @"associatedItem"
+#define NAMESPACE_ID @"ID"
+#define ID_ATTRIBUTE @"ID"
 @end
