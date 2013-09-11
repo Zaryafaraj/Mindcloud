@@ -1,7 +1,6 @@
 """
 Handles all the interaction with the storage mechanism
 """
-import cStringIO
 import json
 from tornado import gen
 from Cache.MindcloudCache import MindcloudCache
@@ -380,26 +379,15 @@ class StorageServer:
         """
         categories_path = '/' + StorageServer.__CATEGORIES_FILENAME
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
-        response = None
         if storage is not None:
             response = yield gen.Task(DropboxHelper.get_file, storage, categories_path)
-            #If file is not found create it
             if response is None:
-                categories_template_file = cStringIO.StringIO(StorageServer.__EMPTY_CATEGORIES)
-                response_code = yield gen.Task(StorageServer.save_categories, user_id,
-                                               categories_template_file)
-                #If file got created successfully include it in the response
-                if response_code == StorageResponse.OK:
-                    response = categories_template_file
-                else:
-                    StorageServer.__log.info(
-                        'StorageServer - received error %s for user %s from dropbox' % (str(response_code), user_id))
-                    callback(StorageResponse.SERVER_EXCEPTION)
-            callback(response)
+                callback(None, StorageResponse.NOT_FOUND)
+                #If file is not found create it
+            callback(response, StorageResponse.OK)
         else:
             StorageServer.__log.info('StorageServer - Could not retrieve user storage for user %s' % user_id)
-            callback(StorageResponse.SERVER_EXCEPTION)
-
+            callback(None, StorageResponse.SERVER_EXCEPTION)
 
     @staticmethod
     @gen.engine
@@ -514,7 +502,7 @@ class StorageServer:
             response = yield gen.Task(DropboxHelper.get_file, storage, note_path)
             if response is None:
                 StorageServer.__log.info('StorageServer - Could not retrieve file for collection %s note %s user %s' % (
-                collection_name, note_name, user_id))
+                    collection_name, note_name, user_id))
             callback(response)
         else:
             StorageServer.__log.info('StorageServer - Could not retrieve user storage for user %s' % user_id)
@@ -585,7 +573,7 @@ class StorageServer:
             if response is None:
                 StorageServer.__log.info(
                     'StorageServer - Could not retrieve img file for collection %s note %s user %s' % (
-                    collection_name, note_name, user_id))
+                        collection_name, note_name, user_id))
             callback(response)
         else:
             StorageServer.__log.info('StorageServer - Could not retrieve user storage for user %s' % user_id)
@@ -683,7 +671,7 @@ class StorageServer:
                                            '/' + dest_collection_name)
             if response_code != StorageResponse.OK:
                 StorageServer.__log.info('StorageServer - received error %s for user %s  and %s from dropbox' % (
-                str(response_code), src_user_id, dest_user_id))
+                    str(response_code), src_user_id, dest_user_id))
 
             callback(response_code)
         else:
