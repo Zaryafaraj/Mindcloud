@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4488.2" systemVersion="12E55" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="rXM-GQ-Qri">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12E55" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="rXM-GQ-Qri">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3715.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
         <!--Sign In View Controller-->
@@ -91,15 +91,15 @@
         <scene sceneID="Isa-HG-j6W">
             <objects>
                 <tableViewController storyboardIdentifier="CategorizationView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="cdg-fN-17s" customClass="CategorizationViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2aW-IK-8Nx">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2aW-IK-8Nx">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" restorationIdentifier="CateogizationCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategorizationCell" rowHeight="44" id="SEG-r1-X1h">
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="CateogizationCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategorizationCell" rowHeight="44" id="SEG-r1-X1h">
                                 <rect key="frame" x="0.0" y="22" width="768" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="SEG-r1-X1h" id="amn-kz-Vf8">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SEG-r1-X1h" id="amn-kz-Vf8">
                                     <rect key="frame" x="0.0" y="0.0" width="768" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
@@ -138,14 +138,14 @@
                                         <rect key="frame" x="0.0" y="0.0" width="768" height="938"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryCell" textLabel="iVa-3y-SI9" rowHeight="66" style="IBUITableViewCellStyleDefault" id="O9H-GH-NY7">
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryCell" textLabel="iVa-3y-SI9" rowHeight="66" style="IBUITableViewCellStyleDefault" id="O9H-GH-NY7">
                                                 <rect key="frame" x="0.0" y="22" width="768" height="66"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="O9H-GH-NY7" id="DdD-9w-1kf">
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="O9H-GH-NY7" id="DdD-9w-1kf">
                                                     <rect key="frame" x="0.0" y="0.0" width="768" height="66"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="17" id="iVa-3y-SI9">
+                                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="17" id="iVa-3y-SI9">
                                                             <rect key="frame" x="15" y="0.0" width="738" height="66"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="37"/>
                                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -241,7 +241,7 @@
                                     <constraint firstAttribute="height" constant="368" id="lDV-Ly-Ib0"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Share the code below with the person you want to share this collection with" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="315" translatesAutoresizingMaskIntoConstraints="NO" id="TeG-4a-R7g">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Share the code below with the person you want to share this collection with" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="315" translatesAutoresizingMaskIntoConstraints="NO" id="TeG-4a-R7g">
                                 <rect key="frame" x="227" y="20" width="315" height="63"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="315" id="Cm4-Hg-Fej"/>
@@ -251,11 +251,11 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="RXx-me-U5X">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" misplaced="YES" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="RXx-me-U5X">
                                 <rect key="frame" x="366" y="20" width="37" height="37"/>
                                 <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <textField clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kaA-AR-Lhq">
+                            <textField clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kaA-AR-Lhq">
                                 <rect key="frame" x="285" y="91" width="199" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="199" id="w0r-Ys-KgW"/>
@@ -263,7 +263,7 @@
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SU4-2I-9r9">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SU4-2I-9r9">
                                 <rect key="frame" x="394" y="136" width="90" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="90" id="FE4-6R-rAk"/>
@@ -280,7 +280,7 @@
                                     <action selector="emailPressed:" destination="7u7-Q1-AoO" eventType="touchUpInside" id="73P-aQ-SVr"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VSm-jd-QYY">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VSm-jd-QYY">
                                 <rect key="frame" x="285" y="136" width="90" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="90" id="TXg-Et-lY3"/>
@@ -677,8 +677,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ButtonMenu.png" width="22.309858322143555" height="17.239437103271484"/>
-        <image name="Colle.png" width="250.06333923339844" height="253.42311096191406"/>
+        <image name="ButtonMenu.png" width="22" height="17"/>
+        <image name="Colle.png" width="521" height="528"/>
         <image name="Felt-Blue.jpg" width="1024" height="1024"/>
         <image name="felt-red-ipad-background.jpg" width="1024" height="1024"/>
         <image name="light grey2.png" width="1024" height="768"/>

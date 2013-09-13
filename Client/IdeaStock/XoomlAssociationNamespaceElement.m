@@ -143,7 +143,13 @@
     if (subElement == nil || self.element == nil) return;
     
     NSString * subElementString = [subElement toXMLString];
-    DDXMLElement * subElementObj =  [DDXMLElement elementWithName:subElement.name                                                   stringValue:subElementString];
+    NSError * err;
+    DDXMLElement * subElementObj = [[DDXMLElement alloc] initWithXMLString:subElementString error:&err];
+    if (err)
+    {
+        NSLog(@"XoomlAssociationNamespaceElement - error parsing xml %@", err);
+        return;
+    }
     [self.element addChild:subElementObj];
 }
 

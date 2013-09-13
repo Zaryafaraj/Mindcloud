@@ -99,7 +99,7 @@
 {
     if (self.element)
     {
-        return [self.element stringValue];
+        return self.element.XMLString;
     }
     return nil;
 }
@@ -156,8 +156,12 @@
     if (subElement == nil || self.element == nil) return;
     
     NSString * subElementString = [subElement toXMLString];
-    DDXMLElement * subElementObj =  [DDXMLElement elementWithName:subElement.name
-                                                      stringValue:subElementString];
+    NSError * err;
+    DDXMLElement * subElementObj =  [[DDXMLElement alloc] initWithXMLString:subElementString error:&err];
+    if (err)
+    {
+        NSLog(@"XoomlFragmentNamespaceElement - error parsing xml string %@", err);
+    }
     [self.element addChild:subElementObj];
 }
 

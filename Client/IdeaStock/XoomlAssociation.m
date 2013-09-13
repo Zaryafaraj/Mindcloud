@@ -190,7 +190,7 @@
 {
     if (self.element)
     {
-        return [self.element stringValue];
+        return self.element.XMLString;
     }
     return nil;
 }

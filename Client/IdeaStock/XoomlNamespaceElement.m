@@ -99,7 +99,11 @@ andParentNamespace:(NSString *) parentNamespace
         }
         _name = self.element.name;
         
-        DDXMLNode * namespaceAttribute = [self.element attributeForName:XMLNS_NAME];
+        NSArray * namespaces = [self.element namespaces];
+        if (namespaces == nil || [namespaces count] == 0) return self;
+        
+        DDXMLNode * namespaceAttribute = namespaces[0];
+        
         if (namespaceAttribute)
         {
             _parentNamespace = namespaceAttribute.stringValue;
@@ -114,7 +118,7 @@ andParentNamespace:(NSString *) parentNamespace
 {
     if (self.element)
     {
-        return [self.element XMLString];
+        return self.element.XMLString;
     }
     return nil;
 }

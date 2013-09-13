@@ -77,6 +77,7 @@
         [root addAttribute:[DDXMLNode attributeWithName:GUID_NAME stringValue:GUID]];
         
         DDXMLElement * collectionAttributeContainer = [[DDXMLElement alloc] initWithName: FRAGMENT_NAMESPACE_DATA];
+        
         DDXMLNode * mindcloudXMLNS = [DDXMLNode attributeWithName:XMLNS_NAME stringValue:MINDCLOUD_XMLNS];
         [collectionAttributeContainer addAttribute:mindcloudXMLNS];
         [root addChild:collectionAttributeContainer];
@@ -225,7 +226,7 @@
     if (allElems != nil &&
         [allElems count] > 0)
     {
-         fragmentNamespaceElement = allElems[0];
+        fragmentNamespaceElement = allElems[0];
     }
     
     if (fragmentNamespaceElement == nil)
@@ -293,19 +294,25 @@
         {
             for (DDXMLElement * subElement in subElements)
             {
-                NSUInteger index = [subElement index];
-                DDXMLElement * parent = (DDXMLElement *) subElement.parent;
-                
-                //ensue the id preserves
                 NSString * subElementId = [subElement attributeForName:ITEM_ID].stringValue;
-                DDXMLElement * newElement = newNamespaceSubElement.element;
-                [newElement removeAttributeForName:ITEM_ID];
-                DDXMLNode * IDAttribute = [DDXMLNode attributeWithName:ITEM_ID stringValue:subElementId];
-                [newElement addAttribute:IDAttribute];
                 
-                [parent removeChildAtIndex:index];
-                [newElement detach];
-                [parent addChild:newElement];
+                if ([subElementId isEqualToString:newNamespaceSubElement.ID])
+                {
+                    
+                    
+                    NSUInteger index = [subElement index];
+                    DDXMLElement * parent = (DDXMLElement *) subElement.parent;
+                    
+                    //ensue the id preserves
+                    
+                    DDXMLElement * newElement = newNamespaceSubElement.element;
+                    [newElement removeAttributeForName:ITEM_ID];
+                    DDXMLNode * IDAttribute = [DDXMLNode attributeWithName:ITEM_ID stringValue:subElementId];
+                    [newElement addAttribute:IDAttribute];
+                    [parent removeChildAtIndex:index];
+                    [newElement detach];
+                    [parent addChild:newElement];
+                }
             }
         }
         else if (subElements == nil || [subElements count] == 0)
@@ -506,7 +513,7 @@
     NSArray * allSubElemens = [self getXMLASsociationNamespaceElementsForAssociationWithId:associationId
                                                                           andNamespaceName:namespaceId];
     DDXMLElement * associationNamespaceElem = allSubElemens[0];
-
+    
     if (associationNamespaceElem != nil)
     {
         NSUInteger index = [associationNamespaceElem index];
@@ -591,7 +598,10 @@
     {
         if ([child.name isEqualToString:FRAGMENT_NAMESPACE_DATA])
         {
-            DDXMLNode * childNamespaceNode = [child attributeForName:XMLNS_NAME];
+            NSArray * namespaces = [child namespaces];
+            if (namespaces == nil || [namespaces count] == 0) continue;
+            
+            DDXMLNode * childNamespaceNode = namespaces[0];
             if (childNamespaceNode != nil &&
                 [childNamespaceNode.stringValue isEqualToString:namespaceName])
             {
@@ -606,15 +616,20 @@
                                             inNamespace:(NSString *) namespaceName
 {
     NSMutableArray * result = [NSMutableArray array];
-    for (DDXMLElement * child in self.doc.rootElement.children)
+    NSArray * allChildren = [self.doc.rootElement.children copy];
+    for (DDXMLElement * child in allChildren)
     {
         if ([child.name isEqualToString:FRAGMENT_NAMESPACE_DATA])
         {
-            DDXMLNode * childNamespaceNode = [child attributeForName:XMLNS_NAME];
+            NSArray * namespaces = [child namespaces];
+            if (namespaces == nil || [namespaces count] == 0) continue;
+            
+            DDXMLNode * childNamespaceNode = namespaces[0];
             if (childNamespaceNode != nil &&
                 [childNamespaceNode.stringValue isEqualToString:namespaceName])
             {
-                for(DDXMLElement * subElementChild in child.children)
+                NSArray * subElementChildren = child.children;
+                for(DDXMLElement * subElementChild in subElementChildren)
                 {
                     if ([subElementChild.name isEqualToString:name])
                     {
@@ -636,7 +651,10 @@
     {
         if ([child.name isEqualToString:FRAGMENT_NAMESPACE_DATA])
         {
-            DDXMLNode * childNamespaceNode = [child attributeForName:XMLNS_NAME];
+            NSArray * namespaces = [child namespaces];
+            if (namespaces == nil || [namespaces count] == 0) continue;
+            
+            DDXMLNode * childNamespaceNode = namespaces[0];
             if (childNamespaceNode != nil &&
                 [childNamespaceNode.stringValue isEqualToString:namespaceName])
             {
@@ -726,7 +744,10 @@
             {
                 for (DDXMLElement * childSubElement in child.children)
                 {
-                    DDXMLNode * namespaceNode = [childSubElement attributeForName:XMLNS_NAME];
+                    NSArray * namespaces = [child namespaces];
+                    if (namespaces == nil || [namespaces count] == 0) continue;
+                    
+                    DDXMLNode * namespaceNode = namespaces[0];
                     if (namespaceNode != nil &&
                         [namespaceNode.stringValue isEqualToString:namespaceName])
                     {

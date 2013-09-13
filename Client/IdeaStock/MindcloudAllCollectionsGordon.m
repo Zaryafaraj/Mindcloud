@@ -344,11 +344,11 @@
         {
             [oldCategoryElem removeSubElement:categoryRefElem.ID];
             [newCategoryElem addSubElement:categoryRefElem];
-            [self.categoriesFragment setFragmentNamespaceSubElementWithElement:oldCategoryElem];
-            [self.categoriesFragment setFragmentNamespaceSubElementWithElement:newCategoryElem];
             shouldSave = YES;
         }
     }
+    [self.categoriesFragment setFragmentNamespaceSubElementWithElement:oldCategoryElem];
+    [self.categoriesFragment setFragmentNamespaceSubElementWithElement:newCategoryElem];
     
     if (shouldSave) [self saveCategories];
     

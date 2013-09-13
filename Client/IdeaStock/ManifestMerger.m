@@ -395,7 +395,6 @@
     return result;
 }
 
-//This is the case III-2 (a & b)
 -(XoomlNamespaceElement *) mergeSubElementChildrenWithId:(NSString *) subElementId
                                        fromServer:(NSDictionary *) serverSubElementChildren
                                                  with:(NSDictionary *) clientSubElementChildren

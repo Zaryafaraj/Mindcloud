@@ -343,8 +343,15 @@
         return;
     
     
+    //in each iteration of the for loop the original category may be different.
+    //for example if we move multiple collections from all category that each
+    //belong to a different category to a single new category
+    //for this reason we use dictionaries that map an original category to collections
+    //that are in there
     NSMutableArray * collectionsToAdd = [NSMutableArray array];
-    NSMutableArray * collectionsToMove = [NSMutableArray array];
+    NSMutableDictionary * collectionsToMove = [NSMutableDictionary dictionary];
+    NSMutableDictionary * collectionsToRemove = [NSMutableDictionary dictionary];
+    
     NSString * originalOldCat = oldCategory;
     for(NSString * collectionName in collections)
     {
@@ -359,54 +366,94 @@
             originalOldCat = [self findCategoryForCollection:collectionName];
             
             //always remove from uncategorized
-            [self.collections[UNCATEGORIZED_KEY] removeObject:collectionName];
+            if ([self.collections[UNCATEGORIZED_KEY] containsObject:collectionName])
+            {
+                [self.collections[UNCATEGORIZED_KEY] removeObject:collectionName];
+            }
         }
         
         [self.collections[newCategory] addObject:collectionName];
         
+        //remove it from the conceptual category
         if (![oldCategory isEqualToString:ALL])
         {
-            // only remove from any category (conceptual included) if the category is not ALL
             [self.collections[oldCategory] removeObject:collectionName];
         }
         
+        //remove it from the actual category
+        if (originalOldCat != nil)
+        {
+            [self.collections[originalOldCat] removeObject:collectionName];
+        }
+        
+        //since uncategorized is a conceptual category we don't need to move the
+        //collection we just remove it from the old category
+        if ([newCategory isEqualToString:UNCATEGORIZED_KEY])
+        {
+            if (originalOldCat != nil)
+            {
+                if (!collectionsToRemove[originalOldCat])
+                {
+                    collectionsToRemove[originalOldCat] = [NSMutableArray array];
+                }
+                NSMutableArray * collectionList = collectionsToRemove[originalOldCat];
+                [collectionList addObject:collectionName];
+                collectionsToRemove[originalOldCat] = collectionList;
+                
+            }
+        }
+        //we are moving from a conceptual category so its not a move method but an
+        //add method
         if (originalOldCat == nil)
         {
-            //category was conceptual and the collection wasn't categorized.
-            //its not a move its an add
             [collectionsToAdd addObject:collectionName];
         }
+        //this is a proper move
         else
         {
-            [collectionsToMove addObject:collectionName];
+            if (originalOldCat != nil)
+            {
+                if (!collectionsToMove[originalOldCat])
+                {
+                    collectionsToMove[originalOldCat] = [NSMutableArray array];
+                }
+                NSMutableArray * collectionList = collectionsToMove[originalOldCat];
+                [collectionList addObject:collectionName];
+                collectionsToMove[originalOldCat] = collectionList;
+                
+            }
         }
     }
     
     //in this case we need to remove the collection from its category
     if ([newCategory isEqualToString:UNCATEGORIZED_KEY])
     {
-        [self.gordonDataSource removeFromCategory:oldCategory
-                              collectionsWithName:collections];
+        for(NSString * previousCategory in collectionsToRemove)
+        {
+            NSArray * allCollections = collectionsToRemove[previousCategory];
+            [self.gordonDataSource removeFromCategory:previousCategory
+                                  collectionsWithName:allCollections];
+        }
+
+    }
+
+    if ([collectionsToMove count] > 0)
+    {
+        for(NSString * previousCategory in collectionsToMove)
+        {
+            NSArray * allCollections = collectionsToMove[previousCategory];
+            [self.gordonDataSource moveCollections:allCollections
+                                   fromOldCategory:previousCategory
+                                     toNewCategory:newCategory];
+        }
+
     }
     
     if ([collectionsToAdd count] > 0)
     {
-        [self.gordonDataSource addToCategory:newCategory
-                        collectionsWithNames:collectionsToAdd];
+            [self.gordonDataSource addToCategory:newCategory
+                            collectionsWithNames:collectionsToAdd];
     }
-    
-    if ([collectionsToMove count] > 0)
-    {
-        [self.gordonDataSource moveCollections:collectionsToMove
-                               fromOldCategory:originalOldCat
-                                 toNewCategory:newCategory];
-    }
-    
-    NSLog(@"old:");
-    NSLog(@"%@", self.collections[oldCategory]);
-    NSLog(@"new:");
-    NSLog(@"%@", self.collections[newCategory]);
-    
 }
 
 -(NSString *) findCategoryForCollection:(NSString *) collectionName
