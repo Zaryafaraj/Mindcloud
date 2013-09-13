@@ -235,93 +235,76 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="light grey2.png" translatesAutoresizingMaskIntoConstraints="NO" id="dH2-WO-dLx">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="368"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="368" id="lDV-Ly-Ib0"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Share the code below with the person you want to share this collection with" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="315" translatesAutoresizingMaskIntoConstraints="NO" id="TeG-4a-R7g">
-                                <rect key="frame" x="227" y="20" width="315" height="63"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Share the code below with the person you want to share this with" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="315" translatesAutoresizingMaskIntoConstraints="NO" id="TeG-4a-R7g">
+                                <rect key="frame" x="226" y="20" width="315" height="63"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="315" id="Cm4-Hg-Fej"/>
                                     <constraint firstAttribute="height" constant="63" id="alh-IO-8Ej"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" misplaced="YES" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="RXx-me-U5X">
-                                <rect key="frame" x="366" y="20" width="37" height="37"/>
-                                <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="RXx-me-U5X">
+                                <rect key="frame" x="365" y="20" width="37" height="37"/>
+                                <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <textField clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kaA-AR-Lhq">
-                                <rect key="frame" x="285" y="91" width="199" height="30"/>
+                            <textField clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kaA-AR-Lhq">
+                                <rect key="frame" x="284" y="91" width="199" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="199" id="w0r-Ys-KgW"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SU4-2I-9r9">
-                                <rect key="frame" x="394" y="136" width="90" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SCV-RT-Iez">
+                                <rect key="frame" x="284" y="129" width="90" height="78"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="FE4-6R-rAk"/>
+                                    <constraint firstAttribute="width" constant="90" id="1BZ-87-BmH"/>
+                                    <constraint firstAttribute="height" constant="78" id="KUN-dD-DnX"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                <state key="normal" title="Email">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="Copy">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
                                 <connections>
-                                    <action selector="emailPressed:" destination="7u7-Q1-AoO" eventType="touchUpInside" id="73P-aQ-SVr"/>
+                                    <action selector="textCopyPressed:" destination="7u7-Q1-AoO" eventType="touchUpInside" id="Za0-W5-H9r"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VSm-jd-QYY">
-                                <rect key="frame" x="285" y="136" width="90" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="TXg-Et-lY3"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                <state key="normal" title="Copy">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t22-qT-wjX">
+                                <rect key="frame" x="393" y="129" width="90" height="78"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="Email">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
                                 <connections>
-                                    <action selector="textCopyPressed:" destination="7u7-Q1-AoO" eventType="touchUpInside" id="lQo-Wv-iH7"/>
+                                    <action selector="emailPressed:" destination="7u7-Q1-AoO" eventType="touchUpInside" id="sLc-k5-DSE"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="kaA-AR-Lhq" firstAttribute="top" secondItem="TeG-4a-R7g" secondAttribute="bottom" constant="8" symbolic="YES" id="60V-Rz-w0v"/>
-                            <constraint firstItem="dH2-WO-dLx" firstAttribute="leading" secondItem="CVh-1W-fuM" secondAttribute="leading" id="7q4-ef-0Q8"/>
-                            <constraint firstItem="VSm-jd-QYY" firstAttribute="baseline" secondItem="SU4-2I-9r9" secondAttribute="baseline" id="B6k-6J-1CX"/>
-                            <constraint firstItem="dH2-WO-dLx" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" id="BBt-Cu-bRU"/>
-                            <constraint firstItem="dH2-WO-dLx" firstAttribute="centerX" secondItem="TeG-4a-R7g" secondAttribute="centerX" id="GFI-HQ-m0h"/>
-                            <constraint firstItem="RXx-me-U5X" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="20" symbolic="YES" id="Rep-TV-lZC"/>
-                            <constraint firstItem="SU4-2I-9r9" firstAttribute="trailing" secondItem="kaA-AR-Lhq" secondAttribute="trailing" id="S5y-YM-6bn"/>
-                            <constraint firstItem="VSm-jd-QYY" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="136" id="W9z-jp-gjI"/>
-                            <constraint firstItem="TeG-4a-R7g" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="20" symbolic="YES" id="cmc-FY-m2l"/>
+                            <constraint firstItem="TeG-4a-R7g" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="20" symbolic="YES" id="Thh-Ay-wHn"/>
                             <constraint firstItem="TeG-4a-R7g" firstAttribute="centerX" secondItem="RXx-me-U5X" secondAttribute="centerX" id="dQf-e3-6aD"/>
+                            <constraint firstItem="t22-qT-wjX" firstAttribute="top" secondItem="kaA-AR-Lhq" secondAttribute="bottom" constant="8" symbolic="YES" id="eQJ-1v-yQs"/>
+                            <constraint firstItem="TeG-4a-R7g" firstAttribute="centerX" secondItem="CVh-1W-fuM" secondAttribute="centerX" id="fSd-Jt-ROx"/>
+                            <constraint firstItem="TeG-4a-R7g" firstAttribute="top" secondItem="RXx-me-U5X" secondAttribute="top" id="gND-fX-llw"/>
+                            <constraint firstItem="SCV-RT-Iez" firstAttribute="bottom" secondItem="t22-qT-wjX" secondAttribute="bottom" id="gbP-0u-tK7"/>
+                            <constraint firstItem="SCV-RT-Iez" firstAttribute="top" secondItem="kaA-AR-Lhq" secondAttribute="bottom" constant="8" symbolic="YES" id="lGi-1P-cil"/>
+                            <constraint firstItem="t22-qT-wjX" firstAttribute="trailing" secondItem="kaA-AR-Lhq" secondAttribute="trailing" id="r9t-xB-8ht"/>
+                            <constraint firstItem="SCV-RT-Iez" firstAttribute="leading" secondItem="kaA-AR-Lhq" secondAttribute="leading" id="tmS-8v-K3m"/>
                             <constraint firstItem="kaA-AR-Lhq" firstAttribute="centerX" secondItem="RXx-me-U5X" secondAttribute="centerX" id="tq3-p0-oYv"/>
-                            <constraint firstItem="kaA-AR-Lhq" firstAttribute="leading" secondItem="VSm-jd-QYY" secondAttribute="leading" id="yOh-0T-Ddr"/>
-                            <constraint firstItem="dH2-WO-dLx" firstAttribute="trailing" secondItem="CVh-1W-fuM" secondAttribute="trailing" id="zdl-9O-ol4"/>
+                            <constraint firstItem="t22-qT-wjX" firstAttribute="leading" secondItem="SCV-RT-Iez" secondAttribute="trailing" constant="19" id="zwD-es-QlP"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
                         <outlet property="SharingSecretText" destination="kaA-AR-Lhq" id="fCp-HO-b5p"/>
                         <outlet property="activityIndicator" destination="RXx-me-U5X" id="mC3-Ye-oGd"/>
-                        <outlet property="emailButton" destination="SU4-2I-9r9" id="z9d-aC-ZsY"/>
                         <outlet property="sharingLabel" destination="TeG-4a-R7g" id="Ap6-23-HXB"/>
-                        <outlet property="textCopyButton" destination="VSm-jd-QYY" id="7NH-gk-Ysy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iZr-zl-hiA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -681,7 +664,7 @@
         <image name="Colle.png" width="521" height="528"/>
         <image name="Felt-Blue.jpg" width="1024" height="1024"/>
         <image name="felt-red-ipad-background.jpg" width="1024" height="1024"/>
-        <image name="light grey2.png" width="1024" height="768"/>
+        <image name="felt-red-ipad-background.jpg" width="1024" height="1024"/>
         <image name="rainbow" width="2556" height="100"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
