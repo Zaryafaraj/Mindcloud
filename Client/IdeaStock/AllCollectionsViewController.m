@@ -55,7 +55,7 @@
 @synthesize currentCategory = _currentCategory;
 
 #define DELETE_BUTTON @"Delete"
-#define CANCEL_BUTTON @"Cancel"
+#define CANCEL_BUTTON @"Done"
 #define RENAME_BUTTON @"Rename"
 #define EDIT_BUTTON @"Edit"
 #define CATEGORIZE_BUTTON @"Categorize"
@@ -923,14 +923,36 @@
 
 #pragma mark - Categorization delegate
 
+/*! Following rules apply: 
+    1- You can't move any collection to ALL category
+    2- You can't move any collection to SHARED category by the act of categorization
+        Moving stuff in and out of the SHARED category is done by the action of 
+        Sharing/subscribing
+    3- A collection can have only one category. Except ALL Category and SHARED category. 
+        In addition to their original category (UNCATEGORIZED, ...) all
+        the collections belong to the ALL category -> Not enforced in this class
+        In addition to their original category (UNCATEGORIZED, ...) any collection 
+        that is shared belongs to the SHARED category
+    4- You can't move a collection between SHARED category and UNCATEGORIZED. 
+        You can move the the collection however to any other category
+ */
 -(void) categorizationHappenedForCategory:(NSString *) categoryName
 {
     [self dismissPopOver];
     
     if ([self.currentCategory isEqualToString:categoryName]) return;
     
+    //RULE 1 & 2
     if ([categoryName isEqualToString:ALL]
         || [categoryName isEqualToString:SHARED_COLLECTIONS_KEY] )
+    {
+        return;
+    }
+    
+    
+    //Rule 4
+    if ([self.currentCategory isEqualToString:SHARED_COLLECTIONS_KEY] &&
+        [categoryName isEqualToString:UNCATEGORIZED_KEY])
     {
         return;
     }
@@ -947,8 +969,9 @@
                 fromCategory:self.currentCategory
                   toNewCategory:categoryName];
     
-    if (![self.currentCategory isEqual:ALL] &&
+    if (![self.currentCategory isEqualToString:ALL] &&
         ![self.currentCategory isEqualToString:SHARED_COLLECTIONS_KEY])
+        
     {
         [self.collectionView performBatchUpdates:^{
             [self.collectionView deleteItemsAtIndexPaths:[self.collectionView indexPathsForSelectedItems]];
@@ -1016,6 +1039,12 @@
                 presentedPopOver.sharingSecret = sharingSecret;
             }
         }
+    }
+    
+    //only if we were in the uncategorized switch to shared
+    if ([self.currentCategory isEqualToString:UNCATEGORIZED_KEY])
+    {
+        [self swithToCategory:SHARED_COLLECTIONS_KEY];
     }
 }
 -(void) failedToSubscribeToSecret

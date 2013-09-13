@@ -60,7 +60,7 @@
 }
 
 #define EDIT_BUTTON_TITLE @"Edit"
-#define CANCEL_BUTTON_TITLE @"Cancel"
+#define CANCEL_BUTTON_TITLE @"Done"
 - (IBAction)editPressed:(id)sender {
     if (self.table.editing)
     {
@@ -78,7 +78,6 @@
         button.title = CANCEL_BUTTON_TITLE;
         button.style = UIBarButtonItemStyleBordered;
         self.lastButtonColor = button.tintColor;
-        button.tintColor = [UIColor colorWithRed:0.12 green:0.23 blue:1 alpha:1];
         self.viewToolbar.items = self.editToolbarItems;
     }
 }

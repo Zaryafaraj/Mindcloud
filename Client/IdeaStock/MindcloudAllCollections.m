@@ -332,13 +332,7 @@
            fromCategory: (NSString *) oldCategory
           toNewCategory: (NSString *) newCategory;
 {
-    
-    if ([newCategory isEqualToString:ALL] ||
-        [newCategory isEqualToString:SHARED_COLLECTIONS_KEY])
-    {
-        return;
-    }
-    
+    //you can't move stuff between shared category and uncategorized.
     if (!self.collections[oldCategory] || !self.collections[newCategory])
         return;
     
@@ -375,7 +369,12 @@
         [self.collections[newCategory] addObject:collectionName];
         
         //remove it from the conceptual category
-        if (![oldCategory isEqualToString:ALL])
+        //don't remove it from ALL and SHARED.
+        //if we are moving it from SHARED don't remove it from original category
+        //a collection can belong to both SHARED and another category
+        if (![oldCategory isEqualToString:ALL] &&
+            ![oldCategory isEqualToString:SHARED_COLLECTIONS_KEY] &&
+            ![newCategory isEqualToString:SHARED_COLLECTIONS_KEY])
         {
             [self.collections[oldCategory] removeObject:collectionName];
         }
