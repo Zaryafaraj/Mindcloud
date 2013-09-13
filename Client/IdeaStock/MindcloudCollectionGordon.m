@@ -247,7 +247,8 @@ CachedObject> dataSource;
 -(void) setAssociationWithId:(NSString *) associationId
                toAssociation:(XoomlAssociation *) association
 {
-    [self.collectionFragment setAssociationWithId:associationId withNewAssociation:association];
+    association.ID = associationId;
+    [self.collectionFragment setAssociation:association];
     self.needSynchronization = YES;
     
     [self.recorder recordUpdateAssociation:associationId];

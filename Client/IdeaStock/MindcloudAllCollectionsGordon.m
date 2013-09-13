@@ -136,10 +136,17 @@
     [self.dataSource renameCollectionWithName:collectionName to:newCollectionName];
     [self.allCollectionNames removeObject:collectionName];
     [self.allCollectionNames addObject:newCollectionName];
-    [self.categoriesFragment removeAllAssociationsWithAssociatedFragmentName:collectionName];
-    XoomlAssociation * association = [[XoomlAssociation alloc] initWithAssociatedItem:newCollectionName];
-    [self.categoriesFragment addAssociation:association];
-    [self saveCategories];
+    
+    NSArray * associationsToRename = [self.categoriesFragment getAssociationsWithAssociatedItem:collectionName];
+    
+    if (associationsToRename != nil && [associationsToRename count] != 0)
+    {
+        XoomlAssociation * associationToRename = associationsToRename[0];
+        associationToRename.associatedItem = newCollectionName;
+        [self.categoriesFragment setAssociation:associationToRename];
+        [self saveCategories];
+    }
+
 }
 
 -(NSData *) getThumbnailForCollection:(NSString *) collectionName
@@ -369,6 +376,7 @@
         {
             [category removeAttributeNamed:CATEGORY_NAME_ATTRIBUTE];
             [category addAttributeWithName:CATEGORY_NAME_ATTRIBUTE andValue:newCategoryName];
+            [self.categoriesFragment setFragmentNamespaceSubElementWithElement:category];
             [self saveCategories];
             return;
         }

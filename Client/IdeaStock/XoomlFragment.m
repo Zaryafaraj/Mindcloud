@@ -417,9 +417,9 @@
     }
 }
 
--(void) setAssociationWithId:(NSString *) associationId
-          withNewAssociation:(XoomlAssociation *) element
+-(void) setAssociation:(XoomlAssociation *) association;
 {
+    NSString * associationId = association.ID;
     NSArray * associations = [self getXMLAssociationWithId:associationId];
     DDXMLElement * associationElem = associations[0];
     if (associationElem != nil)
@@ -429,7 +429,7 @@
         
         //ensue the id preserves
         NSString * oldAssociationId = [associationElem attributeForName:ITEM_ID].stringValue;
-        DDXMLElement * newElement = element.element;
+        DDXMLElement * newElement = association.element;
         [newElement removeAttributeForName:ITEM_ID];
         DDXMLNode * IDAttribute = [DDXMLNode attributeWithName:ITEM_ID stringValue:oldAssociationId];
         [newElement addAttribute:IDAttribute];
@@ -439,7 +439,7 @@
     }
     else
     {
-        [self addAssociation:element];
+        [self addAssociation:association];
     }
 }
 
@@ -467,7 +467,7 @@
 {
     
     NSArray * associations = [self getXMLAssociationWithId:associationId];
-    DDXMLElement * associationElem = associations[0];
+    DDXMLNode * associationElem = associations[0];
     if (associationElem != nil)
     {
         XoomlAssociation * association = [[XoomlAssociation alloc] initWithXMLString:associationElem.description];
@@ -476,7 +476,17 @@
     return nil;
 }
 
-
+-(NSArray *) getAssociationsWithAssociatedItem:(NSString *) associatedItem
+{
+    NSArray * associations = [self getXMLAssociationWithAssociatedItem:associatedItem];
+    NSMutableArray * result = [NSMutableArray array];
+    for (DDXMLElement * associationElem in associations)
+    {
+        XoomlAssociation * association = [[XoomlAssociation alloc] initWithXMLString:associationElem.description];
+        [result addObject:association];
+    }
+    return result;
+}
 #pragma mark - Association NamespaceData
 
 //=====================================================================
@@ -706,6 +716,26 @@
         }
     }
     return result;
+}
+
+-(NSArray *)  getXMLAssociationWithAssociatedItem:(NSString *) associatedItem
+{
+       NSMutableArray * result = [NSMutableArray array];
+    for (DDXMLElement * child in self.doc.rootElement.children)
+    {
+        if ([child.name isEqualToString:ASSOCIATION_NAME])
+        {
+            DDXMLNode * childIdNode = [child attributeForName:ASSOCIATED_ITEM];
+            if (childIdNode != nil &&
+                [childIdNode.stringValue isEqualToString:associatedItem])
+            {
+                [result addObject:child];
+                
+            }
+        }
+    }
+    return result;
+    
 }
 
 -(NSArray *) getXMLAssociationNamespaceElementsForAssociationWithId:(NSString *) associationId

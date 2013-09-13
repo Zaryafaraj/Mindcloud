@@ -109,8 +109,7 @@
 
 /*! If the item is there it will update it, if its not it will create a new one
  */
--(void) setAssociationWithId:(NSString *) associationId
-             withNewAssociation:(XoomlAssociation *) element;
+-(void) setAssociation:(XoomlAssociation *) association;
 
 /*! Keyed on associationId and valued on Xooml
  */
@@ -118,9 +117,7 @@
 
 -(XoomlAssociation *) getAssociationWithId:(NSString *) associationId;
 
-
-
-
+-(NSArray *) getAssociationsWithAssociatedItem:(NSString *) associatedItem;
 
 #pragma mark - Association NamespaceData
 //==================================  Association Namespace Data
