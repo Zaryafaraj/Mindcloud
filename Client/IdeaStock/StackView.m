@@ -515,7 +515,7 @@
     
 }
 #pragma mark - keyboard
--(void) resignFirstResponder{
+-(void) resignSubViewsAsFirstResponder{
     for (UIView * subView in self.subviews){
         if ([subView isKindOfClass:[UITextView class]]){
             if (subView.isFirstResponder){

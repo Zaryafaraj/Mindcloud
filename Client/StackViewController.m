@@ -278,7 +278,7 @@
     for(UIView * view in self.notes){
         if ([view conformsToProtocol:@protocol(BulletinBoardObject)]){
             id<BulletinBoardObject> obj = (id<BulletinBoardObject>) view;
-            [obj resignFirstResponder];
+            [obj resignSubViewsAsFirstResponder];
         }
     }
 }

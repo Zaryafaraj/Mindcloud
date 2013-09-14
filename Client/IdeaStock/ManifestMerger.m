@@ -253,20 +253,21 @@
         if (serverElement == nil)
         {
             mergedElement = clientElement;
-            continue;
         }
-        if (clientElement == nil)
+        else if (clientElement == nil)
         {
             mergedElement = serverElement;
-            continue;
         }
-        
-        NSDictionary * allServerSubElements = [serverElement getAllXoomlFragmentsNamespaceSubElements];
-        NSDictionary * allClientSubElements = [clientElement getAllXoomlFragmentsNamespaceSubElements];
-        mergedElement = [self mergeFragmentNamespaceSubElementWithId:namespaceId
-                                                          fromServer:allServerSubElements
+        else
+        {
+            NSDictionary * allServerSubElements = [serverElement getAllXoomlFragmentsNamespaceSubElements];
+            NSDictionary * allClientSubElements = [clientElement getAllXoomlFragmentsNamespaceSubElements];
+            mergedElement = [self mergeFragmentNamespaceSubElementWithId:namespaceId
+                                                              fromServer:allServerSubElements
                                                               withClient:allClientSubElements
                                               andFragmenNamespaceElement:clientElement];
+        }
+        
         if (mergedElement != nil)
         {
             finalNamespaces[namespaceId] = mergedElement;
@@ -361,20 +362,20 @@
             if (serverSubElement == nil)
             {
                 mergedSubElement = clientSubElement;
-                continue;
             }
-            if (clientSubElement == nil)
+            else if (clientSubElement == nil)
             {
                 mergedSubElement = serverSubElement;
-                continue;
             }
-            
-            NSDictionary * allClientLowSubElements = [clientSubElement getAllSubElements];
-            NSDictionary * allServerLowSubElements = [serverSubElement getAllSubElements];
-            mergedSubElement = [self mergeSubElementChildrenWithId:subElementId
-                                                 fromServer:allServerLowSubElements
-                                                           with:allClientLowSubElements andClientParentNamespaceElement:clientSubElement];
-            
+            else
+            {
+                NSDictionary * allClientLowSubElements = [clientSubElement getAllSubElements];
+                NSDictionary * allServerLowSubElements = [serverSubElement getAllSubElements];
+                mergedSubElement = [self mergeSubElementChildrenWithId:subElementId
+                                                            fromServer:allServerLowSubElements
+                                                                  with:allClientLowSubElements andClientParentNamespaceElement:clientSubElement];
+                
+            }
             if (mergedSubElement != nil)
             {
                 [result addSubElement:mergedSubElement];

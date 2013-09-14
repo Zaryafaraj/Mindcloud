@@ -17,7 +17,7 @@
 
 -(void) resetSize;
 
--(void) resignFirstResponder;
+-(void) resignSubViewsAsFirstResponder;
 
 @property (strong,nonatomic) NSString * text;
 @property (nonatomic) BOOL highlighted;

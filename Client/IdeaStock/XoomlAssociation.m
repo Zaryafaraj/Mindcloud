@@ -158,6 +158,7 @@
         _associatedItem = @".";
         self.isSelfReferencing = YES;
         associatedItemNode = [DDXMLNode attributeWithName:ASSOCIATED_ITEM stringValue:_associatedItem];
+        [self.element addAttribute: associatedItemNode];
     }
     
     DDXMLNode * displayTextNode = [self.element attributeForName:DISPLAY_TEXT];
@@ -304,12 +305,15 @@
         }
     }
     
-    [self.element removeChildAtIndex:index];
+    if (found)
+    {
+        [self.element removeChildAtIndex:index];
+    }
 }
 
 -(BOOL) isSelfReferncing
 {
-    return self.isSelfReferncing;
+    return _isSelfReferencing;
 }
 
 -(NSString *) description

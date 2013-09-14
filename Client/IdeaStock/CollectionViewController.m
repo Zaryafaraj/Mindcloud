@@ -1434,8 +1434,11 @@ intoStackingWithMainView: (UIView *) mainView
     //make sure that the top of the stack is at index 0
     if ([stackingNoteIDs containsObject:topItemID])
     {
-        [stackingNoteIDs removeObject:topItemID];
-        [stackingNoteIDs insertObject:topItemID atIndex:0];
+        if (topItemID != nil)
+        {
+            [stackingNoteIDs removeObject:topItemID];
+            [stackingNoteIDs insertObject:topItemID atIndex:0];
+        }
     }
     
     [self.board addNotesWithIDs:stackingNoteIDs toStacking:stackingID];
@@ -1650,7 +1653,7 @@ intoStackingWithMainView: (UIView *) mainView
     for(UIView * view in self.collectionView.subviews){
         if ([view conformsToProtocol:@protocol(BulletinBoardObject)]){
             id<BulletinBoardObject> obj = (id<BulletinBoardObject>) view;
-            [obj resignFirstResponder];
+            [obj resignSubViewsAsFirstResponder];
         }
     }
 }
