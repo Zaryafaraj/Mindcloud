@@ -531,7 +531,7 @@
 
 -(XoomlNamespaceElement * ) getThumbnailElement:(NSMutableDictionary *) allFragmentNamespaces
 {
-    for(XoomlFragmentNamespaceElement * elem in allFragmentNamespaces)
+    for(XoomlFragmentNamespaceElement * elem in allFragmentNamespaces.allValues)
     {
         if ([elem.namespaceName isEqualToString:MINDCLOUD_XMLNS])
         {
