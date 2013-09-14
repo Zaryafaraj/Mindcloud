@@ -98,7 +98,6 @@
 }
 -(void) ApplicationHasGoneInBackground:(NSNotification *) notification
 {
-    NSLog(@"Gone to BG");
     [self.board pause];
 //    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

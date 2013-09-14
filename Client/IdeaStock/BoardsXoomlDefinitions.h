@@ -15,7 +15,7 @@
 #define MINDCLOUD_NAME_ATTRIBUTE @"name"
 #define MINDCLOUD_POSITION_TYPE @"position"
 #define MINDCLOUD_SCALE_TYPE @"scale"
-#define MINDCLOUD_BOARDS_NAMESPACE @"mindcloud"
+#define MINDCLOUD_BOARDS_NAMESPACE @"http://mindcloud.io/xmlns/mindcloud"
 #define MINDCLOUD_STACKING_ATTRIBUTE @"stacking"
 #define MINDCLOUD_NOTE_REFID @"noteRefId"
 #define MINDCLOUD_REFID_ATTRIBUTE @"refId"

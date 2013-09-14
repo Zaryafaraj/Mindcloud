@@ -404,7 +404,10 @@ CachedObject> dataSource;
     
     
     //record update of parent
-    [self.recorder recordUpdateFragmentNamespaceElement:parent.ID];
+    if (parent.ID != nil)
+    {
+        [self.recorder recordUpdateFragmentNamespaceElement:parent.ID];
+    }
     
     
     NSDictionary * allSubElementsToDel = [parent getAllXoomlFragmentsNamespaceSubElements];

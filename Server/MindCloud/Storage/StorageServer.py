@@ -26,7 +26,6 @@ class StorageServer:
     __COLLECTION_FILE_NAME = 'XooML2.xml'
     __NOTE_FILE_NAME = 'XooML2.xml'
     __NOTE_IMG_FILE_NAME = 'img.jpg'
-    __EMPTY_CATEGORIES = '<?xml version="1.0" encoding="UTF-8"?><root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xooml="http://kftf.ischool.washington.edu/xmlns/xooml" xsi:schemaLocation="http://kftf.ischool.washington.edu/xmlns/xooml http://kftf.ischool.washington.edu/XMLschema/0.41/XooML.xsd"></root>'
 
     @staticmethod
     @gen.engine

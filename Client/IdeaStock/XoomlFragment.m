@@ -64,7 +64,7 @@
     if (self)
     {
         DDXMLElement * root = [[DDXMLElement alloc] initWithName:FRAGMENT_NAME];
-        [root addNamespace: [DDXMLNode namespaceWithName:@"xmlns" stringValue: XOOML_XMLNS]];
+        [root addNamespace: [DDXMLNode namespaceWithName:@"xooml" stringValue: XOOML_XMLNS]];
         [root addNamespace: [DDXMLNode namespaceWithName:@"xsi" stringValue: XML_XSI]];
         [root addNamespace: [DDXMLNode namespaceWithName:@"mindcloud" stringValue: MINDCLOUD_XMLNS]];
         [root addAttribute:[DDXMLNode attributeWithName:ITEM_DRIVER_NAME stringValue:BANE]];
@@ -421,25 +421,30 @@
 {
     NSString * associationId = association.ID;
     NSArray * associations = [self getXMLAssociationWithId:associationId];
-    DDXMLElement * associationElem = associations[0];
-    if (associationElem != nil)
+    
+    if (associations == nil || [associations count] == 0)
     {
-        NSUInteger index = [associationElem index];
-        DDXMLElement * parent = (DDXMLElement *) associationElem.parent;
+        [self addAssociation:association];
         
-        //ensue the id preserves
-        NSString * oldAssociationId = [associationElem attributeForName:ITEM_ID].stringValue;
-        DDXMLElement * newElement = association.element;
-        [newElement removeAttributeForName:ITEM_ID];
-        DDXMLNode * IDAttribute = [DDXMLNode attributeWithName:ITEM_ID stringValue:oldAssociationId];
-        [newElement addAttribute:IDAttribute];
-        
-        [parent removeChildAtIndex:index];
-        [parent addChild:newElement];
     }
     else
     {
-        [self addAssociation:association];
+        DDXMLElement * associationElem = associations[0];
+        if (associationElem != nil)
+        {
+            NSUInteger index = [associationElem index];
+            DDXMLElement * parent = (DDXMLElement *) associationElem.parent;
+            
+            //ensue the id preserves
+            NSString * oldAssociationId = [associationElem attributeForName:ITEM_ID].stringValue;
+            DDXMLElement * newElement = association.element;
+            [newElement removeAttributeForName:ITEM_ID];
+            DDXMLNode * IDAttribute = [DDXMLNode attributeWithName:ITEM_ID stringValue:oldAssociationId];
+            [newElement addAttribute:IDAttribute];
+            
+            [parent removeChildAtIndex:index];
+            [parent addChild:newElement];
+        }
     }
 }
 
@@ -720,7 +725,7 @@
 
 -(NSArray *)  getXMLAssociationWithAssociatedItem:(NSString *) associatedItem
 {
-       NSMutableArray * result = [NSMutableArray array];
+    NSMutableArray * result = [NSMutableArray array];
     for (DDXMLElement * child in self.doc.rootElement.children)
     {
         if ([child.name isEqualToString:ASSOCIATION_NAME])

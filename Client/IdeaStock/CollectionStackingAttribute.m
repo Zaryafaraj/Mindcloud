@@ -72,9 +72,9 @@
     NSString * scaling = [element getAttributeWithName:MINDCLOUD_SCALE_ATTRIBUTE];
     NSMutableSet * noteRefIds = [NSMutableSet set];
     NSDictionary * allSubElements = [element getAllSubElements];
-    for(XoomlNamespaceElement * possibleNoteRef in allSubElements)
+    for(XoomlNamespaceElement * possibleNoteRef in allSubElements.allValues)
     {
-        if ([possibleNoteRef.name isEqualToString:MINDCLOUD_NOTE_REFID])
+        if (possibleNoteRef.name != nil && [possibleNoteRef.name isEqualToString:MINDCLOUD_NOTE_REFID])
         {
             NSString * noteRef = [possibleNoteRef getAttributeWithName:MINDCLOUD_REFID_ATTRIBUTE];
             [noteRefIds addObject:noteRef];
