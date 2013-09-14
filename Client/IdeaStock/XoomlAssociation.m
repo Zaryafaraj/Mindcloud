@@ -8,17 +8,7 @@
 
 #import "XoomlAssociation.h"
 #import "AttributeHelper.h"
-
-#define ASSOCIATION_ID @"ID"
-#define ASSOCIATON_NAME @"association"
-#define ASSOCIATED_ITEM @"associatedItem"
-#define DISPLAY_TEXT @"displayText"
-#define LOCAL_ITEM @"localItem"
-#define ASSOCIATED_XOOML_FRAGMENT @"associatedXooMLFragment"
-#define ASSOCIATED_XOOML_DRIVER @"associatedXooMLDriver"
-#define CURRENT_FRAGMENT @"./XooML2.xml";
-#define GORDON_DRIVER @"Gordon"
-#define ASSOCIATION_REF_ID @"refId"
+#import "XoomlAttributeDefinitions.h"
 
 @interface XoomlAssociation()
 
@@ -49,7 +39,7 @@
     if (self)
     {
         _refId = refId;
-        DDXMLNode * refNode = [DDXMLNode attributeWithName:ASSOCIATION_REF_ID stringValue:refId];
+        DDXMLNode * refNode = [DDXMLNode attributeWithName:REF_ID stringValue:refId];
         [self.element addAttribute:refNode];
     }
     return self;
@@ -99,7 +89,7 @@
         _refId = ID;
         _associatedXooMLFragment = @"";
         DDXMLNode * idNode = [DDXMLNode attributeWithName:ASSOCIATION_ID stringValue:_ID];
-        DDXMLNode * refNode = [DDXMLNode attributeWithName:ASSOCIATION_REF_ID stringValue:_refId];
+        DDXMLNode * refNode = [DDXMLNode attributeWithName:REF_ID stringValue:_refId];
         DDXMLNode * associatedItemNode = [DDXMLNode attributeWithName:ASSOCIATED_ITEM stringValue:_associatedItem];
         DDXMLNode * displayTextNode = [DDXMLNode attributeWithName:DISPLAY_TEXT stringValue:_displayText];
         DDXMLNode * localItemNode = [DDXMLNode attributeWithName:LOCAL_ITEM stringValue:_localItem];
@@ -184,6 +174,11 @@
     DDXMLNode * associatedXoomlDriverNode = [self.element attributeForName:ASSOCIATED_XOOML_DRIVER];
     if (associatedXoomlDriverNode) _associatedXoomlDriver = associatedXooMLFragmentNode.stringValue;
     
+    DDXMLNode * refId = [self.element attributeForName:REF_ID];
+    if (REF_ID)
+    {
+        _refId = refId.stringValue;
+    }
     return self;
 }
 
@@ -252,7 +247,7 @@
     
     for (DDXMLElement * elem in self.element.children)
     {
-        XoomlAssociationNamespaceElement * namespaceElement = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.description];
+        XoomlAssociationNamespaceElement * namespaceElement = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.XMLString];
         result[namespaceElement.ID] = namespaceElement;
     }
     
@@ -266,9 +261,13 @@
 {
     if (self.element == nil) return;
     
-    DDXMLElement * namespaceElement = [DDXMLElement  elementWithName:ASSOCIATON_NAMESPACE_NAME
-                                                         stringValue:[data toXMLString]];
+    NSError * err;
+    DDXMLElement * namespaceElement = [[DDXMLElement alloc] initWithXMLString:[data toXMLString] error:&err];
     
+    if (namespaceElement == nil)
+    {
+        NSLog(@"XoomlAssociation - Failed to create association from xml %@", err);
+    }
     [self.element addChild:namespaceElement];
 }
 
@@ -278,7 +277,7 @@
     
     for (DDXMLElement * elem in self.element.children)
     {
-        XoomlAssociationNamespaceElement * namespaceElement = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.description];
+        XoomlAssociationNamespaceElement * namespaceElement = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.XMLString];
         if ([namespaceElement.ID isEqualToString:namespaceId])
         {
             return namespaceElement;
@@ -297,7 +296,7 @@
     
     for (DDXMLElement * elem in self.element.children)
     {
-        XoomlAssociationNamespaceElement * namespaceElement = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.description];
+        XoomlAssociationNamespaceElement * namespaceElement = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.XMLString];
         if ([namespaceElement.ID isEqualToString:ID])
         {
             found = YES;
@@ -318,7 +317,7 @@
 
 -(NSString *) description
 {
-    return self.element.stringValue;
+    return self.element.XMLString;
 }
 @end
 

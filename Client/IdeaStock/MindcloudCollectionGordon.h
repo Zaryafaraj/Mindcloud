@@ -42,15 +42,13 @@
 -(void) setAssociationWithId:(NSString *) associationId
                toAssociation:(XoomlAssociation *) association;
 
+-(void) setAssociationWithRefId:(NSString *) associationRefId
+               toAssociation:(XoomlAssociation *) association;
+
 -(void) removeAssociationWithId:(NSString *) associationId
           andAssociatedItemName:(NSString *) associatedItemName;
 
 -(NSString *) getImagePathForAssociationWithName:(NSString *) associationName;
-
-
-
-
-
 
 
 /*===============================================*/

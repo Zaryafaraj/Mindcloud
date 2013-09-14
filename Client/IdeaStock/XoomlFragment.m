@@ -79,7 +79,9 @@
         DDXMLElement * collectionAttributeContainer = [[DDXMLElement alloc] initWithName: FRAGMENT_NAMESPACE_DATA];
         
         DDXMLNode * mindcloudXMLNS = [DDXMLNode attributeWithName:XMLNS_NAME stringValue:MINDCLOUD_XMLNS];
+        DDXMLNode * namespaceElementID = [DDXMLNode attributeWithName:ID_ATTRIBUTE stringValue:[AttributeHelper generateUUID]];
         [collectionAttributeContainer addAttribute:mindcloudXMLNS];
+        [collectionAttributeContainer addAttribute:namespaceElementID];
         [root addChild:collectionAttributeContainer];
         
         NSString *xmlString = [root description];
@@ -149,14 +151,14 @@
 -(void) setFragmentNamespaceElement:(XoomlFragmentNamespaceElement *)newNamespaceElement
 {
     
-    NSArray * AllNamespaceElems = [self getAllFragmentNamespaceSubElementsForNamespace:newNamespaceElement.namespaceName];
+    NSArray * AllNamespaceElems = [self  getXMLFragmentNamespaceElementWithNamespace:newNamespaceElement.namespaceName];
     DDXMLElement * namespaceElem = [AllNamespaceElems firstObject];
     if (namespaceElem != nil)
     {
         NSUInteger index = [namespaceElem index];
         DDXMLElement * parent = (DDXMLElement *) namespaceElem.parent;
         //ensue the id preserves
-        NSString * namespaceElemId = [namespaceElem attributeForName:ITEM_ID].description;
+        NSString * namespaceElemId = [namespaceElem attributeForName:ITEM_ID].stringValue;
         DDXMLElement * newElement = newNamespaceElement.element;
         [newElement removeAttributeForName:ITEM_ID];
         DDXMLNode * IDAttribute = [DDXMLNode attributeWithName:ITEM_ID stringValue:namespaceElemId];
@@ -349,9 +351,12 @@
 -(NSArray *) getAllFragmentNamespaceSubElementsForNamespace:(NSString *) namespaceName
 {
     NSArray * allElems = [self getXMLFragmentNamespaceElementWithNamespace:namespaceName];
+    NSMutableArray * result = [NSMutableArray array];
+    if (allElems == nil || [allElems count] == 0) return result;
+    
     DDXMLElement * fragmentNamespaceData = allElems[0];
     
-    NSMutableArray * result = [NSMutableArray array];
+
     
     if (fragmentNamespaceData == nil) return result;
     for (DDXMLElement * subElement in fragmentNamespaceData.children)
@@ -393,6 +398,9 @@
 -(void) removeAssociation:(NSString *) associationId
 {
     NSArray * associations = [self getXMLAssociationWithId:associationId];
+    
+    if (associations == nil || [associations count] ==0) return;
+    
     DDXMLElement * associationElem = associations[0];
     if (associationElem != nil)
     {
@@ -458,7 +466,7 @@
     {
         for (DDXMLElement * elem in allAssociations)
         {
-            XoomlAssociation * association = [[XoomlAssociation alloc] initWithXMLString:elem.description];
+            XoomlAssociation * association = [[XoomlAssociation alloc] initWithXMLString:elem.XMLString];
             if (association.ID)
             {
                 result[association.ID] = association;
@@ -472,10 +480,30 @@
 {
     
     NSArray * associations = [self getXMLAssociationWithId:associationId];
+    
+    if (associations == nil && [associations count] == 0) return nil;
+        
     DDXMLNode * associationElem = associations[0];
+    
     if (associationElem != nil)
     {
-        XoomlAssociation * association = [[XoomlAssociation alloc] initWithXMLString:associationElem.description];
+        XoomlAssociation * association = [[XoomlAssociation alloc] initWithXMLString:associationElem.XMLString];
+        return association;
+    }
+    return nil;
+}
+
+-(XoomlAssociation *) getAssociationWithRefId:(NSString *) associationRefId
+{
+    NSArray * associations = [self getXMLAssociationWithRefId:associationRefId];
+    
+    if (associations == nil || [associations count] == 0) return nil;
+    
+    DDXMLNode * associationElem = associations[0];
+    
+    if (associationElem != nil)
+    {
+        XoomlAssociation * association = [[XoomlAssociation alloc] initWithXMLString:associationElem.XMLString];
         return association;
     }
     return nil;
@@ -487,7 +515,7 @@
     NSMutableArray * result = [NSMutableArray array];
     for (DDXMLElement * associationElem in associations)
     {
-        XoomlAssociation * association = [[XoomlAssociation alloc] initWithXMLString:associationElem.description];
+        XoomlAssociation * association = [[XoomlAssociation alloc] initWithXMLString:associationElem.XMLString];
         [result addObject:association];
     }
     return result;
@@ -562,7 +590,7 @@
     {
         for (DDXMLElement * elem in allAssociationNamespaceElements)
         {
-            XoomlAssociationNamespaceElement * namespaceElem = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.stringValue];
+            XoomlAssociationNamespaceElement * namespaceElem = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.XMLString];
             if (namespaceElem.ID)
             {
                 result[namespaceElem.ID] = namespaceElem;
@@ -580,7 +608,7 @@
     DDXMLElement * associationNamespaceElem = allSubElemens[0];
     if (associationNamespaceElem != nil)
     {
-        XoomlAssociationNamespaceElement * elem = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:associationNamespaceElem.stringValue];
+        XoomlAssociationNamespaceElement * elem = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:associationNamespaceElem.XMLString];
         return elem;
     }
     return nil;
@@ -713,6 +741,26 @@
             DDXMLNode * childIdNode = [child attributeForName:ID_ATTRIBUTE];
             if (childIdNode != nil &&
                 [childIdNode.stringValue isEqualToString:associationId])
+            {
+                [result addObject:child];
+                
+            }
+            
+        }
+    }
+    return result;
+}
+
+-(NSArray *) getXMLAssociationWithRefId:(NSString *) refId
+{
+    NSMutableArray * result = [NSMutableArray array];
+    for (DDXMLElement * child in self.doc.rootElement.children)
+    {
+        if ([child.name isEqualToString:ASSOCIATION_NAME])
+        {
+            DDXMLNode * childRefIdNode = [child attributeForName:REF_ID];
+            if (childRefIdNode != nil &&
+                [childRefIdNode.stringValue isEqualToString:refId])
             {
                 [result addObject:child];
                 

@@ -27,7 +27,7 @@
 #import "MindcloudCollection.h"
 
 #define SHARED_SYNCH_PERIOD 1
-#define UNSHARED_SYNCH_PERIOD 30
+#define UNSHARED_SYNCH_PERIOD 1
 
 @interface MindcloudCollectionGordon()
 /*
@@ -254,6 +254,26 @@ CachedObject> dataSource;
     [self.recorder recordUpdateAssociation:associationId];
 }
 
+
+-(void) setAssociationWithRefId:(NSString *) associationRefId
+                  toAssociation:(XoomlAssociation *) association
+{
+    XoomlAssociation * oldAssociation = [self.collectionFragment getAssociationWithRefId:associationRefId];
+    
+    if (oldAssociation == nil)
+    {
+        [self.collectionFragment addAssociation:association];
+    }
+    else
+    {
+        association.ID = oldAssociation.ID;
+        [self.collectionFragment setAssociation:association];
+    }
+    
+    self.needSynchronization = YES;
+    
+    [self.recorder recordUpdateAssociation:association.ID];
+}
 
 -(void) removeAssociationWithId:(NSString *)associationId
           andAssociatedItemName:(NSString *)associationName
@@ -490,7 +510,7 @@ CachedObject> dataSource;
                 NSString * associationXML = [[NSString alloc] initWithData:associationData encoding:NSUTF8StringEncoding];
                 XoomlFragment * fragment = [[XoomlFragment alloc] initWithXMLString:associationXML];
                 id<MindcloudCollectionGordonDelegate> tempDelegate = self.delegate;
-                [tempDelegate collectionFragmentHasAssociationWithId:associatedItemName
+                [tempDelegate collectionFragmentHasAssociationWithId:association.refId
                                                        andAssociatedItemFragment:fragment
                                                  andAssociation:association];
             }

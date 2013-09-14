@@ -572,7 +572,7 @@
     {
         for (XoomlFragmentNamespaceElement * fragmentNamespaceElem in fragmentNamespaceElements.allValues)
         {
-            [fragment addFragmentNamespaceElement:fragmentNamespaceElem];
+            [fragment setFragmentNamespaceElement:fragmentNamespaceElem];
         }
     }
     

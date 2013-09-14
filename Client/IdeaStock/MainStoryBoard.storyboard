@@ -664,7 +664,6 @@
         <image name="Colle.png" width="521" height="528"/>
         <image name="Felt-Blue.jpg" width="1024" height="1024"/>
         <image name="felt-red-ipad-background.jpg" width="1024" height="1024"/>
-        <image name="felt-red-ipad-background.jpg" width="1024" height="1024"/>
         <image name="rainbow" width="2556" height="100"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

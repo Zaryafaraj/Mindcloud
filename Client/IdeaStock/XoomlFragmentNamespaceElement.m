@@ -85,7 +85,10 @@
         [self.element addAttribute:idAttribute];
     }
     
-    DDXMLNode * namespaceNode = [self.element attributeForName:NAMESPACE_URL_NAME];
+    NSArray * namespaces = [self.element namespaces];
+    if (namespaces == nil || [namespaces count] == 0) return self;
+        
+    DDXMLNode * namespaceNode = namespaces[0];
     
     if (namespaceNode)
     {

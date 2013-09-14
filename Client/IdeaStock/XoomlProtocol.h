@@ -117,6 +117,8 @@
 
 -(XoomlAssociation *) getAssociationWithId:(NSString *) associationId;
 
+-(XoomlAssociation *) getAssociationWithRefId:(NSString *) associationRefId;
+
 -(NSArray *) getAssociationsWithAssociatedItem:(NSString *) associatedItem;
 
 #pragma mark - Association NamespaceData

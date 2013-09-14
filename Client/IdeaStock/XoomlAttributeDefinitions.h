@@ -33,4 +33,13 @@
 #define ASSOCIATED_ITEM @"associatedItem"
 #define NAMESPACE_ID @"ID"
 #define ID_ATTRIBUTE @"ID"
+#define ASSOCIATION_ID @"ID"
+#define ASSOCIATON_NAME @"association"
+#define ASSOCIATED_ITEM @"associatedItem"
+#define DISPLAY_TEXT @"displayText"
+#define LOCAL_ITEM @"localItem"
+#define ASSOCIATED_XOOML_FRAGMENT @"associatedXooMLFragment"
+#define ASSOCIATED_XOOML_DRIVER @"associatedXooMLDriver"
+#define CURRENT_FRAGMENT @"./XooML2.xml";
+#define GORDON_DRIVER @"Gordon"
 @end

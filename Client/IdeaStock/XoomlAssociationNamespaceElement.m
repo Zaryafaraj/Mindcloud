@@ -9,6 +9,7 @@
 #import "XoomlAssociationNamespaceElement.h"
 #import "DDXMLDocument.h"
 #import "AttributeHelper.h"
+#import "XoomlAttributeDefinitions.h"
 
 #define ASSOCIATION_NAMESPACE_ID @"ID"
 #define NAMESPACE_NAME @"xmlns"
@@ -70,8 +71,11 @@
                                        stringValue:_ID];
         [self.element addAttribute:idAttribute];
     }
-    
-    DDXMLNode * namespaceName = [self.element attributeForName:ASSOCIATON_NAMESPACE_NAME];
+   
+    NSArray * namespaces = [self.element namespaces];
+    if (namespaces == nil || [namespaces count] == 0) return self;
+        
+    DDXMLNode * namespaceName = namespaces[0];
 
     if (namespaceName)
     {
