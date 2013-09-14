@@ -851,11 +851,17 @@
         if (collectionName != nil)
         {
             [self.model unshareCollection:collectionName];
+            
         }
         NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
         for (NSIndexPath * index in selectedItems)
         {
             [self.collectionView deselectItemAtIndexPath:index animated:YES];
+        }
+        
+        if ([self.currentCategory isEqualToString:SHARED_COLLECTIONS_KEY])
+        {
+            [self.collectionView deleteItemsAtIndexPaths:selectedItems];
         }
         self.unshareButton.enabled = NO;
         self.shareButton.enabled = NO;

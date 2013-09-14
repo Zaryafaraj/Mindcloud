@@ -99,7 +99,8 @@
 -(void) batchRemoveCollections:(NSArray *) collections
                   fromCategory:(NSString *) category
 {
-
+    
+    //this call takes care of categories too
     [self.gordonDataSource deleteCollectionsWithName:collections];
     
     //a shared collection belongs to two categories so make sure you delete it from shared category too
@@ -378,9 +379,7 @@
         {
             [self.collections[oldCategory] removeObject:collectionName];
         }
-        
-        //remove it from the actual category
-        if (originalOldCat != nil)
+        if (originalOldCat != nil && ![newCategory isEqualToString:SHARED_COLLECTIONS_KEY])
         {
             [self.collections[originalOldCat] removeObject:collectionName];
         }
@@ -433,25 +432,34 @@
             [self.gordonDataSource removeFromCategory:previousCategory
                                   collectionsWithName:allCollections];
         }
-
+        
     }
-
+    
     if ([collectionsToMove count] > 0)
     {
         for(NSString * previousCategory in collectionsToMove)
         {
             NSArray * allCollections = collectionsToMove[previousCategory];
-            [self.gordonDataSource moveCollections:allCollections
-                                   fromOldCategory:previousCategory
-                                     toNewCategory:newCategory];
+            if ([newCategory isEqualToString:SHARED_COLLECTIONS_KEY])
+            {
+                [self.gordonDataSource addToCategory:newCategory
+                                collectionsWithNames:allCollections];
+            }
+            else
+            {
+                
+                [self.gordonDataSource moveCollections:allCollections
+                                       fromOldCategory:previousCategory
+                                         toNewCategory:newCategory];
+            }
         }
-
+        
     }
     
     if ([collectionsToAdd count] > 0)
     {
-            [self.gordonDataSource addToCategory:newCategory
-                            collectionsWithNames:collectionsToAdd];
+        [self.gordonDataSource addToCategory:newCategory
+                        collectionsWithNames:collectionsToAdd];
     }
 }
 
@@ -608,6 +616,21 @@
 
 -(void) unshareCollection:(NSString *) collectionName
 {
+    //remove from shared categories
+    if ([self.collections[SHARED_COLLECTIONS_KEY] containsObject:collectionName])
+    {
+        [self.collections[SHARED_COLLECTIONS_KEY] removeObject:collectionName];
+        [self.gordonDataSource removeFromCategory:SHARED_COLLECTIONS_KEY collectionsWithName:@[collectionName]];
+    }
+    
+    //make sure that the now that the collection does not belong to the shared category
+    //it is not orphaned. If it you can't find a category for it assign it to uncategorized
+    NSString * originalCat = [self findCategoryForCollection:collectionName];
+    if (originalCat == nil)
+    {
+        [self.collections[UNCATEGORIZED_KEY] addObject:collectionName];
+    }
+    
     [self.gordonDataSource unshareCollection:collectionName];
 }
 
