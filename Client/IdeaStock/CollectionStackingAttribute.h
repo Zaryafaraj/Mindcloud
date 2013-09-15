@@ -12,9 +12,9 @@
 
 @property (readonly, strong, nonatomic) NSSet * refIds;
 @property NSString * scale;
-@property (strong, nonatomic) NSString * name;
+@property (strong, nonatomic) NSString * ID;
 
--(instancetype) initWithName:(NSString *) name
+-(instancetype) initWithId:(NSString *) ID
             andScale:(NSString *) scale
          andRefIds: (NSSet *) refIds;
 

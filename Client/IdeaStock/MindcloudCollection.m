@@ -99,11 +99,6 @@
                                              selector:@selector(noteResolved:)
                                                  name:ASSOCIATION_RESOLVED_EVENT
                                                object:nil];
-    
-    
-    
-    
-    
     return self;
 }
 
@@ -218,7 +213,7 @@
     CollectionStackingAttribute * stackingModel = self.stackings[stackingId];
     if (!stackingModel)
     {
-        stackingModel = [[CollectionStackingAttribute alloc] initWithName:stackingId
+        stackingModel = [[CollectionStackingAttribute alloc] initWithId:stackingId
                                                         andScale:@"1.0"
                                                        andRefIds:noteRefs];
         self.stackings[stackingId] = stackingModel;
@@ -385,9 +380,9 @@
     {
         oldStackingModel.scale = stackingModel.scale;
     }
-    if (stackingModel.name)
+    if (stackingModel.ID)
     {
-        oldStackingModel.name = stackingModel.name;
+        oldStackingModel.ID = stackingModel.ID;
     }
     
     [self.gordonDataSource setCollectionFragmentNamespaceSubElementWithNewElement:[stackingModel toXoomlNamespaceElement]];
@@ -573,7 +568,7 @@
         self.stackings[stackId] = newStackingModel;
         for (NSString * noteId in newStackingModel.refIds)
         {
-            self.noteToStackingMap[noteId] = newStackingModel.name;
+            self.noteToStackingMap[noteId] = newStackingModel.ID;
         }
         [addedStackings addObject:stackId];
     }
@@ -617,7 +612,7 @@
         
         for (NSString * noteId in newStackingModel.refIds)
         {
-            self.noteToStackingMap[noteId] = newStackingModel.name;
+            self.noteToStackingMap[noteId] = newStackingModel.ID;
         }
         
         self.stackings[stackId] = newStackingModel;
@@ -758,10 +753,10 @@
     
     
     //Get STacking type and check against associationType
-    self.stackings[stackingModel.name] = stackingModel;
+    self.stackings[stackingModel.ID] = stackingModel;
     for (NSString * refId in stackingModel.refIds)
     {
-        self.noteToStackingMap[refId] = stackingModel.name;
+        self.noteToStackingMap[refId] = stackingModel.ID;
     }
 }
 

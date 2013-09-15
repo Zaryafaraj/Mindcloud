@@ -388,6 +388,7 @@
         else
         {
             XoomlNamespaceElement * serverNamespace = serverFragmentSubElements[subElementId];
+            [result addSubElement:serverNamespace];
             UpdateFragmentNamespaceSubElementNotification * notification = [self createUpdateFragmentNamespaceSubElementNotification:serverNamespace andParent:result];
             [self.notifications addUpdateFragmentNamespaceSubElementNotification:notification];
         }

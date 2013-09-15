@@ -9,14 +9,17 @@
 #import "CollectionStackingAttribute.h"
 #import "XoomlNamespaceElement.h"
 #import "BoardsXoomlDefinitions.h"
+#import "XoomlAttributeDefinitions.h"
 
 @implementation CollectionStackingAttribute
 
--(id) initWithName:(NSString *)name andScale:(NSString *)scale andRefIds:(NSSet *)refIds
+-(id) initWithId:(NSString *) stackID
+        andScale:(NSString *)scale
+       andRefIds:(NSSet *)refIds
 {
     self = [super init];
     _refIds = [refIds copy];
-    _name = name;
+    _ID = stackID;
     _scale = scale;
     return self;
 }
@@ -53,8 +56,8 @@
 {
     XoomlNamespaceElement * stackingElem = [[XoomlNamespaceElement alloc] initWithName:MINDCLOUD_STACKING_ATTRIBUTE andParentNamespace:MINDCLOUD_BOARDS_NAMESPACE];
     
+    stackingElem.ID = self.ID;
     [stackingElem addAttributeWithName:MINDCLOUD_SCALE_ATTRIBUTE andValue:self.scale];
-    [stackingElem addAttributeWithName:MINDCLOUD_NAME_ATTRIBUTE andValue:self.name];
     for (NSString * noteRefId in self.refIds)
     {
         XoomlNamespaceElement * noteRef = [[XoomlNamespaceElement alloc] initWithName:MINDCLOUD_NOTE_REFID andParentNamespace:MINDCLOUD_BOARDS_NAMESPACE];
@@ -68,7 +71,7 @@
 {
     if (![element.name isEqualToString:MINDCLOUD_STACKING_ATTRIBUTE]) return nil;
     
-    NSString * name = [element getAttributeWithName:MINDCLOUD_NAME_ATTRIBUTE];
+    NSString * ID = [element getAttributeWithName:ID_ATTRIBUTE];
     NSString * scaling = [element getAttributeWithName:MINDCLOUD_SCALE_ATTRIBUTE];
     NSMutableSet * noteRefIds = [NSMutableSet set];
     NSDictionary * allSubElements = [element getAllSubElements];
@@ -81,12 +84,13 @@
         }
     }
     
-    if (name == nil || scaling == nil || noteRefIds == nil || [noteRefIds count] == 0)
+    if (ID == nil || scaling == nil || noteRefIds == nil || [noteRefIds count] == 0)
     {
         return nil;
     }
     
-    return [[CollectionStackingAttribute alloc] initWithName:name andScale:scaling andRefIds:noteRefIds];
+    return [[CollectionStackingAttribute alloc] initWithId:ID
+                                                  andScale:scaling andRefIds:noteRefIds];
     
     
 }

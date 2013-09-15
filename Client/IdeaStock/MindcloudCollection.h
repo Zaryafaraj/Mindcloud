@@ -13,7 +13,9 @@
 #import "MindcloudCollectionGordonDelegate.h"
 
 
-@interface MindcloudCollection : NSObject <BulletinBoardProtocol,ThumbnailManagerProtocol, MindcloudCollectionGordonDelegate>
+@interface MindcloudCollection : NSObject <BulletinBoardProtocol,
+ThumbnailManagerProtocol,
+MindcloudCollectionGordonDelegate>
 
 /*
  Reads and fills up a bulletin board from the external structure of the datamodel
