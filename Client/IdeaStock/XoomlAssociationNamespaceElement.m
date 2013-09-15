@@ -72,10 +72,21 @@
         [self.element addAttribute:idAttribute];
     }
    
+    //to get around a bug in kiss xml we try both namespaces and attributes
     NSArray * namespaces = [self.element namespaces];
-    if (namespaces == nil || [namespaces count] == 0) return self;
-        
-    DDXMLNode * namespaceName = namespaces[0];
+    DDXMLNode * namespaceName = nil;
+    if (namespaces == nil || [namespaces count] == 0)
+    {
+        DDXMLNode * possibleNS = [self.element attributeForName:XMLNS_NAME];
+        if (possibleNS != nil)
+        {
+            namespaceName = possibleNS;
+        }
+    }
+    else
+    {
+        namespaceName = namespaces[0];
+    }
 
     if (namespaceName)
     {

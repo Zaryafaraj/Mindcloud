@@ -656,9 +656,22 @@
         if ([child.name isEqualToString:FRAGMENT_NAMESPACE_DATA])
         {
             NSArray * namespaces = [child namespaces];
-            if (namespaces == nil || [namespaces count] == 0) continue;
+            //there is a bug in kiss xml that sometimes picks the namespace and
+            //sometimes doesn't. Manully try to get the namespace
+            DDXMLNode * childNamespaceNode = nil;
+            if (namespaces == nil || [namespaces count] == 0)
+            {
+                DDXMLNode * possibleNS = [child attributeForName:XMLNS_NAME];
+                if (possibleNS != nil)
+                {
+                    childNamespaceNode = possibleNS;
+                }
+            }
+            else
+            {
+                childNamespaceNode = namespaces[0];
+            }
             
-            DDXMLNode * childNamespaceNode = namespaces[0];
             if (childNamespaceNode != nil &&
                 [childNamespaceNode.stringValue isEqualToString:namespaceName])
             {
@@ -681,7 +694,22 @@
             NSArray * namespaces = [child namespaces];
             if (namespaces == nil || [namespaces count] == 0) continue;
             
-            DDXMLNode * childNamespaceNode = namespaces[0];
+            //there is a bug in kiss xml that sometimes picks the namespace and
+            //sometimes doesn't. Manully try to get the namespace
+            DDXMLNode * childNamespaceNode = nil;
+            if (namespaces == nil || [namespaces count] == 0)
+            {
+                DDXMLNode * possibleNS = [child attributeForName:XMLNS_NAME];
+                if (possibleNS != nil)
+                {
+                    childNamespaceNode = possibleNS;
+                }
+            }
+            else
+            {
+                childNamespaceNode = namespaces[0];
+            }
+            
             if (childNamespaceNode != nil &&
                 [childNamespaceNode.stringValue isEqualToString:namespaceName])
             {
@@ -709,9 +737,23 @@
         if ([child.name isEqualToString:FRAGMENT_NAMESPACE_DATA])
         {
             NSArray * namespaces = [child namespaces];
-            if (namespaces == nil || [namespaces count] == 0) continue;
             
-            DDXMLNode * childNamespaceNode = namespaces[0];
+            //there is a bug in kiss xml that sometimes picks the namespace and
+            //sometimes doesn't. Manully try to get the namespace
+            DDXMLNode * childNamespaceNode = nil;
+            if (namespaces == nil || [namespaces count] == 0)
+            {
+                DDXMLNode * possibleNS = [child attributeForName:XMLNS_NAME];
+                if (possibleNS != nil)
+                {
+                    childNamespaceNode = possibleNS;
+                }
+            }
+            else
+            {
+                childNamespaceNode = namespaces[0];
+            }
+            
             if (childNamespaceNode != nil &&
                 [childNamespaceNode.stringValue isEqualToString:namespaceName])
             {
@@ -842,9 +884,23 @@
                 for (DDXMLElement * childSubElement in child.children)
                 {
                     NSArray * namespaces = [child namespaces];
-                    if (namespaces == nil || [namespaces count] == 0) continue;
+                    //there is a bug in kiss xml that sometimes picks the namespace and
+                    //sometimes doesn't. Manully try to get the namespace
+                    DDXMLNode * namespaceNode = nil;
+                    if (namespaces == nil || [namespaces count] == 0)
+                    {
+                        DDXMLNode * possibleNS = [child attributeForName:XMLNS_NAME];
+                        if (possibleNS != nil)
+                        {
+                            namespaceNode = possibleNS;
+                        }
+                    }
+                    else
+                    {
+                        namespaceNode = namespaces[0];
+                    }
                     
-                    DDXMLNode * namespaceNode = namespaces[0];
+                    
                     if (namespaceNode != nil &&
                         [namespaceNode.stringValue isEqualToString:namespaceName])
                     {

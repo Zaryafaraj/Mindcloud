@@ -8,10 +8,8 @@
 
 #import "XoomlFragmentNamespaceElement.h"
 #import "AttributeHelper.h"
+#import "XoomlAttributeDefinitions.h"
 
-#define ASSOCIATON_NAMESPACE_DATA_ID @"ID"
-#define ASSOCIATON_NAMESPACE_DATA_NAME @"fragmentNamespaceData"
-#define NAMESPACE_URL_NAME @"xmlns"
 
 @interface XoomlFragmentNamespaceElement()
 
@@ -28,9 +26,9 @@
     _ID = ID;
     if (self.element)
     {
-        DDXMLNode * newId = [DDXMLNode attributeWithName:ASSOCIATON_NAMESPACE_DATA_ID
+        DDXMLNode * newId = [DDXMLNode attributeWithName:ID_ATTRIBUTE
                                              stringValue:_ID];
-        [self.element removeAttributeForName:ASSOCIATON_NAMESPACE_DATA_ID];
+        [self.element removeAttributeForName:ID_ATTRIBUTE];
         [self.element addAttribute:newId];
     }
 }
@@ -44,11 +42,11 @@
         self.namespaceName = namespaceName;
         self.element = [DDXMLElement elementWithName:ASSOCIATON_NAMESPACE_DATA_NAME];
         
-        DDXMLNode * idNode = [DDXMLNode attributeWithName:ASSOCIATON_NAMESPACE_DATA_ID
+        DDXMLNode * idNode = [DDXMLNode attributeWithName:ID_ATTRIBUTE
                                               stringValue:self.ID];
         [self.element addAttribute:idNode];
         
-        DDXMLNode * namespaceNode = [DDXMLNode attributeWithName:NAMESPACE_URL_NAME
+        DDXMLNode * namespaceNode = [DDXMLNode attributeWithName:XMLNS_NAME
                                                      stringValue:self.namespaceName];
         [self.element addAttribute:namespaceNode];
         
@@ -71,7 +69,7 @@
     }
     
     
-    DDXMLNode * idAttribute = [self.element attributeForName:ASSOCIATON_NAMESPACE_DATA_ID];
+    DDXMLNode * idAttribute = [self.element attributeForName:ID_ATTRIBUTE];
     if (idAttribute)
     {
         self.ID = idAttribute.stringValue;
@@ -80,15 +78,29 @@
     else
     {
         self.ID = [AttributeHelper generateUUID];
-        idAttribute = [DDXMLNode attributeWithName:ASSOCIATON_NAMESPACE_DATA_ID
+        idAttribute = [DDXMLNode attributeWithName:ID_ATTRIBUTE
                                        stringValue:_ID];
         [self.element addAttribute:idAttribute];
     }
     
     NSArray * namespaces = [self.element namespaces];
-    if (namespaces == nil || [namespaces count] == 0) return self;
-        
-    DDXMLNode * namespaceNode = namespaces[0];
+    
+    //there is a bug in kiss xml that sometimes picks the namespace and
+    //sometimes doesn't. Manully try to get the namespace
+    DDXMLNode * namespaceNode = nil;
+    if (namespaces == nil || [namespaces count] == 0)
+    {
+        DDXMLNode * possibleNS = [self.element attributeForName:XMLNS_NAME];
+        if (possibleNS != nil)
+        {
+            namespaceNode = possibleNS;
+        }
+    }
+    else
+    {
+        namespaceNode = namespaces[0];
+    }
+    
     
     if (namespaceNode)
     {
@@ -174,7 +186,7 @@
     BOOL found = NO;
     for (DDXMLElement * element in self.element.children)
     {
-        if ([[[element attributeForName:ASSOCIATON_NAMESPACE_DATA_ID] stringValue] isEqualToString:subElementId])
+        if ([[[element attributeForName:ID_ATTRIBUTE] stringValue] isEqualToString:subElementId])
         {
             removeIndex = element.index;
             found = YES;

@@ -40,6 +40,7 @@
 #define LOCAL_ITEM @"localItem"
 #define ASSOCIATED_XOOML_FRAGMENT @"associatedXooMLFragment"
 #define ASSOCIATED_XOOML_DRIVER @"associatedXooMLDriver"
-#define CURRENT_FRAGMENT @"./XooML2.xml";
+#define CURRENT_FRAGMENT @"./XooML2.xml"
 #define GORDON_DRIVER @"Gordon"
+#define ASSOCIATON_NAMESPACE_DATA_NAME @"fragmentNamespaceData"
 @end
