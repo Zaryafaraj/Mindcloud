@@ -105,6 +105,8 @@
 
 -(void) removeAssociation:(NSString *) associationId;
 
+-(void) removeAssociationWithRefId:(NSString *) refId;
+
 -(void) removeAllAssociationsWithAssociatedFragmentName:(NSString *) associatedFragmentName;
 
 /*! If the item is there it will update it, if its not it will create a new one

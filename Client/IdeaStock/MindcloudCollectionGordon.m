@@ -287,6 +287,24 @@ CachedObject> dataSource;
     self.needSynchronization = YES;
 }
 
+-(void) removeAssociationWithRefId:(NSString *) refId
+             andAssociatedItemName:(NSString *) associatedItemName
+{
+    [self.collectionFragment removeAssociationWithRefId:refId];
+    
+    [self.dataSource removeAssociatedItem:associatedItemName
+                           FromCollection:self.collectionName];
+    
+    
+    XoomlAssociation * associationObj = [self.collectionFragment getAssociationWithRefId:refId];
+    if (associationObj != nil &&
+        associationObj.ID != nil)
+    {
+        [self.recorder recordDeleteAssociation:associationObj.ID];
+    }
+    self.needSynchronization = YES;
+}
+
 -(NSString *) getImagePathForAssociationWithName:(NSString *) associationName
 {
     

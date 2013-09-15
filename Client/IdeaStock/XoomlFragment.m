@@ -425,6 +425,17 @@
     }
 }
 
+-(void) removeAssociationWithRefId:(NSString *)refId
+{
+    NSArray * allAssociations = [self getXMLAssociationWithRefId:refId];
+    for(DDXMLElement * association in allAssociations)
+    {
+        NSUInteger index = [association index];
+        DDXMLElement * parent = (DDXMLElement *) association.parent;
+        [parent removeChildAtIndex:index];
+    }
+ }
+
 -(void) setAssociation:(XoomlAssociation *) association;
 {
     NSString * associationId = association.ID;

@@ -139,6 +139,7 @@
 {
     NSString * notePath = [FileSystemHelper getPathForAssociatedItemWithName:subCollectionName
                                               inCollectionWithName:collectionName];
+    notePath = [notePath stringByDeletingLastPathComponent];
     NSError * err;
     BOOL result = [[NSFileManager defaultManager] removeItemAtPath:notePath error:&err];
     if (!result)

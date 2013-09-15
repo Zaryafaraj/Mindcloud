@@ -280,7 +280,8 @@
     }
     [self removeNoteFromAllStackings:delNoteID];
     
-    [self.gordonDataSource removeAssociationWithId:delNoteID andAssociatedItemName:noteName];
+    [self.gordonDataSource removeAssociationWithRefId:delNoteID
+                                andAssociatedItemName:noteName ];
     
 }
 

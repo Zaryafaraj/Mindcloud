@@ -48,6 +48,9 @@
 -(void) removeAssociationWithId:(NSString *) associationId
           andAssociatedItemName:(NSString *) associatedItemName;
 
+-(void) removeAssociationWithRefId:(NSString *) refId
+             andAssociatedItemName:(NSString *) associatedItemName;
+
 -(NSString *) getImagePathForAssociationWithName:(NSString *) associationName;
 
 
