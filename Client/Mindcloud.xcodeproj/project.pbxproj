@@ -127,6 +127,7 @@
 		DBDB106016D1E06A00B5F7AE /* NoteFragmentResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB105F16D1E06800B5F7AE /* NoteFragmentResolver.m */; };
 		DBDB106316D1E08B00B5F7AE /* NoteResolutionNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB106216D1E08900B5F7AE /* NoteResolutionNotification.m */; };
 		DBDD1ABE15CF215A00F55223 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DBDD1ABD15CF215A00F55223 /* libxml2.dylib */; };
+		DBDDB6FE17E677330009099E /* NoteReference.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDDB6FD17E677330009099E /* NoteReference.m */; };
 		DBE13375163E13AE00EF0AF7 /* CollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE13374163E13AE00EF0AF7 /* CollectionCell.m */; };
 		DBEE54B61640F16300BD9F93 /* HTTPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEE54B51640F16300BD9F93 /* HTTPHelper.m */; };
 		DBF1CEDD17C94A9C000777F7 /* MindcloudCollectionGordon.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF1CEDC17C94A9C000777F7 /* MindcloudCollectionGordon.m */; };
@@ -364,6 +365,8 @@
 		DBDB106116D1E08800B5F7AE /* NoteResolutionNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteResolutionNotification.h; sourceTree = "<group>"; };
 		DBDB106216D1E08900B5F7AE /* NoteResolutionNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteResolutionNotification.m; sourceTree = "<group>"; };
 		DBDD1ABD15CF215A00F55223 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		DBDDB6FC17E677330009099E /* NoteReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteReference.h; sourceTree = "<group>"; };
+		DBDDB6FD17E677330009099E /* NoteReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteReference.m; sourceTree = "<group>"; };
 		DBE13373163E13AE00EF0AF7 /* CollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionCell.h; path = ../CollectionCell.h; sourceTree = "<group>"; };
 		DBE13374163E13AE00EF0AF7 /* CollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionCell.m; path = ../CollectionCell.m; sourceTree = "<group>"; };
 		DBEE54B41640F16300BD9F93 /* HTTPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPHelper.h; sourceTree = "<group>"; };
@@ -655,6 +658,8 @@
 				DB3FD53216B7A4D900024AC6 /* CollectionNoteAttribute.h */,
 				DB3FD53316B7A4D900024AC6 /* CollectionNoteAttribute.m */,
 				DB4E25B016C78A4200E85334 /* ThumbnailManagerProtocol.h */,
+				DBDDB6FC17E677330009099E /* NoteReference.h */,
+				DBDDB6FD17E677330009099E /* NoteReference.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1087,6 +1092,7 @@
 				DBAC849B17D5191E003D2B7F /* DeleteFragmentNamespaceElementNotification.m in Sources */,
 				DB8F48A117CAA57500DDDB2D /* main.m in Sources */,
 				D7A53D011522F39500183CB6 /* IdeaStockAppDelegate.m in Sources */,
+				DBDDB6FE17E677330009099E /* NoteReference.m in Sources */,
 				D709470B1523BDFE008E4AD9 /* CollectionNote.m in Sources */,
 				D70947231523DC27008E4AD9 /* DDXMLElementAdditions.m in Sources */,
 				D70947241523DC27008E4AD9 /* NSString+DDXML.m in Sources */,

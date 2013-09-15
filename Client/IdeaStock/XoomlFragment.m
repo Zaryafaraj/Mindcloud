@@ -692,7 +692,6 @@
         if ([child.name isEqualToString:FRAGMENT_NAMESPACE_DATA])
         {
             NSArray * namespaces = [child namespaces];
-            if (namespaces == nil || [namespaces count] == 0) continue;
             
             //there is a bug in kiss xml that sometimes picks the namespace and
             //sometimes doesn't. Manully try to get the namespace
