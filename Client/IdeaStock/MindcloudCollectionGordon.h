@@ -17,6 +17,7 @@
 -(id) initWithCollectionName: (NSString *) collectionName
                  andDelegate:(id<MindcloudCollectionGordonDelegate>) delegate;
 
+-(void) connectToCollection:(NSString *) collectionName;
 
 /*===============================================*/
 #pragma mark - Association

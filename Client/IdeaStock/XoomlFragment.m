@@ -280,6 +280,9 @@
     NSString * namespaceName = newNamespaceSubElement.parentNamespace;
     NSString * namespaceSubElementName = newNamespaceSubElement.name;
     NSArray * allElems = [self getXMLFragmentNamespaceElementWithNamespace:namespaceName];
+    
+    if (allElems == nil || [allElems count] == 0) return;
+    
     DDXMLElement * fragmentNamespaceElement = allElems[0];
     
     if (fragmentNamespaceElement == nil)

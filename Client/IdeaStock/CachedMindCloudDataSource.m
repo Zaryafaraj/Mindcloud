@@ -761,9 +761,9 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     for (int i = 0; i < [tempArrayForContentsOfDirectory count]; i++)
     {
         
-        NSString *newFilePath = [newDirectoryPath stringByAppendingPathComponent:[tempArrayForContentsOfDirectory objectAtIndex:i]];
+        NSString *newFilePath = [newDirectoryPath stringByAppendingPathComponent:tempArrayForContentsOfDirectory[i]];
         
-        NSString *oldFilePath = [oldDirectoryPath stringByAppendingPathComponent:[tempArrayForContentsOfDirectory objectAtIndex:i]];
+        NSString *oldFilePath = [oldDirectoryPath stringByAppendingPathComponent:tempArrayForContentsOfDirectory[i]];
         
         [[NSFileManager defaultManager] moveItemAtPath:oldFilePath toPath:newFilePath error:&error];
     }

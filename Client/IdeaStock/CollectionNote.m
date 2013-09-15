@@ -9,6 +9,7 @@
 #import "CollectionNote.h"
 #import "AttributeHelper.h"
 
+#define DEFAULT_IMAGE_NAME @"img.jpg"
 @implementation CollectionNote
 
 @synthesize noteText = _noteText;
@@ -50,6 +51,10 @@
     return self.noteText;
 }
 
+-(void) setImageAsDefaultFragmentImage
+{
+    self.image = DEFAULT_IMAGE_NAME;
+}
 
 -(CollectionNote *) initWithXoomlFragment:(XoomlFragment *) fragment
 {

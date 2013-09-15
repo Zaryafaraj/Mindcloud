@@ -108,78 +108,85 @@ CachedObject> dataSource;
         self.sharingAdapter = [[CollectionSharingAdapter alloc] initWithCollectionName:collectionName andDelegate:self.dataSource];
         
         self.recorder = [[CollectionRecorder alloc] init];
+        self.waitingAssociatedItemImages = [NSMutableDictionary dictionary];
         //assume we are not shared for now and ask the server about the sharing info.
-        //get notified if you were wrong and change the synch period
-        self.synchronizationPeriod = UNSHARED_SYNCH_PERIOD;
-        [self.sharingAdapter getSharingInfo];
-        
-        //Before actually starting the synch period we need to start asking to be
-        //notified when the synch is fnished
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(cacheIsSynched:)
-                                                     name:CACHE_IS_IN_SYNCH_WITH_SERVER
-                                                   object:nil];
-        
-        //This will return a temporary data that was on the disk and also start the
-        //synch process once more data is avaialble we will revert to the most updated
-        //data. This approach allows the user to see something before collection info
-        //is synched from the server. If there is nothing stored locally present user
-        //with an empty board that should get merged with the server changes later
-        NSData * collectionData = [self.dataSource getCollection:collectionName];
-        
-        if (collectionData == nil)
-        {
-            self.collectionFragment = [[XoomlFragment alloc] initAsEmpty];
-        }
-        else
-        {
-            [self loadOfflineCollection:collectionData];
-        }
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(collectionIsShared:)
-                                                     name:COLLECTION_IS_SHARED
-                                                   object:nil];
         
         
-        //In any case listen for the download to get finished
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(collectionDownloaded:)
-                                                     name:COLLECTION_DOWNLOADED_EVENT
-                                                   object:nil];
-        
-        //Gets notified when the server data is merged with local data
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(mergeFinished:)
-                                                     name:FRAGMENT_MERGE_FINISHED_EVENT
-                                                   object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(associatedItemImageDownloaded:)
-                                                     name:IMAGE_DOWNLOADED_EVENT
-                                                   object:nil];
-        
-        //notifications for listener updates
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(listenerDownloadedAssociatedItem:)
-                                                     name:LISTENER_DOWNLOADED_ASSOCIATION
-                                                   object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(listenerDownloadedAssociatedItemImage:)
-                                                     name:LISTENER_DOWNLOADED_IMAGE
-                                                   object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(listenerDeletedAssociatedItem:)
-                                                     name:LISTENER_DELETED_ASSOCIATION
-                                                   object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(listenerDownloadedCollectionFragment:)
-                                                     name:LISTENER_DOWNLOADED_FRAGMENT
-                                                   object:nil];
     }
     return self;
+}
+
+-(void) connectToCollection:(NSString *) collectionName
+{
+    //get notified if you were wrong and change the synch period
+    self.synchronizationPeriod = UNSHARED_SYNCH_PERIOD;
+    [self.sharingAdapter getSharingInfo];
+    
+    //Before actually starting the synch period we need to start asking to be
+    //notified when the synch is fnished
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(cacheIsSynched:)
+                                                 name:CACHE_IS_IN_SYNCH_WITH_SERVER
+                                               object:nil];
+    
+    //This will return a temporary data that was on the disk and also start the
+    //synch process once more data is avaialble we will revert to the most updated
+    //data. This approach allows the user to see something before collection info
+    //is synched from the server. If there is nothing stored locally present user
+    //with an empty board that should get merged with the server changes later
+    NSData * collectionData = [self.dataSource getCollection:collectionName];
+    
+    if (collectionData == nil)
+    {
+        self.collectionFragment = [[XoomlFragment alloc] initAsEmpty];
+    }
+    else
+    {
+        [self loadOfflineCollection:collectionData];
+    }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(collectionIsShared:)
+                                                 name:COLLECTION_IS_SHARED
+                                               object:nil];
+    
+    
+    //In any case listen for the download to get finished
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(collectionDownloaded:)
+                                                 name:COLLECTION_DOWNLOADED_EVENT
+                                               object:nil];
+    
+    //Gets notified when the server data is merged with local data
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(mergeFinished:)
+                                                 name:FRAGMENT_MERGE_FINISHED_EVENT
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(associatedItemImageDownloaded:)
+                                                 name:IMAGE_DOWNLOADED_EVENT
+                                               object:nil];
+    
+    //notifications for listener updates
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(listenerDownloadedAssociatedItem:)
+                                                 name:LISTENER_DOWNLOADED_ASSOCIATION
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(listenerDownloadedAssociatedItemImage:)
+                                                 name:LISTENER_DOWNLOADED_IMAGE
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(listenerDeletedAssociatedItem:)
+                                                 name:LISTENER_DELETED_ASSOCIATION
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(listenerDownloadedCollectionFragment:)
+                                                 name:LISTENER_DOWNLOADED_FRAGMENT
+                                               object:nil];
 }
 
 
@@ -223,7 +230,7 @@ CachedObject> dataSource;
     
     
     NSData * content = [[associatedItemFragment toXmlString] dataUsingEncoding:NSUTF8StringEncoding];
-     [self.dataSource addAssociatedItemWithName: associationName
+    [self.dataSource addAssociatedItemWithName: associationName
                             andFragmentContent: content
                                       andImage: img
                              withImageFileName: imgName
@@ -326,7 +333,7 @@ CachedObject> dataSource;
     [self.collectionFragment addFragmentNamespaceSubElement:namespaceElement];
     
     XoomlFragmentNamespaceElement * fragmentNamespaceElement = [self.collectionFragment getFragmentNamespaceElementWithNamespaceName:namespaceElement.parentNamespace
-                                                                                              thatContainsNamespaceSubElementWithId:namespaceElement.ID];
+                                                                                               thatContainsNamespaceSubElementWithId:namespaceElement.ID];
     //record update of parent
     if (fragmentNamespaceElement != nil)
     {
@@ -370,7 +377,7 @@ CachedObject> dataSource;
     
     XoomlNamespaceElement * previousElement = [self.collectionFragment getFragmentNamespaceSubElementWithId:namespaceElement.ID
                                                                                                     andName:namespaceElement.name
-                                                                                           fromNamespace:namespaceElement.parentNamespace];
+                                                                                              fromNamespace:namespaceElement.parentNamespace];
     
     //make sure we correctly record the add/deletion/udpate of self/parent/children
     NSDictionary * beforeChildren = [previousElement getAllSubElements];
@@ -404,7 +411,7 @@ CachedObject> dataSource;
     self.needSynchronization = YES;
     
     XoomlFragmentNamespaceElement * fragmentNamespaceElement = [self.collectionFragment getFragmentNamespaceElementWithNamespaceName:namespaceElement.parentNamespace
-                                                                                              thatContainsNamespaceSubElementWithId:namespaceElement.ID];
+                                                                                               thatContainsNamespaceSubElementWithId:namespaceElement.ID];
     if (fragmentNamespaceElement != nil)
     {
         [self.recorder recordUpdateFragmentNamespaceElement:fragmentNamespaceElement.ID];
@@ -436,7 +443,7 @@ CachedObject> dataSource;
 {
     //get this before deleting
     XoomlFragmentNamespaceElement * parent = [self.collectionFragment getFragmentNamespaceElementWithNamespaceName:parentNamespaceName
-                                                                            thatContainsNamespaceSubElementWithId:subElementId];
+                                                                             thatContainsNamespaceSubElementWithId:subElementId];
     
     
     
@@ -457,7 +464,7 @@ CachedObject> dataSource;
     //delete the subElement and record the deletion
     [self.collectionFragment removeFragmentNamespaceSubElementWithId:subElement.ID
                                                              andName:subElement.name
-                                                    fromNamespace:subElement.parentNamespace];
+                                                       fromNamespace:subElement.parentNamespace];
     
     [self.recorder recordDeleteFragmentNamespaceSubElement:subElement.ID];
     
@@ -529,8 +536,8 @@ CachedObject> dataSource;
                 XoomlFragment * fragment = [[XoomlFragment alloc] initWithXMLString:associationXML];
                 id<MindcloudCollectionGordonDelegate> tempDelegate = self.delegate;
                 [tempDelegate collectionFragmentHasAssociationWithId:association.refId
-                                                       andAssociatedItemFragment:fragment
-                                                 andAssociation:association];
+                                           andAssociatedItemFragment:fragment
+                                                      andAssociation:association];
             }
         }
         
@@ -574,7 +581,7 @@ CachedObject> dataSource;
             NSString * elementType = namespaceElement.name;
             id<MindcloudCollectionGordonDelegate> tempDelegate = self.delegate;
             [tempDelegate collectionHasNamespaceElementWithName:elementType
-                                                         andContent:namespaceElement];
+                                                     andContent:namespaceElement];
         }
     }
 }
@@ -614,7 +621,7 @@ CachedObject> dataSource;
 -(void) associatedItemIsWaitingForImageForAssociationWithId:(NSString *) associationId
                                          andAssociationName:(NSString *) associationName
 {
-    [self.waitingAssociatedItemImages setObject:associationId forKey:associationName];
+    (self.waitingAssociatedItemImages)[associationName] = associationId;
 }
 
 -(void) collectionDownloaded: (NSNotification *) notification{
@@ -656,7 +663,7 @@ CachedObject> dataSource;
         NSString * associatedItemName = association.associatedItem;
         NSString * associatedItemId = association.refId;
         NSData * associationData = [self.dataSource getAssociatedItemForTheCollection:self.collectionName
-                                                                               WithName:associatedItemName];
+                                                                             WithName:associatedItemName];
         
         if (associatedItemName == nil || associatedItemId == nil)
         {
@@ -676,7 +683,7 @@ CachedObject> dataSource;
         {
             [self initiateDownloadAssociation:associationData
                              forAssociationId:associatedItemId
-                         andCollectionAttribute:association];
+                       andCollectionAttribute:association];
         }
     }
     
@@ -692,7 +699,7 @@ CachedObject> dataSource;
 
 -(void) initiateDownloadAssociation:(NSData *) associationData
                    forAssociationId:(NSString *) associationId
-               andCollectionAttribute:(XoomlAssociation *) association
+             andCollectionAttribute:(XoomlAssociation *) association
 {
     
     if (self.delegate!= nil)
@@ -704,8 +711,8 @@ CachedObject> dataSource;
         {
             id<MindcloudCollectionGordonDelegate> tempDelegate = self.delegate;
             [tempDelegate associatedItemPartiallyDownloadedWithId:associationId
-                                                         andFragment:fragment
-                                      andAssociation:association];
+                                                      andFragment:fragment
+                                                   andAssociation:association];
         }
     }
 }
@@ -718,7 +725,7 @@ CachedObject> dataSource;
     NSString * collectionName = dict[@"collectionName"];
     NSString * associatedItemName = dict[@"associatedItemName"];
     NSString * imgPath = [FileSystemHelper getPathForAssociatedItemImageforAssociatedItemName:associatedItemName
-                                                                               inCollection:self.collectionName];
+                                                                                 inCollection:self.collectionName];
     if (imgPath != nil && ![imgPath isEqualToString:@""])
     {
         NSString * associatedItemID = self.waitingAssociatedItemImages[associatedItemName];
@@ -729,7 +736,7 @@ CachedObject> dataSource;
             {
                 id<MindcloudCollectionGordonDelegate> tempDelegate = self.delegate;
                 [tempDelegate associationWithId:associatedItemID
-                          downloadedImageWithPath:imgPath];
+                        downloadedImageWithPath:imgPath];
             }
             
             [self.waitingAssociatedItemImages removeObjectForKey:associatedItemName];
@@ -758,7 +765,7 @@ CachedObject> dataSource;
         for (NSString * associationId in associatedItems)
         {
             NSData * associationData = [self.dataSource getAssociatedItemForTheCollection:collectionName
-                                                                                   WithName:associationId];
+                                                                                 WithName:associationId];
             
             
             
@@ -769,7 +776,7 @@ CachedObject> dataSource;
                 
                 id<MindcloudCollectionGordonDelegate> tempDelegate = self.delegate;
                 [tempDelegate eventOccuredWithDownloadingOfAssociatedItemWithId:associationId
-                                                   andAssociatedItemFragment:fragment];
+                                                      andAssociatedItemFragment:fragment];
             }
         }
     }
@@ -794,7 +801,7 @@ CachedObject> dataSource;
             id<MindcloudCollectionGordonDelegate> tempDelegate = self.delegate;
             [tempDelegate eventOccuredWithDownloadingOfAssocitedItemImage:associatedItemName
                                                             withImagePath:imagePath
-                                                     andAssociatedItemFragment:fragment];
+                                                andAssociatedItemFragment:fragment];
         }
     }
 }

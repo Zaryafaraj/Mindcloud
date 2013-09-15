@@ -90,7 +90,10 @@
     self.gordonDataSource = [[MindcloudCollectionGordon alloc] initWithCollectionName:collectionName
                                                                           andDelegate:self];
     
+   
+    [self.gordonDataSource connectToCollection:collectionName];
     
+    self.noteResolver = [[NoteFragmentResolver alloc] initWithCollectionName:collectionName];
     //notifications for note resolver
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(noteResolved:)

@@ -1120,6 +1120,7 @@
     CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteID];
     noteItem.noteText = note.text;
     note.ID = noteID;
+    [noteItem setImageAsDefaultFragmentImage];
     
     NSData * imgData = UIImageJPEGRepresentation(note.image, IMG_COMPRESSION_QUALITY);
     noteItem.name = noteModel.noteName;
@@ -1737,7 +1738,7 @@ intoStackingWithMainView: (UIView *) mainView
     if (self.presentedViewController == nil)
     {
         NSDictionary * info = [notification userInfo];
-        CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+        CGSize kbSize = [info[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
         
         float keyboardHeight = MIN(kbSize.height, kbSize.width);
         

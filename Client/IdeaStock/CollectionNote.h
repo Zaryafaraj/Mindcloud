@@ -22,4 +22,6 @@
 
 -(CollectionNote *) initWithText: (NSString *) text;
 
+-(void) setImageAsDefaultFragmentImage;
+
 @end

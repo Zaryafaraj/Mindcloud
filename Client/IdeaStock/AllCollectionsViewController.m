@@ -113,7 +113,7 @@
     name = [NamingHelper validateCollectionName:name amongAllNames:allNames];
     NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
     [self.model addCollection:name toCategory:self.currentCategory];
-    [self.collectionView insertItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
+    [self.collectionView insertItemsAtIndexPaths:@[indexPath]];
 }
 
 -(void) renameCollection: (NSString *) newName
