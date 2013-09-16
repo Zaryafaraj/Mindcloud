@@ -17,9 +17,11 @@
 @synthesize image = _image;
 @synthesize name = _name;
 
--(CollectionNote *) initEmptyNoteWithID: (NSString *) noteID{
+-(CollectionNote *) initEmptyNoteWithID: (NSString *) noteID
+                                andName:(NSString *) noteName{
     self = [[CollectionNote alloc] init];
     self.noteId = noteID;
+    self.name = noteName;
     return self;
 }
 
@@ -104,6 +106,14 @@
         }
     }
     return nil;
+}
+
+-(instancetype) prototype
+{
+    CollectionNote * prototype = [[CollectionNote alloc] initWithText:self.noteText andNoteId:self.noteId];
+    prototype.name = self.name;
+    prototype.image = self.image;
+    return prototype;
 }
 
 -(XoomlFragment *) toXoomlFragment

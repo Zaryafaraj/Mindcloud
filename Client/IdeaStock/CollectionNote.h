@@ -18,7 +18,8 @@
 -(CollectionNote *) initWithText:(NSString *)text
                        andNoteId:(NSString *) noteId;
 
--(CollectionNote *) initEmptyNoteWithID: (NSString *) noteID;
+-(CollectionNote *) initEmptyNoteWithID: (NSString *) noteID
+                                andName:(NSString *) noteName;
 
 -(CollectionNote *) initWithText: (NSString *) text;
 

@@ -1104,7 +1104,8 @@
     
     note.ID = noteID;
     CollectionNoteAttribute * noteCollectionAttribute = [self createXoomlNoteModel:note];
-    CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteID];
+    NSString * noteName = noteCollectionAttribute.noteName;
+    CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteID andName:noteName];
     noteItem.noteText = note.text;
     
     [self.board addNoteWithContent:noteItem
@@ -1117,7 +1118,8 @@
 {
     
     CollectionNoteAttribute * noteModel = [self createXoomlNoteModel:note];
-    CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteID];
+    NSString * noteName = noteModel.noteName;
+    CollectionNote * noteItem = [[CollectionNote alloc] initEmptyNoteWithID:noteID andName:noteName];
     noteItem.noteText = note.text;
     note.ID = noteID;
     [noteItem setImageAsDefaultFragmentImage];

@@ -353,11 +353,21 @@
     if (!oldNote) return;
     
     //for attributes in newNote that a value is specified; update those
+    NSString * newNoteText = newNote.noteText;
+    NSString * newNoteId = newNote.noteId;
+    newNote = [oldNote prototype];
+    if (newNoteText)
+    {
+        newNote.noteText = newNoteText;
+    }
     
-    if (newNote.noteText) oldNote.noteText = newNote.noteText;
-    if (newNote.noteId) oldNote.noteId = newNote.noteId;
+    if (newNoteId)
+    {
+        newNote.noteId = newNoteId;
+    }
     
     XoomlFragment * noteFragment = [newNote toXoomlFragment];
+    self.collectionNoteAttributes[noteID] = newNote;
     
     CollectionNoteAttribute * collectionNoteAttribute = self.collectionAttributesForNotes[noteID];
     NSString * noteName = collectionNoteAttribute.noteName;

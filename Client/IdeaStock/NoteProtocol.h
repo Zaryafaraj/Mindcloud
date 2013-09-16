@@ -29,6 +29,8 @@
 
 - (NSString *) description;
 
+-(instancetype) prototype;
+
 -(instancetype) initWithXoomlFragment:(XoomlFragment *) fragment;
 
 -(XoomlFragment *) toXoomlFragment;
