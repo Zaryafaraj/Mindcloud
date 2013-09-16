@@ -508,7 +508,7 @@
         [updatedNotes addObject:noteId];
         //TODO make sure we need to add this here
         NSLog(@"VERIFY ---> NOTEID = %@", noteId);
-        self.collectionNoteAttributes[noteId] = newCollectionNoteAttribute;
+        self.collectionAttributesForNotes[noteId] = newCollectionNoteAttribute;
     }
     
     if ([updatedNotes count] == 0) return;
