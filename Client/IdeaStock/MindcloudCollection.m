@@ -315,9 +315,18 @@
     [stacking deleteNotes:[NSSet setWithObject:noteID]];
     [self.noteToStackingMap removeObjectForKey:noteID];
     
-    XoomlNamespaceElement * element = [stacking toXoomlNamespaceElement];
-    [self.gordonDataSource setCollectionFragmentNamespaceSubElementWithNewElement:element];
-    
+    //if stacking is nil it means that removing that note caused the stacking to
+    //get deleted so we should remove the stacking
+    if (stacking == nil)
+    {
+        [self.gordonDataSource removeCollectionFragmentNamespaceSubElementWithId:stackingId
+                                                                   fromNamespace:MINDCLOUD_BOARDS_NAMESPACE];
+    }
+    else
+    {
+        XoomlNamespaceElement * element = [stacking toXoomlNamespaceElement];
+        [self.gordonDataSource setCollectionFragmentNamespaceSubElementWithNewElement:element];
+    }
 }
 
 -(void) removeStacking:(NSString *) stackingId
