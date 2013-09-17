@@ -893,7 +893,7 @@
 			name = Sharing;
 			sourceTree = "<group>";
 		};
-		DBBBB9B417CC5AB600081C3B /* DAO */ = {
+		DBBBB9B417CC5AB600081C3B /* ItemMirror */ = {
 			isa = PBXGroup;
 			children = (
 				D7F85EAE1528D29E00F16D25 /* XoomlProtocol.h */,
@@ -908,7 +908,7 @@
 				DBBBB9C117CC6FA700081C3B /* XoomlNamespaceElement.h */,
 				DBBBB9C217CC6FA700081C3B /* XoomlNamespaceElement.m */,
 			);
-			name = DAO;
+			name = ItemMirror;
 			sourceTree = "<group>";
 		};
 		DBC1B7F517CAD9050036431A /* Types */ = {
@@ -925,7 +925,7 @@
 			children = (
 				DB87A9AF17D2CFB500605E6A /* Definitions */,
 				D70947131523DC27008E4AD9 /* KissXML */,
-				DBBBB9B417CC5AB600081C3B /* DAO */,
+				DBBBB9B417CC5AB600081C3B /* ItemMirror */,
 				DB739C7D17CAEC16006DE2D9 /* Model */,
 				DB03C35F169FFD2B00C38FD7 /* Types */,
 				DBBA28A616CC7983007C7B4A /* Sharing */,

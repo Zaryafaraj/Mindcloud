@@ -733,7 +733,8 @@
             }
         }
         
-        [self addCollection:collectionName toCategory:SHARED_COLLECTIONS_KEY];
+        [self moveCollections:@[collectionName] fromCategory:ALL
+                toNewCategory:SHARED_COLLECTIONS_KEY];
         
         if (tempDel)
         {

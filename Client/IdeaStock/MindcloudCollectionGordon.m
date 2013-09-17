@@ -27,7 +27,7 @@
 #import "MindcloudCollection.h"
 
 #define SHARED_SYNCH_PERIOD 1
-#define UNSHARED_SYNCH_PERIOD 1
+#define UNSHARED_SYNCH_PERIOD 30
 
 @interface MindcloudCollectionGordon()
 /*
