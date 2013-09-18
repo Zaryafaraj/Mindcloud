@@ -786,7 +786,7 @@ CachedObject> dataSource;
 {
     NSDictionary * result = notification.userInfo[@"result"];
     NSString * collectionName = result[@"collectionName"];
-    NSString * associatedItemName = result[@"associatedItems"];
+    NSString * associatedItemName = result[@"associatedItemName"];
     if ([collectionName isEqualToString:self.collectionName])
     {
         NSString * imagePath = [self.dataSource getImagePathForAssociatedItem:associatedItemName

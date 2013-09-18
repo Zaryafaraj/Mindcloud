@@ -112,6 +112,8 @@
     
     NSSet * allNames = [self.model getAllCollectionNames];
     name = [NamingHelper validateCollectionName:name amongAllNames:allNames];
+    
+    [self.model addCollection:name toCategory:self.currentCategory];
     if ([self.currentCategory isEqualToString:SHARED_COLLECTIONS_KEY])
     {
         [self updateCollectionView:ALL];
@@ -123,7 +125,6 @@
         
     }
     
-    [self.model addCollection:name toCategory:self.currentCategory];
 }
 
 -(void) renameCollection: (NSString *) newName

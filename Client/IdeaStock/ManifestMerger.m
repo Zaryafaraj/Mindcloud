@@ -211,6 +211,15 @@
             XoomlFragmentNamespaceElement * namespaceElement = finalNamespaces[namespaceId];
             AddFragmentNamespaceElementNotification * notification = [self createAddFragmentNamespaceElementNotification: namespaceElement];
             [self.notifications addAddFragmentNamespaceElementNotification:notification];
+            //further more for each namespaceElement we need to send a notification for all of its subelements
+            NSDictionary * allServerSubElements = [namespaceElement getAllXoomlFragmentsNamespaceSubElements];
+            for(NSDictionary * subElementId in allServerSubElements)
+            {
+                XoomlNamespaceElement * finalSubElement = allServerSubElements[subElementId];
+                AddFragmentNamespaceSubElementNotification * notification = [self createAddFragmentNamespaceSubElementNotification:finalSubElement
+                                                                                                                         andParent:namespaceElement];
+                [self.notifications addAddFragmentNamespaceSubElementNotification:notification];
+            }
         }
         else
         {
@@ -234,6 +243,17 @@
             XoomlFragmentNamespaceElement * namespaceElement = clientNamespaceFragments[namespaceId];
             DeleteFragmentNamespaceElementNotification * notification = [self createDeleteFragmentNamespaceElementNotification:namespaceElement.ID];
             [self.notifications addDeleteFragmentNamespaceElementNotification:notification];
+            
+           //further more for each namespaceElement we need to send a notification for all of its subelements
+            NSDictionary * allClientSubElements = [namespaceElement getAllXoomlFragmentsNamespaceSubElements];
+            for(NSDictionary * subElementId in allClientSubElements)
+            {
+                XoomlNamespaceElement * finalSubElement = allClientSubElements[subElementId];
+                DeleteFragmentNamespaceSubElementNotification * notification = [self createDeleteFragmentNamespaceSubElementNotification:finalSubElement.ID
+                                                                                                                            andParent:namespaceElement];
+                
+                [self.notifications addDeleteFragmentNamespaceSubElementNotification:notification];
+            }
         }
     }
     
