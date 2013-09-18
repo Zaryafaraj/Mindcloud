@@ -109,11 +109,21 @@
 
 -(void) addCollection: (NSString *) name
 {
+    
     NSSet * allNames = [self.model getAllCollectionNames];
     name = [NamingHelper validateCollectionName:name amongAllNames:allNames];
-    NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+    if ([self.currentCategory isEqualToString:SHARED_COLLECTIONS_KEY])
+    {
+        [self updateCollectionView:ALL];
+    }
+    else
+    {
+        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+        [self.collectionView insertItemsAtIndexPaths:@[indexPath]];
+        
+    }
+    
     [self.model addCollection:name toCategory:self.currentCategory];
-    [self.collectionView insertItemsAtIndexPaths:@[indexPath]];
 }
 
 -(void) renameCollection: (NSString *) newName
