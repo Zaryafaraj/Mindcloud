@@ -146,7 +146,7 @@
         [self.categoriesFragment setAssociation:associationToRename];
         [self saveCategories];
     }
-
+    
 }
 
 -(NSData *) getThumbnailForCollection:(NSString *) collectionName
@@ -481,11 +481,16 @@
 {
     NSDictionary * result = notification.userInfo[@"result"];
     NSString * collectionName = result[@"collectionName"];
+    
+    
     id<MindcloudAllCollectionsGordonDelegate> tempDel = self.delegate;
     if (tempDel)
     {
         if (collectionName)
         {
+            //make sure we add the collection to the categories
+            XoomlAssociation * association = [[XoomlAssociation alloc] initWithAssociatedItem:collectionName];
+            [self.categoriesFragment addAssociation:association];
             [tempDel subscribedToSharingSpaceForCollection:collectionName];
             
         }
@@ -494,6 +499,7 @@
             [tempDel failedToSubscribeToSharingSpace];
         }
     }
+    [self saveCategories];
 }
 -(void) allCollectionsReceived:(NSNotification *) notification
 {

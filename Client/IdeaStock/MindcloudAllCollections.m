@@ -636,7 +636,7 @@
 
 #pragma mark notification events
 
--(void) createSharedCategoryIfNeccessaryWithCollection:(NSString *) collectionName
+-(void) createSharedCategoryIfNeccessary
 {
     //if we never had a shared category first create it
     if (self.collections[SHARED_COLLECTIONS_KEY] == nil)
@@ -646,7 +646,7 @@
     
     if ([self.collections[SHARED_COLLECTIONS_KEY] count] == 0)
     {
-        [self.gordonDataSource addCategory:SHARED_COLLECTIONS_KEY withCollections:@[collectionName]];
+        [self.gordonDataSource addCategory:SHARED_COLLECTIONS_KEY withCollections:@[]];
     }
     
 }
@@ -654,7 +654,7 @@
                  withSecret:(NSString *)secret
 {
     
-    [self createSharedCategoryIfNeccessaryWithCollection:collectionName];
+    [self createSharedCategoryIfNeccessary];
     id<MindcloudAllCollectionsDelegate> tempDel = self.delegate;
     [self moveCollections:@[collectionName] fromCategory:[tempDel activeCategory]
             toNewCategory:SHARED_COLLECTIONS_KEY];
@@ -717,7 +717,7 @@
 -(void) subscribedToSharingSpaceForCollection:(NSString *) collectionName
 {
     
-    [self createSharedCategoryIfNeccessaryWithCollection:collectionName];
+    [self createSharedCategoryIfNeccessary];
     id <MindcloudAllCollectionsDelegate> tempDel = self.delegate;
     if (self.collections[SHARED_COLLECTIONS_KEY])
     {
@@ -732,23 +732,15 @@
                 }
             }
         }
-        
-        [self moveCollections:@[collectionName] fromCategory:ALL
-                toNewCategory:SHARED_COLLECTIONS_KEY];
-        
-        if (tempDel)
-        {
-            [tempDel subscribedToCollectionWithName:collectionName];
-        }
     }
-    else
+    
+    [self.collections[ALL] addObject:collectionName];
+    [self moveCollections:@[collectionName]
+             fromCategory:ALL
+            toNewCategory:SHARED_COLLECTIONS_KEY];
+    if (tempDel)
     {
-        [self addCollection:collectionName toCategory:SHARED_COLLECTIONS_KEY];
-        
-        if (tempDel)
-        {
-            [tempDel subscribedToCollectionWithName:collectionName];
-        }
+        [tempDel subscribedToCollectionWithName:collectionName];
     }
 }
 
