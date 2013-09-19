@@ -77,7 +77,7 @@
     //if we don't have an id generate it
     else
     {
-        self.ID = [AttributeHelper generateUUID];
+        _ID = [AttributeHelper generateUUID];
         idAttribute = [DDXMLNode attributeWithName:ID_ATTRIBUTE
                                        stringValue:_ID];
         [self.element addAttribute:idAttribute];

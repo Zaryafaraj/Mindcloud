@@ -76,13 +76,13 @@
         NSString * GUID = [AttributeHelper generateUUID];
         [root addAttribute:[DDXMLNode attributeWithName:GUID_NAME stringValue:GUID]];
         
-        DDXMLElement * collectionAttributeContainer = [[DDXMLElement alloc] initWithName: FRAGMENT_NAMESPACE_DATA];
-        
-        DDXMLNode * mindcloudXMLNS = [DDXMLNode attributeWithName:XMLNS_NAME stringValue:MINDCLOUD_XMLNS];
-        DDXMLNode * namespaceElementID = [DDXMLNode attributeWithName:ID_ATTRIBUTE stringValue:[AttributeHelper generateUUID]];
-        [collectionAttributeContainer addAttribute:mindcloudXMLNS];
-        [collectionAttributeContainer addAttribute:namespaceElementID];
-        [root addChild:collectionAttributeContainer];
+//        DDXMLElement * collectionAttributeContainer = [[DDXMLElement alloc] initWithName: FRAGMENT_NAMESPACE_DATA];
+//        
+//        DDXMLNode * mindcloudXMLNS = [DDXMLNode attributeWithName:XMLNS_NAME stringValue:MINDCLOUD_XMLNS];
+//        DDXMLNode * namespaceElementID = [DDXMLNode attributeWithName:ID_ATTRIBUTE stringValue:[AttributeHelper generateUUID]];
+//        [collectionAttributeContainer addAttribute:mindcloudXMLNS];
+//        [collectionAttributeContainer addAttribute:namespaceElementID];
+//        [root addChild:collectionAttributeContainer];
         
         NSString *xmlString = [root description];
         NSString *xmlHeader = XML_HEADER;
@@ -148,6 +148,9 @@
     }
 }
 
+/*! Because in higher levels the id of the subElement may have been changed.
+    All of our set methods preserver the ID of the old element
+ */
 -(void) setFragmentNamespaceElement:(XoomlFragmentNamespaceElement *)newNamespaceElement
 {
     
@@ -281,9 +284,13 @@
     NSString * namespaceSubElementName = newNamespaceSubElement.name;
     NSArray * allElems = [self getXMLFragmentNamespaceElementWithNamespace:namespaceName];
     
-    if (allElems == nil || [allElems count] == 0) return;
+    if (allElems == nil) return;
     
-    DDXMLElement * fragmentNamespaceElement = allElems[0];
+    DDXMLElement * fragmentNamespaceElement = nil;
+    if ([allElems count] != 0)
+    {
+        fragmentNamespaceElement = allElems[0];
+    }
     
     if (fragmentNamespaceElement == nil)
     {

@@ -31,6 +31,9 @@
                      completion:^(BOOL finished){[stack removeFromSuperview];}];
 }
 
+/*! If new is set to true all the items that are passed in will have their locations updated by the
+    updateNote function
+ */
 +(void) animateStackCreationForStackView:(UIView *) stack
                             WithDestinationView:(UIView *) destView
                             andStackItems:(NSArray*) items

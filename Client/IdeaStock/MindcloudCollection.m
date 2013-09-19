@@ -228,7 +228,7 @@
         self.noteToStackingMap[noteId] = stackingId;
     }
     
-    [self.gordonDataSource addCollectionFragmentNamespaceSubElement:[stackingModel toXoomlNamespaceElement]];
+    [self.gordonDataSource setCollectionFragmentNamespaceSubElementWithNewElement:[stackingModel toXoomlNamespaceElement]];
 }
 
 #pragma mark - Deletion

@@ -813,11 +813,9 @@
         UIView * mainView = [self findMainViewForIntersectingViews: self.intersectingViews
                                                      withCandidate:view];
         float scale = 1;
-        [self stackNotes:self.intersectingViews
-                    into:mainView
-     withDestinationView:view
-                  withID:nil
-               withScale:scale];
+        [self createStackingWithItems:self.intersectingViews
+                          andMainView:mainView
+                  withDestinationView:view withScale:scale];
     }
     
     if([view isKindOfClass:[NoteView class]]){
@@ -1353,11 +1351,58 @@
     }
     return candidate;
 }
-/*
- If ID is nil the methods will create a unique UUID itself and will also write
- to the datamodel.The nil id means that this is a fresh stacking
- If ID is not nil it means that stacking is formed from the datamodel of an existing stacking
+
+/*! creates an stacking with all the notes in the items.
+    P
  */
+-(NSString *) createStackingWithItems:(NSArray *) items
+                    andMainView:(UIView *) mainView
+            withDestinationView:(UIView *) destinationView
+                      withScale:(CGFloat) scale
+{
+    
+    NSMutableArray * allNotes = [self getAllNormalNotesInViews:items];
+    
+    CGRect stackFrame = [CollectionLayoutHelper getStackingFrameForStackingWithTopView:destinationView];
+    
+    if ([mainView isKindOfClass:[StackView class]])
+    {
+        mainView = ((StackView *)mainView).mainView;
+    }
+    
+    NSString * stackingID = [self mergeItems: items
+                      intoStackingWithMainView: mainView];
+    
+    
+    
+    StackView * stack = [[StackView alloc] initWithViews:allNotes
+                                             andMainView:(NoteView *)mainView
+                                               withFrame:stackFrame];
+    stack.ID = stackingID;
+    StackView * stackRef = stack;
+    self.stackViews[stackingID] = stackRef;
+    
+    if (scale)
+    {
+        [stack scale:scale animated:NO];
+    }
+    stack.ID = stackingID;
+    
+    [self addGestureRecognizersToStack:stack];
+    
+    [CollectionAnimationHelper animateStackCreationForStackView:stack
+                                            WithDestinationView:destinationView
+                                                  andStackItems:allNotes
+                                               inCollectionView:self.collectionView
+                                                          isNew:YES
+                                           withMoveNoteFunction:^(NoteView * note){
+                                               [self updateNoteLocation:note toMainView:mainView];
+                                           }];
+    
+    
+    return stackingID;
+}
+
 -(void) stackNotes: (NSArray *) items
               into: (UIView *) mainView
 withDestinationView:(UIView *) destinationView
@@ -1373,9 +1418,7 @@ withDestinationView:(UIView *) destinationView
         mainView = ((StackView *)mainView).mainView;
     }
     
-    BOOL isNewStack = ID == nil ? YES : NO;
-    NSString * stackingID = isNewStack ? [self mergeItems: items
-                                 intoStackingWithMainView: mainView] :ID;
+    NSString * stackingID = ID;
     
     StackView * stack = [[StackView alloc] initWithViews:allNotes
                                              andMainView:(NoteView *)mainView
@@ -1395,7 +1438,7 @@ withDestinationView:(UIView *) destinationView
                                             WithDestinationView:destinationView
                                                   andStackItems:allNotes
                                                inCollectionView:self.collectionView
-                                                          isNew:isNewStack
+                                                          isNew:NO
                                            withMoveNoteFunction:^(NoteView * note){
                                                [self updateNoteLocation:note toMainView:mainView];
                                            }];
@@ -1404,23 +1447,43 @@ withDestinationView:(UIView *) destinationView
 -(NSString *) mergeItems: (NSArray *)items
 intoStackingWithMainView: (UIView *) mainView
 {
-    NSString * stackingID = [AttributeHelper generateUUID];
+    NSString * stackingID = nil;
+    
+    //first we need to find the designated stackingId
+    //we check the main view first
+    if ([mainView isKindOfClass:[StackView class]])
+    {
+        stackingID = ((StackView *) mainView).ID;
+    }
+    
     
     NSMutableArray * stackingNoteIDs = [NSMutableArray array];
     for(UIView * view in items)
     {
-        if ([view isKindOfClass:[NoteView class]]){
+        if ([view isKindOfClass:[NoteView class]])
+        {
             
             [stackingNoteIDs addObject:((NoteView *) view).ID];
         }
-        else if ([view isKindOfClass:[StackView class]]){
-            
+        else if ([view isKindOfClass:[StackView class]])
+        {
             NSString * oldStackingID = ((StackView *)view).ID;
-            [self.board removeStacking:oldStackingID];
-            [self.stackViews removeObjectForKey:oldStackingID];
-            for (UIView * note in ((StackView *)view).views){
-                NSString *stackingNoteID = ((NoteView *)note).ID;
-                [stackingNoteIDs addObject:stackingNoteID]; }
+            //if we haven't found the designated stackingId yet
+            //take this view as the stacking to be update and update that
+            if (stackingID == nil)
+            {
+                stackingID = oldStackingID;
+            }
+            else
+            {
+                [self.board removeStacking:oldStackingID];
+                [self.stackViews removeObjectForKey:oldStackingID];
+                for (UIView * note in ((StackView *)view).views)
+                {
+                    NSString *stackingNoteID = ((NoteView *)note).ID;
+                                [stackingNoteIDs addObject:stackingNoteID];
+                }
+            }
         }
     }
     
@@ -1443,7 +1506,13 @@ intoStackingWithMainView: (UIView *) mainView
         }
     }
     
-    [self.board addNotesWithIDs:stackingNoteIDs toStacking:stackingID];
+    if (stackingID == nil)
+    {
+        stackingID = [AttributeHelper generateUUID];
+    }
+    
+    [self.board addNotesWithIDs:stackingNoteIDs
+                     toStacking:stackingID];
     
     return stackingID;
 }
