@@ -298,7 +298,10 @@
         }
         
         //scale = scale / view.scaleOffset;
-        if (scale != 0 && view.scaleOffset != scale)
+        //This very bad design. stacking position is dependant on note position
+        //but stacking scale is not.
+        //TODO Make the position of the stacking be independent
+        if ([view isKindOfClass:[NoteView class]] && scale != 0 && view.scaleOffset != scale)
         {
             [view scaleWithScaleOffset:scale animated:scale];
         }
