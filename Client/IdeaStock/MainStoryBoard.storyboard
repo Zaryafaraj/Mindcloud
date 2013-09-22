@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="Dza-ZL-mu1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="rXM-GQ-Qri">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
@@ -79,9 +79,6 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <connections>
-                        <segue destination="Dza-ZL-mu1" kind="modal" identifier="MainScreenSegue" modalPresentationStyle="fullScreen" animates="NO" id="yiN-W9-XlF"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="koz-us-uQq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -203,25 +200,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ejb-3r-xXi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="66" y="-509"/>
-        </scene>
-        <!--Master Swipable Split View Controller-->
-        <scene sceneID="8nM-dN-INH">
-            <objects>
-                <viewController id="Dza-ZL-mu1" customClass="MasterSwipableSplitViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="k6W-9N-W2m"/>
-                        <viewControllerLayoutGuide type="bottom" id="LP0-JE-JA7"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="2dQ-FW-A6k">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Wyh-vw-Gic" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-860" y="-1761"/>
         </scene>
         <!--Sharing View Controller - SharingView-->
         <scene sceneID="Qcg-Ue-70r">
