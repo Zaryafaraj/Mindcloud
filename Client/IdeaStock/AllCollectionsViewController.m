@@ -189,7 +189,7 @@
     self.isEditing = NO;
     [self.collectionView setAllowsMultipleSelection:NO];
     [self disableEditButtons];
-    self.toolbar.items = self.navigateToolbar;
+    self.navigationItem.rightBarButtonItems = self.navigateToolbar;
     [self.categoriesController exitEditMode];
 }
 
@@ -219,7 +219,7 @@
     self.isEditing = NO;
     self.isInSharingMode = NO;
     [self.collectionView setAllowsMultipleSelection:NO];
-    self.toolbar.items = self.navigateToolbar;
+    self.navigationItem.rightBarButtonItems = self.navigateToolbar;
     NSArray * selectedItem = [self.collectionView indexPathsForSelectedItems];
     for (NSIndexPath * selIndex in selectedItem)
     {
@@ -237,12 +237,12 @@
     
     [self.collectionView setAllowsMultipleSelection:YES];
     self.isEditing = YES;
-    self.toolbar.items = self.editToolbar;
+    self.navigationItem.rightBarButtonItems = self.editToolbar;
 }
 - (IBAction)SharingModePressed:(id)sender {
     [self.collectionView setAllowsMultipleSelection:NO];
     self.isInSharingMode = YES;
-    self.toolbar.items = self.shareToolbar;
+    self.navigationItem.rightBarButtonItems = self.shareToolbar;
 }
 - (IBAction)unsharePressed:(id)sender {
     
@@ -332,7 +332,7 @@
                 NSString * newName = [[alertView textFieldAtIndex:0] text];
                 [self renameCollection:newName];
                 [self disableEditButtons];
-                self.toolbar.items = self.navigateToolbar;
+                self.navigationItem.rightBarButtonItems = self.navigateToolbar;
                 [self deselectAll];
                 self.isInSharingMode = NO;
                 self.isEditing = NO;
@@ -471,8 +471,11 @@
     [self manageToolbars];
     self.isEditing = NO;
     self.isInSharingMode = NO;
-    self.toolbar.items = self.navigateToolbar;
+    
+    self.toolbar.hidden = YES;
+    
     [self configureCategoriesPanel];
+    self.navigationItem.rightBarButtonItems = self.navigateToolbar;
     [self addInitialListeners];
     
     self.model = [[MindcloudAllCollections alloc] initWithDelegate:self];
@@ -551,10 +554,10 @@
             [sharebar addObject:barButton];
         }
     }
-    self.editToolbar = [editbar copy];
-    self.navigateToolbar = [navbar copy];
-    self.cancelToolbar = [cancelbar copy];
-    self.shareToolbar = [sharebar copy];
+    self.editToolbar = [[editbar copy] reverseObjectEnumerator].allObjects;
+    self.navigateToolbar = [[navbar copy] reverseObjectEnumerator].allObjects;
+    self.cancelToolbar = [[cancelbar copy] reverseObjectEnumerator].allObjects;
+    self.shareToolbar = [[sharebar copy] reverseObjectEnumerator].allObjects;
 }
 
 
@@ -701,7 +704,7 @@
     //enable the edit bar buttons
     if (self.isEditing)
     {
-        for (UIBarButtonItem * button in self.toolbar.items)
+        for (UIBarButtonItem * button in self.navigationItem.rightBarButtonItems)
         {
             button.enabled = YES;
         }
@@ -851,7 +854,7 @@
         [self deleteCollection];
         //make sure after deletion DELETE and RENAME buttons are disabled
         [self disableEditButtons];
-        self.toolbar.items = self.navigateToolbar;
+        self.navigationItem.rightBarButtonItems = self.navigateToolbar;
         self.isEditing = NO;
         self.isInSharingMode = NO;
     }
@@ -875,7 +878,7 @@
         }
         self.unshareButton.enabled = NO;
         self.shareButton.enabled = NO;
-        self.toolbar.items = self.navigateToolbar;
+        self.navigationItem.rightBarButtonItems = self.navigateToolbar;
         self.isEditing = NO;
         self.isInSharingMode = NO;
     }
@@ -931,7 +934,7 @@
     [self deselectAll];
     [self disableShareButtons];
     [self disableEditButtons];
-    self.toolbar.items = self.navigateToolbar;
+    self.navigationItem.rightBarButtonItems = self.navigateToolbar;
     self.isEditing = NO;
     self.isInSharingMode = NO;
     
@@ -1080,7 +1083,7 @@
     [self swithToCategory:SHARED_COLLECTIONS_KEY];
     self.isInSharingMode = NO;
     self.isEditing = NO;
-    self.toolbar.items = self.navigateToolbar;
+    self.navigationItem.rightBarButtonItems = self.navigateToolbar;
 }
 
 -(void) alreadySubscribedToCollectionWithName:(NSString *) collectionName
