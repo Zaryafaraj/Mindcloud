@@ -24,7 +24,7 @@
 @property (strong, nonatomic, readonly) NSString * associatedXoomlDriver;
 
 
-@property (strong, nonatomic, readonly) NSString * refId;
+@property (strong, nonatomic) NSString * refId;
 
 @property (strong, nonatomic, readonly) DDXMLElement * element;
 

@@ -512,7 +512,11 @@ CachedObject> dataSource;
         
         //for each associatedItem create a associatedItem Object by reading its separate xooml files
         //from the data model
+        
         XoomlAssociation * association = allAssociations[associationId];
+        
+        if ([association isSelfReferncing]) continue;
+        
         NSString * associatedItemName = association.associatedItem;
         NSData * associationData = [self.dataSource getAssociatedItemForTheCollection:self.collectionName
                                                                              WithName:associatedItemName];
@@ -535,6 +539,23 @@ CachedObject> dataSource;
                 NSString * associationXML = [[NSString alloc] initWithData:associationData encoding:NSUTF8StringEncoding];
                 XoomlFragment * fragment = [[XoomlFragment alloc] initWithXMLString:associationXML];
                 id<MindcloudCollectionGordonDelegate> tempDelegate = self.delegate;
+                
+                //make sure that if refId is not there we get and put it here
+                if (association.refId == nil)
+                {
+                    NSLog(@"MindcloudCollectionGordon - Could not find refId, manually retreiving refId");
+                    NSDictionary * allAssociations = [fragment getAllAssociations];
+                    if (allAssociations == nil || [allAssociations count] == 0)
+                    {
+                        NSLog(@"MindcloudCollectionGordon -  no associatedItem association Found");
+                        return;
+                    }
+                    
+                    XoomlAssociation * associatedItemAssociation = allAssociations.allValues[0];
+                    association.refId = associatedItemAssociation.ID;
+                    
+                }
+                
                 [tempDelegate collectionFragmentHasAssociationWithId:association.refId
                                            andAssociatedItemFragment:fragment
                                                       andAssociation:association];
@@ -658,12 +679,38 @@ CachedObject> dataSource;
     NSMutableArray * associtedItemIds = [NSMutableArray array];
     for(NSString * associationId in allAssociations)
     {
+        
         XoomlAssociation * association = allAssociations[associationId];
         
+        if ([association isSelfReferncing]) continue;
+        
         NSString * associatedItemName = association.associatedItem;
-        NSString * associatedItemId = association.refId;
         NSData * associationData = [self.dataSource getAssociatedItemForTheCollection:self.collectionName
                                                                              WithName:associatedItemName];
+        
+        
+        //if the ref ID is not present construct it from the associatedItem
+        if (association.refId == nil)
+        {
+            
+            NSString * associationXML = [[NSString alloc] initWithData:associationData encoding:NSUTF8StringEncoding];
+            XoomlFragment * fragment = [[XoomlFragment alloc] initWithXMLString:associationXML];
+            NSLog(@"MindcloudCollectionGordon - Could not find refId, manually retreiving refId");
+            NSDictionary * allAssociations = [fragment getAllAssociations];
+            if (allAssociations == nil || [allAssociations count] == 0)
+            {
+                NSLog(@"MindcloudCollectionGordon -  no associatedItem association Found");
+            }
+            
+            else
+            {
+                XoomlAssociation * associatedItemAssociation = allAssociations.allValues[0];
+                association.refId = associatedItemAssociation.ID;
+                
+            }
+        }
+        
+        NSString * associatedItemId = association.refId;
         
         if (associatedItemName == nil || associatedItemId == nil)
         {
@@ -702,11 +749,13 @@ CachedObject> dataSource;
              andCollectionAttribute:(XoomlAssociation *) association
 {
     
+    
+    NSString * associationXML = [[NSString alloc] initWithData:associationData encoding:NSUTF8StringEncoding];
+    XoomlFragment * fragment = [[XoomlFragment alloc] initWithXMLString:associationXML];
+    
     if (self.delegate!= nil)
     {
         
-        NSString * associationXML = [[NSString alloc] initWithData:associationData encoding:NSUTF8StringEncoding];
-        XoomlFragment * fragment = [[XoomlFragment alloc] initWithXMLString:associationXML];
         if (fragment)
         {
             id<MindcloudCollectionGordonDelegate> tempDelegate = self.delegate;
@@ -852,15 +901,18 @@ CachedObject> dataSource;
     
     if (![mergeResult.collectionName isEqualToString:self.collectionName]) return;
     
-    
     if (self.delegate != nil)
     {
         id<MindcloudCollectionGordonDelegate> tempDelegate = self.delegate;
         NotificationContainer * notifications = mergeResult.notifications;
+        [self ensureRefIdsArePresentInNotifications:notifications];
         [tempDelegate eventsOccurredWithNotifications:notifications];
     }
     
+    [self ensureRefIdsArePresent];
+    
     self.collectionFragment = mergeResult.finalManifest;
+    
     [self startTimer];
     
     if (self.recorder && [self.recorder hasAnythingBeenTouched])
@@ -880,6 +932,81 @@ CachedObject> dataSource;
     self.isInSynchWithServer = YES;
 }
 
+
+-(void) ensureRefIdsArePresentInNotifications:(NotificationContainer *) notifications
+ {
+     for (AddAssociationNotification * notification in [notifications getAddAssociationNotifications])
+     {
+         XoomlAssociation * association = [notification getAssociation];
+        if (association.refId == nil && ![association isSelfReferncing])
+        {
+            
+            NSString * associatedItemName = association.associatedItem;
+            NSLog(@"MindcloudCollectionGordon - Could not find refId, manually retreiving refId");
+            NSData * associationData = [self.dataSource getAssociatedItemForTheCollection:self.collectionName
+                                                                                 WithName:associatedItemName];
+            
+            if (associationData != nil)
+            {
+                
+                NSString * associationXML = [[NSString alloc] initWithData:associationData encoding:NSUTF8StringEncoding];
+                XoomlFragment * fragment = [[XoomlFragment alloc] initWithXMLString:associationXML];
+                
+                NSDictionary * allAssociations = [fragment getAllAssociations];
+                if (allAssociations == nil || [allAssociations count] == 0)
+                {
+                    NSLog(@"MindcloudCollectionGordon -  no associatedItem association Found");
+                }
+                
+                else
+                {
+                    XoomlAssociation * associatedItemAssociation = allAssociations.allValues[0];
+                    association.refId = associatedItemAssociation.ID;
+                }
+            }
+        }
+     }
+ }
+
+//TODO - If we make sure that every other app adds refId we no longer need these
+//methods. Remove these when you are sure about it
+-(void) ensureRefIdsArePresent
+{
+    NSDictionary * allAssociatoins = [self.collectionFragment getAllAssociations];
+    for(NSString * associationId in allAssociatoins)
+    {
+        XoomlAssociation * association = allAssociatoins[associationId];
+        NSString * associatedItemName = association.associatedItem;
+        if (association.refId == nil && ![association isSelfReferncing])
+        {
+            
+            
+            NSLog(@"MindcloudCollectionGordon - Could not find refId, manually retreiving refId");
+            NSData * associationData = [self.dataSource getAssociatedItemForTheCollection:self.collectionName
+                                                                                 WithName:associatedItemName];
+            
+            if (associationData != nil)
+            {
+                
+                NSString * associationXML = [[NSString alloc] initWithData:associationData encoding:NSUTF8StringEncoding];
+                XoomlFragment * fragment = [[XoomlFragment alloc] initWithXMLString:associationXML];
+                
+                NSDictionary * allAssociations = [fragment getAllAssociations];
+                if (allAssociations == nil || [allAssociations count] == 0)
+                {
+                    NSLog(@"MindcloudCollectionGordon -  no associatedItem association Found");
+                }
+                
+                else
+                {
+                    XoomlAssociation * associatedItemAssociation = allAssociations.allValues[0];
+                    association.refId = associatedItemAssociation.ID;
+                    [self.collectionFragment setAssociation:association];
+                }
+            }
+        }
+    }
+}
 
 -(void) cacheIsSynched:(NSNotification *) notification
 {

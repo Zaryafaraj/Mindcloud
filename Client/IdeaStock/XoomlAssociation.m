@@ -31,6 +31,18 @@
     }
 }
 
+-(void) setRefId:(NSString *)refId
+{
+    _refId = refId;
+    if (self.element)
+    {
+        DDXMLNode * refIdAttr = [DDXMLNode attributeWithName:REF_ID
+                                             stringValue:refId];
+        [self.element removeAttributeForName:REF_ID];
+        [self.element addAttribute:refIdAttr];
+    }
+}
+
 -(id) initWithAssociatedItem:(NSString *) associatedItem
          andAssociatedItemRefId:(NSString *) refId;
 {
@@ -248,7 +260,10 @@
     for (DDXMLElement * elem in self.element.children)
     {
         XoomlAssociationNamespaceElement * namespaceElement = [[XoomlAssociationNamespaceElement alloc] initFromXMLString:elem.XMLString];
-        result[namespaceElement.ID] = namespaceElement;
+        if (namespaceElement != nil)
+        {
+            result[namespaceElement.ID] = namespaceElement;
+        }
     }
     
     return result;
