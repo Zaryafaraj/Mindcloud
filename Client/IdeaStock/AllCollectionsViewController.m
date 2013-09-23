@@ -516,30 +516,11 @@
 
 -(void) configureCategoriesPanel
 {
-    //make sure that viewDecks ledges are correct
-    //CGRect screenRect = [[UIScreen mainScreen] bounds];
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-    {
-        //CGFloat screenHeight = screenRect.size.height;
-//        self.viewDeckController.leftLedge = 2.25 * screenHeight / 3 ;
-//        CGRect newFrame = CGRectMake(self.categoriesController.view.frame.origin.x,
-//                                     self.categoriesController.view.frame.origin.y,
-//                                     screenHeight - self.viewDeckController.leftLedge,
-//                                     self.categoriesController.view.frame.size.height);
-       // self.categoriesController.table.frame = newFrame;
-        
-    }
-    else
-    {
-        //CGFloat screenWidth = screenRect.size.width;
-//        self.viewDeckController.leftLedge = 2.00 * screenWidth / 3 ;
-//        
-//        CGRect newFrame = CGRectMake(self.categoriesController.view.frame.origin.x,
-//                                     self.categoriesController.view.frame.origin.y,
-//                                     screenWidth - self.viewDeckController.leftLedge,
-//                                     self.categoriesController.view.frame.size.height);
-       // self.categoriesController.table.frame = newFrame;
-    }
+    CategoriesViewController * cat = [[CategoriesViewController alloc] init];
+    self.categoriesController = cat;
+    cat.dataSource = self;
+    cat.delegate = self;
+    [self.view addSubview:cat.view];
 }
 
 -(void) manageToolbars

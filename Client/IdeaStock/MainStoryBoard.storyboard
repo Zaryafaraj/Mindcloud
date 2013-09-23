@@ -314,7 +314,7 @@
                         <viewControllerLayoutGuide type="top" id="eaJ-JW-xx3"/>
                         <viewControllerLayoutGuide type="bottom" id="aHI-ji-Rbg"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleAspectFit" id="Jx3-sE-JAL">
+                    <view key="view" contentMode="scaleAspectFit" id="Jx3-sE-JAL" customClass="UIContain">
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -418,16 +418,16 @@
                                             <action selector="subscribePressed:" destination="C4k-Gx-gPL" id="jTL-ev-nCQ"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Sharing" id="hnf-Nd-TzQ">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <action selector="SharingModePressed:" destination="C4k-Gx-gPL" id="aDI-82-uYu"/>
-                                        </connections>
-                                    </barButtonItem>
                                     <barButtonItem title="Done" id="zGk-Ze-iMT">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="cancelPressed:" destination="C4k-Gx-gPL" id="ca9-GR-NLv"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Sharing" id="hnf-Nd-TzQ">
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="SharingModePressed:" destination="C4k-Gx-gPL" id="aDI-82-uYu"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Edit" id="04P-dP-H7k">
