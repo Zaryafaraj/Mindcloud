@@ -37,7 +37,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *showSideMenuButton;
 
 @property (strong, nonatomic) UIPopoverController * lastPopOver;
-@property (weak, nonatomic) IBOutlet UILabel *pageTitle;
+@property (weak, nonatomic) UILabel *pageTitle;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property BOOL isEditing;
 @property (strong, nonatomic) NSString * currentCategory;
@@ -76,6 +76,7 @@
     {
         _currentCategory = ALL;
         self.pageTitle.text = _currentCategory;
+        [self.pageTitle sizeToFit];
     }
     return _currentCategory;
 }
@@ -84,6 +85,7 @@
 {
     _currentCategory = currentCategory;
     self.pageTitle.text = _currentCategory;
+    [self.pageTitle sizeToFit];
 }
 
 #pragma mark - UI events
@@ -465,17 +467,43 @@
     
 }
 
+-(void) configureNavigationBar
+{
+    
+    //title
+    UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
+    titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    
+    titleView.backgroundColor = [UIColor clearColor];
+    titleView.textColor = [UIColor whiteColor];
+    self.navigationItem.titleView = titleView;
+    [titleView sizeToFit];
+    self.pageTitle = titleView;
+    
+    //right button
+    self.navigationItem.rightBarButtonItems = self.navigateToolbar;
+    
+    //left button
+    UIImage * showPanelImg = [UIImage imageNamed:@"ButtonMenu"];
+    UIBarButtonItem * showPanel = [[UIBarButtonItem alloc] initWithImage:showPanelImg
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:@selector(showCategoriesPressed:)];
+    self.navigationItem.leftBarButtonItem = showPanel;
+}
+
 -(void) viewDidLoad{
     [super viewDidLoad];
     [self.collectionView setAllowsMultipleSelection:NO];
     [self manageToolbars];
     self.isEditing = NO;
     self.isInSharingMode = NO;
-    
     self.toolbar.hidden = YES;
     
     [self configureCategoriesPanel];
-    self.navigationItem.rightBarButtonItems = self.navigateToolbar;
+    
+    
+    [self configureNavigationBar];
     [self addInitialListeners];
     
     self.model = [[MindcloudAllCollections alloc] initWithDelegate:self];

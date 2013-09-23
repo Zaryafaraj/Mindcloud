@@ -318,7 +318,7 @@
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BzD-cR-F4A">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BzD-cR-F4A">
                                 <rect key="frame" x="0.0" y="168" width="768" height="836"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="5" id="z7C-mu-znQ">
@@ -399,9 +399,6 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="1Wk-zS-ESI">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                                 <items>
-                                    <barButtonItem image="ButtonMenu" id="C4h-tg-Kug">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Eho-C9-EHr">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
@@ -468,17 +465,6 @@
                                 </items>
                                 <color key="barTintColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="31" translatesAutoresizingMaskIntoConstraints="NO" id="UVa-22-wVa">
-                                <rect key="frame" x="82" y="86" width="642" height="64"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="64" id="7bg-Du-dsj"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="61"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" cocoaTouchSystemColor="lightTextColor"/>
-                                <size key="shadowOffset" width="0.0" height="0.0"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -486,11 +472,7 @@
                             <constraint firstAttribute="bottom" secondItem="BzD-cR-F4A" secondAttribute="bottom" constant="-44" id="7N5-FA-Zkg"/>
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="leading" secondItem="BzD-cR-F4A" secondAttribute="leading" id="FBr-fc-LG5"/>
                             <constraint firstAttribute="trailing" secondItem="1Wk-zS-ESI" secondAttribute="trailing" id="Svh-Z4-EYm"/>
-                            <constraint firstAttribute="trailing" secondItem="UVa-22-wVa" secondAttribute="trailing" constant="44" id="VHc-eo-LWQ"/>
-                            <constraint firstItem="UVa-22-wVa" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" constant="82" id="W2m-9C-N2I"/>
-                            <constraint firstItem="UVa-22-wVa" firstAttribute="top" secondItem="1Wk-zS-ESI" secondAttribute="bottom" constant="42" id="Z8G-pw-Mt3"/>
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" id="fsr-Y1-5xv"/>
-                            <constraint firstItem="BzD-cR-F4A" firstAttribute="top" secondItem="UVa-22-wVa" secondAttribute="bottom" constant="18" id="hlt-xS-63h"/>
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="top" secondItem="Jx3-sE-JAL" secondAttribute="top" id="sus-iJ-Ow0"/>
                         </constraints>
                     </view>
@@ -504,7 +486,6 @@
                         <outlet property="categorizeButton" destination="eOo-p7-RNb" id="Rhc-tu-pfP"/>
                         <outlet property="collectionView" destination="BzD-cR-F4A" id="MeN-iG-daM"/>
                         <outlet property="editButton" destination="04P-dP-H7k" id="vDd-so-Qwg"/>
-                        <outlet property="pageTitle" destination="UVa-22-wVa" id="ne1-TR-HBP"/>
                         <outlet property="shareButton" destination="1KY-yG-IgQ" id="8Xc-cz-akJ"/>
                         <outlet property="toolbar" destination="1Wk-zS-ESI" id="VrZ-Rg-ENb"/>
                         <outlet property="unshareButton" destination="VhD-cj-b6y" id="KCs-Xn-wBT"/>
@@ -688,9 +669,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ButtonMenu" width="22" height="17"/>
         <image name="Colle.png" width="521" height="528"/>
         <image name="Felt-Blue.jpg" width="1024" height="1024"/>
+        <image name="felt-red-ipad-background.jpg" width="1024" height="1024"/>
         <image name="felt-red-ipad-background.jpg" width="1024" height="1024"/>
         <image name="rainbow" width="2556" height="100"/>
     </resources>
