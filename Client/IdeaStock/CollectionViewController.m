@@ -26,8 +26,8 @@
 
 #pragma mark - UI Elements
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-@property (strong, nonatomic) UIBarButtonItem * deleteButton;
-@property (strong, nonatomic) UIBarButtonItem * expandButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem * deleteButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem * expandButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *collectionView;
 @property (strong, nonatomic) NSMutableDictionary * noteViews;
 @property (strong, nonatomic) NSMutableDictionary * imageNoteViews;
@@ -875,6 +875,14 @@
 
 -(void) viewWillAppear:(BOOL)animated{
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
+    UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
+    titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    
+    titleView.backgroundColor = [UIColor clearColor];
+    titleView.textColor = [UIColor whiteColor];
+    titleView.text = self.bulletinBoardName;
+    self.navigationItem.titleView = titleView;
+    [titleView sizeToFit];
 }
 
 -(void) initateDataStructures
@@ -888,6 +896,9 @@
     [super viewDidLoad];
     self.shouldRefresh = YES;
     [self configureToolbar];
+    
+    
+    self.navigationItem.rightBarButtonItems = [self.toolbar.items copy];
     [self initateDataStructures];
     
     CGSize size =  CGSizeMake(self.collectionView.bounds.size.width,
@@ -943,16 +954,10 @@
 
 -(void) configureToolbar
 {
-    int len = [[self.toolbar items] count];
-    self.deleteButton = [self.toolbar items][len - 1];
-    self.expandButton = [self.toolbar items][len - 2];
-    NSMutableArray * toolBarItems = [[NSMutableArray alloc] init];
-    
-    int remainingCount = [[self.toolbar items] count] -2;
-    for ( int i = 0 ; i < remainingCount ; i++){
-        [toolBarItems addObject:[self.toolbar items][i]];
-    }
-    self.toolbar.items = [toolBarItems copy];
+    NSMutableArray * toolbarItems = [self.toolbar.items mutableCopy];
+    [toolbarItems removeObject:self.deleteButton];
+    [toolbarItems removeObject:self.expandButton];
+    self.toolbar.items = toolbarItems;
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -1624,21 +1629,23 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) removeContextualToolbarItems:(UIView *) contextView{
     
-    NSMutableArray * newToolbarItems = [self.toolbar.items mutableCopy];
-    [newToolbarItems removeLastObject];
-    if( [contextView isKindOfClass:[StackView class]]){
-        [newToolbarItems removeLastObject];
+    NSMutableArray * newToolbarItems = [self.navigationItem.rightBarButtonItems mutableCopy];
+    [newToolbarItems removeObject:self.deleteButton];
+    if( [contextView isKindOfClass:[StackView class]])
+    {
+        [newToolbarItems removeObject:self.expandButton];
     }
-    self.toolbar.items = newToolbarItems;
+    self.navigationItem.rightBarButtonItems = newToolbarItems;
 }
 
--(void) addContextualToolbarItems: (UIView *) contextView{
-    NSMutableArray * newToolbarItems = [self.toolbar.items mutableCopy];
+-(void) addContextualToolbarItems: (UIView *) contextView
+{
+    NSMutableArray * newToolbarItems = [self.navigationItem.rightBarButtonItems mutableCopy];
     if ( [contextView isKindOfClass:[StackView class]]){
         [newToolbarItems addObject:self.expandButton];
     }
     [newToolbarItems addObject:self.deleteButton];
-    self.toolbar.items = newToolbarItems;
+    self.navigationItem.rightBarButtonItems = newToolbarItems;
 }
 
 #pragma mark - stack delegate methods

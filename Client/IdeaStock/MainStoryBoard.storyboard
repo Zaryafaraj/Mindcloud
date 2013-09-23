@@ -495,30 +495,26 @@
                                     <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CU7-1N-ESK">
                                         <rect key="frame" x="0.0" y="916" width="768" height="44"/>
                                         <items>
-                                            <barButtonItem systemItem="done" id="W7q-Bd-jzc">
-                                                <connections>
-                                                    <action selector="backPressed:" destination="9HL-37-GHp" id="41O-w1-YXX"/>
-                                                </connections>
-                                            </barButtonItem>
-                                            <barButtonItem systemItem="camera" id="Rwb-Kb-IkV">
-                                                <connections>
-                                                    <action selector="cameraPressed:" destination="9HL-37-GHp" id="HTK-FH-5iZ"/>
-                                                </connections>
-                                            </barButtonItem>
-                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="TR9-zr-hXe"/>
-                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="yKh-N0-ML3"/>
                                             <barButtonItem title="Expand" id="3Cp-b8-UFf">
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <connections>
                                                     <action selector="expandPressed:" destination="9HL-37-GHp" id="H7n-CG-mWp"/>
                                                 </connections>
                                             </barButtonItem>
                                             <barButtonItem systemItem="trash" id="x4X-3T-v6V">
-                                                <color key="tintColor" red="0.77096619897959184" green="0.0085596043072421971" blue="0.025293316020285592" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <connections>
                                                     <action selector="deletePressed:" destination="9HL-37-GHp" id="xZZ-fC-Lev"/>
                                                 </connections>
                                             </barButtonItem>
+                                            <barButtonItem systemItem="camera" id="Rwb-Kb-IkV">
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <connections>
+                                                    <action selector="cameraPressed:" destination="9HL-37-GHp" id="HTK-FH-5iZ"/>
+                                                </connections>
+                                            </barButtonItem>
                                         </items>
+                                        <color key="barTintColor" red="0.26666666666666666" green="0.47058823529411764" blue="0.792156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                     </toolbar>
                                 </subviews>
                                 <color key="backgroundColor" red="0.96406502660000004" green="0.98895901009999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -536,6 +532,8 @@
                     <connections>
                         <outlet property="cameraButton" destination="Rwb-Kb-IkV" id="Tbb-70-j8S"/>
                         <outlet property="collectionView" destination="QXW-F8-5QD" id="umS-Mv-vac"/>
+                        <outlet property="deleteButton" destination="x4X-3T-v6V" id="Hdn-vV-kUf"/>
+                        <outlet property="expandButton" destination="3Cp-b8-UFf" id="FHP-RN-s23"/>
                         <outlet property="toolbar" destination="CU7-1N-ESK" id="BfB-Yf-6q1"/>
                     </connections>
                 </viewController>
