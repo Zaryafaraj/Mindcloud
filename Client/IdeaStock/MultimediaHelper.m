@@ -13,7 +13,7 @@
 @implementation MultimediaHelper
 #define THUMBNAIL_WIDTH 250
 #define THUMBNAIL_HEIGHT 250
-#define IMG_COMPRESSION_QUALITY 1
+#define IMG_COMPRESSION_QUALITY 0.2
 +(UIImagePickerController *) getCameraController
 {
     
@@ -46,15 +46,20 @@
     CGFloat sizeX = MIN(view.bounds.size.width, view.bounds.size.height);
     CGFloat sizeY = sizeX;
     CGSize imageSize = CGSizeMake(sizeX, sizeY);
+    CGRect drawRect = CGRectMake(0, 0, sizeX, sizeY);
     //app works only on ios version 4 and up which is the earliest ios on ipad so this
     //should not be a problem
     UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    for (UIView * subView in view.subviews)
-    {
-        if (![subView isKindOfClass:[UIToolbar class]])
-            [subView.layer renderInContext:context];
-    }
+    
+    [view drawViewHierarchyInRect:drawRect afterScreenUpdates:YES];
+    
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    for (UIView * subView in view.subviews)
+//    {
+//        if (![subView isKindOfClass:[UIToolbar class]])
+//            [subView.layer renderInContext:context];
+//    }
+    
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     NSData * imgData = UIImageJPEGRepresentation(image, IMG_COMPRESSION_QUALITY);

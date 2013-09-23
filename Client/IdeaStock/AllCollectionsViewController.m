@@ -744,22 +744,28 @@
     }
     else
     {
-        //present the collection view
-        NSString * name = [self getSelectedCollectionName];
         
+        NSString * name = [self getSelectedCollectionName];
         if (!name) return;
         
-        CollectionViewController * collectionView = [self.storyboard instantiateViewControllerWithIdentifier:@"CollectionView"];
-        collectionView.bulletinBoardName = name;
-        collectionView.parent = self;
-        MindcloudCollection * board =
-        [[MindcloudCollection alloc] initCollection:name];
-        collectionView.board = board;
-        
-        collectionView.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:collectionView animated:YES completion:^(void){}];
+        [self performSegueWithIdentifier:@"CollectionViewSegue" sender:self];
     }
     
+}
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"CollectionViewSegue"])
+    {
+        CollectionViewController * dest = [segue destinationViewController];
+        //present the collection view
+        NSString * name = [self getSelectedCollectionName];
+        dest.bulletinBoardName = name;
+        dest.parent = self;
+        MindcloudCollection * board = [[MindcloudCollection alloc] initCollection:name];
+        dest.board = board;
+        
+    }
 }
 
 -(void) collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath

@@ -1034,8 +1034,8 @@
     }
 }
 
--(IBAction)backPressed:(id) sender {
-    
+-(void) viewWillDisappear:(BOOL)animated
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [self.activeImageSheet dismissWithClickedButtonIndex:-1 animated:NO];
@@ -1045,6 +1045,7 @@
     [self.board save];
     [self.board cleanUp];
     [self.parent finishedWorkingWithCollection:self.bulletinBoardName withThumbnailData:thumbnailData];
+    
 }
 
 - (IBAction)refreshPressed:(id)sender {
