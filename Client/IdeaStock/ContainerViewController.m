@@ -11,6 +11,10 @@
 #import "AllCollectionsNavigationControllerViewController.h"
 #import "MMDrawerVisualState.h"
 
+@interface ContainerViewController()
+
+
+@end
 @implementation ContainerViewController
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -22,9 +26,8 @@
         //this is a weak pointer
         mainScreen.parent = self;
         CategoriesViewController * categoriesScreen = [storyboard instantiateViewControllerWithIdentifier:@"CategoriesViewController"];
+        self.leftPanel = categoriesScreen;
         
-        //        categoriesScreen.dataSource = mainScreen;
-        //        categoriesScreen.delegate = mainScreen;
         //        mainScreen.categoriesController = categoriesScreen;
         self = [super initWithCenterViewController:mainScreen leftDrawerViewController:categoriesScreen];
         

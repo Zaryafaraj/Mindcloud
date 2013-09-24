@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ContainerViewController.h"
+#import "CategoriesViewController.h"
 
 @interface AllCollectionsNavigationControllerViewController : UINavigationController
 
@@ -16,5 +17,7 @@
 -(void) toggleLeftPanel;
 
 -(BOOL) isLeftPanelOpen;
+
+-(CategoriesViewController *) viewControllerForCategories;
 
 @end

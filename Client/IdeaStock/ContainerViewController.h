@@ -8,9 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "MMDrawerController.h"
+#import "CategoriesViewController.h"
 
 @interface ContainerViewController : MMDrawerController
 
 -(void) toggleSidePanel;
+
+@property (nonatomic, strong) CategoriesViewController * leftPanel;
 
 @end

@@ -522,6 +522,15 @@
 
 -(void) configureCategoriesPanel
 {
+    
+    //this is not a good design. This view controller going all the way up the hierarchy to get categories controller. They should be uncoupled.
+    if ([self.navigationController isKindOfClass:[AllCollectionsNavigationControllerViewController class]])
+    {
+        AllCollectionsNavigationControllerViewController * parent = (AllCollectionsNavigationControllerViewController *) self.navigationController;
+        self.categoriesController = [parent viewControllerForCategories];
+        self.categoriesController.dataSource = self;
+        self.categoriesController.delegate = self;
+    }
 }
 
 -(void) manageToolbars
@@ -661,7 +670,7 @@
         updatedItem.img = [UIImage imageWithData:imgData];
     }
     [self.collectionView deselectItemAtIndexPath:cellIndex animated:NO];
-    
+   
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }

@@ -130,7 +130,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F1S-Wy-gGz">
-                                <rect key="frame" x="0.0" y="44" width="768" height="44"/>
+                                <rect key="frame" x="0.0" y="44" width="154" height="44"/>
                                 <items>
                                     <barButtonItem title="Edit" id="DGJ-d8-OJF">
                                         <connections>

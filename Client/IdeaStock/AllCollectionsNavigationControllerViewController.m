@@ -49,4 +49,13 @@
     return NO;
 }
 
+-(CategoriesViewController *) viewControllerForCategories
+{
+    if (self.parent)
+    {
+        ContainerViewController * temp = self.parent;
+        return temp.leftPanel;
+    }
+    return nil;
+}
 @end
