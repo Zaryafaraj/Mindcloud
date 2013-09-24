@@ -516,11 +516,6 @@
 
 -(void) configureCategoriesPanel
 {
-    CategoriesViewController * cat = [[CategoriesViewController alloc] init];
-    self.categoriesController = cat;
-    cat.dataSource = self;
-    cat.delegate = self;
-    [self.view addSubview:cat.view];
 }
 
 -(void) manageToolbars
@@ -774,7 +769,7 @@
                         layout:(UICollectionViewLayout *)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(20, 10,20, 10);
+    return UIEdgeInsetsMake(80, 10,20, 10);
 }
 
 #pragma mark - Table view data source

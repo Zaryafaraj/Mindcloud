@@ -314,12 +314,12 @@
                         <viewControllerLayoutGuide type="top" id="eaJ-JW-xx3"/>
                         <viewControllerLayoutGuide type="bottom" id="aHI-ji-Rbg"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleAspectFit" id="Jx3-sE-JAL" customClass="UIContain">
+                    <view key="view" contentMode="scaleAspectFit" id="Jx3-sE-JAL">
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BzD-cR-F4A">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="1004"/>
+                                <rect key="frame" x="0.0" y="-65" width="768" height="1069"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="15" minimumInteritemSpacing="11" id="z7C-mu-znQ">
                                     <size key="itemSize" width="203" height="149"/>
@@ -452,7 +452,7 @@
                             <constraint firstAttribute="bottom" secondItem="BzD-cR-F4A" secondAttribute="bottom" constant="-44" id="7N5-FA-Zkg"/>
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="leading" secondItem="BzD-cR-F4A" secondAttribute="leading" id="FBr-fc-LG5"/>
                             <constraint firstAttribute="trailing" secondItem="1Wk-zS-ESI" secondAttribute="trailing" id="Svh-Z4-EYm"/>
-                            <constraint firstItem="BzD-cR-F4A" firstAttribute="top" secondItem="1Wk-zS-ESI" secondAttribute="top" constant="-916" id="TsX-Fz-GZX"/>
+                            <constraint firstItem="BzD-cR-F4A" firstAttribute="top" secondItem="1Wk-zS-ESI" secondAttribute="top" constant="-981" id="TsX-Fz-GZX"/>
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" id="fsr-Y1-5xv"/>
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="top" secondItem="Jx3-sE-JAL" secondAttribute="top" constant="916" id="sus-iJ-Ow0"/>
                         </constraints>
@@ -620,10 +620,13 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zQi-sg-YA4" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" alpha="0.69999999999999973" contentMode="scaleToFill" id="hlw-lc-y9s">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hlw-lc-y9s">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.26666666666666666" green="0.47058823529411764" blue="0.792156862745098" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Ucl-pk-dyn">
