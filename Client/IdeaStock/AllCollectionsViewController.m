@@ -16,6 +16,8 @@
 #import "SharingViewController.h"
 #import "CategorizationViewController.h"
 #import "NamingHelper.h"
+#import "AllCollectionsNavigationControllerViewController.h"
+
 @interface AllCollectionsViewController()
 
 @property (weak, nonatomic) UIView * lastView;
@@ -443,9 +445,13 @@
     [self.model shareCollection:collectionName];
 }
 
-- (IBAction)showCategoriesPressed:(id)sender {
+- (void)showCategoriesPressed:(id)sender {
     
-    //[self.viewDeckController toggleLeftViewAnimated:YES];
+    if ([self.navigationController isKindOfClass:[AllCollectionsNavigationControllerViewController class]])
+    {
+        AllCollectionsNavigationControllerViewController * parent = (AllCollectionsNavigationControllerViewController *) self.navigationController;
+        [parent toggleLeftPanel];
+    }
 }
 
 

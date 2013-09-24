@@ -90,6 +90,12 @@
 		DBBBB9C017CC6C4800081C3B /* XoomlFragmentNamespaceElement.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9BF17CC6C4800081C3B /* XoomlFragmentNamespaceElement.m */; };
 		DBBBB9C317CC6FA700081C3B /* XoomlNamespaceElement.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9C217CC6FA700081C3B /* XoomlNamespaceElement.m */; };
 		DBC1B7F317CACCBA0036431A /* MindcloudAuthenticationGordon.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC1B7F217CACCBA0036431A /* MindcloudAuthenticationGordon.m */; };
+		DBC4E35817F14B5100F595FE /* MMDrawerBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC4E35017F14B5100F595FE /* MMDrawerBarButtonItem.m */; };
+		DBC4E35917F14B5100F595FE /* MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC4E35317F14B5100F595FE /* MMDrawerController.m */; };
+		DBC4E35A17F14B5100F595FE /* MMDrawerVisualState.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC4E35517F14B5100F595FE /* MMDrawerVisualState.m */; };
+		DBC4E35B17F14B5100F595FE /* UIViewController+MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC4E35717F14B5100F595FE /* UIViewController+MMDrawerController.m */; };
+		DBC4E35E17F14D0400F595FE /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC4E35D17F14D0400F595FE /* ContainerViewController.m */; };
+		DBC4E36117F164E300F595FE /* AllCollectionsNavigationControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC4E36017F164E300F595FE /* AllCollectionsNavigationControllerViewController.m */; };
 		DBC7C4C316327F1900BF3F2D /* CollectionsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC7C4C216327F1900BF3F2D /* CollectionsAction.m */; };
 		DBD06A9116D98F9C00463ECC /* SharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD06A9016D98F9C00463ECC /* SharingAction.m */; };
 		DBD06A9516D9B6D100463ECC /* SharingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD06A9416D9B6D100463ECC /* SharingViewController.m */; };
@@ -290,6 +296,19 @@
 		DBC1B7F217CACCBA0036431A /* MindcloudAuthenticationGordon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudAuthenticationGordon.m; sourceTree = "<group>"; };
 		DBC1B7F417CAD5350036431A /* MindcloudAuthenticationGordonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAuthenticationGordonDelegate.h; sourceTree = "<group>"; };
 		DBC1B7F617CAD91C0036431A /* UIEventTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIEventTypes.h; sourceTree = "<group>"; };
+		DBC4E34F17F14B5100F595FE /* MMDrawerBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerBarButtonItem.h; sourceTree = "<group>"; };
+		DBC4E35017F14B5100F595FE /* MMDrawerBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerBarButtonItem.m; sourceTree = "<group>"; };
+		DBC4E35117F14B5100F595FE /* MMDrawerController+Subclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMDrawerController+Subclass.h"; sourceTree = "<group>"; };
+		DBC4E35217F14B5100F595FE /* MMDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerController.h; sourceTree = "<group>"; };
+		DBC4E35317F14B5100F595FE /* MMDrawerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerController.m; sourceTree = "<group>"; };
+		DBC4E35417F14B5100F595FE /* MMDrawerVisualState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerVisualState.h; sourceTree = "<group>"; };
+		DBC4E35517F14B5100F595FE /* MMDrawerVisualState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerVisualState.m; sourceTree = "<group>"; };
+		DBC4E35617F14B5100F595FE /* UIViewController+MMDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MMDrawerController.h"; sourceTree = "<group>"; };
+		DBC4E35717F14B5100F595FE /* UIViewController+MMDrawerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MMDrawerController.m"; sourceTree = "<group>"; };
+		DBC4E35C17F14D0400F595FE /* ContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerViewController.h; sourceTree = "<group>"; };
+		DBC4E35D17F14D0400F595FE /* ContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContainerViewController.m; sourceTree = "<group>"; };
+		DBC4E35F17F164E300F595FE /* AllCollectionsNavigationControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllCollectionsNavigationControllerViewController.h; sourceTree = "<group>"; };
+		DBC4E36017F164E300F595FE /* AllCollectionsNavigationControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllCollectionsNavigationControllerViewController.m; sourceTree = "<group>"; };
 		DBC7C4C116327F1900BF3F2D /* CollectionsAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionsAction.h; sourceTree = "<group>"; };
 		DBC7C4C216327F1900BF3F2D /* CollectionsAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionsAction.m; sourceTree = "<group>"; };
 		DBD06A8F16D98F9C00463ECC /* SharingAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharingAction.h; sourceTree = "<group>"; };
@@ -499,6 +518,7 @@
 		D7BF466315472E0D00F06412 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				DBC4E34E17F14B5100F595FE /* MMDrawerController */,
 				DBC1B7F517CAD9050036431A /* Types */,
 				DBB9313B16AB7B5B005652AA /* Helpers */,
 				DB4E0AC5163DCD1E00AB82E6 /* Models */,
@@ -553,6 +573,10 @@
 				DBD06A9416D9B6D100463ECC /* SharingViewController.m */,
 				DBB7455216F647EC0029AE72 /* CategorizationViewController.h */,
 				DBB7455316F647EC0029AE72 /* CategorizationViewController.m */,
+				DBC4E35C17F14D0400F595FE /* ContainerViewController.h */,
+				DBC4E35D17F14D0400F595FE /* ContainerViewController.m */,
+				DBC4E35F17F164E300F595FE /* AllCollectionsNavigationControllerViewController.h */,
+				DBC4E36017F164E300F595FE /* AllCollectionsNavigationControllerViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -828,6 +852,22 @@
 			name = Types;
 			sourceTree = "<group>";
 		};
+		DBC4E34E17F14B5100F595FE /* MMDrawerController */ = {
+			isa = PBXGroup;
+			children = (
+				DBC4E34F17F14B5100F595FE /* MMDrawerBarButtonItem.h */,
+				DBC4E35017F14B5100F595FE /* MMDrawerBarButtonItem.m */,
+				DBC4E35117F14B5100F595FE /* MMDrawerController+Subclass.h */,
+				DBC4E35217F14B5100F595FE /* MMDrawerController.h */,
+				DBC4E35317F14B5100F595FE /* MMDrawerController.m */,
+				DBC4E35417F14B5100F595FE /* MMDrawerVisualState.h */,
+				DBC4E35517F14B5100F595FE /* MMDrawerVisualState.m */,
+				DBC4E35617F14B5100F595FE /* UIViewController+MMDrawerController.h */,
+				DBC4E35717F14B5100F595FE /* UIViewController+MMDrawerController.m */,
+			);
+			path = MMDrawerController;
+			sourceTree = "<group>";
+		};
 		DBF1CEDA17C94A6A000777F7 /* Gordon */ = {
 			isa = PBXGroup;
 			children = (
@@ -983,12 +1023,14 @@
 				D70947241523DC27008E4AD9 /* NSString+DDXML.m in Sources */,
 				D70947251523DC27008E4AD9 /* DDXMLDocument.m in Sources */,
 				D70947261523DC27008E4AD9 /* DDXMLElement.m in Sources */,
+				DBC4E36117F164E300F595FE /* AllCollectionsNavigationControllerViewController.m in Sources */,
 				D70947271523DC27008E4AD9 /* DDXMLNode.m in Sources */,
 				D74E48201524F3DF00BC8B9D /* AttributeHelper.m in Sources */,
 				D7B1432D1526A50400DC7556 /* MindcloudCollection.m in Sources */,
 				D7DEF2C41530D37800D13CF4 /* FileSystemHelper.m in Sources */,
 				DBF1CEDD17C94A9C000777F7 /* MindcloudCollectionGordon.m in Sources */,
 				D7BF46661547303700F06412 /* AllCollectionsViewController.m in Sources */,
+				DBC4E35B17F14B5100F595FE /* UIViewController+MMDrawerController.m in Sources */,
 				D71EA185154CD3FB00496663 /* CollectionViewController.m in Sources */,
 				D7F1FF2C154D1A3300D07B58 /* NoteView.m in Sources */,
 				D7E44BEE15643AA90080EF71 /* StackView.m in Sources */,
@@ -1011,6 +1053,7 @@
 				DB712C87164EF678008E68C6 /* CategoriesAction.m in Sources */,
 				DB712C8B164F42D1008E68C6 /* CollectionImageAction.m in Sources */,
 				DB43382D169D2E09000353DA /* CachedMindCloudDataSource.m in Sources */,
+				DBC4E35817F14B5100F595FE /* MMDrawerBarButtonItem.m in Sources */,
 				DB4338A8169E8AAF000353DA /* CollectionAction.m in Sources */,
 				DB03C357169FEB0000C38FD7 /* CollectionSubCollectionsAction.m in Sources */,
 				DB03C35B169FEE6C00C38FD7 /* SubCollectionAction.m in Sources */,
@@ -1026,11 +1069,13 @@
 				DBBA28AC16CC88C6007C7B4A /* ManifestMerger.m in Sources */,
 				DBBA28B216CC8B91007C7B4A /* NotificationContainer.m in Sources */,
 				DBBA28B516CCC3EC007C7B4A /* UpdateAssociationNotification.m in Sources */,
+				DBC4E35E17F14D0400F595FE /* ContainerViewController.m in Sources */,
 				DBBA28B816CCC574007C7B4A /* UpdateFragmentNamespaceSubElementNotification.m in Sources */,
 				DBBA28BB16CCC5FD007C7B4A /* DeleteAssociationNotification.m in Sources */,
 				DBBA28BE16CCC62F007C7B4A /* AddAssociationNotification.m in Sources */,
 				DBBA28C116CCC6A8007C7B4A /* AddFragmentNamespaceElementNotification.m in Sources */,
 				DB8F48A417CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m in Sources */,
+				DBC4E35917F14B5100F595FE /* MMDrawerController.m in Sources */,
 				DBBA28C416CCC81D007C7B4A /* DeleteFragmentNamespaceSubElementNotification.m in Sources */,
 				DBDB105716D032C200B5F7AE /* MergerThread.m in Sources */,
 				DBDB105A16D0388200B5F7AE /* MergeResult.m in Sources */,
@@ -1038,6 +1083,7 @@
 				DBDB106016D1E06A00B5F7AE /* NoteFragmentResolver.m in Sources */,
 				DBDB106316D1E08B00B5F7AE /* NoteResolutionNotification.m in Sources */,
 				DBD06A9116D98F9C00463ECC /* SharingAction.m in Sources */,
+				DBC4E35A17F14B5100F595FE /* MMDrawerVisualState.m in Sources */,
 				DBD06A9516D9B6D100463ECC /* SharingViewController.m in Sources */,
 				DBD06A9816D9D51700463ECC /* AllCollectionsSharingAdapter.m in Sources */,
 				DBD06A9E16DAB6F900463ECC /* SubscriptionAction.m in Sources */,
