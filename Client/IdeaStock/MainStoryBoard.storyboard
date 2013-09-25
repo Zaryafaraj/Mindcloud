@@ -299,14 +299,18 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.10000000000000014" contentMode="center" placeholderIntrinsicWidth="250" placeholderIntrinsicHeight="250" reuseIdentifier="CollectionCell" id="WAv-an-XHa" customClass="CollectionCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="240" height="250"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="250"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tEM-oN-bu8">
+                                                    <rect key="frame" x="3" y="3" width="234" height="244"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                                 <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bPz-ZN-VKJ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="250" height="69"/>
+                                                    <rect key="frame" x="3" y="3" width="234" height="66"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Mindcloud" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xiw-0D-LDI">
                                                             <rect key="frame" x="0.0" y="0.0" width="250" height="69"/>
@@ -321,22 +325,22 @@
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.94787546149789026" green="0.94787546149789026" blue="0.94787546149789026" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstItem="Xiw-0D-LDI" firstAttribute="centerY" secondItem="bPz-ZN-VKJ" secondAttribute="centerY" id="Eet-VZ-wef"/>
+                                                        <constraint firstItem="Xiw-0D-LDI" firstAttribute="centerY" secondItem="bPz-ZN-VKJ" secondAttribute="centerY" constant="1.5" id="Eet-VZ-wef"/>
                                                         <constraint firstItem="Xiw-0D-LDI" firstAttribute="leading" secondItem="bPz-ZN-VKJ" secondAttribute="leading" id="T3t-Dy-6WL"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <color key="backgroundColor" red="0.19097435469999999" green="0.6220703125" blue="0.18306332829999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstItem="bPz-ZN-VKJ" firstAttribute="top" secondItem="WAv-an-XHa" secondAttribute="top" id="3OR-Ji-A1t"/>
+                                            <constraint firstItem="bPz-ZN-VKJ" firstAttribute="top" secondItem="WAv-an-XHa" secondAttribute="top" constant="3" id="3OR-Ji-A1t"/>
                                             <constraint firstItem="bPz-ZN-VKJ" firstAttribute="centerX" secondItem="WAv-an-XHa" secondAttribute="centerX" id="IVJ-2l-xzG"/>
-                                            <constraint firstItem="bPz-ZN-VKJ" firstAttribute="leading" secondItem="WAv-an-XHa" secondAttribute="leading" id="mVY-E9-M9m"/>
+                                            <constraint firstItem="bPz-ZN-VKJ" firstAttribute="leading" secondItem="WAv-an-XHa" secondAttribute="leading" constant="3" id="mVY-E9-M9m"/>
                                             <constraint firstAttribute="bottom" secondItem="bPz-ZN-VKJ" secondAttribute="bottom" constant="181" id="nbJ-1N-ORC"/>
                                         </constraints>
-                                        <size key="customSize" width="250" height="250"/>
+                                        <size key="customSize" width="240" height="250"/>
                                         <connections>
+                                            <outlet property="picImage" destination="tEM-oN-bu8" id="dns-4X-Xvj"/>
                                             <outlet property="titleLabel" destination="Xiw-0D-LDI" id="5jt-bi-ZWu"/>
                                         </connections>
                                     </collectionViewCell>
