@@ -784,7 +784,7 @@
                         layout:(UICollectionViewLayout *)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(80, 10,20, 10);
+    return UIEdgeInsetsMake(60, 10,20, 10);
 }
 
 #pragma mark - Table view data source
