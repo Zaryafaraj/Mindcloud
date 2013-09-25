@@ -35,6 +35,7 @@
         [self setMaximumRightDrawerWidth:200.0];
         [self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
         [self setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
+        
         [self setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {
             MMDrawerControllerDrawerVisualStateBlock block = [MMDrawerVisualState swingingDoorVisualStateBlock];
             if(block){
