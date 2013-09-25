@@ -516,7 +516,6 @@
     
     [self.categoriesController.table reloadData];
     //to synchronize the categories with reality
-    [self configureCategoriesPanel];
     [self.collectionView reloadData];
 }
 
@@ -530,6 +529,7 @@
         self.categoriesController = [parent viewControllerForCategories];
         self.categoriesController.dataSource = self;
         self.categoriesController.delegate = self;
+        [self.categoriesController.table reloadData];
     }
 }
 

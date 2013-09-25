@@ -606,7 +606,6 @@
         <!--All Collections Navigation Controller View Controller-->
         <scene sceneID="L88-Mp-S2Q">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8lv-Wa-PXw" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController restorationIdentifier="MainScreenNavigationController" storyboardIdentifier="MainScreenNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="zQi-sg-YA4" customClass="AllCollectionsNavigationControllerViewController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="hlw-lc-y9s">
@@ -623,6 +622,7 @@
                         <segue destination="C4k-Gx-gPL" kind="relationship" relationship="rootViewController" id="dwv-S1-i6b"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8lv-Wa-PXw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="764" y="-1727"/>
         </scene>

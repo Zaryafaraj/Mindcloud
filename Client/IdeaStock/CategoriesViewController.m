@@ -24,6 +24,16 @@
 
 @synthesize renameMode = _renameMode;
 
+-(void) setDelegate:(id<UIEditableTableViewDelegate>)delegate
+{
+    self.table.delegate = delegate;
+}
+
+-(void) setDataSource:(id<UITableViewDataSource>)dataSource
+{
+    self.table.dataSource = dataSource;
+}
+
 - (void) setRenameMode:(BOOL)renameMode
 {
     for(UIBarButtonItem * button in self.editToolbarItems)
