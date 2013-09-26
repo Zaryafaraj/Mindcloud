@@ -112,6 +112,7 @@
 		DBEE54B61640F16300BD9F93 /* HTTPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEE54B51640F16300BD9F93 /* HTTPHelper.m */; };
 		DBF1CEDD17C94A9C000777F7 /* MindcloudCollectionGordon.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF1CEDC17C94A9C000777F7 /* MindcloudCollectionGordon.m */; };
 		DBFB7AE21644D5C2004049A9 /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFB7AE11644D5C2004049A9 /* CategoriesViewController.m */; };
+		DBFFF64B17F3FE4F006C9937 /* NoteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBFFF64A17F3FE4F006C9937 /* NoteView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -340,6 +341,7 @@
 		DBF1CEDE17C958E9000777F7 /* MindcloudCollectionGordonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudCollectionGordonDelegate.h; sourceTree = "<group>"; };
 		DBFB7AE01644D5C2004049A9 /* CategoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesViewController.h; sourceTree = "<group>"; };
 		DBFB7AE11644D5C2004049A9 /* CategoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesViewController.m; sourceTree = "<group>"; };
+		DBFFF64A17F3FE4F006C9937 /* NoteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -540,6 +542,7 @@
 		DB31750016337E53001229FE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DBFFF64A17F3FE4F006C9937 /* NoteView.xib */,
 				DBE13373163E13AE00EF0AF7 /* CollectionCell.h */,
 				DBE13374163E13AE00EF0AF7 /* CollectionCell.m */,
 				D7E44BF7156476360080EF71 /* BulletinBoardObject.h */,
@@ -975,6 +978,7 @@
 				D7F19834157184A9008DA24F /* felt-red-ipad-background.jpg in Resources */,
 				D7F19837157189A1008DA24F /* Background_Blue.jpg in Resources */,
 				DB64030717DABE5700DC9578 /* Images.xcassets in Resources */,
+				DBFFF64B17F3FE4F006C9937 /* NoteView.xib in Resources */,
 				DB3174F916336DEB001229FE /* cJOfLC.jpeg in Resources */,
 				DB40DEDF16AE619100ECAC54 /* Felt-Blue.jpg in Resources */,
 				DB40DEE016AE619100ECAC54 /* Leather.jpg in Resources */,
