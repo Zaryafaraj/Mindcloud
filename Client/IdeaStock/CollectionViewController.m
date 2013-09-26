@@ -685,7 +685,8 @@
     CGRect frame = [CollectionLayoutHelper getFrameForNewNote:sender.view
                                                  AddedToPoint:location
                                              InCollectionView:self.collectionView];
-    NoteView * note = [[NoteView alloc] initWithFrame:frame];
+    NoteView * note = [[NSBundle mainBundle] loadNibNamed:@"NoteView" owner:self options:nil][0];
+    note.frame = frame;
     NSString * noteID = [AttributeHelper generateUUID];
     note.ID = noteID;
     //use weak ref to avoid leakage

@@ -27,11 +27,23 @@
 
 @synthesize text = _text;
 @synthesize highlighted = _highlighted;
-@synthesize highLightedImage = _highLightedImage;
-@synthesize normalImage = _normalImage;
 @synthesize ID = _ID;
 @synthesize scaleOffset = _scaleOffset;
 
+-(id) initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        self.layer.borderColor = [UIColor grayColor].CGColor;
+        self.layer.borderWidth = 1;
+        self.layer.shouldRasterize = YES;
+        self.layer.shadowColor = [UIColor grayColor].CGColor;
+        self.layer.shadowOffset = CGSizeMake(2, 2);
+        self.layer.shadowOpacity = 0.7;
+    }
+    return self;
+}
 -(CGFloat)scaleOffset
 {
     if (_scaleOffset <= 0)
@@ -45,23 +57,6 @@
     _delegate = delegate;
 }
 
--(UIImage *) normalImage{
-    if (!_normalImage){
-        _normalImage = [UIImage imageNamed:@"notelight5.png"];
-    }
-    return _normalImage;
-}
-
-
--(UIImage *) highLightedImage{
-    
-    if (! _highLightedImage){
-        _highLightedImage = [UIImage imageNamed:@"noteselected.png"];
-        
-    }
-    return _highLightedImage;
-}
-
 -(void) setHighlighted:(BOOL) highlighted{
     _highlighted = highlighted;
     
@@ -70,7 +65,6 @@
         
         if (highlighted){
             if ([subView isKindOfClass:[UIImageView class]]){
-                [((UIImageView *) subView) setImage:self.highLightedImage];
                 [UIView animateWithDuration:0.20
                                  animations:^{
                                      [subView setTransform:CGAffineTransformMakeScale(1.2, 1.3)];}];
@@ -78,7 +72,6 @@
         }
         else{
             if ([subView isKindOfClass:[UIImageView class]]){
-                [((UIImageView *) subView) setImage:self.normalImage];
                 [UIView animateWithDuration:0.20 animations:^{[subView setTransform:CGAffineTransformIdentity];}];
                 
             }
@@ -115,11 +108,6 @@
                                         frame.size.width,
                                         frame.size.height);
         
-        UIImageView * imageView = [[UIImageView alloc] initWithImage:self.normalImage];
-        imageView.frame = CGRectMake(self.bounds.origin.x,
-                                     self.bounds.origin.y,
-                                     self.bounds.size.width,
-                                     self.bounds.size.height);
        
         CGRect textFrame = CGRectMake(self.bounds.origin.x + self.bounds.size.width * STARTING_POS_OFFSET_X ,
                                       self.bounds.origin.y + self.bounds.size.height * STARTING_POS_OFFSET_Y,
@@ -130,7 +118,6 @@
         [textView setBackgroundColor:[UIColor clearColor]];
         
         textView.delegate = self;
-        [self addSubview:imageView];
         [self addSubview:textView];
         self.text = @"Tap To Edit Note";
     }

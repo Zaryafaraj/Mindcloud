@@ -13,12 +13,6 @@
 @interface NoteView : UIView <BulletinBoardObject,UITextViewDelegate>
 
 @property (weak,nonatomic) id<NoteViewDelegate> delegate;
-@property (strong, nonatomic) UIImage * highLightedImage;
-@property (strong, nonatomic) UIImage * normalImage;
-
--(id) initNoteWithFrame:(CGRect) frame 
-                  andText: (NSString *)text
-                    andID:(NSString *)ID;
 
 -(void) resizeToRect:(CGRect) rect Animate: (BOOL) animate;
 
