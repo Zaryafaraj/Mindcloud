@@ -45,6 +45,11 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cameraButton;
 @property (strong, nonatomic) UIPopoverController * lastPopOver;
 
+//we remove this prototype view from the super view at the begining of
+//when the contoller loads. So we need a strong pointer to it so that it
+//doesn't go out of scope
+@property (strong, nonatomic) IBOutlet NoteView *prototypeNoteView;
+
 @end
 
 #pragma mark - Definitions
@@ -685,7 +690,7 @@
     CGRect frame = [CollectionLayoutHelper getFrameForNewNote:sender.view
                                                  AddedToPoint:location
                                              InCollectionView:self.collectionView];
-    NoteView * note = [[NSBundle mainBundle] loadNibNamed:@"NoteView" owner:self options:nil][0];
+    NoteView * note =  [self.prototypeNoteView prototype];
     note.frame = frame;
     NSString * noteID = [AttributeHelper generateUUID];
     note.ID = noteID;
@@ -892,9 +897,17 @@
     self.noteViews = [NSMutableDictionary dictionary];
     self.stackViews = [NSMutableDictionary dictionary];
 }
+
+-(void) removePrototypesFromView
+{
+    [self.prototypeNoteView removeFromSuperview];
+    
+}
+
 -(void) viewDidLoad
 {
     [super viewDidLoad];
+    [self removePrototypesFromView];
     self.shouldRefresh = YES;
     [self configureToolbar];
     

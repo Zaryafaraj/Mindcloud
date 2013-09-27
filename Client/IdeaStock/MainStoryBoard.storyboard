@@ -490,6 +490,11 @@
                                         </items>
                                         <color key="barTintColor" red="0.26666666666666666" green="0.47058823529411764" blue="0.792156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                     </toolbar>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rJw-4W-tVJ" customClass="NoteView">
+                                        <rect key="frame" x="20" y="20" width="296" height="216"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.93725496529999996" green="0.94117653369999998" blue="0.96078437569999997" alpha="1" colorSpace="deviceRGB"/>
+                                    </view>
                                 </subviews>
                             </scrollView>
                         </subviews>
@@ -507,6 +512,7 @@
                         <outlet property="collectionView" destination="QXW-F8-5QD" id="umS-Mv-vac"/>
                         <outlet property="deleteButton" destination="x4X-3T-v6V" id="Hdn-vV-kUf"/>
                         <outlet property="expandButton" destination="3Cp-b8-UFf" id="FHP-RN-s23"/>
+                        <outlet property="prototypeNoteView" destination="rJw-4W-tVJ" id="wy0-Qm-7b6"/>
                         <outlet property="toolbar" destination="CU7-1N-ESK" id="BfB-Yf-6q1"/>
                     </connections>
                 </viewController>

@@ -35,15 +35,22 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        self.layer.borderColor = [UIColor grayColor].CGColor;
-        self.layer.borderWidth = 1;
-        self.layer.shouldRasterize = YES;
-        self.layer.shadowColor = [UIColor grayColor].CGColor;
-        self.layer.shadowOffset = CGSizeMake(2, 2);
-        self.layer.shadowOpacity = 0.7;
+        self = [NoteView setLayers:self];
     }
     return self;
 }
+
++(NoteView *) setLayers:(NoteView *) view
+{
+    view.layer.borderColor = [UIColor grayColor].CGColor;
+    view.layer.borderWidth = 1;
+    view.layer.shouldRasterize = YES;
+    view.layer.shadowColor = [UIColor grayColor].CGColor;
+    view.layer.shadowOffset = CGSizeMake(2, 2);
+    view.layer.shadowOpacity = 0.7;
+    return view;
+}
+
 -(CGFloat)scaleOffset
 {
     if (_scaleOffset <= 0)
@@ -79,6 +86,10 @@
     }
 }
 
+-(void) setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+}
 -(void) setText:(NSString *) text{
     for (UIView * subView in self.subviews){
         if ([subView isKindOfClass:[UITextView class]]){
@@ -108,7 +119,7 @@
                                         frame.size.width,
                                         frame.size.height);
         
-       
+        
         CGRect textFrame = CGRectMake(self.bounds.origin.x + self.bounds.size.width * STARTING_POS_OFFSET_X ,
                                       self.bounds.origin.y + self.bounds.size.height * STARTING_POS_OFFSET_Y,
                                       self.bounds.size.width * TEXT_WIDHT_RATIO,
@@ -124,7 +135,7 @@
     return self;
 }
 
--(id) initNoteWithFrame:(CGRect) frame 
+-(id) initNoteWithFrame:(CGRect) frame
                 andText: (NSString *)text
                   andID:(NSString *)ID{
     
@@ -193,10 +204,10 @@
         else if ([subView isKindOfClass:[UITextView class]]){
             //doing this to make the text clearer instead of resizing an existing UITextView
             
-        CGRect textFrame = CGRectMake(self.bounds.origin.x + self.bounds.size.width * STARTING_POS_OFFSET_X ,
-                                      self.bounds.origin.y + self.bounds.size.height * STARTING_POS_OFFSET_Y,
-                                      self.bounds.size.width * TEXT_WIDHT_RATIO,
-                                      self.bounds.size.height * TEXT_HEIGHT_RATIO);
+            CGRect textFrame = CGRectMake(self.bounds.origin.x + self.bounds.size.width * STARTING_POS_OFFSET_X ,
+                                          self.bounds.origin.y + self.bounds.size.height * STARTING_POS_OFFSET_Y,
+                                          self.bounds.size.width * TEXT_WIDHT_RATIO,
+                                          self.bounds.size.height * TEXT_HEIGHT_RATIO);
             
             [CollectionAnimationHelper animateChangeFrame:subView
                                              withNewFrame:textFrame];
@@ -208,7 +219,7 @@
     
     BOOL isValid = [self isScalingValid:scaleFactor];
     if (!isValid) return;
-
+    
     self.scaleOffset *= scaleFactor;
     
     CGRect newFrame = CGRectMake(self.frame.origin.x,
@@ -221,9 +232,9 @@
         
         if ([subView isKindOfClass:[UIImageView class]]){
             CGRect newFrame2 = CGRectMake(subView.frame.origin.x,
-                                       subView.frame.origin.y,
-                                       subView.frame.size.width * scaleFactor,
-                                       subView.frame.size.height * scaleFactor);
+                                          subView.frame.origin.y,
+                                          subView.frame.size.width * scaleFactor,
+                                          subView.frame.size.height * scaleFactor);
             
             if (animated)
             {
@@ -301,6 +312,21 @@
     else {
         [self resizeToRect:rect];
     }
+}
+
+-(instancetype) prototype
+{
+    NoteView * prototype = [[NoteView alloc] initWithFrame:self.frame];
+    
+    if (prototype == nil) return nil;
+    
+    prototype.text = self.text;
+    prototype.delegate = self.delegate;
+    prototype.backgroundColor = self.backgroundColor;
+    prototype.alpha = self.alpha;
+    prototype = [NoteView setLayers:prototype];
+    
+    return prototype;
 }
 
 #pragma mark - keyboard

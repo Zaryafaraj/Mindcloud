@@ -18,4 +18,6 @@
 
 
 
+-(instancetype) prototype;
+
 @end
