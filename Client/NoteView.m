@@ -155,143 +155,48 @@
 
 -(void) scaleWithScaleOffset:(CGFloat) scaleOffset animated:(BOOL) animated
 {
-//    self.scaleOffset = scaleOffset;
-//    
-//    CGRect newFrame = CGRectMake(self.frame.origin.x,
-//                                 self.frame.origin.y,
-//                                 self.originalFrame.size.width * scaleOffset,
-//                                 self.originalFrame.size.height * scaleOffset);
-//    
-//    self.frame = newFrame;
-//    
-//    for (UIView * subView in self.subviews){
-//        
-//        if ([subView isKindOfClass:[UIImageView class]]){
-//            CGRect newFrame2 = CGRectMake(self.bounds.origin.x,
-//                                          self.bounds.origin.y,
-//                                          self.bounds.size.width,
-//                                          self.bounds.size.height);
-//            
-//            if (animated)
-//            {
-//                [CollectionAnimationHelper animateChangeFrame:subView withNewFrame:newFrame2];
-//            }
-//            else
-//            {
-//                subView.frame = newFrame2;
-//            }
-//        }
-//        else if ([subView isKindOfClass:[UITextView class]]){
-//            //doing this to make the text clearer instead of resizing an existing UITextView
-//            
-//            CGRect textFrame = CGRectMake(self.bounds.origin.x + self.bounds.size.width * STARTING_POS_OFFSET_X ,
-//                                          self.bounds.origin.y + self.bounds.size.height * STARTING_POS_OFFSET_Y,
-//                                          self.bounds.size.width * TEXT_WIDHT_RATIO,
-//                                          self.bounds.size.height * TEXT_HEIGHT_RATIO);
-//            
-//            [CollectionAnimationHelper animateChangeFrame:subView
-//                                             withNewFrame:textFrame];
-//        }
-//    }
+    self.scaleOffset = scaleOffset;
+    
+    CGRect newFrame = CGRectMake(self.frame.origin.x,
+                                 self.frame.origin.y,
+                                 self.originalFrame.size.width * scaleOffset,
+                                 self.originalFrame.size.height * scaleOffset);
+    
+    self.frame = newFrame;
+    
 }
 
 -(void) scale:(CGFloat) scaleFactor animated:(BOOL)animated{
     
-//    BOOL isValid = [self isScalingValid:scaleFactor];
-//    if (!isValid) return;
-//    
-//    self.scaleOffset *= scaleFactor;
-//    
-//    CGRect newFrame = CGRectMake(self.frame.origin.x,
-//                                 self.frame.origin.y,
-//                                 self.frame.size.width * scaleFactor,
-//                                 self.frame.size.height * scaleFactor);
-//    self.frame = newFrame;
-//    
-//    for (UIView * subView in self.subviews){
-//        
-//        if ([subView isKindOfClass:[UIImageView class]]){
-//            CGRect newFrame2 = CGRectMake(subView.frame.origin.x,
-//                                          subView.frame.origin.y,
-//                                          subView.frame.size.width * scaleFactor,
-//                                          subView.frame.size.height * scaleFactor);
-//            
-//            if (animated)
-//            {
-//                [CollectionAnimationHelper animateChangeFrame:subView withNewFrame:newFrame2];
-//            }
-//            else
-//            {
-//                subView.frame = newFrame2;
-//            }
-//        }
-//        else if ([subView isKindOfClass:[UITextView class]]){
-//            //doing this to make the text clearer instead of resizing an existing UITextView
-//            NSString * oldText = ((UITextView *)subView).text;
-//            CGRect textFrame = CGRectMake(newFrame.size.width * STARTING_POS_OFFSET_X ,
-//                                          newFrame.size.height * STARTING_POS_OFFSET_Y,
-//                                          subView.frame.size.width * scaleFactor,
-//                                          subView.frame.size.height * scaleFactor);
-//            
-//            UITextView * textView = [[UITextView alloc] initWithFrame:textFrame];
-//            textView.font = [UIFont fontWithName:@"Cochin" size:17.0];
-//            
-//            [textView setBackgroundColor:[UIColor clearColor]];
-//            
-//            textView.textColor = ((UITextView *)subView).textColor;
-//            textView.text = oldText;
-//            
-//            textView.delegate = self;
-//            [subView removeFromSuperview];
-//            
-//            [self addSubview:textView];
-//        }
-//    }
+    BOOL isValid = [self isScalingValid:scaleFactor];
+    if (!isValid) return;
+    
+    self.scaleOffset *= scaleFactor;
+    
+    CGRect newFrame = CGRectMake(self.frame.origin.x,
+                                 self.frame.origin.y,
+                                 self.frame.size.width * scaleFactor,
+                                 self.frame.size.height * scaleFactor);
+    self.frame = newFrame;
+    
 }
 
 -(void) resizeToRect:(CGRect) rect
 {
-//    self.frame = rect;
-//    for (UIView * subView in self.subviews){
-//        if ([subView isKindOfClass:[UIImageView class]]){
-//            subView.frame = CGRectMake(self.bounds.origin.x,
-//                                       self.bounds.origin.y,
-//                                       self.bounds.size.width,
-//                                       self.bounds.size.height);
-//        }
-//        else if ([subView isKindOfClass:[UITextView class]]){
-//            //doing this to make the text clearer instead of resizing an existing UITextView
-//            NSString * oldText = ((UITextView *)subView).text;
-//            CGRect textFrame = CGRectMake(self.bounds.origin.x + self.bounds.size.width * STARTING_POS_OFFSET_X ,
-//                                          self.bounds.origin.y + self.bounds.size.height * STARTING_POS_OFFSET_Y,
-//                                          self.bounds.size.width * TEXT_WIDHT_RATIO,
-//                                          self.bounds.size.height * TEXT_HEIGHT_RATIO);
-//            UITextView * textView = [[UITextView alloc] initWithFrame:textFrame];
-//            textView.font = [UIFont fontWithName:@"Cochin" size:17.0];
-//            textView.textColor = ((UITextView *)subView).textColor;
-//            [textView setBackgroundColor:[UIColor clearColor]];
-//            
-//            textView.text = oldText;
-//            textView.delegate = self;
-//            
-//            [subView removeFromSuperview];
-//            
-//            [self addSubview:textView];
-//        }
-//    }
+    self.frame = rect;
 }
 
 -(void) resizeToRect:(CGRect)rect
              Animate: (BOOL) animate{
     
-//    if (animate){
-//        [UIView animateWithDuration:0.5 animations:^{
-//            [self resizeToRect:rect];
-//        }];
-//    }
-//    else {
-//        [self resizeToRect:rect];
-//    }
+    if (animate){
+        [UIView animateWithDuration:0.5 animations:^{
+            [self resizeToRect:rect];
+        }];
+    }
+    else {
+        [self resizeToRect:rect];
+    }
 }
 
 -(instancetype) prototype
