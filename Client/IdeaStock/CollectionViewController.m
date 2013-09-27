@@ -1278,7 +1278,8 @@
         [note scale:scale animated:NO];
     }
     else{
-        note = [[NoteView alloc] initWithFrame:noteFrame];
+        note =  [self.prototypeNoteView prototype];
+        note.frame = noteFrame;
         note.ID = noteID;
         NoteView * noteRef = note;
         self.noteViews[note.ID] = noteRef;

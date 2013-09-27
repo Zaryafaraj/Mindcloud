@@ -115,7 +115,6 @@
     if ([self.bulletinBoardName isEqualToString:noteResolution.collectionName])
     {
         NSString * noteId = noteResolution.noteId;
-        NSLog(@"VERIFY ---> NOTEID = %@", noteId);
         self.collectionNoteAttributes[noteId] = noteResolution.noteContent;
         self.collectionAttributesForNotes[noteId] = noteResolution.collectionNoteAttribute;
         NSDictionary * userInfo =  @{@"result" :  @[noteId]};
@@ -205,7 +204,6 @@
 {
     //validate that all the notes exist
     for (NSString * noteId in noteIDs){
-        NSLog(@"VERIFY ---> NOTEID = %@", noteId);
         if (!self.collectionNoteAttributes[noteId]) return;
     }
     
@@ -348,7 +346,6 @@
 - (void) updateNoteContentOf:(NSString *)noteID
               withContentsOf:(id<NoteProtocol>)newNote{
     
-    NSLog(@"VERIFY ---> NOTEID = %@", noteID);
     id <NoteProtocol> oldNote = self.collectionNoteAttributes[noteID];
     if (!oldNote) return;
     
@@ -517,7 +514,6 @@
         if (noteId == nil) continue;
         [updatedNotes addObject:noteId];
         //TODO make sure we need to add this here
-        NSLog(@"VERIFY ---> NOTEID = %@", noteId);
         self.collectionAttributesForNotes[noteId] = newCollectionNoteAttribute;
     }
     
@@ -793,7 +789,6 @@
     
     
     //set the note content as soon as you receive it
-    NSLog(@"VERIFY ---> NOTEID = %@", associationId);
     self.collectionNoteAttributes[associationId] = noteObj;
     //note could have an image or not. If it has an image we have to also add it to note images
     NSString * imgName = noteObj.image;
@@ -853,7 +848,6 @@
     
     
     //if its just an update , update it
-    NSLog(@"VERIFY ---> NOTEID = %@", noteId);
     if (self.collectionNoteAttributes[noteId])
     {
         //just update the content
@@ -879,7 +873,6 @@
     NSString * noteId = noteObj.noteId;
     
     //if this is only an update, update the image path and send the notification
-     NSLog(@"VERIFY ---> NOTEID = %@", noteId);
     if (self.imagePathsForNotes[noteId] && self.collectionNoteAttributes[noteId])
     {
         self.imagePathsForNotes[noteId] = imagePath;
