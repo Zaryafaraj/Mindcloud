@@ -490,12 +490,35 @@
                                         </items>
                                         <color key="barTintColor" red="0.26666666666666666" green="0.47058823529411764" blue="0.792156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                     </toolbar>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rJw-4W-tVJ" customClass="NoteView">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rJw-4W-tVJ" customClass="NoteView">
                                         <rect key="frame" x="20" y="20" width="296" height="216"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iQ3-iK-bAN">
+                                                <rect key="frame" x="20" y="20" width="256" height="176"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                        </subviews>
                                         <color key="backgroundColor" red="0.93725496529999996" green="0.94117653369999998" blue="0.96078437569999997" alpha="1" colorSpace="deviceRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="centerY" secondItem="iQ3-iK-bAN" secondAttribute="centerY" id="4Su-7G-i8G"/>
+                                            <constraint firstAttribute="width" constant="296" placeholder="YES" id="81Y-hd-JZG"/>
+                                            <constraint firstAttribute="height" constant="216" placeholder="YES" id="Hnm-Zp-Bof"/>
+                                            <constraint firstAttribute="centerX" secondItem="iQ3-iK-bAN" secondAttribute="centerX" id="RTe-pI-fvY"/>
+                                            <constraint firstItem="iQ3-iK-bAN" firstAttribute="top" secondItem="rJw-4W-tVJ" secondAttribute="top" constant="20" symbolic="YES" id="RkT-y3-yry"/>
+                                            <constraint firstItem="iQ3-iK-bAN" firstAttribute="leading" secondItem="rJw-4W-tVJ" secondAttribute="leading" constant="20" symbolic="YES" id="Ybm-L5-mPb"/>
+                                        </constraints>
                                     </view>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="rJw-4W-tVJ" secondAttribute="trailing" constant="452" id="DpA-cx-XjE"/>
+                                    <constraint firstItem="rJw-4W-tVJ" firstAttribute="leading" secondItem="QXW-F8-5QD" secondAttribute="leading" constant="20" symbolic="YES" id="J1V-bN-lEr"/>
+                                    <constraint firstAttribute="bottom" secondItem="rJw-4W-tVJ" secondAttribute="bottom" constant="724" id="Q6Y-1v-tA5"/>
+                                    <constraint firstItem="rJw-4W-tVJ" firstAttribute="top" secondItem="QXW-F8-5QD" secondAttribute="top" constant="20" symbolic="YES" id="iKJ-EO-uEh"/>
+                                </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="0.93014636671686746" alpha="1" colorSpace="calibratedWhite"/>
