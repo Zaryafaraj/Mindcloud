@@ -109,6 +109,8 @@
 		DBDD1ABE15CF215A00F55223 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DBDD1ABD15CF215A00F55223 /* libxml2.dylib */; };
 		DBDDB6FE17E677330009099E /* NoteReference.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDDB6FD17E677330009099E /* NoteReference.m */; };
 		DBE13375163E13AE00EF0AF7 /* CollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE13374163E13AE00EF0AF7 /* CollectionCell.m */; };
+		DBE3171317F639CC00EEBA18 /* ThemeFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE3171217F639CC00EEBA18 /* ThemeFactory.m */; };
+		DBE3171617F63A0D00EEBA18 /* BlueTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE3171517F63A0D00EEBA18 /* BlueTheme.m */; };
 		DBEE54B61640F16300BD9F93 /* HTTPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEE54B51640F16300BD9F93 /* HTTPHelper.m */; };
 		DBF1CEDD17C94A9C000777F7 /* MindcloudCollectionGordon.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF1CEDC17C94A9C000777F7 /* MindcloudCollectionGordon.m */; };
 		DBFB7AE21644D5C2004049A9 /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFB7AE11644D5C2004049A9 /* CategoriesViewController.m */; };
@@ -333,6 +335,11 @@
 		DBDDB6FD17E677330009099E /* NoteReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteReference.m; sourceTree = "<group>"; };
 		DBE13373163E13AE00EF0AF7 /* CollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionCell.h; path = ../CollectionCell.h; sourceTree = "<group>"; };
 		DBE13374163E13AE00EF0AF7 /* CollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionCell.m; path = ../CollectionCell.m; sourceTree = "<group>"; };
+		DBE3171017F639B500EEBA18 /* ThemeProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeProtocol.h; sourceTree = "<group>"; };
+		DBE3171117F639CC00EEBA18 /* ThemeFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeFactory.h; sourceTree = "<group>"; };
+		DBE3171217F639CC00EEBA18 /* ThemeFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeFactory.m; sourceTree = "<group>"; };
+		DBE3171417F63A0D00EEBA18 /* BlueTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlueTheme.h; sourceTree = "<group>"; };
+		DBE3171517F63A0D00EEBA18 /* BlueTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlueTheme.m; sourceTree = "<group>"; };
 		DBEE54B41640F16300BD9F93 /* HTTPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPHelper.h; sourceTree = "<group>"; };
 		DBEE54B51640F16300BD9F93 /* HTTPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPHelper.m; sourceTree = "<group>"; };
 		DBF1CEDB17C94A9C000777F7 /* MindcloudCollectionGordon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudCollectionGordon.h; sourceTree = "<group>"; };
@@ -419,6 +426,7 @@
 		D709472B15242BA4008E4AD9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DBE3170F17F6399B00EEBA18 /* Theme */,
 				DB87A9B217D2D44F00605E6A /* Definitions */,
 				DB4338A2169D5400000353DA /* Mixins */,
 				DB43382A169D2D86000353DA /* Models */,
@@ -868,6 +876,18 @@
 			path = MMDrawerController;
 			sourceTree = "<group>";
 		};
+		DBE3170F17F6399B00EEBA18 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				DBE3171017F639B500EEBA18 /* ThemeProtocol.h */,
+				DBE3171117F639CC00EEBA18 /* ThemeFactory.h */,
+				DBE3171217F639CC00EEBA18 /* ThemeFactory.m */,
+				DBE3171417F63A0D00EEBA18 /* BlueTheme.h */,
+				DBE3171517F63A0D00EEBA18 /* BlueTheme.m */,
+			);
+			name = Theme;
+			sourceTree = "<group>";
+		};
 		DBF1CEDA17C94A6A000777F7 /* Gordon */ = {
 			isa = PBXGroup;
 			children = (
@@ -1044,6 +1064,7 @@
 				DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */,
 				DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */,
 				DBC7C4C316327F1900BF3F2D /* CollectionsAction.m in Sources */,
+				DBE3171317F639CC00EEBA18 /* ThemeFactory.m in Sources */,
 				DB3174FE16337636001229FE /* SignInViewController.m in Sources */,
 				DB4E0AC9163DCD3D00AB82E6 /* MindcloudAllCollections.m in Sources */,
 				DBBBB9BD17CC686900081C3B /* XoomlAssociationNamespaceElement.m in Sources */,
@@ -1075,6 +1096,7 @@
 				DBBA28BE16CCC62F007C7B4A /* AddAssociationNotification.m in Sources */,
 				DBBA28C116CCC6A8007C7B4A /* AddFragmentNamespaceElementNotification.m in Sources */,
 				DB8F48A417CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m in Sources */,
+				DBE3171617F63A0D00EEBA18 /* BlueTheme.m in Sources */,
 				DBC4E35917F14B5100F595FE /* MMDrawerController.m in Sources */,
 				DBBA28C416CCC81D007C7B4A /* DeleteFragmentNamespaceSubElementNotification.m in Sources */,
 				DBDB105716D032C200B5F7AE /* MergerThread.m in Sources */,

@@ -8,6 +8,7 @@
 
 #import "NoteView.h"
 #import "CollectionAnimationHelper.h"
+#import "ThemeFactory.h"
 
 @interface NoteView()
 
@@ -56,6 +57,9 @@
             self.textView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
             self.textView.textAlignment = NSTextAlignmentCenter;
             self.textView.text = @"\n\n\nTap To Edit";
+            UIColor * themeColor = [[ThemeFactory currentTheme] tintColor];
+            self.textView.tintColor = themeColor;
+            self.textView.keyboardAppearance = UIKeyboardAppearanceDark;
             break;
         }
     }
