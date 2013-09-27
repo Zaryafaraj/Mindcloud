@@ -27,7 +27,7 @@
 #define STARTING_POS_OFFSET_Y 0.15
 #define TEXT_WIDHT_RATIO 0.8
 #define TEXT_HEIGHT_RATIO 0.75
-
+#define PLACEHOLDER_TEXT @"\n\n\nTap To Edit"
 #pragma mark - Synthesizers
 
 @synthesize text = _text;
@@ -56,7 +56,7 @@
             self.textView.delegate = self;
             self.textView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
             self.textView.textAlignment = NSTextAlignmentCenter;
-            self.textView.text = @"\n\n\nTap To Edit";
+            self.textView.text = PLACEHOLDER_TEXT;
             UIColor * themeColor = [[ThemeFactory currentTheme] tintColor];
             self.textView.tintColor = themeColor;
             self.textView.keyboardAppearance = UIKeyboardAppearanceDark;
@@ -238,7 +238,7 @@
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView{
-    if ([textView.text isEqualToString:@"Tap To Edit Note"]){
+    if ([textView.text isEqualToString:PLACEHOLDER_TEXT]){
         textView.text = @"";
     }
     self.delegate.activeView = self;
