@@ -146,16 +146,9 @@
     UIImageView * newImageView = [[UIImageView alloc] initWithFrame:self.imageView.frame];
     [prototype addSubview:newImageView];
     prototype.imageView = newImageView;
-    UIButton * newButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    CGFloat buttonOriginX = self.bounds.size.width - newButton.frame.size.width - INFO_BUTTON_OFFSET_X;
-    CGFloat buttonOriginY = self.bounds.size.width - newButton.frame.size.height - INFO_BUTTON_OFFSET_Y;
-    newButton.frame = CGRectMake(buttonOriginX,
-                                 buttonOriginY,
-                                 newButton.frame.size.width,
-                                 newButton.frame.size.height);
+    UIButton * newButton = [self createToggleButton];
     prototype.toggleButton = newButton;
-    prototype.toggleButton.tintColor = [UIColor blackColor];
-    newButton.hidden = YES;
+    prototype.toggleButton.hidden = YES;
     [prototype addSubview:newButton];
     
     newImageView.backgroundColor = self.imageView.backgroundColor;
@@ -170,18 +163,27 @@
     if ([textView.text isEqualToString:@""] &&
         self.placeHolderView != nil)
     {
-        [UIView animateWithDuration:0.3 animations:^{
-            self.placeHolderView.alpha = 0;
-        }completion:^(BOOL finished){
-            [self.placeHolderView removeFromSuperview];
-            self.placeHolderView = nil;
-        }];
+        [self hidePlaceholder];
     }
     else if (![textView.text isEqualToString:@""] &&
              self.placeHolderView == nil)
     {
         [self showPlaceHolder];
     }
+}
+
+-(UIButton *) createToggleButton
+{
+    UIButton * newButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    
+    CGFloat buttonOriginX = self.frame.size.width - newButton.frame.size.width - INFO_BUTTON_OFFSET_X;
+    CGFloat buttonOriginY = self.frame.size.height - newButton.frame.size.height - INFO_BUTTON_OFFSET_Y;
+    newButton.frame = CGRectMake(buttonOriginX,
+                                 buttonOriginY,
+                                 newButton.frame.size.width,
+                                 newButton.frame.size.height);
+    newButton.tintColor = [UIColor blackColor];
+    return newButton;
 }
 
 -(void) showPlaceHolder
@@ -192,6 +194,14 @@
         self.placeHolderView.backgroundColor = [UIColor whiteColor];
         self.placeHolderView.alpha = 0.0;
         [self insertSubview:self.placeHolderView belowSubview:self._textView];
+        
+        if (self.toggleButton == nil)
+        {
+            UIButton * newButton = [self createToggleButton];
+            self.toggleButton = newButton;
+            [self insertSubview:newButton aboveSubview:self.imageView];
+        }
+        
         self.toggleButton.alpha = 0;
         self.toggleButton.hidden = NO;
         [self.toggleButton removeFromSuperview];
@@ -201,12 +211,22 @@
         self.toggleButton.alpha = 0.7;
            }];
     }
-    
 }
 
 -(void) hidePlaceholder
 {
-    
+    if (self.placeHolderView && self.toggleButton)
+    {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.placeHolderView.alpha = 0;
+            self.toggleButton.alpha = 0;
+        }completion:^(BOOL finished){
+            [self.placeHolderView removeFromSuperview];
+            self.placeHolderView = nil;
+            [self.toggleButton removeFromSuperview];
+            self.toggleButton = nil;
+        }];
+    }
 }
 -(void) textViewDidBeginEditing:(UITextView *)textView
 {
