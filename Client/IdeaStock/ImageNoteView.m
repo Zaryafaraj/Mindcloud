@@ -20,6 +20,7 @@
 @property UIView * placeHolderView;
 @property UIButton * toggleButton;
 @property UIView * controlView;
+@property BOOL isControlViewShowing;
 
 @end
 
@@ -104,7 +105,7 @@
                                                 frame.size.height);
     }
     //if there is a control view resize everything so that control view is at the bottom
-    if (self.controlView)
+    if (self.isControlViewShowing)
     {
         self._textView.frame = CGRectMake(self._textView.frame.origin.x,
                                           self._textView.frame.origin.y,
@@ -184,19 +185,6 @@
     return prototype;
 }
 
--(void) textViewDidChange:(UITextView *)textView
-{
-    if ([textView.text isEqualToString:@""] &&
-        self.placeHolderView != nil)
-    {
-        [self hidePlaceholder];
-    }
-    else if (![textView.text isEqualToString:@""] &&
-             self.placeHolderView == nil)
-    {
-        [self showPlaceHolder];
-    }
-}
 
 -(UIButton *) createToggleButton
 {
@@ -242,18 +230,9 @@
         UIView * controlView = [self createControlView];
         [self addSubview:controlView];
         self.controlView = controlView;
+        self.isControlViewShowing = YES;
         
     }
-}
-
--(void) hideControlView
-{
-    [self.controlView removeFromSuperview];
-    self.controlView = nil;
-    self.frame = CGRectMake(self.frame.origin.x,
-                            self.frame.origin.y,
-                            self.frame.size.width,
-                            self.frame.size.height - EXTENDED_EDGE_SIZE);
 }
 
 -(UIView *) createControlView
@@ -264,6 +243,7 @@
                                          EXTENDED_EDGE_SIZE);
     UIView * controlView = [[UIView alloc] initWithFrame:controlViewFrame];
     controlView.backgroundColor = [[ThemeFactory currentTheme] tintColor];
+    controlView.alpha = 0;
     return controlView;
 }
 
@@ -271,7 +251,10 @@
 {
     if (self.placeHolderView == nil)
     {
-        [self extendView];
+        if (!self.isControlViewShowing)
+        {
+            [self extendView];
+        }
         self.placeHolderView = [[UIView alloc] initWithFrame:self.imageView.frame];
         self.placeHolderView.backgroundColor = [UIColor whiteColor];
         self.placeHolderView.alpha = 0.0;
@@ -291,6 +274,7 @@
         [UIView animateWithDuration:0.3 animations:^{
             self.placeHolderView.alpha = 0.7;
             self.toggleButton.alpha = 0.7;
+            self.controlView.alpha = 1;
         }];
     }
 }
@@ -299,15 +283,28 @@
 {
     if (self.placeHolderView && self.toggleButton)
     {
-        [self hideControlView];
+        __weak ImageNoteView * weakSelf = self;
         [UIView animateWithDuration:0.3 animations:^{
-            self.placeHolderView.alpha = 0;
-            self.toggleButton.alpha = 0;
+            weakSelf.placeHolderView.alpha = 0;
+            weakSelf.controlView.alpha = 0;
+            weakSelf.toggleButton.alpha = 0;
+            
+            if (self.isControlViewShowing)
+            {
+                weakSelf.isControlViewShowing = NO;
+                weakSelf.frame = CGRectMake(self.frame.origin.x,
+                                            self.frame.origin.y,
+                                            self.frame.size.width,
+                                            self.frame.size.height - EXTENDED_EDGE_SIZE);
+                
+            }
         }completion:^(BOOL finished){
-            [self.placeHolderView removeFromSuperview];
-            self.placeHolderView = nil;
-            [self.toggleButton removeFromSuperview];
-            self.toggleButton = nil;
+            [weakSelf.placeHolderView removeFromSuperview];
+            weakSelf.placeHolderView = nil;
+            [weakSelf.toggleButton removeFromSuperview];
+            weakSelf.toggleButton = nil;
+            [weakSelf.controlView removeFromSuperview];
+            weakSelf.controlView = nil;
         }];
     }
 }
@@ -315,5 +312,27 @@
 {
     [self showPlaceHolder];
     [super textViewDidBeginEditing:textView];
+}
+
+-(void) textViewDidEndEditing:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:@""])
+    {
+        if (self.placeHolderView) [self hidePlaceholder];
+    }
+}
+
+-(void) textViewDidChange:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:@""] &&
+        self.placeHolderView != nil)
+    {
+        [self hidePlaceholder];
+    }
+    else if (![textView.text isEqualToString:@""] &&
+             self.placeHolderView == nil)
+    {
+        [self showPlaceHolder];
+    }
 }
 @end
