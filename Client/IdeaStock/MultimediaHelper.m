@@ -28,7 +28,7 @@
     UIImagePickerController * imagePicker = [[UIImagePickerController alloc] init];
     imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     imagePicker.mediaTypes = @[(NSString *) kUTTypeImage];
-    imagePicker.allowsEditing = YES;
+    imagePicker.allowsEditing = NO;
     return imagePicker;
 }
 
@@ -37,7 +37,7 @@
     UIImagePickerController * imagePicker = [[UIImagePickerController alloc] init];
     imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     imagePicker.mediaTypes = @[(NSString *) kUTTypeImage];
-    imagePicker.allowsEditing = YES;
+    imagePicker.allowsEditing = NO;
     return imagePicker;
 }
 

@@ -22,8 +22,6 @@
 
 #define STARTING_POS_OFFSET_X 0.10
 #define STARTING_POS_OFFSET_Y 0.15
-#define TEXT_WIDHT_RATIO 0.8
-#define TEXT_HEIGHT_RATIO 0.75
 #define PLACEHOLDER_TEXT @"\n\n\nTap To Edit"
 #pragma mark - Synthesizers
 

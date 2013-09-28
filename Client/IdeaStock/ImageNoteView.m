@@ -204,6 +204,10 @@
     
 }
 
+-(void) hidePlaceholder
+{
+    
+}
 -(void) textViewDidBeginEditing:(UITextView *)textView
 {
     [self showPlaceHolder];
