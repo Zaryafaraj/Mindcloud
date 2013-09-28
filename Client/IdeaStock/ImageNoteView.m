@@ -12,12 +12,14 @@
 
 #define INFO_BUTTON_OFFSET_X 10
 #define INFO_BUTTON_OFFSET_Y 10
+#define EXTENDED_EDGE_SIZE 50
 
 @interface ImageNoteView()
 
 @property UIImageView * imageView;
 @property UIView * placeHolderView;
 @property UIButton * toggleButton;
+@property UIView * controlView;
 
 @end
 
@@ -101,17 +103,41 @@
                                                 frame.size.width,
                                                 frame.size.height);
     }
+    //if there is a control view resize everything so that control view is at the bottom
+    if (self.controlView)
+    {
+        self._textView.frame = CGRectMake(self._textView.frame.origin.x,
+                                          self._textView.frame.origin.y,
+                                          self._textView.frame.size.width,
+                                          self._textView.frame.size.height - EXTENDED_EDGE_SIZE);
+        
+        self.imageView.frame = CGRectMake(self.imageView.frame.origin.x,
+                                          self.imageView.frame.origin.y,
+                                          self.imageView.frame.size.width,
+                                          self.imageView.frame.size.height - EXTENDED_EDGE_SIZE);
+        
+        if (self.placeHolderView)
+        {
+            self.placeHolderView.frame = self.imageView.frame;
+        }
+        
+        CGRect controlViewFrame = CGRectMake(self.imageView.frame.origin.x,
+                                             self.imageView.frame.origin.y + self.imageView.frame.size.height,
+                                             self.imageView.frame.size.width,
+                                             EXTENDED_EDGE_SIZE);
+        self.controlView.frame = controlViewFrame;
+    }
     
     if(self.toggleButton)
     {
         
-        CGFloat buttonOriginX = frame.size.width - self.toggleButton.frame.size.width - INFO_BUTTON_OFFSET_X ;
-        CGFloat buttonOriginY = frame.size.height - self.toggleButton.frame.size.height - INFO_BUTTON_OFFSET_Y;
+        CGFloat buttonOriginX = frame.size.width - 50  - INFO_BUTTON_OFFSET_X ;
+        CGFloat buttonOriginY = frame.size.height - 50 - INFO_BUTTON_OFFSET_Y;
         
         self.toggleButton.frame = CGRectMake(buttonOriginX,
-                                     buttonOriginY,
-                                     self.toggleButton.frame.size.width,
-                                     self.toggleButton.frame.size.height);
+                                             buttonOriginY,
+                                             50,
+                                             50);
     }
 }
 
@@ -174,22 +200,78 @@
 
 -(UIButton *) createToggleButton
 {
-    UIButton * newButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    
-    CGFloat buttonOriginX = self.frame.size.width - newButton.frame.size.width - INFO_BUTTON_OFFSET_X;
-    CGFloat buttonOriginY = self.frame.size.height - newButton.frame.size.height - INFO_BUTTON_OFFSET_Y;
+    UIButton * newButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    newButton.titleLabel.text = @"Hide Text";
+    CGFloat buttonOriginX = self.frame.size.width - 50 - INFO_BUTTON_OFFSET_X;
+    CGFloat buttonOriginY = self.frame.size.height - 50 - INFO_BUTTON_OFFSET_Y;
     newButton.frame = CGRectMake(buttonOriginX,
                                  buttonOriginY,
-                                 newButton.frame.size.width,
-                                 newButton.frame.size.height);
+                                 50,
+                                 50);
     newButton.tintColor = [UIColor blackColor];
     return newButton;
+}
+
+-(void) extendView
+{
+    CGRect extendedFrame = CGRectMake(self.frame.origin.x,
+                                      self.frame.origin.y,
+                                      self.frame.size.width,
+                                      self.frame.size.height + EXTENDED_EDGE_SIZE);
+    self.frame = extendedFrame;
+    
+    //move the text frame, image view and place holder up
+    self._textView.frame = CGRectMake(self._textView.frame.origin.x,
+                                      self._textView.frame.origin.y,
+                                      self._textView.frame.size.width,
+                                      self._textView.frame.size.height - EXTENDED_EDGE_SIZE);
+    
+    self.imageView.frame = CGRectMake(self.imageView.frame.origin.x,
+                                      self.imageView.frame.origin.y,
+                                      self.imageView.frame.size.width,
+                                      self.imageView.frame.size.height - EXTENDED_EDGE_SIZE);
+    
+    if (self.placeHolderView)
+    {
+        self.placeHolderView.frame = self.imageView.frame;
+    }
+    
+    //now add the UIView for placeholder to the end
+    if (self.controlView == nil)
+    {
+        UIView * controlView = [self createControlView];
+        [self addSubview:controlView];
+        self.controlView = controlView;
+        
+    }
+}
+
+-(void) hideControlView
+{
+    [self.controlView removeFromSuperview];
+    self.controlView = nil;
+    self.frame = CGRectMake(self.frame.origin.x,
+                            self.frame.origin.y,
+                            self.frame.size.width,
+                            self.frame.size.height - EXTENDED_EDGE_SIZE);
+}
+
+-(UIView *) createControlView
+{
+    CGRect controlViewFrame = CGRectMake(self.imageView.frame.origin.x,
+                                         self.imageView.frame.origin.y + self.imageView.frame.size.height,
+                                         self.imageView.frame.size.width,
+                                         EXTENDED_EDGE_SIZE);
+    UIView * controlView = [[UIView alloc] initWithFrame:controlViewFrame];
+    controlView.backgroundColor = [[ThemeFactory currentTheme] tintColor];
+    return controlView;
 }
 
 -(void) showPlaceHolder
 {
     if (self.placeHolderView == nil)
     {
+        [self extendView];
         self.placeHolderView = [[UIView alloc] initWithFrame:self.imageView.frame];
         self.placeHolderView.backgroundColor = [UIColor whiteColor];
         self.placeHolderView.alpha = 0.0;
@@ -207,9 +289,9 @@
         [self.toggleButton removeFromSuperview];
         [self addSubview:self.toggleButton];
         [UIView animateWithDuration:0.3 animations:^{
-        self.placeHolderView.alpha = 0.7;
-        self.toggleButton.alpha = 0.7;
-           }];
+            self.placeHolderView.alpha = 0.7;
+            self.toggleButton.alpha = 0.7;
+        }];
     }
 }
 
@@ -217,6 +299,7 @@
 {
     if (self.placeHolderView && self.toggleButton)
     {
+        [self hideControlView];
         [UIView animateWithDuration:0.3 animations:^{
             self.placeHolderView.alpha = 0;
             self.toggleButton.alpha = 0;
