@@ -13,7 +13,7 @@
 #import "StackViewController.h"
 #import "CollectionNote.h"
 #import "AttributeHelper.h"
-#import "ImageView.h"
+#import "ImageNoteView.h"
 #import "CachedMindCloudDataSource.h"
 #import "EventTypes.h"
 #import "CollectionLayoutHelper.h"
@@ -49,6 +49,7 @@
 //when the contoller loads. So we need a strong pointer to it so that it
 //doesn't go out of scope
 @property (strong, nonatomic) IBOutlet NoteView *prototypeNoteView;
+@property (strong, nonatomic) IBOutlet ImageNoteView *prototypeImageView;
 
 @end
 
@@ -94,7 +95,7 @@
         NSString * noteId = resultDict[@"noteId"];
         if (self.imageNoteViews[noteId])
         {
-            ImageView * imgView =  self.imageNoteViews[noteId];
+            ImageNoteView * imgView =  self.imageNoteViews[noteId];
             NSData * imgData = [self.board getImageForNote:noteId];
             imgView.image = [UIImage imageWithData:imgData];
             
@@ -231,10 +232,10 @@
                          andNoteContent:noteObj];
         
         self.noteViews[noteId] = note;
-        if ([note isKindOfClass:[ImageView class]])
+        if ([note isKindOfClass:[ImageNoteView class]])
         {
             NSData * imgData = [self.board getImageForNote:noteId];
-            ((ImageView *) note).image = [UIImage imageWithData:imgData];
+            ((ImageNoteView *) note).image = [UIImage imageWithData:imgData];
             self.imageNoteViews[noteId] = note;
         }
         
@@ -604,7 +605,7 @@
         CollectionNote * noteObj = [self.board getNoteContent:noteId];
         if (noteObj == nil) break;
         
-        ImageView * imageView = self.imageNoteViews[noteId];
+        ImageNoteView * imageView = self.imageNoteViews[noteId];
         if (imageView == nil) break;
         
         NSData * imgData = [self.board getImageForNote:noteId];
@@ -901,7 +902,7 @@
 -(void) removePrototypesFromView
 {
     [self.prototypeNoteView removeFromSuperview];
-    
+    [self.prototypeImageView removeFromSuperview];
 }
 
 -(void) viewDidLoad
@@ -1135,7 +1136,7 @@
     return noteID;
 }
 
--(NSString *) addImageNoteToModel: (ImageView *) note withId:(NSString *) noteID
+-(NSString *) addImageNoteToModel: (ImageNoteView *) note withId:(NSString *) noteID
 {
     
     CollectionNoteAttribute * noteModel = [self createXoomlNoteModel:note];
@@ -1265,27 +1266,32 @@
     
     BOOL isImageNote = [self.board doesNoteHaveImage:noteID];
     CGRect noteFrame = CGRectMake(positionX, positionY, NOTE_WIDTH, NOTE_HEIGHT);
-    NoteView * note ;
-    if (isImageNote){
+    if (isImageNote)
+    {
+        ImageNoteView * note;
         NSData * imgData = [self.board getImageForNote:noteID];
         UIImage * img = [[UIImage alloc] initWithData:imgData];
-        note = [[ImageView alloc] initWithFrame:noteFrame
-                                       andImage:img];
+        note = [self.prototypeImageView prototype];
+        note.frame = noteFrame;
+        note.image = img;
         note.ID = noteID;
         NoteView * noteRef = note;
         self.imageNoteViews[note.ID] = noteRef;
         self.noteViews[note.ID] = noteRef;
         [note scale:scale animated:NO];
+        return note;
     }
-    else{
+    else
+    {
+        NoteView * note ;
         note =  [self.prototypeNoteView prototype];
         note.frame = noteFrame;
         note.ID = noteID;
         NoteView * noteRef = note;
         self.noteViews[note.ID] = noteRef;
         [note scale:scale animated:NO];
+        return note;
     }
-    return note;
 }
 
 -(UIView *) storeNotesViewsForNotes:(NSArray *) noteRefIDs
@@ -1332,11 +1338,11 @@
 {
     //if the candidate is an image view or is a stack with an image view on top
     //the candidate is the mainView
-    if ([candidate isKindOfClass:[ImageView class]]) return candidate;
+    if ([candidate isKindOfClass:[ImageNoteView class]]) return candidate;
     if ([candidate isKindOfClass:[StackView class]])
     {
         UIView * topOfStack = ((StackView *) candidate).mainView;
-        if ([topOfStack isKindOfClass:[ImageView class]])
+        if ([topOfStack isKindOfClass:[ImageNoteView class]])
         {
             return topOfStack;
         }
@@ -1348,7 +1354,7 @@
         //if there is any image view in the intersecting items then thats the mainView
         for (UIView * view in views)
         {
-            if ([view isKindOfClass:[ImageView class]])
+            if ([view isKindOfClass:[ImageNoteView class]])
             {
                 mainView = view;
                 return mainView;
@@ -1357,7 +1363,7 @@
             else if ([view isKindOfClass:[StackView class]])
             {
                 UIView * topOfStack = ((StackView *) view).mainView;
-                if ([topOfStack isKindOfClass:[ImageView class]])
+                if ([topOfStack isKindOfClass:[ImageNoteView class]])
                 {
                     mainViewCandidate = topOfStack;
                 }
@@ -1804,13 +1810,14 @@ intoStackingWithMainView: (UIView *) mainView
                               NOTE_WIDTH,
                               NOTE_HEIGHT);
     
-    ImageView * note = [[ImageView alloc] initWithFrame:frame
-                                               andImage:image];
+    ImageNoteView * note = [self.prototypeImageView prototype];
+    note.frame = frame;
+    note.image = image;
     NSString * noteID = [AttributeHelper generateUUID];
     note.ID = noteID;
     note.delegate = self;
     
-    ImageView * imageViewRef = note;
+    ImageNoteView * imageViewRef = note;
     self.imageNoteViews[noteID] =imageViewRef;
     self.noteViews[noteID] = imageViewRef;
     

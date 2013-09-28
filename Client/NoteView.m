@@ -14,14 +14,11 @@
 
 @property (nonatomic) CGRect originalFrame;
 @property (nonatomic) CGRect lastFrame;
-@property (weak, nonatomic) UITextView * textView;
 
 @end
 
 @implementation NoteView
 
-#define TEXT_X_OFFSET 20
-#define TEXT_Y_OFFSET 20
 
 #define STARTING_POS_OFFSET_X 0.10
 #define STARTING_POS_OFFSET_Y 0.15
@@ -40,9 +37,15 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        self = [NoteView setLayers:self];
-        [self configureTextView];
+        [self _configureView];
     }
+    return self;
+}
+
+-(instancetype) _configureView
+{
+    [NoteView setLayers:self];
+    [self configureTextView];
     return self;
 }
 
@@ -52,19 +55,19 @@
     for (UIView * subView in self.subviews){
         if ([subView isKindOfClass:[UITextView class]])
         {
-            self.textView = ((UITextView *) subView);
-            self.textView.delegate = self;
-            self.textView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-            self.textView.textAlignment = NSTextAlignmentCenter;
-            self.textView.text = PLACEHOLDER_TEXT;
+            self._textView = ((UITextView *) subView);
+            self._textView.delegate = self;
+            self._textView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+            self._textView.textAlignment = NSTextAlignmentCenter;
+            self._textView.text = PLACEHOLDER_TEXT;
             UIColor * themeColor = [[ThemeFactory currentTheme] tintColor];
-            self.textView.tintColor = themeColor;
-            self.textView.keyboardAppearance = UIKeyboardAppearanceDark;
+            self._textView.tintColor = themeColor;
+            self._textView.keyboardAppearance = UIKeyboardAppearanceDark;
             break;
         }
     }
-    
 }
+
 +(NoteView *) setLayers:(NoteView *) view
 {
     view.layer.borderColor = [UIColor grayColor].CGColor;
@@ -114,25 +117,25 @@
 -(void) setFrame:(CGRect)frame
 {
     [super setFrame:frame];
-    if (self.textView)
+    if (self._textView)
     {
         CGRect newFrame = CGRectMake(TEXT_X_OFFSET,
                                      TEXT_Y_OFFSET,
                                      frame.size.width - 2 * TEXT_X_OFFSET,
                                      frame.size.height - 2 * TEXT_Y_OFFSET);
-        self.textView.frame = newFrame;
+        self._textView.frame = newFrame;
     }
 }
 -(void) setText:(NSString *) text
 {
-    self.textView.text = text;
+    self._textView.text = text;
 }
 
 -(NSString *) text
 {
-    if (self.textView != nil)
+    if (self._textView != nil)
     {
-        return self.textView.text;
+        return self._textView.text;
     }
     
     return nil;
@@ -205,17 +208,22 @@
     
     if (prototype == nil) return nil;
     
-    UITextView * prototypeTextView = [[UITextView alloc] initWithFrame:self.textView.frame];
-    prototypeTextView.backgroundColor = self.textView.backgroundColor;
+    prototype = [self _configurePrototype:prototype];
+    return prototype;
+}
+
+-(instancetype) _configurePrototype: (NoteView *) prototype
+{
+    UITextView * prototypeTextView = [[UITextView alloc] initWithFrame:self._textView.frame];
+    prototypeTextView.backgroundColor = self._textView.backgroundColor;
     [prototype addSubview:prototypeTextView];
-    prototype.textView = prototypeTextView;
+    prototype._textView = prototypeTextView;
     prototype.text = self.text;
     prototype.delegate = self.delegate;
     prototype.backgroundColor = self.backgroundColor;
     prototype.alpha = self.alpha;
     prototype = [NoteView setLayers:prototype];
     [prototype configureTextView];
-    
     return prototype;
 }
 
@@ -243,6 +251,7 @@
     }
     self.delegate.activeView = self;
 }
+
 
 
 @end

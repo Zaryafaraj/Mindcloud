@@ -7,7 +7,7 @@
 //
 
 #import "StackView.h"
-#import "ImageView.h"
+#import "ImageNoteView.h"
 #import "CollectionAnimationHelper.h"
 
 @interface StackView()
@@ -160,16 +160,16 @@
 {
     //if the stack has an image note that always has the priority to be
     //the top view over the mainView that was passed as the designated view to the stack
-    if ([mainView isKindOfClass:[ImageView class]]){
-        [self layImage:((ImageView *) mainView).image];
+    if ([mainView isKindOfClass:[ImageNoteView class]]){
+        [self layImage:((ImageNoteView *) mainView).image];
         self.mainView = mainView;
     }
     else
     {
-        ImageView * topView = nil;
+        ImageNoteView * topView = nil;
         for (UIView * view in self.views){
-            if ([view isKindOfClass:[ImageView class]]){
-                topView = (ImageView *)view;
+            if ([view isKindOfClass:[ImageNoteView class]]){
+                topView = (ImageNoteView *)view;
                 break;
             }
         }
@@ -195,9 +195,9 @@
 
 -(void) forceSetNoteAsMainView:(NoteView *)note
 {
-    if ([note isKindOfClass:[ImageView class]])
+    if ([note isKindOfClass:[ImageNoteView class]])
     {
-        [self layImage:((ImageView *) note).image];
+        [self layImage:((ImageNoteView *) note).image];
         self.mainView = note;
     }
     else
@@ -473,17 +473,17 @@
     [noteView removeFromSuperview];
     [self.views removeObject:noteView];
     //in addition if it had an image remove that as the top of the stack image
-    if ([noteView isKindOfClass:[ImageView class]])
+    if ([noteView isKindOfClass:[ImageNoteView class]])
     {
         [self removeMainViewImage];
     }
     
     //we now need to find a substitue for it
     //if we have any image notes use that
-    ImageView * topView = nil;
+    ImageNoteView * topView = nil;
     for (UIView * view in self.views){
-        if ([view isKindOfClass:[ImageView class]]){
-            topView = (ImageView *) view;
+        if ([view isKindOfClass:[ImageNoteView class]]){
+            topView = (ImageNoteView *) view;
             [self layImage:topView.image];
             self.mainView = topView;
             [self setText:topView.text];
@@ -507,9 +507,9 @@
         self.mainView = newNote;
         [self setText:newNote.text];
         
-        if ([newNote isKindOfClass:[ImageView class]])
+        if ([newNote isKindOfClass:[ImageNoteView class]])
         {
-            [self layImage:((ImageView *) newNote).image];
+            [self layImage:((ImageNoteView *) newNote).image];
         }
     }
     

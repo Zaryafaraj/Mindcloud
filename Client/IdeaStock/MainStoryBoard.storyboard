@@ -514,11 +514,48 @@
                                             <constraint firstItem="iQ3-iK-bAN" firstAttribute="leading" secondItem="rJw-4W-tVJ" secondAttribute="leading" constant="20" symbolic="YES" id="Ybm-L5-mPb"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O4b-nD-qa5" customClass="ImageNoteView">
+                                        <rect key="frame" x="324" y="20" width="296" height="216"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="test_image_note.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="0qy-fF-xFO">
+                                                <rect key="frame" x="0.0" y="0.0" width="296" height="216"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </imageView>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="86d-a1-h6b">
+                                                <rect key="frame" x="20" y="20" width="256" height="176"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
+                                            </textView>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="edf-yS-u7L">
+                                                <rect key="frame" x="250" y="186" width="46" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="&lt;">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.93725496529999996" green="0.94117653369999998" blue="0.96078437569999997" alpha="1" colorSpace="deviceRGB"/>
+                                        <color key="tintColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="216" placeholder="YES" id="C0w-S3-rsw"/>
+                                            <constraint firstItem="86d-a1-h6b" firstAttribute="top" secondItem="O4b-nD-qa5" secondAttribute="top" constant="20" symbolic="YES" id="Lz9-DY-evI"/>
+                                            <constraint firstAttribute="centerY" secondItem="86d-a1-h6b" secondAttribute="centerY" id="S9S-71-Ukv"/>
+                                            <constraint firstAttribute="centerX" secondItem="86d-a1-h6b" secondAttribute="centerX" id="gcI-sD-2mP"/>
+                                            <constraint firstItem="86d-a1-h6b" firstAttribute="leading" secondItem="O4b-nD-qa5" secondAttribute="leading" constant="20" symbolic="YES" id="h3t-ts-N3H"/>
+                                            <constraint firstAttribute="width" constant="296" placeholder="YES" id="w9s-wx-L3Z"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="O4b-nD-qa5" firstAttribute="top" secondItem="rJw-4W-tVJ" secondAttribute="top" id="1x3-lX-pjo"/>
                                     <constraint firstAttribute="trailing" secondItem="rJw-4W-tVJ" secondAttribute="trailing" constant="452" id="DpA-cx-XjE"/>
                                     <constraint firstItem="rJw-4W-tVJ" firstAttribute="leading" secondItem="QXW-F8-5QD" secondAttribute="leading" constant="20" symbolic="YES" id="J1V-bN-lEr"/>
                                     <constraint firstAttribute="bottom" secondItem="rJw-4W-tVJ" secondAttribute="bottom" constant="724" id="Q6Y-1v-tA5"/>
+                                    <constraint firstItem="O4b-nD-qa5" firstAttribute="leading" secondItem="rJw-4W-tVJ" secondAttribute="trailing" constant="8" symbolic="YES" id="huW-sl-Upf"/>
                                     <constraint firstItem="rJw-4W-tVJ" firstAttribute="top" secondItem="QXW-F8-5QD" secondAttribute="top" constant="20" symbolic="YES" id="iKJ-EO-uEh"/>
                                 </constraints>
                             </scrollView>
@@ -537,6 +574,7 @@
                         <outlet property="collectionView" destination="QXW-F8-5QD" id="umS-Mv-vac"/>
                         <outlet property="deleteButton" destination="x4X-3T-v6V" id="Hdn-vV-kUf"/>
                         <outlet property="expandButton" destination="3Cp-b8-UFf" id="FHP-RN-s23"/>
+                        <outlet property="prototypeImageView" destination="O4b-nD-qa5" id="JNE-Cu-gdH"/>
                         <outlet property="prototypeNoteView" destination="rJw-4W-tVJ" id="wy0-Qm-7b6"/>
                         <outlet property="toolbar" destination="CU7-1N-ESK" id="BfB-Yf-6q1"/>
                     </connections>
@@ -664,6 +702,7 @@
     <resources>
         <image name="Felt-Blue.jpg" width="1024" height="1024"/>
         <image name="rainbow" width="2556" height="100"/>
+        <image name="test_image_note.jpg" width="700" height="525"/>
     </resources>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
