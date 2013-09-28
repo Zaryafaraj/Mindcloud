@@ -72,10 +72,10 @@
 {
     view.layer.borderColor = [UIColor grayColor].CGColor;
     view.layer.borderWidth = 1;
-    view.layer.shouldRasterize = YES;
+//    view.layer.shouldRasterize = YES;
     view.layer.shadowColor = [UIColor grayColor].CGColor;
-    view.layer.shadowOffset = CGSizeMake(1, 4);
-    view.layer.shadowOpacity = 0.7;
+    view.layer.shadowOffset = CGSizeMake(1, 2);
+    view.layer.shadowOpacity = 0.9;
     return view;
 }
 
@@ -117,6 +117,9 @@
 -(void) setFrame:(CGRect)frame
 {
     [super setFrame:frame];
+    CGRect bounds = CGRectMake(0, 0, frame.size.width, frame.size.height);
+    CGPathRef shadowPath = CGPathCreateWithRect(bounds,&CGAffineTransformIdentity);
+    self.layer.shadowPath = shadowPath;
     if (self._textView)
     {
         CGRect newFrame = CGRectMake(TEXT_X_OFFSET,

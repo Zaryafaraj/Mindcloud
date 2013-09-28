@@ -8,14 +8,16 @@
 
 #import "ImageNoteView.h"
 #import "CollectionAnimationHelper.h"
+#import "ThemeFactory.h"
 
-#define IMG_SIZE_WIDTH_RATIO 0.878
-#define IMG_SIZE_HEIGHT_RATIO 0.84
+#define INFO_BUTTON_OFFSET_X 10
+#define INFO_BUTTON_OFFSET_Y 10
 
 @interface ImageNoteView()
 
 @property UIImageView * imageView;
 @property UIView * placeHolderView;
+@property UIButton * toggleButton;
 
 @end
 
@@ -81,6 +83,7 @@
         [self showPlaceHolder];
     }
 }
+
 -(void) setFrame:(CGRect)frame
 {
     [super setFrame:frame];
@@ -98,7 +101,20 @@
                                                 frame.size.width,
                                                 frame.size.height);
     }
+    
+    if(self.toggleButton)
+    {
+        
+        CGFloat buttonOriginX = frame.size.width - self.toggleButton.frame.size.width - INFO_BUTTON_OFFSET_X ;
+        CGFloat buttonOriginY = frame.size.height - self.toggleButton.frame.size.height - INFO_BUTTON_OFFSET_Y;
+        
+        self.toggleButton.frame = CGRectMake(buttonOriginX,
+                                     buttonOriginY,
+                                     self.toggleButton.frame.size.width,
+                                     self.toggleButton.frame.size.height);
+    }
 }
+
 -(void) scaleWithScaleOffset:(CGFloat)scaleOffset animated:(BOOL)animated
 {
     [super scaleWithScaleOffset:scaleOffset animated:YES];
@@ -130,6 +146,18 @@
     UIImageView * newImageView = [[UIImageView alloc] initWithFrame:self.imageView.frame];
     [prototype addSubview:newImageView];
     prototype.imageView = newImageView;
+    UIButton * newButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    CGFloat buttonOriginX = self.bounds.size.width - newButton.frame.size.width - INFO_BUTTON_OFFSET_X;
+    CGFloat buttonOriginY = self.bounds.size.width - newButton.frame.size.height - INFO_BUTTON_OFFSET_Y;
+    newButton.frame = CGRectMake(buttonOriginX,
+                                 buttonOriginY,
+                                 newButton.frame.size.width,
+                                 newButton.frame.size.height);
+    prototype.toggleButton = newButton;
+    prototype.toggleButton.tintColor = [UIColor blackColor];
+    newButton.hidden = YES;
+    [prototype addSubview:newButton];
+    
     newImageView.backgroundColor = self.imageView.backgroundColor;
     newImageView.alpha = self.imageView.alpha;
     prototype = [super _configurePrototype:prototype];
@@ -164,8 +192,13 @@
         self.placeHolderView.backgroundColor = [UIColor whiteColor];
         self.placeHolderView.alpha = 0.0;
         [self insertSubview:self.placeHolderView belowSubview:self._textView];
+        self.toggleButton.alpha = 0;
+        self.toggleButton.hidden = NO;
+        [self.toggleButton removeFromSuperview];
+        [self addSubview:self.toggleButton];
         [UIView animateWithDuration:0.3 animations:^{
         self.placeHolderView.alpha = 0.7;
+        self.toggleButton.alpha = 0.7;
            }];
     }
     
