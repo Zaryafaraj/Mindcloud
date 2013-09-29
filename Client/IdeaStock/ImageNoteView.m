@@ -215,10 +215,15 @@
     button.hidden = NO;
     button.titleLabel.text = @"aklsjdalksjdlkajsdlkajslkdjalksdjas";
     //I have no idea why the title hidden property gets set to YES when button is initiated
-    button.frame = CGRectMake(5, 5, 100, 30);
     button.tintColor = [[ThemeFactory currentTheme] tintColor];
     [button setTitle:@"Hide Text" forState:UIControlStateNormal];
     [controlView addSubview:button];
+    [button sizeToFit];
+    button.frame = CGRectMake(controlView.frame.size.width/2 - button.frame.size.width/2,
+                              5,
+                              button.frame.size.width,
+                              button.frame.size.height);
+    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     return controlView;
 }
 
