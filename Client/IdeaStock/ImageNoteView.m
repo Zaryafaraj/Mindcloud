@@ -12,13 +12,12 @@
 
 #define INFO_BUTTON_OFFSET_X 10
 #define INFO_BUTTON_OFFSET_Y 10
-#define EXTENDED_EDGE_SIZE 50
+#define EXTENDED_EDGE_SIZE 40
 
 @interface ImageNoteView()
 
 @property UIImageView * imageView;
 @property UIView * placeHolderView;
-@property UIButton * toggleButton;
 @property UIView * controlView;
 @property BOOL isControlViewShowing;
 
@@ -128,18 +127,6 @@
                                              EXTENDED_EDGE_SIZE);
         self.controlView.frame = controlViewFrame;
     }
-    
-    if(self.toggleButton)
-    {
-        
-        CGFloat buttonOriginX = frame.size.width - 50  - INFO_BUTTON_OFFSET_X ;
-        CGFloat buttonOriginY = frame.size.height - 50 - INFO_BUTTON_OFFSET_Y;
-        
-        self.toggleButton.frame = CGRectMake(buttonOriginX,
-                                             buttonOriginY,
-                                             50,
-                                             50);
-    }
 }
 
 -(void) scaleWithScaleOffset:(CGFloat)scaleOffset animated:(BOOL)animated
@@ -173,31 +160,11 @@
     UIImageView * newImageView = [[UIImageView alloc] initWithFrame:self.imageView.frame];
     [prototype addSubview:newImageView];
     prototype.imageView = newImageView;
-    UIButton * newButton = [self createToggleButton];
-    prototype.toggleButton = newButton;
-    prototype.toggleButton.hidden = YES;
-    [prototype addSubview:newButton];
-    
     newImageView.backgroundColor = self.imageView.backgroundColor;
     newImageView.alpha = self.imageView.alpha;
     prototype = [super _configurePrototype:prototype];
     prototype._textView.text = @"";
     return prototype;
-}
-
-
--(UIButton *) createToggleButton
-{
-    UIButton * newButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    newButton.titleLabel.text = @"Hide Text";
-    CGFloat buttonOriginX = self.frame.size.width - 50 - INFO_BUTTON_OFFSET_X;
-    CGFloat buttonOriginY = self.frame.size.height - 50 - INFO_BUTTON_OFFSET_Y;
-    newButton.frame = CGRectMake(buttonOriginX,
-                                 buttonOriginY,
-                                 50,
-                                 50);
-    newButton.tintColor = [UIColor blackColor];
-    return newButton;
 }
 
 -(void) extendView
@@ -242,8 +209,16 @@
                                          self.imageView.frame.size.width,
                                          EXTENDED_EDGE_SIZE);
     UIView * controlView = [[UIView alloc] initWithFrame:controlViewFrame];
-    controlView.backgroundColor = [[ThemeFactory currentTheme] tintColor];
+    controlView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
     controlView.alpha = 0;
+    UIButton * button = [UIButton buttonWithType:UIButtonTypeSystem];
+    button.hidden = NO;
+    button.titleLabel.text = @"aklsjdalksjdlkajsdlkajslkdjalksdjas";
+    //I have no idea why the title hidden property gets set to YES when button is initiated
+    button.frame = CGRectMake(5, 5, 100, 30);
+    button.tintColor = [[ThemeFactory currentTheme] tintColor];
+    [button setTitle:@"Hide Text" forState:UIControlStateNormal];
+    [controlView addSubview:button];
     return controlView;
 }
 
@@ -260,20 +235,8 @@
         self.placeHolderView.alpha = 0.0;
         [self insertSubview:self.placeHolderView belowSubview:self._textView];
         
-        if (self.toggleButton == nil)
-        {
-            UIButton * newButton = [self createToggleButton];
-            self.toggleButton = newButton;
-            [self insertSubview:newButton aboveSubview:self.imageView];
-        }
-        
-        self.toggleButton.alpha = 0;
-        self.toggleButton.hidden = NO;
-        [self.toggleButton removeFromSuperview];
-        [self addSubview:self.toggleButton];
         [UIView animateWithDuration:0.3 animations:^{
             self.placeHolderView.alpha = 0.7;
-            self.toggleButton.alpha = 0.7;
             self.controlView.alpha = 1;
         }];
     }
@@ -281,13 +244,11 @@
 
 -(void) hidePlaceholder
 {
-    if (self.placeHolderView && self.toggleButton)
+    if (self.placeHolderView)
     {
         __weak ImageNoteView * weakSelf = self;
         [UIView animateWithDuration:0.3 animations:^{
             weakSelf.placeHolderView.alpha = 0;
-            weakSelf.controlView.alpha = 0;
-            weakSelf.toggleButton.alpha = 0;
             
             if (self.isControlViewShowing)
             {
@@ -301,8 +262,6 @@
         }completion:^(BOOL finished){
             [weakSelf.placeHolderView removeFromSuperview];
             weakSelf.placeHolderView = nil;
-            [weakSelf.toggleButton removeFromSuperview];
-            weakSelf.toggleButton = nil;
             [weakSelf.controlView removeFromSuperview];
             weakSelf.controlView = nil;
         }];

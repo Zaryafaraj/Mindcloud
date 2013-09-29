@@ -59,6 +59,7 @@
             self._textView.textAlignment = NSTextAlignmentCenter;
             self._textView.text = PLACEHOLDER_TEXT;
             UIColor * themeColor = [[ThemeFactory currentTheme] tintColor];
+            self._textView.textColor = [UIColor colorWithWhite:0.25 alpha:1];
             self._textView.tintColor = themeColor;
             self._textView.keyboardAppearance = UIKeyboardAppearanceDark;
             break;
