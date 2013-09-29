@@ -13,6 +13,8 @@
 #define INFO_BUTTON_OFFSET_X 10
 #define INFO_BUTTON_OFFSET_Y 10
 #define EXTENDED_EDGE_SIZE 40
+#define HIDE_TEXT @"Hide Text"
+#define SHOW_TEXT @"Show Text"
 
 @interface ImageNoteView()
 
@@ -126,6 +128,7 @@
                                              self.imageView.frame.size.width,
                                              EXTENDED_EDGE_SIZE);
         self.controlView.frame = controlViewFrame;
+        [self layoutControlElements];
     }
 }
 
@@ -216,7 +219,8 @@
     button.titleLabel.text = @"aklsjdalksjdlkajsdlkajslkdjalksdjas";
     //I have no idea why the title hidden property gets set to YES when button is initiated
     button.tintColor = [[ThemeFactory currentTheme] tintColor];
-    [button setTitle:@"Hide Text" forState:UIControlStateNormal];
+    [button setTitle: HIDE_TEXT forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(togglePressed:) forControlEvents:UIControlEventTouchUpInside];
     [controlView addSubview:button];
     [button sizeToFit];
     button.frame = CGRectMake(controlView.frame.size.width/2 - button.frame.size.width/2,
@@ -225,6 +229,44 @@
                               button.frame.size.height);
     button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     return controlView;
+}
+
+-(void) layoutControlElements
+{
+    //one day I should use autolayout programatically here to center it automatically
+   if (self.controlView)
+   {
+       NSArray * subViews = self.controlView.subviews;
+       if (subViews != nil && [subViews count] != 0)
+       {
+           UIButton * hideButton = subViews[0];
+           hideButton.frame = CGRectMake(self.controlView.frame.size.width/2 - hideButton.frame.size.width/2,
+                                     5,
+                                     hideButton.frame.size.width,
+                                     hideButton.frame.size.height);
+           hideButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+       }
+   }
+}
+
+-(void) togglePressed:(UIButton *) sender
+{
+    if ([sender.titleLabel.text isEqualToString:HIDE_TEXT])
+    {
+        //We just hide the place holder and text View
+        self._textView.hidden = YES;
+        self.placeHolderView.hidden = YES;
+        [sender setTitle:SHOW_TEXT forState:UIControlStateNormal];
+        [sender sizeToFit];
+        
+    }
+    else if ([sender.titleLabel.text isEqualToString:SHOW_TEXT])
+    {
+        self._textView.hidden = NO;
+        self.placeHolderView.hidden = NO;
+        [sender setTitle:HIDE_TEXT forState:UIControlStateNormal];
+        [sender sizeToFit];
+    }
 }
 
 -(void) showPlaceHolder
@@ -247,10 +289,22 @@
     }
 }
 
+-(void) hideAllControllerButtons
+{
+    if (self.controlView)
+    {
+        for(UIView * view in self.controlView.subviews)
+        {
+            view.hidden = YES;
+        }
+    }
+}
+
 -(void) hidePlaceholder
 {
     if (self.placeHolderView)
     {
+        [self hideAllControllerButtons];
         __weak ImageNoteView * weakSelf = self;
         [UIView animateWithDuration:0.3 animations:^{
             weakSelf.placeHolderView.alpha = 0;
@@ -262,6 +316,7 @@
                                             self.frame.origin.y,
                                             self.frame.size.width,
                                             self.frame.size.height - EXTENDED_EDGE_SIZE);
+                weakSelf.controlView.alpha = 0;
                 
             }
         }completion:^(BOOL finished){
@@ -272,6 +327,7 @@
         }];
     }
 }
+
 -(void) textViewDidBeginEditing:(UITextView *)textView
 {
     [self showPlaceHolder];
