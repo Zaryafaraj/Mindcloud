@@ -13,6 +13,8 @@
 -(void) scale:(CGFloat) scaleFactor
      animated:(BOOL) animated;
 
+-(void) rotate:(CGFloat) rotation;
+
 -(void) scaleWithScaleOffset:(CGFloat) scaleOffset animated:(BOOL) animated;
 
 -(void) resetSize;
@@ -22,6 +24,7 @@
 @property (strong,nonatomic) NSString * text;
 @property (nonatomic) BOOL highlighted;
 @property (strong, nonatomic) NSString * ID;
-@property (nonatomic)  CGFloat scaleOffset;
+@property (nonatomic) CGFloat scaleOffset;
+@property (nonatomic) CGFloat rotationOffset;
 
 @end

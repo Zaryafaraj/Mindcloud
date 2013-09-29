@@ -847,6 +847,28 @@
     [self presentViewController:stackViewer animated:YES completion:^{}];
 }
 
+-(void) objectRotated:(UIRotationGestureRecognizer *) sender
+{
+    if (sender.state == UIGestureRecognizerStateChanged ||
+        sender.state == UIGestureRecognizerStateEnded)
+    {
+        CGFloat rotation = sender.rotation;
+        
+        if ([sender.view conformsToProtocol:@protocol(BulletinBoardObject)])
+        {
+            UIView <BulletinBoardObject> * view = (NoteView *) sender.view;
+            [view rotate:rotation];
+        }
+        
+        if (sender.state == UIGestureRecognizerStateEnded)
+        {
+            //update model
+        }
+        
+        sender.rotation = 0;
+    }
+}
+
 -(void) objectPinched: (UIPinchGestureRecognizer *) sender{
     
     if (sender.state == UIGestureRecognizerStateChanged ||
@@ -1619,9 +1641,11 @@ intoStackingWithMainView: (UIView *) mainView
     UIPanGestureRecognizer * gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(objectPanned:)];
     UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
     UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
+    UIRotationGestureRecognizer * rgr = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(objectRotated:)];
     
     [note addGestureRecognizer:lpgr];
     [note addGestureRecognizer:gr];
+    [note addGestureRecognizer:rgr];
     [note addGestureRecognizer:pgr];
 }
 
@@ -1631,10 +1655,13 @@ intoStackingWithMainView: (UIView *) mainView
     UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stackTapped:)];
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
+    UIRotationGestureRecognizer * rgr = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(objectRotated:)];
+    
     [stack addGestureRecognizer:gr];
     [stack addGestureRecognizer:pgr];
     [stack addGestureRecognizer:tgr];
     [stack addGestureRecognizer:lpgr];
+    [stack addGestureRecognizer:rgr];
 }
 
 -(void) addCollectionViewGestureRecognizersToCollectionView: (UIView *) collectionView

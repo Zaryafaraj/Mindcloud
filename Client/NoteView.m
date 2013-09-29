@@ -30,6 +30,7 @@
 @synthesize highlighted = _highlighted;
 @synthesize ID = _ID;
 @synthesize scaleOffset = _scaleOffset;
+@synthesize rotationOffset = _rotationOffset;
 
 -(id) initWithCoder:(NSCoder *)aDecoder
 {
@@ -88,6 +89,11 @@
     return _scaleOffset;
 }
 
+-(CGFloat) rotationOffset
+{
+    return _rotationOffset;
+}
+
 -(void) setDelegate:(id<NoteViewDelegate>) delegate{
     _delegate = delegate;
 }
@@ -103,24 +109,25 @@
     {
         [NoteAnimator animateNoteUnhighlighted:self];
     }
-    
 }
 
 -(void) setFrame:(CGRect)frame
 {
+    
     [super setFrame:frame];
-    CGRect bounds = CGRectMake(0, 0, frame.size.width, frame.size.height);
+    CGRect bounds = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
     CGPathRef shadowPath = CGPathCreateWithRect(bounds,&CGAffineTransformIdentity);
     self.layer.shadowPath = shadowPath;
     if (self._textView)
     {
         CGRect newFrame = CGRectMake(TEXT_X_OFFSET,
                                      TEXT_Y_OFFSET,
-                                     frame.size.width - 2 * TEXT_X_OFFSET,
-                                     frame.size.height - 2 * TEXT_Y_OFFSET);
+                                     self.bounds.size.width - 2 * TEXT_X_OFFSET,
+                                     self.bounds.size.height - 2 * TEXT_Y_OFFSET);
         self._textView.frame = newFrame;
     }
 }
+
 -(void) setText:(NSString *) text
 {
     self._textView.text = text;
@@ -143,6 +150,7 @@
     [self setFrame: self.originalFrame];
     
     self.scaleOffset = 1;
+    self.rotationOffset = 0;
 }
 
 -(BOOL) isScalingValid: (CGFloat) scaleFactor;
@@ -155,8 +163,8 @@
 {
     self.scaleOffset = scaleOffset;
     
-    CGRect newFrame = CGRectMake(self.frame.origin.x,
-                                 self.frame.origin.y,
+    CGRect newFrame = CGRectMake(self.bounds.origin.x,
+                                 self.bounds.origin.y,
                                  self.originalFrame.size.width * scaleOffset,
                                  self.originalFrame.size.height * scaleOffset);
     
@@ -173,10 +181,16 @@
     
     CGRect newFrame = CGRectMake(self.frame.origin.x,
                                  self.frame.origin.y,
-                                 self.frame.size.width * scaleFactor,
-                                 self.frame.size.height * scaleFactor);
+                                 self.bounds.size.width * scaleFactor,
+                                 self.bounds.size.height * scaleFactor);
     self.frame = newFrame;
     
+}
+
+-(void) rotate:(CGFloat)rotation
+{
+    self.rotationOffset += rotation;
+    self.transform = CGAffineTransformRotate(self.transform, rotation);
 }
 
 -(void) resizeToRect:(CGRect) rect

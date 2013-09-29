@@ -26,7 +26,7 @@
 @synthesize highlightedImage = _highlightedImage;
 @synthesize ID = _ID;
 @synthesize scaleOffset = _scaleOffset;
-
+@synthesize rotationOffset = _rotationOffset;
 
 -(CGFloat)scaleOffset
 {
@@ -104,6 +104,11 @@
             ((UITextView *) view).text = text;
         }
     }
+}
+
+-(void) rotate:(CGFloat)rotation
+{
+    //no rotation on a stack
 }
 
 #pragma mark - initializer
