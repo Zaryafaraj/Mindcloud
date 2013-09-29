@@ -9,6 +9,7 @@
 #import "NoteView.h"
 #import "CollectionAnimationHelper.h"
 #import "ThemeFactory.h"
+#import "NoteAnimator.h"
 
 @interface NoteView()
 
@@ -91,26 +92,18 @@
     _delegate = delegate;
 }
 
--(void) setHighlighted:(BOOL) highlighted{
+-(void) setHighlighted:(BOOL) highlighted
+{
     _highlighted = highlighted;
-    
-    //we make sure that we highlight textbox/or image in the note
-    for (UIView * subView in self.subviews){
-        
-        if (highlighted){
-            if ([subView isKindOfClass:[UIImageView class]]){
-                [UIView animateWithDuration:0.20
-                                 animations:^{
-                                     [subView setTransform:CGAffineTransformMakeScale(1.2, 1.3)];}];
-            }
-        }
-        else{
-            if ([subView isKindOfClass:[UIImageView class]]){
-                [UIView animateWithDuration:0.20 animations:^{[subView setTransform:CGAffineTransformIdentity];}];
-                
-            }
-        }
+    if (highlighted)
+    {
+        [NoteAnimator animateNoteHighlighted:self];
     }
+    else
+    {
+        [NoteAnimator animateNoteUnhighlighted:self];
+    }
+    
 }
 
 -(void) setFrame:(CGRect)frame

@@ -86,6 +86,7 @@
 		DBBBB9BD17CC686900081C3B /* XoomlAssociationNamespaceElement.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9BC17CC686900081C3B /* XoomlAssociationNamespaceElement.m */; };
 		DBBBB9C017CC6C4800081C3B /* XoomlFragmentNamespaceElement.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9BF17CC6C4800081C3B /* XoomlFragmentNamespaceElement.m */; };
 		DBBBB9C317CC6FA700081C3B /* XoomlNamespaceElement.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9C217CC6FA700081C3B /* XoomlNamespaceElement.m */; };
+		DBBD10C917F7E73300FB8780 /* NoteAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBD10C817F7E73300FB8780 /* NoteAnimator.m */; };
 		DBC1B7F317CACCBA0036431A /* MindcloudAuthenticationGordon.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC1B7F217CACCBA0036431A /* MindcloudAuthenticationGordon.m */; };
 		DBC4E35817F14B5100F595FE /* MMDrawerBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC4E35017F14B5100F595FE /* MMDrawerBarButtonItem.m */; };
 		DBC4E35917F14B5100F595FE /* MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC4E35317F14B5100F595FE /* MMDrawerController.m */; };
@@ -289,6 +290,8 @@
 		DBBBB9BF17CC6C4800081C3B /* XoomlFragmentNamespaceElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlFragmentNamespaceElement.m; sourceTree = "<group>"; };
 		DBBBB9C117CC6FA700081C3B /* XoomlNamespaceElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlNamespaceElement.h; sourceTree = "<group>"; };
 		DBBBB9C217CC6FA700081C3B /* XoomlNamespaceElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlNamespaceElement.m; sourceTree = "<group>"; };
+		DBBD10C717F7E73300FB8780 /* NoteAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteAnimator.h; sourceTree = "<group>"; };
+		DBBD10C817F7E73300FB8780 /* NoteAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteAnimator.m; sourceTree = "<group>"; };
 		DBC1B7F117CACCBA0036431A /* MindcloudAuthenticationGordon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAuthenticationGordon.h; sourceTree = "<group>"; };
 		DBC1B7F217CACCBA0036431A /* MindcloudAuthenticationGordon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudAuthenticationGordon.m; sourceTree = "<group>"; };
 		DBC1B7F417CAD5350036431A /* MindcloudAuthenticationGordonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAuthenticationGordonDelegate.h; sourceTree = "<group>"; };
@@ -790,6 +793,8 @@
 				DB4FF4CD16ACA8DB00DC6DAA /* MultimediaHelper.m */,
 				DB42E73416AE58500021D6FA /* NetworkActivityHelper.h */,
 				DB42E73516AE58500021D6FA /* NetworkActivityHelper.m */,
+				DBBD10C717F7E73300FB8780 /* NoteAnimator.h */,
+				DBBD10C817F7E73300FB8780 /* NoteAnimator.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -1024,6 +1029,7 @@
 				DBDDB6FE17E677330009099E /* NoteReference.m in Sources */,
 				D709470B1523BDFE008E4AD9 /* CollectionNote.m in Sources */,
 				D70947231523DC27008E4AD9 /* DDXMLElementAdditions.m in Sources */,
+				DBBD10C917F7E73300FB8780 /* NoteAnimator.m in Sources */,
 				D70947241523DC27008E4AD9 /* NSString+DDXML.m in Sources */,
 				D70947251523DC27008E4AD9 /* DDXMLDocument.m in Sources */,
 				D70947261523DC27008E4AD9 /* DDXMLElement.m in Sources */,
