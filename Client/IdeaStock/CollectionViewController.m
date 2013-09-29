@@ -773,7 +773,7 @@
         UIView * pannedView = [sender view];
         CGPoint newOrigin = CGPointMake(pannedView.frame.origin.x + translation.x,
                                         pannedView.frame.origin.y + translation.y);
-        pannedView.frame = CGRectMake(newOrigin.x, newOrigin.y, pannedView.frame.size.width,pannedView.frame.size.height);
+        pannedView.frame = CGRectMake(newOrigin.x, newOrigin.y, pannedView.bounds.size.width, pannedView.bounds.size.height);
         [sender setTranslation:CGPointZero inView:self.collectionView];
         
         if (self.editMode) return;
