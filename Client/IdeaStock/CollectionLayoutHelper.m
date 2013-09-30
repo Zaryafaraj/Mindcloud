@@ -342,7 +342,7 @@ withMoveNoteFunction:(update_note_location_function) updateNote
         frameChanged = YES;
         newOriginX = collectionView.bounds.origin.x + collectionView.bounds.size.width - view.bounds.size.width;
     }
-    if (view.center.y + view.bounds.size.height >
+    if (view.center.y + view.bounds.size.height/2 >
         collectionView.bounds.origin.y + collectionView.bounds.size.height){
         frameChanged = YES;
         newOriginY = collectionView.bounds.origin.y + collectionView.bounds.size.height - view.bounds.size.height - 50;
