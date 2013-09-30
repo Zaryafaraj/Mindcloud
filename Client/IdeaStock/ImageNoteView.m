@@ -90,33 +90,49 @@
 
 -(void) setFrame:(CGRect)frame
 {
+    if (!CGAffineTransformIsIdentity(self.transform))
+    {
+        self.transform = CGAffineTransformIdentity;
+    }
+    
     [super setFrame:frame];
+    [self adjustSubViewsForPropertyChangeInImage];
+}
+
+-(void) setBounds:(CGRect)bounds
+{
+    [super setBounds:bounds];
+    [self adjustSubViewsForPropertyChangeInImage];
+}
+
+-(void) adjustSubViewsForPropertyChangeInImage
+{
     if (self.imageView)
     {
         self.imageView.frame = CGRectMake(0,
                                           0,
-                                          frame.size.width,
-                                          frame.size.height);
+                                          self.bounds.size.width,
+                                          self.bounds.size.height);
     }
     if (self.placeHolderView)
     {
         self.placeHolderView.frame = CGRectMake(0,
                                                 0,
-                                                frame.size.width,
-                                                frame.size.height);
+                                                self.bounds.size.width,
+                                                self.bounds.size.height);
     }
     //if there is a control view resize everything so that control view is at the bottom
     if (self.isControlViewShowing)
     {
         self._textView.frame = CGRectMake(self._textView.frame.origin.x,
                                           self._textView.frame.origin.y,
-                                          self._textView.frame.size.width,
-                                          self._textView.frame.size.height - EXTENDED_EDGE_SIZE);
+                                          self._textView.bounds.size.width,
+                                          self._textView.bounds.size.height - EXTENDED_EDGE_SIZE);
         
-        self.imageView.frame = CGRectMake(self.imageView.frame.origin.x,
-                                          self.imageView.frame.origin.y,
-                                          self.imageView.frame.size.width,
-                                          self.imageView.frame.size.height - EXTENDED_EDGE_SIZE);
+        self.imageView.frame = CGRectMake(self.imageView.bounds.origin.x,
+                                          self.imageView.bounds.origin.y,
+                                          self.imageView.bounds.size.width,
+                                          self.imageView.bounds.size.height - EXTENDED_EDGE_SIZE);
         
         if (self.placeHolderView)
         {
@@ -131,25 +147,6 @@
         [self layoutControlElements];
     }
 }
-
--(void) scaleWithScaleOffset:(CGFloat)scaleOffset animated:(BOOL)animated
-{
-    [super scaleWithScaleOffset:scaleOffset animated:YES];
-    self.frame = super.frame;
-}
-
--(void) scale:(CGFloat) scaleFactor animated:(BOOL)animated{
-    
-    [super scale:scaleFactor animated:animated];
-    self.frame = super.frame;
-}
-
--(void) resetSize
-{
-    [super resetSize];
-    self.frame = super.frame;
-}
-
 
 -(void)resizeToRect:(CGRect)rect Animate:(BOOL)animate
 {
@@ -172,22 +169,22 @@
 
 -(void) extendView
 {
-    CGRect extendedFrame = CGRectMake(self.frame.origin.x,
-                                      self.frame.origin.y,
-                                      self.frame.size.width,
-                                      self.frame.size.height + EXTENDED_EDGE_SIZE);
-    self.frame = extendedFrame;
+    CGRect extendedBounds = CGRectMake(self.bounds.origin.x,
+                                      self.bounds.origin.y,
+                                      self.bounds.size.width,
+                                      self.bounds.size.height + EXTENDED_EDGE_SIZE);
+    self.bounds = extendedBounds;;
     
     //move the text frame, image view and place holder up
     self._textView.frame = CGRectMake(self._textView.frame.origin.x,
                                       self._textView.frame.origin.y,
-                                      self._textView.frame.size.width,
-                                      self._textView.frame.size.height - EXTENDED_EDGE_SIZE);
+                                      self._textView.bounds.size.width,
+                                      self._textView.bounds.size.height - EXTENDED_EDGE_SIZE);
     
     self.imageView.frame = CGRectMake(self.imageView.frame.origin.x,
                                       self.imageView.frame.origin.y,
-                                      self.imageView.frame.size.width,
-                                      self.imageView.frame.size.height - EXTENDED_EDGE_SIZE);
+                                      self.imageView.bounds.size.width,
+                                      self.imageView.bounds.size.height - EXTENDED_EDGE_SIZE);
     
     if (self.placeHolderView)
     {

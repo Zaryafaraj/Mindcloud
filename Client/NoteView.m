@@ -124,7 +124,12 @@
     }
     
     [super setFrame:frame];
-//    NSLog(@"\n\n AFTER FRAME \n %f - %f -- %f - %f ", self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
+    
+    [self adjustSubViewsForPropertyChangeInNote];
+}
+
+-(void) adjustSubViewsForPropertyChangeInNote
+{
     CGRect bounds = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
     CGPathRef shadowPath = CGPathCreateWithRect(bounds,&CGAffineTransformIdentity);
     self.layer.shadowPath = shadowPath;
@@ -136,6 +141,12 @@
                                      self.bounds.size.height - 2 * TEXT_Y_OFFSET);
         self._textView.frame = newFrame;
     }
+}
+
+-(void) setBounds:(CGRect)bounds
+{
+    [super setBounds:bounds];
+    [self adjustSubViewsForPropertyChangeInNote];
 }
 
 -(void) setText:(NSString *) text
@@ -157,6 +168,8 @@
 
 -(void) resetSize{
     
+    self.transform = CGAffineTransformIdentity;
+    
     [self setFrame: self.originalFrame];
     
     self.scaleOffset = 1;
@@ -173,12 +186,10 @@
 {
     self.scaleOffset = scaleOffset;
     
-    CGRect newFrame = CGRectMake(self.bounds.origin.x,
+    self.bounds = CGRectMake(self.bounds.origin.x,
                                  self.bounds.origin.y,
                                  self.originalFrame.size.width * scaleOffset,
                                  self.originalFrame.size.height * scaleOffset);
-    
-    self.frame = newFrame;
     
 }
 
@@ -189,11 +200,15 @@
     
     self.scaleOffset *= scaleFactor;
     
-    CGRect newFrame = CGRectMake(self.frame.origin.x,
-                                 self.frame.origin.y,
-                                 self.bounds.size.width * scaleFactor,
-                                 self.bounds.size.height * scaleFactor);
-    self.frame = newFrame;
+    self.bounds = CGRectMake(self.bounds.origin.x,
+                             self.bounds.origin.y,
+                             self.bounds.size.width * scaleFactor,
+                             self.bounds.size.height * scaleFactor);
+//    CGRect newFrame = CGRectMake(self.frame.origin.x,
+//                                 self.frame.origin.y,
+//                                 self.bounds.size.width * scaleFactor,
+//                                 self.bounds.size.height * scaleFactor);
+//    self.frame = newFrame;
     
 }
 
