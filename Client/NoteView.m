@@ -111,12 +111,20 @@
     }
 }
 
+-(CGRect) frame
+{
+    return [super frame];
+}
+
 -(void) setFrame:(CGRect)frame
 {
-    //NSLog(@"\n\n NEW FRAME \n %f - %f -- %f - %f ", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
-    //NSLog(@"\n\n OLDFRAME \n %f - %f -- %f - %f ", self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
+    if (!CGAffineTransformIsIdentity(self.transform))
+    {
+        self.transform = CGAffineTransformIdentity;
+    }
+    
     [super setFrame:frame];
-    //NSLog(@"\n\n AFTER FRAME \n %f - %f -- %f - %f ", self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
+//    NSLog(@"\n\n AFTER FRAME \n %f - %f -- %f - %f ", self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
     CGRect bounds = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
     CGPathRef shadowPath = CGPathCreateWithRect(bounds,&CGAffineTransformIdentity);
     self.layer.shadowPath = shadowPath;

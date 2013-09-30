@@ -61,7 +61,7 @@
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
-                                 [view setFrame:destView.frame];
+                                 view.center = destView.center;
                              }
                              completion:^(BOOL finished){
                                  [view removeFromSuperview];
@@ -90,7 +90,9 @@
 +(void) animateExpandNote: (UIView *) note
             InRect:(CGRect) noteRect
 {
-    [UIView animateWithDuration:0.5 animations:^{note.frame = noteRect;}];
+    CGPoint newCenter = CGPointMake(noteRect.origin.x + noteRect.size.width / 2,
+                                    noteRect.origin.y + noteRect.size.height / 2);
+    [UIView animateWithDuration:0.5 animations:^{note.center = newCenter;}];
 }
 
 +(void) animateMoveNote:(UIView *) view
@@ -101,8 +103,10 @@ backIntoScreenBoundsInRect:(CGRect) frame
                           delay:0
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                view.frame = frame;
-    }
+                         CGPoint centerPoint = CGPointMake(frame.origin.x + frame.size.width/2,
+                                                           frame.origin.y + frame.size.height/2);
+                         view.center = centerPoint;
+                     }
                      completion:nil];
 }
 
@@ -125,7 +129,12 @@ backIntoScreenBoundsInRect:(CGRect) frame
 {
     
         [UIView animateWithDuration:0.5 animations:^{ noteView.alpha = 1;} completion:^(BOOL isFinished){
-            [UIView animateWithDuration:1 animations:^{noteView.frame = finalRect;}];
+            [UIView animateWithDuration:1 animations:^
+            {
+                CGPoint newCenter = CGPointMake(finalRect.origin.x + finalRect.size.width/2,
+                                                finalRect.origin.y + finalRect.size.height/2);
+                noteView.center = newCenter;
+            }];
             callback();
         }];
 }
@@ -134,25 +143,27 @@ backIntoScreenBoundsInRect:(CGRect) frame
                               toFrame:(CGRect) frame
 {
     
-    [UIView animateWithDuration:0.25 animations:^{note.frame = frame;}];
+    CGPoint centerPoint = CGPointMake(frame.origin.x + frame.size.width/2,
+                                      frame.origin.y + frame.size.height/2);
+    [UIView animateWithDuration:0.25 animations:^{note.center = centerPoint ;}];
 }
 
 +(void) animateMoveView:(UIView *) view
-              intoFrame:(CGRect) frame
+              intoCenter:(CGPoint) center
            inCollection:(UIView *) collectionView
 {
     
-    [UIView animateWithDuration:0.25 animations:^{view.frame = frame;}];
+    [UIView animateWithDuration:0.25 animations:^{view.center = center;}];
 }
 
 +(void) animateMoveView:(UIView *) view
-              intoFrame:(CGRect) frame
+              intoCenter:(CGPoint) center
            inCollection:(UIView *) collectionView
          withCompletion:(move_noted_finished) callback
 {
     
     [UIView animateWithDuration:0.25 animations:^{
-        view.frame = frame;
+        view.center = center;
     }completion:^(BOOL finished){
         callback();
     }];

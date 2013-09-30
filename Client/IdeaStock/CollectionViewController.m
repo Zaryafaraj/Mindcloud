@@ -60,6 +60,9 @@
 #define NOTE_SCALE_TYPE @"scale"
 #define POSITION_TYPE @"position"
 #define STACKING_TYPE @"stacking"
+#define IMAGE_OFFSET_X 10
+#define IMAGE_OFFSET_Y 10
+
 //0 is the max
 #define IMG_COMPRESSION_QUALITY 0.5
 #define CHECK_TIME 0
@@ -294,11 +297,12 @@
             [self.collectionView addSubview:noteView];
         }
     
-        CGRect newFrame = CGRectMake(positionX, positionY, view.frame.size.width, view.frame.size.height);
+        CGPoint newCenter = CGPointMake(positionX, positionY);
         if (noteStackingId && noteView.superview == self.collectionView)
         {
             [noteView removeFromSuperview];
-            [CollectionLayoutHelper moveView:noteView inCollectionView:self.collectionView toNewFrame:newFrame withCompletion:^{
+            [CollectionLayoutHelper moveView:noteView inCollectionView:self.collectionView toNewCenter:newCenter
+                              withCompletion:^{
                 [noteView removeFromSuperview];
             }];
         }
@@ -312,12 +316,12 @@
             [view scaleWithScaleOffset:scale animated:scale];
         }
         
-        CGRect oldFrame = view.frame;
-        if (!CGRectEqualToRect(newFrame, oldFrame))
+        CGPoint oldCenter = view.center;
+        if (!CGPointEqualToPoint(newCenter, oldCenter))
         {
             [CollectionLayoutHelper moveView:view
                             inCollectionView:self.collectionView
-                                  toNewFrame:newFrame];
+                                  toNewCenter:newCenter];
         }
     }
 }
@@ -415,15 +419,16 @@
         //if they are not part of the stack already
         if (noteView.superview == self.collectionView)
         {
-            CGRect newFrame = stack.frame;
+            CGPoint newCenter = stack.center;
             if (noteView)
             {
-                if ( noteView.frame.origin.x != stack.frame.origin.x ||
-                    noteView.frame.origin.y != stack.frame.origin.y)
+                if ( noteView.center.x != stack.center.x ||
+                    noteView.center.y != stack.center.y)
                 {
                     [CollectionLayoutHelper moveView:noteView
                                     inCollectionView:self.collectionView
-                                          toNewFrame:newFrame withCompletion:^{
+                                          toNewCenter:newCenter
+                                       withCompletion:^{
                         [stack addNoteView:noteView];
                     }];
                 }
@@ -468,13 +473,13 @@
                       InCollectionView:self.collectionView
                       withCountInStack:[stack.views count]
                            andCallback:^(void){
-                               float noteX = noteView.frame.origin.x;
-                               float noteY = noteView.frame.origin.y;
-                               [CollectionLayoutHelper adjustNotePositionsForX:&noteX
-                                                                          andY:&noteY
+                               float noteXCenter = noteView.center.x;
+                               float noteYCenter = noteView.center.y;
+                               [CollectionLayoutHelper adjustNotePositionsForX:&noteXCenter
+                                                                          andY:&noteYCenter
                                                                         inView:self.collectionView];
-                               CGRect newFrame = CGRectMake(noteX, noteY, noteView.frame.size.width, noteView.frame.size.height);
-                               noteView.frame = newFrame;
+                               noteView.center = CGPointMake(noteXCenter,
+                                                             noteYCenter);
                                if (update)
                                {
                                    [self updateScalingAndPositionAccordingToNoteView:noteView];
@@ -673,7 +678,7 @@
         else if ([self.highlightedView isKindOfClass:[StackView class]]){
             StackView * stack = (StackView *)self.highlightedView;
             for(NoteView * stackNoteView in stack.views){
-                stackNoteView.frame = stack.frame;
+                stackNoteView.center = stack.center;
                 [self updateNoteLocation:stackNoteView];
             }
         }
@@ -692,6 +697,7 @@
                                                  AddedToPoint:location
                                              InCollectionView:self.collectionView];
     NoteView * note =  [self.prototypeNoteView prototype];
+    //this is addition so view has no transform over it. So its okey to use frame
     note.frame = frame;
     NSString * noteID = [AttributeHelper generateUUID];
     note.ID = noteID;
@@ -746,7 +752,7 @@
     else if ([view isKindOfClass:[StackView class]]){
         StackView * stack = (StackView *) view;
         for(NoteView * stackNoteView in stack.views){
-            stackNoteView.frame = stack.frame;
+            stackNoteView.center = stack.center;
             [self updateNoteLocation:stackNoteView];
         }
     }
@@ -771,9 +777,12 @@
        sender.state == UIGestureRecognizerStateEnded){
         CGPoint translation = [sender translationInView:self.collectionView];
         UIView * pannedView = [sender view];
-        CGPoint newOrigin = CGPointMake(pannedView.frame.origin.x + translation.x,
-                                        pannedView.frame.origin.y + translation.y);
-        pannedView.frame = CGRectMake(newOrigin.x, newOrigin.y, pannedView.bounds.size.width, pannedView.bounds.size.height);
+        //use center because the view may be rotated and in that case as
+        //apple documentation suggest the frame property is not to be
+        //trusted
+        CGPoint newCenter = CGPointMake(pannedView.center.x + translation.x,
+                                        pannedView.center.y + translation.y);
+        pannedView.center = newCenter;
         [sender setTranslation:CGPointZero inView:self.collectionView];
         
         if (self.editMode) return;
@@ -834,7 +843,7 @@
     else if ([view isKindOfClass:[StackView class]]){
         StackView * stack = (StackView *) view;
         for(NoteView * stackNoteView in stack.views){
-            stackNoteView.frame = stack.frame;
+            stackNoteView.center = stack.center;
             [self updateNoteLocation:stackNoteView];
         }
     }
@@ -1188,8 +1197,8 @@
     
     noteName = [NamingHelper getBestNameFor:noteName
                               amongAllNAmes:[self.board getAllNoteNames]];
-    NSString * positionX = [NSString stringWithFormat:@"%f", note.frame.origin.x];
-    NSString * positionY = [NSString stringWithFormat:@"%f", note.frame.origin.y];
+    NSString * positionX = [NSString stringWithFormat:@"%f", note.center.x];
+    NSString * positionY = [NSString stringWithFormat:@"%f", note.center.y];
     NSString * scale = [NSString stringWithFormat:@"%f", note.scaleOffset];
     NSString * noteId = note.ID;
     
@@ -1205,9 +1214,9 @@
                 toMainView:(UIView *) mainView
 {
     NSString * noteID = view.ID;
-    float positionFloatX = mainView.frame.origin.x;
+    float positionFloatX = mainView.center.x;
     NSString * positionX = [NSString stringWithFormat:@"%f",positionFloatX];
-    float positionFloatY = mainView.frame.origin.y;
+    float positionFloatY = mainView.center.y;
     NSString * positionY = [NSString stringWithFormat:@"%f",positionFloatY];
     
     CollectionNoteAttribute * oldModel = [self.board getNoteModelFor:view.ID];
@@ -1218,9 +1227,9 @@
 -(void) updateNoteLocation:(NoteView *) view
 {
     NSString * noteID = view.ID;
-    float positionFloat = view.frame.origin.x;
+    float positionFloat = view.center.x;
     NSString * positionX = [NSString stringWithFormat:@"%f",positionFloat];
-    positionFloat = view.frame.origin.y;
+    positionFloat = view.center.y;
     NSString * positionY = [NSString stringWithFormat:@"%f",positionFloat];
     
     CollectionNoteAttribute * oldModel = [self.board getNoteModelFor:view.ID];
@@ -1241,9 +1250,9 @@
 {
     
     NSString * noteID = view.ID;
-    float positionFloat = view.frame.origin.x;
+    float positionFloat = view.center.x;
     NSString * positionX = [NSString stringWithFormat:@"%f",positionFloat];
-    positionFloat = view.frame.origin.y;
+    positionFloat = view.center.y;
     NSString * positionY = [NSString stringWithFormat:@"%f",positionFloat];
     NSString * scale = [NSString stringWithFormat:@"%f", view.scaleOffset];
     
@@ -1287,13 +1296,18 @@
 {
     
     BOOL isImageNote = [self.board doesNoteHaveImage:noteID];
-    CGRect noteFrame = CGRectMake(positionX, positionY, NOTE_WIDTH, NOTE_HEIGHT);
+    CGRect noteFrame = CGRectMake(positionX - NOTE_WIDTH/2,
+                                  positionY - NOTE_HEIGHT/2,
+                                  NOTE_WIDTH,
+                                  NOTE_HEIGHT);
     if (isImageNote)
     {
         ImageNoteView * note;
         NSData * imgData = [self.board getImageForNote:noteID];
         UIImage * img = [[UIImage alloc] initWithData:imgData];
         note = [self.prototypeImageView prototype];
+        //since the note has not have a transform set at this point
+        //its okey to set it frame instead of center
         note.frame = noteFrame;
         note.image = img;
         note.ID = noteID;
@@ -1589,8 +1603,11 @@ intoStackingWithMainView: (UIView *) mainView
         [self.collectionView addSubview:view];
         
         //put it in the collection views frame
-        CGRect viewTempFrame = CGRectMake(stack.frame.origin.x, stack.frame.origin.y, view.frame.size.width, view.frame.size.height);
-        view.frame = viewTempFrame;
+        view.center = stack.center;
+        view.bounds = CGRectMake(view.bounds.origin.x,
+                                 view.bounds.origin.y,
+                                 stack.bounds.size.width,
+                                 stack.bounds.size.height);
     }
 }
 
@@ -1724,13 +1741,12 @@ intoStackingWithMainView: (UIView *) mainView
                                andCallback:^(void){
                                    NSString * stackName =((StackView*) stackView).ID;
                                    [self.board removeNote:noteItem.ID fromStacking:stackName];
-                                   float noteX = noteItem.frame.origin.x;
-                                   float noteY = noteItem.frame.origin.y;
-                                   [CollectionLayoutHelper adjustNotePositionsForX:&noteX
-                                                                              andY:&noteY
+                                   float noteXCenter = noteItem.center.x;
+                                   float noteYCenter = noteItem.center.y;
+                                   [CollectionLayoutHelper adjustNotePositionsForX:&noteXCenter
+                                                                              andY:&noteYCenter
                                                                             inView:self.collectionView];
-                                   CGRect newFrame = CGRectMake(noteX, noteY, noteItem.frame.size.width, noteItem.frame.size.height);
-                                   noteItem.frame = newFrame;
+                                   noteItem.center = CGPointMake(noteXCenter, noteYCenter);
                                    [self updateScalingAndPositionAccordingToNoteView:noteItem];
                                }];
     }
@@ -1832,11 +1848,12 @@ intoStackingWithMainView: (UIView *) mainView
         [self dismissViewControllerAnimated:YES completion:^(void){}];
     }
     
-    CGRect frame = CGRectMake(self.collectionView.frame.origin.x,
-                              self.collectionView.frame.origin.y,
+    CGRect frame = CGRectMake(self.collectionView.bounds.origin.x + IMAGE_OFFSET_X,
+                              self.collectionView.bounds.origin.y + IMAGE_OFFSET_Y,
                               NOTE_WIDTH,
                               NOTE_HEIGHT);
     
+    //its okey to set frame cause there is not ransform on the item
     ImageNoteView * note = [self.prototypeImageView prototype];
     note.frame = frame;
     note.image = image;
@@ -1873,22 +1890,22 @@ intoStackingWithMainView: (UIView *) mainView
         
         float keyboardHeight = MIN(kbSize.height, kbSize.width);
         
-        CGRect aRect = self.collectionView.frame;
+        CGRect aRect = self.collectionView.bounds;
         
         if (self.activeView == nil) return;
         
-        CGRect noteViewFrame = self.activeView.frame;
+        CGPoint noteViewCenter = self.activeView.center;
         //the -1 is there because we dont want the rightestCornerToNotFallInside 
-        CGFloat noteViewRightestCorner = MIN(noteViewFrame.origin.x + noteViewFrame.size.width,
+        CGFloat noteViewRightestCorner = MIN(noteViewCenter.x + self.activeView.bounds.size.width/2,
                                              aRect.origin.x + aRect.size.width - 1);
         CGPoint noteViewRightcorner = CGPointMake(noteViewRightestCorner,
-                                                  noteViewFrame.origin.y + noteViewFrame.size.height);
+                                                  noteViewCenter.y + self.activeView.bounds.size.height/2);
         aRect.size.height -= keyboardHeight;
         if (!CGRectContainsPoint(aRect,noteViewRightcorner))
         {
-            CGFloat spaceFromLowerCornerToBottom = self.collectionView.frame.size.height - noteViewRightcorner.y;
+            CGFloat spaceFromLowerCornerToBottom = self.collectionView.bounds.size.height - noteViewRightcorner.y;
             CGFloat addedVisibleSpaceY = keyboardHeight - spaceFromLowerCornerToBottom;
-            CGPoint scrollPoint = CGPointMake(0.0, self.collectionView.frame.origin.y + addedVisibleSpaceY);
+            CGPoint scrollPoint = CGPointMake(0.0, self.collectionView.bounds.origin.y + addedVisibleSpaceY);
             UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardHeight, 0.0);
             self.collectionView.contentInset = contentInsets;
             self.collectionView.scrollIndicatorInsets = contentInsets;

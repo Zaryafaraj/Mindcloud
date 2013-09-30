@@ -49,11 +49,11 @@ backIntoScreenBoundsInRect:(CGRect) frame;
     withFinishCallback:(animate_unstack_finished) callback;
 
 +(void) animateMoveView:(UIView *) view
-              intoFrame:(CGRect) frame
+             intoCenter:(CGPoint) center
            inCollection:(UIView *) collectionView;
 
 +(void) animateMoveView:(UIView *) view
-              intoFrame:(CGRect) frame
+             intoCenter:(CGPoint) center
            inCollection:(UIView *) collectionView
          withCompletion:(move_noted_finished) callback;
 

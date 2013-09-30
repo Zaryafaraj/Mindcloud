@@ -18,25 +18,25 @@
 @end
 @implementation CollectionLayoutHelper
 
-+(void) adjustNotePositionsForX:(float *) positionX
-                           andY:(float *) positionY
++(void) adjustNotePositionsForX:(float *) positionXCenter
+                           andY:(float *) positionYCenter
                          inView:(UIView *) collectionView
 {
     
-        float maxWidth = collectionView.frame.origin.x + collectionView.frame.size.width;
-        float maxHeight = collectionView.frame.origin.y + collectionView.frame.size.height;
+        float maxWidth = collectionView.bounds.origin.x + collectionView.bounds.size.width;
+        float maxHeight = collectionView.bounds.origin.y + collectionView.bounds.size.height;
     
-        if ( *positionX + NOTE_WIDTH > maxWidth ){
-            *positionX = collectionView.frame.origin.x + collectionView.frame.size.width - NOTE_WIDTH;
+        if ( *positionXCenter  > maxWidth ){
+            *positionXCenter = collectionView.bounds.origin.x + collectionView.bounds.size.width - NOTE_WIDTH/2;
         }
-        if ( *positionY + NOTE_HEIGHT> maxHeight){
-            *positionY = collectionView.frame.origin.x + collectionView.frame.size.height - NOTE_HEIGHT;
+        if ( *positionYCenter > maxHeight){
+            *positionYCenter = collectionView.bounds.origin.x + collectionView.bounds.size.height - NOTE_HEIGHT/2;
         }
-        if (*positionX <  collectionView.frame.origin.x){
-            *positionX = collectionView.frame.origin.x;
+        if (*positionXCenter - NOTE_WIDTH/2 <  collectionView.bounds.origin.x){
+            *positionXCenter = collectionView.bounds.origin.x;
         }
-        if (*positionY < collectionView.frame.origin.y){
-            *positionY = collectionView.frame.origin.y;
+        if (*positionYCenter - NOTE_HEIGHT/2 < collectionView.bounds.origin.y){
+            *positionYCenter = collectionView.bounds.origin.y;
         }
 }
 
@@ -44,10 +44,8 @@
  OverlapWithView: (UIView *) view2
 {
     
-    CGPoint view1Center = CGPointMake(view1.frame.origin.x + (view1.frame.size.width/2), 
-                                        view1.frame.origin.y + (view1.frame.size.height/2) );
-    CGPoint view2Center = CGPointMake(view2.frame.origin.x + (view2.frame.size.width/2), 
-                                      view2.frame.origin.y + (view2.frame.size.height/2) );
+    CGPoint view1Center = view1.center;
+    CGPoint view2Center = view2.center;
     
     CGFloat dx = view1Center.x - view2Center.x;
     CGFloat dy = view1Center.y - view2Center.y;
@@ -68,24 +66,24 @@
                                inCollectionView:collectionView];
     
     //now find the starting position
-    float stackMiddleX = stack.frame.origin.x + stack.frame.size.width/2;
-    float stackMiddleY = stack.frame.origin.y + stack.frame.size.height/2;
+    float stackMiddleX = stack.center.x;
+    float stackMiddleY = stack.center.y;
     
     //first find the starting x
     float startX = 0;
     float startY = 0;
     if (stackMiddleX + rectSize.width/2 > collectionView.bounds.origin.x + collectionView.bounds.size.width){
-        //rect goes out of the right side of screen so fit it in a way that the right side of rect is on the right side of 
+        //rect goes out of the right side of screen so fit it in a way that the right side of rect is on the right side of
         //the screen
         startX = (collectionView.bounds.origin.x + collectionView.bounds.size.width) - rectSize.width;
     }
     else if (stackMiddleX - rectSize.width/2 < collectionView.bounds.origin.x){
-        //rect goes out of the left side of screen so fit it in a way that the left side of rect is on the left side of 
+        //rect goes out of the left side of screen so fit it in a way that the left side of rect is on the left side of
         //the screen
         startX = collectionView.bounds.origin.x;
     }
     else{
-        //rect fits around the stack 
+        //rect fits around the stack
         startX = stackMiddleX - rectSize.width/2;
     }
     
@@ -146,7 +144,10 @@
 + (CGRect) getStackingFrameForStackingWithTopView: (UIView *) mainView
 {
     
-    CGRect frame = CGRectMake( mainView.frame.origin.x, mainView.frame.origin.y, STACK_WIDTH, STACK_HEIGHT);
+    CGRect frame = CGRectMake( mainView.center.x - STACK_WIDTH/2,
+                              mainView.center.y - STACK_HEIGHT/2,
+                              STACK_WIDTH,
+                              STACK_HEIGHT);
     return frame;
 }
 
@@ -156,18 +157,22 @@
 {
     for (UIView * subView in collectionView.subviews){
         if ([subView conformsToProtocol:@protocol(BulletinBoardObject)]){
-            if (CGRectIntersectsRect(subView.frame, rect)){
+            CGRect viewBounds = CGRectMake(subView.center.x - subView.bounds.size.width/2,
+                                           subView.center.y - subView.bounds.size.height/2,
+                                           subView.bounds.size.width,
+                                           subView.bounds.size.height);
+            if (CGRectIntersectsRect(viewBounds, rect)){
                 
-                float newStartX = subView.frame.origin.x;
-                float newStartY = subView.frame.origin.y;
+                float newStartX = subView.center.x;
+                float newStartY = subView.center.y;
                 
-                float offsetX = EXIT_OFFSET_RATIO * subView.frame.size.width;
-                float offsetY = EXIT_OFFSET_RATIO * subView.frame.size.height;
+                float offsetX = EXIT_OFFSET_RATIO * subView.bounds.size.width;
+                float offsetY = EXIT_OFFSET_RATIO * subView.bounds.size.height;
                 
                 //find the closest point for the view to exit
                 float rectMid = rect.origin.x + rect.size.width/2;
-                if (subView.frame.origin.x < rectMid){
-                    //view is in the left side of the rect 
+                if (viewBounds.origin.x < rectMid){
+                    //view is in the left side of the rect
                     //find the distance to move the view come out of the rect
                     //it will first try to see if the view fits the screen if it exits from the right side rect
                     //if this is not possible it tries the lower side of the rect and if that doesnt work either
@@ -175,26 +180,26 @@
                     //we try each case in order
                     
                     //first the left side. This distance is the distance between the left edge of the rect and the right edge of view
-                    float distanceToExitX = (subView.frame.origin.x + subView.frame.size.width + offsetX) - rect.origin.x;
+                    float distanceToExitX = (viewBounds.origin.x + subView.bounds.size.width + offsetX) - rect.origin.x;
                     
                     //check to see if traveling this distance makes the subView fall out of screen on the left side
-                    if ( subView.frame.origin.x - distanceToExitX > collectionView.bounds.origin.x){
-                        //the view doesn't fall out of the screen so move make its starting point there 
-                        newStartX = subView.frame.origin.x - distanceToExitX;
+                    if ( viewBounds.origin.x - distanceToExitX > collectionView.bounds.origin.x){
+                        //the view doesn't fall out of the screen so move make its starting point there
+                        newStartX = viewBounds.origin.x - distanceToExitX;
                     }
                     else{
                         //the view falls out of the screen if we move left, try moving down
                         //the distance is between the top edge of the subview and low buttom of the rect
-                        float distanceToExitY = (rect.origin.y + rect.size.height + offsetY) - (subView.frame.origin.y);
-                        if (subView.frame.origin.y + subView.frame.size.height +distanceToExitY < collectionView.bounds.origin.y + collectionView.bounds.size.height){
+                        float distanceToExitY = (rect.origin.y + rect.size.height + offsetY) - (viewBounds.origin.y);
+                        if (viewBounds.origin.y + viewBounds.size.height +distanceToExitY < collectionView.bounds.origin.y + collectionView.bounds.size.height){
                             //the view can be fit outside the lower edge of the rect
-                            newStartY = subView.frame.origin.y + distanceToExitY;
+                            newStartY = viewBounds.origin.y + distanceToExitY;
                         }
                         else {
                             //the view cannot be fit in the left side of rect or the down side of the rect, surely it can fit in the upper side of the rect
                             //find the distance to exit from the top side. the distance is between the low edge of the view and the top edge of the rect
-                            distanceToExitY = (subView.frame.origin.y + subView.frame.size.height + offsetY) - rect.origin.y;
-                            newStartY = subView.frame.origin.y - distanceToExitY;
+                            distanceToExitY = (viewBounds.origin.y + viewBounds.size.height + offsetY) - rect.origin.y;
+                            newStartY = viewBounds.origin.y - distanceToExitY;
                         }
                     }
                     
@@ -205,25 +210,25 @@
                 else {
                     
                     //try the rightside. The distance is between the right edge of rect and left edge of view
-                    float distanceToExitX = (rect.origin.x + rect.size.width + offsetX) - (subView.frame.origin.x );
-                    if (subView.frame.origin.x + subView.frame.size.width + distanceToExitX < collectionView.bounds.origin.x + collectionView.bounds.size.width){
-                        //fits in the right side 
-                        newStartX = subView.frame.origin.x + distanceToExitX;
+                    float distanceToExitX = (rect.origin.x + rect.size.width + offsetX) - (viewBounds.origin.x );
+                    if (viewBounds.origin.x + viewBounds.size.width + distanceToExitX < collectionView.bounds.origin.x + collectionView.bounds.size.width){
+                        //fits in the right side
+                        newStartX = viewBounds.origin.x + distanceToExitX;
                     }
                     else{
                         //try the lower side
-                        float distanceToExitY = (rect.origin.y + rect.size.height + offsetY) - (subView.frame.origin.y);
-                        if (subView.frame.origin.y +subView.frame.size.height + distanceToExitY < collectionView.bounds.origin.y + collectionView.bounds.size.height){
-                            newStartY = subView.frame.origin.y + distanceToExitY;
+                        float distanceToExitY = (rect.origin.y + rect.size.height + offsetY) - (viewBounds.origin.y);
+                        if (viewBounds.origin.y + viewBounds.size.height + distanceToExitY < collectionView.bounds.origin.y + collectionView.bounds.size.height){
+                            newStartY = viewBounds.origin.y + distanceToExitY;
                         }
                         else{
                             //use the top side
-                            distanceToExitY = (subView.frame.origin.y + subView.frame.size.height + offsetY) - rect.origin.y;
-                            newStartY = subView.frame.origin.y - distanceToExitY;
+                            distanceToExitY = (viewBounds.origin.y + viewBounds.size.height + offsetY) - rect.origin.y;
+                            newStartY = viewBounds.origin.y - distanceToExitY;
                         }
                     }
                 }
-                CGRect frame = CGRectMake(newStartX, newStartY, subView.frame.size.width, subView.frame.size.height);
+                CGRect frame = CGRectMake(newStartX, newStartY, viewBounds.size.width, viewBounds.size.height);
                 [CollectionAnimationHelper animateMoveNoteOutOfExpansion:subView
                                                                  toFrame:frame];
                 if ([subView isKindOfClass:[NoteView class]]){
@@ -232,7 +237,7 @@
                 else if ([subView isKindOfClass:[StackView class]]){
                     StackView * stack = (StackView *) subView;
                     for(NoteView * stackNoteView in stack.views){
-                        stackNoteView.frame = stack.frame;
+                        stackNoteView.center = stack.center;
                         updateNote(stackNoteView);
                     }
                 }
@@ -247,8 +252,8 @@ withMoveNoteFunction:(update_note_location_function) updateNote
 {
     
     [((NoteView *) [items lastObject]) resetSize];
-    float noteWidth = ((NoteView *)[items lastObject]).frame.size.width  ;
-    float noteHeight = ((NoteView *)[items lastObject]).frame.size.height;
+    float noteWidth = ((NoteView *)[items lastObject]).bounds.size.width  ;
+    float noteHeight = ((NoteView *)[items lastObject]).bounds.size.height;
     float seperator = SEPERATOR_RATIO * MAX(noteWidth, noteHeight);
     
     float startX = rect.origin.x + seperator;
@@ -257,7 +262,7 @@ withMoveNoteFunction:(update_note_location_function) updateNote
     int rowCount = 0;
     int colCount = 0;
     for (NoteView * view in items){
-        CGRect noteRect = CGRectMake(startX, startY, view.frame.size.width, view.frame.size.height);
+        CGRect noteRect = CGRectMake(startX, startY, view.bounds.size.width, view.bounds.size.height);
         [CollectionAnimationHelper animateExpandNote: view InRect:noteRect];
         rowCount++;
         if (rowCount >= EXPAND_COL_SIZE){
@@ -278,80 +283,80 @@ withMoveNoteFunction:(update_note_location_function) updateNote
     
     for (UIView * view in collectionView.subviews){
         
-        float positionX = view.frame.origin.x;
-        float positionY = view.frame.origin.y;
+        float positionXCenter = view.center.x;
+        float positionYCenter = view.center.y;
         BOOL changed = NO;
-        if ( positionX + view.frame.size.width > collectionView.frame.origin.x + collectionView.frame.size.width ){
-            positionX = collectionView.frame.origin.x + collectionView.frame.size.width - NOTE_WIDTH;
+        if ( positionXCenter + view.bounds.size.width/2 > collectionView.bounds.origin.x + collectionView.bounds.size.width ){
+            positionXCenter = collectionView.bounds.origin.x + collectionView.bounds.size.width - NOTE_WIDTH;
             changed = YES;
         }
-        if ( positionY + view.frame.size.height > collectionView.frame.origin.x + collectionView.frame.size.height){
-            positionY = collectionView.frame.origin.x + collectionView.frame.size.height - NOTE_HEIGHT;
+        if ( positionYCenter + view.bounds.size.height > collectionView.bounds.origin.x + collectionView.bounds.size.height){
+            positionYCenter = collectionView.bounds.origin.x + collectionView.bounds.size.height - NOTE_HEIGHT;
             changed = YES;
         }
-        if (positionX <  collectionView.frame.origin.x){
-            positionX = collectionView.frame.origin.x;
+        if (positionXCenter - view.bounds.size.width/2 <  collectionView.bounds.origin.x){
+            positionXCenter = collectionView.bounds.origin.x;
             changed = YES;
         }
-        if (positionY < collectionView.frame.origin.y){
-            positionY = collectionView.frame.origin.y;
+        if (positionYCenter - view.bounds.size.width/2 < collectionView.bounds.origin.y){
+            positionYCenter = collectionView.bounds.origin.y;
             changed = YES;
         }
         
         if(changed){
-            view.frame = CGRectMake(positionX, positionY, view.frame.size.width, view.frame.size.height);
+            view.center = CGPointMake(positionXCenter, positionYCenter);
         }
     }
 }
 
-+(CGRect) adjustFrame:(CGRect) frame
++(CGRect) adjustFrame:(CGRect) originalFrame
               forView: (UIView *) view
       forBoundsOfView:(UIView *) collectionView
 {
     BOOL frameChanged = NO;
-    CGFloat newOriginX = frame.origin.x;
-    CGFloat newOriginY = frame.origin.y;
+    CGFloat newOriginX = originalFrame.origin.x;
+    CGFloat newOriginY = originalFrame.origin.y;
     
     
-    if (frame.origin.x < collectionView.frame.origin.x){
+    if (originalFrame.origin.x < collectionView.bounds.origin.x){
         frameChanged = YES;
-        newOriginX = collectionView.frame.origin.x;
+        newOriginX = collectionView.bounds.origin.x;
     }
-    if (frame.origin.y < collectionView.frame.origin.y){
+    if (originalFrame.origin.y < collectionView.bounds.origin.y){
         frameChanged = YES;
-        newOriginY = collectionView.frame.origin.y;
+        newOriginY = collectionView.bounds.origin.y;
     }
-    if (frame.origin.x + frame.size.width > 
-        collectionView.frame.origin.x + collectionView.frame.size.width){
+    if (originalFrame.origin.x + originalFrame.size.width >
+        collectionView.bounds.origin.x + collectionView.bounds.size.width){
         frameChanged = YES;
-        newOriginX = collectionView.frame.origin.x + collectionView.frame.size.width - frame.size.width;
+        newOriginX = collectionView.bounds.origin.x + collectionView.bounds.size.width - originalFrame.size.width;
     }
-    if (frame.origin.y + frame.size.height > 
-        collectionView.frame.origin.y + collectionView.frame.size.height){
+    if (originalFrame.origin.y + originalFrame.size.height >
+        collectionView.bounds.origin.y + collectionView.bounds.size.height){
         frameChanged = YES;
-        newOriginY = collectionView.frame.origin.y + collectionView.frame.size.height - frame.size.height - 50;
+        newOriginY = collectionView.bounds.origin.y + collectionView.bounds.size.height - originalFrame.size.height - 50;
     }
     
-    if (view.frame.origin.x + view.frame.size.width >
-        collectionView.frame.origin.x + collectionView.frame.size.width){
+    if (view.center.x + view.bounds.size.width/2 >
+        collectionView.bounds.origin.x + collectionView.bounds.size.width){
         frameChanged = YES;
-        newOriginX = collectionView.frame.origin.x + collectionView.frame.size.width - view.frame.size.width;
+        newOriginX = collectionView.bounds.origin.x + collectionView.bounds.size.width - view.bounds.size.width;
     }
-    if (view.frame.origin.y + view.frame.size.height >
-        collectionView.frame.origin.y + collectionView.frame.size.height){
+    if (view.center.y + view.bounds.size.height >
+        collectionView.bounds.origin.y + collectionView.bounds.size.height){
         frameChanged = YES;
-        newOriginY = collectionView.frame.origin.y + collectionView.frame.size.height - view.frame.size.height - 50;
+        newOriginY = collectionView.bounds.origin.y + collectionView.bounds.size.height - view.bounds.size.height - 50;
     }
     if (frameChanged){
-            frame = CGRectMake(newOriginX, newOriginY,frame.size.width, frame.size.height);
-
+        originalFrame = CGRectMake(newOriginX, newOriginY,originalFrame.size.width, originalFrame.size.height);
+        
     }
-    return frame;
+    return originalFrame;
     
 }
 +(CGRect) getFrameForNewNote:(UIView *) view
                 AddedToPoint: (CGPoint) location
-                        InCollectionView:(UIView *) collectionView
+            InCollectionView:(UIView *) collectionView
 {
     
     CGRect frame = CGRectMake(location.x, location.y, NOTE_WIDTH, NOTE_HEIGHT);
@@ -364,51 +369,51 @@ withMoveNoteFunction:(update_note_location_function) updateNote
                  inCollectionView:(UIView *) collectionView
 {
     
-        BOOL frameChanged = NO;
-        CGFloat newOriginX = view.frame.origin.x;
-        CGFloat newOriginY = view.frame.origin.y;
+    BOOL frameChanged = NO;
+    CGFloat newOriginX = view.frame.origin.x;
+    CGFloat newOriginY = view.frame.origin.y;
     
-        if (view.frame.origin.x < collectionView.frame.origin.x){
-            frameChanged = YES;
-            newOriginX = collectionView.frame.origin.x;
-        }
-        if (view.frame.origin.y < collectionView.frame.origin.y){
-            frameChanged = YES;
-            newOriginY = collectionView.frame.origin.y;
-        }
-        if (view.frame.origin.x + view.frame.size.width > 
-            collectionView.frame.origin.x + collectionView.frame.size.width){
-            frameChanged = YES;
-            newOriginX = collectionView.frame.origin.x + collectionView.frame.size.width - view.frame.size.width;
-        }
-        if (view.frame.origin.y + view.frame.size.height > 
-            collectionView.frame.origin.y + collectionView.frame.size.height){
-            frameChanged = YES;
-            newOriginY = collectionView.frame.origin.y + collectionView.frame.size.height - view.frame.size.height - 50;
-        }
-        
-        if (frameChanged){
-            CGRect newFrame = CGRectMake(newOriginX, newOriginY, view.frame.size.width, view.frame.size.height);
-            [CollectionAnimationHelper animateMoveNote:view
-                            backIntoScreenBoundsInRect:newFrame];
-        }
+    if (view.frame.origin.x < collectionView.frame.origin.x){
+        frameChanged = YES;
+        newOriginX = collectionView.frame.origin.x;
+    }
+    if (view.frame.origin.y < collectionView.frame.origin.y){
+        frameChanged = YES;
+        newOriginY = collectionView.frame.origin.y;
+    }
+    if (view.frame.origin.x + view.frame.size.width >
+        collectionView.frame.origin.x + collectionView.frame.size.width){
+        frameChanged = YES;
+        newOriginX = collectionView.frame.origin.x + collectionView.frame.size.width - view.frame.size.width;
+    }
+    if (view.frame.origin.y + view.frame.size.height >
+        collectionView.frame.origin.y + collectionView.frame.size.height){
+        frameChanged = YES;
+        newOriginY = collectionView.frame.origin.y + collectionView.frame.size.height - view.frame.size.height - 50;
+    }
+    
+    if (frameChanged){
+        CGRect newFrame = CGRectMake(newOriginX, newOriginY, view.frame.size.width, view.frame.size.height);
+        [CollectionAnimationHelper animateMoveNote:view
+                        backIntoScreenBoundsInRect:newFrame];
+    }
 }
 
 +(void) removeNote:(NoteView *) noteItem
-           fromStack:(StackView *) stack
-    InCollectionView: (UIView *) collectionView withCountInStack:(int) count
-         andCallback:(layout_unstack_finished)callback
+         fromStack:(StackView *) stack
+  InCollectionView: (UIView *) collectionView withCountInStack:(int) count
+       andCallback:(layout_unstack_finished)callback
 {
     
-        [noteItem resetSize];
-        float offsetX = SEPERATOR_RATIO * noteItem.frame.size.width;
-        float offsetY = SEPERATOR_RATIO * noteItem.frame.size.height;
-        noteItem.frame = stack.frame;
-        [collectionView addSubview:noteItem];
-        CGRect finalRect = CGRectMake(stack.frame.origin.x + (count * offsetX),
-                                          stack.frame.origin.y + (count * offsetY),
-                                          noteItem.frame.size.width,
-                                          noteItem.frame.size.height);
+    [noteItem resetSize];
+    float offsetX = SEPERATOR_RATIO * noteItem.frame.size.width;
+    float offsetY = SEPERATOR_RATIO * noteItem.frame.size.height;
+    noteItem.frame = stack.frame;
+    [collectionView addSubview:noteItem];
+    CGRect finalRect = CGRectMake(stack.frame.origin.x + (count * offsetX),
+                                  stack.frame.origin.y + (count * offsetY),
+                                  noteItem.frame.size.width,
+                                  noteItem.frame.size.height);
     [CollectionAnimationHelper animateUnstack:noteItem
                                     fromStack:stack
                                  inCollection:collectionView
@@ -419,21 +424,23 @@ withMoveNoteFunction:(update_note_location_function) updateNote
 
 +(void) moveView:(UIView *) view
 inCollectionView:(UIView *) collectionView
-      toNewFrame:(CGRect) newFrame
+     toNewCenter:(CGPoint) newCenter
 {
     [CollectionAnimationHelper animateMoveView:view
-                                     intoFrame:newFrame
+                                    intoCenter:newCenter
                                   inCollection:collectionView];
 }
 
-+(void) moveView:(UIView *)view
-inCollectionView:(UIView *)collectionView
-      toNewFrame:(CGRect)newFrame
++(void) moveView:(UIView *) view
+inCollectionView:(UIView *) collectionView
+     toNewCenter:(CGPoint) newCenter
   withCompletion:(move_noted_finished)callback
 {
-    [CollectionAnimationHelper animateMoveView:view intoFrame:newFrame inCollection:collectionView withCompletion:^{
-        callback();
-    }];
+    [CollectionAnimationHelper animateMoveView:view intoCenter:newCenter
+                                  inCollection:collectionView
+                                withCompletion:^{
+                                    callback();
+                                }];
 }
 +(void) scaleView:(UIView *) view
  inCollectionView:(UIView *) collectionView

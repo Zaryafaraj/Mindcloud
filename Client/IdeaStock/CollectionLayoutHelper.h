@@ -61,11 +61,11 @@ withMoveNoteFunction:(update_note_location_function) updateNote;
 
 +(void) moveView:(UIView *) view
 inCollectionView:(UIView *) collectionView
-      toNewFrame:(CGRect) newFrame;
+     toNewCenter:(CGPoint) newCenter;
 
 +(void) moveView:(UIView *)view
 inCollectionView:(UIView *)collectionView
-      toNewFrame:(CGRect)newFrame
+     toNewCenter:(CGPoint) newCenter
   withCompletion:(move_noted_finished)callback;
 
 +(void) scaleView:(UIView *) view
