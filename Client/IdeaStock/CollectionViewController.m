@@ -461,7 +461,6 @@
             updateNote:(BOOL) update
 {
     [stack removeNoteView:noteView];
-    [stack setNextMainViewWithNoteToRemove:noteView];
     
     [self sanitizeNoteViewForCollectionView:noteView];
     
@@ -1726,7 +1725,6 @@ intoStackingWithMainView: (UIView *) mainView
         NoteView * noteItem = (NoteView *) item;
         
         [stackView removeNoteView:noteItem];
-        [stackView setNextMainViewWithNoteToRemove:noteItem];
         for (UIGestureRecognizer * gr in noteItem.gestureRecognizers){
             [noteItem removeGestureRecognizer:gr];
         }

@@ -14,13 +14,11 @@
 
 @property (strong,nonatomic) NSMutableArray * views;
 
-@property (weak, nonatomic) NoteView * mainView;
+@property (weak, nonatomic, readonly) NoteView * mainView;
 
 -(id) initWithViews: (NSMutableArray *) views 
         andMainView: (NoteView *) mainView
           withFrame: (CGRect) frame;
-
--(void) setNextMainViewWithNoteToRemove:(NoteView *) noteView;
 
 -(void) setTopViewForNote:(NoteView *) newNote;
 

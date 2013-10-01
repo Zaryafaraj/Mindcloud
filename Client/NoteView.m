@@ -73,7 +73,7 @@
 {
     view.layer.borderColor = [UIColor grayColor].CGColor;
     view.layer.borderWidth = 1;
-//    view.layer.shouldRasterize = YES;
+    //    view.layer.shouldRasterize = YES;
     view.layer.shadowColor = [UIColor grayColor].CGColor;
     view.layer.shadowOffset = CGSizeMake(1, 2);
     view.layer.shadowOpacity = 0.9;
@@ -187,9 +187,9 @@
     self.scaleOffset = scaleOffset;
     
     self.bounds = CGRectMake(self.bounds.origin.x,
-                                 self.bounds.origin.y,
-                                 self.originalFrame.size.width * scaleOffset,
-                                 self.originalFrame.size.height * scaleOffset);
+                             self.bounds.origin.y,
+                             self.originalFrame.size.width * scaleOffset,
+                             self.originalFrame.size.height * scaleOffset);
     
 }
 
@@ -204,12 +204,6 @@
                              self.bounds.origin.y,
                              self.bounds.size.width * scaleFactor,
                              self.bounds.size.height * scaleFactor);
-//    CGRect newFrame = CGRectMake(self.frame.origin.x,
-//                                 self.frame.origin.y,
-//                                 self.bounds.size.width * scaleFactor,
-//                                 self.bounds.size.height * scaleFactor);
-//    self.frame = newFrame;
-    
 }
 
 -(void) rotate:(CGFloat)rotation

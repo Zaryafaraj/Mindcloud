@@ -415,7 +415,6 @@
     }completion:^ (BOOL didFinish){
         
         [self.openStack removeNoteView:self.highLightedNote];
-        [self.openStack setNextMainViewWithNoteToRemove:self.highLightedNote];
         [self.notes removeObject:self.highLightedNote];
         [self.highLightedNote removeFromSuperview];
         [self removeToolbarItems];
