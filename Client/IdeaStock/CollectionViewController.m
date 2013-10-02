@@ -842,7 +842,7 @@
     else if ([view isKindOfClass:[StackView class]]){
         StackView * stack = (StackView *) view;
         for(NoteView * stackNoteView in stack.views){
-            stackNoteView.center = stack.center;
+            //stackNoteView.center = stack.center;
             [self updateNoteLocation:stackNoteView];
         }
     }
@@ -1447,22 +1447,23 @@
     StackView * stackRef = stack;
     self.stackViews[stackingID] = stackRef;
     
-    if (scale)
-    {
-        [stack scale:scale animated:NO];
-    }
+//    if (scale)
+//    {
+//        [stack scale:scale animated:NO];
+//    }
     stack.ID = stackingID;
     
     [self addGestureRecognizersToStack:stack];
+    [self.collectionView addSubview:stack];
     
-    [CollectionAnimationHelper animateStackCreationForStackView:stack
-                                            WithDestinationView:destinationView
-                                                  andStackItems:allNotes
-                                               inCollectionView:self.collectionView
-                                                          isNew:YES
-                                           withMoveNoteFunction:^(NoteView * note){
-                                               [self updateNoteLocation:note toMainView:mainView];
-                                           }];
+//    [CollectionAnimationHelper animateStackCreationForStackView:stack
+//                                            WithDestinationView:destinationView
+//                                                  andStackItems:allNotes
+//                                               inCollectionView:self.collectionView
+//                                                          isNew:YES
+//                                           withMoveNoteFunction:^(NoteView * note){
+//                                               [self updateNoteLocation:note toMainView:mainView];
+//                                           }];
     
     
     return stackingID;

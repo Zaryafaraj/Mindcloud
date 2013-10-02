@@ -10,6 +10,8 @@
 #import "ImageNoteView.h"
 #import "CollectionAnimationHelper.h"
 
+#define VISIBLE_NOTES 3
+
 @interface StackView()
 
 @property CGRect originalFrame;
@@ -65,6 +67,16 @@
           withFrame: (CGRect) frame
 {
     self = [super initWithFrame:frame];
+    for (NoteView * noteView in views)
+    {
+        [noteView removeFromSuperview];
+        [noteView resetSize];
+        for(UIGestureRecognizer * gr in noteView.gestureRecognizers)
+        {
+            [noteView removeGestureRecognizer:gr];
+        }
+    }
+    
     if (self)
     {
         self.views = views;
@@ -80,7 +92,17 @@
 
 -(void) layoutStackView
 {
-    //set the layers and top items
+    self.backgroundColor = [UIColor clearColor];
+    int totalVisibleNotes = MIN(VISIBLE_NOTES, [self.views count]);
+    
+    for (int i = 0 ; i < totalVisibleNotes; i ++)
+    {
+        UIView * viewToLay = self.views[i];
+        viewToLay.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+        viewToLay.alpha = 1;
+        [self addSubview:viewToLay];
+    }
+    
 }
 
 -(void) setTopViewForMainView:(NoteView *) mainView
