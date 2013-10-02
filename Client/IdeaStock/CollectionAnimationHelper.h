@@ -18,17 +18,6 @@
 
 +(void) animateStackViewRemoval:(StackView *) stack;
 
-+(void) animateStackCreationForStackView:(UIView *) stack
-                            WithDestinationView:(UIView *) mainView
-                            andStackItems:(NSArray*) items
-                        inCollectionView: (UIView *) collectionView
-                                   isNew:(BOOL) isNewStack
-                    withMoveNoteFunction:(update_note_location_function) updateNote;
-
-+(void) animateStackCreationForStackView:(UIView *) stack
-                            WithMainView:(UIView *) mainView
-                        inCollectionView: (UIView *) collectionView;
-
 +(void) animateExpandNote: (UIView *) note
             InRect:(CGRect) noteRect;
 

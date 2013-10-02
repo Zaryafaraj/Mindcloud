@@ -406,7 +406,6 @@
             StackView * stackRef = stack;
             self.stackViews[stackId] = stackRef;
             [self addGestureRecognizersToStack:stack];
-            [CollectionAnimationHelper animateStackCreationForStackView:stack WithMainView:mainView inCollectionView:self.collectionView];
         }
     }
 }
@@ -1447,24 +1446,21 @@
     StackView * stackRef = stack;
     self.stackViews[stackingID] = stackRef;
     
-//    if (scale)
-//    {
-//        [stack scale:scale animated:NO];
-//    }
+    if (scale)
+    {
+        [stack scale:scale animated:NO];
+    }
     stack.ID = stackingID;
+    
     
     [self addGestureRecognizersToStack:stack];
     [self.collectionView addSubview:stack];
     
-//    [CollectionAnimationHelper animateStackCreationForStackView:stack
-//                                            WithDestinationView:destinationView
-//                                                  andStackItems:allNotes
-//                                               inCollectionView:self.collectionView
-//                                                          isNew:YES
-//                                           withMoveNoteFunction:^(NoteView * note){
-//                                               [self updateNoteLocation:note toMainView:mainView];
-//                                           }];
-    
+    //make sure we update the note locations
+    for (NoteView * note in allNotes)
+    {
+        [self updateNoteLocation:note toMainView:mainView];
+    }
     
     return stackingID;
 }
@@ -1500,14 +1496,6 @@ withDestinationView:(UIView *) destinationView
     stack.ID = stackingID;
     
     [self addGestureRecognizersToStack:stack];
-    [CollectionAnimationHelper animateStackCreationForStackView:stack
-                                            WithDestinationView:destinationView
-                                                  andStackItems:allNotes
-                                               inCollectionView:self.collectionView
-                                                          isNew:NO
-                                           withMoveNoteFunction:^(NoteView * note){
-                                               [self updateNoteLocation:note toMainView:mainView];
-                                           }];
 }
 
 -(NSString *) mergeItems: (NSArray *)items

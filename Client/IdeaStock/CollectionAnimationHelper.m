@@ -31,62 +31,6 @@
                      completion:^(BOOL finished){[stack removeFromSuperview];}];
 }
 
-/*! If new is set to true all the items that are passed in will have their locations updated by the
-    updateNote function
- */
-+(void) animateStackCreationForStackView:(UIView *) stack
-                            WithDestinationView:(UIView *) destView
-                            andStackItems:(NSArray*) items
-                        inCollectionView: (UIView *) collectionView
-                                   isNew:(BOOL) isNewStack
-                    withMoveNoteFunction:(update_note_location_function) updateNote
-{
-    
-//    [UIView animateWithDuration:0.5 animations:^{mainView.alpha = 0;}];
-//    [mainView removeFromSuperview];
-    destView.alpha = 1;
-    stack.alpha =0;
-    [collectionView addSubview:stack];
-    [UIView animateWithDuration:0.5 animations:^{stack.alpha = 1;}];
-    
-    
-    for (UIView * view in items){
-        
-         if ([view isKindOfClass:[NoteView class]]){
-             if (isNewStack){
-                 updateNote((NoteView *) view);
-             }
-         }
-        [UIView animateWithDuration:0.5
-                                  delay:0
-                                options:UIViewAnimationOptionCurveEaseIn
-                             animations:^{
-                                 view.center = destView.center;
-                             }
-                             completion:^(BOOL finished){
-                                 [view removeFromSuperview];
-                            }];
-        }
-}
-
-+(void) animateStackCreationForStackView:(StackView *) stack
-                            WithMainView:(UIView *) mainView
-                        inCollectionView: (UIView *) collectionView
-{
-    mainView.alpha = 1;
-    stack.alpha =0;
-    for (UIView * view in stack.views)
-    {
-        [UIView animateWithDuration:0.25
-                         animations:^{view.alpha = 0;}
-                         completion:^(BOOL finished){
-                             [view removeFromSuperview];
-                             view.alpha = 1;}];
-    }
-    [collectionView addSubview:stack];
-    [UIView animateWithDuration:0.5 animations:^{stack.alpha = 1;}];
-}
-
 +(void) animateExpandNote: (UIView *) note
             InRect:(CGRect) noteRect
 {
