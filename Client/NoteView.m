@@ -71,9 +71,12 @@
 
 +(NoteView *) setLayers:(NoteView *) view
 {
-    view.layer.borderColor = [UIColor grayColor].CGColor;
-    view.layer.borderWidth = 1;
-    //    view.layer.shouldRasterize = YES;
+    view.layer.borderColor = [UIColor clearColor].CGColor;
+    view.layer.borderWidth = 3;
+    //view.layer.shouldRasterize = YES;
+    view.layer.edgeAntialiasingMask = kCALayerTopEdge | kCALayerBottomEdge | kCALayerRightEdge | kCALayerLeftEdge;
+    view.clipsToBounds = NO;
+    view.layer.masksToBounds = NO;
     view.layer.shadowColor = [UIColor grayColor].CGColor;
     view.layer.shadowOffset = CGSizeMake(1, 2);
     view.layer.shadowOpacity = 0.9;
