@@ -69,6 +69,12 @@
     }
 }
 
+-(void) setBoundsWithAnimatingLayer:(CGRect) bounds
+               andAnimationDuration:(CGFloat) duration
+{
+    [self animateLayoutChangeForBounds:bounds withDuration:duration];
+}
+
 +(NoteView *) setLayers:(NoteView *) view
 {
     view.layer.borderColor = [UIColor clearColor].CGColor;
@@ -144,6 +150,21 @@
                                      self.bounds.size.height - 2 * TEXT_Y_OFFSET);
         self._textView.frame = newFrame;
     }
+}
+
+-(void) animateLayoutChangeForBounds:(CGRect) bounds
+                        withDuration:(CGFloat) duration
+{
+    CABasicAnimation * animation = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
+    animation.duration = duration;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    CGPathRef toValue = CGPathCreateWithRect(bounds,&CGAffineTransformIdentity);
+    animation.fromValue = [UIBezierPath bezierPathWithCGPath:toValue];
+    animation.toValue = [UIBezierPath bezierPathWithCGPath:self.layer.shadowPath];
+    
+    self.layer.shadowPath = toValue;
+    
+    [self.layer addAnimation:animation forKey:@"shadowPath"];
 }
 
 -(void) setBounds:(CGRect)bounds

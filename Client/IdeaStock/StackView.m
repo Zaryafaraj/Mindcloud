@@ -11,7 +11,8 @@
 #import "CollectionAnimationHelper.h"
 
 #define MAX_VISIBLE_NOTES 3
-#define STACKING_DURATION 1
+#define STACKING_DURATION 0.3
+
 @interface StackView()
 
 @property CGRect originalFrame;
@@ -109,14 +110,22 @@
         //if its the top of the stack move it on top without rotation
         if (i == [self.views count] - 1)
         {
+            CGRect aBound = CGRectMake(0,
+                                       0,
+                                       self.bounds.size.width,
+                                       self.bounds.size.height);
+            [note setBoundsWithAnimatingLayer:aBound andAnimationDuration:STACKING_DURATION];
             [UIView animateWithDuration:STACKING_DURATION delay:0
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
                                  
-                                 note.frame = CGRectMake(self.frame.origin.x,
-                                                         self.frame.origin.y,
-                                                         self.bounds.size.width,
-                                                         self.bounds.size.height);
+                                 
+                                 note.bounds = CGRectMake(0,
+                                                          0,
+                                                          self.bounds.size.width,
+                                                          self.bounds.size.height);
+                                 note.transform = CGAffineTransformIdentity;
+                                 note.center = self.center;
                              }completion:^(BOOL finished){
                                  
                                  [note removeFromSuperview];
@@ -136,6 +145,13 @@
         else if ( i == [self.views count] - 2)
         {
             
+            CGRect aBound = CGRectMake(0,
+                                       0,
+                                       self.bounds.size.width,
+                                       self.bounds.size.height);
+            
+            [note setBoundsWithAnimatingLayer:aBound andAnimationDuration:STACKING_DURATION];
+            
             [UIView animateWithDuration:STACKING_DURATION delay:0
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
@@ -144,6 +160,10 @@
                                  CGFloat totalRotation = rotationRight - currentRotation;
                                  note.transform = CGAffineTransformRotate(note.transform, totalRotation);
                                  
+                                 note.bounds = CGRectMake(0,
+                                                          0,
+                                                          self.bounds.size.width,
+                                                          self.bounds.size.height);
                                  note.center = self.center;
                              }completion:^(BOOL finished){
                                  
@@ -177,6 +197,12 @@
         else if ( i == [self.views count] - 3)
         {
             
+            CGRect aBound = CGRectMake(0,
+                                       0,
+                                       self.bounds.size.width,
+                                       self.bounds.size.height);
+            [note setBoundsWithAnimatingLayer:aBound andAnimationDuration:STACKING_DURATION];
+
             [UIView animateWithDuration:STACKING_DURATION delay:0
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
@@ -187,6 +213,10 @@
                                  
                                  note.transform = CGAffineTransformRotate(note.transform, totalRotation);
                                  
+                                 note.bounds = CGRectMake(0,
+                                                          0,
+                                                          self.bounds.size.width,
+                                                          self.bounds.size.height);
                                  note.center = self.center;
                              }completion:^(BOOL finished){
                                  

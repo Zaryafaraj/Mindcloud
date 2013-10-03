@@ -31,6 +31,9 @@
 
 -(void) resizeToRect:(CGRect) rect Animate: (BOOL) animate;
 
+-(void) setBoundsWithAnimatingLayer:(CGRect) bounds
+               andAnimationDuration:(CGFloat) duration;
+
 -(instancetype) prototype;
 
 @end
