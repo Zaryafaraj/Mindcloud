@@ -31,8 +31,9 @@
 
 -(void) resizeToRect:(CGRect) rect Animate: (BOOL) animate;
 
--(void) setBoundsWithAnimatingLayer:(CGRect) bounds
-               andAnimationDuration:(CGFloat) duration;
+-(void) animateLayoutChangeForBounds:(CGRect) bounds
+                        withDuration:(CGFloat) duration
+                 andAnimationOptions:(UIViewAnimationOptions) options;
 
 -(instancetype) prototype;
 

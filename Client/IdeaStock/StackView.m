@@ -92,6 +92,118 @@
     return self;
 }
 
+-(void) animateStackingOfTopItem:(NoteView *) note
+{
+    
+    CGRect aBound = CGRectMake(0,
+                               0,
+                               self.bounds.size.width,
+                               self.bounds.size.height);
+    
+    UIViewAnimationOptions option = UIViewAnimationOptionCurveEaseIn;
+    [note animateLayoutChangeForBounds:aBound
+                          withDuration:STACKING_DURATION andAnimationOptions:option];
+    
+    [UIView animateWithDuration:STACKING_DURATION delay:0
+                        options:option
+                     animations:^{
+                         
+                         
+                         note.bounds = CGRectMake(0,
+                                                  0,
+                                                  self.bounds.size.width,
+                                                  self.bounds.size.height);
+                         note.transform = CGAffineTransformIdentity;
+                         note.center = self.center;
+                     }completion:^(BOOL finished){
+                         
+                         [note removeFromSuperview];
+                         
+                         note.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+                         note.bounds = CGRectMake(0,
+                                                  0,
+                                                  self.bounds.size.width,
+                                                  self.bounds.size.height);
+                         
+                         [self addSubview:note];
+                     }
+     ];
+}
+
+-(void) animateStackingOfBelowItems:(NoteView *) note
+                  withRotationAngle:(CGFloat) angle
+{
+    
+    CGRect aBound = CGRectMake(0,
+                               0,
+                               self.bounds.size.width,
+                               self.bounds.size.height);
+    
+    UIViewAnimationOptions option = UIViewAnimationOptionCurveEaseIn;
+    [note animateLayoutChangeForBounds:aBound
+                          withDuration:STACKING_DURATION andAnimationOptions:option];
+    
+    [UIView animateWithDuration:STACKING_DURATION delay:0
+                        options:option
+                     animations:^{
+                         CGFloat currentRotation = note.rotationOffset;
+                         CGFloat rotationRight = angle;
+                         CGFloat totalRotation = rotationRight - currentRotation;
+                         note.transform = CGAffineTransformRotate(note.transform, totalRotation);
+                         
+                         note.bounds = CGRectMake(0,
+                                                  0,
+                                                  self.bounds.size.width,
+                                                  self.bounds.size.height);
+                         note.center = self.center;
+                     }completion:^(BOOL finished){
+                         
+                         [note removeFromSuperview];
+                         
+                         
+                         note.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+                         note.bounds = CGRectMake(0,
+                                                  0,
+                                                  self.bounds.size.width,
+                                                  self.bounds.size.height);
+                         
+                         //if we are laying this on top of something else make sure it actually appears on top
+                         int index = [self.views indexOfObject:note];
+                         
+                         if (index < [self.views count] - 1)
+                         {
+                             [self insertSubview:note
+                                    belowSubview:self.views[index+1]];
+                         }
+                         else
+                         {
+                             [self addSubview:note];
+                         }
+                         
+                     }
+     ];
+}
+
+-(void) animateStackingOfInvisibleItems:(NoteView *) note
+{
+    
+    [UIView animateWithDuration:STACKING_DURATION delay:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         
+                         note.frame = CGRectMake(self.frame.origin.x,
+                                                 self.frame.origin.y,
+                                                 self.bounds.size.width,
+                                                 self.bounds.size.height);
+                     }completion:^(BOOL finished){
+                         
+                         [note removeFromSuperview];
+                         [note resetSize];
+                         
+                     }
+     ];
+}
+
 -(void) layoutStackView
 {
     
@@ -110,163 +222,27 @@
         //if its the top of the stack move it on top without rotation
         if (i == [self.views count] - 1)
         {
-            CGRect aBound = CGRectMake(0,
-                                       0,
-                                       self.bounds.size.width,
-                                       self.bounds.size.height);
-            [note setBoundsWithAnimatingLayer:aBound andAnimationDuration:STACKING_DURATION];
-            [UIView animateWithDuration:STACKING_DURATION delay:0
-                                options:UIViewAnimationOptionCurveEaseIn
-                             animations:^{
-                                 
-                                 
-                                 note.bounds = CGRectMake(0,
-                                                          0,
-                                                          self.bounds.size.width,
-                                                          self.bounds.size.height);
-                                 note.transform = CGAffineTransformIdentity;
-                                 note.center = self.center;
-                             }completion:^(BOOL finished){
-                                 
-                                 [note removeFromSuperview];
-                                 
-                                 note.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
-                                 note.bounds = CGRectMake(0,
-                                                          0,
-                                                          self.bounds.size.width,
-                                                          self.bounds.size.height);
-                                 
-                                [self addSubview:note];
-                             }
-             ];
+            [self animateStackingOfTopItem:note];
         }
         
         //rotate the second to top to the right
         else if ( i == [self.views count] - 2)
         {
             
-            CGRect aBound = CGRectMake(0,
-                                       0,
-                                       self.bounds.size.width,
-                                       self.bounds.size.height);
-            
-            [note setBoundsWithAnimatingLayer:aBound andAnimationDuration:STACKING_DURATION];
-            
-            [UIView animateWithDuration:STACKING_DURATION delay:0
-                                options:UIViewAnimationOptionCurveEaseIn
-                             animations:^{
-                                 CGFloat currentRotation = note.rotationOffset;
-                                 CGFloat rotationRight = - M_PI_4 * 1/8;
-                                 CGFloat totalRotation = rotationRight - currentRotation;
-                                 note.transform = CGAffineTransformRotate(note.transform, totalRotation);
-                                 
-                                 note.bounds = CGRectMake(0,
-                                                          0,
-                                                          self.bounds.size.width,
-                                                          self.bounds.size.height);
-                                 note.center = self.center;
-                             }completion:^(BOOL finished){
-                                 
-                                 [note removeFromSuperview];
-                                 
-                                 
-                                 note.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
-                                 note.bounds = CGRectMake(0,
-                                                          0,
-                                                          self.bounds.size.width,
-                                                          self.bounds.size.height);
-                                 
-                                 //if we are laying this on top of something else make sure it actually appears on top
-                                 int index = [self.views indexOfObject:note];
-                                 
-                                 if (index < [self.views count] - 1)
-                                 {
-                                     [self insertSubview:note
-                                            belowSubview:self.views[index+1]];
-                                 }
-                                 else
-                                 {
-                                     [self addSubview:note];
-                                 }
-
-                             }
-             ];
+            [self animateStackingOfBelowItems:note withRotationAngle:-M_PI_4 * 1/8];
         }
         
         //rotate the third to top to the left
         else if ( i == [self.views count] - 3)
         {
-            
-            CGRect aBound = CGRectMake(0,
-                                       0,
-                                       self.bounds.size.width,
-                                       self.bounds.size.height);
-            [note setBoundsWithAnimatingLayer:aBound andAnimationDuration:STACKING_DURATION];
-
-            [UIView animateWithDuration:STACKING_DURATION delay:0
-                                options:UIViewAnimationOptionCurveEaseIn
-                             animations:^{
-                                 CGFloat currentRotation = note.rotationOffset;
-                                 // PI / 6
-                                 CGFloat rotationRight = + M_PI_4 * 1/8;
-                                 CGFloat totalRotation = rotationRight - currentRotation;
-                                 
-                                 note.transform = CGAffineTransformRotate(note.transform, totalRotation);
-                                 
-                                 note.bounds = CGRectMake(0,
-                                                          0,
-                                                          self.bounds.size.width,
-                                                          self.bounds.size.height);
-                                 note.center = self.center;
-                             }completion:^(BOOL finished){
-                                 
-                                 [note removeFromSuperview];
-                                 
-                                 
-                                 note.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
-                                 note.bounds = CGRectMake(0,
-                                                          0,
-                                                          self.bounds.size.width,
-                                                          self.bounds.size.height);
-                                 
-                                 
-                                 int index = [self.views indexOfObject:note];
-                                 
-                                 if (index < [self.views count] - 1)
-                                 {
-                                     [self insertSubview:note
-                                            belowSubview:self.views[index+1]];
-                                 }
-                                 else
-                                 {
-                                     [self addSubview:note];
-                                 }
-                                 
-                             }
-             ];
+            [self animateStackingOfBelowItems:note withRotationAngle:+M_PI_4 * 1/8];
         }
         
         //for the rest no extra operations are needed
         else
         {
-            
-            [UIView animateWithDuration:STACKING_DURATION delay:0
-                                options:UIViewAnimationOptionCurveEaseIn
-                             animations:^{
-                                 
-                                 note.frame = CGRectMake(self.frame.origin.x,
-                                                         self.frame.origin.y,
-                                                         self.bounds.size.width,
-                                                         self.bounds.size.height);
-                             }completion:^(BOOL finished){
-                                 
-                                 [note removeFromSuperview];
-                                 [note resetSize];
-                                 
-                             }
-             ];
+            [self animateStackingOfInvisibleItems:note];
         }
-        
     }
 }
 

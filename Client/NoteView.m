@@ -69,10 +69,35 @@
     }
 }
 
--(void) setBoundsWithAnimatingLayer:(CGRect) bounds
-               andAnimationDuration:(CGFloat) duration
+-(void) animateLayoutChangeForBounds:(CGRect) bounds
+                        withDuration:(CGFloat) duration
+                 andAnimationOptions:(UIViewAnimationOptions) options;
 {
-    [self animateLayoutChangeForBounds:bounds withDuration:duration];
+    NSString * timingFunction = kCAMediaTimingFunctionLinear;
+    
+    if (options == UIViewAnimationOptionCurveEaseIn)
+    {
+        timingFunction = kCAMediaTimingFunctionEaseIn;
+    }
+    else if (options == UIViewAnimationOptionCurveEaseOut)
+    {
+        timingFunction = kCAMediaTimingFunctionEaseOut;
+    }
+    else if (options == UIViewAnimationOptionCurveEaseInOut)
+    {
+        timingFunction = kCAMediaTimingFunctionEaseInEaseOut;
+    }
+    
+    CABasicAnimation * animation = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
+    animation.duration = duration;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:timingFunction];
+    CGPathRef toValue = CGPathCreateWithRect(bounds,&CGAffineTransformIdentity);
+    animation.fromValue = [UIBezierPath bezierPathWithCGPath:toValue];
+    animation.toValue = [UIBezierPath bezierPathWithCGPath:self.layer.shadowPath];
+    
+    self.layer.shadowPath = toValue;
+    
+    [self.layer addAnimation:animation forKey:@"shadowPath"];
 }
 
 +(NoteView *) setLayers:(NoteView *) view
@@ -150,21 +175,6 @@
                                      self.bounds.size.height - 2 * TEXT_Y_OFFSET);
         self._textView.frame = newFrame;
     }
-}
-
--(void) animateLayoutChangeForBounds:(CGRect) bounds
-                        withDuration:(CGFloat) duration
-{
-    CABasicAnimation * animation = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
-    animation.duration = duration;
-    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
-    CGPathRef toValue = CGPathCreateWithRect(bounds,&CGAffineTransformIdentity);
-    animation.fromValue = [UIBezierPath bezierPathWithCGPath:toValue];
-    animation.toValue = [UIBezierPath bezierPathWithCGPath:self.layer.shadowPath];
-    
-    self.layer.shadowPath = toValue;
-    
-    [self.layer addAnimation:animation forKey:@"shadowPath"];
 }
 
 -(void) setBounds:(CGRect)bounds
