@@ -68,6 +68,7 @@
 		DBAC849817D5190F003D2B7F /* UpdateFragmentNamespaceElementNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBAC849717D5190F003D2B7F /* UpdateFragmentNamespaceElementNotification.m */; };
 		DBAC849B17D5191E003D2B7F /* DeleteFragmentNamespaceElementNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBAC849A17D5191E003D2B7F /* DeleteFragmentNamespaceElementNotification.m */; };
 		DBAC849E17D519E2003D2B7F /* AddFragmentNamespaceSubElementNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBAC849D17D519E2003D2B7F /* AddFragmentNamespaceSubElementNotification.m */; };
+		DBB1BB8417FF708A00E43310 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB1BB8317FF708A00E43310 /* UIImage+ImageEffects.m */; };
 		DBB7455416F647EC0029AE72 /* CategorizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB7455316F647EC0029AE72 /* CategorizationViewController.m */; };
 		DBB9313E16AB7B78005652AA /* CollectionLayoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */; };
 		DBB9314116ABDEA4005652AA /* CollectionAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB9314016ABDEA4005652AA /* CollectionAnimationHelper.m */; };
@@ -251,6 +252,8 @@
 		DBAC849A17D5191E003D2B7F /* DeleteFragmentNamespaceElementNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteFragmentNamespaceElementNotification.m; sourceTree = "<group>"; };
 		DBAC849C17D519E2003D2B7F /* AddFragmentNamespaceSubElementNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFragmentNamespaceSubElementNotification.h; sourceTree = "<group>"; };
 		DBAC849D17D519E2003D2B7F /* AddFragmentNamespaceSubElementNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFragmentNamespaceSubElementNotification.m; sourceTree = "<group>"; };
+		DBB1BB8217FF708A00E43310 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		DBB1BB8317FF708A00E43310 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		DBB7455216F647EC0029AE72 /* CategorizationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorizationViewController.h; sourceTree = "<group>"; };
 		DBB7455316F647EC0029AE72 /* CategorizationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorizationViewController.m; sourceTree = "<group>"; };
 		DBB7455516F676E50029AE72 /* CategorizationViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorizationViewDelegate.h; sourceTree = "<group>"; };
@@ -522,6 +525,7 @@
 		D7BF466315472E0D00F06412 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				DBB1BB7B17FF688B00E43310 /* Effects */,
 				DBC4E34E17F14B5100F595FE /* MMDrawerController */,
 				DBC1B7F517CAD9050036431A /* Types */,
 				DBB9313B16AB7B5B005652AA /* Helpers */,
@@ -782,6 +786,15 @@
 			name = FragmentNamespaceSubElement;
 			sourceTree = "<group>";
 		};
+		DBB1BB7B17FF688B00E43310 /* Effects */ = {
+			isa = PBXGroup;
+			children = (
+				DBB1BB8217FF708A00E43310 /* UIImage+ImageEffects.h */,
+				DBB1BB8317FF708A00E43310 /* UIImage+ImageEffects.m */,
+			);
+			name = Effects;
+			sourceTree = "<group>";
+		};
 		DBB9313B16AB7B5B005652AA /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1039,6 +1052,7 @@
 				D7B1432D1526A50400DC7556 /* MindcloudCollection.m in Sources */,
 				D7DEF2C41530D37800D13CF4 /* FileSystemHelper.m in Sources */,
 				DBF1CEDD17C94A9C000777F7 /* MindcloudCollectionGordon.m in Sources */,
+				DBB1BB8417FF708A00E43310 /* UIImage+ImageEffects.m in Sources */,
 				D7BF46661547303700F06412 /* AllCollectionsViewController.m in Sources */,
 				DBC4E35B17F14B5100F595FE /* UIViewController+MMDrawerController.m in Sources */,
 				D71EA185154CD3FB00496663 /* CollectionViewController.m in Sources */,
@@ -1218,6 +1232,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1241,6 +1256,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
