@@ -302,6 +302,7 @@
     {
         NSArray * subElements = [self getXMLFragmentNamespaceSubElementsWithName:namespaceSubElementName
                                                                      inNamespace:namespaceName];
+        BOOL found = NO;
         if (subElements != nil && [subElements count] > 0)
         {
             for (DDXMLElement * subElement in subElements)
@@ -312,6 +313,7 @@
                 {
                     
                     
+                    found = YES;
                     NSUInteger index = [subElement index];
                     DDXMLElement * parent = (DDXMLElement *) subElement.parent;
                     
@@ -325,6 +327,10 @@
                     [newElement detach];
                     [parent addChild:newElement];
                 }
+            }
+            if (found == NO)
+            {
+                [self addFragmentNamespaceSubElement:newNamespaceSubElement];
             }
         }
         else if (subElements == nil || [subElements count] == 0)
