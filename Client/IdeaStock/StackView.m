@@ -102,6 +102,11 @@
     return self;
 }
 
+-(CGFloat) rotationAngleForStacking
+{
+    return M_PI_4 * 1/8;
+}
+
 -(void) animateStackingOfTopItem:(NoteView *) note
 {
     
@@ -239,19 +244,82 @@
         else if ( i == [self.views count] - 2)
         {
             
-            [self animateStackingOfBelowItems:note withRotationAngle:-M_PI_4 * 1/8];
+            [self animateStackingOfBelowItems:note withRotationAngle:-[self rotationAngleForStacking]];
         }
         
         //rotate the third to top to the left
         else if ( i == [self.views count] - 3)
         {
-            [self animateStackingOfBelowItems:note withRotationAngle:+M_PI_4 * 1/8];
+            [self animateStackingOfBelowItems:note withRotationAngle:[self rotationAngleForStacking]];
         }
         
         //for the rest no extra operations are needed
         else
         {
             [self animateStackingOfInvisibleItems:note];
+        }
+    }
+}
+
+-(void) gatherNotesIntoStack
+{
+    for (int i = 0 ; i < [self.views count]; i++)
+    {
+        NoteView * note = self.views[i];
+        
+        //first clean the note up
+        for(UIGestureRecognizer * gr in note.gestureRecognizers)
+        {
+            [note removeGestureRecognizer:gr];
+        }
+        
+        //if its the top of the stack move it on top without rotation
+        [note removeFromSuperview];
+        
+        note.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+        note.bounds = CGRectMake(0,
+                                 0,
+                                 self.bounds.size.width,
+                                 self.bounds.size.height);
+        
+        if (i == [self.views count] - 1)
+        {
+            [self addSubview:note];
+        }
+        
+        else if ( i == [self.views count] - 2 || i == [self.views count] - 3)
+        {
+            
+            //if we are laying this on top of something else make sure it actually appears on top
+            int index = [self.views indexOfObject:note];
+            
+            if (index < [self.views count] - 1)
+            {
+                [self insertSubview:note
+                       belowSubview:self.views[index+1]];
+            }
+            else
+            {
+                [self addSubview:note];
+            }
+            
+            CGFloat totalRotation = [self rotationAngleForStacking];
+            
+            if (i == [self.views count] -2 )
+            {
+                note.transform = CGAffineTransformRotate(note.transform, -totalRotation);
+            }
+            else
+            {
+                
+                note.transform = CGAffineTransformRotate(note.transform, totalRotation);
+            }
+        }
+        
+        //for the rest no extra operations are needed
+        else
+        {
+            [note resetSize];
         }
     }
 }

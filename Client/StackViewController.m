@@ -404,6 +404,7 @@
 -(IBAction)backPressed:(id)sender{
     if ( self.highLightedNote) self.highLightedNote.highlighted = NO;
     [self.delegate returnedstackViewController:self];
+    [self.openStack gatherNotesIntoStack];
 }
 
 -(IBAction)deletePressed:(id)sender {
