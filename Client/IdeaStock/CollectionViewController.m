@@ -843,7 +843,7 @@
         StackView * stack = (StackView *) view;
         for(NoteView * stackNoteView in stack.views){
             //stackNoteView.center = stack.center;
-            [self updateNoteLocation:stackNoteView];
+            [self updateNoteLocation:stackNoteView toMainView:stack];
         }
     }
 }
@@ -1223,6 +1223,7 @@
     oldModel.positionY = positionY;
     [self.board updateNoteAttributes:noteID withModel:oldModel];
 }
+
 -(void) updateNoteLocation:(NoteView *) view
 {
     NSString * noteID = view.ID;

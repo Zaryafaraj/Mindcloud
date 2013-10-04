@@ -72,6 +72,15 @@
     //nothing to do in stack view
 }
 
+-(void) setCenter:(CGPoint)center
+{
+    [super setCenter:center];
+//    for (UIView * noteView in self.views)
+//    {
+//        noteView.center = center;
+//    }
+}
+
 //Stack view consists of a bigger transparetn view which includes at most the top 3 notes
 -(id) initWithViews: (NSMutableArray *) views
         andMainView: (NoteView *) mainView
@@ -79,6 +88,7 @@
 {
     self = [super initWithFrame:frame];
     
+    self.backgroundColor = [UIColor greenColor];
     if (self)
     {
         self.views = views;
