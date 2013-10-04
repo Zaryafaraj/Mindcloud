@@ -359,7 +359,10 @@ withMoveNoteFunction:(update_note_location_function) updateNote
             InCollectionView:(UIView *) collectionView
 {
     
-    CGRect frame = CGRectMake(location.x, location.y, NOTE_WIDTH, NOTE_HEIGHT);
+    CGRect frame = CGRectMake(location.x - NOTE_WIDTH/2,
+                              location.y - NOTE_HEIGHT/2,
+                              NOTE_WIDTH,
+                              NOTE_HEIGHT);
     return [self adjustFrame:frame forView:view forBoundsOfView:collectionView];
     
     
