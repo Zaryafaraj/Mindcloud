@@ -362,6 +362,7 @@
     NSLog(@"Notes in stacking: %d", [self.notes count]);
     for (NoteView * view in self.notes){
         view.delegate = self;
+        view._textView.editable = YES;
     }
     
     //figure out the toolbar

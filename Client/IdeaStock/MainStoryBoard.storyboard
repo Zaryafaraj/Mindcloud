@@ -594,13 +594,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Felt-Blue.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="lJa-BH-sdI">
-                                <rect key="frame" x="0.0" y="21" width="540" height="619"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="619" id="2Yk-PA-UiN"/>
-                                </constraints>
-                            </imageView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="zTy-aI-wC0">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zTy-aI-wC0">
                                 <rect key="frame" x="0.0" y="0.0" width="540" height="44"/>
                                 <items>
                                     <barButtonItem systemItem="done" id="Nkp-pn-qUR">
@@ -615,28 +609,24 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem systemItem="trash" id="TKt-9e-sZG">
-                                        <color key="tintColor" red="0.77096619899999996" green="0.0085596043070000002" blue="0.025293316020000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="deletePressed:" destination="roQ-DY-ZM6" id="yCh-gs-flT"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
+                                <color key="barTintColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jWv-aN-rSC">
                                 <rect key="frame" x="0.0" y="42" width="549" height="578"/>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" red="0.96406502660000004" green="0.98895901009999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="jWv-aN-rSC" firstAttribute="leading" secondItem="Y8o-xz-LjN" secondAttribute="leading" id="0ya-2M-sDx"/>
                             <constraint firstItem="jWv-aN-rSC" firstAttribute="top" secondItem="Y8o-xz-LjN" secondAttribute="top" constant="42" id="8Si-iq-41U"/>
                             <constraint firstItem="zTy-aI-wC0" firstAttribute="trailing" secondItem="Y8o-xz-LjN" secondAttribute="trailing" id="Ltv-5t-0oS"/>
                             <constraint firstItem="zTy-aI-wC0" firstAttribute="top" secondItem="Y8o-xz-LjN" secondAttribute="top" id="Y0K-xR-FXV"/>
-                            <constraint firstItem="lJa-BH-sdI" firstAttribute="trailing" secondItem="Y8o-xz-LjN" secondAttribute="trailing" id="YRL-Lb-0mh"/>
                             <constraint firstItem="zTy-aI-wC0" firstAttribute="leading" secondItem="Y8o-xz-LjN" secondAttribute="leading" id="gHL-Ny-sZ3"/>
                             <constraint firstAttribute="trailing" secondItem="jWv-aN-rSC" secondAttribute="trailing" constant="-9" id="nBB-na-5y6"/>
-                            <constraint firstItem="lJa-BH-sdI" firstAttribute="top" secondItem="Y8o-xz-LjN" secondAttribute="top" constant="21" id="pLU-VP-HKd"/>
-                            <constraint firstItem="lJa-BH-sdI" firstAttribute="leading" secondItem="Y8o-xz-LjN" secondAttribute="leading" id="s09-kk-sW0"/>
                             <constraint firstItem="jWv-aN-rSC" firstAttribute="bottom" secondItem="Y8o-xz-LjN" secondAttribute="bottom" id="wjJ-6V-wc1"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -699,7 +689,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Felt-Blue.jpg" width="1024" height="1024"/>
         <image name="rainbow" width="2556" height="100"/>
         <image name="test_image_note.jpg" width="700" height="525"/>
     </resources>

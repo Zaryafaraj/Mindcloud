@@ -234,6 +234,8 @@
             [note removeGestureRecognizer:gr];
         }
         
+        note._textView.editable = NO;
+        
         //if its the top of the stack move it on top without rotation
         if (i == [self.views count] - 1)
         {
@@ -273,6 +275,7 @@
             [note removeGestureRecognizer:gr];
         }
         
+        note._textView.editable = NO;
         //if its the top of the stack move it on top without rotation
         [note removeFromSuperview];
         
