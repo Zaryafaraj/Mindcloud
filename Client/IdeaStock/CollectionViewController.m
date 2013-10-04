@@ -1804,6 +1804,8 @@ intoStackingWithMainView: (UIView *) mainView
         imagePicker= [MultimediaHelper getCameraController];
         if (imagePicker)
         {
+            
+            imagePicker.modalPresentationCapturesStatusBarAppearance = NO;
             [self presentViewController:imagePicker animated:YES completion:^{}];
             imagePicker.delegate = self;
         }
@@ -1816,6 +1818,7 @@ intoStackingWithMainView: (UIView *) mainView
         [[UIPopoverController alloc] initWithContentViewController:imagePicker];
         self.lastPopOver = presenter;
         self.lastPopOver.delegate = self;
+        imagePicker.modalPresentationCapturesStatusBarAppearance = NO;
         [presenter presentPopoverFromBarButtonItem:self.cameraButton
                           permittedArrowDirections:UIPopoverArrowDirectionAny
                                           animated:YES];
@@ -1861,6 +1864,12 @@ intoStackingWithMainView: (UIView *) mainView
     [self addImageNoteToModel:note withId:noteID];
     [self.lastPopOver dismissPopoverAnimated:YES];
     self.lastPopOver = nil;
+}
+
+//To make status bar color consistent
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 #pragma mark - popover delegate

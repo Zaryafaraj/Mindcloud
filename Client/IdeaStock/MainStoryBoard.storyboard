@@ -629,14 +629,11 @@
                             <constraint firstAttribute="trailing" secondItem="jWv-aN-rSC" secondAttribute="trailing" constant="-9" id="nBB-na-5y6"/>
                             <constraint firstItem="jWv-aN-rSC" firstAttribute="bottom" secondItem="Y8o-xz-LjN" secondAttribute="bottom" id="wjJ-6V-wc1"/>
                         </constraints>
-                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <value key="contentSizeForViewInPopover" type="size" width="900" height="540"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-                    <modalFormSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="stackView" destination="jWv-aN-rSC" id="e30-Gj-JFp"/>
                         <outlet property="toolbar" destination="zTy-aI-wC0" id="GNj-II-bV7"/>
