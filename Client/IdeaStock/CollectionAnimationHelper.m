@@ -13,13 +13,20 @@
 +(void) animateNoteAddition:(NoteView *)note
                toCollectionView:(UIView *) collectionView
 {
-    note.transform = CGAffineTransformScale(note.transform, 10, 10);
-    note.alpha = 0;
+    note.transform = CGAffineTransformScale(note.transform, 0.10, 0.10);
+    note.alpha = 1;
     
-    [UIView animateWithDuration:0.25 animations:^{
-        note.transform = CGAffineTransformScale(note.transform, 0.1, 0.1);
-        note.alpha = 1;
-    }];
+    [UIView animateWithDuration:0.4
+                          delay:0
+         usingSpringWithDamping:0.4
+          initialSpringVelocity:2.0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         note.transform = CGAffineTransformScale(note.transform, 10, 10);
+                         //note.alpha = 1;
+                         
+                     }completion:nil];
+                         
     
     [collectionView addSubview:note];
 }

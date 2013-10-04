@@ -406,6 +406,7 @@
             StackView * stackRef = stack;
             self.stackViews[stackId] = stackRef;
             [self addGestureRecognizersToStack:stack];
+            [self.collectionView addSubview:stack];
         }
     }
 }
@@ -1496,6 +1497,7 @@ withDestinationView:(UIView *) destinationView
     stack.ID = stackingID;
     
     [self addGestureRecognizersToStack:stack];
+    [self.collectionView addSubview:stack];
 }
 
 -(NSString *) mergeItems: (NSArray *)items
