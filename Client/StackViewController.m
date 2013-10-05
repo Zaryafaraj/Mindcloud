@@ -39,6 +39,7 @@
 -(void) setOpenStack:(StackView *)openStack
 {
     _openStack = openStack;
+    [openStack stackWillOpen];
     for(NoteView * view in _openStack.views){
         for (UIGestureRecognizer * gr in [view gestureRecognizers]){
             [view removeGestureRecognizer:gr];
@@ -430,7 +431,7 @@
 -(IBAction)backPressed:(id)sender{
     if ( self.highLightedNote) self.highLightedNote.highlighted = NO;
     [self.delegate returnedstackViewController:self];
-    [self.openStack gatherNotesIntoStack];
+    [self.openStack stackWillClose];;
 }
 
 -(IBAction)deletePressed:(id)sender {

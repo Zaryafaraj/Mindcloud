@@ -16,6 +16,7 @@
 @interface StackView()
 
 @property CGRect originalFrame;
+@property NSMutableArray * tempTopItems;
 
 @end
 
@@ -75,10 +76,6 @@
 -(void) setCenter:(CGPoint)center
 {
     [super setCenter:center];
-//    for (UIView * noteView in self.views)
-//    {
-//        noteView.center = center;
-//    }
 }
 
 //Stack view consists of a bigger transparetn view which includes at most the top 3 notes
@@ -88,7 +85,6 @@
 {
     self = [super initWithFrame:frame];
     
-    self.backgroundColor = [UIColor greenColor];
     if (self)
     {
         self.views = views;
@@ -263,8 +259,15 @@
     }
 }
 
--(void) gatherNotesIntoStack
+-(void) stackWillClose
 {
+    for (NoteView * view in self.tempTopItems)
+    {
+        [view removeFromSuperview];
+    }
+    
+    [self.tempTopItems removeAllObjects];
+    
     for (int i = 0 ; i < [self.views count]; i++)
     {
         NoteView * note = self.views[i];
@@ -325,6 +328,76 @@
             [note resetSize];
         }
     }
+}
+
+-(void) stackWillOpen
+{
+    
+    NSMutableArray * tempItems = [NSMutableArray arrayWithCapacity:MAX_VISIBLE_NOTES];
+    for (int i = 0 ; i < [self.views count]; i++)
+    {
+        NoteView * note = self.views[i];
+        //if its the top of the stack move it on top without rotation
+        
+        if (i == [self.views count] - 1)
+        {
+            //remove the original one from superview
+            [note removeFromSuperview];
+            NoteView * mockNote = [note prototype];
+            mockNote.hidden = NO;
+            mockNote.text = note.text;
+            
+            mockNote.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+            mockNote.bounds = CGRectMake(0,
+                                         0,
+                                         self.bounds.size.width,
+                                         self.bounds.size.height);
+            [self addSubview:mockNote];
+            [tempItems addObject:mockNote];
+        }
+        
+        else if ( i == [self.views count] - 2 ||
+                  i == [self.views count] - 3)
+        {
+            
+            [note removeFromSuperview];
+            
+            NoteView * mockNote = [note prototype];
+            mockNote.text = note.text;
+            
+            mockNote.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+            mockNote.bounds = CGRectMake(0,
+                                     0,
+                                     self.bounds.size.width,
+                                     self.bounds.size.height);
+            
+            int index = [self.views indexOfObject:note];
+            
+            if (index < [self.views count] - 1)
+            {
+                [self insertSubview:mockNote
+                       belowSubview:self.views[index+1]];
+            }
+            else
+            {
+                [self addSubview:mockNote];
+            }
+            
+            CGFloat totalRotation = [self rotationAngleForStacking];
+            
+            if (i == [self.views count] -2 )
+            {
+                mockNote.transform = CGAffineTransformRotate(note.transform, -totalRotation);
+            }
+            else
+            {
+                
+                mockNote.transform = CGAffineTransformRotate(note.transform, totalRotation);
+            }
+            [tempItems addObject:mockNote];
+        }
+    }
+    self.tempTopItems = tempItems;
 }
 
 -(void) cleanupNote:(NoteView *) noteView
