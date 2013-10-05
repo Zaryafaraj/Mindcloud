@@ -7,7 +7,7 @@
 //
 
 #import "CollectionViewController.h"
-
+#import "ThemeFactory.h"
 #import "NoteView.h"
 #import "StackView.h"
 #import "StackViewController.h"
@@ -913,6 +913,7 @@
 
 -(void) viewWillAppear:(BOOL)animated{
 //    [self.collectionView setBackgroundColor:[UIColor clearColor]];
+    self.collectionView.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
     UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
     titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     

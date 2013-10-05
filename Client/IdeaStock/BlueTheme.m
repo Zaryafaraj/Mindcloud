@@ -16,4 +16,10 @@
     return aColor;
 }
 
+-(UIColor *) collectionBackgroundColor
+{
+    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"signin_backgroun_pattern"]];
+    //return [UIColor colorWithPatternImage:[UIImage imageNamed:@"signin_backgroun_pattern"]];
+}
+
 @end

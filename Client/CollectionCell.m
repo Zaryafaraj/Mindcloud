@@ -8,6 +8,8 @@
 
 #import "CollectionCell.h"
 #import <QuartzCore/QuartzCore.h>
+#import "ThemeFactory.h"
+
 @interface CollectionCell()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *picImage;
@@ -22,8 +24,8 @@
     {
         UIView *bgView = [[UIView alloc] initWithFrame:self.backgroundView.frame];
         bgView.backgroundColor = [UIColor clearColor];
-//        self.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"frame.png"]];
-        bgView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+        self.picImage.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
+        bgView.layer.borderColor = [[UIColor orangeColor] CGColor];
         bgView.layer.borderWidth = 3;
         self.selectedBackgroundView = bgView;
     }
@@ -39,6 +41,8 @@
 {
     _img = img;
     _picImage.image = img;
+    
+    self.picImage.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
 }
 /*
 // Only override drawRect: if you perform custom drawing.

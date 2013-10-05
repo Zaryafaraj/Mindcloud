@@ -638,8 +638,8 @@
     //if there is no image on the server use our default image
     if (!imgData)
     {
-        UIImage * defaultImage = [UIImage imageNamed: @"felt-red-ipad-background.jpg"];
-        imgData = UIImageJPEGRepresentation(defaultImage, 1);
+//        UIImage * defaultImage = [UIImage imageNamed: @"felt-red-ipad-background.jpg"];
+//        imgData = UIImageJPEGRepresentation(defaultImage, 1);
     }
     
     id<MindcloudAllCollectionsGordonDelegate> tempDel = self.delegate;

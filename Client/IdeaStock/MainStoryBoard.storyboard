@@ -309,8 +309,8 @@
                                                     <rect key="frame" x="3" y="3" width="234" height="244"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bPz-ZN-VKJ">
-                                                    <rect key="frame" x="3" y="3" width="234" height="66"/>
+                                                <view alpha="0.90000000000000013" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bPz-ZN-VKJ">
+                                                    <rect key="frame" x="3" y="181" width="234" height="66"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Mindcloud" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xiw-0D-LDI">
                                                             <rect key="frame" x="0.0" y="0.0" width="250" height="69"/>
@@ -333,10 +333,10 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="bPz-ZN-VKJ" firstAttribute="top" secondItem="WAv-an-XHa" secondAttribute="top" constant="3" id="3OR-Ji-A1t"/>
+                                            <constraint firstItem="bPz-ZN-VKJ" firstAttribute="top" secondItem="WAv-an-XHa" secondAttribute="top" constant="181" id="3OR-Ji-A1t"/>
                                             <constraint firstItem="bPz-ZN-VKJ" firstAttribute="centerX" secondItem="WAv-an-XHa" secondAttribute="centerX" id="IVJ-2l-xzG"/>
                                             <constraint firstItem="bPz-ZN-VKJ" firstAttribute="leading" secondItem="WAv-an-XHa" secondAttribute="leading" constant="3" id="mVY-E9-M9m"/>
-                                            <constraint firstAttribute="bottom" secondItem="bPz-ZN-VKJ" secondAttribute="bottom" constant="181" id="nbJ-1N-ORC"/>
+                                            <constraint firstAttribute="bottom" secondItem="bPz-ZN-VKJ" secondAttribute="bottom" constant="3" id="nbJ-1N-ORC"/>
                                         </constraints>
                                         <size key="customSize" width="240" height="250"/>
                                         <connections>
@@ -617,7 +617,7 @@
                                 </items>
                                 <color key="barTintColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
-                            <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Felt-Blue.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="SJT-nK-4sU">
+                            <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SJT-nK-4sU">
                                 <rect key="frame" x="0.0" y="42" width="540" height="578"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
@@ -697,7 +697,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Felt-Blue.jpg" width="1024" height="1024"/>
         <image name="rainbow" width="2556" height="100"/>
         <image name="test_image_note.jpg" width="700" height="525"/>
     </resources>

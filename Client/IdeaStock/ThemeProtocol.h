@@ -12,4 +12,6 @@
 
 -(UIColor *) tintColor;
 
+-(UIColor *) collectionBackgroundColor;
+
 @end

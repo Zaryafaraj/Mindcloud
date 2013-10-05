@@ -703,7 +703,7 @@
         
         if (previewImageData == nil)
         {
-            colCell.img = [UIImage imageNamed:@"felt-red-ipad-background.jpg"];
+            colCell.img = nil;
         }
         else if ([colCell.text isEqualToString:collectionName])
         {

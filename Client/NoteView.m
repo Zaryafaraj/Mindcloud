@@ -108,7 +108,7 @@
     view.layer.edgeAntialiasingMask = kCALayerTopEdge | kCALayerBottomEdge | kCALayerRightEdge | kCALayerLeftEdge;
     view.clipsToBounds = NO;
     view.layer.masksToBounds = NO;
-    view.layer.shadowColor = [UIColor grayColor].CGColor;
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
     view.layer.shadowOffset = CGSizeMake(1, 2);
     view.layer.shadowOpacity = 0.9;
     return view;
