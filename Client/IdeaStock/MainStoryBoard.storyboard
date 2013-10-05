@@ -549,7 +549,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.66617245400000002" green="0.67325939450000005" blue="0.70160721010000004" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="O4b-nD-qa5" firstAttribute="top" secondItem="rJw-4W-tVJ" secondAttribute="top" id="1x3-lX-pjo"/>
                                     <constraint firstAttribute="trailing" secondItem="rJw-4W-tVJ" secondAttribute="trailing" constant="452" id="DpA-cx-XjE"/>
@@ -560,7 +560,7 @@
                                 </constraints>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" red="0.66617245400000002" green="0.67325939450000005" blue="0.70160721010000004" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="QXW-F8-5QD" firstAttribute="leading" secondItem="4HH-7a-1rX" secondAttribute="leading" id="2M0-XH-7Nh"/>
                             <constraint firstAttribute="trailing" secondItem="QXW-F8-5QD" secondAttribute="trailing" id="IQu-Ou-Cuj"/>
@@ -595,7 +595,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFit" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zTy-aI-wC0">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zTy-aI-wC0">
                                 <rect key="frame" x="0.0" y="0.0" width="540" height="44"/>
                                 <items>
                                     <barButtonItem systemItem="done" id="Nkp-pn-qUR">
@@ -621,7 +621,7 @@
                                 <rect key="frame" x="0.0" y="42" width="549" height="578"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jWv-aN-rSC">
+                            <scrollView autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jWv-aN-rSC">
                                 <rect key="frame" x="0.0" y="42" width="549" height="578"/>
                             </scrollView>
                         </subviews>

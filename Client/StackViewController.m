@@ -407,7 +407,7 @@
 
 -(void) viewDidAppear:(BOOL)animated
 {
-    //[self layoutNotes:NO];
+    [self layoutNotes:NO];
 }
 
 -(void) viewDidDisappear:(BOOL)animated

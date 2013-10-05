@@ -912,7 +912,7 @@
 #pragma mark - UI Events
 
 -(void) viewWillAppear:(BOOL)animated{
-    [self.collectionView setBackgroundColor:[UIColor clearColor]];
+//    [self.collectionView setBackgroundColor:[UIColor clearColor]];
     UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
     titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     
