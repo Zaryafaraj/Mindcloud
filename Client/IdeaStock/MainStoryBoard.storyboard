@@ -617,22 +617,27 @@
                                 </items>
                                 <color key="barTintColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
-                            <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SJT-nK-4sU">
-                                <rect key="frame" x="0.0" y="42" width="549" height="578"/>
+                            <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Felt-Blue.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="SJT-nK-4sU">
+                                <rect key="frame" x="0.0" y="42" width="540" height="578"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <scrollView autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jWv-aN-rSC">
-                                <rect key="frame" x="0.0" y="42" width="549" height="578"/>
+                                <rect key="frame" x="0.0" y="42" width="540" height="578"/>
                             </scrollView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="jWv-aN-rSC" firstAttribute="leading" secondItem="Y8o-xz-LjN" secondAttribute="leading" id="0ya-2M-sDx"/>
-                            <constraint firstItem="jWv-aN-rSC" firstAttribute="top" secondItem="Y8o-xz-LjN" secondAttribute="top" constant="42" id="8Si-iq-41U"/>
-                            <constraint firstItem="zTy-aI-wC0" firstAttribute="trailing" secondItem="Y8o-xz-LjN" secondAttribute="trailing" id="Ltv-5t-0oS"/>
-                            <constraint firstItem="zTy-aI-wC0" firstAttribute="top" secondItem="Y8o-xz-LjN" secondAttribute="top" id="Y0K-xR-FXV"/>
-                            <constraint firstItem="zTy-aI-wC0" firstAttribute="leading" secondItem="Y8o-xz-LjN" secondAttribute="leading" id="gHL-Ny-sZ3"/>
-                            <constraint firstAttribute="trailing" secondItem="jWv-aN-rSC" secondAttribute="trailing" constant="-9" id="nBB-na-5y6"/>
-                            <constraint firstItem="jWv-aN-rSC" firstAttribute="bottom" secondItem="Y8o-xz-LjN" secondAttribute="bottom" id="wjJ-6V-wc1"/>
+                            <constraint firstAttribute="bottom" secondItem="jWv-aN-rSC" secondAttribute="bottom" id="3mB-Nb-Iw9"/>
+                            <constraint firstItem="zTy-aI-wC0" firstAttribute="leading" secondItem="Y8o-xz-LjN" secondAttribute="leading" id="4El-XM-SQo"/>
+                            <constraint firstItem="SJT-nK-4sU" firstAttribute="leading" secondItem="jWv-aN-rSC" secondAttribute="leading" id="4gv-YI-iRK"/>
+                            <constraint firstItem="SJT-nK-4sU" firstAttribute="height" secondItem="jWv-aN-rSC" secondAttribute="height" id="6TP-Qn-cDr"/>
+                            <constraint firstItem="jWv-aN-rSC" firstAttribute="top" secondItem="z02-yK-RNS" secondAttribute="bottom" constant="42" id="Giy-ji-w26"/>
+                            <constraint firstItem="zTy-aI-wC0" firstAttribute="top" secondItem="Y8o-xz-LjN" secondAttribute="top" id="Jcp-LO-5NX"/>
+                            <constraint firstItem="jWv-aN-rSC" firstAttribute="bottom" secondItem="SJT-nK-4sU" secondAttribute="bottom" id="LdR-GG-fJu"/>
+                            <constraint firstAttribute="trailing" secondItem="zTy-aI-wC0" secondAttribute="trailing" id="Pdq-md-Wvw"/>
+                            <constraint firstItem="zTy-aI-wC0" firstAttribute="trailing" secondItem="jWv-aN-rSC" secondAttribute="trailing" id="Scf-4W-hF3"/>
+                            <constraint firstItem="SJT-nK-4sU" firstAttribute="trailing" secondItem="jWv-aN-rSC" secondAttribute="trailing" id="hPH-nK-1xy"/>
+                            <constraint firstItem="jWv-aN-rSC" firstAttribute="leading" secondItem="zTy-aI-wC0" secondAttribute="leading" id="sLs-DL-Y7d"/>
+                            <constraint firstItem="jWv-aN-rSC" firstAttribute="top" secondItem="SJT-nK-4sU" secondAttribute="top" id="xWV-Eg-cAI"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -692,6 +697,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Felt-Blue.jpg" width="1024" height="1024"/>
         <image name="rainbow" width="2556" height="100"/>
         <image name="test_image_note.jpg" width="700" height="525"/>
     </resources>

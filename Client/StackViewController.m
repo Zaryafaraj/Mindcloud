@@ -373,7 +373,8 @@
     UIImage * bgImage = [MultimediaHelper blurRect:blurWindow
                                             inView:self.openStack.superview];
     self.bgImage.image = bgImage;
-    NSLog(@"VV - %@", self.view);
+    NSLog(@"ImageView - %@", self.bgImage);
+    NSLog(@"scrollView - %@", self.stackView);
 }
 
 -(void)viewDidLoad
@@ -408,6 +409,9 @@
 -(void) viewDidAppear:(BOOL)animated
 {
     [self layoutNotes:NO];
+    [self.view insertSubview:self.toolbar aboveSubview:self.bgImage];
+    NSLog(@"2-ImageView - %@", self.bgImage);
+    NSLog(@"2-scrollView - %@", self.stackView);
 }
 
 -(void) viewDidDisappear:(BOOL)animated
