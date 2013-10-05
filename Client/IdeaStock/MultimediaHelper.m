@@ -9,6 +9,7 @@
 #import "MultimediaHelper.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import <QuartzCore/QuartzCore.h>
+#import "UIImage+ImageEffects.h"
 
 @implementation MultimediaHelper
 #define THUMBNAIL_WIDTH 250
@@ -39,6 +40,31 @@
     imagePicker.mediaTypes = @[(NSString *) kUTTypeImage];
     imagePicker.allowsEditing = NO;
     return imagePicker;
+}
+
++ (UIImage *) blurRect:(CGRect) rect
+                inView:(UIView *) view
+{
+    // Create the image context
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, view.window.screen.scale);
+    
+    // There he is! The new API method
+    [view drawViewHierarchyInRect:view.frame afterScreenUpdates:NO];
+    
+    // Get the snapshot
+    UIImage *snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // Now apply the blur effect using Apple's UIImageEffect category
+    UIImage *blurredSnapshotImage = [snapshotImage applyLightEffect];
+    
+    // Or apply any other effects available in "UIImage+ImageEffects.h"
+    // UIImage *blurredSnapshotImage = [snapshotImage applyDarkEffect];
+    // UIImage *blurredSnapshotImage = [snapshotImage applyExtraLightEffect];
+    
+    // Be nice and clean your mess up
+    UIGraphicsEndImageContext();
+    
+    return blurredSnapshotImage;
 }
 
 + (NSData *) captureScreenshotOfView:(UIView *)view

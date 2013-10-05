@@ -853,6 +853,7 @@
     stackViewer.delegate = self;
     stackViewer.openStack = (StackView *) sender.view;
     [self presentViewController:stackViewer animated:YES completion:^{}];
+    NSLog(@"oo %@", [NSValue valueWithCGRect:self.presentedViewController.view.frame]);
 }
 
 -(void) objectRotated:(UIRotationGestureRecognizer *) sender

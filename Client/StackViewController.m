@@ -9,6 +9,7 @@
 #import "StackViewController.h"
 #import "NoteView.h"
 #import "CollectionNote.h"
+#import "MultimediaHelper.h"
 
 @interface StackViewController ()
 
@@ -17,6 +18,7 @@
 @property (strong,nonatomic) UIBarButtonItem * deleteButton;
 @property (strong,nonatomic) UIBarButtonItem * removeButton;
 @property (weak,nonatomic) UIView * lastOverlappedView;
+@property (strong, nonatomic) IBOutlet UIImageView *bgImage;
 
 @property (nonatomic) BOOL isInEditMode; 
 @property (weak, nonatomic) NoteView * highLightedNote;
@@ -355,9 +357,32 @@
 
 #pragma mark - UI Events
 
+-(void) viewWillAppear:(BOOL)animated
+{
+    self.view.backgroundColor = [UIColor clearColor];
+    CGFloat viewCenterX = self.view.center.x;
+    CGFloat viewCenterY = self.view.center.y;
+    CGFloat parentCenterX = self.openStack.superview.center.x;
+    CGFloat parentCenterY = self.openStack.superview.center.x;
+    CGFloat distanceToStartX = parentCenterX - viewCenterX;
+    CGFloat distanceToStartY = parentCenterY - viewCenterY + self.toolbar.bounds.size.height;
+    CGRect blurWindow = CGRectMake(distanceToStartX,
+                                   distanceToStartY,
+                                   self.bgImage.bounds.size.width,
+                                   self.bgImage.bounds.size.height);
+    UIImage * bgImage = [MultimediaHelper blurRect:blurWindow
+                                            inView:self.openStack.superview];
+    self.bgImage.image = bgImage;
+    NSLog(@"VV - %@", self.view);
+}
+
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor clearColor];
+    
+    
     [self.stackView setContentSize:self.stackView.bounds.size];
     NSLog(@"Notes in stacking: %d", [self.notes count]);
     for (NoteView * view in self.notes){
@@ -382,7 +407,7 @@
 
 -(void) viewDidAppear:(BOOL)animated
 {
-    [self layoutNotes:NO];
+    //[self layoutNotes:NO];
 }
 
 -(void) viewDidDisappear:(BOOL)animated

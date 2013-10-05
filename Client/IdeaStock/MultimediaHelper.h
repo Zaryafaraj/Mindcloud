@@ -17,4 +17,6 @@
 +(NSData *) getThumbnailDataforUIImage:(UIImage *) image;
 +(NSData *) captureScreenshotOfView:(UIView *)view;
 
++ (UIImage *) blurRect:(CGRect) rect
+                inView:(UIView *) view;
 @end
