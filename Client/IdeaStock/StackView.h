@@ -13,7 +13,6 @@
 @interface StackView : UIView <BulletinBoardObject,UITextViewDelegate>
 
 @property (strong,nonatomic) NSMutableArray * views;
-
 @property (weak, nonatomic, readonly) NoteView * mainView;
 
 -(id) initWithViews: (NSMutableArray *) views 
@@ -29,6 +28,8 @@
 -(void) stackWillClose;
 
 -(void) stackWillOpen;
+
+-(void) stackDidFinishMoving;
 
 -(NSSet *) getAllNoteIds;
 

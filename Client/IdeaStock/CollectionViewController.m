@@ -51,6 +51,9 @@
 @property (strong, nonatomic) IBOutlet NoteView *prototypeNoteView;
 @property (strong, nonatomic) IBOutlet ImageNoteView *prototypeImageView;
 
+
+@property (strong, nonatomic) UIDynamicAnimator * animator;
+
 @end
 
 #pragma mark - Definitions
@@ -842,6 +845,7 @@
     else if ([view isKindOfClass:[StackView class]]){
         StackView * stack = (StackView *) view;
         for(NoteView * stackNoteView in stack.views){
+            [stack stackDidFinishMoving];
             //stackNoteView.center = stack.center;
             [self updateNoteLocation:stackNoteView toMainView:stack];
         }
@@ -944,6 +948,7 @@
     self.shouldRefresh = YES;
     [self configureToolbar];
     
+    self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.collectionView];
     
     self.navigationItem.rightBarButtonItems = [self.toolbar.items copy];
     [self initateDataStructures];
