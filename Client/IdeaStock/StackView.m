@@ -18,12 +18,6 @@
 @property CGRect originalFrame;
 @property NSMutableArray * tempTopItems;
 
-@property (nonatomic, strong) UIDynamicAnimator * animator;
-@property (nonatomic, strong) UIGravityBehavior * gravity;
-
-@property (nonatomic, strong) UIAttachmentBehavior * attachmentRight;
-@property (nonatomic, strong) UIAttachmentBehavior * attachmentLeft;
-
 @end
 
 @implementation StackView
@@ -83,21 +77,8 @@
 {
     [super setCenter:center];
     
-    [self changeAnimatorForChangeCenter];
-    
 }
 
--(void) changeAnimatorForChangeCenter
-{
-    [self addMissingBehaviors];
-    for(UIDynamicBehavior * behavior in self.animator.behaviors)
-    {
-        if ([behavior isKindOfClass:[UIAttachmentBehavior class]])
-        {
-            ((UIAttachmentBehavior *)behavior).anchorPoint = self.center;
-        }
-    }
-}
 //Stack view consists of a bigger transparetn view which includes at most the top 3 notes
 -(id) initWithViews: (NSMutableArray *) views
         andMainView: (NoteView *) mainView
@@ -108,8 +89,6 @@
     if (self)
     {
         self.views = views;
-        self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.superview];
-        
         //determine the topview
         [self setTopViewForMainView:mainView];
         self.originalFrame = self.frame;
@@ -122,59 +101,6 @@
 -(CGFloat) rotationAngleForStacking
 {
     return M_PI_4 * 1/8;
-}
-
--(void) addMissingBehaviors
-{
-    if (self.attachmentRight == nil)
-    {
-      if (self.views.count >= 2)
-      {
-          NoteView * note = self.views[self.views.count - 2];
-          UIAttachmentBehavior * behavior = [self attachmentBehaviorForView:note withIndex:self.views.count -2];
-          self.attachmentRight = behavior;
-          [self.animator addBehavior:self.attachmentRight];
-      }
-    }
-    
-    if (self.attachmentLeft == nil)
-    {
-        if (self.views.count >= 3)
-        {
-            NoteView * note = self.views[self.views.count - 3];
-            UIAttachmentBehavior * behavior = [self attachmentBehaviorForView:note withIndex:self.views.count -3];
-            self.attachmentLeft = behavior;
-            [self.animator addBehavior:self.attachmentLeft];
-        }
-    }
-}
-
--(UIAttachmentBehavior *) attachmentBehaviorForView:(UIView *) view
-                        withIndex:(int) index
-{
-    
-    CGPoint anchorPoint = self.center;
-    UIAttachmentBehavior * behavior = [UIAttachmentBehavior alloc] in
-    //[[UIAttachmentBehavior alloc] initWithItem:view attachedToAnchor:anchorPoint];
-    //    behavior.frequency = 9.0;
-    //    behavior.damping = 39;
-    return behavior;
-}
-
--(void) configureAttachmentAnimationBehavior:(UIView *) view
-{
-    int index = [self.views indexOfObject:view];
-    UIAttachmentBehavior * behavior = [self attachmentBehaviorForView:view withIndex:index];
-    [self.animator addBehavior:behavior];
-    
-    if (index == [self.views count] - 2)
-    {
-        self.attachmentRight = behavior;
-    }
-    else if (index == [self.views count] - 3)
-    {
-        self.attachmentLeft = behavior;
-    }
 }
 
 -(void) animateStackingOfTopItem:(NoteView *) note
@@ -266,7 +192,6 @@
                              [self addSubview:note];
                          }
                          
-                         [self configureAttachmentAnimationBehavior:note];
                      }
      ];
 }
@@ -337,9 +262,6 @@
 
 -(void) stackDidFinishMoving
 {
-    [self.animator removeAllBehaviors];
-    self.attachmentLeft = nil;
-    self.attachmentRight = nil;
     UIView * refView = [self.views lastObject];
     for (UIView * view in self.views)
     {
