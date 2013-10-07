@@ -52,6 +52,8 @@
 
 @property MindcloudAllCollections * model;
 
+@property (nonatomic, strong) NSString * workingCollectionName;
+
 @end
 
 @implementation AllCollectionsViewController
@@ -73,6 +75,7 @@
 #define RENAME_BUTTON_TITLE @"Rename"
 #define CREATE_CATEGORY_BUTTON @"Create"
 #define ADD_BUTTON_TITLE @"Add"
+#define UNTITLED_COLLECTION_NAME @"Untitled"
 #define CATEGORIZATION_ROW_HEIGHT 44
 
 -(NSString *) currentCategory
@@ -131,7 +134,7 @@
     self.unshareButton.enabled = NO;
 }
 
--(void) addCollection: (NSString *) name
+-(NSString *) addCollection: (NSString *) name
 {
     
     NSSet * allNames = [self.model getAllCollectionNames];
@@ -149,6 +152,7 @@
         
     }
     
+    return name;
 }
 
 -(void) renameCollection: (NSString *) newName
@@ -302,13 +306,19 @@
 -(IBAction) addPressed:(id)sender {
     
     [self dismissPopOver];
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Collection"
-                                                     message:nil
-                                                    delegate:self
-                                           cancelButtonTitle:@"Cancel"
-                                           otherButtonTitles:ADD_BUTTON_TITLE, nil];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alert show];
+    [self deselectAll];
+    NSString * name = UNTITLED_COLLECTION_NAME;
+    name = [self addCollection:name];
+    
+    self.workingCollectionName = name;
+    [self performSegueWithIdentifier:@"CollectionViewSegue" sender:self];
+//    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Collection"
+//                                                     message:nil
+//                                                    delegate:self
+//                                           cancelButtonTitle:@"Cancel"
+//                                           otherButtonTitles:ADD_BUTTON_TITLE, nil];
+//    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+//    [alert show];
 }
 
 - (IBAction)renamePressed:(id)sender {
@@ -342,12 +352,6 @@
         else
         {
             if ([[alertView buttonTitleAtIndex:buttonIndex]
-                 isEqualToString:ADD_BUTTON_TITLE])
-            {
-                NSString * name = [[alertView textFieldAtIndex:0] text];
-                [self addCollection:name];
-            }
-            else if ([[alertView buttonTitleAtIndex:buttonIndex]
                       isEqualToString:RENAME_BUTTON_TITLE])
             {
                 NSString * newName = [[alertView textFieldAtIndex:0] text];
@@ -674,8 +678,9 @@
         [self.model setImageData:imgData forCollection:collectionName];
         updatedItem.img = [UIImage imageWithData:imgData];
     }
+    
     [self.collectionView deselectItemAtIndexPath:cellIndex animated:NO];
-   
+    self.workingCollectionName = nil;
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -742,8 +747,12 @@
     {
         
         NSString * name = [self getSelectedCollectionName];
+        
+        self.workingCollectionName = name;
+        
         if (!name) return;
         
+        self.workingCollectionName = name;
         [self performSegueWithIdentifier:@"CollectionViewSegue" sender:self];
     }
     
@@ -753,9 +762,22 @@
 {
     if ([segue.identifier isEqualToString:@"CollectionViewSegue"])
     {
+        NSString * name = nil;
+        if ([sender isKindOfClass:[self class]])
+        {
+            name = ((AllCollectionsViewController *) sender).workingCollectionName;
+        }
+        
+        if (name == nil)
+        {
+            name = [self getSelectedCollectionName];
+        }
+    
+        
+        if (name == nil) return;
+        
         CollectionViewController * dest = [segue destinationViewController];
         //present the collection view
-        NSString * name = [self getSelectedCollectionName];
         dest.bulletinBoardName = name;
         dest.parent = self;
         MindcloudCollection * board = [[MindcloudCollection alloc] initCollection:name];
