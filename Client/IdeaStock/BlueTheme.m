@@ -22,4 +22,20 @@
     //return [UIColor colorWithPatternImage:[UIImage imageNamed:@"signin_backgroun_pattern"]];
 }
 
+-(UIColor *) backgroundColorForAllCollectionCategory
+{
+    UIColor *aColor = [UIColor colorWithHue:0.383 saturation:0.656 brightness:0.882 alpha:1.000];
+    return  aColor;
+}
+
+-(UIColor *) backgroundColorForUncategorizedCategory
+{
+    return nil;
+}
+
+-(UIColor *) backgroundColorForSharedCategory
+{
+    return nil;
+}
+
 @end

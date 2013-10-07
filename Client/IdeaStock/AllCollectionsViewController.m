@@ -477,14 +477,14 @@
 {
     
     //title
-    UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
-    titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+//    UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
+    //titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     
-    titleView.backgroundColor = [UIColor clearColor];
-    titleView.textColor = [UIColor whiteColor];
-    self.navigationItem.titleView = titleView;
-    [titleView sizeToFit];
-    self.pageTitle = titleView;
+//    titleView.backgroundColor = [UIColor clearColor];
+//    titleView.textColor = [UIColor whiteColor];
+//    self.navigationItem.titleView = titleView;
+//    [titleView sizeToFit];
+//    self.pageTitle = titleView;
     
     //right button
     self.navigationItem.rightBarButtonItems = self.navigateToolbar;
@@ -777,14 +777,14 @@
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(240, 250);
+    return CGSizeMake(280, 250);
 }
 
 -(UIEdgeInsets) collectionView:(UICollectionView *)collectionView
                         layout:(UICollectionViewLayout *)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(60, 10,20, 10);
+    return UIEdgeInsetsMake(0, 10,10, 10);
 }
 
 #pragma mark - Table view data source
