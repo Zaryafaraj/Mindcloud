@@ -24,18 +24,25 @@
 
 -(UIColor *) backgroundColorForAllCollectionCategory
 {
-    UIColor *aColor = [UIColor colorWithHue:0.383 saturation:0.656 brightness:0.882 alpha:1.000];
+    UIColor *aColor = [UIColor colorWithHue:0.383 saturation:0.600 brightness:0.782 alpha:1.000];
     return  aColor;
 }
 
 -(UIColor *) backgroundColorForUncategorizedCategory
 {
-    return nil;
+    UIColor *aColor = [UIColor colorWithHue:0.765 saturation:0.476 brightness:0.800 alpha:1.000];
+    return aColor;
 }
 
 -(UIColor *) backgroundColorForSharedCategory
 {
-    return nil;
+    UIColor *aColor = [UIColor colorWithHue:0.061 saturation:0.775 brightness:0.950 alpha:1.000];;
+    return aColor;
 }
 
+-(UIColor *) backgroundColorForCustomCategory
+{
+    UIColor *aColor = [UIColor colorWithHue:0.006 saturation:0.576 brightness:1.000 alpha:1.000];
+    return aColor;
+}
 @end

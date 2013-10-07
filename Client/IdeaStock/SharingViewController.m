@@ -11,7 +11,7 @@
 
 @interface SharingViewController()
 @property (weak, nonatomic) IBOutlet UILabel *sharingLabel;
-@property (weak, nonatomic) IBOutlet UITextField *SharingSecretText;
+@property (weak, nonatomic) IBOutlet UILabel *SharingSecretText;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *textCopyButton;
 @property (weak, nonatomic) IBOutlet UIButton *emailButton;

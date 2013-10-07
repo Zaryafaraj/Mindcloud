@@ -20,4 +20,6 @@
 
 -(UIColor *) backgroundColorForSharedCategory;
 
+-(UIColor *) backgroundColorForCustomCategory;
+
 @end

@@ -17,6 +17,8 @@
 #import "CategorizationViewController.h"
 #import "NamingHelper.h"
 #import "AllCollectionsNavigationControllerViewController.h"
+#import "ThemeFactory.h"
+#import "AllCollectionsAnimationHelper.h"
 
 @interface AllCollectionsViewController()
 
@@ -25,7 +27,6 @@
 @property (strong, nonatomic) NSArray * editToolbar;
 @property (strong, nonatomic) NSArray * navigateToolbar;
 @property (strong, nonatomic) NSArray * cancelToolbar;
-@property (strong, nonatomic) NSArray * shareToolbar;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *categorizeButton;
 @property (strong, nonatomic) UIColor * lastCategorizeButtonColor;
@@ -39,13 +40,15 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *showSideMenuButton;
 
 @property (strong, nonatomic) UIPopoverController * lastPopOver;
-@property (weak, nonatomic) UILabel *pageTitle;
+@property (weak, nonatomic) IBOutlet UILabel *pageTitle;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property BOOL isEditing;
 @property (strong, nonatomic) NSString * currentCategory;
 @property (weak, nonatomic) UIActionSheet * activeSheet;
 @property BOOL didCategoriesPresentAlertView;
 @property BOOL isInSharingMode;
+
+@property (strong, nonatomic) AllCollectionsAnimationHelper * animatinHelper;
 
 @property MindcloudAllCollections * model;
 
@@ -58,7 +61,7 @@
 #define DELETE_BUTTON @"Delete"
 #define CANCEL_BUTTON @"Done"
 #define RENAME_BUTTON @"Rename"
-#define EDIT_BUTTON @"Edit"
+#define EDIT_BUTTON @"Select"
 #define CATEGORIZE_BUTTON @"Categorize"
 #define SHARE_BUTTON @"Share"
 #define UNSHARE_BUTTON @"Unshare"
@@ -78,7 +81,6 @@
     {
         _currentCategory = ALL;
         self.pageTitle.text = _currentCategory;
-        [self.pageTitle sizeToFit];
     }
     return _currentCategory;
 }
@@ -86,8 +88,25 @@
 -(void) setCurrentCategory:(NSString *)currentCategory
 {
     _currentCategory = currentCategory;
+    UIColor * aColor = [[ThemeFactory currentTheme] backgroundColorForCustomCategory];
+    
+    if ([self.pageTitle.text isEqualToString:ALL])
+    {
+        aColor = [[ThemeFactory currentTheme] backgroundColorForAllCollectionCategory];
+    }
+    
+    else if ([self.pageTitle.text isEqualToString:SHARED_COLLECTIONS_KEY])
+    {
+        aColor = [[ThemeFactory currentTheme] backgroundColorForSharedCategory];
+    }
+    else if ([self.pageTitle.text isEqualToString:UNCATEGORIZED_KEY])
+    {
+        
+        aColor = [[ThemeFactory currentTheme] backgroundColorForUncategorizedCategory];
+    }
+    
+    [self.animatinHelper animateSwitchCategory:aColor withCategoryTitleView: self.pageTitle];
     self.pageTitle.text = _currentCategory;
-    [self.pageTitle sizeToFit];
 }
 
 #pragma mark - UI events
@@ -97,7 +116,9 @@
     {
         if ([button.title isEqual:DELETE_BUTTON] ||
             [button.title isEqual:RENAME_BUTTON] ||
-            [button.title isEqual:CATEGORIZE_BUTTON])
+            [button.title isEqual:CATEGORIZE_BUTTON] ||
+            [button.title isEqual:SHARE_BUTTON] ||
+            [button.title isEqual:UNSHARE_BUTTON])
         {
             button.enabled = NO;
         }
@@ -243,11 +264,7 @@
     self.isEditing = YES;
     self.navigationItem.rightBarButtonItems = self.editToolbar;
 }
-- (IBAction)SharingModePressed:(id)sender {
-    [self.collectionView setAllowsMultipleSelection:NO];
-    self.isInSharingMode = YES;
-    self.navigationItem.rightBarButtonItems = self.shareToolbar;
-}
+
 - (IBAction)unsharePressed:(id)sender {
     
     [self dismissPopOver];
@@ -476,15 +493,6 @@
 -(void) configureNavigationBar
 {
     
-    //title
-//    UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
-    //titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-    
-//    titleView.backgroundColor = [UIColor clearColor];
-//    titleView.textColor = [UIColor whiteColor];
-//    self.navigationItem.titleView = titleView;
-//    [titleView sizeToFit];
-//    self.pageTitle = titleView;
     
     //right button
     self.navigationItem.rightBarButtonItems = self.navigateToolbar;
@@ -505,9 +513,12 @@
     self.isEditing = NO;
     self.isInSharingMode = NO;
     self.toolbar.hidden = YES;
+    self.animatinHelper = [[AllCollectionsAnimationHelper alloc] init];
+    
+    UIColor * aColor = [[ThemeFactory currentTheme] backgroundColorForAllCollectionCategory];
+    self.pageTitle.superview.backgroundColor = aColor;
     
     [self configureCategoriesPanel];
-    
     
     [self configureNavigationBar];
     [self addInitialListeners];
@@ -538,45 +549,39 @@
     NSMutableArray *  editbar = [NSMutableArray array];
     NSMutableArray *  navbar = [NSMutableArray array];
     NSMutableArray *  cancelbar = [NSMutableArray array];
-    NSMutableArray * sharebar = [NSMutableArray array];
     for (UIBarButtonItem * barButton in self.toolbar.items)
     {
         if ([barButton.title isEqualToString:CANCEL_BUTTON])
         {
             [cancelbar addObject:barButton];
             [editbar addObject:barButton];
-            [sharebar addObject:barButton];
         }
         else if ([barButton.title isEqual: RENAME_BUTTON] ||
                  [barButton.title isEqual: DELETE_BUTTON] ||
-                 [barButton.title isEqual: CATEGORIZE_BUTTON])
+                 [barButton.title isEqual: CATEGORIZE_BUTTON] ||
+                 [barButton.title isEqual:SHARE_BUTTON] ||
+                 [barButton.title isEqual:UNSHARE_BUTTON])
+        
         {
             [editbar addObject:barButton];
         }
         else if ([barButton.title isEqual:EDIT_BUTTON] ||
                  [barButton.title isEqual:SHARING_MODE_BUTTON] ||
+                 [barButton.title isEqual:SUBSCRIBE_BUTTON] ||
                  barButton == self.showSideMenuButton)
         {
             [navbar addObject:barButton];
-        }
-        else if ([barButton.title isEqual:SHARE_BUTTON] ||
-                 [barButton.title isEqual:UNSHARE_BUTTON] ||
-                 [barButton.title isEqual:SUBSCRIBE_BUTTON])
-        {
-            [sharebar addObject:barButton];
         }
         else
         {
             [editbar addObject:barButton];
             [navbar  addObject:barButton];
             [cancelbar addObject:barButton];
-            [sharebar addObject:barButton];
         }
     }
     self.editToolbar = [[editbar copy] reverseObjectEnumerator].allObjects;
     self.navigateToolbar = [[navbar copy] reverseObjectEnumerator].allObjects;
     self.cancelToolbar = [[cancelbar copy] reverseObjectEnumerator].allObjects;
-    self.shareToolbar = [[sharebar copy] reverseObjectEnumerator].allObjects;
 }
 
 

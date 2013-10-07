@@ -55,6 +55,7 @@
 		DB7B876517D0393F001933FA /* XoomlFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7B876417D0393F001933FA /* XoomlFragment.m */; };
 		DB8F48A117CAA57500DDDB2D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A53CFC1522F39500183CB6 /* main.m */; };
 		DB8F48A417CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8F48A317CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m */; };
+		DB90B37A18023761009CACA3 /* AllCollectionsAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB90B37918023761009CACA3 /* AllCollectionsAnimationHelper.m */; };
 		DB99FFB5160E5C5D0042ED2A /* UserPropertiesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */; };
 		DB99FFBF160E66870042ED2A /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFBE160E66870042ED2A /* StringUtils.m */; };
 		DB99FFC3160E73230042ED2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC2160E73230042ED2A /* QuartzCore.framework */; };
@@ -226,6 +227,8 @@
 		DB8F48A217CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAllCollectionsGordon.h; sourceTree = "<group>"; };
 		DB8F48A317CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudAllCollectionsGordon.m; sourceTree = "<group>"; };
 		DB8F48A817CAC15D00DDDB2D /* MindcloudAllCollectionsGordonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAllCollectionsGordonDelegate.h; sourceTree = "<group>"; };
+		DB90B37818023761009CACA3 /* AllCollectionsAnimationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllCollectionsAnimationHelper.h; sourceTree = "<group>"; };
+		DB90B37918023761009CACA3 /* AllCollectionsAnimationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllCollectionsAnimationHelper.m; sourceTree = "<group>"; };
 		DB99FFB3160E5C5D0042ED2A /* UserPropertiesHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPropertiesHelper.h; sourceTree = "<group>"; };
 		DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPropertiesHelper.m; sourceTree = "<group>"; };
 		DB99FFBD160E66870042ED2A /* StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtils.h; sourceTree = "<group>"; };
@@ -665,6 +668,19 @@
 			name = Definitions;
 			sourceTree = "<group>";
 		};
+		DB90B37718023742009CACA3 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				DBB9313F16ABDEA4005652AA /* CollectionAnimationHelper.h */,
+				DBB9314016ABDEA4005652AA /* CollectionAnimationHelper.m */,
+				DBBD10C717F7E73300FB8780 /* NoteAnimator.h */,
+				DBBD10C817F7E73300FB8780 /* NoteAnimator.m */,
+				DB90B37818023761009CACA3 /* AllCollectionsAnimationHelper.h */,
+				DB90B37918023761009CACA3 /* AllCollectionsAnimationHelper.m */,
+			);
+			name = Animation;
+			sourceTree = "<group>";
+		};
 		DB99FFB1160E5C2D0042ED2A /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -783,16 +799,13 @@
 		DBB9313B16AB7B5B005652AA /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				DB90B37718023742009CACA3 /* Animation */,
 				DBB9313C16AB7B77005652AA /* CollectionLayoutHelper.h */,
 				DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */,
-				DBB9313F16ABDEA4005652AA /* CollectionAnimationHelper.h */,
-				DBB9314016ABDEA4005652AA /* CollectionAnimationHelper.m */,
 				DB4FF4CC16ACA8DB00DC6DAA /* MultimediaHelper.h */,
 				DB4FF4CD16ACA8DB00DC6DAA /* MultimediaHelper.m */,
 				DB42E73416AE58500021D6FA /* NetworkActivityHelper.h */,
 				DB42E73516AE58500021D6FA /* NetworkActivityHelper.m */,
-				DBBD10C717F7E73300FB8780 /* NoteAnimator.h */,
-				DBBD10C817F7E73300FB8780 /* NoteAnimator.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -1036,6 +1049,7 @@
 				D7BF46661547303700F06412 /* AllCollectionsViewController.m in Sources */,
 				DBC4E35B17F14B5100F595FE /* UIViewController+MMDrawerController.m in Sources */,
 				D71EA185154CD3FB00496663 /* CollectionViewController.m in Sources */,
+				DB90B37A18023761009CACA3 /* AllCollectionsAnimationHelper.m in Sources */,
 				D7F1FF2C154D1A3300D07B58 /* NoteView.m in Sources */,
 				D7E44BEE15643AA90080EF71 /* StackView.m in Sources */,
 				D7E44C03156573800080EF71 /* StackViewController.m in Sources */,
