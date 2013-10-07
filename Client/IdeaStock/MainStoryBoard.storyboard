@@ -214,16 +214,8 @@
                                 <rect key="frame" x="365" y="20" width="37" height="37"/>
                                 <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <textField clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kaA-AR-Lhq">
-                                <rect key="frame" x="284" y="91" width="199" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="199" id="w0r-Ys-KgW"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SCV-RT-Iez">
-                                <rect key="frame" x="284" y="116" width="90" height="78"/>
+                                <rect key="frame" x="284" y="129" width="90" height="78"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="90" id="1BZ-87-BmH"/>
@@ -238,7 +230,7 @@
                                     <action selector="textCopyPressed:" destination="7u7-Q1-AoO" eventType="touchUpInside" id="Za0-W5-H9r"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t22-qT-wjX">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t22-qT-wjX">
                                 <rect key="frame" x="393" y="129" width="90" height="78"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
@@ -250,27 +242,37 @@
                                     <action selector="emailPressed:" destination="7u7-Q1-AoO" eventType="touchUpInside" id="sLc-k5-DSE"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s9b-fS-b3c">
+                                <rect key="frame" x="284" y="100" width="199" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="199" id="njm-Pb-UcV"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="kaA-AR-Lhq" firstAttribute="top" secondItem="TeG-4a-R7g" secondAttribute="bottom" constant="8" symbolic="YES" id="60V-Rz-w0v"/>
+                            <constraint firstItem="s9b-fS-b3c" firstAttribute="leading" secondItem="SCV-RT-Iez" secondAttribute="leading" id="JfM-7S-ksM"/>
+                            <constraint firstItem="t22-qT-wjX" firstAttribute="top" secondItem="s9b-fS-b3c" secondAttribute="bottom" constant="8" symbolic="YES" id="Qzu-13-R1N"/>
                             <constraint firstItem="TeG-4a-R7g" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="20" symbolic="YES" id="Thh-Ay-wHn"/>
+                            <constraint firstItem="s9b-fS-b3c" firstAttribute="centerX" secondItem="RXx-me-U5X" secondAttribute="centerX" id="baF-gk-iJo"/>
                             <constraint firstItem="TeG-4a-R7g" firstAttribute="centerX" secondItem="RXx-me-U5X" secondAttribute="centerX" id="dQf-e3-6aD"/>
-                            <constraint firstItem="t22-qT-wjX" firstAttribute="top" secondItem="kaA-AR-Lhq" secondAttribute="bottom" constant="8" symbolic="YES" id="eQJ-1v-yQs"/>
+                            <constraint firstItem="s9b-fS-b3c" firstAttribute="top" secondItem="TeG-4a-R7g" secondAttribute="bottom" constant="17" id="eLm-v9-421"/>
                             <constraint firstItem="TeG-4a-R7g" firstAttribute="centerX" secondItem="CVh-1W-fuM" secondAttribute="centerX" id="fSd-Jt-ROx"/>
                             <constraint firstItem="TeG-4a-R7g" firstAttribute="top" secondItem="RXx-me-U5X" secondAttribute="top" id="gND-fX-llw"/>
                             <constraint firstItem="SCV-RT-Iez" firstAttribute="bottom" secondItem="t22-qT-wjX" secondAttribute="bottom" id="gbP-0u-tK7"/>
-                            <constraint firstItem="SCV-RT-Iez" firstAttribute="top" secondItem="kaA-AR-Lhq" secondAttribute="bottom" constant="8" symbolic="YES" id="lGi-1P-cil"/>
-                            <constraint firstItem="t22-qT-wjX" firstAttribute="trailing" secondItem="kaA-AR-Lhq" secondAttribute="trailing" id="r9t-xB-8ht"/>
-                            <constraint firstItem="SCV-RT-Iez" firstAttribute="leading" secondItem="kaA-AR-Lhq" secondAttribute="leading" id="tmS-8v-K3m"/>
-                            <constraint firstItem="kaA-AR-Lhq" firstAttribute="centerX" secondItem="RXx-me-U5X" secondAttribute="centerX" id="tq3-p0-oYv"/>
+                            <constraint firstItem="s9b-fS-b3c" firstAttribute="trailing" secondItem="t22-qT-wjX" secondAttribute="trailing" id="hQj-3I-cET"/>
+                            <constraint firstItem="SCV-RT-Iez" firstAttribute="top" secondItem="s9b-fS-b3c" secondAttribute="bottom" constant="8" symbolic="YES" id="kWx-0n-USp"/>
                             <constraint firstItem="t22-qT-wjX" firstAttribute="leading" secondItem="SCV-RT-Iez" secondAttribute="trailing" constant="19" id="zwD-es-QlP"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
-                        <outlet property="SharingSecretText" destination="kaA-AR-Lhq" id="fCp-HO-b5p"/>
                         <outlet property="activityIndicator" destination="RXx-me-U5X" id="mC3-Ye-oGd"/>
                         <outlet property="sharingLabel" destination="TeG-4a-R7g" id="Ap6-23-HXB"/>
+                        <outlet property="sharingSecretLabel" destination="s9b-fS-b3c" id="JBC-Yu-ef0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iZr-zl-hiA" userLabel="First Responder" sceneMemberID="firstResponder"/>

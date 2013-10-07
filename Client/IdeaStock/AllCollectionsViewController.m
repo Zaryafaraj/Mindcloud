@@ -411,7 +411,7 @@
 
 - (IBAction)categorizedPressed:(id)sender {
     
-    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:YES];
+    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
     [self dismissPopOver];
     
     CategorizationViewController * categorizationController = [self.storyboard instantiateViewControllerWithIdentifier:@"CategorizationView"];
@@ -439,7 +439,7 @@
 
 - (IBAction)sharePressed:(id)sender {
     
-    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:YES];
+    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
     NSString * collectionName = [self getSelectedCollectionName];
     
     if (collectionName == nil) return;
