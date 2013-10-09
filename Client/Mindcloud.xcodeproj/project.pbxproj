@@ -38,6 +38,7 @@
 		DB03C357169FEB0000C38FD7 /* CollectionSubCollectionsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C356169FEB0000C38FD7 /* CollectionSubCollectionsAction.m */; };
 		DB03C35B169FEE6C00C38FD7 /* SubCollectionAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35A169FEE6C00C38FD7 /* SubCollectionAction.m */; };
 		DB03C35E169FF1F800C38FD7 /* SubCollectionImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35D169FF1F800C38FD7 /* SubCollectionImageAction.m */; };
+		DB205A92180536EC00C94A2B /* CollectionScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB205A91180536EC00C94A2B /* CollectionScrollView.m */; };
 		DB3174FE16337636001229FE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3174FD16337636001229FE /* SignInViewController.m */; };
 		DB3FD53016B77FA400024AC6 /* CollectionStackingAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD52F16B77FA400024AC6 /* CollectionStackingAttribute.m */; };
 		DB3FD53416B7A4D900024AC6 /* CollectionNoteAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD53316B7A4D900024AC6 /* CollectionNoteAttribute.m */; };
@@ -187,6 +188,8 @@
 		DB03C360169FFD3B00C38FD7 /* EventTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EventTypes.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		DB15E9ED16E71BB80024BA4C /* SharingAwareObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharingAwareObject.h; sourceTree = "<group>"; };
 		DB15E9EE16E725DB0024BA4C /* cachedCollectionContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cachedCollectionContainer.h; sourceTree = "<group>"; };
+		DB205A90180536EC00C94A2B /* CollectionScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionScrollView.h; sourceTree = "<group>"; };
+		DB205A91180536EC00C94A2B /* CollectionScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionScrollView.m; sourceTree = "<group>"; };
 		DB3174FC16337636001229FE /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		DB3174FD16337636001229FE /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		DB31750216337ED7001229FE /* AuthorizationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthorizationDelegate.h; sourceTree = "<group>"; };
@@ -536,6 +539,8 @@
 		DB31750016337E53001229FE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DB205A90180536EC00C94A2B /* CollectionScrollView.h */,
+				DB205A91180536EC00C94A2B /* CollectionScrollView.m */,
 				DBE13373163E13AE00EF0AF7 /* CollectionCell.h */,
 				DBE13374163E13AE00EF0AF7 /* CollectionCell.m */,
 				D7E44BF7156476360080EF71 /* BulletinBoardObject.h */,
@@ -1097,6 +1102,7 @@
 				DBE3171617F63A0D00EEBA18 /* BlueTheme.m in Sources */,
 				DBC4E35917F14B5100F595FE /* MMDrawerController.m in Sources */,
 				DBBA28C416CCC81D007C7B4A /* DeleteFragmentNamespaceSubElementNotification.m in Sources */,
+				DB205A92180536EC00C94A2B /* CollectionScrollView.m in Sources */,
 				DBDB105716D032C200B5F7AE /* MergerThread.m in Sources */,
 				DBDB105A16D0388200B5F7AE /* MergeResult.m in Sources */,
 				DBBBB9BA17CC67AA00081C3B /* XoomlAssociation.m in Sources */,

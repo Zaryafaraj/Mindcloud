@@ -28,7 +28,10 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem * deleteButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem * expandButton;
-@property (weak, nonatomic) IBOutlet UIScrollView *collectionView;
+
+@property (weak, nonatomic) IBOutlet UIView *collectionView;
+@property (weak, nonatomic) IBOutlet UIScrollView *parentScrollView;
+
 @property (strong, nonatomic) NSMutableDictionary * noteViews;
 @property (strong, nonatomic) NSMutableDictionary * imageNoteViews;
 @property (strong, nonatomic) NSMutableDictionary * stackViews;
@@ -694,8 +697,6 @@
     
     if (self.editMode) return;
     
-//    self.collectionView.contentSize = CGSizeMake(2000, 2000);
-    [self configureScrollView];
     CGPoint location = [sender locationOfTouch:0 inView:self.collectionView];
     CGRect frame = [CollectionLayoutHelper getFrameForNewNote:sender.view
                                                  AddedToPoint:location
@@ -921,7 +922,6 @@
 //    [self.collectionView setBackgroundColor:[UIColor clearColor]];
     self.collectionView.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
     
-    CGSize size = self.collectionView.contentSize;
     UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
     titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     
@@ -945,30 +945,9 @@
     [self.prototypeImageView removeFromSuperview];
 }
 
--(void) configureScrollView
-{
-    //its landscape ipads
-    CGFloat totalWidth = self.collectionView.bounds.size.width;
-    CGFloat totalHeight = self.collectionView.bounds.size.height;
-    
-    //the size is for landscape ipads sitting next to each other
-    if (totalWidth < totalHeight)
-    {
-        CGFloat temp = totalWidth;
-        totalWidth = totalHeight;
-        totalHeight = temp;
-    }
-
-    CGSize totalContentSize = CGSizeMake( 4* totalWidth, 4 * totalHeight);
-    
-    self.collectionView.contentSize = totalContentSize;
-    self.collectionView.scrollEnabled = YES;
-}
-
 -(void) viewDidLoad
 {
     [super viewDidLoad];
-    [self configureScrollView];
     [self removePrototypesFromView];
     self.shouldRefresh = YES;
     [self configureToolbar];
@@ -980,11 +959,10 @@
     
     [self addCollectionViewGestureRecognizersToCollectionView: self.collectionView];
     
-    CGSize size = self.collectionView.contentSize;
     
     [self addInitialObservers];
     [self addListenerNotifications];
-    self.collectionView.delegate = self;
+    //self.collectionView.delegate = self;
     
 }
 
@@ -1022,17 +1000,11 @@
 {
     [super viewDidAppear:animated];
     
-    CGSize size = self.collectionView.contentSize;
     if (self.shouldRefresh)
     {
         [self layoutNotes];
-        CGSize size = self.collectionView.contentSize;
         self.shouldRefresh = NO;
     }
-    
-    [self configureScrollView];
-    CGSize sjize = self.collectionView.contentSize;
-    CGSize ssize = self.collectionView.contentSize;
 }
 
 -(void) configureToolbar
@@ -1946,9 +1918,9 @@ intoStackingWithMainView: (UIView *) mainView
             CGFloat addedVisibleSpaceY = keyboardHeight - spaceFromLowerCornerToBottom;
             CGPoint scrollPoint = CGPointMake(0.0, self.collectionView.bounds.origin.y + addedVisibleSpaceY);
             UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardHeight, 0.0);
-            self.collectionView.contentInset = contentInsets;
-            self.collectionView.scrollIndicatorInsets = contentInsets;
-            [self.collectionView setContentOffset:scrollPoint animated:YES];
+            self.parentScrollView.contentInset = contentInsets;
+            self.parentScrollView.scrollIndicatorInsets = contentInsets;
+            [self.parentScrollView setContentOffset:scrollPoint animated:YES];
         }
     }
 }
@@ -1960,7 +1932,7 @@ intoStackingWithMainView: (UIView *) mainView
     {
         self.activeView = nil;
         CGPoint scrollPoint = CGPointMake(0.0, 0.0);
-        [self.collectionView setContentOffset:scrollPoint animated:YES];
+        [self.parentScrollView setContentOffset:scrollPoint animated:YES];
         //        UIEdgeInsets contentInsets = UIEdgeInsetsZero;
         //        self.collectionView.contentInset = contentInsets;
         //        self.collectionView.scrollIndicatorInsets = contentInsets;
