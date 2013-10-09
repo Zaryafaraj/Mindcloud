@@ -60,23 +60,26 @@
 
 @synthesize currentCategory = _currentCategory;
 
-#define DELETE_BUTTON @"Delete"
-#define CANCEL_BUTTON @"Done"
-#define RENAME_BUTTON @"Rename"
-#define EDIT_BUTTON @"Select"
-#define CATEGORIZE_BUTTON @"Categorize"
-#define SHARE_BUTTON @"Share"
-#define UNSHARE_BUTTON @"Unshare"
-#define SUBSCRIBE_BUTTON @"Subscribe"
+//TODO the spaces are used as a hack to create spacing in the UI
+//between the buttons. If we find a better way to do it we should remove this ugly hack
+#define DELETE_BUTTON @"Delete  "
+#define CANCEL_BUTTON @"Done  "
+#define RENAME_BUTTON @"Rename  "
+#define EDIT_BUTTON @"Select  "
+#define CATEGORIZE_BUTTON @"  Categorize  "
+#define SHARE_BUTTON @"Share  "
+#define UNSHARE_BUTTON @"Unshare  "
+#define SUBSCRIBE_BUTTON @"Subscribe  "
 #define SHARING_MODE_BUTTON @"Sharing"
 #define UNSHARE_ACTION @"Unshare Collection"
 #define DELETE_ACTION @"Delete Collection"
-#define SUBSCRIBE_BUTTON_TITLE @"Subscribe"
-#define RENAME_BUTTON_TITLE @"Rename"
+#define SUBSCRIBE_BUTTON_TITLE @"Subscribe  "
+#define RENAME_BUTTON_TITLE @"Rename  "
 #define CREATE_CATEGORY_BUTTON @"Create"
 #define ADD_BUTTON_TITLE @"Add"
-#define UNTITLED_COLLECTION_NAME @"Untitled"
 #define CATEGORIZATION_ROW_HEIGHT 44
+#define SAVE_BUTTON_TITLE @"Save"
+#define UNTITLED_COLLECTION_NAME @"Untitled"
 
 -(NSString *) currentCategory
 {
@@ -155,8 +158,9 @@
     return name;
 }
 
--(void) renameCollection: (NSString *) newName
+-(void) renameSelectedCollectionsToNewName:(NSString *) newName
 {
+    
     NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
     for(NSIndexPath * selectedItem in selectedItems)
     {
@@ -165,16 +169,23 @@
         
         if ([newName isEqualToString:currentName]) continue;
         
-        NSSet * allNames = [self.model getAllCollectionNames];
-        NSString * actualNewName = [NamingHelper validateCollectionName:newName amongAllNames:allNames];
-        
-        [self.model renameCollection:currentName
-                          inCategory:self.currentCategory
-                     toNewCollection:actualNewName];
-        
-        selectedCell.text = actualNewName;
+        [self renameCollectionAtCell:selectedCell
+                           toNewName:newName];
         
     }
+}
+-(void) renameCollectionAtCell: (CollectionCell *) oldCell
+                     toNewName:(NSString *) newName
+{
+    
+    NSSet * allNames = [self.model getAllCollectionNames];
+    NSString * actualNewName = [NamingHelper validateCollectionName:newName amongAllNames:allNames];
+    
+    [self.model renameCollection:oldCell.text
+                      inCategory:self.currentCategory
+                 toNewCollection:actualNewName];
+    
+    oldCell.text = actualNewName;
 }
 
 -(void) deleteCollection
@@ -312,13 +323,6 @@
     
     self.workingCollectionName = name;
     [self performSegueWithIdentifier:@"CollectionViewSegue" sender:self];
-//    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Collection"
-//                                                     message:nil
-//                                                    delegate:self
-//                                           cancelButtonTitle:@"Cancel"
-//                                           otherButtonTitles:ADD_BUTTON_TITLE, nil];
-//    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-//    [alert show];
 }
 
 - (IBAction)renamePressed:(id)sender {
@@ -335,7 +339,8 @@
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     //perform add collection
-    if (buttonIndex == 1){
+    if (buttonIndex == 1)
+    {
         if (self.didCategoriesPresentAlertView)
         {
             if ([[alertView buttonTitleAtIndex:buttonIndex]
@@ -355,7 +360,7 @@
                       isEqualToString:RENAME_BUTTON_TITLE])
             {
                 NSString * newName = [[alertView textFieldAtIndex:0] text];
-                [self renameCollection:newName];
+                [self renameSelectedCollectionsToNewName:newName];
                 [self disableEditButtons];
                 self.navigationItem.rightBarButtonItems = self.navigateToolbar;
                 [self deselectAll];
@@ -375,7 +380,26 @@
                 sharingSecret = [sharingSecret uppercaseString];
                 [self.model subscribeToCollectionWithSecret:sharingSecret];
             }
+            
         }
+    }
+    //button index is 0 in case of save
+    else if ([[alertView buttonTitleAtIndex:buttonIndex]
+              isEqualToString:SAVE_BUTTON_TITLE])
+    {
+        
+        NSString * newName = [[alertView textFieldAtIndex:0] text];
+        if (![newName isEqualToString:@""])
+        {
+            NSIndexPath * ip = [self getIndexPathForCollectionIfVisible:self.workingCollectionName];
+            [self.collectionView selectItemAtIndexPath:ip
+                                              animated:NO
+                                        scrollPosition:UICollectionViewScrollPositionNone];
+            [self renameSelectedCollectionsToNewName:newName];
+            [self deselectAll];
+        }
+        //no need for current cateogry so nil it out
+        self.workingCollectionName = nil;
     }
 }
 
@@ -680,7 +704,20 @@
     }
     
     [self.collectionView deselectItemAtIndexPath:cellIndex animated:NO];
-    self.workingCollectionName = nil;
+    
+    if ([collectionName rangeOfString:UNTITLED_COLLECTION_NAME].location != NSNotFound)
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@" Collection Name"
+                                                         message:nil
+                                                        delegate:self
+                                               cancelButtonTitle:nil
+                                               otherButtonTitles:SAVE_BUTTON_TITLE, nil];
+        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [alert show];
+        
+        UITextField * placeholderText = [alert textFieldAtIndex:0];
+        placeholderText.placeholder = collectionName;
+    }
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
