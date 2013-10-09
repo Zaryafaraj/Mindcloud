@@ -646,6 +646,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
     [self.centerViewController beginAppearanceTransition:YES animated:animated];
 }
 

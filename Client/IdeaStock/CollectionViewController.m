@@ -694,6 +694,8 @@
     
     if (self.editMode) return;
     
+//    self.collectionView.contentSize = CGSizeMake(2000, 2000);
+    [self configureScrollView];
     CGPoint location = [sender locationOfTouch:0 inView:self.collectionView];
     CGRect frame = [CollectionLayoutHelper getFrameForNewNote:sender.view
                                                  AddedToPoint:location
@@ -918,6 +920,8 @@
 -(void) viewWillAppear:(BOOL)animated{
 //    [self.collectionView setBackgroundColor:[UIColor clearColor]];
     self.collectionView.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
+    
+    CGSize size = self.collectionView.contentSize;
     UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
     titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     
@@ -941,9 +945,30 @@
     [self.prototypeImageView removeFromSuperview];
 }
 
+-(void) configureScrollView
+{
+    //its landscape ipads
+    CGFloat totalWidth = self.collectionView.bounds.size.width;
+    CGFloat totalHeight = self.collectionView.bounds.size.height;
+    
+    //the size is for landscape ipads sitting next to each other
+    if (totalWidth < totalHeight)
+    {
+        CGFloat temp = totalWidth;
+        totalWidth = totalHeight;
+        totalHeight = temp;
+    }
+
+    CGSize totalContentSize = CGSizeMake( 4* totalWidth, 4 * totalHeight);
+    
+    self.collectionView.contentSize = totalContentSize;
+    self.collectionView.scrollEnabled = YES;
+}
+
 -(void) viewDidLoad
 {
     [super viewDidLoad];
+    [self configureScrollView];
     [self removePrototypesFromView];
     self.shouldRefresh = YES;
     [self configureToolbar];
@@ -953,15 +978,14 @@
     self.navigationItem.rightBarButtonItems = [self.toolbar.items copy];
     [self initateDataStructures];
     
-    CGSize size =  CGSizeMake(self.collectionView.bounds.size.width,
-                              self.collectionView.bounds.size.height);
-    [self.collectionView setContentSize:size];
-    
     [self addCollectionViewGestureRecognizersToCollectionView: self.collectionView];
+    
+    CGSize size = self.collectionView.contentSize;
     
     [self addInitialObservers];
     [self addListenerNotifications];
     self.collectionView.delegate = self;
+    
 }
 
 -(void) addInitialObservers
@@ -993,15 +1017,22 @@
                                              selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
 }
-//maybe in view will appear
+
 -(void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    CGSize size = self.collectionView.contentSize;
     if (self.shouldRefresh)
     {
         [self layoutNotes];
+        CGSize size = self.collectionView.contentSize;
         self.shouldRefresh = NO;
     }
+    
+    [self configureScrollView];
+    CGSize sjize = self.collectionView.contentSize;
+    CGSize ssize = self.collectionView.contentSize;
 }
 
 -(void) configureToolbar
