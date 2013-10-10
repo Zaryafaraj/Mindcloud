@@ -21,6 +21,7 @@
 #import "MultimediaHelper.h"
 #import "NamingHelper.h"
 #import "StackViewController.h"
+#import "CollectionScrollView.h"
 
 @interface CollectionViewController ()
 
@@ -30,7 +31,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem * expandButton;
 
 @property (weak, nonatomic) IBOutlet UIView *collectionView;
-@property (weak, nonatomic) IBOutlet UIScrollView *parentScrollView;
+@property (weak, nonatomic) IBOutlet CollectionScrollView *parentScrollView;
 
 @property (strong, nonatomic) NSMutableDictionary * noteViews;
 @property (strong, nonatomic) NSMutableDictionary * imageNoteViews;
@@ -920,7 +921,8 @@
 
 -(void) viewWillAppear:(BOOL)animated{
 //    [self.collectionView setBackgroundColor:[UIColor clearColor]];
-    self.parentScrollView.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
+    self.collectionView.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
+    //self.parentScrollView.backgroundColor = [UIColor whiteColor];
     
     UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
     titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
@@ -948,7 +950,7 @@
 -(void) configureScrollView
 {
     
-    UIScrollView * topScroll = self.parentScrollView;
+    CollectionScrollView * topScroll = self.parentScrollView;
     UIView * contentView = self.collectionView;
     
     self.parentScrollView = topScroll;
@@ -1035,9 +1037,16 @@
     self.toolbar.items = toolbarItems;
 }
 
+-(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self.parentScrollView willRotateToInterfaceOrientation:toInterfaceOrientation];
+}
+
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    [CollectionLayoutHelper layoutViewsForOrientationChange:self.collectionView];
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+   [CollectionLayoutHelper layoutViewsForOrientationChange:self.collectionView];
 }
 
 -(void) viewDidUnload

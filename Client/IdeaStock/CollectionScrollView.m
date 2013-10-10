@@ -25,7 +25,6 @@
        if (self)
        {
            [self configureView];
-           // Initialization code
        }
     return self;
 }
@@ -33,13 +32,32 @@
 -(void) configureView
 {
     self.delegate = self;
-    self.minimumZoomScale = 0.25;
+    self.minimumZoomScale = 0.5;
     self.scrollEnabled = YES;
-    self.maximumZoomScale = 4;
+    self.maximumZoomScale = 2;
+}
+
+//this assumes that bounds have already made it to the target orientation sizes
+-(void) willRotateToInterfaceOrientation:(UIInterfaceOrientation) orientation
+{
+    CGFloat surrogateWidth = self.surrogateView.bounds.size.width;
+    CGFloat surrogateHeight = self.surrogateView.bounds.size.height;
+    CGFloat minZoomWidth =  self.bounds.size.width / surrogateWidth;
+    CGFloat minZoomHeight =  self.bounds.size.height / surrogateHeight;
+    CGFloat targetZoomFactor = MAX(minZoomHeight, minZoomWidth);
+    self.surrogateView.transform = CGAffineTransformMakeScale(targetZoomFactor, targetZoomFactor);
 }
 
 -(UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
+    CGFloat surrogateWidth = self.surrogateView.bounds.size.width;
+    CGFloat surrogateHeight = self.surrogateView.bounds.size.height;
+    
+    CGFloat minZoomWidth =  self.bounds.size.width / surrogateWidth;
+    CGFloat minZoomHeight =  self.bounds.size.height / surrogateHeight;
+    CGFloat actualZoomFactor = MAX(minZoomHeight, minZoomWidth);
+    self.minimumZoomScale = actualZoomFactor;
+    
     return self.surrogateView;
 }
 

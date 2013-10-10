@@ -10,4 +10,6 @@
 
 @interface CollectionScrollView : UIScrollView <UIScrollViewDelegate>
 
+-(void) willRotateToInterfaceOrientation:(UIInterfaceOrientation) orientation;
+
 @end
