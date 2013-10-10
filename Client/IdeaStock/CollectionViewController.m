@@ -954,10 +954,12 @@
     self.parentScrollView = topScroll;
     self.collectionView = contentView;
     
+    self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     self.parentScrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    
     NSDictionary * viewsDictionary = NSDictionaryOfVariableBindings(topScroll, contentView);
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[topScroll]|" options:0 metrics: 0 views:viewsDictionary]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[topScroll]|" options:0 metrics: 0 views:viewsDictionary]];
+//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[topScroll]|" options:0 metrics: 0 views:viewsDictionary]];
+//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[topScroll]|" options:0 metrics: 0 views:viewsDictionary]];
     [topScroll addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics: 0 views:viewsDictionary]];
     [topScroll addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics: 0 views:viewsDictionary]];
 }

@@ -471,11 +471,11 @@
                         <viewControllerLayoutGuide type="bottom" id="lwh-b9-xW6"/>
                     </layoutGuides>
                     <view key="view" autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="4HH-7a-1rX">
-                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
+                        <rect key="frame" x="0.0" y="64" width="1024" height="704"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView autoresizesSubviews="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" indicatorStyle="white" minimumZoomScale="0.20000000000000001" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="QXW-F8-5QD" customClass="CollectionScrollView">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
+                            <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" indicatorStyle="white" minimumZoomScale="0.20000000000000001" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="QXW-F8-5QD" customClass="CollectionScrollView">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="704"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="efj-z7-K4y" userLabel="Surrogate">
                                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1536"/>
@@ -556,9 +556,17 @@
                                 </connections>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.94657176733016968" green="0.47315338253974915" blue="0.19889563322067261" alpha="0.0" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="lwh-b9-xW6" firstAttribute="top" secondItem="QXW-F8-5QD" secondAttribute="bottom" id="Peb-06-QDu"/>
+                            <constraint firstItem="QXW-F8-5QD" firstAttribute="top" secondItem="4HH-7a-1rX" secondAttribute="top" id="X7M-53-fc9"/>
+                            <constraint firstItem="QXW-F8-5QD" firstAttribute="leading" secondItem="4HH-7a-1rX" secondAttribute="leading" id="l7o-kT-aTt"/>
+                            <constraint firstAttribute="trailing" secondItem="QXW-F8-5QD" secondAttribute="trailing" constant="256" id="yaS-2w-Tz0"/>
+                        </constraints>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="cameraButton" destination="Rwb-Kb-IkV" id="Tbb-70-j8S"/>
                         <outlet property="collectionView" destination="efj-z7-K4y" id="Bka-NP-n1K"/>
