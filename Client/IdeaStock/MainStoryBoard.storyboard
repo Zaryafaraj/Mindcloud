@@ -475,7 +475,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" indicatorStyle="white" minimumZoomScale="0.20000000000000001" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="QXW-F8-5QD" customClass="CollectionScrollView">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="704"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="704"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="efj-z7-K4y" userLabel="Surrogate">
                                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1536"/>
@@ -561,7 +561,7 @@
                             <constraint firstItem="lwh-b9-xW6" firstAttribute="top" secondItem="QXW-F8-5QD" secondAttribute="bottom" id="Peb-06-QDu"/>
                             <constraint firstItem="QXW-F8-5QD" firstAttribute="top" secondItem="4HH-7a-1rX" secondAttribute="top" id="X7M-53-fc9"/>
                             <constraint firstItem="QXW-F8-5QD" firstAttribute="leading" secondItem="4HH-7a-1rX" secondAttribute="leading" id="l7o-kT-aTt"/>
-                            <constraint firstAttribute="trailing" secondItem="QXW-F8-5QD" secondAttribute="trailing" constant="256" id="yaS-2w-Tz0"/>
+                            <constraint firstAttribute="trailing" secondItem="QXW-F8-5QD" secondAttribute="trailing" id="yaS-2w-Tz0"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
