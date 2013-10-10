@@ -920,7 +920,7 @@
 
 -(void) viewWillAppear:(BOOL)animated{
 //    [self.collectionView setBackgroundColor:[UIColor clearColor]];
-    self.collectionView.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
+    self.parentScrollView.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
     
     UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
     titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
@@ -945,10 +945,37 @@
     [self.prototypeImageView removeFromSuperview];
 }
 
+-(void) configureScrollView
+{
+    
+    UIScrollView * topScroll = self.parentScrollView;
+    UIView * contentView = self.collectionView;
+//    [topScroll removeFromSuperview];
+//    [contentView removeFromSuperview];
+//    [self.view addSubview:topScroll];
+//    [topScroll addSubview:contentView];
+    
+    self.parentScrollView = topScroll;
+    self.collectionView = contentView;
+    
+    
+    self.parentScrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSDictionary * viewsDictionary = NSDictionaryOfVariableBindings(topScroll, contentView);
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[topScroll]|" options:0 metrics: 0 views:viewsDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[topScroll]|" options:0 metrics: 0 views:viewsDictionary]];
+    [topScroll addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics: 0 views:viewsDictionary]];
+    [topScroll addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics: 0 views:viewsDictionary]];
+//    [self.collectionView removeFromSuperview];
+//    [self.parentScrollView addSubview:self.collectionView];
+//    self.parentScrollView.contentSize = CGSizeMake(self.collectionView.bounds.size.width,
+//                                                   self.collectionView.bounds.size.height);
+}
 -(void) viewDidLoad
 {
     [super viewDidLoad];
+    
     [self removePrototypesFromView];
+    [self configureScrollView];
     self.shouldRefresh = YES;
     [self configureToolbar];
     
@@ -999,7 +1026,6 @@
 -(void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     if (self.shouldRefresh)
     {
         [self layoutNotes];

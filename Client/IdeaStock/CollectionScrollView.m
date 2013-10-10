@@ -35,16 +35,16 @@
     
     self.delegate = self;
     self.minimumZoomScale = 0.25;
-    
+    self.scrollEnabled = YES;
     self.maximumZoomScale = 4;
-    CGSize totalSize = [self fixedContentSizeForScrollView];
-    CGRect frame = CGRectMake(0,
-                              0,
-                              totalSize.width,
-                              totalSize.height);
-    self.surrogateView = self.subviews[0];
-    self.surrogateView.frame = frame;
-    self.surrogateView.backgroundColor = [UIColor blueColor];
+//    CGSize totalSize = [self fixedContentSizeForScrollView];
+//    CGRect frame = CGRectMake(0,
+//                              0,
+//                              totalSize.width,
+//                              totalSize.height);
+//    self.surrogateView = self.subviews[0];
+////    self.surrogateView.frame = frame;
+//    self.surrogateView.backgroundColor = [UIColor blueColor];
 //    UIView * view = [[UIView alloc] initWithFrame:frame];
 //    view.backgroundColor = [UIColor clearColor];
 //    [super addSubview:view];
@@ -96,9 +96,15 @@
 
 -(void) setContentSize:(CGSize)contentSize
 {
+    NSLog(@"contentSize %f - %f" , contentSize.width, contentSize.height);
+    [super setContentSize:contentSize];
     
-    CGSize totalContentSize = [self fixedContentSizeForScrollView];
-    [super setContentSize:totalContentSize];
+//    CGSize totalContentSize = [self fixedContentSizeForScrollView];
+//    [super setContentSize:totalContentSize];
+//    self.surrogateView.frame = CGRectMake(0,
+//                                          0,
+//                                          totalContentSize.width,
+//                                          totalContentSize.height);
 }
 
 -(UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView
