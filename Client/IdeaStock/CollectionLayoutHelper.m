@@ -376,23 +376,24 @@ withMoveNoteFunction:(update_note_location_function) updateNote
     CGFloat newOriginX = view.frame.origin.x;
     CGFloat newOriginY = view.frame.origin.y;
     
-    if (view.frame.origin.x < collectionView.frame.origin.x){
+    if (view.frame.origin.x < collectionView.bounds.origin.x){
         frameChanged = YES;
-        newOriginX = collectionView.frame.origin.x;
+        newOriginX = collectionView.bounds.origin.x;
     }
-    if (view.frame.origin.y < collectionView.frame.origin.y){
+    if (view.frame.origin.y < collectionView.bounds.origin.y){
         frameChanged = YES;
-        newOriginY = collectionView.frame.origin.y;
+        newOriginY = collectionView.bounds.origin.y;
     }
+    CGRect bounds = collectionView.bounds;
     if (view.frame.origin.x + view.frame.size.width >
-        collectionView.frame.origin.x + collectionView.frame.size.width){
+        collectionView.bounds.origin.x + collectionView.bounds.size.width){
         frameChanged = YES;
-        newOriginX = collectionView.frame.origin.x + collectionView.frame.size.width - view.frame.size.width;
+        newOriginX = collectionView.bounds.origin.x + collectionView.bounds.size.width - view.bounds.size.width;
     }
     if (view.frame.origin.y + view.frame.size.height >
-        collectionView.frame.origin.y + collectionView.frame.size.height){
+        collectionView.bounds.origin.y + collectionView.bounds.size.height){
         frameChanged = YES;
-        newOriginY = collectionView.frame.origin.y + collectionView.frame.size.height - view.frame.size.height - 50;
+        newOriginY = collectionView.frame.origin.y + collectionView.bounds.size.height - view.bounds.size.height - 50;
     }
     
     if (frameChanged){

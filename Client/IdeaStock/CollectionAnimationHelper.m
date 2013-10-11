@@ -49,9 +49,9 @@
 backIntoScreenBoundsInRect:(CGRect) frame
 {
     
-    [UIView animateWithDuration:0.1
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseOut
+    [UIView animateWithDuration:0.2
+                          delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0.1
+                        options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
                          CGPoint centerPoint = CGPointMake(frame.origin.x + frame.size.width/2,
                                                            frame.origin.y + frame.size.height/2);
