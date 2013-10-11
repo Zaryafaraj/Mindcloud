@@ -98,6 +98,7 @@
     self.layer.shadowPath = toValue;
     
     [self.layer addAnimation:animation forKey:@"shadowPath"];
+    CGPathRelease(toValue);
 }
 
 +(NoteView *) setLayers:(NoteView *) view
@@ -167,6 +168,7 @@
     CGRect bounds = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
     CGPathRef shadowPath = CGPathCreateWithRect(bounds,&CGAffineTransformIdentity);
     self.layer.shadowPath = shadowPath;
+    
     if (self._textView)
     {
         CGRect newFrame = CGRectMake(TEXT_X_OFFSET,
@@ -175,6 +177,8 @@
                                      self.bounds.size.height - 2 * TEXT_Y_OFFSET);
         self._textView.frame = newFrame;
     }
+    
+    CGPathRelease(shadowPath);
 }
 
 -(void) setBounds:(CGRect)bounds

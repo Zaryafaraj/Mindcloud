@@ -384,7 +384,6 @@ withMoveNoteFunction:(update_note_location_function) updateNote
         frameChanged = YES;
         newOriginY = collectionView.bounds.origin.y;
     }
-    CGRect bounds = collectionView.bounds;
     if (view.frame.origin.x + view.frame.size.width >
         collectionView.bounds.origin.x + collectionView.bounds.size.width){
         frameChanged = YES;
