@@ -14,7 +14,7 @@
 @implementation MultimediaHelper
 #define THUMBNAIL_WIDTH 250
 #define THUMBNAIL_HEIGHT 250
-#define IMG_COMPRESSION_QUALITY 0.5
+#define IMG_COMPRESSION_QUALITY 0.7
 +(UIImagePickerController *) getCameraController
 {
     
