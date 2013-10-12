@@ -12,6 +12,8 @@
 #import "CategorizationViewDelegate.h"
 #import "MindcloudAllCollectionsDelegate.h"
 
+#define UNTITLED_COLLECTION_NAME @"Untitled"
+
 @interface AllCollectionsViewController : UIViewController
 <UICollectionViewDataSource,
 UICollectionViewDelegateFlowLayout,
@@ -26,7 +28,9 @@ MindcloudAllCollectionsDelegate>
 @property (atomic) BOOL actionInProgress;
 @property (weak, nonatomic) CategoriesViewController * categoriesController;
 
--(void) finishedWorkingWithCollection:(NSString * ) collectionName
-                    withThumbnailData:(NSData *) imgData;
+-(void) finishedWorkingWithCollection:(NSString * ) collectionName;
+
+-(void) renamedCollectionWithName:(NSString *) collectionName
+              toNewCollectionName:(NSString *) newName;
 
 @end

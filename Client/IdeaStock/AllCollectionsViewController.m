@@ -78,8 +78,6 @@
 #define CREATE_CATEGORY_BUTTON @"Create"
 #define ADD_BUTTON_TITLE @"Add"
 #define CATEGORIZATION_ROW_HEIGHT 44
-#define SAVE_BUTTON_TITLE @"Save"
-#define UNTITLED_COLLECTION_NAME @"Untitled"
 
 -(NSString *) currentCategory
 {
@@ -383,24 +381,6 @@
             
         }
     }
-    //button index is 0 in case of save
-    else if ([[alertView buttonTitleAtIndex:buttonIndex]
-              isEqualToString:SAVE_BUTTON_TITLE])
-    {
-        
-        NSString * newName = [[alertView textFieldAtIndex:0] text];
-        if (![newName isEqualToString:@""])
-        {
-            NSIndexPath * ip = [self getIndexPathForCollectionIfVisible:self.workingCollectionName];
-            [self.collectionView selectItemAtIndexPath:ip
-                                              animated:NO
-                                        scrollPosition:UICollectionViewScrollPositionNone];
-            [self renameSelectedCollectionsToNewName:newName];
-            [self deselectAll];
-        }
-        //no need for current cateogry so nil it out
-        self.workingCollectionName = nil;
-    }
 }
 
 
@@ -690,10 +670,9 @@
     return nil;
 }
 
-#pragma mark - CollectionViewController Delegates
-
--(void) finishedWorkingWithCollection:(NSString *)collectionName
-                    withThumbnailData:(NSData *)imgData
+#pragma mark - thumbnail delegates
+-(void) thumbnailCreatedForCollectionName:(NSString *) collectionName
+                                 withData:(NSData *) imgData
 {
     NSIndexPath * cellIndex  = [self getIndexPathForCollectionIfVisible:collectionName];
     CollectionCell * updatedItem = (CollectionCell * )[self.collectionView cellForItemAtIndexPath:cellIndex];
@@ -702,24 +681,29 @@
         [self.model setImageData:imgData forCollection:collectionName];
         updatedItem.img = [UIImage imageWithData:imgData];
     }
+}
+#pragma mark - CollectionViewController Delegates
+
+-(void) finishedWorkingWithCollection:(NSString *)collectionName
+{
     
+    NSIndexPath * cellIndex  = [self getIndexPathForCollectionIfVisible:collectionName];
     [self.collectionView deselectItemAtIndexPath:cellIndex animated:NO];
     
-    if ([collectionName rangeOfString:UNTITLED_COLLECTION_NAME].location != NSNotFound)
-    {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@" Collection Name"
-                                                         message:nil
-                                                        delegate:self
-                                               cancelButtonTitle:nil
-                                               otherButtonTitles:SAVE_BUTTON_TITLE, nil];
-        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-        [alert show];
-        
-        UITextField * placeholderText = [alert textFieldAtIndex:0];
-        placeholderText.placeholder = collectionName;
-    }
+    //[self dismissViewControllerAnimated:YES completion:nil];
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    self.workingCollectionName = nil;
+}
+
+-(void) renamedCollectionWithName:(NSString *) collectionName
+              toNewCollectionName:(NSString *) newName
+{
+    NSIndexPath * ip = [self getIndexPathForCollectionIfVisible:collectionName];
+    [self.collectionView selectItemAtIndexPath:ip
+                                      animated:NO
+                                scrollPosition:UICollectionViewScrollPositionNone];
+    [self renameSelectedCollectionsToNewName:newName];
+    [self deselectAll];
 }
 
 #pragma mark - UICollectionView Delegates

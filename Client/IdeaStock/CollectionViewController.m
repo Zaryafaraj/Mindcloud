@@ -36,8 +36,6 @@
 @property (strong, nonatomic) NSMutableDictionary * noteViews;
 @property (strong, nonatomic) NSMutableDictionary * imageNoteViews;
 @property (strong, nonatomic) NSMutableDictionary * stackViews;
-//@property (strong, nonatomic) UIImage * lastImageTaken;
-//@property (strong, nonatomic) NSString * lastImageTakenNoteId;
 @property int noteCount;
 @property (strong, nonatomic) NSArray * intersectingViews;
 @property (weak, nonatomic) UIView<BulletinBoardObject> * highlightedView;
@@ -61,6 +59,8 @@
 @end
 
 #pragma mark - Definitions
+
+#define SAVE_BUTTON_TITLE @"Save"
 
 #define POSITION_X_TYPE @"positionX"
 #define POSITION_Y_TYPE @"positionY"
@@ -920,9 +920,9 @@
 #pragma mark - UI Events
 
 -(void) viewWillAppear:(BOOL)animated{
-//    [self.collectionView setBackgroundColor:[UIColor clearColor]];
+    
     self.collectionView.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
-    //self.parentScrollView.backgroundColor = [UIColor whiteColor];
+    self.navigationItem.hidesBackButton = YES;
     
     UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
     titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
@@ -931,7 +931,45 @@
     titleView.textColor = [UIColor whiteColor];
     titleView.text = self.bulletinBoardName;
     self.navigationItem.titleView = titleView;
+    
+    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed:)];
+    self.navigationItem.leftBarButtonItem = doneButton;
     [titleView sizeToFit];
+}
+
+-(void) donePressed:(id) sender
+{
+    
+    //first save the board. This will give us some time if the alert view showing up for the saved results to be come
+    //consistent on the server
+    [self.board save];
+    
+    if ([self.bulletinBoardName rangeOfString:UNTITLED_COLLECTION_NAME].location != NSNotFound)
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@" Collection Name"
+                                                         message:nil
+                                                        delegate:self
+                                               cancelButtonTitle:nil
+                                               otherButtonTitles:SAVE_BUTTON_TITLE, nil];
+        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [alert show];
+        
+        UITextField * placeholderText = [alert textFieldAtIndex:0];
+        placeholderText.placeholder = self.bulletinBoardName;
+    }
+    
+    else
+    {
+        [self finishWorkingWithCollection];
+    }
+}
+
+-(void) finishWorkingWithCollection
+{
+    [self.parent finishedWorkingWithCollection:self.bulletinBoardName];
+    [self cleanupCollection];
+    [self.board cleanUp];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void) initateDataStructures
@@ -1123,20 +1161,14 @@
     }
 }
 
--(void) viewWillDisappear:(BOOL)animated
+-(void) cleanupCollection
 {
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [self.activeImageSheet dismissWithClickedButtonIndex:-1 animated:NO];
     
     [self.lastPopOver dismissPopoverAnimated:YES];
-    
-    //TODO make this threaded
-    NSData * thumbnailData = [self saveCollectionThumbnail];
-    [self.board save];
-    [self.board cleanUp];
-    [self.parent finishedWorkingWithCollection:self.bulletinBoardName withThumbnailData:thumbnailData];
-    
 }
 
 - (IBAction)refreshPressed:(id)sender {
@@ -1917,6 +1949,27 @@ intoStackingWithMainView: (UIView *) mainView
 -(void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
     self.lastPopOver = nil;
+}
+
+#pragma mark - alertview delegate
+-(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if ([[alertView buttonTitleAtIndex:buttonIndex]
+              isEqualToString:SAVE_BUTTON_TITLE])
+    {
+        
+        NSString * newName = [[alertView textFieldAtIndex:0] text];
+        if (![newName isEqualToString:@""])
+        {
+            
+            [self.parent renamedCollectionWithName:self.bulletinBoardName
+                               toNewCollectionName:newName];
+            //NSData * thumbnailData = [self saveCollectionThumbnail];
+        }
+        
+    }
+    
+    [self finishWorkingWithCollection];
 }
 
 #pragma mark - keyboard notification
