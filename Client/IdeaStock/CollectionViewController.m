@@ -1923,34 +1923,14 @@ intoStackingWithMainView: (UIView *) mainView
 -(void) keyboardAppeared:(NSNotification *) notification
 {
     //no need to figure out keyboard positioning if stack view is presented
+    if (self.activeView == nil) return;
+    
     if (self.presentedViewController == nil)
     {
         NSDictionary * info = [notification userInfo];
         CGSize kbSize = [info[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-        
-        float keyboardHeight = MIN(kbSize.height, kbSize.width);
-        
-        CGRect aRect = self.collectionView.bounds;
-        
-        if (self.activeView == nil) return;
-        
-        CGPoint noteViewCenter = self.activeView.center;
-        //the -1 is there because we dont want the rightestCornerToNotFallInside 
-        CGFloat noteViewRightestCorner = MIN(noteViewCenter.x + self.activeView.bounds.size.width/2,
-                                             aRect.origin.x + aRect.size.width - 1);
-        CGPoint noteViewRightcorner = CGPointMake(noteViewRightestCorner,
-                                                  noteViewCenter.y + self.activeView.bounds.size.height/2);
-        aRect.size.height -= keyboardHeight;
-        if (!CGRectContainsPoint(aRect,noteViewRightcorner))
-        {
-            CGFloat spaceFromLowerCornerToBottom = self.collectionView.bounds.size.height - noteViewRightcorner.y;
-            CGFloat addedVisibleSpaceY = keyboardHeight - spaceFromLowerCornerToBottom;
-            CGPoint scrollPoint = CGPointMake(0.0, self.collectionView.bounds.origin.y + addedVisibleSpaceY);
-            UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardHeight, 0.0);
-            self.parentScrollView.contentInset = contentInsets;
-            self.parentScrollView.scrollIndicatorInsets = contentInsets;
-            [self.parentScrollView setContentOffset:scrollPoint animated:YES];
-        }
+        [self.parentScrollView adjustSizeForKeyboardAppearing:kbSize
+                                             overSelectedView:self.activeView];
     }
 }
 
@@ -1959,12 +1939,8 @@ intoStackingWithMainView: (UIView *) mainView
     //no need to figure out keyboard positioning if stack view is presented
     if (self.presentedViewController == nil)
     {
+        [self.parentScrollView adjustSizeForKeyboardDisappearingOverSelectedView:self.activeView];
         self.activeView = nil;
-        CGPoint scrollPoint = CGPointMake(0.0, 0.0);
-        [self.parentScrollView setContentOffset:scrollPoint animated:YES];
-        //        UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-        //        self.collectionView.contentInset = contentInsets;
-        //        self.collectionView.scrollIndicatorInsets = contentInsets;
     }
 }
 

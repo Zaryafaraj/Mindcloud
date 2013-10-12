@@ -12,4 +12,9 @@
 
 -(void) willRotateToInterfaceOrientation:(UIInterfaceOrientation) orientation;
 
+-(void) adjustSizeForKeyboardAppearing:(CGSize) kbSize
+                      overSelectedView:(UIView *) activeView;
+
+-(void) adjustSizeForKeyboardDisappearingOverSelectedView:(UIView *) activeView;
+
 @end

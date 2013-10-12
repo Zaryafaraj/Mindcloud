@@ -18,8 +18,7 @@
 
 -(UIColor *) collectionBackgroundColor
 {
-//    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"signin_backgroun_pattern"]];
-    return [UIColor whiteColor];
+    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"signin_backgroun_pattern"]];
 }
 
 -(UIColor *) backgroundColorForAllCollectionCategory
