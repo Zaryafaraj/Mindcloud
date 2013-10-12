@@ -50,7 +50,14 @@
     CGFloat minZoomWidth =  self.bounds.size.width / surrogateWidth;
     CGFloat minZoomHeight =  self.bounds.size.height / surrogateHeight;
     CGFloat targetZoomFactor = MAX(minZoomHeight, minZoomWidth);
-    self.surrogateView.transform = CGAffineTransformMakeScale(targetZoomFactor, targetZoomFactor);
+    
+    //this is a relative transform. If we were all zoomed out the minimum zoom scale should
+    //be target zoom scale. Right now the minimum scale is self.minimumZoomScale. So the
+    //ration by which the scaling should be changed is the targetMinZoomScale/currentMinZoomScale. We can then use the ratio to update the current transform
+    
+    CGFloat scaleRatio = targetZoomFactor / self.minimumZoomScale;
+    
+    self.surrogateView.transform = CGAffineTransformScale(self.surrogateView.transform, scaleRatio, scaleRatio);
 }
 
 -(UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView
@@ -77,8 +84,6 @@
                               self.bounds.size.height);
     
     CGRect currentViewBounds = aRect;
-    
-    //self.surrogateView.bounds;
     
     CGPoint noteViewCenter = activeView.center;
     noteViewCenter = CGPointMake(noteViewCenter.x * self.zoomScale,
