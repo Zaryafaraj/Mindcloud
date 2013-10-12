@@ -30,6 +30,9 @@ MindcloudAllCollectionsDelegate>
 
 -(void) finishedWorkingWithCollection:(NSString * ) collectionName;
 
+-(void) thumbnailCreatedForCollectionName:(NSString *) collectionName
+                                 withData:(NSData *) imgData;
+
 -(void) renamedCollectionWithName:(NSString *) collectionName
               toNewCollectionName:(NSString *) newName;
 

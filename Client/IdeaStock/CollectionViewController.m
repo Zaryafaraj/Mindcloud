@@ -22,6 +22,7 @@
 #import "NamingHelper.h"
 #import "StackViewController.h"
 #import "CollectionScrollView.h"
+#import "ScreenCaptureService.h"
 
 @interface CollectionViewController ()
 
@@ -969,6 +970,16 @@
     [self.parent finishedWorkingWithCollection:self.bulletinBoardName];
     [self cleanupCollection];
     [self.board cleanUp];
+    
+    NSData * thumbnailData = [self saveCollectionThumbnail];
+    
+    //thumbnail being nil means that we are in the process of creating the thumbnail on
+    //a different thread and once that is done the thread is promising to call the parent
+    if (thumbnailData != nil)
+    {
+        [self.parent thumbnailCreatedForCollectionName:self.bulletinBoardName
+                                          withData:thumbnailData];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -1705,12 +1716,29 @@ intoStackingWithMainView: (UIView *) mainView
     if ([self.board isUpdateThumbnailNeccessary])
     {
         
+        MindcloudCollection * boardClosure = self.board;
+        AllCollectionsViewController * parentClosure = self.parent;
+        UIView * screenToCaptureClosure = self.collectionView;
         thumbnailData = [self.board getLastThumbnailImage];
         if (thumbnailData == nil)
         {
-            thumbnailData = [MultimediaHelper captureScreenshotOfView:self.collectionView.superview];
+            [[ScreenCaptureService getInstance]
+             submitCaptureThumbnailRequestForCollection:self.bulletinBoardName
+             withTopView:screenToCaptureClosure
+             andViewType:ViewForScreenShotCollectionView
+             andCallback:^(NSData * thumbnailData,
+                           NSString * collectionName,
+                           ViewForScreenShotType viewType){
+                 [boardClosure saveThumbnail:thumbnailData];
+                 [parentClosure thumbnailCreatedForCollectionName:collectionName
+                                                         withData:thumbnailData];
+             }];
         }
-        [self.board saveThumbnail:thumbnailData];
+        else
+        {
+            
+            [self.board saveThumbnail:thumbnailData];
+        }
     }
     return thumbnailData;
 }
@@ -1964,7 +1992,6 @@ intoStackingWithMainView: (UIView *) mainView
             
             [self.parent renamedCollectionWithName:self.bulletinBoardName
                                toNewCollectionName:newName];
-            //NSData * thumbnailData = [self saveCollectionThumbnail];
         }
         
     }

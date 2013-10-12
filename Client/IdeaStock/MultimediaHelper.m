@@ -14,7 +14,7 @@
 @implementation MultimediaHelper
 #define THUMBNAIL_WIDTH 250
 #define THUMBNAIL_HEIGHT 250
-#define IMG_COMPRESSION_QUALITY 0.2
+#define IMG_COMPRESSION_QUALITY 0.5
 +(UIImagePickerController *) getCameraController
 {
     
@@ -77,7 +77,7 @@
     //should not be a problem
     UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
     
-    [view drawViewHierarchyInRect:drawRect afterScreenUpdates:YES];
+    [view drawViewHierarchyInRect:drawRect afterScreenUpdates:NO];
     
 //    CGContextRef context = UIGraphicsGetCurrentContext();
 //    for (UIView * subView in view.subviews)
