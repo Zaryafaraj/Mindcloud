@@ -125,4 +125,14 @@
     }
 }
 
+-(void) enablePaintMode
+{
+    
+}
+
+-(void) disablePaintMode
+{
+    
+}
+
 @end

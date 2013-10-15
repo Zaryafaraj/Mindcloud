@@ -1805,7 +1805,8 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) disablePaintMode
 {
-       for (NoteView * note in self.noteViews.allValues)
+    [self.parentScrollView disablePaintMode];
+    for (NoteView * note in self.noteViews.allValues)
     {
         [note disablePaintMode];
     }
@@ -1813,6 +1814,7 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) enablePaintMode
 {
+    [self.parentScrollView enablePaintMode];
     for (NoteView * note in self.noteViews.allValues)
     {
         [note enablePaintMode];
