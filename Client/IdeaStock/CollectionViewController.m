@@ -1792,15 +1792,32 @@ intoStackingWithMainView: (UIView *) mainView
     {
         self.isPainting = NO;
         ((UIBarButtonItem *) sender).tintColor = [UIColor whiteColor];
+        [self disablePaintMode];
     }
     else
     {
         self.isPainting = YES;
         ((UIBarButtonItem *) sender).tintColor = [UIColor redColor];
+        [self enablePaintMode];
         
     }
 }
 
+-(void) disablePaintMode
+{
+       for (NoteView * note in self.noteViews.allValues)
+    {
+        [note disablePaintMode];
+    }
+}
+
+-(void) enablePaintMode
+{
+    for (NoteView * note in self.noteViews.allValues)
+    {
+        [note enablePaintMode];
+    }
+}
 -(void) removeContextualToolbarItems:(UIView *) contextView{
     
     NSMutableArray * newToolbarItems = [self.navigationItem.rightBarButtonItems mutableCopy];

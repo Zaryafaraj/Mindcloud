@@ -35,6 +35,11 @@
                         withDuration:(CGFloat) duration
                  andAnimationOptions:(UIViewAnimationOptions) options;
 
+-(void) enablePaintMode;
+
+-(void) disablePaintMode;
+
 -(instancetype) prototype;
+
 
 @end
