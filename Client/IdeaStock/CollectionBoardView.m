@@ -43,7 +43,7 @@
                                    self.bounds.size.width,
                                    self.bounds.size.height);
     PaintLayerView * paintLayer = [[PaintLayerView alloc] initWithFrame:paintFrame];
-    paintLayer.backgroundColor = [UIColor greenColor];
+    paintLayer.backgroundColor = [UIColor clearColor];
     self.paintLayer = paintLayer;
     self.paintLayer.translatesAutoresizingMaskIntoConstraints = NO;
     NSDictionary * viewsDictionary = NSDictionaryOfVariableBindings(self, paintLayer);

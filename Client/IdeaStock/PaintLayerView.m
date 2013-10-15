@@ -111,7 +111,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
 }
 
 - (void)drawRect:(CGRect)rect {
-    [[UIColor whiteColor] set];
+    [[UIColor clearColor] set];
     UIRectFill(rect);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
