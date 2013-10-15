@@ -283,28 +283,33 @@ withMoveNoteFunction:(update_note_location_function) updateNote
     
     for (UIView * view in collectionView.subviews){
         
-        float positionXCenter = view.center.x;
-        float positionYCenter = view.center.y;
-        BOOL changed = NO;
-        if ( positionXCenter + view.bounds.size.width/2 > collectionView.bounds.origin.x + collectionView.bounds.size.width ){
-            positionXCenter = collectionView.bounds.origin.x + collectionView.bounds.size.width - NOTE_WIDTH;
-            changed = YES;
-        }
-        if ( positionYCenter + view.bounds.size.height > collectionView.bounds.origin.x + collectionView.bounds.size.height){
-            positionYCenter = collectionView.bounds.origin.x + collectionView.bounds.size.height - NOTE_HEIGHT;
-            changed = YES;
-        }
-        if (positionXCenter - view.bounds.size.width/2 <  collectionView.bounds.origin.x){
-            positionXCenter = collectionView.bounds.origin.x;
-            changed = YES;
-        }
-        if (positionYCenter - view.bounds.size.width/2 < collectionView.bounds.origin.y){
-            positionYCenter = collectionView.bounds.origin.y;
-            changed = YES;
-        }
-        
-        if(changed){
-            view.center = CGPointMake(positionXCenter, positionYCenter);
+        if ([view isKindOfClass:[NoteView class]] || [view isKindOfClass:[StackView class]])
+        {
+            
+            float positionXCenter = view.center.x;
+            float positionYCenter = view.center.y;
+            BOOL changed = NO;
+            if ( positionXCenter + view.bounds.size.width/2 > collectionView.bounds.origin.x + collectionView.bounds.size.width ){
+                positionXCenter = collectionView.bounds.origin.x + collectionView.bounds.size.width - NOTE_WIDTH;
+                changed = YES;
+            }
+            if ( positionYCenter + view.bounds.size.height > collectionView.bounds.origin.x + collectionView.bounds.size.height){
+                positionYCenter = collectionView.bounds.origin.x + collectionView.bounds.size.height - NOTE_HEIGHT;
+                changed = YES;
+            }
+            if (positionXCenter - view.bounds.size.width/2 <  collectionView.bounds.origin.x){
+                positionXCenter = collectionView.bounds.origin.x;
+                changed = YES;
+            }
+            if (positionYCenter - view.bounds.size.width/2 < collectionView.bounds.origin.y){
+                positionYCenter = collectionView.bounds.origin.y;
+                changed = YES;
+            }
+            
+            if(changed){
+                view.center = CGPointMake(positionXCenter, positionYCenter);
+                
+            }
         }
     }
 }
