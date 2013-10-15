@@ -50,6 +50,7 @@
 		DB4FF4CE16ACA8DB00DC6DAA /* MultimediaHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4FF4CD16ACA8DB00DC6DAA /* MultimediaHelper.m */; };
 		DB57B05118090A4E002F993B /* ScreenCaptureService.m in Sources */ = {isa = PBXBuildFile; fileRef = DB57B05018090A4E002F993B /* ScreenCaptureService.m */; };
 		DB57B054180DD9E2002F993B /* PaintLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB57B053180DD9E2002F993B /* PaintLayerView.m */; };
+		DB57B058180DE49F002F993B /* CollectionBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB57B057180DE49F002F993B /* CollectionBoardView.m */; };
 		DB601A3916E2C2380007A636 /* ListenerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB601A3816E2C2380007A636 /* ListenerAction.m */; };
 		DB601A3D16E2CFED0007A636 /* CollectionSharingAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = DB601A3C16E2CFEC0007A636 /* CollectionSharingAdapter.m */; };
 		DB64030717DABE5700DC9578 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB64030617DABE5700DC9578 /* Images.xcassets */; };
@@ -218,6 +219,9 @@
 		DB57B05018090A4E002F993B /* ScreenCaptureService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenCaptureService.m; sourceTree = "<group>"; };
 		DB57B052180DD9E2002F993B /* PaintLayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintLayerView.h; sourceTree = "<group>"; };
 		DB57B053180DD9E2002F993B /* PaintLayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintLayerView.m; sourceTree = "<group>"; };
+		DB57B055180DE415002F993B /* PaintEnabledView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintEnabledView.h; sourceTree = "<group>"; };
+		DB57B056180DE49F002F993B /* CollectionBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionBoardView.h; sourceTree = "<group>"; };
+		DB57B057180DE49F002F993B /* CollectionBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionBoardView.m; sourceTree = "<group>"; };
 		DB601A3716E2C2380007A636 /* ListenerAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListenerAction.h; sourceTree = "<group>"; };
 		DB601A3816E2C2380007A636 /* ListenerAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListenerAction.m; sourceTree = "<group>"; };
 		DB601A3B16E2CFEC0007A636 /* CollectionSharingAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionSharingAdapter.h; sourceTree = "<group>"; };
@@ -560,6 +564,9 @@
 				D7DD09E21572190C00918BDF /* ImageNoteView.m */,
 				D7E44BEC15643AA90080EF71 /* StackView.h */,
 				D7E44BED15643AA90080EF71 /* StackView.m */,
+				DB57B055180DE415002F993B /* PaintEnabledView.h */,
+				DB57B056180DE49F002F993B /* CollectionBoardView.h */,
+				DB57B057180DE49F002F993B /* CollectionBoardView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1119,6 +1126,7 @@
 				DB8F48A417CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m in Sources */,
 				DBE3171617F63A0D00EEBA18 /* BlueTheme.m in Sources */,
 				DBC4E35917F14B5100F595FE /* MMDrawerController.m in Sources */,
+				DB57B058180DE49F002F993B /* CollectionBoardView.m in Sources */,
 				DBBA28C416CCC81D007C7B4A /* DeleteFragmentNamespaceSubElementNotification.m in Sources */,
 				DB205A92180536EC00C94A2B /* CollectionScrollView.m in Sources */,
 				DBDB105716D032C200B5F7AE /* MergerThread.m in Sources */,
