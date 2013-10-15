@@ -471,11 +471,11 @@
                         <viewControllerLayoutGuide type="bottom" id="lwh-b9-xW6"/>
                     </layoutGuides>
                     <view key="view" autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="4HH-7a-1rX">
-                        <rect key="frame" x="0.0" y="64" width="1024" height="704"/>
+                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" indicatorStyle="white" minimumZoomScale="0.20000000000000001" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="QXW-F8-5QD" customClass="CollectionScrollView">
-                                <rect key="frame" x="0.0" y="0.0" width="1024" height="704"/>
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="efj-z7-K4y" userLabel="Surrogate">
                                         <rect key="frame" x="0.0" y="0.0" width="2000" height="2000"/>
@@ -556,18 +556,31 @@
                                     <outlet property="surrogateView" destination="efj-z7-K4y" id="9h6-W5-PIr"/>
                                 </connections>
                             </scrollView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="Cfm-Vh-f3W">
+                                <rect key="frame" x="0.0" y="916" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="IzC-P6-Dcb"/>
+                                    <barButtonItem title="Paint" id="1WK-Kb-cNo">
+                                        <connections>
+                                            <action selector="paintPressed:" destination="9HL-37-GHp" id="boB-Ye-vul"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="0.94657176733016968" green="0.47315338253974915" blue="0.19889563322067261" alpha="0.0" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="Cfm-Vh-f3W" firstAttribute="leading" secondItem="QXW-F8-5QD" secondAttribute="leading" id="CmG-eI-xIH"/>
                             <constraint firstItem="lwh-b9-xW6" firstAttribute="top" secondItem="QXW-F8-5QD" secondAttribute="bottom" id="Peb-06-QDu"/>
                             <constraint firstItem="QXW-F8-5QD" firstAttribute="top" secondItem="4HH-7a-1rX" secondAttribute="top" id="X7M-53-fc9"/>
+                            <constraint firstItem="lwh-b9-xW6" firstAttribute="top" secondItem="Cfm-Vh-f3W" secondAttribute="bottom" id="g2K-dB-zVH"/>
                             <constraint firstItem="QXW-F8-5QD" firstAttribute="leading" secondItem="4HH-7a-1rX" secondAttribute="leading" id="l7o-kT-aTt"/>
+                            <constraint firstItem="Cfm-Vh-f3W" firstAttribute="trailing" secondItem="QXW-F8-5QD" secondAttribute="trailing" id="tzo-I6-VRf"/>
                             <constraint firstAttribute="trailing" secondItem="QXW-F8-5QD" secondAttribute="trailing" id="yaS-2w-Tz0"/>
                         </constraints>
-                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="cameraButton" destination="Rwb-Kb-IkV" id="Tbb-70-j8S"/>
                         <outlet property="collectionView" destination="efj-z7-K4y" id="Bka-NP-n1K"/>
@@ -577,6 +590,7 @@
                         <outlet property="prototypeImageView" destination="O4b-nD-qa5" id="JNE-Cu-gdH"/>
                         <outlet property="prototypeNoteView" destination="rJw-4W-tVJ" id="wy0-Qm-7b6"/>
                         <outlet property="toolbar" destination="CU7-1N-ESK" id="BfB-Yf-6q1"/>
+                        <outlet property="utilityBar" destination="Cfm-Vh-f3W" id="eDX-hK-tHh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V18-oK-TF6" userLabel="First Responder" sceneMemberID="firstResponder"/>

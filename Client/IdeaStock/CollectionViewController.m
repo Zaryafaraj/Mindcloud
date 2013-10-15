@@ -54,9 +54,11 @@
 @property (strong, nonatomic) IBOutlet NoteView *prototypeNoteView;
 @property (strong, nonatomic) IBOutlet ImageNoteView *prototypeImageView;
 
+@property BOOL isPainting;
 
 @property (strong, nonatomic) UIDynamicAnimator * animator;
 
+@property (weak, nonatomic) IBOutlet UIToolbar *utilityBar;
 @end
 
 #pragma mark - Definitions
@@ -1782,7 +1784,22 @@ intoStackingWithMainView: (UIView *) mainView
     [collectionView addGestureRecognizer:tgr];
 }
 
-#pragma mark - Contextual Toolbar
+#pragma mark - utilities bar
+
+- (IBAction)paintPressed:(id)sender
+{
+    if (self.isPainting)
+    {
+        self.isPainting = NO;
+        ((UIBarButtonItem *) sender).tintColor = [UIColor whiteColor];
+    }
+    else
+    {
+        self.isPainting = YES;
+        ((UIBarButtonItem *) sender).tintColor = [UIColor redColor];
+        
+    }
+}
 
 -(void) removeContextualToolbarItems:(UIView *) contextView{
     
@@ -1894,6 +1911,7 @@ intoStackingWithMainView: (UIView *) mainView
         }
     }
 }
+
 
 #pragma mark - action sheet delegate
 
