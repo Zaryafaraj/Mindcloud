@@ -128,12 +128,15 @@
 
 -(void) enablePaintMode
 {
-    
+    self.scrollEnabled = NO;
+    [self.surrogateView showPaintLayer];
 }
 
 -(void) disablePaintMode
 {
     
+    self.scrollEnabled = YES;
+    [self.surrogateView hidePaintLayer];
 }
 
 @end

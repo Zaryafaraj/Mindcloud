@@ -11,7 +11,7 @@
 
 @interface CollectionBoardView()
 
-@property (nonatomic, strong) UIView * paintLayer;
+@property (nonatomic, strong) PaintLayerView * paintLayer;
 
 @end
 @implementation CollectionBoardView
@@ -38,30 +38,29 @@
 
 -(void) configurePaintLayer
 {
-    NSLog(@"I WAS HERE");
     CGRect paintFrame = CGRectMake(0,
                                    0,
                                    self.bounds.size.width,
                                    self.bounds.size.height);
-    UIView * paintLayer = [[UIView alloc] initWithFrame:paintFrame];
+    PaintLayerView * paintLayer = [[PaintLayerView alloc] initWithFrame:paintFrame];
     paintLayer.backgroundColor = [UIColor greenColor];
     self.paintLayer = paintLayer;
     self.paintLayer.translatesAutoresizingMaskIntoConstraints = NO;
-    
     NSDictionary * viewsDictionary = NSDictionaryOfVariableBindings(self, paintLayer);
     [self addSubview:paintLayer];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[paintLayer]|" options:0 metrics: 0 views:viewsDictionary]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[paintLayer]|" options:0 metrics: 0 views:viewsDictionary]];
+    self.paintLayer.hidden = YES;
 }
 
 -(void) showPaintLayer
 {
-    self.paintLayer.hidden = YES;
+    self.paintLayer.hidden = NO;
 }
 
 -(void) hidePaintLayer
 {
-    self.paintLayer.hidden = NO;
+    self.paintLayer.hidden = YES;
 }
 
 @end

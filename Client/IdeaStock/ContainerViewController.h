@@ -14,6 +14,10 @@
 
 -(void) toggleSidePanel;
 
+-(void) disableLeftPanel;
+
+-(void) enableLeftPanel;
+
 @property (nonatomic, strong) CategoriesViewController * leftPanel;
 
 @end

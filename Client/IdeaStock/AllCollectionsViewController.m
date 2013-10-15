@@ -479,6 +479,25 @@
     }
 }
 
+-(void) disableTogglingLeftPanel
+{
+    
+    if ([self.navigationController isKindOfClass:[AllCollectionsNavigationControllerViewController class]])
+    {
+        AllCollectionsNavigationControllerViewController * parent = (AllCollectionsNavigationControllerViewController *) self.navigationController;
+        [parent disableLeftPanelToggling];
+    }
+}
+
+-(void) enableTogglingLeftPanel
+{
+    
+    if ([self.navigationController isKindOfClass:[AllCollectionsNavigationControllerViewController class]])
+    {
+        AllCollectionsNavigationControllerViewController * parent = (AllCollectionsNavigationControllerViewController *) self.navigationController;
+        [parent enableLeftPanelToggling];
+    }
+}
 
 -(void) addInitialListeners
 {
@@ -692,6 +711,7 @@
     
     //[self dismissViewControllerAnimated:YES completion:nil];
     
+    [self enableTogglingLeftPanel];
     self.workingCollectionName = nil;
 }
 
@@ -774,6 +794,7 @@
         if (!name) return;
         
         self.workingCollectionName = name;
+        [self disableTogglingLeftPanel];
         [self performSegueWithIdentifier:@"CollectionViewSegue" sender:self];
     }
     
