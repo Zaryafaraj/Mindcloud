@@ -9,7 +9,7 @@
 #import "PaintLayerView.h"
 #import <QuartzCore/QuartzCore.h>
 
-#define DEFAULT_COLOR [UIColor blackColor]
+#define DEFAULT_COLOR [UIColor whiteColor]
 #define DEFAULT_WIDTH 5.0f
 
 static const CGFloat kPointMinDistance = 5;
