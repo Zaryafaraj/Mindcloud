@@ -146,7 +146,7 @@
                                 <color key="barTintColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelectionDuringEditing="YES" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bN0-Hu-7hX">
-                                <rect key="frame" x="0.0" y="124" width="280" height="832"/>
+                                <rect key="frame" x="0.0" y="101" width="280" height="855"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryCell" textLabel="iVa-3y-SI9" rowHeight="66" style="IBUITableViewCellStyleDefault" id="O9H-GH-NY7">
@@ -214,14 +214,6 @@
                                 <rect key="frame" x="365" y="20" width="37" height="37"/>
                                 <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <textField clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kaA-AR-Lhq">
-                                <rect key="frame" x="284" y="91" width="199" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="199" id="w0r-Ys-KgW"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SCV-RT-Iez">
                                 <rect key="frame" x="284" y="129" width="90" height="78"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -231,6 +223,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Copy">
+                                    <color key="titleColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -242,34 +235,44 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Email">
+                                    <color key="titleColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="emailPressed:" destination="7u7-Q1-AoO" eventType="touchUpInside" id="sLc-k5-DSE"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s9b-fS-b3c">
+                                <rect key="frame" x="284" y="100" width="199" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="199" id="njm-Pb-UcV"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="kaA-AR-Lhq" firstAttribute="top" secondItem="TeG-4a-R7g" secondAttribute="bottom" constant="8" symbolic="YES" id="60V-Rz-w0v"/>
+                            <constraint firstItem="s9b-fS-b3c" firstAttribute="leading" secondItem="SCV-RT-Iez" secondAttribute="leading" id="JfM-7S-ksM"/>
+                            <constraint firstItem="t22-qT-wjX" firstAttribute="top" secondItem="s9b-fS-b3c" secondAttribute="bottom" constant="8" symbolic="YES" id="Qzu-13-R1N"/>
                             <constraint firstItem="TeG-4a-R7g" firstAttribute="top" secondItem="CVh-1W-fuM" secondAttribute="top" constant="20" symbolic="YES" id="Thh-Ay-wHn"/>
+                            <constraint firstItem="s9b-fS-b3c" firstAttribute="centerX" secondItem="RXx-me-U5X" secondAttribute="centerX" id="baF-gk-iJo"/>
                             <constraint firstItem="TeG-4a-R7g" firstAttribute="centerX" secondItem="RXx-me-U5X" secondAttribute="centerX" id="dQf-e3-6aD"/>
-                            <constraint firstItem="t22-qT-wjX" firstAttribute="top" secondItem="kaA-AR-Lhq" secondAttribute="bottom" constant="8" symbolic="YES" id="eQJ-1v-yQs"/>
+                            <constraint firstItem="s9b-fS-b3c" firstAttribute="top" secondItem="TeG-4a-R7g" secondAttribute="bottom" constant="17" id="eLm-v9-421"/>
                             <constraint firstItem="TeG-4a-R7g" firstAttribute="centerX" secondItem="CVh-1W-fuM" secondAttribute="centerX" id="fSd-Jt-ROx"/>
                             <constraint firstItem="TeG-4a-R7g" firstAttribute="top" secondItem="RXx-me-U5X" secondAttribute="top" id="gND-fX-llw"/>
                             <constraint firstItem="SCV-RT-Iez" firstAttribute="bottom" secondItem="t22-qT-wjX" secondAttribute="bottom" id="gbP-0u-tK7"/>
-                            <constraint firstItem="SCV-RT-Iez" firstAttribute="top" secondItem="kaA-AR-Lhq" secondAttribute="bottom" constant="8" symbolic="YES" id="lGi-1P-cil"/>
-                            <constraint firstItem="t22-qT-wjX" firstAttribute="trailing" secondItem="kaA-AR-Lhq" secondAttribute="trailing" id="r9t-xB-8ht"/>
-                            <constraint firstItem="SCV-RT-Iez" firstAttribute="leading" secondItem="kaA-AR-Lhq" secondAttribute="leading" id="tmS-8v-K3m"/>
-                            <constraint firstItem="kaA-AR-Lhq" firstAttribute="centerX" secondItem="RXx-me-U5X" secondAttribute="centerX" id="tq3-p0-oYv"/>
+                            <constraint firstItem="s9b-fS-b3c" firstAttribute="trailing" secondItem="t22-qT-wjX" secondAttribute="trailing" id="hQj-3I-cET"/>
+                            <constraint firstItem="SCV-RT-Iez" firstAttribute="top" secondItem="s9b-fS-b3c" secondAttribute="bottom" constant="8" symbolic="YES" id="kWx-0n-USp"/>
                             <constraint firstItem="t22-qT-wjX" firstAttribute="leading" secondItem="SCV-RT-Iez" secondAttribute="trailing" constant="19" id="zwD-es-QlP"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
-                        <outlet property="SharingSecretText" destination="kaA-AR-Lhq" id="fCp-HO-b5p"/>
                         <outlet property="activityIndicator" destination="RXx-me-U5X" id="mC3-Ye-oGd"/>
                         <outlet property="sharingLabel" destination="TeG-4a-R7g" id="Ap6-23-HXB"/>
+                        <outlet property="sharingSecretLabel" destination="s9b-fS-b3c" id="JBC-Yu-ef0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iZr-zl-hiA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -289,9 +292,9 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BzD-cR-F4A">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="1069"/>
+                                <rect key="frame" x="0.0" y="176" width="768" height="784"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="15" minimumInteritemSpacing="11" id="z7C-mu-znQ">
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="10" id="z7C-mu-znQ">
                                     <size key="itemSize" width="203" height="149"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -299,24 +302,24 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.10000000000000014" contentMode="center" placeholderIntrinsicWidth="250" placeholderIntrinsicHeight="250" reuseIdentifier="CollectionCell" id="WAv-an-XHa" customClass="CollectionCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="240" height="250"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="250"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="240" height="250"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="280" height="250"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tEM-oN-bu8">
-                                                    <rect key="frame" x="3" y="3" width="234" height="244"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tEM-oN-bu8">
+                                                    <rect key="frame" x="3" y="3" width="274" height="244"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <view alpha="0.90000000000000013" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bPz-ZN-VKJ">
-                                                    <rect key="frame" x="3" y="181" width="234" height="66"/>
+                                                    <rect key="frame" x="3" y="181" width="274" height="66"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Mindcloud" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xiw-0D-LDI">
-                                                            <rect key="frame" x="0.0" y="0.0" width="250" height="69"/>
+                                                            <rect key="frame" x="3" y="0.0" width="274" height="69"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="69" id="MEU-Rj-b09"/>
-                                                                <constraint firstAttribute="width" constant="250" id="r2o-cb-chf"/>
+                                                                <constraint firstAttribute="width" constant="274" id="r2o-cb-chf"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="35"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -326,7 +329,7 @@
                                                     <color key="backgroundColor" red="0.94787546149789026" green="0.94787546149789026" blue="0.94787546149789026" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="Xiw-0D-LDI" firstAttribute="centerY" secondItem="bPz-ZN-VKJ" secondAttribute="centerY" constant="1.5" id="Eet-VZ-wef"/>
-                                                        <constraint firstItem="Xiw-0D-LDI" firstAttribute="leading" secondItem="bPz-ZN-VKJ" secondAttribute="leading" id="T3t-Dy-6WL"/>
+                                                        <constraint firstItem="Xiw-0D-LDI" firstAttribute="leading" secondItem="bPz-ZN-VKJ" secondAttribute="leading" constant="3" id="T3t-Dy-6WL"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -338,7 +341,7 @@
                                             <constraint firstItem="bPz-ZN-VKJ" firstAttribute="leading" secondItem="WAv-an-XHa" secondAttribute="leading" constant="3" id="mVY-E9-M9m"/>
                                             <constraint firstAttribute="bottom" secondItem="bPz-ZN-VKJ" secondAttribute="bottom" constant="3" id="nbJ-1N-ORC"/>
                                         </constraints>
-                                        <size key="customSize" width="240" height="250"/>
+                                        <size key="customSize" width="280" height="250"/>
                                         <connections>
                                             <outlet property="picImage" destination="tEM-oN-bu8" id="dns-4X-Xvj"/>
                                             <outlet property="titleLabel" destination="Xiw-0D-LDI" id="5jt-bi-ZWu"/>
@@ -353,58 +356,52 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="1Wk-zS-ESI">
                                 <rect key="frame" x="0.0" y="916" width="768" height="44"/>
                                 <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Eho-C9-EHr">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </barButtonItem>
-                                    <barButtonItem enabled="NO" title="Categorize" id="eOo-p7-RNb">
+                                    <barButtonItem enabled="NO" title="  Categorize  " id="eOo-p7-RNb">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="categorizedPressed:" destination="C4k-Gx-gPL" id="TxH-zD-qIF"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem enabled="NO" title="Rename" id="0Q9-ix-kI4">
+                                    <barButtonItem enabled="NO" title="Rename  " id="0Q9-ix-kI4">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="renamePressed:" destination="C4k-Gx-gPL" id="m7I-Ql-kIC"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem enabled="NO" title="Delete" id="vdd-fp-afS">
+                                    <barButtonItem enabled="NO" title="Delete  " id="vdd-fp-afS">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="deletePressed:" destination="C4k-Gx-gPL" id="DIA-V1-x5K"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem enabled="NO" title="Unshare" id="VhD-cj-b6y">
+                                    <barButtonItem enabled="NO" title="Unshare  " id="VhD-cj-b6y">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="unsharePressed:" destination="C4k-Gx-gPL" id="7Fn-HG-dnc"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem enabled="NO" title="Share" id="1KY-yG-IgQ">
+                                    <barButtonItem enabled="NO" title="Share  " id="1KY-yG-IgQ">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="sharePressed:" destination="C4k-Gx-gPL" id="hey-2h-zd3"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Subscribe" id="fvF-6J-lfP">
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Eho-C9-EHr">
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </barButtonItem>
+                                    <barButtonItem title="Subscribe  " id="fvF-6J-lfP">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="subscribePressed:" destination="C4k-Gx-gPL" id="jTL-ev-nCQ"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Done" id="zGk-Ze-iMT">
+                                    <barButtonItem title="Done  " id="zGk-Ze-iMT">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="cancelPressed:" destination="C4k-Gx-gPL" id="ca9-GR-NLv"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Sharing" id="hnf-Nd-TzQ">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <action selector="SharingModePressed:" destination="C4k-Gx-gPL" id="aDI-82-uYu"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem title="Edit" id="04P-dP-H7k">
+                                    <barButtonItem title="Select  " id="04P-dP-H7k">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="editPressed:" destination="C4k-Gx-gPL" id="cz5-sY-Em3"/>
@@ -419,14 +416,28 @@
                                 </items>
                                 <color key="barTintColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XJQ-se-dPS">
+                                <rect key="frame" x="0.0" y="37" width="460" height="101"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="All Collections" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qf1-Fk-LOz">
+                                        <rect key="frame" x="0.0" y="0.0" width="460" height="101"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="50"/>
+                                        <color key="textColor" white="0.96551440135542166" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.95605056698312241" green="0.36760380167098766" blue="0.024000774761794519" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="BzD-cR-F4A" firstAttribute="trailing" secondItem="1Wk-zS-ESI" secondAttribute="trailing" id="2lT-e0-T7w"/>
-                            <constraint firstAttribute="bottom" secondItem="BzD-cR-F4A" secondAttribute="bottom" constant="-109" id="7N5-FA-Zkg"/>
+                            <constraint firstAttribute="bottom" secondItem="BzD-cR-F4A" secondAttribute="bottom" id="7N5-FA-Zkg"/>
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="leading" secondItem="BzD-cR-F4A" secondAttribute="leading" id="FBr-fc-LG5"/>
                             <constraint firstAttribute="trailing" secondItem="1Wk-zS-ESI" secondAttribute="trailing" id="Svh-Z4-EYm"/>
-                            <constraint firstItem="BzD-cR-F4A" firstAttribute="top" secondItem="1Wk-zS-ESI" secondAttribute="top" constant="-916" id="TsX-Fz-GZX"/>
+                            <constraint firstItem="BzD-cR-F4A" firstAttribute="top" secondItem="1Wk-zS-ESI" secondAttribute="top" constant="-740" id="TsX-Fz-GZX"/>
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" id="fsr-Y1-5xv"/>
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="top" secondItem="Jx3-sE-JAL" secondAttribute="top" constant="916" id="sus-iJ-Ow0"/>
                         </constraints>
@@ -435,12 +446,12 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="GOI-mm-J7V"/>
                     <connections>
-                        <outlet property="SharingModeButton" destination="hnf-Nd-TzQ" id="Z1r-n8-8dH"/>
                         <outlet property="SubscribeButton" destination="fvF-6J-lfP" id="2qG-yV-bLg"/>
                         <outlet property="cancelButton" destination="zGk-Ze-iMT" id="nFK-Uy-uXG"/>
                         <outlet property="categorizeButton" destination="eOo-p7-RNb" id="Rhc-tu-pfP"/>
                         <outlet property="collectionView" destination="BzD-cR-F4A" id="MeN-iG-daM"/>
                         <outlet property="editButton" destination="04P-dP-H7k" id="vDd-so-Qwg"/>
+                        <outlet property="pageTitle" destination="Qf1-Fk-LOz" id="2Ez-bT-ER4"/>
                         <outlet property="shareButton" destination="1KY-yG-IgQ" id="8Xc-cz-akJ"/>
                         <outlet property="toolbar" destination="1Wk-zS-ESI" id="VrZ-Rg-ENb"/>
                         <outlet property="unshareButton" destination="VhD-cj-b6y" id="KCs-Xn-wBT"/>
@@ -459,121 +470,110 @@
                         <viewControllerLayoutGuide type="top" id="nBN-HK-wMT"/>
                         <viewControllerLayoutGuide type="bottom" id="lwh-b9-xW6"/>
                     </layoutGuides>
-                    <view key="view" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="4HH-7a-1rX">
-                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
+                    <view key="view" autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="4HH-7a-1rX">
+                        <rect key="frame" x="0.0" y="64" width="1024" height="704"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" minimumZoomScale="0.20000000000000001" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="QXW-F8-5QD">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
+                            <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" indicatorStyle="white" minimumZoomScale="0.20000000000000001" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="QXW-F8-5QD" customClass="CollectionScrollView">
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="704"/>
                                 <subviews>
-                                    <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CU7-1N-ESK">
-                                        <rect key="frame" x="4" y="913" width="768" height="44"/>
-                                        <items>
-                                            <barButtonItem title="Expand" id="3Cp-b8-UFf">
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <connections>
-                                                    <action selector="expandPressed:" destination="9HL-37-GHp" id="H7n-CG-mWp"/>
-                                                </connections>
-                                            </barButtonItem>
-                                            <barButtonItem systemItem="trash" id="x4X-3T-v6V">
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <connections>
-                                                    <action selector="deletePressed:" destination="9HL-37-GHp" id="xZZ-fC-Lev"/>
-                                                </connections>
-                                            </barButtonItem>
-                                            <barButtonItem systemItem="camera" id="Rwb-Kb-IkV">
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <connections>
-                                                    <action selector="cameraPressed:" destination="9HL-37-GHp" id="HTK-FH-5iZ"/>
-                                                </connections>
-                                            </barButtonItem>
-                                        </items>
-                                        <color key="barTintColor" red="0.26666666666666666" green="0.47058823529411764" blue="0.792156862745098" alpha="1" colorSpace="calibratedRGB"/>
-                                    </toolbar>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rJw-4W-tVJ" customClass="NoteView">
-                                        <rect key="frame" x="20" y="20" width="296" height="216"/>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="efj-z7-K4y" userLabel="Surrogate">
+                                        <rect key="frame" x="0.0" y="0.0" width="2000" height="2000"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iQ3-iK-bAN">
-                                                <rect key="frame" x="20" y="20" width="256" height="176"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
-                                            </textView>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.94700677710843384" alpha="1" colorSpace="calibratedWhite"/>
-                                        <color key="tintColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
-                                        <constraints>
-                                            <constraint firstAttribute="centerY" secondItem="iQ3-iK-bAN" secondAttribute="centerY" id="4Su-7G-i8G"/>
-                                            <constraint firstAttribute="width" constant="296" placeholder="YES" id="81Y-hd-JZG"/>
-                                            <constraint firstAttribute="height" constant="216" placeholder="YES" id="Hnm-Zp-Bof"/>
-                                            <constraint firstAttribute="centerX" secondItem="iQ3-iK-bAN" secondAttribute="centerX" id="RTe-pI-fvY"/>
-                                            <constraint firstItem="iQ3-iK-bAN" firstAttribute="top" secondItem="rJw-4W-tVJ" secondAttribute="top" constant="20" symbolic="YES" id="RkT-y3-yry"/>
-                                            <constraint firstItem="iQ3-iK-bAN" firstAttribute="leading" secondItem="rJw-4W-tVJ" secondAttribute="leading" constant="20" symbolic="YES" id="Ybm-L5-mPb"/>
-                                        </constraints>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O4b-nD-qa5" customClass="ImageNoteView">
-                                        <rect key="frame" x="324" y="20" width="296" height="216"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="test_image_note.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="0qy-fF-xFO">
-                                                <rect key="frame" x="0.0" y="0.0" width="296" height="216"/>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O4b-nD-qa5" customClass="ImageNoteView">
+                                                <rect key="frame" x="324" y="20" width="296" height="216"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            </imageView>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="86d-a1-h6b">
-                                                <rect key="frame" x="20" y="20" width="256" height="176"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
-                                            </textView>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcp-CS-SFA">
-                                                <rect key="frame" x="109" y="188" width="180" height="22"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="test_image_note.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="0qy-fF-xFO">
+                                                        <rect key="frame" x="0.0" y="0.0" width="296" height="216"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    </imageView>
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="86d-a1-h6b">
+                                                        <rect key="frame" x="20" y="20" width="256" height="176"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                        <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
+                                                    </textView>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcp-CS-SFA">
+                                                        <rect key="frame" x="109" y="188" width="180" height="22"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <color key="tintColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <state key="normal" title="ssdf"/>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" red="0.93725496529999996" green="0.94117653369999998" blue="0.96078437569999997" alpha="1" colorSpace="deviceRGB"/>
+                                                <color key="tintColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rJw-4W-tVJ" customClass="NoteView">
+                                                <rect key="frame" x="14" y="20" width="296" height="216"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="tintColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" title="ssdf"/>
-                                            </button>
+                                                <subviews>
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iQ3-iK-bAN">
+                                                        <rect key="frame" x="20" y="20" width="256" height="176"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                        <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
+                                                    </textView>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.94700677710843384" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="tintColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
+                                            </view>
+                                            <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CU7-1N-ESK">
+                                                <rect key="frame" x="0.0" y="700" width="768" height="44"/>
+                                                <items>
+                                                    <barButtonItem title="Expand" id="3Cp-b8-UFf">
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <connections>
+                                                            <action selector="expandPressed:" destination="9HL-37-GHp" id="H7n-CG-mWp"/>
+                                                        </connections>
+                                                    </barButtonItem>
+                                                    <barButtonItem systemItem="trash" id="x4X-3T-v6V">
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <connections>
+                                                            <action selector="deletePressed:" destination="9HL-37-GHp" id="xZZ-fC-Lev"/>
+                                                        </connections>
+                                                    </barButtonItem>
+                                                    <barButtonItem systemItem="camera" id="Rwb-Kb-IkV">
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <connections>
+                                                            <action selector="cameraPressed:" destination="9HL-37-GHp" id="HTK-FH-5iZ"/>
+                                                        </connections>
+                                                    </barButtonItem>
+                                                </items>
+                                                <color key="barTintColor" red="0.26666666666666666" green="0.47058823529411764" blue="0.792156862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                            </toolbar>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.93725496529999996" green="0.94117653369999998" blue="0.96078437569999997" alpha="1" colorSpace="deviceRGB"/>
-                                        <color key="tintColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="216" placeholder="YES" id="C0w-S3-rsw"/>
-                                            <constraint firstItem="86d-a1-h6b" firstAttribute="top" secondItem="O4b-nD-qa5" secondAttribute="top" constant="20" symbolic="YES" id="Lz9-DY-evI"/>
-                                            <constraint firstAttribute="centerY" secondItem="86d-a1-h6b" secondAttribute="centerY" id="S9S-71-Ukv"/>
-                                            <constraint firstAttribute="centerX" secondItem="86d-a1-h6b" secondAttribute="centerX" id="gcI-sD-2mP"/>
-                                            <constraint firstItem="86d-a1-h6b" firstAttribute="leading" secondItem="O4b-nD-qa5" secondAttribute="leading" constant="20" symbolic="YES" id="h3t-ts-N3H"/>
-                                            <constraint firstAttribute="width" constant="296" placeholder="YES" id="w9s-wx-L3Z"/>
-                                        </constraints>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="O4b-nD-qa5" firstAttribute="top" secondItem="rJw-4W-tVJ" secondAttribute="top" id="1x3-lX-pjo"/>
-                                    <constraint firstAttribute="trailing" secondItem="rJw-4W-tVJ" secondAttribute="trailing" constant="452" id="DpA-cx-XjE"/>
-                                    <constraint firstItem="rJw-4W-tVJ" firstAttribute="leading" secondItem="QXW-F8-5QD" secondAttribute="leading" constant="20" symbolic="YES" id="J1V-bN-lEr"/>
-                                    <constraint firstAttribute="bottom" secondItem="rJw-4W-tVJ" secondAttribute="bottom" constant="724" id="Q6Y-1v-tA5"/>
-                                    <constraint firstItem="O4b-nD-qa5" firstAttribute="leading" secondItem="rJw-4W-tVJ" secondAttribute="trailing" constant="8" symbolic="YES" id="huW-sl-Upf"/>
-                                    <constraint firstItem="rJw-4W-tVJ" firstAttribute="top" secondItem="QXW-F8-5QD" secondAttribute="top" constant="20" symbolic="YES" id="iKJ-EO-uEh"/>
-                                </constraints>
+                                <connections>
+                                    <outlet property="surrogateView" destination="efj-z7-K4y" id="9h6-W5-PIr"/>
+                                </connections>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.94657176733016968" green="0.47315338253974915" blue="0.19889563322067261" alpha="0.0" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="QXW-F8-5QD" firstAttribute="leading" secondItem="4HH-7a-1rX" secondAttribute="leading" id="2M0-XH-7Nh"/>
-                            <constraint firstAttribute="trailing" secondItem="QXW-F8-5QD" secondAttribute="trailing" id="IQu-Ou-Cuj"/>
-                            <constraint firstItem="QXW-F8-5QD" firstAttribute="top" secondItem="4HH-7a-1rX" secondAttribute="top" id="kfw-Mo-cDb"/>
-                            <constraint firstAttribute="bottom" secondItem="QXW-F8-5QD" secondAttribute="bottom" id="ujg-FU-GvF"/>
+                            <constraint firstItem="lwh-b9-xW6" firstAttribute="top" secondItem="QXW-F8-5QD" secondAttribute="bottom" id="Peb-06-QDu"/>
+                            <constraint firstItem="QXW-F8-5QD" firstAttribute="top" secondItem="4HH-7a-1rX" secondAttribute="top" id="X7M-53-fc9"/>
+                            <constraint firstItem="QXW-F8-5QD" firstAttribute="leading" secondItem="4HH-7a-1rX" secondAttribute="leading" id="l7o-kT-aTt"/>
+                            <constraint firstAttribute="trailing" secondItem="QXW-F8-5QD" secondAttribute="trailing" id="yaS-2w-Tz0"/>
                         </constraints>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="cameraButton" destination="Rwb-Kb-IkV" id="Tbb-70-j8S"/>
-                        <outlet property="collectionView" destination="QXW-F8-5QD" id="umS-Mv-vac"/>
+                        <outlet property="collectionView" destination="efj-z7-K4y" id="Bka-NP-n1K"/>
                         <outlet property="deleteButton" destination="x4X-3T-v6V" id="Hdn-vV-kUf"/>
                         <outlet property="expandButton" destination="3Cp-b8-UFf" id="FHP-RN-s23"/>
+                        <outlet property="parentScrollView" destination="QXW-F8-5QD" id="t8h-Yl-a0E"/>
                         <outlet property="prototypeImageView" destination="O4b-nD-qa5" id="JNE-Cu-gdH"/>
                         <outlet property="prototypeNoteView" destination="rJw-4W-tVJ" id="wy0-Qm-7b6"/>
                         <outlet property="toolbar" destination="CU7-1N-ESK" id="BfB-Yf-6q1"/>

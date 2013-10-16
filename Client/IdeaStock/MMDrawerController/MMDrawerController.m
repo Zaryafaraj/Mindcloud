@@ -646,6 +646,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
     [self.centerViewController beginAppearanceTransition:YES animated:animated];
 }
 
@@ -1044,12 +1045,13 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         if(drawerSide == MMDrawerSideLeft) {
             transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
             transform = CATransform3DTranslate(transform, self.maximumLeftDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+            sideDrawerViewController.view.layer.transform = transform;
         }
         else if(drawerSide == MMDrawerSideRight){
             transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
             transform = CATransform3DTranslate(transform, -self.maximumRightDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+            sideDrawerViewController.view.layer.transform = transform;
         }
-        sideDrawerViewController.view.layer.transform = transform;
     }
 }
 

@@ -17,6 +17,8 @@
 #import "CategorizationViewController.h"
 #import "NamingHelper.h"
 #import "AllCollectionsNavigationControllerViewController.h"
+#import "ThemeFactory.h"
+#import "AllCollectionsAnimationHelper.h"
 
 @interface AllCollectionsViewController()
 
@@ -25,7 +27,6 @@
 @property (strong, nonatomic) NSArray * editToolbar;
 @property (strong, nonatomic) NSArray * navigateToolbar;
 @property (strong, nonatomic) NSArray * cancelToolbar;
-@property (strong, nonatomic) NSArray * shareToolbar;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *categorizeButton;
 @property (strong, nonatomic) UIColor * lastCategorizeButtonColor;
@@ -39,7 +40,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *showSideMenuButton;
 
 @property (strong, nonatomic) UIPopoverController * lastPopOver;
-@property (weak, nonatomic) UILabel *pageTitle;
+@property (weak, nonatomic) IBOutlet UILabel *pageTitle;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property BOOL isEditing;
 @property (strong, nonatomic) NSString * currentCategory;
@@ -47,7 +48,11 @@
 @property BOOL didCategoriesPresentAlertView;
 @property BOOL isInSharingMode;
 
+@property (strong, nonatomic) AllCollectionsAnimationHelper * animatinHelper;
+
 @property MindcloudAllCollections * model;
+
+@property (nonatomic, strong) NSString * workingCollectionName;
 
 @end
 
@@ -55,19 +60,21 @@
 
 @synthesize currentCategory = _currentCategory;
 
-#define DELETE_BUTTON @"Delete"
-#define CANCEL_BUTTON @"Done"
-#define RENAME_BUTTON @"Rename"
-#define EDIT_BUTTON @"Edit"
-#define CATEGORIZE_BUTTON @"Categorize"
-#define SHARE_BUTTON @"Share"
-#define UNSHARE_BUTTON @"Unshare"
-#define SUBSCRIBE_BUTTON @"Subscribe"
+//TODO the spaces are used as a hack to create spacing in the UI
+//between the buttons. If we find a better way to do it we should remove this ugly hack
+#define DELETE_BUTTON @"Delete  "
+#define CANCEL_BUTTON @"Done  "
+#define RENAME_BUTTON @"Rename  "
+#define EDIT_BUTTON @"Select  "
+#define CATEGORIZE_BUTTON @"  Categorize  "
+#define SHARE_BUTTON @"Share  "
+#define UNSHARE_BUTTON @"Unshare  "
+#define SUBSCRIBE_BUTTON @"Subscribe  "
 #define SHARING_MODE_BUTTON @"Sharing"
 #define UNSHARE_ACTION @"Unshare Collection"
 #define DELETE_ACTION @"Delete Collection"
-#define SUBSCRIBE_BUTTON_TITLE @"Subscribe"
-#define RENAME_BUTTON_TITLE @"Rename"
+#define SUBSCRIBE_BUTTON_TITLE @"Subscribe  "
+#define RENAME_BUTTON_TITLE @"Rename  "
 #define CREATE_CATEGORY_BUTTON @"Create"
 #define ADD_BUTTON_TITLE @"Add"
 #define CATEGORIZATION_ROW_HEIGHT 44
@@ -78,7 +85,6 @@
     {
         _currentCategory = ALL;
         self.pageTitle.text = _currentCategory;
-        [self.pageTitle sizeToFit];
     }
     return _currentCategory;
 }
@@ -86,8 +92,25 @@
 -(void) setCurrentCategory:(NSString *)currentCategory
 {
     _currentCategory = currentCategory;
+    UIColor * aColor = [[ThemeFactory currentTheme] backgroundColorForCustomCategory];
+    
+    if ([self.pageTitle.text isEqualToString:ALL])
+    {
+        aColor = [[ThemeFactory currentTheme] backgroundColorForAllCollectionCategory];
+    }
+    
+    else if ([self.pageTitle.text isEqualToString:SHARED_COLLECTIONS_KEY])
+    {
+        aColor = [[ThemeFactory currentTheme] backgroundColorForSharedCategory];
+    }
+    else if ([self.pageTitle.text isEqualToString:UNCATEGORIZED_KEY])
+    {
+        
+        aColor = [[ThemeFactory currentTheme] backgroundColorForUncategorizedCategory];
+    }
+    
+    [self.animatinHelper animateSwitchCategory:aColor withCategoryTitleView: self.pageTitle];
     self.pageTitle.text = _currentCategory;
-    [self.pageTitle sizeToFit];
 }
 
 #pragma mark - UI events
@@ -97,7 +120,9 @@
     {
         if ([button.title isEqual:DELETE_BUTTON] ||
             [button.title isEqual:RENAME_BUTTON] ||
-            [button.title isEqual:CATEGORIZE_BUTTON])
+            [button.title isEqual:CATEGORIZE_BUTTON] ||
+            [button.title isEqual:SHARE_BUTTON] ||
+            [button.title isEqual:UNSHARE_BUTTON])
         {
             button.enabled = NO;
         }
@@ -110,7 +135,7 @@
     self.unshareButton.enabled = NO;
 }
 
--(void) addCollection: (NSString *) name
+-(NSString *) addCollection: (NSString *) name
 {
     
     NSSet * allNames = [self.model getAllCollectionNames];
@@ -128,10 +153,12 @@
         
     }
     
+    return name;
 }
 
--(void) renameCollection: (NSString *) newName
+-(void) renameSelectedCollectionsToNewName:(NSString *) newName
 {
+    
     NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
     for(NSIndexPath * selectedItem in selectedItems)
     {
@@ -140,16 +167,23 @@
         
         if ([newName isEqualToString:currentName]) continue;
         
-        NSSet * allNames = [self.model getAllCollectionNames];
-        NSString * actualNewName = [NamingHelper validateCollectionName:newName amongAllNames:allNames];
-        
-        [self.model renameCollection:currentName
-                          inCategory:self.currentCategory
-                     toNewCollection:actualNewName];
-        
-        selectedCell.text = actualNewName;
+        [self renameCollectionAtCell:selectedCell
+                           toNewName:newName];
         
     }
+}
+-(void) renameCollectionAtCell: (CollectionCell *) oldCell
+                     toNewName:(NSString *) newName
+{
+    
+    NSSet * allNames = [self.model getAllCollectionNames];
+    NSString * actualNewName = [NamingHelper validateCollectionName:newName amongAllNames:allNames];
+    
+    [self.model renameCollection:oldCell.text
+                      inCategory:self.currentCategory
+                 toNewCollection:actualNewName];
+    
+    oldCell.text = actualNewName;
 }
 
 -(void) deleteCollection
@@ -243,11 +277,7 @@
     self.isEditing = YES;
     self.navigationItem.rightBarButtonItems = self.editToolbar;
 }
-- (IBAction)SharingModePressed:(id)sender {
-    [self.collectionView setAllowsMultipleSelection:NO];
-    self.isInSharingMode = YES;
-    self.navigationItem.rightBarButtonItems = self.shareToolbar;
-}
+
 - (IBAction)unsharePressed:(id)sender {
     
     [self dismissPopOver];
@@ -285,13 +315,12 @@
 -(IBAction) addPressed:(id)sender {
     
     [self dismissPopOver];
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Collection"
-                                                     message:nil
-                                                    delegate:self
-                                           cancelButtonTitle:@"Cancel"
-                                           otherButtonTitles:ADD_BUTTON_TITLE, nil];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alert show];
+    [self deselectAll];
+    NSString * name = UNTITLED_COLLECTION_NAME;
+    name = [self addCollection:name];
+    
+    self.workingCollectionName = name;
+    [self performSegueWithIdentifier:@"CollectionViewSegue" sender:self];
 }
 
 - (IBAction)renamePressed:(id)sender {
@@ -308,7 +337,8 @@
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     //perform add collection
-    if (buttonIndex == 1){
+    if (buttonIndex == 1)
+    {
         if (self.didCategoriesPresentAlertView)
         {
             if ([[alertView buttonTitleAtIndex:buttonIndex]
@@ -325,16 +355,10 @@
         else
         {
             if ([[alertView buttonTitleAtIndex:buttonIndex]
-                 isEqualToString:ADD_BUTTON_TITLE])
-            {
-                NSString * name = [[alertView textFieldAtIndex:0] text];
-                [self addCollection:name];
-            }
-            else if ([[alertView buttonTitleAtIndex:buttonIndex]
                       isEqualToString:RENAME_BUTTON_TITLE])
             {
                 NSString * newName = [[alertView textFieldAtIndex:0] text];
-                [self renameCollection:newName];
+                [self renameSelectedCollectionsToNewName:newName];
                 [self disableEditButtons];
                 self.navigationItem.rightBarButtonItems = self.navigateToolbar;
                 [self deselectAll];
@@ -354,6 +378,7 @@
                 sharingSecret = [sharingSecret uppercaseString];
                 [self.model subscribeToCollectionWithSecret:sharingSecret];
             }
+            
         }
     }
 }
@@ -394,7 +419,7 @@
 
 - (IBAction)categorizedPressed:(id)sender {
     
-    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:YES];
+    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
     [self dismissPopOver];
     
     CategorizationViewController * categorizationController = [self.storyboard instantiateViewControllerWithIdentifier:@"CategorizationView"];
@@ -422,7 +447,7 @@
 
 - (IBAction)sharePressed:(id)sender {
     
-    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:YES];
+    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
     NSString * collectionName = [self getSelectedCollectionName];
     
     if (collectionName == nil) return;
@@ -476,15 +501,6 @@
 -(void) configureNavigationBar
 {
     
-    //title
-    UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
-    titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-    
-    titleView.backgroundColor = [UIColor clearColor];
-    titleView.textColor = [UIColor whiteColor];
-    self.navigationItem.titleView = titleView;
-    [titleView sizeToFit];
-    self.pageTitle = titleView;
     
     //right button
     self.navigationItem.rightBarButtonItems = self.navigateToolbar;
@@ -505,9 +521,12 @@
     self.isEditing = NO;
     self.isInSharingMode = NO;
     self.toolbar.hidden = YES;
+    self.animatinHelper = [[AllCollectionsAnimationHelper alloc] init];
+    
+    UIColor * aColor = [[ThemeFactory currentTheme] backgroundColorForAllCollectionCategory];
+    self.pageTitle.superview.backgroundColor = aColor;
     
     [self configureCategoriesPanel];
-    
     
     [self configureNavigationBar];
     [self addInitialListeners];
@@ -538,45 +557,39 @@
     NSMutableArray *  editbar = [NSMutableArray array];
     NSMutableArray *  navbar = [NSMutableArray array];
     NSMutableArray *  cancelbar = [NSMutableArray array];
-    NSMutableArray * sharebar = [NSMutableArray array];
     for (UIBarButtonItem * barButton in self.toolbar.items)
     {
         if ([barButton.title isEqualToString:CANCEL_BUTTON])
         {
             [cancelbar addObject:barButton];
             [editbar addObject:barButton];
-            [sharebar addObject:barButton];
         }
         else if ([barButton.title isEqual: RENAME_BUTTON] ||
                  [barButton.title isEqual: DELETE_BUTTON] ||
-                 [barButton.title isEqual: CATEGORIZE_BUTTON])
+                 [barButton.title isEqual: CATEGORIZE_BUTTON] ||
+                 [barButton.title isEqual:SHARE_BUTTON] ||
+                 [barButton.title isEqual:UNSHARE_BUTTON])
+        
         {
             [editbar addObject:barButton];
         }
         else if ([barButton.title isEqual:EDIT_BUTTON] ||
                  [barButton.title isEqual:SHARING_MODE_BUTTON] ||
+                 [barButton.title isEqual:SUBSCRIBE_BUTTON] ||
                  barButton == self.showSideMenuButton)
         {
             [navbar addObject:barButton];
-        }
-        else if ([barButton.title isEqual:SHARE_BUTTON] ||
-                 [barButton.title isEqual:UNSHARE_BUTTON] ||
-                 [barButton.title isEqual:SUBSCRIBE_BUTTON])
-        {
-            [sharebar addObject:barButton];
         }
         else
         {
             [editbar addObject:barButton];
             [navbar  addObject:barButton];
             [cancelbar addObject:barButton];
-            [sharebar addObject:barButton];
         }
     }
     self.editToolbar = [[editbar copy] reverseObjectEnumerator].allObjects;
     self.navigateToolbar = [[navbar copy] reverseObjectEnumerator].allObjects;
     self.cancelToolbar = [[cancelbar copy] reverseObjectEnumerator].allObjects;
-    self.shareToolbar = [[sharebar copy] reverseObjectEnumerator].allObjects;
 }
 
 
@@ -657,10 +670,9 @@
     return nil;
 }
 
-#pragma mark - CollectionViewController Delegates
-
--(void) finishedWorkingWithCollection:(NSString *)collectionName
-                    withThumbnailData:(NSData *)imgData
+#pragma mark - thumbnail delegates
+-(void) thumbnailCreatedForCollectionName:(NSString *) collectionName
+                                 withData:(NSData *) imgData
 {
     NSIndexPath * cellIndex  = [self getIndexPathForCollectionIfVisible:collectionName];
     CollectionCell * updatedItem = (CollectionCell * )[self.collectionView cellForItemAtIndexPath:cellIndex];
@@ -669,10 +681,29 @@
         [self.model setImageData:imgData forCollection:collectionName];
         updatedItem.img = [UIImage imageWithData:imgData];
     }
-    [self.collectionView deselectItemAtIndexPath:cellIndex animated:NO];
-   
+}
+#pragma mark - CollectionViewController Delegates
+
+-(void) finishedWorkingWithCollection:(NSString *)collectionName
+{
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    NSIndexPath * cellIndex  = [self getIndexPathForCollectionIfVisible:collectionName];
+    [self.collectionView deselectItemAtIndexPath:cellIndex animated:NO];
+    
+    //[self dismissViewControllerAnimated:YES completion:nil];
+    
+    self.workingCollectionName = nil;
+}
+
+-(void) renamedCollectionWithName:(NSString *) collectionName
+              toNewCollectionName:(NSString *) newName
+{
+    NSIndexPath * ip = [self getIndexPathForCollectionIfVisible:collectionName];
+    [self.collectionView selectItemAtIndexPath:ip
+                                      animated:NO
+                                scrollPosition:UICollectionViewScrollPositionNone];
+    [self renameSelectedCollectionsToNewName:newName];
+    [self deselectAll];
 }
 
 #pragma mark - UICollectionView Delegates
@@ -737,8 +768,12 @@
     {
         
         NSString * name = [self getSelectedCollectionName];
+        
+        self.workingCollectionName = name;
+        
         if (!name) return;
         
+        self.workingCollectionName = name;
         [self performSegueWithIdentifier:@"CollectionViewSegue" sender:self];
     }
     
@@ -748,9 +783,22 @@
 {
     if ([segue.identifier isEqualToString:@"CollectionViewSegue"])
     {
+        NSString * name = nil;
+        if ([sender isKindOfClass:[self class]])
+        {
+            name = ((AllCollectionsViewController *) sender).workingCollectionName;
+        }
+        
+        if (name == nil)
+        {
+            name = [self getSelectedCollectionName];
+        }
+    
+        
+        if (name == nil) return;
+        
         CollectionViewController * dest = [segue destinationViewController];
         //present the collection view
-        NSString * name = [self getSelectedCollectionName];
         dest.bulletinBoardName = name;
         dest.parent = self;
         MindcloudCollection * board = [[MindcloudCollection alloc] initCollection:name];
@@ -777,14 +825,14 @@
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(240, 250);
+    return CGSizeMake(280, 250);
 }
 
 -(UIEdgeInsets) collectionView:(UICollectionView *)collectionView
                         layout:(UICollectionViewLayout *)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(60, 10,20, 10);
+    return UIEdgeInsetsMake(0, 10,10, 10);
 }
 
 #pragma mark - Table view data source

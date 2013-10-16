@@ -14,4 +14,12 @@
 
 -(UIColor *) collectionBackgroundColor;
 
+-(UIColor *) backgroundColorForAllCollectionCategory;
+
+-(UIColor *) backgroundColorForUncategorizedCategory;
+
+-(UIColor *) backgroundColorForSharedCategory;
+
+-(UIColor *) backgroundColorForCustomCategory;
+
 @end

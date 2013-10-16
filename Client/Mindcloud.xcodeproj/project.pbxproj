@@ -38,6 +38,7 @@
 		DB03C357169FEB0000C38FD7 /* CollectionSubCollectionsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C356169FEB0000C38FD7 /* CollectionSubCollectionsAction.m */; };
 		DB03C35B169FEE6C00C38FD7 /* SubCollectionAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35A169FEE6C00C38FD7 /* SubCollectionAction.m */; };
 		DB03C35E169FF1F800C38FD7 /* SubCollectionImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35D169FF1F800C38FD7 /* SubCollectionImageAction.m */; };
+		DB205A92180536EC00C94A2B /* CollectionScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB205A91180536EC00C94A2B /* CollectionScrollView.m */; };
 		DB3174FE16337636001229FE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3174FD16337636001229FE /* SignInViewController.m */; };
 		DB3FD53016B77FA400024AC6 /* CollectionStackingAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD52F16B77FA400024AC6 /* CollectionStackingAttribute.m */; };
 		DB3FD53416B7A4D900024AC6 /* CollectionNoteAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD53316B7A4D900024AC6 /* CollectionNoteAttribute.m */; };
@@ -47,6 +48,7 @@
 		DB4D940D16E337DB007FE65A /* TempImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4D940C16E337DB007FE65A /* TempImageAction.m */; };
 		DB4E0AC9163DCD3D00AB82E6 /* MindcloudAllCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4E0AC8163DCD3D00AB82E6 /* MindcloudAllCollections.m */; };
 		DB4FF4CE16ACA8DB00DC6DAA /* MultimediaHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4FF4CD16ACA8DB00DC6DAA /* MultimediaHelper.m */; };
+		DB57B05118090A4E002F993B /* ScreenCaptureService.m in Sources */ = {isa = PBXBuildFile; fileRef = DB57B05018090A4E002F993B /* ScreenCaptureService.m */; };
 		DB601A3916E2C2380007A636 /* ListenerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB601A3816E2C2380007A636 /* ListenerAction.m */; };
 		DB601A3D16E2CFED0007A636 /* CollectionSharingAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = DB601A3C16E2CFEC0007A636 /* CollectionSharingAdapter.m */; };
 		DB64030717DABE5700DC9578 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB64030617DABE5700DC9578 /* Images.xcassets */; };
@@ -55,6 +57,7 @@
 		DB7B876517D0393F001933FA /* XoomlFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7B876417D0393F001933FA /* XoomlFragment.m */; };
 		DB8F48A117CAA57500DDDB2D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A53CFC1522F39500183CB6 /* main.m */; };
 		DB8F48A417CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8F48A317CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m */; };
+		DB90B37A18023761009CACA3 /* AllCollectionsAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB90B37918023761009CACA3 /* AllCollectionsAnimationHelper.m */; };
 		DB99FFB5160E5C5D0042ED2A /* UserPropertiesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */; };
 		DB99FFBF160E66870042ED2A /* StringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFBE160E66870042ED2A /* StringUtils.m */; };
 		DB99FFC3160E73230042ED2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC2160E73230042ED2A /* QuartzCore.framework */; };
@@ -186,6 +189,8 @@
 		DB03C360169FFD3B00C38FD7 /* EventTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EventTypes.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		DB15E9ED16E71BB80024BA4C /* SharingAwareObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharingAwareObject.h; sourceTree = "<group>"; };
 		DB15E9EE16E725DB0024BA4C /* cachedCollectionContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cachedCollectionContainer.h; sourceTree = "<group>"; };
+		DB205A90180536EC00C94A2B /* CollectionScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionScrollView.h; sourceTree = "<group>"; };
+		DB205A91180536EC00C94A2B /* CollectionScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionScrollView.m; sourceTree = "<group>"; };
 		DB3174FC16337636001229FE /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		DB3174FD16337636001229FE /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		DB31750216337ED7001229FE /* AuthorizationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthorizationDelegate.h; sourceTree = "<group>"; };
@@ -208,6 +213,8 @@
 		DB4E25B016C78A4200E85334 /* ThumbnailManagerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThumbnailManagerProtocol.h; sourceTree = "<group>"; };
 		DB4FF4CC16ACA8DB00DC6DAA /* MultimediaHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultimediaHelper.h; sourceTree = "<group>"; };
 		DB4FF4CD16ACA8DB00DC6DAA /* MultimediaHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultimediaHelper.m; sourceTree = "<group>"; };
+		DB57B04F18090A4E002F993B /* ScreenCaptureService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenCaptureService.h; sourceTree = "<group>"; };
+		DB57B05018090A4E002F993B /* ScreenCaptureService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenCaptureService.m; sourceTree = "<group>"; };
 		DB601A3716E2C2380007A636 /* ListenerAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListenerAction.h; sourceTree = "<group>"; };
 		DB601A3816E2C2380007A636 /* ListenerAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListenerAction.m; sourceTree = "<group>"; };
 		DB601A3B16E2CFEC0007A636 /* CollectionSharingAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionSharingAdapter.h; sourceTree = "<group>"; };
@@ -226,6 +233,8 @@
 		DB8F48A217CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAllCollectionsGordon.h; sourceTree = "<group>"; };
 		DB8F48A317CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudAllCollectionsGordon.m; sourceTree = "<group>"; };
 		DB8F48A817CAC15D00DDDB2D /* MindcloudAllCollectionsGordonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAllCollectionsGordonDelegate.h; sourceTree = "<group>"; };
+		DB90B37818023761009CACA3 /* AllCollectionsAnimationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllCollectionsAnimationHelper.h; sourceTree = "<group>"; };
+		DB90B37918023761009CACA3 /* AllCollectionsAnimationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllCollectionsAnimationHelper.m; sourceTree = "<group>"; };
 		DB99FFB3160E5C5D0042ED2A /* UserPropertiesHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPropertiesHelper.h; sourceTree = "<group>"; };
 		DB99FFB4160E5C5D0042ED2A /* UserPropertiesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPropertiesHelper.m; sourceTree = "<group>"; };
 		DB99FFBD160E66870042ED2A /* StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtils.h; sourceTree = "<group>"; };
@@ -510,6 +519,7 @@
 		D7BF466315472E0D00F06412 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				DB57B04E18090A2B002F993B /* Services */,
 				DBB1BB7B17FF688B00E43310 /* Effects */,
 				DBC4E34E17F14B5100F595FE /* MMDrawerController */,
 				DBC1B7F517CAD9050036431A /* Types */,
@@ -533,6 +543,8 @@
 		DB31750016337E53001229FE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DB205A90180536EC00C94A2B /* CollectionScrollView.h */,
+				DB205A91180536EC00C94A2B /* CollectionScrollView.m */,
 				DBE13373163E13AE00EF0AF7 /* CollectionCell.h */,
 				DBE13374163E13AE00EF0AF7 /* CollectionCell.m */,
 				D7E44BF7156476360080EF71 /* BulletinBoardObject.h */,
@@ -637,6 +649,15 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		DB57B04E18090A2B002F993B /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				DB57B04F18090A4E002F993B /* ScreenCaptureService.h */,
+				DB57B05018090A4E002F993B /* ScreenCaptureService.m */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
 		DB739C7D17CAEC16006DE2D9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -663,6 +684,19 @@
 				DB87A9B317D2D47100605E6A /* BoardsXoomlDefinitions.h */,
 			);
 			name = Definitions;
+			sourceTree = "<group>";
+		};
+		DB90B37718023742009CACA3 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				DBB9313F16ABDEA4005652AA /* CollectionAnimationHelper.h */,
+				DBB9314016ABDEA4005652AA /* CollectionAnimationHelper.m */,
+				DBBD10C717F7E73300FB8780 /* NoteAnimator.h */,
+				DBBD10C817F7E73300FB8780 /* NoteAnimator.m */,
+				DB90B37818023761009CACA3 /* AllCollectionsAnimationHelper.h */,
+				DB90B37918023761009CACA3 /* AllCollectionsAnimationHelper.m */,
+			);
+			name = Animation;
 			sourceTree = "<group>";
 		};
 		DB99FFB1160E5C2D0042ED2A /* Services */ = {
@@ -783,16 +817,13 @@
 		DBB9313B16AB7B5B005652AA /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				DB90B37718023742009CACA3 /* Animation */,
 				DBB9313C16AB7B77005652AA /* CollectionLayoutHelper.h */,
 				DBB9313D16AB7B77005652AA /* CollectionLayoutHelper.m */,
-				DBB9313F16ABDEA4005652AA /* CollectionAnimationHelper.h */,
-				DBB9314016ABDEA4005652AA /* CollectionAnimationHelper.m */,
 				DB4FF4CC16ACA8DB00DC6DAA /* MultimediaHelper.h */,
 				DB4FF4CD16ACA8DB00DC6DAA /* MultimediaHelper.m */,
 				DB42E73416AE58500021D6FA /* NetworkActivityHelper.h */,
 				DB42E73516AE58500021D6FA /* NetworkActivityHelper.m */,
-				DBBD10C717F7E73300FB8780 /* NoteAnimator.h */,
-				DBBD10C817F7E73300FB8780 /* NoteAnimator.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -1036,6 +1067,7 @@
 				D7BF46661547303700F06412 /* AllCollectionsViewController.m in Sources */,
 				DBC4E35B17F14B5100F595FE /* UIViewController+MMDrawerController.m in Sources */,
 				D71EA185154CD3FB00496663 /* CollectionViewController.m in Sources */,
+				DB90B37A18023761009CACA3 /* AllCollectionsAnimationHelper.m in Sources */,
 				D7F1FF2C154D1A3300D07B58 /* NoteView.m in Sources */,
 				D7E44BEE15643AA90080EF71 /* StackView.m in Sources */,
 				D7E44C03156573800080EF71 /* StackViewController.m in Sources */,
@@ -1083,6 +1115,7 @@
 				DBE3171617F63A0D00EEBA18 /* BlueTheme.m in Sources */,
 				DBC4E35917F14B5100F595FE /* MMDrawerController.m in Sources */,
 				DBBA28C416CCC81D007C7B4A /* DeleteFragmentNamespaceSubElementNotification.m in Sources */,
+				DB205A92180536EC00C94A2B /* CollectionScrollView.m in Sources */,
 				DBDB105716D032C200B5F7AE /* MergerThread.m in Sources */,
 				DBDB105A16D0388200B5F7AE /* MergeResult.m in Sources */,
 				DBBBB9BA17CC67AA00081C3B /* XoomlAssociation.m in Sources */,
@@ -1092,6 +1125,7 @@
 				DBC4E35A17F14B5100F595FE /* MMDrawerVisualState.m in Sources */,
 				DBD06A9516D9B6D100463ECC /* SharingViewController.m in Sources */,
 				DBD06A9816D9D51700463ECC /* AllCollectionsSharingAdapter.m in Sources */,
+				DB57B05118090A4E002F993B /* ScreenCaptureService.m in Sources */,
 				DBD06A9E16DAB6F900463ECC /* SubscriptionAction.m in Sources */,
 				DB601A3916E2C2380007A636 /* ListenerAction.m in Sources */,
 				DBAC849817D5190F003D2B7F /* UpdateFragmentNamespaceElementNotification.m in Sources */,

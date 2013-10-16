@@ -21,6 +21,8 @@
 #import "MultimediaHelper.h"
 #import "NamingHelper.h"
 #import "StackViewController.h"
+#import "CollectionScrollView.h"
+#import "ScreenCaptureService.h"
 
 @interface CollectionViewController ()
 
@@ -28,12 +30,13 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem * deleteButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem * expandButton;
-@property (weak, nonatomic) IBOutlet UIScrollView *collectionView;
+
+@property (weak, nonatomic) IBOutlet UIView *collectionView;
+@property (weak, nonatomic) IBOutlet CollectionScrollView *parentScrollView;
+
 @property (strong, nonatomic) NSMutableDictionary * noteViews;
 @property (strong, nonatomic) NSMutableDictionary * imageNoteViews;
 @property (strong, nonatomic) NSMutableDictionary * stackViews;
-//@property (strong, nonatomic) UIImage * lastImageTaken;
-//@property (strong, nonatomic) NSString * lastImageTakenNoteId;
 @property int noteCount;
 @property (strong, nonatomic) NSArray * intersectingViews;
 @property (weak, nonatomic) UIView<BulletinBoardObject> * highlightedView;
@@ -57,6 +60,8 @@
 @end
 
 #pragma mark - Definitions
+
+#define SAVE_BUTTON_TITLE @"Save"
 
 #define POSITION_X_TYPE @"positionX"
 #define POSITION_Y_TYPE @"positionY"
@@ -916,8 +921,10 @@
 #pragma mark - UI Events
 
 -(void) viewWillAppear:(BOOL)animated{
-//    [self.collectionView setBackgroundColor:[UIColor clearColor]];
+    
     self.collectionView.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
+    self.navigationItem.hidesBackButton = YES;
+    
     UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
     titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     
@@ -925,7 +932,55 @@
     titleView.textColor = [UIColor whiteColor];
     titleView.text = self.bulletinBoardName;
     self.navigationItem.titleView = titleView;
+    
+    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed:)];
+    self.navigationItem.leftBarButtonItem = doneButton;
     [titleView sizeToFit];
+}
+
+-(void) donePressed:(id) sender
+{
+    
+    //first save the board. This will give us some time if the alert view showing up for the saved results to be come
+    //consistent on the server
+    [self.board save];
+    
+    if ([self.bulletinBoardName rangeOfString:UNTITLED_COLLECTION_NAME].location != NSNotFound)
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@" Collection Name"
+                                                         message:nil
+                                                        delegate:self
+                                               cancelButtonTitle:nil
+                                               otherButtonTitles:SAVE_BUTTON_TITLE, nil];
+        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [alert show];
+        
+        UITextField * placeholderText = [alert textFieldAtIndex:0];
+        placeholderText.placeholder = self.bulletinBoardName;
+    }
+    
+    else
+    {
+        [self finishWorkingWithCollection];
+    }
+}
+
+-(void) finishWorkingWithCollection
+{
+    [self.parent finishedWorkingWithCollection:self.bulletinBoardName];
+    [self cleanupCollection];
+    [self.board cleanUp];
+    
+    NSData * thumbnailData = [self saveCollectionThumbnail];
+    
+    //thumbnail being nil means that we are in the process of creating the thumbnail on
+    //a different thread and once that is done the thread is promising to call the parent
+    if (thumbnailData != nil)
+    {
+        [self.parent thumbnailCreatedForCollectionName:self.bulletinBoardName
+                                          withData:thumbnailData];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void) initateDataStructures
@@ -941,10 +996,31 @@
     [self.prototypeImageView removeFromSuperview];
 }
 
+-(void) configureScrollView
+{
+    
+    CollectionScrollView * topScroll = self.parentScrollView;
+    UIView * contentView = self.collectionView;
+    
+    self.parentScrollView = topScroll;
+    self.collectionView = contentView;
+    
+    self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.parentScrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    NSDictionary * viewsDictionary = NSDictionaryOfVariableBindings(topScroll, contentView);
+//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[topScroll]|" options:0 metrics: 0 views:viewsDictionary]];
+//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[topScroll]|" options:0 metrics: 0 views:viewsDictionary]];
+    [topScroll addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics: 0 views:viewsDictionary]];
+    [topScroll addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics: 0 views:viewsDictionary]];
+}
+
 -(void) viewDidLoad
 {
     [super viewDidLoad];
+    
     [self removePrototypesFromView];
+    [self configureScrollView];
     self.shouldRefresh = YES;
     [self configureToolbar];
     
@@ -953,15 +1029,13 @@
     self.navigationItem.rightBarButtonItems = [self.toolbar.items copy];
     [self initateDataStructures];
     
-    CGSize size =  CGSizeMake(self.collectionView.bounds.size.width,
-                              self.collectionView.bounds.size.height);
-    [self.collectionView setContentSize:size];
-    
     [self addCollectionViewGestureRecognizersToCollectionView: self.collectionView];
+    
     
     [self addInitialObservers];
     [self addListenerNotifications];
-    self.collectionView.delegate = self;
+    //self.collectionView.delegate = self;
+    
 }
 
 -(void) addInitialObservers
@@ -993,7 +1067,7 @@
                                              selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
 }
-//maybe in view will appear
+
 -(void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -1012,9 +1086,16 @@
     self.toolbar.items = toolbarItems;
 }
 
+-(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self.parentScrollView willRotateToInterfaceOrientation:toInterfaceOrientation];
+}
+
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    [CollectionLayoutHelper layoutViewsForOrientationChange:self.collectionView];
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+   [CollectionLayoutHelper layoutViewsForOrientationChange:self.collectionView];
 }
 
 -(void) viewDidUnload
@@ -1091,18 +1172,14 @@
     }
 }
 
--(void) viewWillDisappear:(BOOL)animated
+-(void) cleanupCollection
 {
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [self.activeImageSheet dismissWithClickedButtonIndex:-1 animated:NO];
     
     [self.lastPopOver dismissPopoverAnimated:YES];
-    NSData * thumbnailData = [self saveCollectionThumbnail];
-    [self.board save];
-    [self.board cleanUp];
-    [self.parent finishedWorkingWithCollection:self.bulletinBoardName withThumbnailData:thumbnailData];
-    
 }
 
 - (IBAction)refreshPressed:(id)sender {
@@ -1639,12 +1716,29 @@ intoStackingWithMainView: (UIView *) mainView
     if ([self.board isUpdateThumbnailNeccessary])
     {
         
+        MindcloudCollection * boardClosure = self.board;
+        AllCollectionsViewController * parentClosure = self.parent;
+        UIView * screenToCaptureClosure = self.collectionView;
         thumbnailData = [self.board getLastThumbnailImage];
         if (thumbnailData == nil)
         {
-            thumbnailData = [MultimediaHelper captureScreenshotOfView:self.collectionView.superview];
+            [[ScreenCaptureService getInstance]
+             submitCaptureThumbnailRequestForCollection:self.bulletinBoardName
+             withTopView:screenToCaptureClosure
+             andViewType:ViewForScreenShotCollectionView
+             andCallback:^(NSData * thumbnailData,
+                           NSString * collectionName,
+                           ViewForScreenShotType viewType){
+                 [boardClosure saveThumbnail:thumbnailData];
+                 [parentClosure thumbnailCreatedForCollectionName:collectionName
+                                                         withData:thumbnailData];
+             }];
         }
-        [self.board saveThumbnail:thumbnailData];
+        else
+        {
+            
+            [self.board saveThumbnail:thumbnailData];
+        }
     }
     return thumbnailData;
 }
@@ -1885,38 +1979,38 @@ intoStackingWithMainView: (UIView *) mainView
     self.lastPopOver = nil;
 }
 
+#pragma mark - alertview delegate
+-(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if ([[alertView buttonTitleAtIndex:buttonIndex]
+              isEqualToString:SAVE_BUTTON_TITLE])
+    {
+        
+        NSString * newName = [[alertView textFieldAtIndex:0] text];
+        if (![newName isEqualToString:@""])
+        {
+            
+            [self.parent renamedCollectionWithName:self.bulletinBoardName
+                               toNewCollectionName:newName];
+        }
+        
+    }
+    
+    [self finishWorkingWithCollection];
+}
+
 #pragma mark - keyboard notification
 -(void) keyboardAppeared:(NSNotification *) notification
 {
     //no need to figure out keyboard positioning if stack view is presented
+    if (self.activeView == nil) return;
+    
     if (self.presentedViewController == nil)
     {
         NSDictionary * info = [notification userInfo];
         CGSize kbSize = [info[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-        
-        float keyboardHeight = MIN(kbSize.height, kbSize.width);
-        
-        CGRect aRect = self.collectionView.bounds;
-        
-        if (self.activeView == nil) return;
-        
-        CGPoint noteViewCenter = self.activeView.center;
-        //the -1 is there because we dont want the rightestCornerToNotFallInside 
-        CGFloat noteViewRightestCorner = MIN(noteViewCenter.x + self.activeView.bounds.size.width/2,
-                                             aRect.origin.x + aRect.size.width - 1);
-        CGPoint noteViewRightcorner = CGPointMake(noteViewRightestCorner,
-                                                  noteViewCenter.y + self.activeView.bounds.size.height/2);
-        aRect.size.height -= keyboardHeight;
-        if (!CGRectContainsPoint(aRect,noteViewRightcorner))
-        {
-            CGFloat spaceFromLowerCornerToBottom = self.collectionView.bounds.size.height - noteViewRightcorner.y;
-            CGFloat addedVisibleSpaceY = keyboardHeight - spaceFromLowerCornerToBottom;
-            CGPoint scrollPoint = CGPointMake(0.0, self.collectionView.bounds.origin.y + addedVisibleSpaceY);
-            UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardHeight, 0.0);
-            self.collectionView.contentInset = contentInsets;
-            self.collectionView.scrollIndicatorInsets = contentInsets;
-            [self.collectionView setContentOffset:scrollPoint animated:YES];
-        }
+        [self.parentScrollView adjustSizeForKeyboardAppearing:kbSize
+                                             overSelectedView:self.activeView];
     }
 }
 
@@ -1925,12 +2019,8 @@ intoStackingWithMainView: (UIView *) mainView
     //no need to figure out keyboard positioning if stack view is presented
     if (self.presentedViewController == nil)
     {
+        [self.parentScrollView adjustSizeForKeyboardDisappearingOverSelectedView:self.activeView];
         self.activeView = nil;
-        CGPoint scrollPoint = CGPointMake(0.0, 0.0);
-        [self.collectionView setContentOffset:scrollPoint animated:YES];
-        //        UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-        //        self.collectionView.contentInset = contentInsets;
-        //        self.collectionView.scrollIndicatorInsets = contentInsets;
     }
 }
 
