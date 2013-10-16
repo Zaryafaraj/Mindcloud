@@ -19,6 +19,8 @@
 	CGMutablePathRef path;
 }
 
+@property int rowIndex;
+@property int colIndex;
 @property (nonatomic, retain) UIColor *lineColor;
 @property (readwrite) CGFloat lineWidth;
 @property (assign, nonatomic) BOOL empty;

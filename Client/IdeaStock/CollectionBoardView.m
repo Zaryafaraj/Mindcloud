@@ -11,7 +11,7 @@
 
 @interface CollectionBoardView()
 
-@property (nonatomic, strong) PaintLayerView * paintLayer;
+@property (nonatomic, strong) NSMutableArray * viewGrid;
 
 @end
 @implementation CollectionBoardView
@@ -36,31 +36,56 @@
     return self;
 }
 
+#define GRID_CELL_SIZE 400
 -(void) configurePaintLayer
 {
-    CGRect paintFrame = CGRectMake(0,
-                                   0,
-                                   self.bounds.size.width,
-                                   self.bounds.size.height);
-    PaintLayerView * paintLayer = [[PaintLayerView alloc] initWithFrame:paintFrame];
-    paintLayer.backgroundColor = [UIColor clearColor];
-    self.paintLayer = paintLayer;
-    self.paintLayer.translatesAutoresizingMaskIntoConstraints = NO;
-    NSDictionary * viewsDictionary = NSDictionaryOfVariableBindings(self, paintLayer);
-    [self addSubview:paintLayer];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[paintLayer]|" options:0 metrics: 0 views:viewsDictionary]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[paintLayer]|" options:0 metrics: 0 views:viewsDictionary]];
-    [self hidePaintLayer];
+    int cellsInRow = self.bounds.size.width / 400;
+    int cellsInColumn = self.bounds.size.height / 400;
+    for (int i = 0 ; i < cellsInColumn; i++)
+    {
+        for (int j = 0 ; j < cellsInRow ; j++)
+        {
+            CGRect gridFrame = CGRectMake(j * GRID_CELL_SIZE,
+                                          i * GRID_CELL_SIZE,
+                                          GRID_CELL_SIZE,
+                                          GRID_CELL_SIZE);
+            
+            PaintLayerView * paintLayer = [[PaintLayerView alloc] initWithFrame:gridFrame];
+            paintLayer.layer.borderWidth = 1;
+            paintLayer.layer.borderColor = [UIColor blackColor].CGColor;
+            paintLayer.rowIndex = j;
+            paintLayer.colIndex = i;
+            paintLayer.backgroundColor = [UIColor greenColor];
+            [self addSubview:paintLayer];
+            [self.viewGrid addObject:paintLayer];
+            paintLayer.userInteractionEnabled = YES;
+        }
+    }
 }
 
+-(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    event.
+}
+
+-(void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    
+}
 -(void) showPaintLayer
 {
-    self.paintLayer.userInteractionEnabled = YES;
+    for (UIView * view in self.viewGrid)
+    {
+        view.userInteractionEnabled = YES;
+    }
 }
 
 -(void) hidePaintLayer
 {
-    self.paintLayer.userInteractionEnabled = NO;
+    for (UIView * view in self.viewGrid)
+    {
+        view.userInteractionEnabled = NO;
+    }
 }
 
 @end

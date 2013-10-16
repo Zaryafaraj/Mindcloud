@@ -63,7 +63,9 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     return CGPointMake((p1.x + p2.x) * 0.5, (p1.y + p2.y) * 0.5);
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+
+- (void)NOtouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    NSLog(@"BEGAN : (%d, %d)", self.rowIndex, self.colIndex);
     UITouch *touch = [touches anyObject];
     
     previousPoint1 = [touch previousLocationInView:self];
@@ -73,7 +75,8 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     [self touchesMoved:touches withEvent:event];
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)NOtouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    NSLog(@"MOVED : (%d, %d)", self.rowIndex, self.colIndex);
     UITouch *touch = [touches anyObject];
 	
 	CGPoint point = [touch locationInView:self];
@@ -111,7 +114,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
 }
 
 - (void)drawRect:(CGRect)rect {
-    [[UIColor clearColor] set];
+    [[UIColor greenColor] set];
     UIRectFill(rect);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
