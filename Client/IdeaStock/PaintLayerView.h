@@ -9,9 +9,6 @@
 
 @interface PaintLayerView : UIView {
 @private
-    CGPoint currentPoint;
-    CGPoint previousPoint1;
-    CGPoint previousPoint2;
     CGFloat lineWidth;
     UIColor *lineColor;
    // UIImage *curImage;
@@ -19,10 +16,28 @@
 	CGMutablePathRef path;
 }
 
+-(void) parentTouchBegan:(UITouch *) touch
+                 withEvent:(UIEvent *) event;
+
+-(void) parentTouchMoved:(UITouch *) touche
+                 withEvent:(UIEvent *) event;
+
+
+-(void) parentTouchExitedTheView:(UITouch *) touch withCurrentPoint:(CGPoint) currentPoint;
+
+-(void) parentTouchEnteredTheView:(UITouch *) touch
+               withPreviousPoint1: (CGPoint) prevPoint1
+                andPreviousPoint2:(CGPoint) previPoint2;
+
 @property int rowIndex;
 @property int colIndex;
+
+@property CGPoint previousPoint1;
+@property CGPoint previousPoint2;
+@property CGPoint currentPoint;
 @property (nonatomic, retain) UIColor *lineColor;
 @property (readwrite) CGFloat lineWidth;
 @property (assign, nonatomic) BOOL empty;
+@property BOOL hasBeenTouched;
 
 @end

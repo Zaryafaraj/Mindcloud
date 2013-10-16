@@ -320,6 +320,7 @@
     name = [self addCollection:name];
     
     self.workingCollectionName = name;
+    [self disableTogglingLeftPanel];
     [self performSegueWithIdentifier:@"CollectionViewSegue" sender:self];
 }
 

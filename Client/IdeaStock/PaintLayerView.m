@@ -30,6 +30,14 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
 @synthesize lineWidth;
 @synthesize empty = _empty;
 
+typedef NS_ENUM(NSInteger, PaintDirection)
+{
+    PaintDirectionLeft,
+    PaintDirectionRight,
+    PaintDirectionUp,
+    PaintDirectionDown
+};
+
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     
@@ -64,41 +72,138 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
 }
 
 
-- (void)NOtouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"BEGAN : (%d, %d)", self.rowIndex, self.colIndex);
-    UITouch *touch = [touches anyObject];
+-(void) parentTouchBegan:(UITouch *) touch
+               withEvent:(UIEvent *) event
+{
+    self.previousPoint1 = [touch locationInView:self];
+    self.previousPoint2 = [touch locationInView:self];
+    self.currentPoint = [touch locationInView:self];
     
-    previousPoint1 = [touch previousLocationInView:self];
-    previousPoint2 = [touch previousLocationInView:self];
-    currentPoint = [touch locationInView:self];
-    
-    [self touchesMoved:touches withEvent:event];
+    [self appendNewPath:NO];
 }
 
-- (void)NOtouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"MOVED : (%d, %d)", self.rowIndex, self.colIndex);
-    UITouch *touch = [touches anyObject];
+-(void) parentTouchExitedTheView:(UITouch *) touch withCurrentPoint:(CGPoint) currentPoint
+{
+    self.previousPoint2 = self.previousPoint1;
+    self.previousPoint1 = [touch previousLocationInView:self];
+    self.currentPoint = currentPoint;
+    
+    //first determine the edge that the line will go out of to pin the exit point x or y
+//    PaintDirection exitDirection = [self predictDirectionForExitPoint:previousPoint1];
+    
+    //now that we have pinned the exit points edge we need to iterativly predict the x by interpolation
+    
+//    while (!CGRectContainsPoint(self.bounds, currentPoint))
+//    {
+//        currentPoint = midPoint(currentPoint, previousPoint1);
+//    }
+    
+//    if (exitDirection == PaintDirectionUp)
+//    {
+//        currentPoint.y = self.bounds.origin.y;
+//    }
+//    if (exitDirection == PaintDirectionDown)
+//    {
+//        currentPoint.y = self.bounds.size.height;
+//    }
+//    if (exitDirection == PaintDirectionLeft)
+//    {
+//        currentPoint.x = self.bounds.origin.x;
+//    }
+//    if (exitDirection == PaintDirectionRight)
+//    {
+//        currentPoint.x = self.bounds.size.width;
+//    }
+    
+//    if (exitDirection == PaintDirectionUp ||
+//        exitDirection == PaintDirectionDown)
+//    {
+//        while (!CGRectContainsPoint(self.bounds, currentPoint))
+//        {
+//            currentPoint.x = (currentPoint.x + previousPoint1.x) * 0.5;
+//        }
+//        
+//    }
+//    else
+//    {
+//        
+//        while (!CGRectContainsPoint(self.bounds, currentPoint))
+//        {
+//            currentPoint.y = (currentPoint.y + previousPoint1.y) * 0.5;
+//        }
+//    }
+    
+    NSLog(@"*** EXIITING FROM (%d,%d) current: %@  -- prev2: %@ -- prev1: %@", self.colIndex, self.rowIndex, NSStringFromCGPoint(self.currentPoint), NSStringFromCGPoint(self.previousPoint2), NSStringFromCGPoint(self.previousPoint1));
+    [self appendNewPath:YES];
+}
+
+-(PaintDirection) predictDirectionForExitPoint:(CGPoint) point
+{
+    CGFloat distanceToTop = point.y - self.bounds.origin.y;
+    CGFloat distanceToBottom = self.bounds.size.height - point.y;
+    CGFloat distanceToRight = self.bounds.size.width - point.x;
+    CGFloat distanceToLeft = point.x - self.bounds.origin.x;
+    CGFloat shortestDistance = MIN(MIN(distanceToTop, distanceToBottom), MIN(distanceToLeft,distanceToRight));
+    if (distanceToTop == shortestDistance) return PaintDirectionUp;
+    if (distanceToBottom == shortestDistance) return PaintDirectionDown;
+    if (distanceToRight == shortestDistance) return PaintDirectionRight;
+    if (distanceToLeft == shortestDistance) return PaintDirectionDown;
+    
+    return PaintDirectionUp;
+}
+
+-(void) parentTouchEnteredTheView:(UITouch *) touch
+               withPreviousPoint1: (CGPoint) prevPoint1
+                andPreviousPoint2:(CGPoint) previPoint2
+{
+    self.currentPoint = [touch locationInView:self];
+    self.previousPoint1 = prevPoint1;
+    self.previousPoint2 = previPoint2;
+    [self appendNewPath:NO];
+}
+
+-(void) parentTouchMoved:(UITouch *) touch
+                 withEvent:(UIEvent *) event;
+{
+//    NSLog(@"MOVED : (%d, %d)", self.rowIndex, self.colIndex);
 	
 	CGPoint point = [touch locationInView:self];
 	
 	/* check if the point is farther than min dist from previous */
-    CGFloat dx = point.x - currentPoint.x;
-    CGFloat dy = point.y - currentPoint.y;
+    CGFloat dx = point.x - self.currentPoint.x;
+    CGFloat dy = point.y - self.currentPoint.y;
 	
     if ((dx * dx + dy * dy) < kPointMinDistanceSquared) {
         return;
     }
     
     
-    previousPoint2 = previousPoint1;
-    previousPoint1 = [touch previousLocationInView:self];
-    currentPoint = [touch locationInView:self];
+    self.previousPoint2 = self.previousPoint1;
+    self.previousPoint1 = [touch previousLocationInView:self];
+    self.currentPoint = [touch locationInView:self];
     
-    CGPoint mid1 = midPoint(previousPoint1, previousPoint2);
-    CGPoint mid2 = midPoint(currentPoint, previousPoint1);
+//    NSLog(@"%@ - %@ - %@ ~", NSStringFromCGPoint(previousPoint2),
+//          NSStringFromCGPoint(previousPoint1),
+//          NSStringFromCGPoint(currentPoint));
+    
+    [self appendNewPath:NO];
+}
+
+-(void) appendNewPath:(BOOL) endInCurrent
+{
+    
+    
+    CGPoint mid1 = midPoint(self.previousPoint1, self.previousPoint2);
+    CGPoint mid2 = midPoint(self.currentPoint, self.previousPoint1);
+    
+    if (endInCurrent)
+    {
+        mid2 = self.currentPoint;
+    }
+    
 	CGMutablePathRef subpath = CGPathCreateMutable();
     CGPathMoveToPoint(subpath, NULL, mid1.x, mid1.y);
-    CGPathAddQuadCurveToPoint(subpath, NULL, previousPoint1.x, previousPoint1.y, mid2.x, mid2.y);
+    CGPathAddQuadCurveToPoint(subpath, NULL, self.previousPoint1.x, self.previousPoint1.y, mid2.x, mid2.y);
     CGRect bounds = CGPathGetBoundingBox(subpath);
 	
 	CGPathAddPath(path, NULL, subpath);
@@ -110,12 +215,13 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     drawBox.size.width += self.lineWidth * 4.0;
     drawBox.size.height += self.lineWidth * 4.0;
     
+    //NSLog(@"%@", NSStringFromCGRect(drawBox));
     [self setNeedsDisplayInRect:drawBox];
 }
-
 - (void)drawRect:(CGRect)rect {
-    [[UIColor greenColor] set];
-    UIRectFill(rect);
+//    [[UIColor greenColor] set];
+    //NSLog(@"%@", NSStringFromCGRect(rect));
+//    UIRectFill(rect);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
