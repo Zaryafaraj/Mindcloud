@@ -702,10 +702,10 @@
     if (self.editMode) return;
     
     CGPoint location = [sender locationOfTouch:0 inView:self.collectionView];
-    CGRect frame = [CollectionLayoutHelper getFrameForNewNote:sender.view
+    NoteView * note =  [self.prototypeNoteView prototype];
+    CGRect frame = [CollectionLayoutHelper getFrameForNewNote:note
                                                  AddedToPoint:location
                                              InCollectionView:self.collectionView];
-    NoteView * note =  [self.prototypeNoteView prototype];
     //this is addition so view has no transform over it. So its okey to use frame
     note.frame = frame;
     NSString * noteID = [AttributeHelper generateUUID];

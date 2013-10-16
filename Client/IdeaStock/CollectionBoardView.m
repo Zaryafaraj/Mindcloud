@@ -53,11 +53,9 @@
             
             PaintLayerView * paintLayer = [[PaintLayerView alloc] initWithFrame:gridFrame];
             paintLayer.clipsToBounds = NO;
-            paintLayer.layer.borderWidth = 0.3;
-            paintLayer.layer.borderColor = [UIColor blackColor].CGColor;
             paintLayer.colIndex = col;
             paintLayer.rowIndex = row;
-            paintLayer.backgroundColor = [UIColor greenColor];
+            paintLayer.backgroundColor = [UIColor clearColor];
             [self addSubview:paintLayer];
             [self.viewGrid addObject:paintLayer];
             paintLayer.userInteractionEnabled = NO;
@@ -65,6 +63,15 @@
     }
 }
 
+-(void) enableDebugMode
+{
+   for (UIView * gridView in self.viewGrid)
+   {
+       gridView.layer.borderWidth = 0.3;
+       gridView.layer.borderColor = [UIColor blackColor].CGColor;
+       gridView.backgroundColor = [UIColor greenColor];
+   }
+}
 -(void) touchesMoved:(NSSet *)touches
            withEvent:(UIEvent *)event
 {

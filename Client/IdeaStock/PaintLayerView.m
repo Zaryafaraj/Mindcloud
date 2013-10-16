@@ -88,52 +88,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     self.previousPoint1 = [touch previousLocationInView:self];
     self.currentPoint = currentPoint;
     
-    //first determine the edge that the line will go out of to pin the exit point x or y
-//    PaintDirection exitDirection = [self predictDirectionForExitPoint:previousPoint1];
-    
-    //now that we have pinned the exit points edge we need to iterativly predict the x by interpolation
-    
-//    while (!CGRectContainsPoint(self.bounds, currentPoint))
-//    {
-//        currentPoint = midPoint(currentPoint, previousPoint1);
-//    }
-    
-//    if (exitDirection == PaintDirectionUp)
-//    {
-//        currentPoint.y = self.bounds.origin.y;
-//    }
-//    if (exitDirection == PaintDirectionDown)
-//    {
-//        currentPoint.y = self.bounds.size.height;
-//    }
-//    if (exitDirection == PaintDirectionLeft)
-//    {
-//        currentPoint.x = self.bounds.origin.x;
-//    }
-//    if (exitDirection == PaintDirectionRight)
-//    {
-//        currentPoint.x = self.bounds.size.width;
-//    }
-    
-//    if (exitDirection == PaintDirectionUp ||
-//        exitDirection == PaintDirectionDown)
-//    {
-//        while (!CGRectContainsPoint(self.bounds, currentPoint))
-//        {
-//            currentPoint.x = (currentPoint.x + previousPoint1.x) * 0.5;
-//        }
-//        
-//    }
-//    else
-//    {
-//        
-//        while (!CGRectContainsPoint(self.bounds, currentPoint))
-//        {
-//            currentPoint.y = (currentPoint.y + previousPoint1.y) * 0.5;
-//        }
-//    }
-    
-    NSLog(@"*** EXIITING FROM (%d,%d) current: %@  -- prev2: %@ -- prev1: %@", self.colIndex, self.rowIndex, NSStringFromCGPoint(self.currentPoint), NSStringFromCGPoint(self.previousPoint2), NSStringFromCGPoint(self.previousPoint1));
+
     [self appendNewPath:YES];
 }
 
@@ -165,8 +120,6 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
 -(void) parentTouchMoved:(UITouch *) touch
                  withEvent:(UIEvent *) event;
 {
-//    NSLog(@"MOVED : (%d, %d)", self.rowIndex, self.colIndex);
-	
 	CGPoint point = [touch locationInView:self];
 	
 	/* check if the point is farther than min dist from previous */
@@ -177,22 +130,15 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
         return;
     }
     
-    
     self.previousPoint2 = self.previousPoint1;
     self.previousPoint1 = [touch previousLocationInView:self];
     self.currentPoint = [touch locationInView:self];
-    
-//    NSLog(@"%@ - %@ - %@ ~", NSStringFromCGPoint(previousPoint2),
-//          NSStringFromCGPoint(previousPoint1),
-//          NSStringFromCGPoint(currentPoint));
     
     [self appendNewPath:NO];
 }
 
 -(void) appendNewPath:(BOOL) endInCurrent
 {
-    
-    
     CGPoint mid1 = midPoint(self.previousPoint1, self.previousPoint2);
     CGPoint mid2 = midPoint(self.currentPoint, self.previousPoint1);
     
@@ -215,7 +161,6 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     drawBox.size.width += self.lineWidth * 4.0;
     drawBox.size.height += self.lineWidth * 4.0;
     
-    //NSLog(@"%@", NSStringFromCGRect(drawBox));
     [self setNeedsDisplayInRect:drawBox];
 }
 - (void)drawRect:(CGRect)rect {
@@ -231,8 +176,6 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
     
     CGContextStrokePath(context);
-    
-    
     self.empty = NO;
 }
 

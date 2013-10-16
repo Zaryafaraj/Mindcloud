@@ -11,5 +11,4 @@
 
 @interface CollectionBoardView : UIView <PaintEnabledView>
 
-
 @end
