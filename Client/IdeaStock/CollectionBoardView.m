@@ -43,24 +43,24 @@
                                    self.bounds.size.width,
                                    self.bounds.size.height);
     PaintLayerView * paintLayer = [[PaintLayerView alloc] initWithFrame:paintFrame];
-    paintLayer.backgroundColor = [UIColor clearColor];
+    paintLayer.backgroundColor = [UIColor whiteColor];
     self.paintLayer = paintLayer;
     self.paintLayer.translatesAutoresizingMaskIntoConstraints = NO;
     NSDictionary * viewsDictionary = NSDictionaryOfVariableBindings(self, paintLayer);
     [self addSubview:paintLayer];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[paintLayer]|" options:0 metrics: 0 views:viewsDictionary]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[paintLayer]|" options:0 metrics: 0 views:viewsDictionary]];
-    self.paintLayer.hidden = YES;
+    [self hidePaintLayer];
 }
 
 -(void) showPaintLayer
 {
-    self.paintLayer.hidden = NO;
+    self.paintLayer.userInteractionEnabled = YES;
 }
 
 -(void) hidePaintLayer
 {
-    self.paintLayer.hidden = YES;
+    self.paintLayer.userInteractionEnabled = NO;
 }
 
 @end
