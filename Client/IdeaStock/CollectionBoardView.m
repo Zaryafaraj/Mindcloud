@@ -115,11 +115,6 @@
     
 }
 
--(void) setFrame:(CGRect)frame
-{
-    [super setFrame:frame];
-    NSLog(@"GOTCHA");
-}
 -(PaintLayerView *) getGridCellForTouchLocation:(CGPoint) touchLocation
 {
     int column = touchLocation.x / GRID_CELL_SIZE;
@@ -181,6 +176,15 @@
     {
         view.hidden = YES;
         [view removeFromSuperview];
+    }
+}
+
+
+-(void) clearPaintedItems
+{
+    for (PaintLayerView * view in self.viewGrid)
+    {
+        [view clearContent];
     }
 }
 @end

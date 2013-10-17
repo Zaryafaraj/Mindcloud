@@ -179,6 +179,14 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     self.empty = NO;
 }
 
+-(void) clearContent
+{
+    self.empty = YES;
+    CGPathRelease(path);
+    path = CGPathCreateMutable();
+    [self setNeedsDisplay];
+}
+
 -(void)dealloc {
 	CGPathRelease(path);
 }

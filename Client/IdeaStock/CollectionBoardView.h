@@ -12,6 +12,9 @@
 @interface CollectionBoardView : UIView <PaintEnabledView>
 
 -(void) unload;
+
 -(void) reload;
+
+-(void) clearPaintedItems;
 
 @end

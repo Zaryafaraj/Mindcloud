@@ -29,6 +29,8 @@
                withPreviousPoint1: (CGPoint) prevPoint1
                 andPreviousPoint2:(CGPoint) previPoint2;
 
+-(void) clearContent;
+
 @property int rowIndex;
 @property int colIndex;
 

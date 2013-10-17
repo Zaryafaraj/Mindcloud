@@ -1835,6 +1835,14 @@ intoStackingWithMainView: (UIView *) mainView
     }
 }
 
+- (IBAction)clearPressed:(id)sender
+{
+    if (self.isPainting)
+    {
+        [self.collectionView clearPaintedItems];
+    }
+}
+
 -(void) disablePaintMode
 {
     [self.parentScrollView disablePaintMode];
