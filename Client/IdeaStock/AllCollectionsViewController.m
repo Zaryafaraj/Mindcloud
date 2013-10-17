@@ -628,7 +628,13 @@
 
 -(void) ApplicationHasGoneInBackground:(NSNotification *) notification
 {
-    //[[NSNotificationCenter defaultCenter] removeObserver:self];
+    if (self.presentedViewController &&
+        [self.presentedViewController isKindOfClass:[CollectionViewController class]])
+    {
+        
+        CollectionViewController * controller = (CollectionViewController *) self.presentedViewController;
+        [controller applicationHasGoneInBackground:notification];
+    }
 }
 
 -(void) applicationWillEnterForeground:(NSNotification *) notification

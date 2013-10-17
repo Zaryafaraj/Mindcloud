@@ -23,6 +23,7 @@
 #import "StackViewController.h"
 #import "CollectionScrollView.h"
 #import "ScreenCaptureService.h"
+#import "CollectionBoardView.h"
 
 @interface CollectionViewController ()
 
@@ -30,8 +31,9 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem * deleteButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem * expandButton;
+@property (weak, nonatomic) IBOutlet UIToolbar *actionBar;
 
-@property (weak, nonatomic) IBOutlet UIView *collectionView;
+@property (weak, nonatomic) IBOutlet CollectionBoardView * collectionView;
 @property (weak, nonatomic) IBOutlet CollectionScrollView *parentScrollView;
 
 @property (strong, nonatomic) NSMutableDictionary * noteViews;
@@ -115,15 +117,17 @@
         }
     }
 }
--(void) ApplicationHasGoneInBackground:(NSNotification *) notification
+-(void) applicationHasGoneInBackground:(NSNotification *) notification
 {
     [self.board pause];
+    [self.collectionView unload];
 //    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void) applicationWillEnterForeground:(NSNotification *) notification
 {
     [self.board refresh];
+    [self.collectionView reload];
 }
 
 #pragma mark - Listener Notifications
@@ -1002,7 +1006,7 @@
 {
     
     CollectionScrollView * topScroll = self.parentScrollView;
-    UIView * contentView = self.collectionView;
+    CollectionBoardView * contentView = self.collectionView;
     
     self.parentScrollView = topScroll;
     self.collectionView = contentView;
@@ -1025,6 +1029,7 @@
     [self configureScrollView];
     self.shouldRefresh = YES;
     [self configureToolbar];
+    [self configureActionBar];
     
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.collectionView];
     
@@ -1054,7 +1059,7 @@
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(ApplicationHasGoneInBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+                                             selector:@selector(applicationHasGoneInBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardAppeared:)
                                                  name:UIKeyboardDidShowNotification
@@ -1086,6 +1091,11 @@
     [toolbarItems removeObject:self.deleteButton];
     [toolbarItems removeObject:self.expandButton];
     self.toolbar.items = toolbarItems;
+}
+
+-(void) configureActionBar
+{
+    
 }
 
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -1952,14 +1962,14 @@ intoStackingWithMainView: (UIView *) mainView
     {
         imagePicker = [MultimediaHelper getLibraryController];
         imagePicker.delegate = self;
-        UIPopoverController * presenter =
-        [[UIPopoverController alloc] initWithContentViewController:imagePicker];
-        self.lastPopOver = presenter;
-        self.lastPopOver.delegate = self;
         imagePicker.modalPresentationCapturesStatusBarAppearance = NO;
-        [presenter presentPopoverFromBarButtonItem:self.cameraButton
-                          permittedArrowDirections:UIPopoverArrowDirectionAny
-                                          animated:YES];
+        [self presentViewController:imagePicker animated:YES completion:^{}];
+//        UIPopoverController * presenter =
+//        [[UIPopoverController alloc] initWithContentViewController:imagePicker];
+       // self.lastPopOver = presenter;
+//        [presenter presentPopoverFromBarButtonItem:self.cameraButton
+//                          permittedArrowDirections:UIPopoverArrowDirectionAny
+//                                          animated:YES];
     }
 }
 
@@ -2000,8 +2010,8 @@ intoStackingWithMainView: (UIView *) mainView
     [CollectionAnimationHelper animateNoteAddition:note toCollectionView:self.collectionView];
     
     [self addImageNoteToModel:note withId:noteID];
-    [self.lastPopOver dismissPopoverAnimated:YES];
     self.lastPopOver = nil;
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:^{}];
 }
 
 //To make status bar color consistent

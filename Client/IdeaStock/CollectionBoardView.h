@@ -11,4 +11,7 @@
 
 @interface CollectionBoardView : UIView <PaintEnabledView>
 
+-(void) unload;
+-(void) reload;
+
 @end

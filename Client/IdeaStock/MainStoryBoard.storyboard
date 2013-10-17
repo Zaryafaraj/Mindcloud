@@ -538,12 +538,6 @@
                                                             <action selector="deletePressed:" destination="9HL-37-GHp" id="xZZ-fC-Lev"/>
                                                         </connections>
                                                     </barButtonItem>
-                                                    <barButtonItem systemItem="camera" id="Rwb-Kb-IkV">
-                                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <connections>
-                                                            <action selector="cameraPressed:" destination="9HL-37-GHp" id="HTK-FH-5iZ"/>
-                                                        </connections>
-                                                    </barButtonItem>
                                                 </items>
                                                 <color key="barTintColor" red="0.26666666666666666" green="0.47058823529411764" blue="0.792156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                             </toolbar>
@@ -561,9 +555,18 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="IzC-P6-Dcb"/>
-                                    <barButtonItem title="Paint" id="1WK-Kb-cNo">
+                                    <barButtonItem title="Line" id="A3l-fq-Xmv"/>
+                                    <barButtonItem title="Color" id="Oqz-93-m0G"/>
+                                    <barButtonItem title="Clear" id="pjg-Lm-auX"/>
+                                    <barButtonItem title="Paint" id="SVg-GN-bIe">
                                         <connections>
-                                            <action selector="paintPressed:" destination="9HL-37-GHp" id="boB-Ye-vul"/>
+                                            <action selector="paintPressed:" destination="9HL-37-GHp" id="a3W-Vj-klj"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="camera" id="nyw-cC-aU9">
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="cameraPressed:" destination="9HL-37-GHp" id="oGh-5m-Pge"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -582,7 +585,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
-                        <outlet property="cameraButton" destination="Rwb-Kb-IkV" id="Tbb-70-j8S"/>
+                        <outlet property="actionBar" destination="Cfm-Vh-f3W" id="Q2J-bJ-7id"/>
                         <outlet property="collectionView" destination="efj-z7-K4y" id="Bka-NP-n1K"/>
                         <outlet property="deleteButton" destination="x4X-3T-v6V" id="Hdn-vV-kUf"/>
                         <outlet property="expandButton" destination="3Cp-b8-UFf" id="FHP-RN-s23"/>

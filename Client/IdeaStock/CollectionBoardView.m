@@ -37,11 +37,13 @@
 }
 
 #define GRID_CELL_SIZE 400
+#define VIEW_WIDTH 4000
+#define VIEW_HEIGHT 4000
 -(void) configurePaintLayer
 {
     self.viewGrid = [NSMutableArray array];
-    int columCellCount = self.bounds.size.width / GRID_CELL_SIZE;
-    int rowCellCount = self.bounds.size.height / GRID_CELL_SIZE;
+    int columCellCount = VIEW_WIDTH / GRID_CELL_SIZE;
+    int rowCellCount = VIEW_HEIGHT / GRID_CELL_SIZE;
     for (int  row = 0 ; row < rowCellCount; row++)
     {
         for (int col = 0 ; col < columCellCount ; col++)
@@ -113,6 +115,11 @@
     
 }
 
+-(void) setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    NSLog(@"GOTCHA");
+}
 -(PaintLayerView *) getGridCellForTouchLocation:(CGPoint) touchLocation
 {
     int column = touchLocation.x / GRID_CELL_SIZE;
@@ -125,8 +132,12 @@
                      andRow:(int) row
 {
     
-    int columnCellCount = self.bounds.size.width / GRID_CELL_SIZE;
+    int columnCellCount =  VIEW_WIDTH / GRID_CELL_SIZE;
     int index = (row * columnCellCount) + col;
+    if (index >= [self.viewGrid count])
+    {
+        NSLog(@"OH OH %@", NSStringFromCGRect(self.bounds));
+    }
     return index;
 }
 
@@ -155,4 +166,21 @@
     }
 }
 
+-(void) reload
+{
+    for (UIView * view in self.viewGrid)
+    {
+        [self addSubview:view];
+        view.hidden = NO;
+    }
+}
+
+-(void) unload
+{
+    for (UIView * view in self.viewGrid)
+    {
+        view.hidden = YES;
+        [view removeFromSuperview];
+    }
+}
 @end
