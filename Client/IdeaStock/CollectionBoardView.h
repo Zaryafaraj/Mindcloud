@@ -17,4 +17,6 @@
 
 -(void) clearPaintedItems;
 
+@property BOOL eraseModeEnabled;
+
 @end

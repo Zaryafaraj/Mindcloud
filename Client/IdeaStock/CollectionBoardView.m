@@ -36,6 +36,20 @@
     return self;
 }
 
+@synthesize eraseModeEnabled = _eraseModeEnabled;
+
+-(BOOL) eraseModeEnabled
+{
+    return _eraseModeEnabled;
+}
+-(void) setEraseModeEnabled:(BOOL)eraseModeEnabled
+{
+    _eraseModeEnabled = eraseModeEnabled;
+    for (PaintLayerView * view in self.viewGrid)
+    {
+        view.eraseModeEnabled = eraseModeEnabled;
+    }
+}
 #define GRID_CELL_SIZE 400
 #define VIEW_WIDTH 4000
 #define VIEW_HEIGHT 4000
@@ -63,13 +77,14 @@
             paintLayer.userInteractionEnabled = NO;
         }
     }
+    //[self enableDebugMode];
 }
 
 -(void) enableDebugMode
 {
    for (UIView * gridView in self.viewGrid)
    {
-       gridView.layer.borderWidth = 0.3;
+       gridView.layer.borderWidth = 1.3;
        gridView.layer.borderColor = [UIColor blackColor].CGColor;
        gridView.backgroundColor = [UIColor greenColor];
    }

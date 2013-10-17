@@ -557,6 +557,11 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="IzC-P6-Dcb"/>
                                     <barButtonItem title="  Line" id="A3l-fq-Xmv"/>
                                     <barButtonItem title="  Color" id="Oqz-93-m0G"/>
+                                    <barButtonItem title="  Erase" id="89k-CT-Gpc">
+                                        <connections>
+                                            <action selector="erasePressed:" destination="9HL-37-GHp" id="tXV-Bj-Zwo"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem title="  Clear" id="pjg-Lm-auX">
                                         <connections>
                                             <action selector="clearPressed:" destination="9HL-37-GHp" id="bkE-hj-TMb"/>

@@ -60,6 +60,7 @@
 @property (strong, nonatomic) IBOutlet ImageNoteView *prototypeImageView;
 
 @property BOOL isPainting;
+@property BOOL isErasing;
 
 @property (strong, nonatomic) UIDynamicAnimator * animator;
 
@@ -1828,10 +1829,9 @@ intoStackingWithMainView: (UIView *) mainView
     else
     {
         self.isPainting = YES;
-        ((UIBarButtonItem *) sender).tintColor = [UIColor redColor];
+        ((UIBarButtonItem *) sender).tintColor = [UIColor blueColor];
         self.actionBar.items = self.paintToolbarItems;
         [self enablePaintMode];
-        
     }
 }
 
@@ -1850,6 +1850,22 @@ intoStackingWithMainView: (UIView *) mainView
     {
         [note disablePaintMode];
     }
+}
+
+- (IBAction)erasePressed:(id)sender
+{
+    if (self.isErasing)
+    {
+        ((UIBarButtonItem *) sender).tintColor = [UIColor whiteColor];
+        self.isErasing = NO;
+    }
+    else
+    {
+        ((UIBarButtonItem *) sender).tintColor = [UIColor blueColor];
+        self.isErasing = YES;
+    }
+    
+    self.collectionView.eraseModeEnabled = self.isErasing;
 }
 
 -(void) enablePaintMode

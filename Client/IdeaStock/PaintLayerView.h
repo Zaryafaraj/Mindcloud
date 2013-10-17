@@ -37,9 +37,12 @@
 @property CGPoint previousPoint1;
 @property CGPoint previousPoint2;
 @property CGPoint currentPoint;
+
 @property (nonatomic, retain) UIColor *lineColor;
 @property (readwrite) CGFloat lineWidth;
+
+@property BOOL eraseModeEnabled;
+
 @property (assign, nonatomic) BOOL empty;
-@property BOOL hasBeenTouched;
 
 @end

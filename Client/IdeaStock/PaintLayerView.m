@@ -21,6 +21,7 @@ static const CGFloat kPointMinDistanceSquared = kPointMinDistance * kPointMinDis
 #pragma mark Private Helper function
 
 CGPoint midPoint(CGPoint p1, CGPoint p2);
+@property UIColor * lastLineColor;
 
 @end
 
@@ -29,14 +30,36 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
 @synthesize lineColor;
 @synthesize lineWidth;
 @synthesize empty = _empty;
+@synthesize eraseModeEnabled = _eraseModeEnabled;
 
-typedef NS_ENUM(NSInteger, PaintDirection)
+-(BOOL)eraseModeEnabled
 {
-    PaintDirectionLeft,
-    PaintDirectionRight,
-    PaintDirectionUp,
-    PaintDirectionDown
-};
+    return _eraseModeEnabled;
+}
+
+-(void) setEraseModeEnabled:(BOOL)eraseModeEnabled
+{
+    _eraseModeEnabled = eraseModeEnabled;
+    if (eraseModeEnabled)
+    {
+        self.lastLineColor = lineColor;
+//        lineColor = [UIColor clearColor];
+        lineWidth *= 3;
+    }
+    else
+    {
+        if (self.lastLineColor)
+        {
+            lineColor = self.lastLineColor;
+        }
+        else
+        {
+            lineColor = DEFAULT_COLOR;
+        }
+        
+        lineWidth /= 3;
+    }
+}
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -90,21 +113,6 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     
 
     [self appendNewPath:YES];
-}
-
--(PaintDirection) predictDirectionForExitPoint:(CGPoint) point
-{
-    CGFloat distanceToTop = point.y - self.bounds.origin.y;
-    CGFloat distanceToBottom = self.bounds.size.height - point.y;
-    CGFloat distanceToRight = self.bounds.size.width - point.x;
-    CGFloat distanceToLeft = point.x - self.bounds.origin.x;
-    CGFloat shortestDistance = MIN(MIN(distanceToTop, distanceToBottom), MIN(distanceToLeft,distanceToRight));
-    if (distanceToTop == shortestDistance) return PaintDirectionUp;
-    if (distanceToBottom == shortestDistance) return PaintDirectionDown;
-    if (distanceToRight == shortestDistance) return PaintDirectionRight;
-    if (distanceToLeft == shortestDistance) return PaintDirectionDown;
-    
-    return PaintDirectionUp;
 }
 
 -(void) parentTouchEnteredTheView:(UITouch *) touch
@@ -173,6 +181,10 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
 	CGContextAddPath(context, path);
     CGContextSetLineCap(context, kCGLineCapRound);
     CGContextSetLineWidth(context, self.lineWidth);
+    if (self.eraseModeEnabled)
+    {
+        CGContextSetBlendMode(context, kCGBlendModeClear);
+    }
     CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
     
     CGContextStrokePath(context);
