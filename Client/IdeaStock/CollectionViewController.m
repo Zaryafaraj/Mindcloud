@@ -33,6 +33,9 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem * expandButton;
 @property (weak, nonatomic) IBOutlet UIToolbar *actionBar;
 
+@property (strong, nonatomic) NSArray * paintToolbarItems;
+@property (strong, nonatomic) NSArray * normalActionBarItems;
+
 @property (weak, nonatomic) IBOutlet CollectionBoardView * collectionView;
 @property (weak, nonatomic) IBOutlet CollectionScrollView *parentScrollView;
 
@@ -1095,7 +1098,24 @@
 
 -(void) configureActionBar
 {
-    
+    NSArray * toolbarItems = self.actionBar.items;
+    NSMutableArray * normalToolbar = [NSMutableArray array];
+    NSMutableArray * paintToolbarArray = [NSMutableArray array];
+    for (int i = toolbarItems.count - 1; i >=0 ; i--)
+    {
+        //add empty spaces, camera, and paint
+        //TODO this seems very ugly. Is there any better way to do toolbar dancing ?
+        if (i == 0 || i == toolbarItems.count - 1 || i == toolbarItems.count - 2)
+        {
+            [normalToolbar addObject:toolbarItems[i]];
+        }
+        
+        [paintToolbarArray addObject:toolbarItems[i]];
+        
+    }
+    self.actionBar.items = [[normalToolbar reverseObjectEnumerator] allObjects];
+    self.paintToolbarItems = [[paintToolbarArray reverseObjectEnumerator] allObjects];
+    self.normalActionBarItems = self.actionBar.items;
 }
 
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -1802,12 +1822,14 @@ intoStackingWithMainView: (UIView *) mainView
     {
         self.isPainting = NO;
         ((UIBarButtonItem *) sender).tintColor = [UIColor whiteColor];
+        self.actionBar.items = self.normalActionBarItems;
         [self disablePaintMode];
     }
     else
     {
         self.isPainting = YES;
         ((UIBarButtonItem *) sender).tintColor = [UIColor redColor];
+        self.actionBar.items = self.paintToolbarItems;
         [self enablePaintMode];
         
     }

@@ -555,10 +555,10 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="IzC-P6-Dcb"/>
-                                    <barButtonItem title="Line" id="A3l-fq-Xmv"/>
-                                    <barButtonItem title="Color" id="Oqz-93-m0G"/>
-                                    <barButtonItem title="Clear" id="pjg-Lm-auX"/>
-                                    <barButtonItem title="Paint" id="SVg-GN-bIe">
+                                    <barButtonItem title="  Line" id="A3l-fq-Xmv"/>
+                                    <barButtonItem title="  Color" id="Oqz-93-m0G"/>
+                                    <barButtonItem title="  Clear" id="pjg-Lm-auX"/>
+                                    <barButtonItem title="  Paint  " id="SVg-GN-bIe">
                                         <connections>
                                             <action selector="paintPressed:" destination="9HL-37-GHp" id="a3W-Vj-klj"/>
                                         </connections>
