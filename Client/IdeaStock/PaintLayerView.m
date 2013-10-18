@@ -22,6 +22,8 @@ static const CGFloat kPointMinDistanceSquared = kPointMinDistance * kPointMinDis
 
 CGPoint midPoint(CGPoint p1, CGPoint p2);
 @property UIColor * lastLineColor;
+@property CGMutablePathRef erasePath;
+@property NSMutableArray * paths;
 
 @end
 
@@ -35,29 +37,16 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
 -(BOOL)eraseModeEnabled
 {
     return _eraseModeEnabled;
+    
 }
 
 -(void) setEraseModeEnabled:(BOOL)eraseModeEnabled
 {
     _eraseModeEnabled = eraseModeEnabled;
-    if (eraseModeEnabled)
+    if (_eraseModeEnabled)
     {
-        self.lastLineColor = lineColor;
-//        lineColor = [UIColor clearColor];
-        lineWidth *= 3;
-    }
-    else
-    {
-        if (self.lastLineColor)
-        {
-            lineColor = self.lastLineColor;
-        }
-        else
-        {
-            lineColor = DEFAULT_COLOR;
-        }
-        
-        lineWidth /= 3;
+//        CGPathRelease(path);
+//        path = CGPathCreateMutable();
     }
 }
 
@@ -69,6 +58,8 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
         self.lineColor = DEFAULT_COLOR;
         self.empty = YES;
 		path = CGPathCreateMutable();
+        self.erasePath = CGPathCreateMutable();
+        self.paths = [NSMutableArray array];
     }
     
     return self;
@@ -82,6 +73,8 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
         self.lineColor = DEFAULT_COLOR;
         self.empty = YES;
 		path = CGPathCreateMutable();
+        self.erasePath = CGPathCreateMutable();
+        self.paths = [NSMutableArray array];
     }
     
     return self;
@@ -111,8 +104,8 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     self.previousPoint1 = [touch previousLocationInView:self];
     self.currentPoint = currentPoint;
     
-
     [self appendNewPath:YES];
+    
 }
 
 -(void) parentTouchEnteredTheView:(UITouch *) touch
@@ -145,12 +138,12 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     [self appendNewPath:NO];
 }
 
--(void) appendNewPath:(BOOL) endInCurrent
+-(void) appendNewPath:(BOOL) isEndingPath
 {
     CGPoint mid1 = midPoint(self.previousPoint1, self.previousPoint2);
     CGPoint mid2 = midPoint(self.currentPoint, self.previousPoint1);
     
-    if (endInCurrent)
+    if (isEndingPath)
     {
         mid2 = self.currentPoint;
     }
@@ -160,7 +153,20 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     CGPathAddQuadCurveToPoint(subpath, NULL, self.previousPoint1.x, self.previousPoint1.y, mid2.x, mid2.y);
     CGRect bounds = CGPathGetBoundingBox(subpath);
 	
-	CGPathAddPath(path, NULL, subpath);
+    if (self.eraseModeEnabled)
+    {
+        CGPathAddPath(self.erasePath, NULL, subpath);
+    }
+    else
+    {
+        CGPathAddPath(path, NULL, subpath);
+//        if (isEndingPath)
+//        {
+//            [self.paths addObject:CFBridgingRelease(CGPathCreateCopy(path))];
+//            CGPathRelease(path);
+//            path = CGPathCreateMutable();
+//        }
+    }
 	CGPathRelease(subpath);
     
     CGRect drawBox = bounds;
@@ -178,17 +184,38 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-	CGContextAddPath(context, path);
-    CGContextSetLineCap(context, kCGLineCapRound);
-    CGContextSetLineWidth(context, self.lineWidth);
+    
     if (self.eraseModeEnabled)
     {
         CGContextSetBlendMode(context, kCGBlendModeClear);
     }
+    else
+    {
+        CGContextSetBlendMode(context, kCGBlendModeNormal);
+    }
+    
+	CGContextAddPath(context, path);
+    CGContextSetLineCap(context, kCGLineCapRound);
+    CGContextSetLineWidth(context, self.lineWidth);
     CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
+//    for(id pathRef in self.paths)
+//    {
+//        CGPathRef pathRefObj = (__bridge CGPathRef) pathRef;
+//        CGContextAddPath(context, pathRefObj);
+//    }
+        //CGContextSetBlendMode(context, kCGBlendModeClear);
     
     CGContextStrokePath(context);
-    self.empty = NO;
+    
+//    CGContextSetBlendMode(context, kCGBlendModeClear);
+//    CGContextAddPath(context, self.erasePath);
+//    CGContextSetLineCap(context, kCGLineCapRound);
+//    CGContextSetLineWidth(context, self.lineWidth * 5);
+//    CGContextSetStrokeColorWithColor(context, [UIColor clearColor].CGColor);
+//    
+//    CGContextStrokePath(context);
+    
+    UIGraphicsEndImageContext();
 }
 
 -(void) clearContent
