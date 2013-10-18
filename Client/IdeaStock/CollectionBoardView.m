@@ -77,7 +77,6 @@
             paintLayer.userInteractionEnabled = NO;
         }
     }
-    [self enableDebugMode];
 }
 
 -(void) enableDebugMode
