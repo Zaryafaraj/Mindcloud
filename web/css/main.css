@@ -151,6 +151,10 @@ header {
   width: 400px;
 }
 
+.main section.page1 .join_beta p {
+  font-size: 1.0rem;
+}
+
 .main section.page1 p {
   color: #fff;
 }
