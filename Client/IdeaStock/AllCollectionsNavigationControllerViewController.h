@@ -18,6 +18,10 @@
 
 -(BOOL) isLeftPanelOpen;
 
+-(void) disableLeftPanelToggling;
+
+-(void) enableLeftPanelToggling;
+
 -(CategoriesViewController *) viewControllerForCategories;
 
 @end

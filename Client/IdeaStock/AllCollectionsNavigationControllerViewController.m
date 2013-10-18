@@ -49,6 +49,24 @@
     return NO;
 }
 
+-(void) disableLeftPanelToggling
+{
+    if (self.parent)
+    {
+        ContainerViewController * temp = self.parent;
+        [temp disableLeftPanel];
+    }
+}
+
+-(void) enableLeftPanelToggling
+{
+    if (self.parent)
+    {
+        ContainerViewController * temp = self.parent;
+        [temp enableLeftPanel];
+    }
+}
+
 -(CategoriesViewController *) viewControllerForCategories
 {
     if (self.parent)

@@ -54,4 +54,15 @@
          ;
      }];
 }
+
+-(void) disableLeftPanel
+{
+    self.openDrawerGestureModeMask = MMOpenDrawerGestureModeNone;
+}
+
+-(void) enableLeftPanel
+{
+    self.openDrawerGestureModeMask = MMOpenDrawerGestureModeAll;
+}
+
 @end

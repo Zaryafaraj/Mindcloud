@@ -7,13 +7,14 @@
 //
 
 #import "CollectionScrollView.h"
+#import "CollectionBoardView.h"
 
 @interface CollectionScrollView()
 
 //this is strong reference because it is referencing a subview inside a view and once
 //the view (this object) goes out of scope the children including this property
 //will go out of view
-@property (strong, nonatomic) IBOutlet UIView *  surrogateView;
+@property (strong, nonatomic) IBOutlet CollectionBoardView *  surrogateView;
 @property CGRect originalSize;
 @property CGPoint originalContentOffset;
 @property BOOL viewIsAdjusted;
@@ -123,6 +124,19 @@
         [self setContentOffset:self.originalContentOffset animated:YES];
         self.viewIsAdjusted = NO;
     }
+}
+
+-(void) enablePaintMode
+{
+    self.scrollEnabled = NO;
+    [self.surrogateView showPaintLayer];
+}
+
+-(void) disablePaintMode
+{
+    
+    self.scrollEnabled = YES;
+    [self.surrogateView hidePaintLayer];
 }
 
 @end

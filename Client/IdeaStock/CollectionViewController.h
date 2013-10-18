@@ -26,5 +26,6 @@
 
 //because modal view does'nt provide this notification 
 -(void) applicationWillEnterForeground:(NSNotification *) notification;
+-(void) applicationHasGoneInBackground:(NSNotification *) notification;
 
 @end

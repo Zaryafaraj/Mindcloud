@@ -320,6 +320,7 @@
     name = [self addCollection:name];
     
     self.workingCollectionName = name;
+    [self disableTogglingLeftPanel];
     [self performSegueWithIdentifier:@"CollectionViewSegue" sender:self];
 }
 
@@ -479,6 +480,25 @@
     }
 }
 
+-(void) disableTogglingLeftPanel
+{
+    
+    if ([self.navigationController isKindOfClass:[AllCollectionsNavigationControllerViewController class]])
+    {
+        AllCollectionsNavigationControllerViewController * parent = (AllCollectionsNavigationControllerViewController *) self.navigationController;
+        [parent disableLeftPanelToggling];
+    }
+}
+
+-(void) enableTogglingLeftPanel
+{
+    
+    if ([self.navigationController isKindOfClass:[AllCollectionsNavigationControllerViewController class]])
+    {
+        AllCollectionsNavigationControllerViewController * parent = (AllCollectionsNavigationControllerViewController *) self.navigationController;
+        [parent enableLeftPanelToggling];
+    }
+}
 
 -(void) addInitialListeners
 {
@@ -608,7 +628,13 @@
 
 -(void) ApplicationHasGoneInBackground:(NSNotification *) notification
 {
-    //[[NSNotificationCenter defaultCenter] removeObserver:self];
+    if (self.presentedViewController &&
+        [self.presentedViewController isKindOfClass:[CollectionViewController class]])
+    {
+        
+        CollectionViewController * controller = (CollectionViewController *) self.presentedViewController;
+        [controller applicationHasGoneInBackground:notification];
+    }
 }
 
 -(void) applicationWillEnterForeground:(NSNotification *) notification
@@ -692,6 +718,7 @@
     
     //[self dismissViewControllerAnimated:YES completion:nil];
     
+    [self enableTogglingLeftPanel];
     self.workingCollectionName = nil;
 }
 
@@ -774,6 +801,7 @@
         if (!name) return;
         
         self.workingCollectionName = name;
+        [self disableTogglingLeftPanel];
         [self performSegueWithIdentifier:@"CollectionViewSegue" sender:self];
     }
     

@@ -17,4 +17,7 @@
 
 -(void) adjustSizeForKeyboardDisappearingOverSelectedView:(UIView *) activeView;
 
+-(void) enablePaintMode;
+
+-(void) disablePaintMode;
 @end

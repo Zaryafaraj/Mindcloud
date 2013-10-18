@@ -248,7 +248,16 @@
 {
     self.rotationOffset += rotation;
     self.transform = CGAffineTransformRotate(self.transform, rotation);
-    NSLog(@"\n\n============== ROTATE =============\n\n");
+}
+
+-(void) enablePaintMode
+{
+    self._textView.userInteractionEnabled = NO;
+}
+
+-(void) disablePaintMode
+{
+    self._textView.userInteractionEnabled = YES;
 }
 
 -(void) resizeToRect:(CGRect) rect
