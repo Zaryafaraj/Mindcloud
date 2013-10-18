@@ -209,6 +209,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     self.empty = YES;
     CGPathRelease(path);
     path = CGPathCreateMutable();
+    [self.paths removeAllObjects];
     [self setNeedsDisplay];
 }
 
