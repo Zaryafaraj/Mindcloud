@@ -21,7 +21,7 @@ strong {
 }
 
 p {
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: 300;
 }
 
@@ -150,6 +150,10 @@ header {
   width: 400px;
 }
 
+.main section.page1 .join_beta p {
+  font-size: 1.0rem;
+}
+
 .main section.page1 p {
   color: #fff;
 }
@@ -227,7 +231,7 @@ header {
 }
 
 .main section.page3 {
-  background: #d97256;
+  background: #7FB209;
   background-image: url('../images/noisy-texture-100x100.png');
 }
 
@@ -237,8 +241,8 @@ header {
 }
 
 .main section.page3 .intro_text {
-  margin: 0 auto;
-  width: 500px;
+  float: right;
+  width: 550px;
 }
 
 .main section.page3 h1 {
@@ -260,12 +264,13 @@ header {
   margin-top: 30px;
 }
 
-.main section.page3 .organize_notes_hero_image {
-  margin: 0 auto;
-  background-image: url('../images/organize-notes-hero.png');
+.main section.page3 .drawing_hero_image {
+  float: left;
+  background-image: url('../images/drawing-hero.png');
   background-repeat: no-repeat;
-  width: 800px;
-  height: 500px;
+  width: 400px;
+  height: 600px;
+  margin-top: 100px;
 }
 
 .main section.page4 {
@@ -280,7 +285,7 @@ header {
 
 .main section.page4 .intro_text {
   margin: 0 auto;
-  width: 500px;
+  width: 600px;
 }
 
 .main section.page4 h1 {
@@ -311,7 +316,7 @@ header {
 }
 
 .main section.page5 {
-  background: #7FB209;
+  background: #d97256;
   background-image: url('../images/noisy-texture-100x100.png');
 }
 
@@ -321,8 +326,8 @@ header {
 }
 
 .main section.page5 .intro_text {
-  float: right;
-  width: 500px;
+  margin: 0 auto;
+  width: 700px;
 }
 
 .main section.page5 h1 {
@@ -344,12 +349,11 @@ header {
   margin-top: 30px;
 }
 
-.main section.page5 .drawing_hero_image {
-  float: left;
-  background-image: url('../images/drawing-hero.png');
+.main section.page5 .organize_notes_hero_image {
+  margin: 0 auto;
+  background-image: url('../images/organize-notes-hero.png');
   background-repeat: no-repeat;
-  width: 400px;
-  height: 600px;
-  margin-top: 100px;
+  width: 800px;
+  height: 500px;
 }
 

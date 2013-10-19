@@ -23,6 +23,7 @@
 #import "StackViewController.h"
 #import "CollectionScrollView.h"
 #import "ScreenCaptureService.h"
+#import "CollectionBoardView.h"
 
 @interface CollectionViewController ()
 
@@ -30,8 +31,12 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem * deleteButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem * expandButton;
+@property (weak, nonatomic) IBOutlet UIToolbar *actionBar;
 
-@property (weak, nonatomic) IBOutlet UIView *collectionView;
+@property (strong, nonatomic) NSArray * paintToolbarItems;
+@property (strong, nonatomic) NSArray * normalActionBarItems;
+
+@property (weak, nonatomic) IBOutlet CollectionBoardView * collectionView;
 @property (weak, nonatomic) IBOutlet CollectionScrollView *parentScrollView;
 
 @property (strong, nonatomic) NSMutableDictionary * noteViews;
@@ -54,9 +59,12 @@
 @property (strong, nonatomic) IBOutlet NoteView *prototypeNoteView;
 @property (strong, nonatomic) IBOutlet ImageNoteView *prototypeImageView;
 
+@property BOOL isPainting;
+@property BOOL isErasing;
 
 @property (strong, nonatomic) UIDynamicAnimator * animator;
 
+@property (weak, nonatomic) IBOutlet UIToolbar *utilityBar;
 @end
 
 #pragma mark - Definitions
@@ -113,15 +121,17 @@
         }
     }
 }
--(void) ApplicationHasGoneInBackground:(NSNotification *) notification
+-(void) applicationHasGoneInBackground:(NSNotification *) notification
 {
     [self.board pause];
+    [self.collectionView unload];
 //    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void) applicationWillEnterForeground:(NSNotification *) notification
 {
     [self.board refresh];
+    [self.collectionView reload];
 }
 
 #pragma mark - Listener Notifications
@@ -700,10 +710,10 @@
     if (self.editMode) return;
     
     CGPoint location = [sender locationOfTouch:0 inView:self.collectionView];
-    CGRect frame = [CollectionLayoutHelper getFrameForNewNote:sender.view
+    NoteView * note =  [self.prototypeNoteView prototype];
+    CGRect frame = [CollectionLayoutHelper getFrameForNewNote:note
                                                  AddedToPoint:location
                                              InCollectionView:self.collectionView];
-    NoteView * note =  [self.prototypeNoteView prototype];
     //this is addition so view has no transform over it. So its okey to use frame
     note.frame = frame;
     NSString * noteID = [AttributeHelper generateUUID];
@@ -1000,7 +1010,7 @@
 {
     
     CollectionScrollView * topScroll = self.parentScrollView;
-    UIView * contentView = self.collectionView;
+    CollectionBoardView * contentView = self.collectionView;
     
     self.parentScrollView = topScroll;
     self.collectionView = contentView;
@@ -1023,6 +1033,7 @@
     [self configureScrollView];
     self.shouldRefresh = YES;
     [self configureToolbar];
+    [self configureActionBar];
     
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.collectionView];
     
@@ -1052,7 +1063,7 @@
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(ApplicationHasGoneInBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+                                             selector:@selector(applicationHasGoneInBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardAppeared:)
                                                  name:UIKeyboardDidShowNotification
@@ -1084,6 +1095,28 @@
     [toolbarItems removeObject:self.deleteButton];
     [toolbarItems removeObject:self.expandButton];
     self.toolbar.items = toolbarItems;
+}
+
+-(void) configureActionBar
+{
+    NSArray * toolbarItems = self.actionBar.items;
+    NSMutableArray * normalToolbar = [NSMutableArray array];
+    NSMutableArray * paintToolbarArray = [NSMutableArray array];
+    for (int i = toolbarItems.count - 1; i >=0 ; i--)
+    {
+        //add empty spaces, camera, and paint
+        //TODO this seems very ugly. Is there any better way to do toolbar dancing ?
+        if (i == 0 || i == toolbarItems.count - 1 || i == toolbarItems.count - 2)
+        {
+            [normalToolbar addObject:toolbarItems[i]];
+        }
+        
+        [paintToolbarArray addObject:toolbarItems[i]];
+        
+    }
+    self.actionBar.items = [[normalToolbar reverseObjectEnumerator] allObjects];
+    self.paintToolbarItems = [[paintToolbarArray reverseObjectEnumerator] allObjects];
+    self.normalActionBarItems = self.actionBar.items;
 }
 
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -1782,8 +1815,67 @@ intoStackingWithMainView: (UIView *) mainView
     [collectionView addGestureRecognizer:tgr];
 }
 
-#pragma mark - Contextual Toolbar
+#pragma mark - utilities bar
 
+- (IBAction)paintPressed:(id)sender
+{
+    if (self.isPainting)
+    {
+        self.isPainting = NO;
+        ((UIBarButtonItem *) sender).tintColor = [UIColor whiteColor];
+        self.actionBar.items = self.normalActionBarItems;
+        [self disablePaintMode];
+    }
+    else
+    {
+        self.isPainting = YES;
+        ((UIBarButtonItem *) sender).tintColor = [UIColor blueColor];
+        self.actionBar.items = self.paintToolbarItems;
+        [self enablePaintMode];
+    }
+}
+
+- (IBAction)clearPressed:(id)sender
+{
+    if (self.isPainting)
+    {
+        [self.collectionView clearPaintedItems];
+    }
+}
+
+-(void) disablePaintMode
+{
+    [self.parentScrollView disablePaintMode];
+    for (NoteView * note in self.noteViews.allValues)
+    {
+        [note disablePaintMode];
+    }
+}
+
+- (IBAction)erasePressed:(id)sender
+{
+    if (self.isErasing)
+    {
+        ((UIBarButtonItem *) sender).tintColor = [UIColor whiteColor];
+        self.isErasing = NO;
+    }
+    else
+    {
+        ((UIBarButtonItem *) sender).tintColor = [UIColor blueColor];
+        self.isErasing = YES;
+    }
+    
+    self.collectionView.eraseModeEnabled = self.isErasing;
+}
+
+-(void) enablePaintMode
+{
+    [self.parentScrollView enablePaintMode];
+    for (NoteView * note in self.noteViews.allValues)
+    {
+        [note enablePaintMode];
+    }
+}
 -(void) removeContextualToolbarItems:(UIView *) contextView{
     
     NSMutableArray * newToolbarItems = [self.navigationItem.rightBarButtonItems mutableCopy];
@@ -1895,6 +1987,7 @@ intoStackingWithMainView: (UIView *) mainView
     }
 }
 
+
 #pragma mark - action sheet delegate
 
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -1915,14 +2008,14 @@ intoStackingWithMainView: (UIView *) mainView
     {
         imagePicker = [MultimediaHelper getLibraryController];
         imagePicker.delegate = self;
-        UIPopoverController * presenter =
-        [[UIPopoverController alloc] initWithContentViewController:imagePicker];
-        self.lastPopOver = presenter;
-        self.lastPopOver.delegate = self;
         imagePicker.modalPresentationCapturesStatusBarAppearance = NO;
-        [presenter presentPopoverFromBarButtonItem:self.cameraButton
-                          permittedArrowDirections:UIPopoverArrowDirectionAny
-                                          animated:YES];
+        [self presentViewController:imagePicker animated:YES completion:^{}];
+//        UIPopoverController * presenter =
+//        [[UIPopoverController alloc] initWithContentViewController:imagePicker];
+       // self.lastPopOver = presenter;
+//        [presenter presentPopoverFromBarButtonItem:self.cameraButton
+//                          permittedArrowDirections:UIPopoverArrowDirectionAny
+//                                          animated:YES];
     }
 }
 
@@ -1963,8 +2056,8 @@ intoStackingWithMainView: (UIView *) mainView
     [CollectionAnimationHelper animateNoteAddition:note toCollectionView:self.collectionView];
     
     [self addImageNoteToModel:note withId:noteID];
-    [self.lastPopOver dismissPopoverAnimated:YES];
     self.lastPopOver = nil;
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:^{}];
 }
 
 //To make status bar color consistent
