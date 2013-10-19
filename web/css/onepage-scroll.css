@@ -38,6 +38,8 @@ body, .onepage-wrapper, html {
   padding: 0;
   background: #fff;
   opacity: 0.3;
+  -moz-opacity:0.3;
+  filter: alpha(opacity=30);
   border-radius: 50px;
   padding-right: 4px;
   padding-top: 5px;
@@ -59,8 +61,11 @@ body, .onepage-wrapper, html {
   position: absolute;
   width: 10px;
   height: 10px;
-  background: #4471c7;
+  background: #000;
   left: 9px;
+  opacity: 0.5;
+  -moz-opacity:0.5;
+  filter: alpha(opacity=50);
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -72,4 +77,7 @@ body, .onepage-wrapper, html {
   background: #000;
   border: 1px solid #fff;
   left: 8px;
+  opacity: 0.9;
+  -moz-opacity:0.9;
+  filter: alpha(opacity=90);
 }
