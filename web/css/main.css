@@ -28,6 +28,7 @@ input[type=text] {
   margin-top: 20px;
   border-radius: 6px;
   border: 1px solid #fff;
+  outline: none;
 }
 
 button {
@@ -39,6 +40,8 @@ button {
   margin-top: 20px;
   border-radius: 6px;
   border: 1px solid #5bc9e6;
+  outline: none;
+  cursor: pointer;
 }
 
 .wrapper {
@@ -177,7 +180,7 @@ header {
 }
 
 .main section.page1 .intro_text {
-  margin-top: 50px;
+  margin-top: 30px;
   width: 350px;
 }
 
