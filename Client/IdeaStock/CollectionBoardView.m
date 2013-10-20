@@ -17,6 +17,8 @@
 
 @property NSInteger orderIndex;
 
+@property BOOL drawingEnabled;
+
 @end
 
 @implementation CollectionBoardView
@@ -90,7 +92,6 @@
             [self.viewGrid addObject:paintLayer];
         }
     }
-    self.userInteractionEnabled = NO;
 }
 
 -(void) undo
@@ -134,6 +135,8 @@
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     
+    if (!self.drawingEnabled) return;
+    
     if (touches.count > 1) return;
     
     self.orderIndex++;
@@ -147,6 +150,9 @@
 -(void) touchesEnded:(NSSet *)touches
            withEvent:(UIEvent *)event
 {
+    
+    if (!self.drawingEnabled) return;
+    
     UITouch * touch = [touches anyObject];
     CGPoint touchLocation = [touch locationInView:self];
     PaintLayerView * currentTouchedLayer = [self getGridCellForTouchLocation:touchLocation];
@@ -161,6 +167,7 @@
 -(void) touchesMoved:(NSSet *)touches
            withEvent:(UIEvent *)event
 {
+    if (!self.drawingEnabled) return;
     
     if (touches.count > 1) return;
     
@@ -234,7 +241,7 @@
 
 -(void) showPaintLayer
 {
-    self.userInteractionEnabled = YES;
+    self.drawingEnabled = YES;
     for (UIView * view in self.viewGrid)
     {
         view.userInteractionEnabled = YES;
@@ -243,7 +250,7 @@
 
 -(void) hidePaintLayer
 {
-    self.userInteractionEnabled = NO;
+    self.drawingEnabled = NO;
     for (UIView * view in self.viewGrid)
     {
         view.userInteractionEnabled = NO;
