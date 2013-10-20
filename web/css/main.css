@@ -97,7 +97,7 @@ header {
   font-size: 18px;
   font-size: 1.125rem;
   font-weight: 300;
-  color: #fff;
+  color: #f8f8f8;
 }
 
 .main section h1 {
@@ -108,13 +108,13 @@ header {
   font-size: 3.75rem;
   font-weight: 100;
   letter-spacing: -1px;
-  color: #fff;
+  color: #f8f8f8;
   display: inline-block;
 }
 
 .main section h2 {
   margin: 0;
-  color: #fff;
+  color: #f8f8f8;
   line-height: 160%;
   font-weight: 100;
   font-size: 21px;
