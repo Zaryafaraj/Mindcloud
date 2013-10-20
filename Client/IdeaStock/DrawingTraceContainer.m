@@ -70,4 +70,9 @@
     return result;
 }
 
+-(void) serialize
+{
+    
+}
+
 @end

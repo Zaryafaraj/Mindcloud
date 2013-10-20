@@ -151,10 +151,10 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     if (isEndingPath)
     {
         
-        CGPathRef currentPath = CGPathCreateCopy(path);
         DrawingTraceType drawingType = self.eraseModeEnabled ? DrawingTraceTypeErase : DrawingTraceTypePaint;
         UIColor * color = self.eraseModeEnabled ? [UIColor clearColor] : self.lineColor;
-        DrawingTrace * trace = [[DrawingTrace alloc] initWithPath:currentPath
+        UIBezierPath * bezierPath = [UIBezierPath bezierPathWithCGPath:path];
+        DrawingTrace * trace = [[DrawingTrace alloc] initWithPath:bezierPath
                                                          andColor: color
                                                           andType:drawingType];
         [self.container addDrawingTrace:trace forOrderIndex:index];
@@ -203,7 +203,8 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     for (DrawingTrace * trace in allTraces)
     {
         CGContextSetLineCap(context, kCGLineCapRound);
-        CGContextAddPath(context, trace.path);
+        
+        CGContextAddPath(context, trace.path.CGPath);
         if (trace.drawingType == DrawingTraceTypeErase)
         {
 //            CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);

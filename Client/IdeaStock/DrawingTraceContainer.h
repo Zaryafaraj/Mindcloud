@@ -18,4 +18,7 @@
 -(void) clearAllTraces;
 
 -(NSArray *) getAllTracers;
+
+-(void) serialize;
+
 @end

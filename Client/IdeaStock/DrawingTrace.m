@@ -11,7 +11,7 @@
 
 @implementation DrawingTrace
 
--(instancetype) initWithPath:(CGPathRef) path
+-(instancetype) initWithPath:(UIBezierPath *) path
                     andColor:(UIColor *) color
                      andType:(DrawingTraceType) type
 {
@@ -26,7 +26,7 @@
 
 
 -(instancetype) initWithId:(NSString *)drawingId
-                      Path:(CGPathRef)path
+                      Path:(UIBezierPath *)path
                   andColor:(UIColor *)color
                    andType:(DrawingTraceType)type
 {
@@ -40,11 +40,6 @@
         self.drawingId = drawingId;
     }
     return self;
-}
-
--(void) dealloc
-{
-    CGPathRelease(self.path);
 }
 
 @end
