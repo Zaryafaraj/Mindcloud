@@ -346,6 +346,15 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     }
 }
 
+-(void) saveCollectionAsset:(NSData *) assetData
+               withFileName:(NSString *) fileName
+              forCollection:(NSString *) collectionName;
+{
+    //to something like the method above
+    [self saveToDiskCollectionAsset:assetData withFileName:fileName
+                      forCollection:collectionName];
+}
+
 -(void) addAssociatedItemWithName: (NSString *) associatedItemName
                andFragmentContent: (NSData *) associatedItem
                          andImage: (NSData *) img
@@ -802,6 +811,21 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
 {
     NSString * path = [FileSystemHelper getPathForThumbnailForCollectionWithName:collectionName];
     [imgData writeToFile:path atomically:NO];
+}
+
+-(BOOL) saveToDiskCollectionAsset:(NSData *) assetData
+                     withFileName:(NSString *) fileName
+                    forCollection:(NSString *) collectionName
+{
+    NSString * path = [FileSystemHelper getPathForCollectionAssetWithName:fileName
+                                                    forCollectionWithName:collectionName];
+    NSError * err;
+    BOOL didWrite = [assetData writeToFile:path options:NSDataWritingAtomic error:&err];
+    if(!didWrite)
+    {
+        NSLog(@"Failed to write the file to %@ because : %@", path, err);
+    }
+    return didWrite;
 }
 
 - (BOOL) saveToDiskCollectionData:(NSData *) data

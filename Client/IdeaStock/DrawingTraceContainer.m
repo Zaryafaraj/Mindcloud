@@ -13,6 +13,7 @@
 //keyed on the order index and valued on a set of all the drawings done in
 //that order index
 @property (atomic, strong) NSMutableDictionary * drawings;
+@property (atomic ,strong) NSArray * baseDrawings;
 
 @end
 
@@ -24,8 +25,14 @@
     if (self)
     {
         self.drawings = [NSMutableDictionary dictionary];
+        self.baseDrawings = [NSMutableArray array];
     }
     return self;
+}
+
+-(void) applyBaseContainer:(DrawingTraceContainer *) base
+{
+    self.baseDrawings = [base getAllTracers];
 }
 
 -(void) addDrawingTrace:(DrawingTrace *)trace
@@ -59,6 +66,8 @@
 -(NSArray *) getAllTracers
 {
     NSMutableArray * result = [NSMutableArray array];
+    //first add the base
+    [result addObjectsFromArray:self.baseDrawings];
     NSMutableArray * allKeys = [self.drawings.allKeys mutableCopy];
     NSSortDescriptor * lowestToHighest = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
     [allKeys sortUsingDescriptors:@[lowestToHighest]];
@@ -70,9 +79,5 @@
     return result;
 }
 
--(void) serialize
-{
-    
-}
 
 @end

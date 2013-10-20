@@ -19,6 +19,6 @@
 
 -(NSArray *) getAllTracers;
 
--(void) serialize;
+-(void) applyBaseContainer:(DrawingTraceContainer *) base;
 
 @end

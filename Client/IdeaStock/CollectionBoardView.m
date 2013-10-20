@@ -268,7 +268,6 @@
     }
 }
 
-
 -(void) clearPaintedItems
 {
     for (PaintLayerView * view in self.viewGrid)
@@ -276,4 +275,32 @@
         [view clearContent];
     }
 }
+
+-(NSDictionary *) getAllDrawingData
+{
+    NSMutableDictionary * result = [NSMutableDictionary dictionary];
+    for (int i = 0 ; i < self.viewGrid.count; i++)
+    {
+        PaintLayerView * layer = self.viewGrid[i];
+        NSNumber * index = [NSNumber numberWithInt:i];
+        NSData * data = [layer serializeLayer];
+        result[index] = data;
+    }
+    return result;
+}
+
+-(void) applyBaseDrawingData:(NSDictionary *) baseDrawingData
+{
+    for(NSNumber * index in baseDrawingData.allKeys)
+    {
+        int i = index.intValue;
+        if (i < self.viewGrid.count)
+        {
+            PaintLayerView * layer = self.viewGrid[i];
+            NSData * layerData = baseDrawingData[index];
+            [layer addContentOfSerializedContainerAsBase:layerData];
+        }
+    }
+}
+
 @end

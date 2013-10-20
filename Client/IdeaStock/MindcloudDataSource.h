@@ -130,4 +130,8 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
 -(void) setThumbnail:(NSData *)thumbnailData
        forCollection:(NSString *)collectionName;
 
+-(void) saveCollectionAsset:(NSData *) assetData
+               withFileName:(NSString *) fileName
+              forCollection:(NSString *) collectionName;
+
 @end

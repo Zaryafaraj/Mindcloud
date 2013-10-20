@@ -71,6 +71,13 @@
 
 -(void) saveThumbnail:(NSData *) thumbnailData;
 
+/*! dictionary is keyed on the drawing index on the screen and the 
+    serialized data of the drawing */
+
+-(void) saveScreenDrawings:(NSDictionary *) drawingDictionary;
+
+-(NSDictionary *) getAllScreenDrawings;
+
 + (void) saveBulletinBoard: (id) bulletinBoard;
 
 

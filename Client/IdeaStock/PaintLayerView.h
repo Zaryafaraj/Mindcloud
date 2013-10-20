@@ -37,6 +37,12 @@
 
 -(void) undoIndex:(NSInteger) index;
 
+-(NSData *) serializeLayer;
+
+-(void) addContentOfSerializedContainerAsBase:(NSData *) baseContainer;
+
+-(void) addContentOfSerializedContainerAsAdded:(NSData *) addedContainer;
+
 @property int rowIndex;
 @property int colIndex;
 

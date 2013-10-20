@@ -243,6 +243,29 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
 	CGPathRelease(path);
 }
 
+-(NSData *) serializeLayer
+{
+    return [NSKeyedArchiver archivedDataWithRootObject:self.container];
+}
+
+
+-(void) addContentOfSerializedContainerAsBase:(NSData *) baseContainerData
+{
+    @try {
+        DrawingTraceContainer *  baseContainer = [NSKeyedUnarchiver unarchiveObjectWithData:baseContainerData];
+        [self.container applyBaseContainer:baseContainer];
+        [self setNeedsDisplay];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Failed to unarchive");
+        return;
+    }
+}
+
+-(void) addContentOfSerializedContainerAsAdded:(NSData *) addedContainer
+{
+    
+}
 
 @end
 

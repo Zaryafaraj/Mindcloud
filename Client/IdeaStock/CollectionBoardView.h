@@ -21,4 +21,12 @@
 
 -(void) undo;
 
+/*! NSDictionary of serialized data for the drawing. Its keyed on the 
+    gird index*/
+-(NSDictionary *) getAllDrawingData;
+
+/*! NSDictionary of serialized data for the drawing. Its keyed on the 
+ gird index*/
+-(void) applyBaseDrawingData:(NSDictionary *) baseDrawingData;
+
 @end

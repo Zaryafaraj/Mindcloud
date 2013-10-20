@@ -16,6 +16,9 @@
 
 + (NSString *) getPathForCollectionWithName:(NSString *) collectionName;
 
++(NSString *) getPathForCollectionAssetWithName:(NSString *) assetName
+                          forCollectionWithName:(NSString *) collectionName;
+
 + (NSString *) getPathForAssociatedItemWithName: (NSString *) subCollectionName inCollectionWithName: (NSString *) collectionName;
 
 + (NSString *) getPathForThumbnailForCollectionWithName:(NSString *) collectionName;
