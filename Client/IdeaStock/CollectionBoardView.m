@@ -21,6 +21,17 @@
 
 @implementation CollectionBoardView
 
+
+@synthesize eraseModeEnabled = _eraseModeEnabled;
+
+-(void) setEraseModeEnabled:(BOOL)eraseModeEnabled
+{
+    _eraseModeEnabled = eraseModeEnabled;
+    for (PaintLayerView * view in self.viewGrid)
+    {
+        view.eraseModeEnabled = eraseModeEnabled;
+    }
+}
 -(id) initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];

@@ -179,22 +179,46 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     
     CGContextSetBlendMode(context, kCGBlendModeNormal);
    
+    if (path != nil)
+    {
+        CGContextSetLineCap(context, kCGLineCapRound);
+        CGContextAddPath(context, path);
+        if (self.eraseModeEnabled)
+        {
+            CGContextSetBlendMode(context, kCGBlendModeClear);
+            CGContextSetLineWidth(context, 8 * self.lineWidth);
+            CGContextSetLineCap(context, kCGLineCapSquare);
+        }
+        else
+        {
+            CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
+            CGContextSetBlendMode(context, kCGBlendModeNormal);
+            CGContextSetLineWidth(context, self.lineWidth);
+        }
+        
+        CGContextStrokePath(context);
+    }
+    
     NSArray * allTraces = [self.container getAllTracers];
     for (DrawingTrace * trace in allTraces)
     {
-       	CGContextAddPath(context, trace.path);
+        CGContextSetLineCap(context, kCGLineCapRound);
+        CGContextAddPath(context, trace.path);
+        if (trace.drawingType == DrawingTraceTypeErase)
+        {
+//            CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
+            CGContextSetBlendMode(context, kCGBlendModeClear);
+            CGContextSetLineWidth(context, 8 * self.lineWidth);
+            CGContextSetLineCap(context, kCGLineCapSquare);
+        }
+        else
+        {
+            CGContextSetBlendMode(context, kCGBlendModeNormal);
+            CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
+            CGContextSetLineWidth(context, self.lineWidth);
+        }
+        CGContextStrokePath(context);
     }
-    
-    if (path != nil)
-    {
-        CGContextAddPath(context, path);
-    }
-    
-    CGContextSetLineCap(context, kCGLineCapRound);
-    CGContextSetLineWidth(context, self.lineWidth);
-    CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
-    
-    CGContextStrokePath(context);
     
     UIGraphicsEndImageContext();
 }

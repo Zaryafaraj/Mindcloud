@@ -17,7 +17,7 @@
 
 -(void) clearPaintedItems;
 
-@property BOOL eraseModeEnabled;
+@property (nonatomic) BOOL eraseModeEnabled;
 
 -(void) undo;
 

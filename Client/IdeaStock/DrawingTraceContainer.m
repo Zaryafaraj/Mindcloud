@@ -31,7 +31,7 @@
 -(void) addDrawingTrace:(DrawingTrace *)trace
           forOrderIndex:(NSInteger)index
 {
-    NSValue * indexObj = [NSNumber numberWithInteger:index];
+    NSNumber * indexObj = [NSNumber numberWithInteger:index];
     
    if ([self.drawings objectForKey:indexObj] == nil)
    {
@@ -45,7 +45,7 @@
 
 -(void) removeDrawingTracesAtOrderIndex:(NSInteger)index
 {
-    NSValue * indexObj = [NSNumber numberWithInteger:index];
+    NSNumber * indexObj = [NSNumber numberWithInteger:index];
     //ARC will automatically call the dealloc on the drawingTrace objects
     //and release the CGPath
     [self.drawings removeObjectForKey:indexObj];
@@ -59,8 +59,12 @@
 -(NSArray *) getAllTracers
 {
     NSMutableArray * result = [NSMutableArray array];
-    for (NSSet * drawingSet in self.drawings.allValues)
+    NSMutableArray * allKeys = [self.drawings.allKeys mutableCopy];
+    NSSortDescriptor * lowestToHighest = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
+    [allKeys sortUsingDescriptors:@[lowestToHighest]];
+    for (NSNumber * number in allKeys)
     {
+        NSSet * drawingSet = self.drawings[number];
         [result addObjectsFromArray:drawingSet.allObjects];
     }
     return result;
