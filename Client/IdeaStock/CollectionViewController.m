@@ -971,17 +971,15 @@
     
     else
     {
+        [self saveThumbnail];
         [self finishWorkingWithCollection];
     }
 }
 
--(void) finishWorkingWithCollection
+
+-(void) saveThumbnail
 {
-    [self.parent finishedWorkingWithCollection:self.bulletinBoardName];
-    [self cleanupCollection];
-    [self.board cleanUp];
-    
-    NSData * thumbnailData = [self saveCollectionThumbnail];
+    NSData * thumbnailData = [self selectThumbnail];
     
     //thumbnail being nil means that we are in the process of creating the thumbnail on
     //a different thread and once that is done the thread is promising to call the parent
@@ -990,6 +988,13 @@
         [self.parent thumbnailCreatedForCollectionName:self.bulletinBoardName
                                           withData:thumbnailData];
     }
+}
+-(void) finishWorkingWithCollection
+{
+    [self.parent finishedWorkingWithCollection:self.bulletinBoardName];
+    [self cleanupCollection];
+    [self.board cleanUp];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -1738,7 +1743,7 @@ intoStackingWithMainView: (UIView *) mainView
 }
 
 #pragma mark - Collection Actions
--(NSData *) saveCollectionThumbnail
+-(NSData *) selectThumbnail
 {
     //If we take a new picture, we use that as thumbnail data
     //If we already had a picture in the collection and we didn't take a new one
@@ -2081,6 +2086,8 @@ intoStackingWithMainView: (UIView *) mainView
 #pragma mark - alertview delegate
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
+    //first save the thumbnail before we rename the collection
+    [self saveThumbnail];
     if ([[alertView buttonTitleAtIndex:buttonIndex]
               isEqualToString:SAVE_BUTTON_TITLE])
     {

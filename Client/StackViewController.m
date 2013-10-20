@@ -219,7 +219,8 @@
     //for every note we calculate its starting position and also the column and
     //the row of the next note. If the column and row of the note required a
     //new page we extend the stack view to that
-    for (UIView * view in self.notes){
+    for (UIView * view in self.notes)
+    {
         if (needsNewPage){
             needsNewPage = NO;
             [self addPageToStackViewWithCurrentPageCount:page];

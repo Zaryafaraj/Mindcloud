@@ -148,12 +148,6 @@
     }
 }
 
--(void)resizeToRect:(CGRect)rect Animate:(BOOL)animate
-{
-    [super resizeToRect:rect Animate:animate];
-    self.frame = super.frame;
-}
-
 -(instancetype) prototype
 {
     ImageNoteView * prototype = [[ImageNoteView alloc] initWithFrame:self.frame];
@@ -339,6 +333,12 @@
     }
 }
 
+-(void) resizeToRect:(CGRect)rect Animate:(BOOL)animate
+{
+    [super resizeToRect:rect Animate:animate];
+    //self.imageView.contentMode =  UIViewContentModeTopLeft;
+    self.frame = super.frame;
+}
 -(void) resetSize
 {
     [super resetSize];
