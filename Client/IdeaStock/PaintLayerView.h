@@ -17,19 +17,25 @@
 }
 
 -(void) parentTouchBegan:(UITouch *) touch
-                 withEvent:(UIEvent *) event;
+               withEvent:(UIEvent *) event
+           andOrderIndex:(NSInteger) index;
 
 -(void) parentTouchMoved:(UITouch *) touche
-                 withEvent:(UIEvent *) event;
+               withEvent:(UIEvent *) event
+           andOrderIndex:(NSInteger) index;
 
-
--(void) parentTouchExitedTheView:(UITouch *) touch withCurrentPoint:(CGPoint) currentPoint;
+-(void) parentTouchExitedTheView:(UITouch *) touch
+                withCurrentPoint:(CGPoint) currentPoint
+                   andOrderIndex:(NSInteger) index;
 
 -(void) parentTouchEnteredTheView:(UITouch *) touch
                withPreviousPoint1: (CGPoint) prevPoint1
-                andPreviousPoint2:(CGPoint) previPoint2;
+                andPreviousPoint2:(CGPoint) previPoint2
+                    andOrderIndex:(NSInteger) index;
 
 -(void) clearContent;
+
+-(void) undoIndex:(NSInteger) index;
 
 @property int rowIndex;
 @property int colIndex;

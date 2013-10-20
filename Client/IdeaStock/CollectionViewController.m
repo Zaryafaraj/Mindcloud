@@ -1112,7 +1112,6 @@
         }
         
         [paintToolbarArray addObject:toolbarItems[i]];
-        
     }
     self.actionBar.items = [[normalToolbar reverseObjectEnumerator] allObjects];
     self.paintToolbarItems = [[paintToolbarArray reverseObjectEnumerator] allObjects];
@@ -1866,6 +1865,11 @@ intoStackingWithMainView: (UIView *) mainView
     }
     
     self.collectionView.eraseModeEnabled = self.isErasing;
+}
+
+- (IBAction)undoPressed:(id)sender
+{
+    [self.collectionView undo];
 }
 
 -(void) enablePaintMode

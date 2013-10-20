@@ -556,7 +556,11 @@
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="IzC-P6-Dcb"/>
                                     <barButtonItem title="  Line" id="A3l-fq-Xmv"/>
-                                    <barButtonItem title="  Color" id="Oqz-93-m0G"/>
+                                    <barButtonItem title="  Undo" style="plain" id="Oqz-93-m0G">
+                                        <connections>
+                                            <action selector="undoPressed:" destination="9HL-37-GHp" id="VSa-Le-qsd"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem title="  Erase" id="89k-CT-Gpc">
                                         <connections>
                                             <action selector="erasePressed:" destination="9HL-37-GHp" id="tXV-Bj-Zwo"/>

@@ -19,4 +19,6 @@
 
 @property BOOL eraseModeEnabled;
 
+-(void) undo;
+
 @end

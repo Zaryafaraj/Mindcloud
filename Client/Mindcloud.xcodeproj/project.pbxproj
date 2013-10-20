@@ -65,6 +65,7 @@
 		DB99FFC3160E73230042ED2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB99FFC2160E73230042ED2A /* QuartzCore.framework */; };
 		DB99FFCC160E8ABB0042ED2A /* MindcloudBaseAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB99FFCB160E8ABB0042ED2A /* MindcloudBaseAction.m */; };
 		DB9CA54C16BF8F2D0030B3F7 /* NamingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9CA54B16BF8F2D0030B3F7 /* NamingHelper.m */; };
+		DBA393E418132B4700824E60 /* DrawingTraceContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA393E318132B4700824E60 /* DrawingTraceContainer.m */; };
 		DBAC849817D5190F003D2B7F /* UpdateFragmentNamespaceElementNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBAC849717D5190F003D2B7F /* UpdateFragmentNamespaceElementNotification.m */; };
 		DBAC849B17D5191E003D2B7F /* DeleteFragmentNamespaceElementNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBAC849A17D5191E003D2B7F /* DeleteFragmentNamespaceElementNotification.m */; };
 		DBAC849E17D519E2003D2B7F /* AddFragmentNamespaceSubElementNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBAC849D17D519E2003D2B7F /* AddFragmentNamespaceSubElementNotification.m */; };
@@ -83,6 +84,7 @@
 		DBBA28C416CCC81D007C7B4A /* DeleteFragmentNamespaceSubElementNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBA28C316CCC81D007C7B4A /* DeleteFragmentNamespaceSubElementNotification.m */; };
 		DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */; };
 		DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBAF25C160EA1D800C81C25 /* Mindcloud.m */; };
+		DBBB366B1811FF580047D6D7 /* DrawingTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBB366A1811FF580047D6D7 /* DrawingTrace.m */; };
 		DBBBB9BA17CC67AA00081C3B /* XoomlAssociation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9B917CC67AA00081C3B /* XoomlAssociation.m */; };
 		DBBBB9BD17CC686900081C3B /* XoomlAssociationNamespaceElement.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9BC17CC686900081C3B /* XoomlAssociationNamespaceElement.m */; };
 		DBBBB9C017CC6C4800081C3B /* XoomlFragmentNamespaceElement.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBBB9BF17CC6C4800081C3B /* XoomlFragmentNamespaceElement.m */; };
@@ -251,6 +253,8 @@
 		DB99FFCB160E8ABB0042ED2A /* MindcloudBaseAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudBaseAction.m; sourceTree = "<group>"; };
 		DB9CA54A16BF8F2D0030B3F7 /* NamingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NamingHelper.h; sourceTree = "<group>"; };
 		DB9CA54B16BF8F2D0030B3F7 /* NamingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NamingHelper.m; sourceTree = "<group>"; };
+		DBA393E218132B4700824E60 /* DrawingTraceContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingTraceContainer.h; sourceTree = "<group>"; };
+		DBA393E318132B4700824E60 /* DrawingTraceContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingTraceContainer.m; sourceTree = "<group>"; };
 		DBA5B8EE1648CAFA00C68212 /* UIEditableTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIEditableTableViewDelegate.h; sourceTree = "<group>"; };
 		DBAC849617D5190F003D2B7F /* UpdateFragmentNamespaceElementNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateFragmentNamespaceElementNotification.h; sourceTree = "<group>"; };
 		DBAC849717D5190F003D2B7F /* UpdateFragmentNamespaceElementNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateFragmentNamespaceElementNotification.m; sourceTree = "<group>"; };
@@ -291,6 +295,8 @@
 		DBBAF258160E9E5000C81C25 /* AuthenticationAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthenticationAction.m; sourceTree = "<group>"; };
 		DBBAF25B160EA1D800C81C25 /* Mindcloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mindcloud.h; sourceTree = "<group>"; };
 		DBBAF25C160EA1D800C81C25 /* Mindcloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mindcloud.m; sourceTree = "<group>"; };
+		DBBB36691811FF580047D6D7 /* DrawingTrace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingTrace.h; sourceTree = "<group>"; };
+		DBBB366A1811FF580047D6D7 /* DrawingTrace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingTrace.m; sourceTree = "<group>"; };
 		DBBBB9B817CC67AA00081C3B /* XoomlAssociation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlAssociation.h; sourceTree = "<group>"; };
 		DBBBB9B917CC67AA00081C3B /* XoomlAssociation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XoomlAssociation.m; sourceTree = "<group>"; };
 		DBBBB9BB17CC686900081C3B /* XoomlAssociationNamespaceElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlAssociationNamespaceElement.h; sourceTree = "<group>"; };
@@ -657,6 +663,10 @@
 				DB4E0AC7163DCD3D00AB82E6 /* MindcloudAllCollections.h */,
 				DB4E0AC8163DCD3D00AB82E6 /* MindcloudAllCollections.m */,
 				DB8F489F17CA8D0000DDDB2D /* MindcloudAllCollectionsDelegate.h */,
+				DBBB36691811FF580047D6D7 /* DrawingTrace.h */,
+				DBBB366A1811FF580047D6D7 /* DrawingTrace.m */,
+				DBA393E218132B4700824E60 /* DrawingTraceContainer.h */,
+				DBA393E318132B4700824E60 /* DrawingTraceContainer.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1107,6 +1117,7 @@
 				DB03C357169FEB0000C38FD7 /* CollectionSubCollectionsAction.m in Sources */,
 				DB03C35B169FEE6C00C38FD7 /* SubCollectionAction.m in Sources */,
 				DB03C35E169FF1F800C38FD7 /* SubCollectionImageAction.m in Sources */,
+				DBA393E418132B4700824E60 /* DrawingTraceContainer.m in Sources */,
 				DBB9313E16AB7B78005652AA /* CollectionLayoutHelper.m in Sources */,
 				DBB9314116ABDEA4005652AA /* CollectionAnimationHelper.m in Sources */,
 				DB4FF4CE16ACA8DB00DC6DAA /* MultimediaHelper.m in Sources */,
@@ -1119,6 +1130,7 @@
 				DBBA28B216CC8B91007C7B4A /* NotificationContainer.m in Sources */,
 				DBBA28B516CCC3EC007C7B4A /* UpdateAssociationNotification.m in Sources */,
 				DBC4E35E17F14D0400F595FE /* ContainerViewController.m in Sources */,
+				DBBB366B1811FF580047D6D7 /* DrawingTrace.m in Sources */,
 				DBBA28B816CCC574007C7B4A /* UpdateFragmentNamespaceSubElementNotification.m in Sources */,
 				DBBA28BB16CCC5FD007C7B4A /* DeleteAssociationNotification.m in Sources */,
 				DBBA28BE16CCC62F007C7B4A /* AddAssociationNotification.m in Sources */,

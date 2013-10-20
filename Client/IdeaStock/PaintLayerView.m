@@ -8,6 +8,7 @@
 
 #import "PaintLayerView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "DrawingTraceContainer.h"
 
 #define DEFAULT_COLOR [UIColor whiteColor]
 #define DEFAULT_WIDTH 5.0f
@@ -18,12 +19,8 @@ static const CGFloat kPointMinDistanceSquared = kPointMinDistance * kPointMinDis
 
 @interface PaintLayerView () 
 
-#pragma mark Private Helper function
-
-CGPoint midPoint(CGPoint p1, CGPoint p2);
 @property UIColor * lastLineColor;
-@property CGMutablePathRef erasePath;
-@property NSMutableArray * paths;
+@property (atomic, strong) DrawingTraceContainer * container;
 
 @end
 
@@ -34,32 +31,13 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
 @synthesize empty = _empty;
 @synthesize eraseModeEnabled = _eraseModeEnabled;
 
--(BOOL)eraseModeEnabled
-{
-    return _eraseModeEnabled;
-    
-}
-
--(void) setEraseModeEnabled:(BOOL)eraseModeEnabled
-{
-    _eraseModeEnabled = eraseModeEnabled;
-    if (_eraseModeEnabled)
-    {
-//        CGPathRelease(path);
-//        path = CGPathCreateMutable();
-    }
-}
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     
-    if (self) {
-        self.lineWidth = DEFAULT_WIDTH;
-        self.lineColor = DEFAULT_COLOR;
-        self.empty = YES;
-		path = CGPathCreateMutable();
-        self.erasePath = CGPathCreateMutable();
-        self.paths = [NSMutableArray array];
+    if (self)
+    {
+        [self initInternals];
     }
     
     return self;
@@ -68,18 +46,22 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
-    if (self) {
-        self.lineWidth = DEFAULT_WIDTH;
-        self.lineColor = DEFAULT_COLOR;
-        self.empty = YES;
-		path = CGPathCreateMutable();
-        self.erasePath = CGPathCreateMutable();
-        self.paths = [NSMutableArray array];
+    if (self)
+    {
+        [self initInternals];
     }
     
     return self;
 }
 
+-(void) initInternals
+{
+    self.container = [[DrawingTraceContainer alloc] init];
+    self.lineWidth = DEFAULT_WIDTH;
+    self.lineColor = DEFAULT_COLOR;
+    self.empty = YES;
+    path = CGPathCreateMutable();
+}
 
 #pragma mark Private Helper function
 
@@ -90,36 +72,41 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
 
 -(void) parentTouchBegan:(UITouch *) touch
                withEvent:(UIEvent *) event
+           andOrderIndex:(NSInteger) index
 {
     self.previousPoint1 = [touch locationInView:self];
     self.previousPoint2 = [touch locationInView:self];
     self.currentPoint = [touch locationInView:self];
     
-    [self appendNewPath:NO];
+    [self appendNewPath:NO withIndex:index];
 }
 
--(void) parentTouchExitedTheView:(UITouch *) touch withCurrentPoint:(CGPoint) currentPoint
+-(void) parentTouchExitedTheView:(UITouch *) touch
+                withCurrentPoint:(CGPoint) currentPoint
+                   andOrderIndex:(NSInteger) index
 {
     self.previousPoint2 = self.previousPoint1;
     self.previousPoint1 = [touch previousLocationInView:self];
     self.currentPoint = currentPoint;
     
-    [self appendNewPath:YES];
+    [self appendNewPath:YES withIndex:index];
     
 }
 
 -(void) parentTouchEnteredTheView:(UITouch *) touch
                withPreviousPoint1: (CGPoint) prevPoint1
                 andPreviousPoint2:(CGPoint) previPoint2
+                    andOrderIndex:(NSInteger) index
 {
     self.currentPoint = [touch locationInView:self];
     self.previousPoint1 = prevPoint1;
     self.previousPoint2 = previPoint2;
-    [self appendNewPath:NO];
+    [self appendNewPath:NO withIndex:index];
 }
 
 -(void) parentTouchMoved:(UITouch *) touch
-                 withEvent:(UIEvent *) event;
+                 withEvent:(UIEvent *) event
+           andOrderIndex:(NSInteger) index;
 {
 	CGPoint point = [touch locationInView:self];
 	
@@ -135,11 +122,17 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     self.previousPoint1 = [touch previousLocationInView:self];
     self.currentPoint = [touch locationInView:self];
     
-    [self appendNewPath:NO];
+    [self appendNewPath:NO withIndex:index];
 }
 
--(void) appendNewPath:(BOOL) isEndingPath
+-(void) appendNewPath:(BOOL) isEndingPath withIndex:(NSInteger) index
 {
+    //if there is no path to show create a mutable one
+    if (path == nil)
+    {
+        path = CGPathCreateMutable();
+    }
+    
     CGPoint mid1 = midPoint(self.previousPoint1, self.previousPoint2);
     CGPoint mid2 = midPoint(self.currentPoint, self.previousPoint1);
     
@@ -158,19 +151,17 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     if (isEndingPath)
     {
         
-        [self.paths addObject:CFBridgingRelease(CGPathCreateCopy(path))];
+        CGPathRef currentPath = CGPathCreateCopy(path);
+        DrawingTraceType drawingType = self.eraseModeEnabled ? DrawingTraceTypeErase : DrawingTraceTypePaint;
+        UIColor * color = self.eraseModeEnabled ? [UIColor clearColor] : self.lineColor;
+        DrawingTrace * trace = [[DrawingTrace alloc] initWithPath:currentPath
+                                                         andColor: color
+                                                          andType:drawingType];
+        [self.container addDrawingTrace:trace forOrderIndex:index];
         CGPathRelease(path);
-        path = CGPathCreateMutable();
+        path = nil;
     }
-//    if (self.eraseModeEnabled)
-//    {
-//        CGPathAddPath(self.erasePath, NULL, subpath);
-//    }
-//    else
-//        if (isEndingPath)
-//        {
-//        }
-   // }
+    
 
     CGRect drawBox = bounds;
     drawBox.origin.x -= self.lineWidth * 2.0;
@@ -188,13 +179,17 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     
     CGContextSetBlendMode(context, kCGBlendModeNormal);
    
-    for (id pathRef in self.paths)
+    NSArray * allTraces = [self.container getAllTracers];
+    for (DrawingTrace * trace in allTraces)
     {
-        CGPathRef pastDrawPath = (__bridge CGPathRef) pathRef;
-       	CGContextAddPath(context, pastDrawPath);
+       	CGContextAddPath(context, trace.path);
     }
     
-	CGContextAddPath(context, path);
+    if (path != nil)
+    {
+        CGContextAddPath(context, path);
+    }
+    
     CGContextSetLineCap(context, kCGLineCapRound);
     CGContextSetLineWidth(context, self.lineWidth);
     CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
@@ -209,13 +204,20 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     self.empty = YES;
     CGPathRelease(path);
     path = CGPathCreateMutable();
-    [self.paths removeAllObjects];
+    [self.container clearAllTraces];
+    [self setNeedsDisplay];
+}
+
+-(void) undoIndex:(NSInteger)index
+{
+    [self.container removeDrawingTracesAtOrderIndex:index];
     [self setNeedsDisplay];
 }
 
 -(void)dealloc {
 	CGPathRelease(path);
 }
+
 
 @end
 
