@@ -339,6 +339,13 @@
     }
 }
 
+-(void) resetSize
+{
+    [super resetSize];
+    [self resizeNoteToMatchImageSize];
+    
+}
+
 -(void) textViewDidChange:(UITextView *)textView
 {
     if ([textView.text isEqualToString:@""] &&
