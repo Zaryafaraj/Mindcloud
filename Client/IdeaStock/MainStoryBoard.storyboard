@@ -647,14 +647,16 @@
                                 </items>
                                 <color key="barTintColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
-                            <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SJT-nK-4sU">
+                            <imageView hidden="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SJT-nK-4sU">
                                 <rect key="frame" x="0.0" y="42" width="540" height="578"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <scrollView autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jWv-aN-rSC">
                                 <rect key="frame" x="0.0" y="42" width="540" height="578"/>
+                                <color key="backgroundColor" red="0.86715453590000002" green="0.49652980000000002" blue="0.2290579844" alpha="1" colorSpace="calibratedRGB"/>
                             </scrollView>
                         </subviews>
+                        <color key="backgroundColor" red="0.48464059819999999" green="1" blue="0.61916933500000004" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="jWv-aN-rSC" secondAttribute="bottom" id="3mB-Nb-Iw9"/>
                             <constraint firstItem="zTy-aI-wC0" firstAttribute="leading" secondItem="Y8o-xz-LjN" secondAttribute="leading" id="4El-XM-SQo"/>
