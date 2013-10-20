@@ -38,6 +38,7 @@
 		DB03C357169FEB0000C38FD7 /* CollectionSubCollectionsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C356169FEB0000C38FD7 /* CollectionSubCollectionsAction.m */; };
 		DB03C35B169FEE6C00C38FD7 /* SubCollectionAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35A169FEE6C00C38FD7 /* SubCollectionAction.m */; };
 		DB03C35E169FF1F800C38FD7 /* SubCollectionImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35D169FF1F800C38FD7 /* SubCollectionImageAction.m */; };
+		DB0BF4FC1814752A00C05DFA /* bgbg.png in Resources */ = {isa = PBXBuildFile; fileRef = DB0BF4FB1814752A00C05DFA /* bgbg.png */; };
 		DB205A92180536EC00C94A2B /* CollectionScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB205A91180536EC00C94A2B /* CollectionScrollView.m */; };
 		DB3174FE16337636001229FE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3174FD16337636001229FE /* SignInViewController.m */; };
 		DB3FD53016B77FA400024AC6 /* CollectionStackingAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD52F16B77FA400024AC6 /* CollectionStackingAttribute.m */; };
@@ -193,6 +194,7 @@
 		DB03C35C169FF1F800C38FD7 /* SubCollectionImageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCollectionImageAction.h; sourceTree = "<group>"; };
 		DB03C35D169FF1F800C38FD7 /* SubCollectionImageAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCollectionImageAction.m; sourceTree = "<group>"; };
 		DB03C360169FFD3B00C38FD7 /* EventTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EventTypes.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DB0BF4FB1814752A00C05DFA /* bgbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bgbg.png; sourceTree = "<group>"; };
 		DB15E9ED16E71BB80024BA4C /* SharingAwareObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharingAwareObject.h; sourceTree = "<group>"; };
 		DB15E9EE16E725DB0024BA4C /* cachedCollectionContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cachedCollectionContainer.h; sourceTree = "<group>"; };
 		DB205A90180536EC00C94A2B /* CollectionScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionScrollView.h; sourceTree = "<group>"; };
@@ -510,6 +512,7 @@
 		D7A53CF71522F39500183CB6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DB0BF4FB1814752A00C05DFA /* bgbg.png */,
 				DBE3171717F64E4900EEBA18 /* test_image_note.jpg */,
 				D7A53CF81522F39500183CB6 /* Mindcloud-Info.plist */,
 				D7A53CF91522F39500183CB6 /* InfoPlist.strings */,
@@ -1050,6 +1053,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7A53CFB1522F39500183CB6 /* InfoPlist.strings in Resources */,
+				DB0BF4FC1814752A00C05DFA /* bgbg.png in Resources */,
 				D7BF465D154728DD00F06412 /* MainStoryBoard.storyboard in Resources */,
 				DBE3171817F64E4900EEBA18 /* test_image_note.jpg in Resources */,
 				DB64030717DABE5700DC9578 /* Images.xcassets in Resources */,
