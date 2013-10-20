@@ -22,10 +22,23 @@
     <link href='css/onepage-scroll.css' rel='stylesheet' type='text/css'>
     <link href='css/main.css' rel='stylesheet' type='text/css'>
 
+    <!-- Google Analytics -->
     <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-44958784-1', 'mindcloud.io');
+        ga('send', 'pageview');
+    </script>
+
+    <script>
+        // page layout
         $(document).ready(function(){
-          $(".main").onepage_scroll({
-            sectionContainer: "section"
+            $(".main").onepage_scroll({
+                sectionContainer: "section"
+            });
         });
           $('.submit-email').on('click', function(){
             var email = $('#userEmail').val();
@@ -42,9 +55,7 @@
 
             <section class="page1">
                 <div class="page_container">
-                    <div class="logo">
-                        <h1><strong>Mindcloud</strong></h1>
-                    </div>
+                    <div class="logo"></div>
                     <nav class="navbar">
                         <ul>
                             <li><a href="#">products</a></li>
@@ -53,7 +64,9 @@
                             <li><a href="#">contact</a></li>
                         </ul>
                     </nav>
-                    <div class="intro">
+
+                    <div class="hero_image"></div>
+                    <div class="intro_text">
                         <h2>Be Smarter. Get things done.</h2>
                         <p>Mindcloud helps you make sense of all your information and allows you to solve problems in a smarter way. It's like a whiteboard on steriods.</p>
                     </div>
@@ -69,29 +82,40 @@
 
             <section class="page2">
                 <div class="page_container">
-                    <h1>A tool that understands you.</h1>
-                    <h2>Your notes understand how you are using them and optimize themselves to better serve your needs.</h2>
-                </div>
+                    <div class="intro_text">
+                        <h1>A tool that understands you.</h1>
+                        <h2>Your notes understand how you are using them and optimize themselves to better serve your needs. Simply enter your info and let the app take care of the rest for you.</h2>
+                    </div>
+                    <div class="smart_notes_hero_image"></div>
             </section>
 
             <section class="page3">
                 <div class="page_container">
-                    <h1>Express yourself freely.</h1>
-                    <h2>Write, sketch, or mark your notes by drawing on the screen. Because you can zoom, your screen will never be too small for your fingers.</h2>
+                    <div class="intro_text">
+                        <h1>Express yourself freely.</h1>
+                        <h2>Write, sketch, or mark your notes by simply drawing on the screen. Because you can zoom, your screen will never be too small for your fingers.</h2>
+                    </div>
+                    <div class="drawing_hero_image"></div>
                 </div>
             </section>
 
             <section class="page4">
                 <div class="page_container">
-                    <h1>Collabrate easily.</h1>
-                    <h2>Collaborate with anyone with just three taps. Everyone sees your changes as soon as you make them.</h2>
+                    <div class="intro_text">
+                        <h1>Collaborate easily.</h1>
+                        <h2>Collaborate with anyone with just three taps. Everyone sees your changes as soon as you make them.</h2>
+                    </div>
+                    <div class="collaboration_hero_image"></div>
                 </div>
             </section>
 
             <section class="page5">
                 <div class="page_container">
-                    <h1>Be creative and focused.</h1>
-                    <h2>Mindcloud gives you both the freedom to think creativly and the organization to stay focused. Your left and right side of the brain have never been this cooperative.</h2>
+                    <div class="intro_text">
+                        <h1>Be creative and focused.</h1>
+                        <h2>Mindcloud gives you both the freedom to think creatively and the organization to stay focused. The left and right sides of your brain have never been more cooperative.</h2>
+                    </div>
+                    <div class="organize_notes_hero_image"></div>
                 </div>
             </section>
 

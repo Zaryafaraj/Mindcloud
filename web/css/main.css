@@ -20,35 +20,10 @@ strong {
   font-weight: 300;
 }
 
-p {
-  font-size: 1.5rem;
-  font-weight: 300;
-}
-
-h1 {
-  font-weight: 100;
-  margin-bottom: 5px;
-  font-size: 70px;
-  letter-spacing: -4px;
-}
-
-h2 {
-  font-weight: 300;
-  font-style: normal;
-  font-size: 2rem;
-  margin: 0;
-}
-
-h3 {
-  font-weight: 300;
-  font-style: normal;
-  font-size: 1rem;
-  margin: 0;
-}
-
 input[type=text] {
   width: 200px;
   padding: 8px 7px;
+  font-size: 16px;
   font-size: 1rem;
   margin-top: 20px;
   border-radius: 6px;
@@ -59,6 +34,7 @@ button {
   background: #5bc9e6;
   color: #fff;
   padding: 8px 15px;
+  font-size: 16px;
   font-size: 1rem;
   margin-top: 20px;
   border-radius: 6px;
@@ -84,6 +60,7 @@ button {
   border: 4px solid rgb(0, 0, 0);
   background: rgba(3, 3, 3, 0.75);
 }
+
 .clear {
   width: auto;
 }
@@ -92,14 +69,19 @@ header {
   position: relative;
   z-index: 10;
 }
+
 .main section .page_container {
   position: relative;
   margin: 0 auto 0;
-  max-width: 950px;
+  max-width: 800px;
   z-index: 3;
-}
-.main section  {
+  height: 100%;
   overflow: hidden;
+}
+
+.main section {
+  overflow: hidden;
+  background-image: url('../images/noisy-texture-100x100.png');
 }
 
 .main section > img {
@@ -108,20 +90,73 @@ header {
   z-index: 1;
 }
 
+.main section p {
+  font-size: 18px;
+  font-size: 1.125rem;
+  font-weight: 300;
+  color: #fff;
+}
+
+.main section h1 {
+  margin-bottom: 5px;
+  padding: 0;
+  margin-bottom: 0;
+  font-size: 60px;
+  font-size: 3.75rem;
+  font-weight: 100;
+  letter-spacing: -1px;
+  color: #fff;
+  display: inline-block;
+}
+
+.main section h2 {
+  margin: 0;
+  color: #fff;
+  line-height: 160%;
+  font-weight: 100;
+  font-size: 21px;
+  font-size: 1.3125rem;
+  font-weight: 300;
+  margin-top: 30px;
+}
+
 .main section.page1 {
   background-color: #4371c6;
-  background-image: url('../images/app-hero1.png');
-  background-repeat: no-repeat;
-  background-position: 80% 100%;
+  background-image: url('../images/noisy-texture-100x100.png');
+}
+
+.main section.page1 .page_container {
+  position: absolute;
+  width: 800px;
+  height: 600px;
+  left: 50%;
+  margin-left: -400px;
+  top: 50%;
+  margin-top: -300px;
+}
+
+.main section.page1 h2 {
+  color: #8CB9F6;
+  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 .main section.page1 .logo {
   display: inline-block;
+  font-size: 65px;
+  font-size: 4rem;
+  font-weight: 300;
+  color: #fff;
+  background-image: url("../images/logo.png");
+  background-repeat: no-repeat;
+  width: 300px;
+  height: 100px;
 }
 
 .main section.page1 .navbar {
   float: right;
-  margin-top: 110px;
+  margin-top: 100px;
+  display: none;
 }
 
 .main section.page1 .navbar ul {
@@ -141,9 +176,9 @@ header {
   color: #8cb9f6;
 }
 
-.main section.page1 .intro {
-  margin-top: 60px;
-  width: 400px;
+.main section.page1 .intro_text {
+  margin-top: 50px;
+  width: 350px;
 }
 
 .main section.page1 .join_beta {
@@ -152,141 +187,133 @@ header {
 }
 
 .main section.page1 .join_beta p {
+  font-size: 16px;
   font-size: 1.0rem;
 }
 
-.main section.page1 p {
-  color: #fff;
+.main section.page1 .hero_image {
+  background-image: url('../images/app-hero3.png');
+  background-repeat: no-repeat;
+  float: right;
+  width: 450px;
+  height: 630px;
 }
 
-.main section.page1 h1 {
-  color: #fff;
-}
 
-.main section.page1 h2 {
-  color: #8cb9f6;
-}
-
-.main section.page1 h3 {
-  color: #fff;
-}
+/*** page 2 ***/
 
 .main section.page2 {
-  background: #70A2FF;
+  background: #58adc4;
+  background-image: url('../images/noisy-texture-100x100.png');
 }
 
-.main section.page2 > img {
+.main section.page2 .intro_text {
+  width: 400px;
+  height: 500px;
   position: absolute;
-  top: -300px;
+  top: 50%;
+  margin-top: -250px;
+}
+
+.main section.page2 .smart_notes_hero_image {
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  top: 50%;
   left: 50%;
-  margin-left: -1095px;
+  margin-top: -200px;
+  background-image: url('../images/smart-notes-hero.png');
+  background-repeat: no-repeat;
 }
 
-.main section.page2 .page_container {
-  overflow: hidden;
-}
 
-.main section.page2 h1 {
-  text-align: left;
-  padding: 0;
-  margin-bottom: 0;
-  font-size: 70px;
-  letter-spacing: -1px;
-  color: #fff;
-  width: 600px;
-}
-
-.main section.page2 h2 {
-  color: #fff;
-  text-align: left;
-  line-height: 160%;
-  font-weight: 100;
-  font-size: 21px;
-  font-weight: 300;
-  width: 500px;
-}
+/*** page 3 ***/
 
 .main section.page3 {
   background: #7FB209;
+  background-image: url('../images/noisy-texture-100x100.png');
 }
 
-.main section.page3 .page_container {
-  overflow: hidden;
-  width: 500px;
-  right: -285px;
+.main section.page3 .intro_text {
+  width: 400px;
+  height: 500px;
+  position: absolute;
+  top: 50%;
+  margin-top: -250px;
+  left: 50%;
 }
 
-.main section.page3 h1 {
-  text-align: left;
-  padding: 0;
-  margin-bottom: 0;
-  font-size: 70px;
-  letter-spacing: -1px;
-  color: #fff;
+.main section.page3 .drawing_hero_image {
+  width: 400px;
+  height: 600px;
+  position: absolute;
+  top: 50%;
+  margin-top: -250px;
+  background-image: url('../images/drawing-hero.png');
+  background-repeat: no-repeat;
 }
 
-.main section.page3 h2 {
-  color: #fff;
-  text-align: left;
-  line-height: 160%;
-  font-weight: 100;
-  font-size: 21px;
-  font-weight: 300;
-}
+
+/*** page 4 ***/
 
 .main section.page4 {
   background: #8971C6;
+  background-image: url('../images/noisy-texture-100x100.png');
 }
 
 .main section.page4 .page_container {
-  overflow: hidden;
-  width: 500px;
+  position: absolute;
+  width: 800px;
+  height: 600px;
+  left: 50%;
+  margin-left: -400px;
+  top: 50%;
+  margin-top: -300px;
+  text-align: center;
 }
 
-.main section.page4 h1 {
-  text-align: left;
-  padding: 0;
-  margin-bottom: 0;
-  font-size: 70px;
-  letter-spacing: -1px;
-  color: #fff;
+.main section.page4 .intro_text {
+  margin: 0 auto;
+  width: 600px;
 }
 
-.main section.page4 h2 {
-  color: #fff;
-  text-align: left;
-  line-height: 160%;
-  font-weight: 100;
-  font-size: 21px;
-  font-weight: 300;
+.main section.page4 .collaboration_hero_image {
+  margin: 20px auto;
+  width: 800px;
+  height: 400px;
+  background-image: url('../images/collaboration-hero.png');
+  background-repeat: no-repeat;
 }
+
+
+/*** page 5 ***/
 
 .main section.page5 {
-  background: #FF7840;
+  background: #d97256;
+  background-image: url('../images/noisy-texture-100x100.png');
 }
 
 .main section.page5 .page_container {
-  overflow: hidden;
-  width: 500px;
-  right: -285px;
+  position: absolute;
+  width: 800px;
+  height: 600px;
+  left: 50%;
+  margin-left: -400px;
+  top: 50%;
+  margin-top: -300px;
+  text-align: center;
 }
 
-.main section.page5 h1 {
-  text-align: left;
-  padding: 0;
-  margin-bottom: 0;
-  font-size: 70px;
-  letter-spacing: -1px;
-  color: #fff;
+.main section.page5 .intro_text {
+  margin: 0 auto;
+  width: 600px;
 }
 
-.main section.page5 h2 {
-  color: #fff;
-  text-align: left;
-  line-height: 160%;
-  font-weight: 100;
-  font-size: 21px;
-  font-weight: 300;
+.main section.page5 .organize_notes_hero_image {
+  margin: 20px auto;
+  width: 700px;
+  height: 400px;
+  background-image: url('../images/organize-notes-hero.png');
+  background-repeat: no-repeat;
 }
-
 
