@@ -64,8 +64,8 @@
     self.orderIndex = -1;
 }
 #define GRID_CELL_SIZE 400
-#define VIEW_WIDTH 4000
-#define VIEW_HEIGHT 4000
+#define VIEW_WIDTH 2000
+#define VIEW_HEIGHT 2000
 -(void) configurePaintLayer
 {
     self.viewGrid = [NSMutableArray array];
@@ -81,8 +81,8 @@
                                           GRID_CELL_SIZE);
             
             PaintLayerView * paintLayer = [[PaintLayerView alloc] initWithFrame:gridFrame];
-            paintLayer.layer.borderWidth = 1.0;
-            paintLayer.layer.borderColor = [UIColor blackColor].CGColor;
+//            paintLayer.layer.borderWidth = 1.0;
+//            paintLayer.layer.borderColor = [UIColor blackColor].CGColor;
             paintLayer.clipsToBounds = NO;
             paintLayer.colIndex = col;
             paintLayer.rowIndex = row;

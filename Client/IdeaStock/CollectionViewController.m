@@ -1827,8 +1827,9 @@ intoStackingWithMainView: (UIView *) mainView
     }
     else
     {
+        UIColor * color = [[ThemeFactory currentTheme] tintColor];
         self.isPainting = YES;
-        ((UIBarButtonItem *) sender).tintColor = [UIColor blueColor];
+        ((UIBarButtonItem *) sender).tintColor = color;
         self.actionBar.items = self.paintToolbarItems;
         [self enablePaintMode];
     }
@@ -1860,7 +1861,8 @@ intoStackingWithMainView: (UIView *) mainView
     }
     else
     {
-        ((UIBarButtonItem *) sender).tintColor = [UIColor blueColor];
+        UIColor * color = [[ThemeFactory currentTheme] tintColor];
+        ((UIBarButtonItem *) sender).tintColor = color;
         self.isErasing = YES;
     }
     

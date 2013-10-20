@@ -550,7 +550,7 @@
                                     <outlet property="surrogateView" destination="efj-z7-K4y" id="9h6-W5-PIr"/>
                                 </connections>
                             </scrollView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="Cfm-Vh-f3W">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cfm-Vh-f3W">
                                 <rect key="frame" x="0.0" y="916" width="768" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
@@ -583,6 +583,7 @@
                                         </connections>
                                     </barButtonItem>
                                 </items>
+                                <color key="barTintColor" red="0.19348746538162231" green="0.21079510450363159" blue="0.22214594483375549" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="0.94657176733016968" green="0.47315338253974915" blue="0.19889563322067261" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -712,7 +713,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="hlw-lc-y9s">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.39276733994483948" green="0.51843875646591209" blue="0.9213988184928894" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Ucl-pk-dyn">

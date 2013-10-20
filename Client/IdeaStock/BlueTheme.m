@@ -12,7 +12,7 @@
 
 -(UIColor *) tintColor
 {
-    UIColor *aColor = [UIColor colorWithHue:0.602 saturation:0.663 brightness:0.792 alpha:1.000];
+   UIColor *aColor = [UIColor colorWithHue:0.627 saturation:0.574 brightness:0.921 alpha:1.000];
     return aColor;
 }
 
