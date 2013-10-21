@@ -307,7 +307,9 @@
             
         }
         
+        
         //if the note is still attached to a stack view
+        //meaning note is unstacked
         if (view == noteView && noteView.superview != self.collectionView)
         {
             [noteView removeFromSuperview];
@@ -318,10 +320,10 @@
         CGPoint newCenter = CGPointMake(positionX, positionY);
         if (noteStackingId && noteView.superview == self.collectionView)
         {
-            [noteView removeFromSuperview];
+//            [noteView removeFromSuperview];
             [CollectionLayoutHelper moveView:noteView inCollectionView:self.collectionView toNewCenter:newCenter
                               withCompletion:^{
-                [noteView removeFromSuperview];
+//                [noteView removeFromSuperview];
             }];
         }
         
