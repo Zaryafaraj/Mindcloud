@@ -74,6 +74,15 @@
     return self.surrogateView;
 }
 
+-(void) scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view
+{
+    self.surrogateView.userInteractionEnabled = NO;
+}
+
+-(void) scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
+{
+    self.surrogateView.userInteractionEnabled = YES;
+}
 -(void) adjustSizeForKeyboardAppearing:(CGSize) kbSize
                       overSelectedView:(UIView *) activeView
 {

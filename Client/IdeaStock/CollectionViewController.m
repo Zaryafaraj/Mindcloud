@@ -307,7 +307,9 @@
             
         }
         
+        
         //if the note is still attached to a stack view
+        //meaning note is unstacked
         if (view == noteView && noteView.superview != self.collectionView)
         {
             [noteView removeFromSuperview];
@@ -318,10 +320,10 @@
         CGPoint newCenter = CGPointMake(positionX, positionY);
         if (noteStackingId && noteView.superview == self.collectionView)
         {
-            [noteView removeFromSuperview];
+//            [noteView removeFromSuperview];
             [CollectionLayoutHelper moveView:noteView inCollectionView:self.collectionView toNewCenter:newCenter
                               withCompletion:^{
-                [noteView removeFromSuperview];
+//                [noteView removeFromSuperview];
             }];
         }
         
@@ -971,17 +973,15 @@
     
     else
     {
+        [self saveThumbnail];
         [self finishWorkingWithCollection];
     }
 }
 
--(void) finishWorkingWithCollection
+
+-(void) saveThumbnail
 {
-    [self.parent finishedWorkingWithCollection:self.bulletinBoardName];
-    [self cleanupCollection];
-    [self.board cleanUp];
-    
-    NSData * thumbnailData = [self saveCollectionThumbnail];
+    NSData * thumbnailData = [self selectThumbnail];
     
     //thumbnail being nil means that we are in the process of creating the thumbnail on
     //a different thread and once that is done the thread is promising to call the parent
@@ -990,6 +990,13 @@
         [self.parent thumbnailCreatedForCollectionName:self.bulletinBoardName
                                           withData:thumbnailData];
     }
+}
+-(void) finishWorkingWithCollection
+{
+    [self.parent finishedWorkingWithCollection:self.bulletinBoardName];
+    [self cleanupCollection];
+    [self.board cleanUp];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -1112,7 +1119,6 @@
         }
         
         [paintToolbarArray addObject:toolbarItems[i]];
-        
     }
     self.actionBar.items = [[normalToolbar reverseObjectEnumerator] allObjects];
     self.paintToolbarItems = [[paintToolbarArray reverseObjectEnumerator] allObjects];
@@ -1739,7 +1745,7 @@ intoStackingWithMainView: (UIView *) mainView
 }
 
 #pragma mark - Collection Actions
--(NSData *) saveCollectionThumbnail
+-(NSData *) selectThumbnail
 {
     //If we take a new picture, we use that as thumbnail data
     //If we already had a picture in the collection and we didn't take a new one
@@ -1828,8 +1834,9 @@ intoStackingWithMainView: (UIView *) mainView
     }
     else
     {
+        UIColor * color = [[ThemeFactory currentTheme] tintColor];
         self.isPainting = YES;
-        ((UIBarButtonItem *) sender).tintColor = [UIColor blueColor];
+        ((UIBarButtonItem *) sender).tintColor = color;
         self.actionBar.items = self.paintToolbarItems;
         [self enablePaintMode];
     }
@@ -1861,11 +1868,17 @@ intoStackingWithMainView: (UIView *) mainView
     }
     else
     {
-        ((UIBarButtonItem *) sender).tintColor = [UIColor blueColor];
+        UIColor * color = [[ThemeFactory currentTheme] tintColor];
+        ((UIBarButtonItem *) sender).tintColor = color;
         self.isErasing = YES;
     }
     
     self.collectionView.eraseModeEnabled = self.isErasing;
+}
+
+- (IBAction)undoPressed:(id)sender
+{
+    [self.collectionView undo];
 }
 
 -(void) enablePaintMode
@@ -2075,6 +2088,8 @@ intoStackingWithMainView: (UIView *) mainView
 #pragma mark - alertview delegate
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
+    //first save the thumbnail before we rename the collection
+    [self saveThumbnail];
     if ([[alertView buttonTitleAtIndex:buttonIndex]
               isEqualToString:SAVE_BUTTON_TITLE])
     {

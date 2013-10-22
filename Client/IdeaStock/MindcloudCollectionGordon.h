@@ -54,13 +54,18 @@
 
 -(NSString *) getImagePathForAssociationWithName:(NSString *) associationName;
 
-
 /*===============================================*/
 #pragma mark - FragmentNamespaceElement
 /*===============================================*/
 
 -(void) addCollectionFragmentNamespaceSubElement:(XoomlNamespaceElement *) namespaceElement;
 
+/*! Set a XoomlFragmentNamespaceSubElement that points to a set of data stored in a set of files in the same level as the xooml file. 
+    The dictionary contains a map of keys which are fileNames and data which are contents of those files.
+    It is the responsiblity of the caller to construct a xoomlNamespaceElement in a way that it points to those files
+ */
+-(void) setCollectionFragmentNamespaceSubElement:(XoomlNamespaceElement *) namespaceElement
+                     withExternalFileDataMapping:(NSDictionary *) fileDataMapping;
 /*! If the item is there it will update it, if its not it will create a new one
  */
 -(void) setCollectionThumbnailWithData:(NSData *) thumbnailData;
@@ -78,9 +83,6 @@
 
 -(void) removeCollectionFragmentNamespaceSubElementWithId:(NSString *) subElementId
                                             fromNamespace:(NSString *) parentNamespaceName;
-
-
-
 
 
 

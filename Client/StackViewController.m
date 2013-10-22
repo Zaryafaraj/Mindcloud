@@ -219,7 +219,8 @@
     //for every note we calculate its starting position and also the column and
     //the row of the next note. If the column and row of the note required a
     //new page we extend the stack view to that
-    for (UIView * view in self.notes){
+    for (UIView * view in self.notes)
+    {
         if (needsNewPage){
             needsNewPage = NO;
             [self addPageToStackViewWithCurrentPageCount:page];
@@ -361,26 +362,30 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     self.view.backgroundColor = [UIColor clearColor];
-    CGFloat viewCenterX = self.view.center.x;
-    CGFloat viewCenterY = self.view.center.y;
-    CGFloat parentCenterX = self.openStack.superview.center.x;
-    CGFloat parentCenterY = self.openStack.superview.center.x;
-    CGFloat distanceToStartX = parentCenterX - viewCenterX;
-    CGFloat distanceToStartY = parentCenterY - viewCenterY + self.toolbar.bounds.size.height;
-    CGRect blurWindow = CGRectMake(distanceToStartX,
-                                   distanceToStartY,
-                                   self.bgImage.bounds.size.width,
-                                   self.bgImage.bounds.size.height);
-    UIImage * bgImage = [MultimediaHelper blurRect:blurWindow
-                                            inView:self.openStack.superview];
-    self.bgImage.image = bgImage;
+    UIColor * bgColor = [UIColor colorWithWhite:0.1 alpha:0.8];
+    self.view.superview.backgroundColor = bgColor;
+    self.toolbar.barTintColor = bgColor;
+//    CGFloat viewCenterX = self.view.center.x;
+//    CGFloat viewCenterY = self.view.center.y;
+//    CGFloat parentCenterX = self.openStack.superview.center.x;
+//    CGFloat parentCenterY = self.openStack.superview.center.x;
+//    CGFloat distanceToStartX = parentCenterX - viewCenterX;
+//    CGFloat distanceToStartY = parentCenterY - viewCenterY + self.toolbar.bounds.size.height;
+//    CGRect blurWindow = CGRectMake(distanceToStartX,
+//                                   distanceToStartY,
+//                                   self.bgImage.bounds.size.width,
+//                                   self.bgImage.bounds.size.height);
+//    UIImage * bgImage = [MultimediaHelper blurRect:blurWindow
+//                                            inView:self.openStack.superview];
+//    self.bgImage.image = bgImage;
 }
 
 -(void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor clearColor];
+    UIColor * bgColor = [UIColor colorWithWhite:0.1 alpha:0.5];
+    //self.view.tintColor = [UIColor blueColor];
     
     
     [self.stackView setContentSize:self.stackView.bounds.size];

@@ -56,6 +56,7 @@
 -(void) setHighlighted:(BOOL) highlighted
 {
     _highlighted = highlighted;
+    
 //    int lastIndex = self.views.count - 1;
 //    for (int i = 0; i < MAX_VISIBLE_NOTES; i++)
 //    {

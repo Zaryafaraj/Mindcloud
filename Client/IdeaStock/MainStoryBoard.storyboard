@@ -550,13 +550,17 @@
                                     <outlet property="surrogateView" destination="efj-z7-K4y" id="9h6-W5-PIr"/>
                                 </connections>
                             </scrollView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="Cfm-Vh-f3W">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cfm-Vh-f3W">
                                 <rect key="frame" x="0.0" y="916" width="768" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="IzC-P6-Dcb"/>
                                     <barButtonItem title="  Line" id="A3l-fq-Xmv"/>
-                                    <barButtonItem title="  Color" id="Oqz-93-m0G"/>
+                                    <barButtonItem title="  Undo" style="plain" id="Oqz-93-m0G">
+                                        <connections>
+                                            <action selector="undoPressed:" destination="9HL-37-GHp" id="VSa-Le-qsd"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem title="  Erase" id="89k-CT-Gpc">
                                         <connections>
                                             <action selector="erasePressed:" destination="9HL-37-GHp" id="tXV-Bj-Zwo"/>
@@ -579,6 +583,7 @@
                                         </connections>
                                     </barButtonItem>
                                 </items>
+                                <color key="barTintColor" red="0.19348746538162231" green="0.21079510450363159" blue="0.22214594483375549" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="0.94657176733016968" green="0.47315338253974915" blue="0.19889563322067261" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -643,14 +648,16 @@
                                 </items>
                                 <color key="barTintColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
-                            <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SJT-nK-4sU">
+                            <imageView hidden="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SJT-nK-4sU">
                                 <rect key="frame" x="0.0" y="42" width="540" height="578"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <scrollView autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jWv-aN-rSC">
                                 <rect key="frame" x="0.0" y="42" width="540" height="578"/>
+                                <color key="backgroundColor" red="0.86715453590000002" green="0.49652980000000002" blue="0.2290579844" alpha="1" colorSpace="calibratedRGB"/>
                             </scrollView>
                         </subviews>
+                        <color key="backgroundColor" red="0.48464059819999999" green="1" blue="0.61916933500000004" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="jWv-aN-rSC" secondAttribute="bottom" id="3mB-Nb-Iw9"/>
                             <constraint firstItem="zTy-aI-wC0" firstAttribute="leading" secondItem="Y8o-xz-LjN" secondAttribute="leading" id="4El-XM-SQo"/>
@@ -706,7 +713,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="hlw-lc-y9s">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.39276733994483948" green="0.51843875646591209" blue="0.9213988184928894" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Ucl-pk-dyn">

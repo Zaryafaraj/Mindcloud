@@ -353,6 +353,19 @@ CachedObject> dataSource;
     self.needSynchronization = YES;
 }
 
+-(void) setCollectionFragmentNamespaceSubElement:(XoomlNamespaceElement *) namespaceElement
+                     withExternalFileDataMapping:(NSDictionary *) fileDataMapping
+{
+    [self setCollectionFragmentNamespaceSubElementWithNewElement:namespaceElement];
+    
+    for(NSString * fileName in fileDataMapping.allKeys)
+    {
+        [self.dataSource saveCollectionAsset:fileDataMapping[fileName]
+                                withFileName:fileName
+                               forCollection:self.collectionName];
+    }
+}
+
 -(void) setCollectionThumbnailWithData:(NSData *) thumbnailData
 {
     [self.dataSource setThumbnail:thumbnailData forCollection:self.collectionName];

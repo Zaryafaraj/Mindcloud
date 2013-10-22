@@ -50,6 +50,17 @@
                        stringByAppendingString:THUMBNAIL_FILENAME];
     return path;
 }
+
++(NSString *) getPathForCollectionAssetWithName:(NSString *) assetName
+                          forCollectionWithName:(NSString *) collectionName
+{
+    NSString * pathExtension = [collectionName stringByAppendingString:@"/"];
+    NSString * path = [[[NSHomeDirectory() stringByAppendingString:@"/Documents/Cache/"]
+                       stringByAppendingString:pathExtension]
+                       stringByAppendingString:assetName];
+    return path;
+}
+
 + (NSString *) getPathForAssociatedItemWithName: (NSString *) subCollectionName
                  inCollectionWithName: (NSString *) collectionName{
     

@@ -14,6 +14,8 @@
 #import "NoteFragmentResolver.h"
 #import "FileSystemHelper.h"
 #import "CollectionNote.h"
+#import "ScreenDrawingAttribute.h"
+#import "ExternalFileHelper.h"
 
 @interface MindcloudCollection()
 
@@ -67,6 +69,8 @@
  */
 @property (strong, atomic) NoteFragmentResolver * noteResolver;
 
+@property (strong, atomic) ScreenDrawingAttribute * allDrawings;
+
 @end
 
 @implementation MindcloudCollection
@@ -84,6 +88,7 @@
     self.collectionAttributesForNotes = [NSMutableDictionary dictionary];
     self.stackings = [NSMutableDictionary dictionary];
     self.noteToStackingMap = [NSMutableDictionary dictionary];
+    self.allDrawings = [[ScreenDrawingAttribute alloc] init];
     
     self.bulletinBoardName = collectionName;
     
@@ -116,6 +121,7 @@
     {
         NSString * noteId = noteResolution.noteId;
         self.collectionNoteAttributes[noteId] = noteResolution.noteContent;
+        
         self.collectionAttributesForNotes[noteId] = noteResolution.collectionNoteAttribute;
         NSDictionary * userInfo =  @{@"result" :  @[noteId]};
         if (noteResolution.hasImage)
@@ -197,6 +203,21 @@
                                        andAssociationImageData:img
                                        andImageName:noteItem.image];
     
+}
+
+-(void) saveScreenDrawings:(NSDictionary *) drawingDictionary
+{
+    
+    NSMutableDictionary * fileMappings = [NSMutableDictionary dictionary];
+    for(NSNumber * index in drawingDictionary.allKeys)
+    {
+        [self.allDrawings addTouchedDrawingTileWithIndex:index.integerValue];
+        NSString * fileName = [ExternalFileHelper fileNameForDrawingWithIndex:index];
+        fileMappings[fileName] = drawingDictionary[index];
+    }
+    XoomlNamespaceElement * element = [self.allDrawings toXoomlNamespaceElement];
+    [self.gordonDataSource setCollectionFragmentNamespaceSubElement:element
+                                        withExternalFileDataMapping:fileMappings];
 }
 
 -(void) addNotesWithIDs: (NSArray *) noteIDs
@@ -372,6 +393,7 @@
     [self.gordonDataSource setAssociatedItemWithName:noteName
                                                                  toAssociatedItem:noteFragment];
 }
+
 
 -(void) updateNoteAttributes: (NSString *) noteID
                    withModel: (CollectionNoteAttribute *) collectionNoteAttribute
@@ -701,6 +723,7 @@
 {
     [self.gordonDataSource setCollectionThumbnailWithData:thumbnailData];
 }
+
 
 #pragma mark - thumbnail delegate
 

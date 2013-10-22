@@ -10,6 +10,7 @@
 #import "CollectionAnimationHelper.h"
 #import "ThemeFactory.h"
 #import "NoteAnimator.h"
+#import "CollectionLayoutHelper.h"
 
 @interface NoteView()
 
@@ -208,7 +209,9 @@
     
     self.transform = CGAffineTransformIdentity;
     
-    [self setFrame: self.originalFrame];
+    self.bounds = CGRectMake(0,
+                             0, NOTE_WIDTH,
+                             NOTE_HEIGHT);
     
     self.scaleOffset = 1;
     self.rotationOffset = 0;

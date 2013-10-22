@@ -12,13 +12,15 @@
 
 -(UIColor *) tintColor
 {
-    UIColor *aColor = [UIColor colorWithHue:0.602 saturation:0.663 brightness:0.792 alpha:1.000];
+   UIColor *aColor = [UIColor colorWithHue:0.627 saturation:0.574 brightness:0.921 alpha:1.000];
     return aColor;
 }
 
 -(UIColor *) collectionBackgroundColor
 {
-    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"signin_backgroun_pattern"]];
+    return
+    [UIColor colorWithPatternImage:[UIImage imageNamed:@"CollectionBigBackgroud"]];
+    //[UIColor colorWithPatternImage:[UIImage imageNamed:@"signin_backgroun_pattern"]];
 }
 
 -(UIColor *) backgroundColorForAllCollectionCategory
