@@ -25,17 +25,19 @@
     </script>
 
     <script>
-        // page layout
         $(document).ready(function(){
+
+            // page layout
             $(".main").onepage_scroll({
                 sectionContainer: "section"
-            });
-        });
 
-        // storing emails
-        $('.submit-email').on('click', function(){
-            var email = $('#userEmail').val();
-            ga('send', 'event', 'button', 'click', 'emailEntered', email);
+            });
+
+            // storing emails
+            $('.submit-email').on('click', function() {
+                var email = $('#userEmail').val();
+                ga('send', 'event', 'submit-button', 'click', email);
+            });
         });
     </script>
 
@@ -65,8 +67,8 @@
                     <div class="join_beta">
                         <h2>stay tuned for our beta.</h2>
                         <p>Enter your email address below and we will invite you to our private beta.</p>
-                        <input name="email" type="text" placeholder="enter your email here">
-                        <button class="submit-email">submit</button>
+                        <input id="userEmail" name="email" type="text" placeholder="enter your email here">
+                        <button id='submit-button' class="submit-email">submit</button>
                     </div>
                </div>
             </section>
