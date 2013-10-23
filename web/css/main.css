@@ -140,8 +140,8 @@ header {
 
 .main section.page1 h2 {
   color: #8CB9F6;
-  font-size: 24px;
-  font-size: 1.7rem;
+  font-size: 21px;
+  font-size: 1.53rem;
 }
 
 .main section.page1 .logo {
@@ -181,7 +181,7 @@ header {
 
 .main section.page1 .intro_text {
   margin-top: 30px;
-  width: 350px;
+  width: 360px;
 }
 
 .main section.page1 .intro_text p {
