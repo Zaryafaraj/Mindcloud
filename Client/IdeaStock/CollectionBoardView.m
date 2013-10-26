@@ -144,7 +144,6 @@
     
     if (!self.drawingEnabled) return;
     
-    NSLog(@"BEGAN");
     id<CollectionBoardDelegate> temp = self.delegate;
     if (temp)
     {
@@ -167,7 +166,6 @@
     
     if (!self.drawingEnabled) return;
     
-    NSLog(@"ENDED");
     UITouch * touch = [touches anyObject];
     CGPoint touchLocation = [touch locationInView:self];
     PaintLayerView * currentTouchedLayer = [self getGridCellForTouchLocation:touchLocation];
@@ -188,7 +186,6 @@
 -(void) touchesMoved:(NSSet *)touches
            withEvent:(UIEvent *)event
 {
-    NSLog(@"MOOVED");
     if (!self.drawingEnabled) return;
     
     if (touches.count > 1) return;
@@ -227,12 +224,12 @@
                                              fromView:prevTouchedLayer];
         //if the start is in one view grid and the end is in another grid the touch sensors have missed
         // at least a grid between. find those grids and ask them to draw a straight line
-        if (YES)
+        if (![self areViewsAdjacentInGridForView:prevTouchedLayer andView:currentTouchedLayer])
         {
             NSArray * middleViews = [self getCandidateMiddleViewsForStartingPoint:prevLocation
                                                                       andEndPoint:touchLocation];
-            //currentTouchedLayer.backgroundColor = [UIColor greenColor];
-            //prevTouchedLayer.backgroundColor = [UIColor purpleColor];
+//            currentTouchedLayer.backgroundColor = [UIColor greenColor];
+//            prevTouchedLayer.backgroundColor = [UIColor purpleColor];
             for(PaintLayerView * view in middleViews)
             {
                 if (view == currentTouchedLayer) continue;
@@ -243,7 +240,7 @@
                 CGPoint prevPoint2InMiddle = [view convertPoint:prevPoint2InSelf fromView:self];
                 
                 CGPoint currentInMiddle = [view convertPoint:currentInSelf fromView:self];
-                //view.backgroundColor = [UIColor blueColor];
+//                view.backgroundColor = [UIColor blueColor];
                 [view parentTouchEnteredTheView:touch
                              withPreviousPoint1:prevPoint1InMiddle
                               andPreviousPoint2:prevPoint2InMiddle
@@ -315,22 +312,30 @@
         }
     }
     
-    if (prevView.colIndex + 1 == currView.colIndex)
-    {
-        if (prevView.rowIndex + 1 == currView.rowIndex ||
-            prevView.rowIndex - 1 == currView.rowIndex)
-        {
-            return true;
-        }
-    }
-    if (prevView.colIndex - 1 == currView.colIndex)
-    {
-        if (prevView.rowIndex + 1 == currView.rowIndex ||
-            prevView.rowIndex - 1 == currView.rowIndex)
-        {
-            return true;
-        }
-    }
+//Although the for diameter adjacent views are theoratically
+//adjacent because geometrically speaking those two views are
+//attached only by a single point, then statistically it is
+//impossible for a line to enter them from that point. What usually happens is that
+//the line will go to another view and then come back to them
+//    if (prevView.colIndex + 1 == currView.colIndex)
+//    {
+//        prevView.backgroundColor = [UIColor redColor];
+//        if (prevView.rowIndex + 1 == currView.rowIndex ||
+//            prevView.rowIndex - 1 == currView.rowIndex)
+//        {
+//            prevView.backgroundColor = [UIColor brownColor];
+//            return true;
+//        }
+//    }
+//    if (prevView.colIndex - 1 == currView.colIndex)
+//    {
+//        prevView.backgroundColor = [UIColor yellowColor];
+//        if (prevView.rowIndex + 1 == currView.rowIndex ||
+//            prevView.rowIndex - 1 == currView.rowIndex)
+//        {
+//            return true;
+//        }
+//    }
     
     return false;
 }
