@@ -13,7 +13,7 @@
 //keyed on the order index and valued on a set of all the drawings done in
 //that order index
 @property (atomic, strong) NSMutableDictionary * drawings;
-@property (atomic ,strong) NSArray * baseDrawings;
+@property (atomic ,strong) NSMutableArray * baseDrawings;
 
 @end
 
@@ -79,5 +79,29 @@
     return result;
 }
 
+
+#pragma mark - NSCoding
+
+-(id) initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    
+    if (!self) return nil;
+    
+    self.baseDrawings = [aDecoder decodeObjectForKey:@"drawings"];
+    
+    self.drawings = [NSMutableDictionary dictionary];
+    
+    return self;
+}
+
+-(void) encodeWithCoder:(NSCoder *)aCoder
+{
+    //first transfer everything in drawings to base drawings
+    [self.baseDrawings addObjectsFromArray:self.drawings.allValues];
+    [self.drawings removeAllObjects];
+    
+    [aCoder encodeObject:self.baseDrawings forKey:@"drawings"];
+}
 
 @end

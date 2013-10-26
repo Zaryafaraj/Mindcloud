@@ -233,6 +233,7 @@
 		DB601A3B16E2CFEC0007A636 /* CollectionSharingAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionSharingAdapter.h; sourceTree = "<group>"; };
 		DB601A3C16E2CFEC0007A636 /* CollectionSharingAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionSharingAdapter.m; sourceTree = "<group>"; };
 		DB64030617DABE5700DC9578 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Mindcloud/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		DB647653181B7BB9008688CE /* CollectionBoardDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionBoardDelegate.h; sourceTree = "<group>"; };
 		DB712C85164EF678008E68C6 /* CategoriesAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesAction.h; sourceTree = "<group>"; };
 		DB712C86164EF678008E68C6 /* CategoriesAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesAction.m; sourceTree = "<group>"; };
 		DB712C89164F42D0008E68C6 /* CollectionImageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionImageAction.h; sourceTree = "<group>"; };
@@ -583,6 +584,7 @@
 				DB57B055180DE415002F993B /* PaintEnabledView.h */,
 				DB57B056180DE49F002F993B /* CollectionBoardView.h */,
 				DB57B057180DE49F002F993B /* CollectionBoardView.m */,
+				DB647653181B7BB9008688CE /* CollectionBoardDelegate.h */,
 			);
 			name = Views;
 			sourceTree = "<group>";

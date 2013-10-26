@@ -1035,7 +1035,7 @@
 -(void) viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.collectionView.delegate = self;
     [self removePrototypesFromView];
     [self configureScrollView];
     self.shouldRefresh = YES;
@@ -2132,4 +2132,30 @@ intoStackingWithMainView: (UIView *) mainView
     }
 }
 
+
+#pragma mark - CollectionBoard delegate
+
+-(void) didFinishDrawingOnScreen
+{
+    self.parentScrollView.scrollEnabled = YES;
+    self.parentScrollView.delaysContentTouches = YES;
+   for (UIGestureRecognizer * gr in self.collectionView.gestureRecognizers)
+    {
+        gr.enabled = YES;
+    }
+    NSDictionary * drawings = [self.collectionView getAllDrawingDataForTouchedViews];
+    [self.collectionView resetTouchRecorder];
+    NSLog(@"SIZE %d", drawings.count);
+}
+
+-(void) willBeginDrawingOnScreen
+{
+    //self.parentScrollView.panGestureRecognizer.enabled = NO;
+    self.parentScrollView.delaysContentTouches = NO;
+    self.parentScrollView.scrollEnabled = NO;
+    for (UIGestureRecognizer * gr in self.collectionView.gestureRecognizers)
+    {
+        gr.enabled = NO;
+    }
+}
 @end

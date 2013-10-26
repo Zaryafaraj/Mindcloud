@@ -13,7 +13,7 @@
 #define DEFAULT_COLOR [UIColor whiteColor]
 #define DEFAULT_WIDTH 5.0f
 
-static const CGFloat kPointMinDistance = 5;
+static const CGFloat kPointMinDistance = 6;
 
 static const CGFloat kPointMinDistanceSquared = kPointMinDistance * kPointMinDistance;
 
@@ -115,7 +115,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     CGFloat dy = point.y - self.currentPoint.y;
 	
     if ((dx * dx + dy * dy) < kPointMinDistanceSquared) {
-//        return;
+       return;
     }
     
     self.previousPoint2 = self.previousPoint1;
@@ -245,7 +245,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
 
 -(NSData *) serializeLayer
 {
-    return [NSKeyedArchiver archivedDataWithRootObject:self.container];
+    return [NSKeyedArchiver archivedDataWithRootObject:self];
 }
 
 
@@ -267,5 +267,10 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     
 }
 
+-(NSString *) description
+{
+    NSString * parentDescription = [super description];
+    return [NSString stringWithFormat:@"row: %d ; col: %d ; %@", self.rowIndex, self.colIndex, parentDescription];
+}
 @end
 

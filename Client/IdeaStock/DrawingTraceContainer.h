@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DrawingTrace.h"
-@interface DrawingTraceContainer : NSObject
+@interface DrawingTraceContainer : NSObject <NSCoding>
 
 -(void) addDrawingTrace:(DrawingTrace *) trace
           forOrderIndex:(NSInteger) index;

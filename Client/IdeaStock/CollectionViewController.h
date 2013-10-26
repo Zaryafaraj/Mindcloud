@@ -11,20 +11,23 @@
 #import "StackViewController.h"
 #import "NoteViewDelegate.h"
 #import "MindcloudCollection.h"
+#import "CollectionBoardDelegate.h"
 
-@interface CollectionViewController : UIViewController <UIScrollViewDelegate,
-                                                        StackViewDelegate,
-                                                        NoteViewDelegate,
-                                                        UIImagePickerControllerDelegate,
-                                                        UINavigationControllerDelegate,
-                                                        UIActionSheetDelegate,
-                                                        UIPopoverControllerDelegate>
+@interface CollectionViewController : UIViewController<
+UIScrollViewDelegate,
+StackViewDelegate,
+NoteViewDelegate,
+CollectionBoardDelegate,
+UIImagePickerControllerDelegate,
+UINavigationControllerDelegate,
+UIActionSheetDelegate,
+UIPopoverControllerDelegate>
 
 @property (strong,nonatomic) NSString * bulletinBoardName;
 @property (strong, nonatomic) MindcloudCollection * board;
 @property (weak,nonatomic) AllCollectionsViewController * parent;
 
-//because modal view does'nt provide this notification 
+//because modal view does'nt provide this notification
 -(void) applicationWillEnterForeground:(NSNotification *) notification;
 -(void) applicationHasGoneInBackground:(NSNotification *) notification;
 

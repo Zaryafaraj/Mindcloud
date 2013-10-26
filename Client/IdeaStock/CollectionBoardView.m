@@ -15,6 +15,8 @@
 
 @property (nonatomic, strong) NSMutableArray * allDrawings;
 
+@property (nonatomic, strong) NSMutableSet * touchedViews;
+
 @property NSInteger orderIndex;
 
 @property BOOL drawingEnabled;
@@ -60,6 +62,7 @@
 -(void) configureInternals
 {
     self.allDrawings = [NSMutableArray array];
+    self.touchedViews = [NSMutableSet set];
     //haven't started drawing anything
     self.orderIndex = -1;
 }
@@ -83,7 +86,7 @@
                                           GRID_CELL_SIZE);
             
             PaintLayerView * paintLayer = [[PaintLayerView alloc] initWithFrame:gridFrame];
-          //  paintLayer.layer.borderWidth = 1.0;
+            paintLayer.layer.borderWidth = 1.0;
 //            paintLayer.layer.borderColor = [UIColor blackColor].CGColor;
             paintLayer.clipsToBounds = NO;
             paintLayer.colIndex = col;
@@ -133,12 +136,20 @@
     
     NSMutableSet * touchedViewsInOrder = self.allDrawings[self.orderIndex];
     [touchedViewsInOrder addObject:view];
+    [self.touchedViews addObject:view];
 }
 
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     
     if (!self.drawingEnabled) return;
+    
+    NSLog(@"BEGAN");
+    id<CollectionBoardDelegate> temp = self.delegate;
+    if (temp)
+    {
+        [temp willBeginDrawingOnScreen];
+    }
     
     if (touches.count > 1) return;
     
@@ -156,6 +167,7 @@
     
     if (!self.drawingEnabled) return;
     
+    NSLog(@"ENDED");
     UITouch * touch = [touches anyObject];
     CGPoint touchLocation = [touch locationInView:self];
     PaintLayerView * currentTouchedLayer = [self getGridCellForTouchLocation:touchLocation];
@@ -166,10 +178,17 @@
     [currentTouchedLayer parentTouchExitedTheView:touch
                                  withCurrentPoint:currentInChild
                                     andOrderIndex:self.orderIndex];
+    
+    id<CollectionBoardDelegate> temp = self.delegate;
+    if (temp)
+    {
+        [temp didFinishDrawingOnScreen];
+    }
 }
 -(void) touchesMoved:(NSSet *)touches
            withEvent:(UIEvent *)event
 {
+    NSLog(@"MOOVED");
     if (!self.drawingEnabled) return;
     
     if (touches.count > 1) return;
@@ -232,6 +251,7 @@
                 [view parentTouchExitedTheView:touch
                               withCurrentPoint:currentInMiddle
                                  andOrderIndex:self.orderIndex];
+                [self addTouchedItem:view];
             }
         }
         
@@ -472,6 +492,26 @@
         result[index] = data;
     }
     return result;
+}
+
+-(NSDictionary *) getAllDrawingDataForTouchedViews
+{
+    NSMutableDictionary * result = [NSMutableDictionary dictionary];
+    int i = 0;
+    NSLog(@" ==== \n %@ ===== \n" , self.touchedViews);
+    for(PaintLayerView * layer in self.touchedViews)
+    {
+        NSNumber * index = [NSNumber numberWithInt:i];
+        NSData * data = [layer serializeLayer];
+        result[index] = data;
+        i++;
+    }
+    return result;
+}
+
+-(void) resetTouchRecorder
+{
+    [self.touchedViews removeAllObjects];
 }
 
 -(void) applyBaseDrawingData:(NSDictionary *) baseDrawingData
