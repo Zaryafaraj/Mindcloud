@@ -63,7 +63,9 @@
     //haven't started drawing anything
     self.orderIndex = -1;
 }
-#define GRID_CELL_SIZE 400
+
+//have done performance tests and reached 100. Do not change
+#define GRID_CELL_SIZE 100
 #define VIEW_WIDTH 2000
 #define VIEW_HEIGHT 2000
 -(void) configurePaintLayer
@@ -81,7 +83,7 @@
                                           GRID_CELL_SIZE);
             
             PaintLayerView * paintLayer = [[PaintLayerView alloc] initWithFrame:gridFrame];
-//            paintLayer.layer.borderWidth = 1.0;
+          //  paintLayer.layer.borderWidth = 1.0;
 //            paintLayer.layer.borderColor = [UIColor blackColor].CGColor;
             paintLayer.clipsToBounds = NO;
             paintLayer.colIndex = col;
@@ -122,6 +124,7 @@
 
 -(void) addTouchedItem:(PaintLayerView *) view
 {
+    if (view == nil) return;
     if (self.orderIndex + 1> self.allDrawings.count)
     {
         NSMutableSet * touchedViews = [NSMutableSet set];
@@ -177,6 +180,7 @@
     PaintLayerView * currentTouchedLayer = [self getGridCellForTouchLocation:touchLocation];
     PaintLayerView * prevTouchedLayer = [self getGridCellForTouchLocation:prevLocation];
     
+    
     [prevTouchedLayer parentTouchMoved:touch withEvent:event andOrderIndex:self.orderIndex];
     
     [self addTouchedItem:currentTouchedLayer];
@@ -202,12 +206,39 @@
                                              fromView:prevTouchedLayer];
         CGPoint prevPoint2InSelf = [self convertPoint:prevPoint2
                                              fromView:prevTouchedLayer];
+        //if the start is in one view grid and the end is in another grid the touch sensors have missed
+        // at least a grid between. find those grids and ask them to draw a straight line
+        if (YES)
+        {
+            NSArray * middleViews = [self getCandidateMiddleViewsForStartingPoint:prevLocation
+                                                                      andEndPoint:touchLocation];
+            //currentTouchedLayer.backgroundColor = [UIColor greenColor];
+            //prevTouchedLayer.backgroundColor = [UIColor purpleColor];
+            for(PaintLayerView * view in middleViews)
+            {
+                if (view == currentTouchedLayer) continue;
+                
+                CGPoint prevPoint1InMiddle = [view convertPoint:prevPoint1InSelf
+                                                               fromView:self];
+        
+                CGPoint prevPoint2InMiddle = [view convertPoint:prevPoint2InSelf fromView:self];
+                
+                CGPoint currentInMiddle = [view convertPoint:currentInSelf fromView:self];
+                //view.backgroundColor = [UIColor blueColor];
+                [view parentTouchEnteredTheView:touch
+                             withPreviousPoint1:prevPoint1InMiddle
+                              andPreviousPoint2:prevPoint2InMiddle
+                                  andOrderIndex:self.orderIndex];
+                [view parentTouchExitedTheView:touch
+                              withCurrentPoint:currentInMiddle
+                                 andOrderIndex:self.orderIndex];
+            }
+        }
         
         CGPoint prevPoint1InCurrent = [currentTouchedLayer convertPoint:prevPoint1InSelf
                                                                fromView:self];
         
-        CGPoint prevPoint2InCurrent = [currentTouchedLayer convertPoint:prevPoint2InSelf
-                                                               fromView:self];
+        CGPoint prevPoint2InCurrent = [currentTouchedLayer convertPoint:prevPoint2InSelf fromView:self];
         [currentTouchedLayer parentTouchEnteredTheView:touch withPreviousPoint1:prevPoint1InCurrent
                                      andPreviousPoint2:prevPoint2InCurrent andOrderIndex:self.orderIndex];
         
@@ -215,13 +246,160 @@
     
 }
 
--(PaintLayerView *) getGridCellForTouchLocation:(CGPoint) touchLocation
+
+-(int) getGridIndexForTouchLocation:(CGPoint) touchLocation
 {
     int column = touchLocation.x / GRID_CELL_SIZE;
     int row = touchLocation.y / GRID_CELL_SIZE;
     int index = [self arrayIndexForColumn:column andRow:row];
+    return index;
+}
+
+-(PaintLayerView *) getGridCellForTouchLocation:(CGPoint) touchLocation
+{
+    int index = [self getGridIndexForTouchLocation:touchLocation];
+    if (index < 0 || index > self.viewGrid.count - 1) return nil;
     PaintLayerView * layer = self.viewGrid[index];
     return layer;
+}
+
+-(BOOL) areViewsAdjacentInGridForView:(PaintLayerView *) prevView andView:(PaintLayerView * ) currView
+{
+    
+    //There are six adjacent cells to each cell in the grid
+    //
+    //            -----------------------------------------------------------
+    //            |  X - COL_SIZE -1   |  X - COL_SIZE  |  X - COL_SIZE + 1  |
+    //            -----------------------------------------------------------
+    //            |        X - 1       |        X       |        X + 1       |
+    //            -----------------------------------------------------------
+    //            |  X + COL_SIZE -1   |  X + COL_SIZE  |  X + COL_SIZE + 1  |
+    //            -----------------------------------------------------------
+    
+    if (prevView.rowIndex == currView.rowIndex)
+    {
+        if (prevView.colIndex == currView.colIndex ||
+            prevView.colIndex + 1 == currView.colIndex ||
+            prevView.colIndex - 1 == currView.colIndex)
+        {
+            return true;
+        }
+    }
+    if (prevView.colIndex == currView.colIndex)
+    {
+        if (prevView.rowIndex == currView.rowIndex ||
+            prevView.rowIndex + 1 == currView.rowIndex ||
+            prevView.rowIndex - 1 == currView.rowIndex)
+        {
+            return true;
+        }
+    }
+    
+    if (prevView.colIndex + 1 == currView.colIndex)
+    {
+        if (prevView.rowIndex + 1 == currView.rowIndex ||
+            prevView.rowIndex - 1 == currView.rowIndex)
+        {
+            return true;
+        }
+    }
+    if (prevView.colIndex - 1 == currView.colIndex)
+    {
+        if (prevView.rowIndex + 1 == currView.rowIndex ||
+            prevView.rowIndex - 1 == currView.rowIndex)
+        {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+/*! If the starting point and endpoint are not from adjust cells in the grid
+    There must be some middle views between them. There are variety of straight lines that
+    can go from startingPoint to endPoint. 
+    This method returns and NSArray of all those candidate views that the straight line could fall inside of
+ */
+-(NSArray *) getCandidateMiddleViewsForStartingPoint:(CGPoint) startingPoint
+                                         andEndPoint:(CGPoint) endPoint
+{
+    int startIndex = [self getGridIndexForTouchLocation:startingPoint];
+    
+    int colSize = VIEW_WIDTH / GRID_CELL_SIZE;
+    NSMutableArray * result = [NSMutableArray array];
+    //we are not catching everything just the minimum number of candidates to make the line look smooth
+    if (endPoint.x > startingPoint.x)
+    {
+        int immediateRight = startIndex + 1;
+        
+        if (immediateRight >= 0 && immediateRight < self.viewGrid.count)
+        {
+            [result addObject:self.viewGrid[immediateRight]];
+        }
+        if (endPoint.y < startingPoint.y)
+        {
+            int rightAndAbove = startIndex - colSize + 1;
+            
+            if (rightAndAbove >=0 && rightAndAbove < self.viewGrid.count)
+            {
+                [result addObject:self.viewGrid[rightAndAbove]];
+            }
+        }
+        else if (endPoint.y > startingPoint.y)
+        {
+            int rightAndBelow = startIndex + colSize + 1;
+            if (rightAndBelow >=0 && rightAndBelow < self.viewGrid.count)
+            {
+                [result addObject:self.viewGrid[rightAndBelow]];
+            }
+        }
+    }
+    
+    //we don't add anything in case they are equals
+    else if (endPoint.x < startingPoint.x)
+    {
+        int immediateLeft = startIndex - 1;
+        if (immediateLeft >= 0 && immediateLeft < self.viewGrid.count)
+        {
+            [result addObject:self.viewGrid[immediateLeft]];
+        }
+        if (endPoint.y < startingPoint.y)
+        {
+            int leftAndAbove = startIndex - colSize - 1;
+            if (leftAndAbove >=0 && leftAndAbove < self.viewGrid.count)
+            {
+                [result addObject:self.viewGrid[leftAndAbove]];
+            }
+        }
+        else if (endPoint.y > startingPoint.y)
+        {
+            int leftAndBelow = startIndex + colSize - 1;
+            if (leftAndBelow >=0 && leftAndBelow < self.viewGrid.count)
+            {
+                [result addObject:self.viewGrid[leftAndBelow]];
+            }
+        }
+    }
+    
+    //above and below
+    if (endPoint.y < startingPoint.y)
+    {
+        int immediateAbove = startIndex - colSize;
+        if (immediateAbove >=0 && immediateAbove < self.viewGrid.count)
+        {
+            [result addObject:self.viewGrid[immediateAbove]];
+        }
+    }
+    else if (endPoint.y > startingPoint.y)
+    {
+        int immediateBelow = startIndex + colSize;
+        if (immediateBelow >=0 && immediateBelow < self.viewGrid.count)
+        {
+            [result addObject:self.viewGrid[immediateBelow]];
+        }
+    }
+    
+    return result;
 }
 
 -(int) arrayIndexForColumn:(int) col

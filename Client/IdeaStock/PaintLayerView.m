@@ -115,7 +115,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     CGFloat dy = point.y - self.currentPoint.y;
 	
     if ((dx * dx + dy * dy) < kPointMinDistanceSquared) {
-        return;
+//        return;
     }
     
     self.previousPoint2 = self.previousPoint1;
