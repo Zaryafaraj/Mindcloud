@@ -24,6 +24,8 @@
 
 -(void) undo;
 
+@property BOOL drawingEnabled;
+
 /*! NSDictionary of serialized data for the drawing. Its keyed on the 
     gird index*/
 -(NSDictionary *) getAllDrawingData;

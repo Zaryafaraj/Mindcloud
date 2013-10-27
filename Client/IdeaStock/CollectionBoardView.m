@@ -17,9 +17,10 @@
 
 @property (nonatomic, strong) NSMutableSet * touchedViews;
 
+@property (nonatomic, strong) NSMutableSet * viewsWithoutTouchEnded;
+
 @property NSInteger orderIndex;
 
-@property BOOL drawingEnabled;
 
 @end
 
@@ -142,8 +143,10 @@
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     
+    NSLog(@"HEREEEEE");
     if (!self.drawingEnabled) return;
     
+    NSLog(@"ANDHERE");
     id<CollectionBoardDelegate> temp = self.delegate;
     if (temp)
     {
@@ -158,12 +161,15 @@
     PaintLayerView * touchedLayer = [self getGridCellForTouchLocation:location];
     [self addTouchedItem:touchedLayer];
     [touchedLayer parentTouchBegan:touch withEvent:event andOrderIndex:self.orderIndex];
+    [self.viewsWithoutTouchEnded addObject:touchedLayer];
+    
 }
 
 -(void) touchesEnded:(NSSet *)touches
            withEvent:(UIEvent *)event
 {
     
+    NSLog(@"OUUUUCH ENDED");
     if (!self.drawingEnabled) return;
     
     UITouch * touch = [touches anyObject];
@@ -182,6 +188,7 @@
     {
         [temp didFinishDrawingOnScreen];
     }
+    [self.viewsWithoutTouchEnded removeObject:currentTouchedLayer];
 }
 -(void) touchesMoved:(NSSet *)touches
            withEvent:(UIEvent *)event
@@ -214,7 +221,6 @@
         [self addTouchedItem:prevTouchedLayer];
         
         [prevTouchedLayer parentTouchExitedTheView:touch withCurrentPoint:currentInChild andOrderIndex:self.orderIndex];
-        
         
         CGPoint prevPoint1 = prevTouchedLayer.previousPoint1;
         CGPoint prevPoint2 = prevTouchedLayer.previousPoint2;
@@ -258,7 +264,6 @@
         CGPoint prevPoint2InCurrent = [currentTouchedLayer convertPoint:prevPoint2InSelf fromView:self];
         [currentTouchedLayer parentTouchEnteredTheView:touch withPreviousPoint1:prevPoint1InCurrent
                                      andPreviousPoint2:prevPoint2InCurrent andOrderIndex:self.orderIndex];
-        
     }
     
 }
@@ -503,7 +508,7 @@
 {
     NSMutableDictionary * result = [NSMutableDictionary dictionary];
     int i = 0;
-    NSLog(@" ==== \n %@ ===== \n" , self.touchedViews);
+    //NSLog(@" ==== \n %@ ===== \n" , self.touchedViews);
     for(PaintLayerView * layer in self.touchedViews)
     {
         NSNumber * index = [NSNumber numberWithInt:i];
