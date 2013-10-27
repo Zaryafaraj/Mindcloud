@@ -2137,7 +2137,6 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) didFinishDrawingOnScreen
 {
-    self.parentScrollView.scrollEnabled = YES;
     self.parentScrollView.delaysContentTouches = YES;
    for (UIGestureRecognizer * gr in self.collectionView.gestureRecognizers)
     {
@@ -2152,7 +2151,6 @@ intoStackingWithMainView: (UIView *) mainView
 {
     //self.parentScrollView.panGestureRecognizer.enabled = NO;
     self.parentScrollView.delaysContentTouches = NO;
-    self.parentScrollView.scrollEnabled = NO;
     for (UIGestureRecognizer * gr in self.collectionView.gestureRecognizers)
     {
         gr.enabled = NO;

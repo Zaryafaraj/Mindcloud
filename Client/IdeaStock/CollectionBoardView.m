@@ -66,6 +66,7 @@
     self.touchedViews = [NSMutableSet set];
     //haven't started drawing anything
     self.orderIndex = -1;
+    self.multipleTouchEnabled = YES;
 }
 
 //have done performance tests and reached 100. Do not change
@@ -89,6 +90,7 @@
             PaintLayerView * paintLayer = [[PaintLayerView alloc] initWithFrame:gridFrame];
             paintLayer.layer.borderWidth = 1.0;
 //            paintLayer.layer.borderColor = [UIColor blackColor].CGColor;
+            paintLayer.multipleTouchEnabled = YES;
             paintLayer.clipsToBounds = NO;
             paintLayer.colIndex = col;
             paintLayer.rowIndex = row;
@@ -143,6 +145,14 @@
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     
+    //we only handle single touch gestures. the other gestures
+    //will be handled by the respective views
+    if (event.allTouches.count > 1)
+    {
+//        [self.nextResponder touchesBegan:touches withEvent:event];
+        return;
+    }
+    
     if (!self.drawingEnabled) return;
     
     id<CollectionBoardDelegate> temp = self.delegate;
@@ -190,6 +200,10 @@
 -(void) touchesMoved:(NSSet *)touches
            withEvent:(UIEvent *)event
 {
+    if (event.allTouches.count > 1)
+    {
+        return;
+    }
     if (!self.drawingEnabled) return;
     
     if (touches.count > 1) return;

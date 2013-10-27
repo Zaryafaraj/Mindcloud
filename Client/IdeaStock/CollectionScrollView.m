@@ -41,6 +41,7 @@
     self.minimumZoomScale = 0.5;
     self.scrollEnabled = YES;
     self.maximumZoomScale = 2;
+    self.multipleTouchEnabled = YES;
 }
 
 //this assumes that bounds have already made it to the target orientation sizes
@@ -128,7 +129,7 @@
 
 -(void) enablePaintMode
 {
-//    self.scrollEnabled = NO;
+    self.scrollEnabled = NO;
     self.delaysContentTouches = YES;
     [self.surrogateView showPaintLayer];
 }
