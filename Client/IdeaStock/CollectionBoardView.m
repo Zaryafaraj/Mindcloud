@@ -143,10 +143,8 @@
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     
-    NSLog(@"HEREEEEE");
     if (!self.drawingEnabled) return;
     
-    NSLog(@"ANDHERE");
     id<CollectionBoardDelegate> temp = self.delegate;
     if (temp)
     {
@@ -169,7 +167,6 @@
            withEvent:(UIEvent *)event
 {
     
-    NSLog(@"OUUUUCH ENDED");
     if (!self.drawingEnabled) return;
     
     UITouch * touch = [touches anyObject];

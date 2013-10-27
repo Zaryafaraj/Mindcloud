@@ -11,9 +11,9 @@
 #import "DrawingTraceContainer.h"
 
 #define DEFAULT_COLOR [UIColor whiteColor]
-#define DEFAULT_WIDTH 5.0f
+#define DEFAULT_WIDTH 3.0f
 
-static const CGFloat kPointMinDistance = 6;
+static const CGFloat kPointMinDistance = 3;
 
 static const CGFloat kPointMinDistanceSquared = kPointMinDistance * kPointMinDistance;
 
@@ -182,6 +182,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     if (path != nil)
     {
         CGContextSetLineCap(context, kCGLineCapRound);
+        CGContextSetLineJoin(context, kCGLineJoinRound);
         CGContextAddPath(context, path);
         if (self.eraseModeEnabled)
         {
