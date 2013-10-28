@@ -44,6 +44,11 @@
     self.multipleTouchEnabled = YES;
 }
 
+-(void) scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view
+{
+    [self.surrogateView cleanupPinchArtifacts];
+}
+
 //this assumes that bounds have already made it to the target orientation sizes
 -(void) willRotateToInterfaceOrientation:(UIInterfaceOrientation) orientation
 {

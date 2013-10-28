@@ -234,6 +234,13 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     [self setNeedsDisplay];
 }
 
+-(void) cleanupContentBeingDrawn
+{
+    CGPathRelease(path);
+    path = nil;
+    [self setNeedsDisplay];
+}
+
 -(void) undoIndex:(NSInteger)index
 {
     [self.container removeDrawingTracesAtOrderIndex:index];

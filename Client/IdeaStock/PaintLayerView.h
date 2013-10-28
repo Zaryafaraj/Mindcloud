@@ -46,6 +46,8 @@
 @property int rowIndex;
 @property int colIndex;
 
+-(void) cleanupContentBeingDrawn;
+
 @property CGPoint previousPoint1;
 @property CGPoint previousPoint2;
 @property CGPoint currentPoint;

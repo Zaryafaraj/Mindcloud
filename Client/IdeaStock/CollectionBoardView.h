@@ -20,6 +20,8 @@
 
 -(void) clearPaintedItems;
 
+-(void) cleanupPinchArtifacts;
+
 @property (nonatomic) BOOL eraseModeEnabled;
 
 -(void) undo;

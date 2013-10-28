@@ -67,6 +67,7 @@
     //haven't started drawing anything
     self.orderIndex = -1;
     self.multipleTouchEnabled = YES;
+    self.viewsWithoutTouchEnded = [NSMutableSet set];
 }
 
 //have done performance tests and reached 100. Do not change
@@ -142,14 +143,14 @@
     [self.touchedViews addObject:view];
 }
 
--(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+-(void) touchesBegan:(NSSet *)touches
+           withEvent:(UIEvent *)event
 {
     
     //we only handle single touch gestures. the other gestures
     //will be handled by the respective views
     if (event.allTouches.count > 1)
     {
-//        [self.nextResponder touchesBegan:touches withEvent:event];
         return;
     }
     
@@ -177,6 +178,11 @@
            withEvent:(UIEvent *)event
 {
     
+    if (event.allTouches.count > 1)
+    {
+        return;
+    }
+    
     if (!self.drawingEnabled) return;
     
     UITouch * touch = [touches anyObject];
@@ -196,6 +202,18 @@
         [temp didFinishDrawingOnScreen];
     }
     [self.viewsWithoutTouchEnded removeObject:currentTouchedLayer];
+}
+
+-(void) cleanupPinchArtifacts
+{
+    if (self.viewsWithoutTouchEnded.count > 0)
+    {
+        for (PaintLayerView * layer in self.viewsWithoutTouchEnded)
+        {
+            NSLog(@"Cleaning");
+            [layer cleanupContentBeingDrawn];
+        }
+    }
 }
 -(void) touchesMoved:(NSSet *)touches
            withEvent:(UIEvent *)event
@@ -232,7 +250,7 @@
         [self addTouchedItem:prevTouchedLayer];
         
         [prevTouchedLayer parentTouchExitedTheView:touch withCurrentPoint:currentInChild andOrderIndex:self.orderIndex];
-        
+        [self.viewsWithoutTouchEnded removeObject:prevTouchedLayer];
         CGPoint prevPoint1 = prevTouchedLayer.previousPoint1;
         CGPoint prevPoint2 = prevTouchedLayer.previousPoint2;
         CGPoint prevPoint1InSelf = [self convertPoint:prevPoint1
@@ -500,6 +518,7 @@
     {
         [view clearContent];
     }
+    [self.viewsWithoutTouchEnded removeAllObjects];
 }
 
 -(NSDictionary *) getAllDrawingData
