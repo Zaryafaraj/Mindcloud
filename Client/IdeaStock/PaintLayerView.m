@@ -179,27 +179,6 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     
     CGContextSetBlendMode(context, kCGBlendModeNormal);
    
-    if (path != nil)
-    {
-        CGContextSetLineCap(context, kCGLineCapRound);
-        CGContextSetLineJoin(context, kCGLineJoinRound);
-        CGContextAddPath(context, path);
-        if (self.eraseModeEnabled)
-        {
-            CGContextSetBlendMode(context, kCGBlendModeClear);
-            CGContextSetLineWidth(context, 8 * self.lineWidth);
-            CGContextSetLineCap(context, kCGLineCapSquare);
-        }
-        else
-        {
-            CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
-            CGContextSetBlendMode(context, kCGBlendModeNormal);
-            CGContextSetLineWidth(context, self.lineWidth);
-        }
-        
-        CGContextStrokePath(context);
-    }
-    
     NSArray * allTraces = [self.container getAllTracers];
     for (DrawingTrace * trace in allTraces)
     {
@@ -221,6 +200,28 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
         }
         CGContextStrokePath(context);
     }
+    if (path != nil)
+    {
+        CGContextSetLineCap(context, kCGLineCapRound);
+        CGContextSetLineJoin(context, kCGLineJoinRound);
+        CGContextAddPath(context, path);
+        if (self.eraseModeEnabled)
+        {
+            CGContextSetBlendMode(context, kCGBlendModeClear);
+//            CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
+            CGContextSetLineWidth(context, 8 * self.lineWidth);
+            CGContextSetLineCap(context, kCGLineCapSquare);
+        }
+        else
+        {
+            CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
+            CGContextSetBlendMode(context, kCGBlendModeNormal);
+            CGContextSetLineWidth(context, self.lineWidth);
+        }
+        
+        CGContextStrokePath(context);
+    }
+    
     
     UIGraphicsEndImageContext();
 }
