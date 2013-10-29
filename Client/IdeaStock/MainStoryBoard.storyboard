@@ -555,7 +555,11 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="IzC-P6-Dcb"/>
-                                    <barButtonItem title="  Line" id="A3l-fq-Xmv"/>
+                                    <barButtonItem title="Brush" id="A3l-fq-Xmv">
+                                        <connections>
+                                            <action selector="brushPressed:" destination="9HL-37-GHp" id="fnf-bk-jGA"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem title="  Undo" style="plain" id="Oqz-93-m0G">
                                         <connections>
                                             <action selector="undoPressed:" destination="9HL-37-GHp" id="VSa-Le-qsd"/>
@@ -613,6 +617,43 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V18-oK-TF6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2886" y="-1727"/>
+        </scene>
+        <!--PaintBrush View Controller-->
+        <scene sceneID="7e9-er-B66">
+            <objects>
+                <viewController restorationIdentifier="PaintbrushController" storyboardIdentifier="PaintbrushController" title="PaintbrushController" id="nQ4-rh-hPq" userLabel="PaintBrush View Controller" customClass="PaintbrushViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FOQ-2B-O8P"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZPv-kF-GET"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zkY-Nq-drO">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.25" minValue="0.0" maxValue="21" translatesAutoresizingMaskIntoConstraints="NO" id="d9y-tD-dgp">
+                                <rect key="frame" x="234" y="971" width="300" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="296" id="Iki-7x-deJ"/>
+                                </constraints>
+                                <color key="minimumTrackTintColor" red="0.39276733990000001" green="0.51843875650000004" blue="0.92139881850000005" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="sliderValueChanged:" destination="nQ4-rh-hPq" eventType="valueChanged" id="Fdo-nd-OEI"/>
+                                </connections>
+                            </slider>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="d9y-tD-dgp" secondAttribute="centerX" id="Ybh-Sq-48A"/>
+                            <constraint firstItem="ZPv-kF-GET" firstAttribute="top" secondItem="d9y-tD-dgp" secondAttribute="bottom" constant="20" id="qkO-kh-VFo"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="slider" destination="d9y-tD-dgp" id="JGz-x7-Rh5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zuD-90-jX8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2874" y="-361"/>
         </scene>
         <!--Stack View Controller-->
         <scene sceneID="bwM-MX-fXe">

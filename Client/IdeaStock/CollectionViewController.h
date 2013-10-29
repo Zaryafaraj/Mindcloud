@@ -12,12 +12,14 @@
 #import "NoteViewDelegate.h"
 #import "MindcloudCollection.h"
 #import "CollectionBoardDelegate.h"
+#import "PaintbrushViewController.h"
 
 @interface CollectionViewController : UIViewController<
 UIScrollViewDelegate,
 StackViewDelegate,
 NoteViewDelegate,
 CollectionBoardDelegate,
+PaintbrushDelegate,
 UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
 UIActionSheetDelegate,

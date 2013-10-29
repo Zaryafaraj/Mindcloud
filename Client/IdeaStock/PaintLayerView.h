@@ -9,8 +9,6 @@
 
 @interface PaintLayerView : UIView {
 @private
-    CGFloat lineWidth;
-    UIColor *lineColor;
    // UIImage *curImage;
 	
 	CGMutablePathRef path;
@@ -46,14 +44,14 @@
 @property int rowIndex;
 @property int colIndex;
 
+@property CGFloat lineWidth;
+
 -(void) cleanupContentBeingDrawn;
 
 @property CGPoint previousPoint1;
 @property CGPoint previousPoint2;
 @property CGPoint currentPoint;
-
 @property (nonatomic, retain) UIColor *lineColor;
-@property (readwrite) CGFloat lineWidth;
 
 @property BOOL eraseModeEnabled;
 

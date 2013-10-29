@@ -9,6 +9,8 @@
 #import "CollectionBoardView.h"
 #import "PaintLayerView.h"
 
+#define DEFAULT_COLOR [UIColor whiteColor]
+
 @interface CollectionBoardView()
 
 @property (nonatomic, strong) NSMutableArray * viewGrid;
@@ -35,6 +37,24 @@
     for (PaintLayerView * view in self.viewGrid)
     {
         view.eraseModeEnabled = eraseModeEnabled;
+    }
+}
+
+-(void) setCurrentWidth:(CGFloat)currentWidth
+{
+    _currentWidth = currentWidth;
+    for(PaintLayerView * view in self.viewGrid)
+    {
+        view.lineWidth = currentWidth;
+    }
+}
+
+-(void) setCurrentColor:(UIColor *)currentColor
+{
+    currentColor = _currentColor;
+    for(PaintLayerView * view in self.viewGrid)
+    {
+        view.lineColor = currentColor;
     }
 }
 -(id) initWithCoder:(NSCoder *)aDecoder
@@ -70,12 +90,16 @@
     self.viewsWithoutTouchEnded = [NSMutableSet set];
 }
 
+
 //have done performance tests and reached 100. Do not change
 #define GRID_CELL_SIZE 100
 #define VIEW_WIDTH 2000
 #define VIEW_HEIGHT 2000
 -(void) configurePaintLayer
 {
+    
+    _currentColor = DEFAULT_COLOR;
+    _currentWidth = DEFAULT_BRUSH_WIDTH;
     self.viewGrid = [NSMutableArray array];
     int columCellCount = VIEW_WIDTH / GRID_CELL_SIZE;
     int rowCellCount = VIEW_HEIGHT / GRID_CELL_SIZE;
@@ -89,10 +113,12 @@
                                           GRID_CELL_SIZE);
             
             PaintLayerView * paintLayer = [[PaintLayerView alloc] initWithFrame:gridFrame];
-            paintLayer.layer.borderWidth = 1.0;
+            //paintLayer.layer.borderWidth = 1.0;
 //            paintLayer.layer.borderColor = [UIColor blackColor].CGColor;
             paintLayer.multipleTouchEnabled = YES;
             paintLayer.clipsToBounds = NO;
+            paintLayer.lineWidth = self.currentWidth;
+            paintLayer.lineColor = self.currentColor;
             paintLayer.colIndex = col;
             paintLayer.rowIndex = row;
             paintLayer.backgroundColor = [UIColor clearColor];

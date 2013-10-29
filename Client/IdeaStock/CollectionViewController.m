@@ -24,6 +24,7 @@
 #import "CollectionScrollView.h"
 #import "ScreenCaptureService.h"
 #import "CollectionBoardView.h"
+#import "PaintbrushViewController.h"
 
 @interface CollectionViewController ()
 
@@ -1822,6 +1823,34 @@ intoStackingWithMainView: (UIView *) mainView
 }
 
 #pragma mark - utilities bar
+#define BRUSH_BOX_WIDTH 350
+#define BRUSH_BOX_HEIGHT 200
+
+- (IBAction)brushPressed:(id)sender
+{
+    
+    //if we are tapping the button in order to close the pop over
+    if ([self.lastPopOver.contentViewController isKindOfClass:[PaintbrushViewController class]])
+    {
+        [self.lastPopOver dismissPopoverAnimated:YES];
+        self.lastPopOver = nil;
+        return;
+    }
+    
+    PaintbrushViewController * brushController = [self.storyboard instantiateViewControllerWithIdentifier:@"PaintbrushController"];
+    brushController.maxBrushWidth = MAX_BRUSH_WIDTH;
+    brushController.minBrushWidth = MIN_BRUSH_WIDTH;
+    brushController.currentBrushWidth = self.collectionView.currentWidth;
+    brushController.delegate = self;
+    
+    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:brushController];
+    popover.popoverContentSize = CGSizeMake(BRUSH_BOX_WIDTH, BRUSH_BOX_HEIGHT);
+    popover.delegate = self;
+    [popover presentPopoverFromBarButtonItem:sender
+                    permittedArrowDirections:UIPopoverArrowDirectionAny
+                                    animated:YES];
+    self.lastPopOver = popover;
+}
 
 - (IBAction)paintPressed:(id)sender
 {
@@ -2155,5 +2184,13 @@ intoStackingWithMainView: (UIView *) mainView
     {
         gr.enabled = NO;
     }
+}
+
+
+#pragma mark - paintBrushDelegate
+
+-(void) brushSelectedWithWidth:(CGFloat)width
+{
+    self.collectionView.currentWidth = width;
 }
 @end

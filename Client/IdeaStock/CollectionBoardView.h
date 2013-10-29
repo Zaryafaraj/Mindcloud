@@ -10,9 +10,16 @@
 #import "PaintEnabledView.h"
 #import "CollectionBoardDelegate.h"
 
+#define MAX_BRUSH_WIDTH 20.0f
+#define MIN_BRUSH_WIDTH 1.0f
+#define DEFAULT_BRUSH_WIDTH 10.0f
+
 @interface CollectionBoardView : UIView <PaintEnabledView>
 
 @property (nonatomic, weak) id<CollectionBoardDelegate> delegate;
+
+@property (nonatomic, strong) UIColor * currentColor;
+@property (nonatomic) CGFloat currentWidth;
 
 -(void) unload;
 

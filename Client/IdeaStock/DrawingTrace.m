@@ -13,6 +13,7 @@
 
 -(instancetype) initWithPath:(UIBezierPath *) path
                     andColor:(UIColor *) color
+                andLineWidth:(CGFloat) lineWidth
                      andType:(DrawingTraceType) type
 {
     
@@ -20,6 +21,7 @@
     self = [self initWithId:drawingId
                        Path:path
                    andColor:color
+               andLineWidth:lineWidth
                     andType:type];
     return self;
 }
@@ -28,6 +30,7 @@
 -(instancetype) initWithId:(NSString *)drawingId
                       Path:(UIBezierPath *)path
                   andColor:(UIColor *)color
+              andLineWidth:(CGFloat) lineWidth
                    andType:(DrawingTraceType)type
 {
     
@@ -38,6 +41,7 @@
         self.color = color;
         self.drawingType = type;
         self.drawingId = drawingId;
+        self.lineWidth = lineWidth;
     }
     return self;
 }

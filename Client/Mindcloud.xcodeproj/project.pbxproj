@@ -40,6 +40,7 @@
 		DB03C35E169FF1F800C38FD7 /* SubCollectionImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35D169FF1F800C38FD7 /* SubCollectionImageAction.m */; };
 		DB0BF4FC1814752A00C05DFA /* bgbg.png in Resources */ = {isa = PBXBuildFile; fileRef = DB0BF4FB1814752A00C05DFA /* bgbg.png */; };
 		DB205A92180536EC00C94A2B /* CollectionScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB205A91180536EC00C94A2B /* CollectionScrollView.m */; };
+		DB20ADDE181F67250062EA5B /* PaintbrushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB20ADDD181F67250062EA5B /* PaintbrushViewController.m */; };
 		DB3174FE16337636001229FE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3174FD16337636001229FE /* SignInViewController.m */; };
 		DB3FD53016B77FA400024AC6 /* CollectionStackingAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD52F16B77FA400024AC6 /* CollectionStackingAttribute.m */; };
 		DB3FD53416B7A4D900024AC6 /* CollectionNoteAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD53316B7A4D900024AC6 /* CollectionNoteAttribute.m */; };
@@ -199,6 +200,8 @@
 		DB15E9EE16E725DB0024BA4C /* cachedCollectionContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cachedCollectionContainer.h; sourceTree = "<group>"; };
 		DB205A90180536EC00C94A2B /* CollectionScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionScrollView.h; sourceTree = "<group>"; };
 		DB205A91180536EC00C94A2B /* CollectionScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionScrollView.m; sourceTree = "<group>"; };
+		DB20ADDC181F67250062EA5B /* PaintbrushViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintbrushViewController.h; sourceTree = "<group>"; };
+		DB20ADDD181F67250062EA5B /* PaintbrushViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintbrushViewController.m; sourceTree = "<group>"; };
 		DB3174FC16337636001229FE /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		DB3174FD16337636001229FE /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		DB31750216337ED7001229FE /* AuthorizationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthorizationDelegate.h; sourceTree = "<group>"; };
@@ -612,6 +615,8 @@
 				DBC4E35D17F14D0400F595FE /* ContainerViewController.m */,
 				DBC4E35F17F164E300F595FE /* AllCollectionsNavigationControllerViewController.h */,
 				DBC4E36017F164E300F595FE /* AllCollectionsNavigationControllerViewController.m */,
+				DB20ADDC181F67250062EA5B /* PaintbrushViewController.h */,
+				DB20ADDD181F67250062EA5B /* PaintbrushViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1161,6 +1166,7 @@
 				DBBA28BB16CCC5FD007C7B4A /* DeleteAssociationNotification.m in Sources */,
 				DBBA28BE16CCC62F007C7B4A /* AddAssociationNotification.m in Sources */,
 				DBBA28C116CCC6A8007C7B4A /* AddFragmentNamespaceElementNotification.m in Sources */,
+				DB20ADDE181F67250062EA5B /* PaintbrushViewController.m in Sources */,
 				DB8F48A417CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m in Sources */,
 				DBE3171617F63A0D00EEBA18 /* BlueTheme.m in Sources */,
 				DBC4E35917F14B5100F595FE /* MMDrawerController.m in Sources */,

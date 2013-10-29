@@ -10,8 +10,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "DrawingTraceContainer.h"
 
-#define DEFAULT_COLOR [UIColor whiteColor]
-#define DEFAULT_WIDTH 3.0f
 
 static const CGFloat kPointMinDistance = 3;
 
@@ -57,8 +55,6 @@ static const CGFloat kPointMinDistanceSquared = kPointMinDistance * kPointMinDis
 -(void) initInternals
 {
     self.container = [[DrawingTraceContainer alloc] init];
-    self.lineWidth = DEFAULT_WIDTH;
-    self.lineColor = DEFAULT_COLOR;
     self.empty = YES;
     path = CGPathCreateMutable();
 }
@@ -156,6 +152,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
         UIBezierPath * bezierPath = [UIBezierPath bezierPathWithCGPath:path];
         DrawingTrace * trace = [[DrawingTrace alloc] initWithPath:bezierPath
                                                          andColor: color
+                                                     andLineWidth:self.lineWidth
                                                           andType:drawingType];
         [self.container addDrawingTrace:trace forOrderIndex:index];
         CGPathRelease(path);
@@ -189,14 +186,14 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
         {
 //            CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
             CGContextSetBlendMode(context, kCGBlendModeClear);
-            CGContextSetLineWidth(context, 8 * self.lineWidth);
+            CGContextSetLineWidth(context,  200);
             CGContextSetLineCap(context, kCGLineCapSquare);
         }
         else
         {
             CGContextSetBlendMode(context, kCGBlendModeNormal);
-            CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
-            CGContextSetLineWidth(context, self.lineWidth);
+            CGContextSetStrokeColorWithColor(context, trace.color.CGColor);
+            CGContextSetLineWidth(context, trace.lineWidth);
         }
         CGContextStrokePath(context);
     }
@@ -209,7 +206,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
         {
             CGContextSetBlendMode(context, kCGBlendModeClear);
 //            CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
-            CGContextSetLineWidth(context, 8 * self.lineWidth);
+            CGContextSetLineWidth(context, 200);
             CGContextSetLineCap(context, kCGLineCapSquare);
         }
         else

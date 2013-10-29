@@ -18,16 +18,20 @@ typedef NS_ENUM(NSInteger, DrawingTraceType)
 
 -(instancetype) initWithPath:(UIBezierPath *) path
                     andColor:(UIColor *) color
+                andLineWidth:(CGFloat) lineWidth
                      andType:(DrawingTraceType) type;
 
--(instancetype) initWithId:(NSString *) drawingId
-                      Path:(UIBezierPath *) path
-                    andColor:(UIColor *) color
-                     andType:(DrawingTraceType) type;
+-(instancetype) initWithId:(NSString *)drawingId
+                      Path:(UIBezierPath *)path
+                  andColor:(UIColor *)color
+              andLineWidth:(CGFloat) lineWidth
+                   andType:(DrawingTraceType)type;
 
 @property UIBezierPath * path;
 
 @property UIColor * color;
+
+@property CGFloat lineWidth;
 
 @property DrawingTraceType drawingType;
 
