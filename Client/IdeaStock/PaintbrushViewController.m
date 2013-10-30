@@ -7,10 +7,13 @@
 //
 
 #import "PaintbrushViewController.h"
+#import "ThemeFactory.h"
+#import "BrushSelectionView.h"
 
 @interface PaintbrushViewController ()
 @property (weak, nonatomic) IBOutlet UISlider *slider;
 
+@property (weak, nonatomic) IBOutlet BrushSelectionView *brushView;
 
 @end
 
@@ -27,6 +30,7 @@
 
 - (IBAction)sliderValueChanged:(id)sender {
     _currentBrushWidth = self.slider.value;
+    self.brushView.lineWidth = _currentBrushWidth;
 }
 
 -(void) setMaxBrushWidth:(CGFloat)maxBrushWidth
@@ -58,6 +62,7 @@
     self.slider.minimumValue = self.minBrushWidth;
     self.slider.maximumValue = self.maxBrushWidth;
     self.slider.value = self.currentBrushWidth;
+    self.brushView.lineWidth = self.currentBrushWidth;
 }
 
 -(void) viewWillDisappear:(BOOL)animated
