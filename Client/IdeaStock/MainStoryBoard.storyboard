@@ -711,7 +711,7 @@
                                 </cells>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BiZ-dG-cEp" customClass="BrushSelectionView">
-                                <rect key="frame" x="219" y="767" width="295" height="100"/>
+                                <rect key="frame" x="237" y="767" width="295" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
@@ -722,8 +722,8 @@
                             </view>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="BiZ-dG-cEp" firstAttribute="centerX" secondItem="gBe-S0-S6x" secondAttribute="centerX" constant="-17.5" id="6fV-qR-z9q"/>
                             <constraint firstItem="gBe-S0-S6x" firstAttribute="leading" secondItem="VN3-dN-cy3" secondAttribute="leading" id="FgY-rS-80V"/>
+                            <constraint firstItem="BiZ-dG-cEp" firstAttribute="centerX" secondItem="gBe-S0-S6x" secondAttribute="centerX" id="K7T-lL-CTb"/>
                             <constraint firstItem="gBe-S0-S6x" firstAttribute="top" secondItem="BiZ-dG-cEp" secondAttribute="bottom" constant="14" id="p8N-Xb-bmo"/>
                             <constraint firstAttribute="trailing" secondItem="gBe-S0-S6x" secondAttribute="trailing" id="uER-Z2-E5O"/>
                             <constraint firstItem="Ajp-o9-oZF" firstAttribute="top" secondItem="gBe-S0-S6x" secondAttribute="bottom" id="z9G-98-vTD"/>
