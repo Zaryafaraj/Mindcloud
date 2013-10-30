@@ -25,6 +25,7 @@
 #import "ScreenCaptureService.h"
 #import "CollectionBoardView.h"
 #import "PaintbrushViewController.h"
+#import "PaintColorViewController.h"
 
 @interface CollectionViewController ()
 
@@ -1823,6 +1824,37 @@ intoStackingWithMainView: (UIView *) mainView
 }
 
 #pragma mark - utilities bar
+
+#define COLOR_BOX_WIDTH 350
+#define COLOR_BOX_HEIGHT 300
+- (IBAction)colorPressed:(id)sender
+{
+    
+    if ([self.lastPopOver.contentViewController isKindOfClass:[PaintColorViewController class]])
+    {
+        [self.lastPopOver dismissPopoverAnimated:YES];
+        self.lastPopOver = nil;
+        return;
+    }
+    
+    PaintColorViewController * colorController = [self.storyboard instantiateViewControllerWithIdentifier:@"PaintColorViewController"];
+//    brushController.currentBrushWidth = self.collectionView.currentWidth;
+//    brushController.delegate = self;
+    
+    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:colorController];
+    popover.popoverContentSize = CGSizeMake(COLOR_BOX_WIDTH, COLOR_BOX_HEIGHT);
+    popover.delegate = self;
+    [popover presentPopoverFromBarButtonItem:sender
+                    permittedArrowDirections:UIPopoverArrowDirectionAny
+                                    animated:YES];
+    
+    if (self.lastPopOver)
+    {
+        [self.lastPopOver dismissPopoverAnimated:YES];
+    }
+    self.lastPopOver = popover;
+}
+
 #define BRUSH_BOX_WIDTH 350
 #define BRUSH_BOX_HEIGHT 200
 
@@ -1849,6 +1881,10 @@ intoStackingWithMainView: (UIView *) mainView
     [popover presentPopoverFromBarButtonItem:sender
                     permittedArrowDirections:UIPopoverArrowDirectionAny
                                     animated:YES];
+    if (self.lastPopOver)
+    {
+        [self.lastPopOver dismissPopoverAnimated:YES];
+    }
     self.lastPopOver = popover;
 }
 
