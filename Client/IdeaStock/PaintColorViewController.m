@@ -9,35 +9,38 @@
 #import "PaintColorViewController.h"
 #import "ColorCell.h"
 #import "BrushSelectionView.h"
+#import "BrushColors.h"
 
 @interface PaintColorViewController ()
 
 @property (weak, nonatomic) IBOutlet BrushSelectionView *samplePathView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (strong, nonatomic) BrushColors * model;
 @end
 
 @implementation PaintColorViewController
 
-#define NUMBER_OF_COLORS 10 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+-(BrushColors *) model
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (!_model)
+    {
+        _model = [[BrushColors alloc] init];
     }
-    return self;
+    return _model;
 }
+
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return NUMBER_OF_COLORS;
+    return [self.model numberOfColors];
 }
 
 -(UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ColorCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ColorCell" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor yellowColor];
-    cell.layer.cornerRadius = 25;
+    UIColor * aColor = [self.model colorForIndexPath:indexPath];
+    cell.backgroundColor = aColor;
+    [cell adjustSelectedBorderColorBaseOnBackgroundColor:aColor withLightColors:[self.model getLightColors]];
     return cell;
 }
 

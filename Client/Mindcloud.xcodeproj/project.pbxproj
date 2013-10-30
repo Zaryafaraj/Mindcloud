@@ -56,6 +56,7 @@
 		DB57B058180DE49F002F993B /* CollectionBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB57B057180DE49F002F993B /* CollectionBoardView.m */; };
 		DB592C0D1820DA8400024926 /* PaintColorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB592C0C1820DA8400024926 /* PaintColorViewController.m */; };
 		DB592C101820DAE400024926 /* ColorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DB592C0F1820DAE400024926 /* ColorCell.m */; };
+		DB592C131821B3D000024926 /* BrushColors.m in Sources */ = {isa = PBXBuildFile; fileRef = DB592C121821B3D000024926 /* BrushColors.m */; };
 		DB601A3916E2C2380007A636 /* ListenerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB601A3816E2C2380007A636 /* ListenerAction.m */; };
 		DB601A3D16E2CFED0007A636 /* CollectionSharingAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = DB601A3C16E2CFEC0007A636 /* CollectionSharingAdapter.m */; };
 		DB64030717DABE5700DC9578 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB64030617DABE5700DC9578 /* Images.xcassets */; };
@@ -240,6 +241,8 @@
 		DB592C0C1820DA8400024926 /* PaintColorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintColorViewController.m; sourceTree = "<group>"; };
 		DB592C0E1820DAE400024926 /* ColorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorCell.h; sourceTree = "<group>"; };
 		DB592C0F1820DAE400024926 /* ColorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorCell.m; sourceTree = "<group>"; };
+		DB592C111821B3D000024926 /* BrushColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrushColors.h; sourceTree = "<group>"; };
+		DB592C121821B3D000024926 /* BrushColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrushColors.m; sourceTree = "<group>"; };
 		DB601A3716E2C2380007A636 /* ListenerAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListenerAction.h; sourceTree = "<group>"; };
 		DB601A3816E2C2380007A636 /* ListenerAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListenerAction.m; sourceTree = "<group>"; };
 		DB601A3B16E2CFEC0007A636 /* CollectionSharingAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionSharingAdapter.h; sourceTree = "<group>"; };
@@ -701,6 +704,8 @@
 				DBBB366A1811FF580047D6D7 /* DrawingTrace.m */,
 				DBA393E218132B4700824E60 /* DrawingTraceContainer.h */,
 				DBA393E318132B4700824E60 /* DrawingTraceContainer.m */,
+				DB592C111821B3D000024926 /* BrushColors.h */,
+				DB592C121821B3D000024926 /* BrushColors.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1126,6 +1131,7 @@
 				DB73371D1813B2C400505556 /* ExternalFileHelper.m in Sources */,
 				DBC4E36117F164E300F595FE /* AllCollectionsNavigationControllerViewController.m in Sources */,
 				D70947271523DC27008E4AD9 /* DDXMLNode.m in Sources */,
+				DB592C131821B3D000024926 /* BrushColors.m in Sources */,
 				D74E48201524F3DF00BC8B9D /* AttributeHelper.m in Sources */,
 				D7B1432D1526A50400DC7556 /* MindcloudCollection.m in Sources */,
 				D7DEF2C41530D37800D13CF4 /* FileSystemHelper.m in Sources */,

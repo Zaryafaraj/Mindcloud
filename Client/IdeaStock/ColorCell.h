@@ -10,4 +10,7 @@
 
 @interface ColorCell : UICollectionViewCell
 
+-(void) adjustSelectedBorderColorBaseOnBackgroundColor:(UIColor *) backgroundColor
+                                       withLightColors:(NSSet *) lightColors;
+
 @end
