@@ -68,6 +68,7 @@
     [super viewDidLoad];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
+    self.collectionView.allowsSelection = YES;
 	// Do any additional setup after loading the view.
 }
 
@@ -77,6 +78,30 @@
     self.samplePathView.lineColor = self.selectedColor;
 }
 
+-(void) viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    if (self.selectedColor == nil) return;
+    
+    NSArray * allColors = [self.model getAllColors];
+    for(int i= 0 ; i < allColors.count; i++)
+    {
+        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:i inSection:0];
+        UIColor * aColor = [self.model colorForIndexPath:indexPath];
+        if ([self.selectedColor isEqual:aColor])
+        {
+            [self.collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+            return;
+        }
+    }
+    for(UIColor * color in [self.model getAllColors])
+    {
+        if ([color isEqual:self.selectedColor])
+        {
+           
+        }
+    }
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

@@ -16,6 +16,8 @@
 
 -(NSSet *) getLightColors;
 
+-(NSArray *) getAllColors;
+
 -(NSInteger) defaultColorIndex;
 
 @end

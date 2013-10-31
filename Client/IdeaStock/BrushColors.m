@@ -80,4 +80,9 @@
     return self.colors[index];
 }
 
+-(NSArray *) getAllColors
+{
+    return self.colors;
+}
+
 @end
