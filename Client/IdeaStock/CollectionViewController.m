@@ -1836,6 +1836,12 @@ intoStackingWithMainView: (UIView *) mainView
         self.lastPopOver = nil;
         return;
     }
+    else if ([self.lastPopOver.contentViewController isKindOfClass:[PaintbrushViewController class]])
+    {
+        PaintbrushViewController * lastPopOver = (PaintbrushViewController *)self.lastPopOver.contentViewController;
+        CGFloat selectedWidth = lastPopOver.currentBrushWidth;
+        [self brushSelectedWithWidth:selectedWidth];
+    }
     
     PaintColorViewController * colorController = [self.storyboard instantiateViewControllerWithIdentifier:@"PaintColorViewController"];
     colorController.currentBrushWidth = self.collectionView.currentWidth;
