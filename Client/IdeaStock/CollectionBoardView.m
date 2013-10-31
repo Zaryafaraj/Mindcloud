@@ -22,6 +22,7 @@
 
 @property NSInteger orderIndex;
 
+@property (nonatomic, strong) NSMutableSet * overlappingViewsFromLastTouch;
 
 @end
 
@@ -92,6 +93,7 @@
     self.orderIndex = -1;
     self.multipleTouchEnabled = YES;
     self.viewsWithoutTouchEnded = [NSMutableSet set];
+    self.overlappingViewsFromLastTouch = [NSMutableSet set];
 }
 
 
@@ -200,6 +202,10 @@
     PaintLayerView * touchedLayer = [self getGridCellForTouchLocation:location];
     [self addTouchedItem:touchedLayer];
     [touchedLayer parentTouchBegan:touch withEvent:event andOrderIndex:self.orderIndex];
+    [self fillOverlappingViewsForTouchLocation:location
+                                      forTouch:touch
+                                      andEvent:event
+                                 andOrderIndex:self.orderIndex];
     [self.viewsWithoutTouchEnded addObject:touchedLayer];
     
 }
@@ -225,6 +231,14 @@
     [currentTouchedLayer parentTouchExitedTheView:touch
                                  withCurrentPoint:currentInChild
                                     andOrderIndex:self.orderIndex];
+    NSSet * overLapping = [self getOverlappingViewsForPoint:touchLocation];
+    for(PaintLayerView * view in overLapping)
+    {
+        CGPoint currentInOverlapping = [view convertPoint:currentInSelf fromView:self];
+        [view parentTouchExitedTheView:touch
+                      withCurrentPoint:currentInOverlapping
+                         andOrderIndex:self.orderIndex];
+    }
     
     id<CollectionBoardDelegate> temp = self.delegate;
     if (temp)
@@ -260,16 +274,26 @@
     CGPoint touchLocation = [touch locationInView:self];
     CGPoint prevLocation = [touch previousLocationInView:self];
     PaintLayerView * currentTouchedLayer = [self getGridCellForTouchLocation:touchLocation];
+    
     PaintLayerView * prevTouchedLayer = [self getGridCellForTouchLocation:prevLocation];
+    
     
     
     [prevTouchedLayer parentTouchMoved:touch withEvent:event andOrderIndex:self.orderIndex];
     
+    //prevTouchedLayer.backgroundColor = [UIColor blueColor];
     [self addTouchedItem:currentTouchedLayer];
+    
+    //sometimes if we are moving around the border and the width of the line
+    //is big enough we might enter another view without actually touching that
+    //view. Using this array we can track those incidents and draw incomplete
+    //paths
     
     if (prevTouchedLayer == currentTouchedLayer)
     {
         [prevTouchedLayer parentTouchMoved:touch withEvent:event andOrderIndex:self.orderIndex];
+        //prevTouchedLayer.backgroundColor = [UIColor purpleColor];
+        
     }
     else
     {
@@ -323,8 +347,18 @@
         CGPoint prevPoint2InCurrent = [currentTouchedLayer convertPoint:prevPoint2InSelf fromView:self];
         [currentTouchedLayer parentTouchEnteredTheView:touch withPreviousPoint1:prevPoint1InCurrent
                                      andPreviousPoint2:prevPoint2InCurrent andOrderIndex:self.orderIndex];
+        
+        //currentTouchedLayer.backgroundColor = [UIColor whiteColor];
     }
     
+    [self fillOverlappingViewsForTouchLocation:prevLocation
+                                      forTouch:touch
+                                      andEvent:event
+                                 andOrderIndex:self.orderIndex];
+    [self fillOverlappingViewsForTouchLocation:touchLocation
+                                      forTouch:touch
+                                      andEvent:event
+                                 andOrderIndex:self.orderIndex];
 }
 
 
@@ -489,6 +523,99 @@
     }
     
     return result;
+}
+
+-(void) fillOverlappingViewsForTouchLocation:(CGPoint) location
+                                    forTouch:(UITouch *) touch
+                                    andEvent:(UIEvent *) event
+                               andOrderIndex:(NSInteger) orderIndex
+{
+    
+    NSSet * candidates = [self getOverlappingViewsForPoint:location];
+    
+    //first make sure that views that overlapped before and are now not overlapping
+    //are exited correctly
+    [self.overlappingViewsFromLastTouch minusSet:candidates];
+    
+    for (PaintLayerView * view in self.overlappingViewsFromLastTouch)
+    {
+        
+        CGPoint currentInChild = [view convertPoint:location fromView:self];
+        if (view.isTrackingTouch)
+        {
+           [view parentTouchExitedTheView:touch
+                         withCurrentPoint:currentInChild
+                            andOrderIndex:self.orderIndex];
+        }
+    }
+    
+    for(PaintLayerView * view in candidates)
+    {
+        [self addTouchedItem:view];
+        if (view.isTrackingTouch)
+        {
+            [view parentTouchMoved:touch
+                         withEvent:event
+                     andOrderIndex:orderIndex];
+            //view.backgroundColor = [UIColor blackColor];
+            [self.overlappingViewsFromLastTouch addObject:view];
+            
+        }
+        else
+        {
+            
+            PaintLayerView * prevTouchedLayer = [self getGridCellForTouchLocation:location];
+            CGPoint prevPoint1 = prevTouchedLayer.previousPoint1;
+            CGPoint prevPoint2 = prevTouchedLayer.previousPoint2;
+            CGPoint prevPoint1InSelf = [self convertPoint:prevPoint1
+                                                 fromView:prevTouchedLayer];
+            CGPoint prevPoint2InSelf = [self convertPoint:prevPoint2
+                                                 fromView:prevTouchedLayer];
+            CGPoint prevPoint1InCurrent = [view convertPoint:prevPoint1InSelf
+                                                                   fromView:self];
+            
+            CGPoint prevPoint2InCurrent = [view convertPoint:prevPoint2InSelf fromView:self];
+            [view parentTouchEnteredTheView:touch
+                         withPreviousPoint1:prevPoint1InCurrent
+                          andPreviousPoint2:prevPoint2InCurrent
+                              andOrderIndex:orderIndex];
+            [self.overlappingViewsFromLastTouch addObject:view];
+        }
+    }
+    
+}
+
+-(NSSet *) getOverlappingViewsForPoint:(CGPoint) location
+{
+    NSMutableSet * candidates = [NSMutableSet set];
+    CGFloat halfLineWidth = self.currentWidth / 2;
+    //get the end of the point after adding width
+    NSValue * above = [NSValue valueWithCGPoint:CGPointMake(location.x, location.y - halfLineWidth)];
+    NSValue * below = [NSValue valueWithCGPoint:CGPointMake(location.x, location.y + halfLineWidth)];
+    NSValue * left = [NSValue valueWithCGPoint: CGPointMake(location.x - halfLineWidth, location.y)];
+    NSValue * right = [NSValue valueWithCGPoint:CGPointMake(location.x + halfLineWidth, location.y)];
+    NSValue * aboveLeft = [NSValue valueWithCGPoint:CGPointMake(location.x - halfLineWidth, location.y - halfLineWidth)];
+    NSValue * aboveRight = [NSValue valueWithCGPoint:CGPointMake(location.x + halfLineWidth, location.y - halfLineWidth)];
+    NSValue * belowLeft = [NSValue valueWithCGPoint:CGPointMake(location.x - halfLineWidth, location.y + halfLineWidth)];
+    NSValue * belowRight = [NSValue valueWithCGPoint:CGPointMake(location.x + halfLineWidth, location.y + halfLineWidth)];
+    NSArray * suspects = @[above,
+                           below,
+                           left,
+                           right,
+                           aboveLeft,
+                           aboveRight,
+                           belowLeft,
+                           belowRight];
+    for (NSValue * value in suspects)
+    {
+        CGPoint loc = value.CGPointValue;
+        PaintLayerView * view = [self getGridCellForTouchLocation:loc];
+        if (view)
+        {
+            [candidates addObject:view];
+        }
+    }
+    return candidates;
 }
 
 -(int) arrayIndexForColumn:(int) col

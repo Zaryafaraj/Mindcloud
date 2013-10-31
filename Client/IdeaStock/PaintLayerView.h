@@ -52,7 +52,7 @@
 @property CGPoint previousPoint2;
 @property CGPoint currentPoint;
 @property (nonatomic, retain) UIColor *lineColor;
-
+@property (nonatomic) BOOL isTrackingTouch;
 @property BOOL eraseModeEnabled;
 
 @property (assign, nonatomic) BOOL empty;

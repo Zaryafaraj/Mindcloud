@@ -75,6 +75,8 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     self.currentPoint = [touch locationInView:self];
     
     [self appendNewPath:NO withIndex:index];
+    self.isTrackingTouch = YES;
+    //self.backgroundColor = [UIColor yellowColor];
 }
 
 -(void) parentTouchExitedTheView:(UITouch *) touch
@@ -86,7 +88,8 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     self.currentPoint = currentPoint;
     
     [self appendNewPath:YES withIndex:index];
-    
+    self.isTrackingTouch = NO;
+    //self.backgroundColor = [UIColor greenColor];
 }
 
 -(void) parentTouchEnteredTheView:(UITouch *) touch
@@ -98,6 +101,8 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     self.previousPoint1 = prevPoint1;
     self.previousPoint2 = previPoint2;
     [self appendNewPath:NO withIndex:index];
+    self.isTrackingTouch = YES;
+    //self.backgroundColor = [UIColor orangeColor];
 }
 
 -(void) parentTouchMoved:(UITouch *) touch
@@ -119,6 +124,8 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     self.currentPoint = [touch locationInView:self];
     
     [self appendNewPath:NO withIndex:index];
+    //self.backgroundColor = [UIColor redColor];
+    self.isTrackingTouch = YES;
 }
 
 -(void) appendNewPath:(BOOL) isEndingPath withIndex:(NSInteger) index
