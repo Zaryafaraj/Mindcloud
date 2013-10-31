@@ -29,6 +29,11 @@
     return _model;
 }
 
+-(void) setCurrentBrushWidth:(CGFloat)currentBrushWidth
+{
+    _currentBrushWidth = currentBrushWidth;
+    self.samplePathView.lineWidth = currentBrushWidth;
+}
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -51,6 +56,10 @@
 	// Do any additional setup after loading the view.
 }
 
+-(void) viewWillAppear:(BOOL)animated
+{
+    self.samplePathView.lineWidth = self.currentBrushWidth;
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

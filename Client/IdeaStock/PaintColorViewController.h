@@ -10,4 +10,6 @@
 
 @interface PaintColorViewController : UIViewController <UICollectionViewDataSource>
 
+@property (nonatomic) CGFloat currentBrushWidth;
+
 @end

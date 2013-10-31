@@ -1838,7 +1838,7 @@ intoStackingWithMainView: (UIView *) mainView
     }
     
     PaintColorViewController * colorController = [self.storyboard instantiateViewControllerWithIdentifier:@"PaintColorViewController"];
-//    brushController.currentBrushWidth = self.collectionView.currentWidth;
+    colorController.currentBrushWidth = self.collectionView.currentWidth;
 //    brushController.delegate = self;
     
     UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:colorController];

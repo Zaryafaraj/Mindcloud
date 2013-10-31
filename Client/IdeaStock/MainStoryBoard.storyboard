@@ -731,6 +731,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="gBe-S0-S6x" id="OGj-8E-xS6"/>
+                        <outlet property="samplePathView" destination="BiZ-dG-cEp" id="T8g-ES-Bzp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nfb-dL-iY3" userLabel="First Responder" sceneMemberID="firstResponder"/>
