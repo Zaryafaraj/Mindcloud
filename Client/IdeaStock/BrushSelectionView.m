@@ -44,6 +44,22 @@
     [self setNeedsDisplay];
 }
 
+@synthesize lineColor = _lineColor;
+-(void) setLineColor:(UIColor *)lineColor
+{
+    _lineColor = lineColor;
+    [self setNeedsDisplay];
+}
+
+-(UIColor *) lineColor
+{
+    if (!_lineColor)
+    {
+        _lineColor = [UIColor whiteColor];
+    }
+    return _lineColor;
+}
+
 //offset from the left and right side of the view where the curve begins
 #define X_OFFSET 10
 #define Y_OFFSET 3
@@ -84,7 +100,7 @@
 {
     [super drawRect:rect];
     self.samplePath.lineWidth = self.lineWidth;
-    [[UIColor whiteColor] setStroke];
+    [self.lineColor setStroke];
     [self.samplePath strokeWithBlendMode:kCGBlendModeNormal alpha:1];
 }
 

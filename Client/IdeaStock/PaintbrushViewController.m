@@ -51,6 +51,12 @@
     self.slider.value = currentBrushWidth;
 }
 
+-(void) setCurrentColor:(UIColor *)currentColor
+{
+    _currentColor = currentColor;
+    self.brushView.lineColor = currentColor;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -63,6 +69,7 @@
     self.slider.maximumValue = self.maxBrushWidth;
     self.slider.value = self.currentBrushWidth;
     self.brushView.lineWidth = self.currentBrushWidth;
+    self.brushView.lineColor = self.currentColor;
 }
 
 -(void) viewWillDisappear:(BOOL)animated

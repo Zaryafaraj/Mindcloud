@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet BrushSelectionView *samplePathView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) BrushColors * model;
+
 @end
 
 @implementation PaintColorViewController
@@ -49,17 +50,33 @@
     return cell;
 }
 
+-(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewCell * cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+    UIColor * selectedColor = cell.backgroundColor;
+    self.selectedColor = selectedColor;
+    self.samplePathView.lineColor = selectedColor;
+    id<PaintColorDelegate> temp = self.delegate;
+    if (temp)
+    {
+        [temp paintColorSelected:selectedColor];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.collectionView.dataSource = self;
+    self.collectionView.delegate = self;
 	// Do any additional setup after loading the view.
 }
 
 -(void) viewWillAppear:(BOOL)animated
 {
     self.samplePathView.lineWidth = self.currentBrushWidth;
+    self.samplePathView.lineColor = self.selectedColor;
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

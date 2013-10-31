@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSArray * colors;
 @property (nonatomic, strong) NSSet * lightColors;
+@property (nonatomic) NSInteger defaultColorIndex;
 
 @end
 
@@ -53,6 +54,13 @@
                     amethyst];
     
     self.lightColors = [NSSet setWithArray:@[white]];
+    
+    self.defaultColorIndex = [self.colors indexOfObject:white];
+}
+
+-(NSInteger) defaultColorIndex
+{
+    return _defaultColorIndex;
 }
 
 -(NSSet *) getLightColors

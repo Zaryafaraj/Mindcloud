@@ -11,4 +11,5 @@
 @interface BrushSelectionView : UIView
 
 @property (nonatomic) CGFloat lineWidth;
+@property (nonatomic, strong) UIColor * lineColor;
 @end

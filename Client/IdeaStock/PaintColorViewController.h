@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PaintColorViewController : UIViewController <UICollectionViewDataSource>
+@protocol PaintColorDelegate <NSObject>
+
+-(void) paintColorSelected:(UIColor *) color;
+
+@end
+
+@interface PaintColorViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic) CGFloat currentBrushWidth;
+@property (nonatomic, strong) UIColor * selectedColor;
+@property (nonatomic, weak) id<PaintColorDelegate> delegate;
 
 @end

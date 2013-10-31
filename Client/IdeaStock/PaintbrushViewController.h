@@ -19,5 +19,6 @@
 @property (nonatomic) CGFloat maxBrushWidth;
 @property (nonatomic) CGFloat minBrushWidth;
 @property (nonatomic) CGFloat currentBrushWidth;
+@property (nonatomic, strong) UIColor * currentColor;
 @property (nonatomic, weak) id<PaintbrushDelegate> delegate;
 @end

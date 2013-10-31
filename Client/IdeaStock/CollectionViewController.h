@@ -13,6 +13,7 @@
 #import "MindcloudCollection.h"
 #import "CollectionBoardDelegate.h"
 #import "PaintbrushViewController.h"
+#import "PaintColorViewController.h"
 
 @interface CollectionViewController : UIViewController<
 UIScrollViewDelegate,
@@ -23,7 +24,8 @@ PaintbrushDelegate,
 UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
 UIActionSheetDelegate,
-UIPopoverControllerDelegate>
+UIPopoverControllerDelegate,
+PaintColorDelegate>
 
 @property (strong,nonatomic) NSString * bulletinBoardName;
 @property (strong, nonatomic) MindcloudCollection * board;

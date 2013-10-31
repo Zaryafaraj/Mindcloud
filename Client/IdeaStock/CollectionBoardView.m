@@ -49,9 +49,14 @@
     }
 }
 
+@synthesize currentColor = _currentColor;
+-(UIColor *) currentColor
+{
+    return _currentColor;
+}
 -(void) setCurrentColor:(UIColor *)currentColor
 {
-    currentColor = _currentColor;
+    _currentColor = currentColor;
     for(PaintLayerView * view in self.viewGrid)
     {
         view.lineColor = currentColor;

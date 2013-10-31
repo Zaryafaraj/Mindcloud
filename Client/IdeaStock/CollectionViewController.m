@@ -1845,7 +1845,8 @@ intoStackingWithMainView: (UIView *) mainView
     
     PaintColorViewController * colorController = [self.storyboard instantiateViewControllerWithIdentifier:@"PaintColorViewController"];
     colorController.currentBrushWidth = self.collectionView.currentWidth;
-//    brushController.delegate = self;
+    colorController.selectedColor = self.collectionView.currentColor;
+    colorController.delegate = self;
     
     UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:colorController];
     popover.popoverContentSize = CGSizeMake(COLOR_BOX_WIDTH, COLOR_BOX_HEIGHT);
@@ -1874,11 +1875,18 @@ intoStackingWithMainView: (UIView *) mainView
         self.lastPopOver = nil;
         return;
     }
+    else if ([self.lastPopOver.contentViewController isKindOfClass:[PaintColorViewController class]])
+    {
+        PaintColorViewController * lastPopOver = (PaintColorViewController *)self.lastPopOver.contentViewController;
+        UIColor * aColor = lastPopOver.selectedColor;
+        [self paintColorSelected:aColor];
+    }
     
     PaintbrushViewController * brushController = [self.storyboard instantiateViewControllerWithIdentifier:@"PaintbrushController"];
     brushController.maxBrushWidth = MAX_BRUSH_WIDTH;
     brushController.minBrushWidth = MIN_BRUSH_WIDTH;
     brushController.currentBrushWidth = self.collectionView.currentWidth;
+    brushController.currentColor = self.collectionView.currentColor;
     brushController.delegate = self;
     
     UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:brushController];
@@ -2234,5 +2242,12 @@ intoStackingWithMainView: (UIView *) mainView
 -(void) brushSelectedWithWidth:(CGFloat)width
 {
     self.collectionView.currentWidth = width;
+}
+
+#pragma mark - paintColorDelegate
+
+-(void) paintColorSelected:(UIColor *)color
+{
+    self.collectionView.currentColor = color;
 }
 @end
