@@ -46,4 +46,11 @@
     UIColor *aColor = [UIColor colorWithHue:0.006 saturation:0.576 brightness:1.000 alpha:1.000];
     return aColor;
 }
+
+-(UIColor *) defaultColorForDrawing
+{
+    UIColor * white =[UIColor colorWithHue:0.000 saturation:0.000 brightness:0.971 alpha:1.000];
+    return white;
+}
+
 @end

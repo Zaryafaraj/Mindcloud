@@ -22,4 +22,6 @@
 
 -(UIColor *) backgroundColorForCustomCategory;
 
+-(UIColor *) defaultColorForDrawing;
+
 @end

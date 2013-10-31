@@ -94,13 +94,6 @@
             return;
         }
     }
-    for(UIColor * color in [self.model getAllColors])
-    {
-        if ([color isEqual:self.selectedColor])
-        {
-           
-        }
-    }
 }
 - (void)didReceiveMemoryWarning
 {

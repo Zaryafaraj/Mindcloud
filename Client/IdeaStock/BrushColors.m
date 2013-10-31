@@ -7,6 +7,7 @@
 //
 
 #import "BrushColors.h"
+#import "ThemeFactory.h"
 
 @interface BrushColors ()
 
@@ -32,7 +33,7 @@
 {
     UIColor * black = [UIColor blackColor];
     UIColor * silver = [UIColor colorWithHue:0.567 saturation:0.050 brightness:0.741 alpha:1.000];
-    UIColor * white =[UIColor colorWithHue:0.000 saturation:0.000 brightness:0.971 alpha:1.000];
+    UIColor * white =[[ThemeFactory currentTheme] defaultColorForDrawing];
     //[UIColor whiteColor];
     UIColor * alizarin = [UIColor colorWithHue:0.008 saturation:0.743 brightness:0.929 alpha:1.000];
     UIColor * carrot = [UIColor colorWithHue:0.068 saturation:0.805 brightness:0.925 alpha:1.000] ;

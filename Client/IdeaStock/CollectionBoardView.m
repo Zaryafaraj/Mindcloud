@@ -8,8 +8,7 @@
 
 #import "CollectionBoardView.h"
 #import "PaintLayerView.h"
-
-#define DEFAULT_COLOR [UIColor whiteColor]
+#import "ThemeFactory.h"
 
 @interface CollectionBoardView()
 
@@ -103,7 +102,7 @@
 -(void) configurePaintLayer
 {
     
-    _currentColor = DEFAULT_COLOR;
+    _currentColor = [[ThemeFactory currentTheme] defaultColorForDrawing];
     _currentWidth = DEFAULT_BRUSH_WIDTH;
     self.viewGrid = [NSMutableArray array];
     int columCellCount = VIEW_WIDTH / GRID_CELL_SIZE;
