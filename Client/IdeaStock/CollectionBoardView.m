@@ -119,7 +119,7 @@
                                           GRID_CELL_SIZE);
             
             PaintLayerView * paintLayer = [[PaintLayerView alloc] initWithFrame:gridFrame];
-            //paintLayer.layer.borderWidth = 1.0;
+            paintLayer.layer.borderWidth = 1.0;
 //            paintLayer.layer.borderColor = [UIColor blackColor].CGColor;
             paintLayer.multipleTouchEnabled = YES;
             paintLayer.clipsToBounds = NO;
@@ -238,6 +238,8 @@
         [view parentTouchExitedTheView:touch
                       withCurrentPoint:currentInOverlapping
                          andOrderIndex:self.orderIndex];
+        [self.viewsWithoutTouchEnded removeObject:view];
+        //view.backgroundColor = [UIColor yellowColor];
     }
     
     id<CollectionBoardDelegate> temp = self.delegate;
@@ -254,10 +256,15 @@
     {
         for (PaintLayerView * layer in self.viewsWithoutTouchEnded)
         {
-            NSLog(@"Cleaning");
             [layer cleanupContentBeingDrawn];
         }
     }
+    for (PaintLayerView * layer in self.overlappingViewsFromLastTouch)
+    {
+        [layer cleanupContentBeingDrawn];
+        //layer.backgroundColor = [UIColor yellowColor];
+    }
+    [self.overlappingViewsFromLastTouch removeAllObjects];
 }
 -(void) touchesMoved:(NSSet *)touches
            withEvent:(UIEvent *)event
@@ -546,6 +553,8 @@
            [view parentTouchExitedTheView:touch
                          withCurrentPoint:currentInChild
                             andOrderIndex:self.orderIndex];
+            [self.viewsWithoutTouchEnded removeObject:view];
+            //view.backgroundColor = [UIColor yellowColor];
         }
     }
     
@@ -557,8 +566,10 @@
             [view parentTouchMoved:touch
                          withEvent:event
                      andOrderIndex:orderIndex];
-            //view.backgroundColor = [UIColor blackColor];
+            //view.backgroundC/olor = [UIColor blackColor];
             [self.overlappingViewsFromLastTouch addObject:view];
+            [self.viewsWithoutTouchEnded addObject:view];
+            //view.backgroundColor = [UIColor greenColor];
             
         }
         else
@@ -579,6 +590,8 @@
                          withPreviousPoint1:prevPoint1InCurrent
                           andPreviousPoint2:prevPoint2InCurrent
                               andOrderIndex:orderIndex];
+            //view.backgroundColor = [UIColor blueColor];
+            [self.viewsWithoutTouchEnded addObject:view];
             [self.overlappingViewsFromLastTouch addObject:view];
         }
     }
