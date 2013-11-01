@@ -86,10 +86,12 @@
                                            Y_OFFSET);
     UIBezierPath * path = [UIBezierPath bezierPath];
     [path moveToPoint:start];
+    //these -1 + 1 are added to compensate floating point lose of division when
+    //dividing by 3
     [path addQuadCurveToPoint:mid1 controlPoint:controlPoint1];
-    [path moveToPoint:mid1];
+    [path moveToPoint:CGPointMake(mid1.x - 1, mid1.y - 1)];
     [path addQuadCurveToPoint:mid2 controlPoint:controlPoint2];
-    [path moveToPoint:mid2];
+    [path moveToPoint:CGPointMake(mid2.x - 1, mid2.y + 1)];
     [path addQuadCurveToPoint:end controlPoint:controlPoint3];
     path.lineWidth = self.lineWidth;
     return path;

@@ -119,7 +119,7 @@
                                           GRID_CELL_SIZE);
             
             PaintLayerView * paintLayer = [[PaintLayerView alloc] initWithFrame:gridFrame];
-            paintLayer.layer.borderWidth = 1.0;
+            //paintLayer.layer.borderWidth = 1.0;
 //            paintLayer.layer.borderColor = [UIColor blackColor].CGColor;
             paintLayer.multipleTouchEnabled = YES;
             paintLayer.clipsToBounds = NO;
