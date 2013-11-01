@@ -711,9 +711,14 @@
 
 -(void) screenDoubleTapped:(UITapGestureRecognizer *) sender{
     
-    if (self.editMode) return;
     
     CGPoint location = [sender locationOfTouch:0 inView:self.collectionView];
+    [self doubledTappedLocation:location];
+}
+
+-(void) doubledTappedLocation:(CGPoint) location
+{
+    if (self.editMode) return;
     NoteView * note =  [self.prototypeNoteView prototype];
     CGRect frame = [CollectionLayoutHelper getFrameForNewNote:note
                                                  AddedToPoint:location
@@ -735,7 +740,6 @@
     
     [self addNoteToModel:note withID:noteID];
 }
-
 -(void) objectPressed: (UILongPressGestureRecognizer *) sender{
     
     if ( sender.state == UIGestureRecognizerStateBegan){
@@ -2236,6 +2240,10 @@ intoStackingWithMainView: (UIView *) mainView
     }
 }
 
+-(void) doubleTapDetectedAtLocation:(CGPoint)location
+{
+    [self doubledTappedLocation:location];
+}
 
 #pragma mark - paintBrushDelegate
 
@@ -2250,4 +2258,5 @@ intoStackingWithMainView: (UIView *) mainView
 {
     self.collectionView.currentColor = color;
 }
+
 @end

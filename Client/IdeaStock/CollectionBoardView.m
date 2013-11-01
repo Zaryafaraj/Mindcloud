@@ -193,6 +193,11 @@
     UITouch * touch = [touches anyObject];
     if (touch.tapCount == 2)
     {
+        id<CollectionBoardDelegate> temp =  self.delegate;
+        if (temp)
+        {
+            [temp doubleTapDetectedAtLocation:[touch locationInView:self]];
+        }
         [self undo];
         return;
     }

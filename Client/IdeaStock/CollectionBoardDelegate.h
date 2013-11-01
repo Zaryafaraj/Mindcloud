@@ -13,4 +13,6 @@
 -(void) didFinishDrawingOnScreen;
 -(void) willBeginDrawingOnScreen;
 
+-(void) doubleTapDetectedAtLocation:(CGPoint) location;
+
 @end
