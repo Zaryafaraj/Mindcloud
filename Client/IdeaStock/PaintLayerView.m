@@ -201,7 +201,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
         {
 //            CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
             CGContextSetBlendMode(context, kCGBlendModeClear);
-            CGContextSetLineWidth(context,  self.lineWidth * 5);
+            CGContextSetLineWidth(context,  trace.lineWidth * 5);
             CGContextSetLineCap(context, kCGLineCapSquare);
         }
         else
@@ -209,13 +209,15 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
             CGContextSetBlendMode(context, kCGBlendModeNormal);
             CGContextSetStrokeColorWithColor(context, trace.color.CGColor);
             CGContextSetLineWidth(context, trace.lineWidth);
+            CGContextSetLineJoin(context, kCGLineJoinMiter);
         }
         CGContextStrokePath(context);
     }
     if (path != nil)
     {
         CGContextSetLineCap(context, kCGLineCapRound);
-        CGContextSetLineJoin(context, kCGLineJoinRound);
+        CGContextSetLineJoin(context, kCGLineJoinMiter);
+       // CGContextSetLineJoin(context, kCGLineJoinRound);
         CGContextAddPath(context, path);
         if (self.eraseModeEnabled)
         {
