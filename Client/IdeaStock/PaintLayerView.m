@@ -243,6 +243,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
 {
     CGPathRelease(path);
     path = nil;
+    self.isTrackingTouch = NO;
     [self setNeedsDisplay];
 }
 
