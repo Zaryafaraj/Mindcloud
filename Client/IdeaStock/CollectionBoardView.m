@@ -24,6 +24,10 @@
 
 @property (nonatomic, strong) NSMutableSet * overlappingViewsFromLastTouch;
 
+//used to determine double tap when gesture recognizers are disabled
+@property (nonatomic) CGPoint lastTouchBeganLocation;
+@property (nonatomic, strong) PaintLayerView * lastTouchBeganView;
+
 @end
 
 @implementation CollectionBoardView
@@ -119,7 +123,7 @@
                                           GRID_CELL_SIZE);
             
             PaintLayerView * paintLayer = [[PaintLayerView alloc] initWithFrame:gridFrame];
-            //paintLayer.layer.borderWidth = 1.0;
+            paintLayer.layer.borderWidth = 1.0;
 //            paintLayer.layer.borderColor = [UIColor blackColor].CGColor;
             paintLayer.multipleTouchEnabled = YES;
             paintLayer.clipsToBounds = NO;
@@ -186,6 +190,12 @@
         return;
     }
     
+    UITouch * touch = [touches anyObject];
+    if (touch.tapCount == 2)
+    {
+        [self undo];
+        return;
+    }
     if (!self.drawingEnabled) return;
     
     id<CollectionBoardDelegate> temp = self.delegate;
@@ -197,31 +207,37 @@
     if (touches.count > 1) return;
     
     self.orderIndex++;
-    UITouch * touch = [touches anyObject];
     CGPoint location = [touch locationInView:self];
     PaintLayerView * touchedLayer = [self getGridCellForTouchLocation:location];
     [self addTouchedItem:touchedLayer];
     [touchedLayer parentTouchBegan:touch withEvent:event andOrderIndex:self.orderIndex];
+    //touchedLayer.backgroundColor = [UIColor whiteColor];
     [self fillOverlappingViewsForTouchLocation:location
                                       forTouch:touch
                                       andEvent:event
                                  andOrderIndex:self.orderIndex];
     [self.viewsWithoutTouchEnded addObject:touchedLayer];
     
+    self.lastTouchBeganLocation = location;
+    self.lastTouchBeganView = touchedLayer;
 }
 
 -(void) touchesEnded:(NSSet *)touches
            withEvent:(UIEvent *)event
 {
     
+    UITouch * touch = [touches anyObject];
     if (event.allTouches.count > 1)
+    {
+        return;
+    }
+    if (touch.tapCount == 2)
     {
         return;
     }
     
     if (!self.drawingEnabled) return;
     
-    UITouch * touch = [touches anyObject];
     CGPoint touchLocation = [touch locationInView:self];
     PaintLayerView * currentTouchedLayer = [self getGridCellForTouchLocation:touchLocation];
     
@@ -231,15 +247,20 @@
     [currentTouchedLayer parentTouchExitedTheView:touch
                                  withCurrentPoint:currentInChild
                                     andOrderIndex:self.orderIndex];
+    //currentTouchedLayer.backgroundColor = [UIColor darkGrayColor];
     NSSet * overLapping = [self getOverlappingViewsForPoint:touchLocation];
     for(PaintLayerView * view in overLapping)
     {
         CGPoint currentInOverlapping = [view convertPoint:currentInSelf fromView:self];
-        [view parentTouchExitedTheView:touch
-                      withCurrentPoint:currentInOverlapping
-                         andOrderIndex:self.orderIndex];
+        if (view.isTrackingTouch)
+        {
+            [view parentTouchExitedTheView:touch
+                          withCurrentPoint:currentInOverlapping
+                             andOrderIndex:self.orderIndex];
+        }
+        //view.backgroundColor = [UIColor greenColor];
         [self.viewsWithoutTouchEnded removeObject:view];
-        //view.backgroundColor = [UIColor yellowColor];
+//        view.backgroundColor = [UIColor yellowColor];
     }
     
     id<CollectionBoardDelegate> temp = self.delegate;
@@ -299,7 +320,7 @@
     if (prevTouchedLayer == currentTouchedLayer)
     {
         [prevTouchedLayer parentTouchMoved:touch withEvent:event andOrderIndex:self.orderIndex];
-        //prevTouchedLayer.backgroundColor = [UIColor purpleColor];
+//        prevTouchedLayer.backgroundColor = [UIColor purpleColor];
         
     }
     else
@@ -554,7 +575,7 @@
                          withCurrentPoint:currentInChild
                             andOrderIndex:self.orderIndex];
             [self.viewsWithoutTouchEnded removeObject:view];
-            //view.backgroundColor = [UIColor yellowColor];
+            //view.backgroundColor = [UIColor greenColor];
         }
     }
     
@@ -566,7 +587,7 @@
             [view parentTouchMoved:touch
                          withEvent:event
                      andOrderIndex:orderIndex];
-            //view.backgroundC/olor = [UIColor blackColor];
+            //view.backgroundColor = [UIColor blackColor];
             [self.overlappingViewsFromLastTouch addObject:view];
             [self.viewsWithoutTouchEnded addObject:view];
             //view.backgroundColor = [UIColor greenColor];

@@ -83,6 +83,10 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
                 withCurrentPoint:(CGPoint) currentPoint
                    andOrderIndex:(NSInteger) index
 {
+    if (!self.isTrackingTouch)
+    {
+        return;
+    }
     self.previousPoint2 = self.previousPoint1;
     self.previousPoint1 = [touch previousLocationInView:self];
     self.currentPoint = currentPoint;
@@ -109,6 +113,11 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
                  withEvent:(UIEvent *) event
            andOrderIndex:(NSInteger) index;
 {
+    //this touch has erroronusly been detected as a moved but its a begin
+    if (!self.isTrackingTouch)
+    {
+        NSLog(@"touch moved without touch began");
+    }
 	CGPoint point = [touch locationInView:self];
 	
 	/* check if the point is farther than min dist from previous */
@@ -125,7 +134,6 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     
     [self appendNewPath:NO withIndex:index];
     //self.backgroundColor = [UIColor redColor];
-    self.isTrackingTouch = YES;
 }
 
 -(void) appendNewPath:(BOOL) isEndingPath withIndex:(NSInteger) index
@@ -193,7 +201,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
         {
 //            CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
             CGContextSetBlendMode(context, kCGBlendModeClear);
-            CGContextSetLineWidth(context,  200);
+            CGContextSetLineWidth(context,  self.lineWidth * 5);
             CGContextSetLineCap(context, kCGLineCapSquare);
         }
         else
@@ -213,7 +221,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
         {
             CGContextSetBlendMode(context, kCGBlendModeClear);
 //            CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
-            CGContextSetLineWidth(context, 200);
+            CGContextSetLineWidth(context, self.lineWidth * 5);
             CGContextSetLineCap(context, kCGLineCapSquare);
         }
         else
@@ -233,6 +241,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
 -(void) clearContent
 {
     self.empty = YES;
+    self.isTrackingTouch = NO;
     CGPathRelease(path);
     path = CGPathCreateMutable();
     [self.container clearAllTraces];

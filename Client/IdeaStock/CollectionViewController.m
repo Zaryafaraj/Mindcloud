@@ -2223,7 +2223,7 @@ intoStackingWithMainView: (UIView *) mainView
     }
     NSDictionary * drawings = [self.collectionView getAllDrawingDataForTouchedViews];
     [self.collectionView resetTouchRecorder];
-    NSLog(@"SIZE %d", drawings.count);
+    //NSLog(@"SIZE %d", drawings.count);
 }
 
 -(void) willBeginDrawingOnScreen

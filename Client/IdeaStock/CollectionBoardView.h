@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "PaintEnabledView.h"
 #import "CollectionBoardDelegate.h"
-#define MAX_BRUSH_WIDTH 20.0f
-#define MIN_BRUSH_WIDTH 1.0f
+#define MAX_BRUSH_WIDTH 30.0f
+#define MIN_BRUSH_WIDTH 2.0f
 #define DEFAULT_BRUSH_WIDTH 3.0f
 
 @interface CollectionBoardView : UIView <PaintEnabledView>
