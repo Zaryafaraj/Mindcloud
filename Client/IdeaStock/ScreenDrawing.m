@@ -64,4 +64,24 @@
     NSString * result = [self description];
     return [NSString stringWithFormat:@"%@ \n === %@", result, self.gridTraces];
 }
+
+
+-(NSDictionary *) getDrawingsForGridIndex: (int) i
+{
+    NSNumber * indexObj = [NSNumber numberWithInt:i];
+    if (self.gridTraces[indexObj])
+    {
+        return self.gridTraces[indexObj];
+    }
+    else
+    {
+        return nil;
+    }
+}
+
+-(NSArray *) getAvailableGridIndices
+{
+    return self.gridTraces.allKeys;
+}
+
 @end

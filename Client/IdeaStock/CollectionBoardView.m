@@ -752,22 +752,6 @@
     [self.touchedViews removeAllObjects];
 }
 
--(void) applyBaseDrawingData:(NSDictionary *) baseDrawingData
-{
-    for(NSNumber * index in baseDrawingData.allKeys)
-    {
-        int i = index.intValue;
-        if (i < self.viewGrid.count)
-        {
-            PaintLayerView * layer = self.viewGrid[i];
-            NSData * layerData = baseDrawingData[index];
-            [layer addContentOfSerializedContainerAsBase:layerData];
-        }
-    }
-}
-
-
-
 -(ScreenDrawing *) getNewScreenDrawingsWithRebasing:(BOOL) shouldRebase
 {
     //now figure out what is the diff between the last time and now
@@ -799,6 +783,57 @@
     
     ScreenDrawing * answer = [[ScreenDrawing alloc] initWithGridDictionary:layerDrawings];
     return answer;
+}
+
+-(void) setAllDrawingContentTo:(ScreenDrawing *) allDrawings
+{
+    int maxOrderIndex = self.orderIndex;
+    for (int i = 0 ; i < self.viewGrid.count; i++)
+    {
+        NSDictionary * drawings = [allDrawings getDrawingsForGridIndex:i];
+        if (drawings)
+        {
+            PaintLayerView * layer = self.viewGrid[i];
+            [layer setAllDrawingsTo:drawings];
+            int lastOrderIndex = [layer getMaxOrderIndex];
+            if (lastOrderIndex > maxOrderIndex)
+            {
+                maxOrderIndex = lastOrderIndex;
+            }
+        }
+    }
+    
+    if (self.orderIndex != maxOrderIndex)
+    {
+        self.orderIndex = maxOrderIndex++;
+    }
+    
+}
+
+-(void) applyDiffDrawingContentFrom:(ScreenDrawing *) diffDrawings
+{
+    NSArray * avaiableIndices = [diffDrawings getAvailableGridIndices];
+    int maxOrderIndex = self.orderIndex;
+    for (NSNumber * index in avaiableIndices)
+    {
+        int i = index.intValue;
+        if (self.viewGrid[i])
+        {
+            PaintLayerView * layer = self.viewGrid[i];
+            NSDictionary * drawings = [diffDrawings getDrawingsForGridIndex:i];
+            [layer applyDiffDrawingContentFrom:drawings];
+            int lastOrderIndex = [layer getMaxOrderIndex];
+            if (lastOrderIndex > maxOrderIndex)
+            {
+                maxOrderIndex = lastOrderIndex;
+            }
+        }
+    }
+    
+    if (self.orderIndex != maxOrderIndex)
+    {
+        self.orderIndex = maxOrderIndex++;
+    }
 }
 
 @end

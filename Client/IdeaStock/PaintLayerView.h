@@ -47,6 +47,14 @@
 
 -(void) resetNewTracesHeadToNow;
 
+
+/*! Dictionary keyed on orderIndex and valued on NSSet of all 
+    Drawing traces for that orderIndex
+ */
+-(void) setAllDrawingsTo:(NSDictionary *) drawings;
+-(void) applyDiffDrawingContentFrom:(NSDictionary *) drawings;
+-(int) getMaxOrderIndex;
+
 @property int rowIndex;
 @property int colIndex;
 @property int gridIndex;

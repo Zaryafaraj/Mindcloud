@@ -18,4 +18,15 @@
  */
 -(instancetype) initWithGridDictionary:(NSDictionary *) gridDictionary;
 
+/*! returns a dictionary keyed on orderIndex and valued on NSSet of all the 
+    drawings in that index. 
+    returns nil if non exists
+ */
+-(NSDictionary *) getDrawingsForGridIndex: (int) i ;
+
+/*! returns an array of NSNumbers that contain ints of the grid index
+    for which This ScreenDrawing has information about
+ */
+-(NSArray *) getAvailableGridIndices;
+
 @end

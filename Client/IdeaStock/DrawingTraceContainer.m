@@ -154,6 +154,52 @@
     return self;
 }
 
+-(void) setAllDrawingsTo: (NSDictionary *) drawings
+{
+    [self.baseDrawings removeAllObjects];
+    [self.drawings removeAllObjects];
+    self.baseDrawings = [drawings mutableCopy];
+}
+
+-(void) applyDiffDrawingsFrom:(NSDictionary *) drawings
+{
+    for(NSNumber * orderIndex in drawings.allKeys)
+    {
+        if (!self.baseDrawings[orderIndex])
+        {
+            self.baseDrawings[orderIndex] = drawings[orderIndex];
+        }
+        else
+        {
+            NSMutableSet * currentDrawings = self.baseDrawings[orderIndex];
+            NSSet * mergingDrawings = drawings[orderIndex];
+            [currentDrawings addObjectsFromArray:mergingDrawings.allObjects];
+        }
+    }
+}
+
+-(int) getMaxOrderIndex
+{
+    int maxOrderIndex = -1;
+    for(NSNumber * num in self.drawings.allKeys)
+    {
+        if (num.intValue > maxOrderIndex)
+        {
+            maxOrderIndex = num.intValue;
+        }
+    }
+    
+    for(NSNumber * num in self.baseDrawings.allKeys)
+    {
+        if (num.intValue > maxOrderIndex)
+        {
+            maxOrderIndex = num.intValue;
+        }
+    }
+    
+    return maxOrderIndex;
+}
+
 -(void) encodeWithCoder:(NSCoder *)aCoder
 {
     //first transfer everything in drawings to base drawings

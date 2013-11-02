@@ -28,4 +28,10 @@
 
 -(void) rebaseTraces;
 
+/*! dictionary keyed on orderIndex and valued on a set of drawingTraces */
+-(void) setAllDrawingsTo: (NSDictionary *) drawings;
+-(void) applyDiffDrawingsFrom:(NSDictionary *) drawings;
+
+-(int) getMaxOrderIndex;
+
 @end

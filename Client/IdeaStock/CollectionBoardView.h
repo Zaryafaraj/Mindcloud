@@ -43,8 +43,8 @@
 
 -(void) resetTouchRecorder;
 
-/*! NSDictionary of serialized data for the drawing. Its keyed on the 
- gird index*/
--(void) applyBaseDrawingData:(NSDictionary *) baseDrawingData;
+-(void) setAllDrawingContentTo:(ScreenDrawing *) allDrawings;
+
+-(void) applyDiffDrawingContentFrom:(ScreenDrawing *) diffDrawings;
 
 @end

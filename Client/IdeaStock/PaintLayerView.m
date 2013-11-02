@@ -307,6 +307,23 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     [self.container rebaseTraces];
 }
 
+-(void) setAllDrawingsTo:(NSDictionary *) drawings
+{
+    [self clearContent];
+    [self.container setAllDrawingsTo:drawings];
+}
+
+-(void) applyDiffDrawingContentFrom:(NSDictionary *) drawings
+{
+    [self.container applyDiffDrawingsFrom:drawings];
+    [self setNeedsDisplay];
+}
+
+-(int) getMaxOrderIndex
+{
+    return [self.container getMaxOrderIndex];
+}
+
 -(NSString *) description
 {
     NSString * parentDescription = [super description];
