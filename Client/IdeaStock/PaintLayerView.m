@@ -292,6 +292,21 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     
 }
 
+-(NSDictionary *) getNewDrawings
+{
+    return [self.container getNewTraces];
+}
+
+-(NSDictionary *) getAllDrawings
+{
+    return [self.container getAllTracesDictionary];
+}
+
+-(void) resetNewTracesHeadToNow
+{
+    [self.container rebaseTraces];
+}
+
 -(NSString *) description
 {
     NSString * parentDescription = [super description];

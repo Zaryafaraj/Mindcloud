@@ -21,4 +21,11 @@
 
 -(void) applyBaseContainer:(DrawingTraceContainer *) base;
 
+-(NSDictionary *) getNewTraces;
+
+/*! keyed on orderIndex and valued on drawing trace set */
+-(NSDictionary *) getAllTracesDictionary;
+
+-(void) rebaseTraces;
+
 @end

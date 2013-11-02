@@ -41,8 +41,15 @@
 
 -(void) addContentOfSerializedContainerAsAdded:(NSData *) addedContainer;
 
+-(NSDictionary *) getNewDrawings;
+
+-(NSDictionary *) getAllDrawings;
+
+-(void) resetNewTracesHeadToNow;
+
 @property int rowIndex;
 @property int colIndex;
+@property int gridIndex;
 
 @property CGFloat lineWidth;
 

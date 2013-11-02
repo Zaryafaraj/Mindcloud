@@ -18,6 +18,7 @@
 
 -(void) enableLeftPanel;
 
+
 @property (nonatomic, strong) CategoriesViewController * leftPanel;
 
 @end

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PaintEnabledView.h"
 #import "CollectionBoardDelegate.h"
+#import "ScreenDrawing.h"
 #define MAX_BRUSH_WIDTH 25.0f
 #define MIN_BRUSH_WIDTH 2.0f
 #define DEFAULT_BRUSH_WIDTH 3.0f
@@ -33,16 +34,12 @@
 
 -(void) undo;
 
+-(ScreenDrawing *) getAllScreenDrawings;
+
+//if shouldRebase is true all the new drawings that are return will be moved to old drawings
+-(ScreenDrawing *) getNewScreenDrawingsWithRebasing:(BOOL) shouldRebase;
+
 @property BOOL drawingEnabled;
-
-/*! NSDictionary of serialized data for the drawing. Its keyed on the 
-    gird index*/
--(NSDictionary *) getAllDrawingData;
-
-/*! only gets the views that have been touched since the touch
-    recorder has been reseted
- */
--(NSDictionary *) getAllDrawingDataForTouchedViews;
 
 -(void) resetTouchRecorder;
 

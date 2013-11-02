@@ -26,6 +26,7 @@
 #import "CollectionBoardView.h"
 #import "PaintbrushViewController.h"
 #import "PaintColorViewController.h"
+#import "ScreenDrawing.h"
 
 @interface CollectionViewController ()
 
@@ -2225,9 +2226,12 @@ intoStackingWithMainView: (UIView *) mainView
     {
         gr.enabled = YES;
     }
-    NSDictionary * drawings = [self.collectionView getAllDrawingDataForTouchedViews];
+    ScreenDrawing * allDrawings = [self.collectionView getAllScreenDrawings];
+    ScreenDrawing * diffDrawings = [self.collectionView getNewScreenDrawingsWithRebasing:YES];
     [self.collectionView resetTouchRecorder];
-    //NSLog(@"SIZE %d", drawings.count);
+    
+    NSLog(@"DIFFS : \n %@ \n ==== ", diffDrawings);
+    NSLog(@"ALL : \n %@ \n ==== ", allDrawings);
 }
 
 -(void) willBeginDrawingOnScreen

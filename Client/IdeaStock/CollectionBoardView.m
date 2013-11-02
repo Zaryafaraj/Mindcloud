@@ -123,7 +123,7 @@
                                           GRID_CELL_SIZE);
             
             PaintLayerView * paintLayer = [[PaintLayerView alloc] initWithFrame:gridFrame];
-            //paintLayer.layer.borderWidth = 1.0;
+            paintLayer.layer.borderWidth = 1.0;
 //            paintLayer.layer.borderColor = [UIColor blackColor].CGColor;
             paintLayer.multipleTouchEnabled = YES;
             paintLayer.clipsToBounds = NO;
@@ -135,6 +135,8 @@
             paintLayer.userInteractionEnabled = NO;
             [self addSubview:paintLayer];
             [self.viewGrid addObject:paintLayer];
+            int gridIndex = [self.viewGrid count] - 1;
+            paintLayer.gridIndex = gridIndex;
         }
     }
 }
@@ -762,6 +764,41 @@
             [layer addContentOfSerializedContainerAsBase:layerData];
         }
     }
+}
+
+
+
+-(ScreenDrawing *) getNewScreenDrawingsWithRebasing:(BOOL) shouldRebase
+{
+    //now figure out what is the diff between the last time and now
+    NSMutableDictionary * layerDiffs = [NSMutableDictionary dictionary];
+    for(PaintLayerView * layer in self.touchedViews)
+    {
+        NSDictionary * newDrawings = [layer getNewDrawings];
+        NSNumber * gridNumber = [NSNumber numberWithInt:layer.gridIndex];
+        layerDiffs[gridNumber] = newDrawings;
+        if (shouldRebase)
+        {
+            [layer resetNewTracesHeadToNow];
+        }
+    }
+    
+    ScreenDrawing * answer =  [[ScreenDrawing alloc] initWithGridDictionary:layerDiffs];
+    return answer;
+}
+
+-(ScreenDrawing *) getAllScreenDrawings
+{
+    NSMutableDictionary * layerDrawings = [NSMutableDictionary dictionary];
+    for (PaintLayerView * layer in self.viewGrid)
+    {
+        NSDictionary * allDrawings = [layer getAllDrawings];
+        NSNumber * gridNumber = [NSNumber numberWithInt:layer.gridIndex];
+        layerDrawings[gridNumber] = allDrawings;
+    }
+    
+    ScreenDrawing * answer = [[ScreenDrawing alloc] initWithGridDictionary:layerDrawings];
+    return answer;
 }
 
 @end

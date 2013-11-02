@@ -43,6 +43,7 @@
 		DB20ADDE181F67250062EA5B /* PaintbrushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB20ADDD181F67250062EA5B /* PaintbrushViewController.m */; };
 		DB20ADE1181F838D0062EA5B /* BrushSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB20ADE0181F838D0062EA5B /* BrushSelectionView.m */; };
 		DB3174FE16337636001229FE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3174FD16337636001229FE /* SignInViewController.m */; };
+		DB3FD1DF182498C500F6A1B1 /* ScreenDrawing.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD1DE182498C500F6A1B1 /* ScreenDrawing.m */; };
 		DB3FD53016B77FA400024AC6 /* CollectionStackingAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD52F16B77FA400024AC6 /* CollectionStackingAttribute.m */; };
 		DB3FD53416B7A4D900024AC6 /* CollectionNoteAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD53316B7A4D900024AC6 /* CollectionNoteAttribute.m */; };
 		DB42E73616AE58500021D6FA /* NetworkActivityHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB42E73516AE58500021D6FA /* NetworkActivityHelper.m */; };
@@ -211,6 +212,9 @@
 		DB3174FC16337636001229FE /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		DB3174FD16337636001229FE /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		DB31750216337ED7001229FE /* AuthorizationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthorizationDelegate.h; sourceTree = "<group>"; };
+		DB3FD1DC182497F900F6A1B1 /* DiffableSerializableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiffableSerializableObject.h; sourceTree = "<group>"; };
+		DB3FD1DD182498C500F6A1B1 /* ScreenDrawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenDrawing.h; sourceTree = "<group>"; };
+		DB3FD1DE182498C500F6A1B1 /* ScreenDrawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenDrawing.m; sourceTree = "<group>"; };
 		DB3FD52E16B77FA400024AC6 /* CollectionStackingAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionStackingAttribute.h; sourceTree = "<group>"; };
 		DB3FD52F16B77FA400024AC6 /* CollectionStackingAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionStackingAttribute.m; sourceTree = "<group>"; };
 		DB3FD53216B7A4D900024AC6 /* CollectionNoteAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionNoteAttribute.h; sourceTree = "<group>"; };
@@ -647,6 +651,14 @@
 			name = Delegates;
 			sourceTree = "<group>";
 		};
+		DB3FD1DB182497CD00F6A1B1 /* Mixin */ = {
+			isa = PBXGroup;
+			children = (
+				DB3FD1DC182497F900F6A1B1 /* DiffableSerializableObject.h */,
+			);
+			name = Mixin;
+			sourceTree = "<group>";
+		};
 		DB43382A169D2D86000353DA /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -706,6 +718,8 @@
 				DBA393E318132B4700824E60 /* DrawingTraceContainer.m */,
 				DB592C111821B3D000024926 /* BrushColors.h */,
 				DB592C121821B3D000024926 /* BrushColors.m */,
+				DB3FD1DD182498C500F6A1B1 /* ScreenDrawing.h */,
+				DB3FD1DE182498C500F6A1B1 /* ScreenDrawing.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -981,6 +995,7 @@
 		DBF1CEDA17C94A6A000777F7 /* Gordon */ = {
 			isa = PBXGroup;
 			children = (
+				DB3FD1DB182497CD00F6A1B1 /* Mixin */,
 				DB87A9AF17D2CFB500605E6A /* Definitions */,
 				D70947131523DC27008E4AD9 /* KissXML */,
 				DBBBB9B417CC5AB600081C3B /* ItemMirror */,
@@ -1152,6 +1167,7 @@
 				DBC1B7F317CACCBA0036431A /* MindcloudAuthenticationGordon.m in Sources */,
 				DB7B876517D0393F001933FA /* XoomlFragment.m in Sources */,
 				DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */,
+				DB3FD1DF182498C500F6A1B1 /* ScreenDrawing.m in Sources */,
 				DB592C101820DAE400024926 /* ColorCell.m in Sources */,
 				DBBAF25D160EA1D800C81C25 /* Mindcloud.m in Sources */,
 				DBC7C4C316327F1900BF3F2D /* CollectionsAction.m in Sources */,
