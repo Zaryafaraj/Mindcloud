@@ -10,8 +10,8 @@
 
 @implementation ExternalFileHelper
 
-+(NSString *) fileNameForDrawingWithIndex:(NSNumber *) index
++(NSString *) filenameForScreenDrawing;
 {
-    return [NSString stringWithFormat:@"BoardDrawing%@",index];
+    return @"screen.drw";
 }
 @end

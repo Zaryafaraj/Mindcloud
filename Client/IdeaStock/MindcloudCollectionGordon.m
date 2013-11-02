@@ -27,7 +27,7 @@
 #import "MindcloudCollection.h"
 
 #define SHARED_SYNCH_PERIOD 1
-#define UNSHARED_SYNCH_PERIOD 30
+#define UNSHARED_SYNCH_PERIOD 2
 
 @interface MindcloudCollectionGordon()
 /*
@@ -353,17 +353,26 @@ CachedObject> dataSource;
     self.needSynchronization = YES;
 }
 
--(void) setCollectionFragmentNamespaceSubElement:(XoomlNamespaceElement *) namespaceElement
-                     withExternalFileDataMapping:(NSDictionary *) fileDataMapping
+-(void) setCollectionFragmentNamespaceFileWithName:(NSString *) filename
+                                  andAttributeName:(NSString *) attributeName
+                            andParentNamespaceName:(NSString *) namespaceName
+                                        andFixedId:(NSString *) fixedId
+                                andExternalContent:(id<DiffableSerializableObject>) content
 {
-    [self setCollectionFragmentNamespaceSubElementWithNewElement:namespaceElement];
     
-    for(NSString * fileName in fileDataMapping.allKeys)
-    {
-        [self.dataSource saveCollectionAsset:fileDataMapping[fileName]
-                                withFileName:fileName
-                               forCollection:self.collectionName];
-    }
+    //first make the file attribute
+    XoomlNamespaceElement * fileElement = [[XoomlNamespaceElement alloc] initWithName:attributeName
+                                                                   andParentNamespace:namespaceName];
+    fileElement.ID = fixedId;
+    [fileElement addAttributeWithName:EXTERNAL_FILENAME
+                             andValue:filename];
+    
+    [self setCollectionFragmentNamespaceSubElementWithNewElement:fileElement];
+    [self.dataSource saveCollectionAsset:content
+                            withFileName:filename
+                           forCollection:self.collectionName];
+    
+    self.needSynchronization = YES;
 }
 
 -(void) setCollectionThumbnailWithData:(NSData *) thumbnailData

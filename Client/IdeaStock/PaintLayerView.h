@@ -37,10 +37,6 @@
 
 -(NSData *) serializeLayer;
 
--(void) addContentOfSerializedContainerAsBase:(NSData *) baseContainer;
-
--(void) addContentOfSerializedContainerAsAdded:(NSData *) addedContainer;
-
 -(NSDictionary *) getNewDrawings;
 
 -(NSDictionary *) getAllDrawings;

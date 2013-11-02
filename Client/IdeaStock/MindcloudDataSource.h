@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AuthorizationDelegate.h"
+#import "DiffableSerializableObject.h"
 
 /**
  * The protocol for the datamodel. Includes essential behaviors for working
@@ -130,7 +131,7 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
 -(void) setThumbnail:(NSData *)thumbnailData
        forCollection:(NSString *)collectionName;
 
--(void) saveCollectionAsset:(NSData *) assetData
+-(void) saveCollectionAsset:(id<DiffableSerializableObject>) content
                withFileName:(NSString *) fileName
               forCollection:(NSString *) collectionName;
 

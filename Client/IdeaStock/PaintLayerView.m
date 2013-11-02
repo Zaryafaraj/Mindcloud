@@ -287,10 +287,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     }
 }
 
--(void) addContentOfSerializedContainerAsAdded:(NSData *) addedContainer
-{
-    
-}
+
 
 -(NSDictionary *) getNewDrawings
 {

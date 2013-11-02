@@ -10,6 +10,6 @@
 
 @interface ExternalFileHelper : NSObject
 
-+(NSString *) fileNameForDrawingWithIndex:(NSNumber *) index;
++(NSString *) filenameForScreenDrawing;
 
 @end

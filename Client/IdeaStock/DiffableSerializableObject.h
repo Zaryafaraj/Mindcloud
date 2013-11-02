@@ -10,10 +10,10 @@
 
 @protocol DiffableSerializableObject <NSObject>
 
--(void) serializeToFile:(NSString *) filename;
--(void) deserializeFromFile:(NSString *) filename;
+-(BOOL) serializeToFile:(NSString *) filename;
+-(BOOL) deserializeFromFile:(NSString *) filename;
 
--(void) serializeDiffToFile:(NSString *) filename;
--(void) deserializeDiffFromFile:(NSString *) filename;
+-(BOOL) serializeDiffToFile:(NSString *) filename;
+-(BOOL) deserializeDiffFromFile:(NSString *) filename;
 
 @end

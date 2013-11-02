@@ -10,6 +10,7 @@
 #import "NoteProtocol.h"
 #import "CollectionNoteAttribute.h"
 #import "CollectionStackingAttribute.h"
+#import "ScreenDrawing.h"
 
 @protocol BulletinBoardProtocol <NSObject>
 
@@ -71,14 +72,17 @@
 
 -(void) saveThumbnail:(NSData *) thumbnailData;
 
+
 /*! dictionary is keyed on the drawing index on the screen and the 
     serialized data of the drawing */
-
 -(void) saveScreenDrawings:(NSDictionary *) drawingDictionary;
 
 -(NSDictionary *) getAllScreenDrawings;
 
-+ (void) saveBulletinBoard: (id) bulletinBoard;
+
+-(void) saveAllDrawings:(ScreenDrawing *) allDrawings;
+
++(void) saveBulletinBoard: (id) bulletinBoard;
 
 
 @end

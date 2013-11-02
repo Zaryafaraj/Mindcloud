@@ -14,7 +14,6 @@
 #import "NoteFragmentResolver.h"
 #import "FileSystemHelper.h"
 #import "CollectionNote.h"
-#import "ScreenDrawingAttribute.h"
 #import "ExternalFileHelper.h"
 
 @interface MindcloudCollection()
@@ -69,8 +68,6 @@
  */
 @property (strong, atomic) NoteFragmentResolver * noteResolver;
 
-@property (strong, atomic) ScreenDrawingAttribute * allDrawings;
-
 @end
 
 @implementation MindcloudCollection
@@ -88,7 +85,6 @@
     self.collectionAttributesForNotes = [NSMutableDictionary dictionary];
     self.stackings = [NSMutableDictionary dictionary];
     self.noteToStackingMap = [NSMutableDictionary dictionary];
-    self.allDrawings = [[ScreenDrawingAttribute alloc] init];
     
     self.bulletinBoardName = collectionName;
     
@@ -205,19 +201,13 @@
     
 }
 
--(void) saveScreenDrawings:(NSDictionary *) drawingDictionary
+-(void) saveAllDrawings:(ScreenDrawing *) allDrawings
 {
-    
-    NSMutableDictionary * fileMappings = [NSMutableDictionary dictionary];
-    for(NSNumber * index in drawingDictionary.allKeys)
-    {
-        [self.allDrawings addTouchedDrawingTileWithIndex:index.integerValue];
-        NSString * fileName = [ExternalFileHelper fileNameForDrawingWithIndex:index];
-        fileMappings[fileName] = drawingDictionary[index];
-    }
-    XoomlNamespaceElement * element = [self.allDrawings toXoomlNamespaceElement];
-    [self.gordonDataSource setCollectionFragmentNamespaceSubElement:element
-                                        withExternalFileDataMapping:fileMappings];
+    NSString * fileName = [ExternalFileHelper filenameForScreenDrawing];
+    [self.gordonDataSource setCollectionFragmentNamespaceFileWithName:fileName
+                                                     andAttributeName:MINDCLOUD_DRAWING_ATTRIBUTE
+                                               andParentNamespaceName:MINDCLOUD_BOARDS_NAMESPACE andFixedId:VERSIONED_MINDCLOUD_DRAWING_ID
+                                                   andExternalContent:allDrawings];
 }
 
 -(void) addNotesWithIDs: (NSArray *) noteIDs

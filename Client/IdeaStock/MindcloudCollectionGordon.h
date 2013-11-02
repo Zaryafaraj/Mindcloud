@@ -11,6 +11,7 @@
 #import "SynchronizedObject.h"
 #import "XoomlAssociation.h"
 #import "XoomlFragment.h"
+#import "DiffableSerializableObject.h"
 
 @interface MindcloudCollectionGordon : NSObject <SynchronizedObject>
 
@@ -60,12 +61,17 @@
 
 -(void) addCollectionFragmentNamespaceSubElement:(XoomlNamespaceElement *) namespaceElement;
 
-/*! Set a XoomlFragmentNamespaceSubElement that points to a set of data stored in a set of files in the same level as the xooml file. 
-    The dictionary contains a map of keys which are fileNames and data which are contents of those files.
-    It is the responsiblity of the caller to construct a xoomlNamespaceElement in a way that it points to those files
+
+/*!
+    Convinience method that creates a namespace attribute with attributeName and
+    points to a file with filename which its contents should be from the content obj.
+    If fixedId is not nil.
  */
--(void) setCollectionFragmentNamespaceSubElement:(XoomlNamespaceElement *) namespaceElement
-                     withExternalFileDataMapping:(NSDictionary *) fileDataMapping;
+-(void) setCollectionFragmentNamespaceFileWithName:(NSString *) filename
+                                  andAttributeName:(NSString *) attributeName
+                            andParentNamespaceName:(NSString *) namespaceName andFixedId:(NSString *) fixedId
+                                andExternalContent:(id<DiffableSerializableObject>) content;
+
 /*! If the item is there it will update it, if its not it will create a new one
  */
 -(void) setCollectionThumbnailWithData:(NSData *) thumbnailData;

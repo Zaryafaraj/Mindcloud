@@ -46,4 +46,13 @@
     return self;
 }
 
+-(void) encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:self.path forKey:@"path"];
+    [aCoder encodeObject:self.color forKey:@"color"];
+    [aCoder encodeInteger:self.drawingType forKey:@"drawingType"];
+    [aCoder encodeObject:self.drawingId forKey:@"drawingId"];
+    [aCoder encodeFloat:self.lineWidth forKey:@"lineWidth"];
+}
+
 @end

@@ -23,6 +23,11 @@
 @implementation ScreenDrawing
 
 
+-(void) encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:self.gridTraces forKey:@"gridTraces"];
+}
+
 -(instancetype) initWithGridDictionary:(NSDictionary *) gridDictionary
 {
     self = [super init];
@@ -35,23 +40,25 @@
 
 #pragma mark - diffable serializable object
 
--(void) serializeToFile:(NSString *) filename
+-(BOOL) serializeToFile:(NSString *) filePath
 {
-    
-}
--(void) deserializeFromFile:(NSString *) filename
-{
-    
+    return [NSKeyedArchiver archiveRootObject:self toFile:filePath];
 }
 
--(void) serializeDiffToFile:(NSString *) filename
+-(BOOL) deserializeFromFile:(NSString *) filename
 {
     
+    return true;
 }
 
--(void) deserializeDiffFromFile:(NSString *) filename
+-(BOOL) serializeDiffToFile:(NSString *) filename
 {
-    
+    return true;
+}
+
+-(BOOL) deserializeDiffFromFile:(NSString *) filename
+{
+    return true;
 }
 
 -(NSString *) description

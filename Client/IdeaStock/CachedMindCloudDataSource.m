@@ -346,12 +346,13 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     }
 }
 
--(void) saveCollectionAsset:(NSData *) assetData
+-(void) saveCollectionAsset:(id<DiffableSerializableObject>) content
                withFileName:(NSString *) fileName
               forCollection:(NSString *) collectionName;
 {
     //to something like the method above
-    [self saveToDiskCollectionAsset:assetData withFileName:fileName
+    [self saveToDiskCollectionAsset: content
+                       withFileName:fileName
                       forCollection:collectionName];
 }
 
@@ -813,19 +814,18 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     [imgData writeToFile:path atomically:NO];
 }
 
--(BOOL) saveToDiskCollectionAsset:(NSData *) assetData
+-(BOOL) saveToDiskCollectionAsset:(id<DiffableSerializableObject>) assetData
                      withFileName:(NSString *) fileName
                     forCollection:(NSString *) collectionName
 {
     NSString * path = [FileSystemHelper getPathForCollectionAssetWithName:fileName
                                                     forCollectionWithName:collectionName];
-    NSError * err;
-    BOOL didWrite = [assetData writeToFile:path options:NSDataWritingAtomic error:&err];
-    if(!didWrite)
+    BOOL didSerialize = [assetData serializeToFile:path];
+    if(!didSerialize)
     {
-        NSLog(@"Failed to write the file to %@ because : %@", path, err);
+        NSLog(@"Failed to write the file");
     }
-    return didWrite;
+    return didSerialize;
 }
 
 - (BOOL) saveToDiskCollectionData:(NSData *) data

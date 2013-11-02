@@ -63,7 +63,6 @@
 		DB64030717DABE5700DC9578 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB64030617DABE5700DC9578 /* Images.xcassets */; };
 		DB712C87164EF678008E68C6 /* CategoriesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB712C86164EF678008E68C6 /* CategoriesAction.m */; };
 		DB712C8B164F42D1008E68C6 /* CollectionImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB712C8A164F42D1008E68C6 /* CollectionImageAction.m */; };
-		DB7337191813ADCC00505556 /* ScreenDrawingAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7337181813ADCC00505556 /* ScreenDrawingAttribute.m */; };
 		DB73371D1813B2C400505556 /* ExternalFileHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB73371C1813B2C400505556 /* ExternalFileHelper.m */; };
 		DB7B876517D0393F001933FA /* XoomlFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7B876417D0393F001933FA /* XoomlFragment.m */; };
 		DB8F48A117CAA57500DDDB2D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D7A53CFC1522F39500183CB6 /* main.m */; };
@@ -257,8 +256,6 @@
 		DB712C86164EF678008E68C6 /* CategoriesAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesAction.m; sourceTree = "<group>"; };
 		DB712C89164F42D0008E68C6 /* CollectionImageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionImageAction.h; sourceTree = "<group>"; };
 		DB712C8A164F42D1008E68C6 /* CollectionImageAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionImageAction.m; sourceTree = "<group>"; };
-		DB7337171813ADCC00505556 /* ScreenDrawingAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenDrawingAttribute.h; sourceTree = "<group>"; };
-		DB7337181813ADCC00505556 /* ScreenDrawingAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenDrawingAttribute.m; sourceTree = "<group>"; };
 		DB73371B1813B2C400505556 /* ExternalFileHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExternalFileHelper.h; sourceTree = "<group>"; };
 		DB73371C1813B2C400505556 /* ExternalFileHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalFileHelper.m; sourceTree = "<group>"; };
 		DB7B876317D0393F001933FA /* XoomlFragment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XoomlFragment.h; sourceTree = "<group>"; };
@@ -673,8 +670,6 @@
 				DB4E25B016C78A4200E85334 /* ThumbnailManagerProtocol.h */,
 				DBDDB6FC17E677330009099E /* NoteReference.h */,
 				DBDDB6FD17E677330009099E /* NoteReference.m */,
-				DB7337171813ADCC00505556 /* ScreenDrawingAttribute.h */,
-				DB7337181813ADCC00505556 /* ScreenDrawingAttribute.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1193,7 +1188,6 @@
 				DB42E73616AE58500021D6FA /* NetworkActivityHelper.m in Sources */,
 				DB3FD53016B77FA400024AC6 /* CollectionStackingAttribute.m in Sources */,
 				DB3FD53416B7A4D900024AC6 /* CollectionNoteAttribute.m in Sources */,
-				DB7337191813ADCC00505556 /* ScreenDrawingAttribute.m in Sources */,
 				DB9CA54C16BF8F2D0030B3F7 /* NamingHelper.m in Sources */,
 				DBBA28A916CC7996007C7B4A /* CollectionRecorder.m in Sources */,
 				DBBA28AC16CC88C6007C7B4A /* ManifestMerger.m in Sources */,

@@ -18,15 +18,13 @@
 #define MINDCLOUD_BOARDS_NAMESPACE @"http://mindcloud.io/xmlns/mindcloud"
 #define MINDCLOUD_STACKING_ATTRIBUTE @"stacking"
 #define MINDCLOUD_DRAWING_ATTRIBUTE @"drawing"
-#define MINDCLOUD_DRAWING_TILE_ATTRIBUTE @"drawingTile"
-#define MINDCLOUD_DRAWING_FILENAME @"drawingFileName"
-#define MINDCLOUD_DRAWING_TILE_INDEX @"drawingTileIndex"
 #define MINDCLOUD_NOTE_REFID @"noteRefId"
 #define MINDCLOUD_REFID_ATTRIBUTE @"refId"
 #define MINDCLOUD_NOTE_NAME_ATTRIBUTE @"noteName"
 #define MINDCLOUD_NOTE_NAME @"name"
 #define MINDCLOUD_NOTE_IMAGE_ATTRIBUTE @"noteImage"
 #define MINDCLOUD_NOTE_IMAGE @"imageName"
+#define VERSIONED_MINDCLOUD_DRAWING_ID @"MINDCLOUD_DRAWING_V1"
 
 @protocol BoardsXoomlDefinitions <NSObject>
 

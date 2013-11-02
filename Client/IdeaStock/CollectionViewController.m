@@ -2230,8 +2230,11 @@ intoStackingWithMainView: (UIView *) mainView
     ScreenDrawing * diffDrawings = [self.collectionView getNewScreenDrawingsWithRebasing:YES];
     [self.collectionView resetTouchRecorder];
     
-    NSLog(@"DIFFS : \n %@ \n ==== ", diffDrawings);
-    NSLog(@"ALL : \n %@ \n ==== ", allDrawings);
+//    NSLog(@"DIFFS : \n %@ \n ==== ", diffDrawings);
+//    NSLog(@"ALL : \n %@ \n ==== ", allDrawings);
+    [self.board saveAllDrawings:allDrawings];
+//    [self.board communicateDrawingDiffs:diffDrawings];
+    
 }
 
 -(void) willBeginDrawingOnScreen

@@ -43,4 +43,6 @@
 #define CURRENT_FRAGMENT @"./XooML2.xml"
 #define GORDON_DRIVER @"Gordon"
 #define ASSOCIATON_NAMESPACE_DATA_NAME @"fragmentNamespaceData"
+#define EXTERNAL_FILENAME @"filename"
+
 @end
