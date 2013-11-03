@@ -858,40 +858,175 @@ class StorageServerTests(AsyncTestCase):
         self.assertEqual(StorageResponse.NOT_FOUND, response)
 
     def test_save_collection_file(self):
-        pass
+        collection_name = "dummy123"
+        StorageServer.add_collection(self.__account_id, collection_name,
+                                     callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        collection_file = open('../test_resources/screen.drw')
+        StorageServer.set_collection_file(self.__account_id, collection_name, 'screen.draw', collection_file,
+                                          callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
 
     def  test_save_collection_file_non_existing_collection(self):
-        pass
+        collection_file = open('../test_resources/screen.drw')
+        StorageServer.set_collection_file(self.__account_id, 'dumm', 'screen.draw', collection_file,
+                                          callback=self.stop)
+        response = self.wait()
+
+        #expected behavior
+        self.assertEqual(StorageResponse.OK, response)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, 'dumm', callback=self.stop)
+        self.wait()
 
     def test_save_collection_file_non_existing_user(self):
-        pass
+
+        collection_file = open('../test_resources/screen.drw')
+        StorageServer.set_collection_file('teapot', 'xa', 'screen.draw', collection_file,
+                                          callback=self.stop)
+        response = self.wait()
+
+        #fix this. We need to return 401
+        self.assertEqual(StorageResponse.SERVER_EXCEPTION, response)
 
     def test_save_collection_file_invalid_filename(self):
-        pass
+        collection_file = open('../test_resources/screen.drw')
+        StorageServer.set_collection_file(self.__account_id, 'xa', '../screen.draw', collection_file,
+                                          callback=self.stop)
+        response = self.wait()
 
-    def test_save_collection_file_invalid_file_obj(self):
-        pass
+        #fix this. We need to return 404
+        self.assertEqual(StorageResponse.BAD_REQUEST, response)
 
     def test_get_collection_file(self):
-        pass
+        collection_name = "dummy423"
+        StorageServer.add_collection(self.__account_id, collection_name,
+                                     callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        collection_file = open('../test_resources/screen.drw')
+        StorageServer.set_collection_file(self.__account_id, collection_name, 'screen.drw', collection_file,
+                                          callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        StorageServer.get_collection_file(self.__account_id, collection_name, 'screen.drw',
+                                          callback=self.stop)
+        response = self.wait()
+        self.assertIsNotNone(response)
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
 
     def test_get_collection_file_non_existing_collection(self):
-        pass
+
+        StorageServer.get_collection_file(self.__account_id, 'no_exist', 'screen.drw',
+                                          callback=self.stop)
+        response = self.wait()
+        self.assertIsNone(response)
 
     def test_get_collection_file_non_existing_file(self):
-        pass
+
+        collection_name = "dummy423"
+        StorageServer.add_collection(self.__account_id, collection_name,
+                                     callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        StorageServer.get_collection_file(self.__account_id, collection_name, 'screen.drw',
+                                          callback=self.stop)
+        response = self.wait()
+        self.assertIsNone(response)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
 
     def test_get_collection_file_invalid_file_name(self):
-        pass
+
+        collection_name = "dummy523"
+        StorageServer.add_collection(self.__account_id, collection_name,
+                                     callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        collection_file = open('../test_resources/screen.drw')
+        StorageServer.set_collection_file(self.__account_id, collection_name, 'screen.drw', collection_file,
+                                          callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        StorageServer.get_collection_file(self.__account_id, collection_name, './../' + collection_name + '/screen.drw',
+                                          callback=self.stop)
+        response = self.wait()
+        self.assertIsNone(response)
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
 
     def test_remove_collection_file(self):
-        pass
+
+        collection_name = "dummee435"
+        StorageServer.add_collection(self.__account_id, collection_name,
+                                     callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        collection_file = open('../test_resources/screen.drw')
+        StorageServer.set_collection_file(self.__account_id, collection_name, 'screen.drw', collection_file,
+                                          callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        StorageServer.get_collection_file(self.__account_id, collection_name, 'screen.drw',
+                                          callback=self.stop)
+        response = self.wait()
+        self.assertIsNotNone(response)
+
+        StorageServer.remove_collection_file(self.__account_id, collection_name, 'screen.drw',
+                                             callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        StorageServer.get_collection_file(self.__account_id, collection_name, 'screen.drw',
+                                          callback=self.stop)
+        response = self.wait()
+        self.assertIsNone(response)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
 
     def test_remove_collection_file_non_existing_collection(self):
-        pass
+
+        StorageServer.remove_collection_file(self.__account_id, 'zaza', 'screen.drw',
+                                             callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.NOT_FOUND, response)
 
     def test_remove_collection_file_non_existing_file(self):
-        pass
 
-    def test_get_collection_file_deleted_file(self):
-        pass
+        collection_name = "Xdummee435"
+        StorageServer.add_collection(self.__account_id, collection_name,
+                                     callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+        StorageServer.remove_collection_file(self.__account_id, collection_name, 'screen.drw',
+                                             callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.NOT_FOUND, response)
+
+        #clean up
+        StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
+        self.wait()
+

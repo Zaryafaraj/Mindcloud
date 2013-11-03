@@ -205,6 +205,8 @@ class StorageServer:
         """
 
         parent_path = '/' + collection_name
+        if '..' in parent_path or './' in parent_path or '..' in file_name or './' in file_name:
+            callback(StorageResponse.BAD_REQUEST)
         StorageServer.set_file(file_obj, file_name, parent_path, user_id, callback)
 
     @staticmethod
@@ -247,6 +249,9 @@ class StorageServer:
             image does not exist or there was a problem retrieving it
         """
         manifest_path = "/%s/%s" % (collection_name, StorageServer.__COLLECTION_FILE_NAME)
+
+        if '..' in manifest_path or './' in manifest_path:
+            callback(None)
         StorageServer.get_file(manifest_path, user_id, callback)
 
     @staticmethod
@@ -268,6 +273,8 @@ class StorageServer:
         """
 
         file_path = "/%s/%s" % (collection_name, file_name)
+        if '..' in file_path or './' in file_path:
+            callback(None)
         StorageServer.get_file(file_path, user_id, callback)
 
     @staticmethod
