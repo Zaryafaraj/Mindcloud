@@ -19,6 +19,7 @@ from Handlers.Bane.NoteImageHandler import NoteImageHandler
 from Handlers.Bane.SharingSubscriptionHandler import SharingSubscriptionHandler
 from Handlers.Bane.SharingHandler import SharingHandler
 from Handlers.Bane.SubscriptionHandler import SubscriptionHandler
+from Handlers.Bane.CollectionFileHandler import CollectionFileHandler
 from Handlers.Joker.SharingLoadBalancerHandler import SharingLoadBalancer, SharingLoadBalancerHandler
 from Handlers.Joker.SharingSpaceActionHandler import SharingSpaceActionHandler
 from Handlers.Joker.SharingSpaceListenerHandler import SharingSpaceListenerHandler
@@ -40,7 +41,8 @@ class Application(tornado.web.Application):
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Notes", CollectionNotesHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Notes/([\w+\-*%*\d*]+)", NoteHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Notes/([\w+\-*%*\d*]+)/Image", NoteImageHandler),
-            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Files/([\w+\-*%*\d*]+)", CollectionFileHandler),
+            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Files", CollectionFileHandler),
+            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Files/([\w+\-*%*\d*]+\.+\w+)", CollectionFileHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Thumbnail", CollectionImageHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections", AccountHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Categories", CategoriesHandler),

@@ -273,7 +273,7 @@ class StorageServer:
         """
 
         file_path = "/%s/%s" % (collection_name, file_name)
-        if '..' in file_path or './' in file_path:
+        if '..' in file_path or './' in file_path or '..' in file_name or './' in file_name:
             callback(None)
         StorageServer.get_file(file_path, user_id, callback)
 

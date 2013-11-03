@@ -11,6 +11,7 @@ from TornadoMain import Application
 
 __author__ = 'afathali'
 
+
 class CollectionTests(AsyncHTTPTestCase):
 
     account_id = TestingProperties.account_id
@@ -274,6 +275,7 @@ class CollectionTests(AsyncHTTPTestCase):
         url = '/'+self.account_id + '/Collections'
         response = self.fetch(path=url, method='POST', body=urllib.urlencode(params))
         self.assertEqual(200, response.code)
+
         url = '/'.join(['', self.account_id, 'Collections', collection_name])
         collection_file = open('../../test_resources/collection.xml')
         headers, postData = HTTPHelper.create_multipart_request_with_single_file('file', collection_file)

@@ -41,7 +41,7 @@ class HTTPHelper:
         headers = HTTPHeaders({'content-type':content_type})
         postData = "--" + boundary +\
                    "\r\nContent-Disposition: form-data; name=\"" + file_name + \
-                   "\"; filename=\"Xooml.xml\"\r\nContent-Type: application/xml\r\n\r\n"
+                   "\"; filename=\""+file_name+"\"\r\nContent-Type: application/xml\r\n\r\n"
         postData += file.read()
         for param_name in params:
             postData += "\r\n--" + boundary +\

@@ -22,6 +22,8 @@ from Handlers.Joker.LoadBalancerConfigHandler import LoadBalancerConfigHandler
 from Handlers.Joker.SharingLoadBalancerHandler import SharingLoadBalancer, SharingLoadBalancerHandler
 from Handlers.Joker.SharingSpaceActionHandler import SharingSpaceActionHandler
 from Handlers.Joker.SharingSpaceListenerHandler import SharingSpaceListenerHandler
+from Handlers.Bane.CollectionFileHandler import CollectionFileHandler
+
 
 class Application(tornado.web.Application):
     """
@@ -42,6 +44,8 @@ class Application(tornado.web.Application):
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Thumbnail", CollectionImageHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections", AccountHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Categories", CategoriesHandler),
+            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Files", CollectionFileHandler),
+            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Files/([\w+\-*%*\d*]+\.+\w+)", CollectionFileHandler),
             (r"/Authorize/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})", AuthorizationHandler),
             #Joker Load Balancer
             (r"/SharingFactory/([0-9A-Za-z]{8})", SharingLoadBalancerHandler),
