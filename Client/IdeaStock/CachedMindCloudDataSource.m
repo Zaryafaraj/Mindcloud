@@ -35,6 +35,11 @@
 @property NSMutableDictionary * associatedItemImageUpdateQueue;
 @property NSMutableDictionary * waitingDeleteAssociatedItems;
 @property NSData * waitingUpdateManifestData;
+
+// Keyed on asset filename and valued on the assetObj
+@property NSMutableDictionary * collectionAssetUploadQueue;
+@property BOOL collectionAssetUploadInProgress;
+
 /*
  The idea is that we cache item each time the app is run; ( app going to the background doesn't count). These two dictionaries make sure that we only refresh the cache once
  */
@@ -81,7 +86,9 @@
     self.collectionImagesCache = [NSMutableDictionary dictionary];
     self.thumbnailHasUpdatedCache = [NSMutableDictionary dictionary];
     self.sharedCollections = [NSMutableDictionary dictionary];
+    self.collectionAssetUploadQueue = [NSMutableDictionary dictionary];
     self.isCategoriesUpdated = NO;
+    self.collectionAssetUploadInProgress = YES;
     self.isInProgressOfGettingThumbnail = [NSMutableDictionary dictionary];
     return self;
 }
@@ -354,6 +361,40 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     [self saveToDiskCollectionAsset: content
                        withFileName:fileName
                       forCollection:collectionName];
+    
+    
+    //if there is something in progress just put it in the queue
+    //once the item in progress is done it will pick this back up
+    //from the queue
+    if (self.collectionAssetUploadInProgress)
+    {
+        self.collectionAssetUploadQueue[fileName] = content;
+    }
+    else
+    {
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userID = [UserPropertiesHelper userID];
+        NSString * collectionNameClosure = collectionName;
+        [mindcloud saveCollectionAsset:content
+                          withFileName:fileName
+                         forCollection:collectionName andCallback:^(BOOL successful){
+                            if (successful)
+                            {
+                                NSArray * remainingFiles = self.collectionAssetUploadQueue.allKeys;
+                                if ([remainingFiles count] > 0)
+                                {
+                                    NSString * lastFileName = remainingFiles.lastObject;
+                                    id<DiffableSerializableObject> lastContent = self.collectionAssetUploadQueue[lastFileName];
+                                    [mindcloud saveCollectoinAsset:lastContent]
+                                }
+                            }
+                            else
+                            {
+                                
+                            }
+                         }]
+        
+    }
 }
 
 -(void) addAssociatedItemWithName: (NSString *) associatedItemName

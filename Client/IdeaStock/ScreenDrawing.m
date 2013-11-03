@@ -45,15 +45,34 @@
     return [NSKeyedArchiver archiveRootObject:self toFile:filePath];
 }
 
+-(NSData *) serializeToData
+{
+    return [NSKeyedArchiver archivedDataWithRootObject:self];
+}
 -(BOOL) deserializeFromFile:(NSString *) filename
 {
     
     return true;
 }
 
+-(BOOL) deserializeFromData:(NSData *) data
+{
+    return YES;
+}
+
 -(BOOL) serializeDiffToFile:(NSString *) filename
 {
     return true;
+}
+
+-(BOOL) deserializeDiffFromData:(NSData *)data
+{
+    return YES;
+}
+
+-(NSData *) serializeDiffToData
+{
+    return nil;
 }
 
 -(BOOL) deserializeDiffFromFile:(NSString *) filename

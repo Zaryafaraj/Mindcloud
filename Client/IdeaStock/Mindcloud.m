@@ -404,4 +404,42 @@ static Mindcloud * instance;
     [action executeGET];
 }
 
+-(void) saveCollectionAssetForUser:(NSString *) userId
+                     andCollection:(NSString *) collectionName
+                       withContnet:(id<DiffableSerializableObject>) content
+                       andFileName:(NSString *) fileName
+                       andCallback:(save_collection_asset_callback) callback
+{
+    CollectionAssetAction * action = [[CollectionAssetAction alloc] initWithUserId:userId
+                                                                     andCollection:collectionName andFileName:fileName];
+    action.postCallback = callback;
+    NSData * assetData = [content serializeToData];
+    action.postData = assetData;
+    [action executePOST];
+}
+
+
+-(void) getCollectionAssetForUser:(NSString *) userId
+                    andCollection:(NSString *) collectionName
+                      andFileName:(NSString *) fileName
+                      andCallback:(get_collection_asset_callback) callback
+{
+    
+    CollectionAssetAction * action = [[CollectionAssetAction alloc] initWithUserId:userId
+                                                                     andCollection:collectionName andFileName:fileName];
+    action.getCallback = callback;
+    [action executeGET];
+}
+
+-(void) DeleteCollectionAssetForUser:(NSString *) userId
+                       andCollection:(NSString *) collectionName
+                         andFileName:(NSString *) fileName
+                         andCallback:(delete_collection_asset_callback) callback
+{
+    CollectionAssetAction * action = [[CollectionAssetAction alloc] initWithUserId:userId
+                                                                     andCollection:collectionName andFileName:fileName];
+    action.deleteCallback = callback;
+    [action executeDELETE];
+}
+
 @end

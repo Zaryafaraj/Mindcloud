@@ -44,6 +44,7 @@
 		DB20ADE1181F838D0062EA5B /* BrushSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB20ADE0181F838D0062EA5B /* BrushSelectionView.m */; };
 		DB3174FE16337636001229FE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3174FD16337636001229FE /* SignInViewController.m */; };
 		DB3FD1DF182498C500F6A1B1 /* ScreenDrawing.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD1DE182498C500F6A1B1 /* ScreenDrawing.m */; };
+		DB3FD1E51826EC5900F6A1B1 /* CollectionAssetAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD1E41826EC5900F6A1B1 /* CollectionAssetAction.m */; };
 		DB3FD53016B77FA400024AC6 /* CollectionStackingAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD52F16B77FA400024AC6 /* CollectionStackingAttribute.m */; };
 		DB3FD53416B7A4D900024AC6 /* CollectionNoteAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD53316B7A4D900024AC6 /* CollectionNoteAttribute.m */; };
 		DB42E73616AE58500021D6FA /* NetworkActivityHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB42E73516AE58500021D6FA /* NetworkActivityHelper.m */; };
@@ -214,6 +215,8 @@
 		DB3FD1DC182497F900F6A1B1 /* DiffableSerializableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiffableSerializableObject.h; sourceTree = "<group>"; };
 		DB3FD1DD182498C500F6A1B1 /* ScreenDrawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenDrawing.h; sourceTree = "<group>"; };
 		DB3FD1DE182498C500F6A1B1 /* ScreenDrawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenDrawing.m; sourceTree = "<group>"; };
+		DB3FD1E31826EC5900F6A1B1 /* CollectionAssetAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionAssetAction.h; sourceTree = "<group>"; };
+		DB3FD1E41826EC5900F6A1B1 /* CollectionAssetAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionAssetAction.m; sourceTree = "<group>"; };
 		DB3FD52E16B77FA400024AC6 /* CollectionStackingAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionStackingAttribute.h; sourceTree = "<group>"; };
 		DB3FD52F16B77FA400024AC6 /* CollectionStackingAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionStackingAttribute.m; sourceTree = "<group>"; };
 		DB3FD53216B7A4D900024AC6 /* CollectionNoteAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionNoteAttribute.h; sourceTree = "<group>"; };
@@ -818,6 +821,8 @@
 				DB601A3816E2C2380007A636 /* ListenerAction.m */,
 				DB4D940B16E337DB007FE65A /* TempImageAction.h */,
 				DB4D940C16E337DB007FE65A /* TempImageAction.m */,
+				DB3FD1E31826EC5900F6A1B1 /* CollectionAssetAction.h */,
+				DB3FD1E41826EC5900F6A1B1 /* CollectionAssetAction.m */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -1148,6 +1153,7 @@
 				DBF1CEDD17C94A9C000777F7 /* MindcloudCollectionGordon.m in Sources */,
 				DBB1BB8417FF708A00E43310 /* UIImage+ImageEffects.m in Sources */,
 				D7BF46661547303700F06412 /* AllCollectionsViewController.m in Sources */,
+				DB3FD1E51826EC5900F6A1B1 /* CollectionAssetAction.m in Sources */,
 				DBC4E35B17F14B5100F595FE /* UIViewController+MMDrawerController.m in Sources */,
 				DB20ADE1181F838D0062EA5B /* BrushSelectionView.m in Sources */,
 				D71EA185154CD3FB00496663 /* CollectionViewController.m in Sources */,

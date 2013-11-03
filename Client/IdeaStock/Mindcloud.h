@@ -19,6 +19,8 @@
 #import "SubscriptionAction.h"
 #import "ListenerAction.h"
 #import "TempImageAction.h"
+#import "DiffableSerializableObject.h"
+#import "CollectionAssetAction.h"
 
 @interface Mindcloud : NSObject
 
@@ -143,4 +145,20 @@
              andImageSecret:(NSString *) imgSecret
                  fromBaseUR:(NSString *) baseURL
                withCallback:(get_temp_image_callback) callback;
+
+-(void) saveCollectionAssetForUser:(NSString *) userId
+                     andCollection:(NSString *) collectionName
+                       withContnet:(id<DiffableSerializableObject>) content
+                       andFileName:(NSString *) fileName
+                       andCallback:(save_collection_asset_callback) callback;
+
+-(void) getCollectionAssetForUser:(NSString *) userId
+                    andCollection:(NSString *) collectionName
+                      andFileName:(NSString *) fileName
+                      andCallback:(get_collection_asset_callback) callback;
+
+-(void) DeleteCollectionAssetForUser:(NSString *) userId
+                       andCollection:(NSString *) collectionName
+                         andFileName:(NSString *) fileName
+                         andCallback:(delete_collection_asset_callback) callback;
 @end
