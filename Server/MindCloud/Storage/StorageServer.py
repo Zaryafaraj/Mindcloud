@@ -183,21 +183,47 @@ class StorageServer:
             server will be passed to the callback
         """
 
+        parent_path = '/' + collection_name
+        file_name = StorageServer.__COLLECTION_FILE_NAME
+        StorageServer.set_file(manifest_file, file_name, parent_path, user_id, callback)
+
+    @staticmethod
+    @gen.engine
+    def set_collection_file(user_id, collection_name, file_name, file_obj, callback):
+        """
+        Saves a file into the collection
+
+        Args:
+            - ``user_id``: user id corresponding to the user
+            - ``collection_name``: The name of the collection to save the manifest.
+            We assume that this name has been validate prior to calling
+            - `file_obj`: The file to save
+
+        Returns:
+            -A storageResponse status code that represents the status of the
+            server will be passed to the callback
+        """
+
+        parent_path = '/' + collection_name
+        StorageServer.set_file(file_obj, file_name, parent_path, user_id, callback)
+
+    @staticmethod
+    def set_file(file_obj, file_name, parent_path, user_id, callback):
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
-            file_closure = manifest_file
+            file_closure = file_obj
             if file_closure is not None:
 
-                parent_path = '/' + collection_name
                 result_code = yield gen.Task(DropboxHelper.add_file, storage, parent_path,
-                                             file_closure, file_name=StorageServer.__COLLECTION_FILE_NAME)
+                                             file_closure, file_name=file_name)
                 if result_code != StorageResponse.OK:
                     StorageServer.__log.info(
                         'StorageServer - received error %s for user %s from dropbox' % (str(result_code), user_id))
 
                 callback(result_code)
             else:
-                StorageServer.__log.info('StorageServer - no file specified for manifest for user %s' % user_id)
+                StorageServer.__log.info('StorageServer - no file specified for fileName=%s, user=%s' %
+                                         (file_name, user_id))
                 callback(StorageResponse.SERVER_EXCEPTION)
         else:
             StorageServer.__log.info('StorageServer - Could not retrieve user storage for user %s' % user_id)
@@ -220,9 +246,34 @@ class StorageServer:
             image does not exist or there was a problem retrieving it
         """
         manifest_path = "/%s/%s" % (collection_name, StorageServer.__COLLECTION_FILE_NAME)
+        StorageServer.get_file(manifest_path, user_id, callback)
+
+    @staticmethod
+    @gen.engine
+    def get_collection_file(user_id, collection_name, file_name, callback):
+
+        """
+        Returns the file specified by the file_name in the collection
+
+        Args:
+            - ``user_id``: user id corresponding to the user
+            - ``collection_name``: The name of the collection for which the
+            manifest will be retrieved .
+            - ``file_name``: The name of the actual file
+
+        Returns:
+            - A file or a file like object corresponding with the file or None if
+            file does not exist or there was a problem retrieving it
+        """
+
+        file_path = "/%s/%s" % (collection_name, file_name)
+        StorageServer.get_file(file_path, user_id, callback)
+
+    @staticmethod
+    def get_file(file_path, user_id, callback):
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
-            response = yield gen.Task(DropboxHelper.get_file, storage, manifest_path)
+            response = yield gen.Task(DropboxHelper.get_file, storage, file_path)
 
             if response is None:
                 StorageServer.__log.info('StorageServer - could not retrieve manifest file for user %s' % user_id)
@@ -251,6 +302,35 @@ class StorageServer:
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
             result_code = yield gen.Task(DropboxHelper.delete_folder, storage, collection_name)
+
+            if result_code != StorageResponse.OK:
+                StorageServer.__log.info(
+                    'StorageServer - received error %s for user %s from dropbox' % (str(result_code), user_id))
+            callback(result_code)
+        else:
+            StorageServer.__log.info('StorageServer - Could not retrieve user storage for user %s' % user_id)
+            callback(StorageResponse.SERVER_EXCEPTION)
+
+    @staticmethod
+    @gen.engine
+    def remove_collection_file(user_id, collection_name, file_name, callback):
+        """
+        Removes a file from the collection
+
+        Args:
+            - ``user_id``: user id corresponding to the user
+            - ``collection_name``: The name of the collection to be removed.
+            It is assumed that this name has been validated prior to calling
+            this function
+            - ``file_name``: The name of the file to be removed
+
+        Returns:
+            - A StorageResponse status code that represents the status of the operation
+            """
+        storage = yield gen.Task(StorageServer.__get_storage, user_id)
+        if storage is not None:
+            parent_folder = '/' + collection_name + '/'
+            result_code = yield gen.Task(DropboxHelper.delete_file, storage, parent_folder, file_name)
 
             if result_code != StorageResponse.OK:
                 StorageServer.__log.info(

@@ -116,7 +116,28 @@ class DropboxHelper:
             of the operation will be passed to the callback
         """
 
-        file_path = "/".join([parent_folder,folder_name])
+        file_path = "/".join([parent_folder, folder_name])
+        response = yield gen.Task(db_client.file_delete, file_path)
+        callback(response.code)
+
+    @staticmethod
+    @gen.engine
+    def delete_file(db_client, parent_folder, file_name, callback):
+
+        """
+        Removes a file from the parent folder
+
+        Args:
+            -``db_client``: A dropbox client object created from create_client method
+            -``parent_folder``: Parent folder of the file to be deleted
+            -``file_name``: Name of the file to be deleted
+
+        Returns:
+            - A MindCloud Storage response (HTTP Response) corresponding with the results
+            of the operation will be passed to the callback
+        """
+
+        file_path = parent_folder + "/" + file_name
         response = yield gen.Task(db_client.file_delete, file_path)
         callback(response.code)
 
