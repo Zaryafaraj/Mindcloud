@@ -363,6 +363,14 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
                       forCollection:collectionName];
     
     
+}
+
+#define MAX_FILE_UPLPOAD_RETRY 2
+-(void) uploadCollectionAssetForCollection:(NSString *) collectionName
+                                   andFileName:(NSString *) fileName
+                                    andContent:(id<DiffableSerializableObject>) content
+                               andRetryCounter:(int) retryCounter
+{
     //if there is something in progress just put it in the queue
     //once the item in progress is done it will pick this back up
     //from the queue
@@ -372,31 +380,44 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     }
     else
     {
+        self.collectionFragmentUpdateInProgress = YES;
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
-        NSString * collectionNameClosure = collectionName;
-        [mindcloud saveCollectionAsset:content
-                          withFileName:fileName
-                         forCollection:collectionName andCallback:^(BOOL successful){
-                            if (successful)
-                            {
-                                NSArray * remainingFiles = self.collectionAssetUploadQueue.allKeys;
-                                if ([remainingFiles count] > 0)
-                                {
-                                    NSString * lastFileName = remainingFiles.lastObject;
-                                    id<DiffableSerializableObject> lastContent = self.collectionAssetUploadQueue[lastFileName];
-                                    [mindcloud saveCollectoinAsset:lastContent]
-                                }
-                            }
-                            else
-                            {
-                                
-                            }
-                         }]
-        
+        [mindcloud saveCollectionAssetForUser:userID
+                                andCollection:collectionName
+                                  withContnet:content
+                                  andFileName:fileName
+                                  andCallback:^(BOOL didFinish){
+                                      //If upload failed but we had one more retry chance retry
+                                      if (!didFinish && retryCounter < MAX_FILE_UPLPOAD_RETRY)
+                                      {
+                                          int newRetryCounter = retryCounter + 1;
+                                          NSLog(@"retrying upload collection asset for collection %@ and filename %@", collectionName, fileName);
+                                          [self uploadCollectionAssetForCollection:collectionName
+                                                                           andFileName:fileName
+                                                                            andContent:content
+                                                                       andRetryCounter:newRetryCounter];
+                                      }
+                                      //else pick up a new job
+                                      else
+                                      {
+                                          NSLog(@"uploaded collection asset for collection %@ and filename %@", collectionName, fileName);
+                                          self.collectionAssetUploadInProgress = NO;
+                                          NSArray * remainingUploads = self.collectionAssetUploadQueue.allKeys;
+                                          if (remainingUploads.count > 0)
+                                          {
+                                              NSString * lastFileName = remainingUploads.lastObject;
+                                              id<DiffableSerializableObject> lastContent = self.collectionAssetUploadQueue[lastFileName];
+                                              [self.collectionAssetUploadQueue removeObjectForKey:lastFileName];
+                                              [self uploadCollectionAssetForCollection:collectionName
+                                                                               andFileName:lastFileName
+                                                                                andContent:lastContent andRetryCounter:0];
+                                          }
+                                      }
+                                  }];
     }
-}
 
+}
 -(void) addAssociatedItemWithName: (NSString *) associatedItemName
                andFragmentContent: (NSData *) associatedItem
                          andImage: (NSData *) img
