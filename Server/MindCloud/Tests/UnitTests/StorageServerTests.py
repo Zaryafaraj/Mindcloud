@@ -316,7 +316,7 @@ class StorageServerTests(AsyncTestCase):
         self.wait()
 
     def test_get_collection_manifest(self):
-        collection_name = "dummy"
+        collection_name = "dummy_test_get_collection"
         StorageServer.add_collection(self.__account_id, collection_name,
             callback=self.stop)
         response = self.wait()
@@ -857,3 +857,41 @@ class StorageServerTests(AsyncTestCase):
         response = self.wait()
         self.assertEqual(StorageResponse.NOT_FOUND, response)
 
+    def test_save_collection_file(self):
+        pass
+
+    def  test_save_collection_file_non_existing_collection(self):
+        pass
+
+    def test_save_collection_file_non_existing_user(self):
+        pass
+
+    def test_save_collection_file_invalid_filename(self):
+        pass
+
+    def test_save_collection_file_invalid_file_obj(self):
+        pass
+
+    def test_get_collection_file(self):
+        pass
+
+    def test_get_collection_file_non_existing_collection(self):
+        pass
+
+    def test_get_collection_file_non_existing_file(self):
+        pass
+
+    def test_get_collection_file_invalid_file_name(self):
+        pass
+
+    def test_remove_collection_file(self):
+        pass
+
+    def test_remove_collection_file_non_existing_collection(self):
+        pass
+
+    def test_remove_collection_file_non_existing_file(self):
+        pass
+
+    def test_get_collection_file_deleted_file(self):
+        pass

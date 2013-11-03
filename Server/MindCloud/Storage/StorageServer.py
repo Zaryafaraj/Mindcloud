@@ -208,6 +208,7 @@ class StorageServer:
         StorageServer.set_file(file_obj, file_name, parent_path, user_id, callback)
 
     @staticmethod
+    @gen.engine
     def set_file(file_obj, file_name, parent_path, user_id, callback):
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
@@ -270,6 +271,7 @@ class StorageServer:
         StorageServer.get_file(file_path, user_id, callback)
 
     @staticmethod
+    @gen.engine
     def get_file(file_path, user_id, callback):
         storage = yield gen.Task(StorageServer.__get_storage, user_id)
         if storage is not None:
@@ -461,12 +463,12 @@ class StorageServer:
         if storage is not None:
             response = yield gen.Task(DropboxHelper.get_file, storage, categories_path)
             if response is None:
-                callback(None, StorageResponse.NOT_FOUND)
+                callback(response=None, response_code=StorageResponse.NOT_FOUND)
                 #If file is not found create it
-            callback(response, StorageResponse.OK)
+            callback(response=response, response_code=StorageResponse.OK)
         else:
             StorageServer.__log.info('StorageServer - Could not retrieve user storage for user %s' % user_id)
-            callback(None, StorageResponse.SERVER_EXCEPTION)
+            callback(response=None, response_code=StorageResponse.SERVER_EXCEPTION)
 
     @staticmethod
     @gen.engine
