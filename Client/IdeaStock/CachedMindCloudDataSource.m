@@ -88,7 +88,7 @@
     self.sharedCollections = [NSMutableDictionary dictionary];
     self.collectionAssetUploadQueue = [NSMutableDictionary dictionary];
     self.isCategoriesUpdated = NO;
-    self.collectionAssetUploadInProgress = YES;
+    self.collectionAssetUploadInProgress = NO;
     self.isInProgressOfGettingThumbnail = [NSMutableDictionary dictionary];
     return self;
 }
@@ -361,6 +361,11 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     [self saveToDiskCollectionAsset: content
                        withFileName:fileName
                       forCollection:collectionName];
+    
+    [self uploadCollectionAssetForCollection:collectionName
+                                 andFileName:fileName
+                                  andContent:content
+                             andRetryCounter:0];
     
     
 }
