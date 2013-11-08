@@ -19,21 +19,28 @@ class CategoriesHandler(tornado.web.RequestHandler):
     @gen.engine
     def get(self, user_id):
 
-        self.__log.info('%s - GET: Get categories for user %s' % (str(self.__class__), user_id))
+        self.__log.info('CategoriesHandler - GET: Get categories for user %s' % user_id)
 
         responses = yield gen.Task(StorageServer.get_categories, user_id)
         # investigate this weirdness in tornado
-        response = responses[0]
+        response = responses[1]
         if len(response) == 2:
-            response_file = response[0]
-            response_code = response[1]
-            if response_code == StorageResponse.OK:
-                self.write(response_file.read())
-                self.set_header('Content-Type', 'text/xml')
-            self.set_status(response_code)
-            self.finish()
+            if 'response' in response and 'response_code' in response:
+                response_file = response['response']
+                response_code = response['response_code']
+                if response_code == StorageResponse.OK:
+                    self.write(response_file.read())
+                    self.set_header('Content-Type', 'text/xml')
+                self.set_status(response_code)
+                self.finish()
+            else:
+                self.set_status(500)
+                self.__log.info('CategoriesHandler - GET: failed to get categories for user %s' % user_id)
+                self.finish()
+
         else:
             self.set_status(500)
+            self.__log.info('CategoriesHandler - GET: failed to get categories for user %s' % user_id)
             self.finish()
 
     @tornado.web.asynchronous
