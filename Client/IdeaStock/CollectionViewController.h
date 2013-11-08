@@ -19,6 +19,7 @@
 UIScrollViewDelegate,
 StackViewDelegate,
 NoteViewDelegate,
+MindcloudCollectionDelegate,
 CollectionBoardDelegate,
 PaintbrushDelegate,
 UIImagePickerControllerDelegate,

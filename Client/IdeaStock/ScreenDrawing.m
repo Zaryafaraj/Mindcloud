@@ -88,7 +88,16 @@
 -(NSString *) debugDescription
 {
     NSString * result = [self description];
-    return [NSString stringWithFormat:@"%@ \n === %@", result, self.gridTraces];
+    NSString * viewsWithContent = @"Views With Content: \n";
+    for(NSNumber * index in self.gridTraces)
+    {
+        NSDictionary * tracesInTheGrid = self.gridTraces[index];
+        if (tracesInTheGrid.count > 0)
+        {
+            viewsWithContent = [NSString stringWithFormat:@"%@ == %@", viewsWithContent, tracesInTheGrid];
+        }
+    }
+    return [NSString stringWithFormat:@"%@ \n === %@", result, viewsWithContent];
 }
 
 
@@ -110,4 +119,16 @@
     return self.gridTraces.allKeys;
 }
 
+-(BOOL) hasAnyThingToSave
+{
+    for(NSNumber * index in self.gridTraces)
+    {
+        NSDictionary * tracesInTheGrid = self.gridTraces[index];
+        if (tracesInTheGrid.count > 0)
+        {
+            return YES;
+        }
+    }
+    return NO;
+}
 @end

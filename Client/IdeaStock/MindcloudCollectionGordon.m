@@ -1078,13 +1078,20 @@ CachedObject> dataSource;
     [self synchronize:self.timer];
 }
 
+-(void) promiseSynchronization
+{
+    self.needSynchronization = YES;
+}
+
 -(void) synchronize:(NSTimer *) timer{
     
     //only save the manifest file in case its in synch with the server
     if (self.needSynchronization && self.isInSynchWithServer){
         self.needSynchronization = NO;
         NSData * fragmentContent = [self.collectionFragment data];
+        
         [self.dataSource updateCollectionWithName:self.collectionName andFragmentContent:fragmentContent];
+        [self.delegate collectionDidSaveContent];
     }
 }
 

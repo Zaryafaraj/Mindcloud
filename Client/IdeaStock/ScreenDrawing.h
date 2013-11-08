@@ -29,4 +29,6 @@
  */
 -(NSArray *) getAvailableGridIndices;
 
+-(BOOL) hasAnyThingToSave;
+
 @end

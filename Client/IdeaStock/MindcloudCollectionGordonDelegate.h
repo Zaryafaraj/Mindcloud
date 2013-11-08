@@ -43,4 +43,6 @@
 -(void) associationWithId:(NSString *) subCollectionId
     downloadedImageWithPath:(NSString *) imagePath;
 
+-(void) collectionDidSaveContent;
+
 @end

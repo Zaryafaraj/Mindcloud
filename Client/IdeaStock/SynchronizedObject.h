@@ -20,4 +20,6 @@
 
 -(void) stopSynchronization;
 
+-(void) promiseSynchronization;
+
 @end

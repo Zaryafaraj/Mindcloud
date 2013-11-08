@@ -12,10 +12,17 @@
 #import "ThumbnailManagerProtocol.h"
 #import "MindcloudCollectionGordonDelegate.h"
 
+@protocol MindcloudCollectionDelegate<NSObject>
+
+-(void) collectionDidSave;
+
+@end
 
 @interface MindcloudCollection : NSObject <BulletinBoardProtocol,
 ThumbnailManagerProtocol,
 MindcloudCollectionGordonDelegate>
+
+@property (nonatomic, weak) id<MindcloudCollectionDelegate> delegate;
 
 /*
  Reads and fills up a bulletin board from the external structure of the datamodel
@@ -25,5 +32,5 @@ MindcloudCollectionGordonDelegate>
 - (void) save;
 //temporarily until we implement background synch
 - (void) pause;
-
+- (void) promiseSaving;
 @end

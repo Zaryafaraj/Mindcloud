@@ -923,4 +923,14 @@
     [self.gordonDataSource synchronize];
 }
 
+-(void) collectionDidSaveContent
+{
+    [self.delegate collectionDidSave];
+}
+
+- (void) promiseSaving
+{
+    [self.gordonDataSource promiseSynchronization];
+}
+
 @end

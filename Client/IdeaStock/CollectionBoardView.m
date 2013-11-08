@@ -198,7 +198,7 @@
         id<CollectionBoardDelegate> temp =  self.delegate;
         if (temp)
         {
-            [temp doubleTapDetectedAtLocation:[touch locationInView:self]];
+            //[temp doubleTapDetectedAtLocation:[touch locationInView:self]];
         }
         [self undo];
         return;

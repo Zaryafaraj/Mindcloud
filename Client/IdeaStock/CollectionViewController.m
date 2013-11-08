@@ -68,6 +68,11 @@
 @property (strong, nonatomic) UIDynamicAnimator * animator;
 
 @property (weak, nonatomic) IBOutlet UIToolbar *utilityBar;
+
+@property (nonatomic) BOOL drawingsAreUnsaved;
+
+@property (nonatomic, strong) NSTimer * drawingSynchTimer;
+
 @end
 
 #pragma mark - Definitions
@@ -95,6 +100,7 @@
     
     if (!_board){
         _board = [[MindcloudCollection alloc] initCollection:self.bulletinBoardName];
+        _board.delegate = self;
     }
     return _board;
 }
@@ -1042,7 +1048,9 @@
 -(void) viewDidLoad
 {
     [super viewDidLoad];
+    self.board.delegate = self;
     self.collectionView.delegate = self;
+    self.drawingsAreUnsaved = NO;
     [self removePrototypesFromView];
     [self configureScrollView];
     self.shouldRefresh = YES;
@@ -2065,6 +2073,18 @@ intoStackingWithMainView: (UIView *) mainView
     [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
+#pragma mark - MindcloudCollectionDelegate
+-(void) collectionDidSave
+{
+    if (self.drawingsAreUnsaved)
+    {
+        ScreenDrawing * allDrawings = [self.collectionView getAllScreenDrawings];
+        NSLog(@"CollectionViewController - Saving All Drawings %@ ", [allDrawings debugDescription]);
+        [self.board saveAllDrawings:allDrawings];
+        self.drawingsAreUnsaved = NO;
+    }
+}
+
 #pragma mark - note delegate
 - (void) note: (id)note changedTextTo: (NSString *) text{
     
@@ -2226,15 +2246,39 @@ intoStackingWithMainView: (UIView *) mainView
     {
         gr.enabled = YES;
     }
-    ScreenDrawing * allDrawings = [self.collectionView getAllScreenDrawings];
-    ScreenDrawing * diffDrawings = [self.collectionView getNewScreenDrawingsWithRebasing:YES];
-    [self.collectionView resetTouchRecorder];
+    
+    //we don't want to save the drawing diffs as soon as drawing is finished.
+    //sometimes drawing is unintentional and we need some post processing to
+    //transform drawing to some semantics or undo it (like when user wanted to
+    //double tap). For this reason we schedule a timer and after that we get
+    //the drawings. By the time the timer fires we have done all the post processing.
+    //so the drawings we will save will be actual drawings and not semantics
+    //or unwanted artifacts
+    self.drawingSynchTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
+                                                              target:self
+                                                            selector:@selector(synchDrawings:)
+                                                            userInfo:nil
+                                                             repeats:YES];
     
 //    NSLog(@"DIFFS : \n %@ \n ==== ", diffDrawings);
 //    NSLog(@"ALL : \n %@ \n ==== ", allDrawings);
-    [self.board saveAllDrawings:allDrawings];
 //    [self.board communicateDrawingDiffs:diffDrawings];
     
+}
+
+-(void) synchDrawings:(NSTimer *) timer
+{
+    [self.drawingSynchTimer invalidate];
+    self.drawingSynchTimer = nil;
+    ScreenDrawing * diffDrawings = [self.collectionView getNewScreenDrawingsWithRebasing:YES];
+    if ([diffDrawings hasAnyThingToSave])
+    {
+        self.drawingsAreUnsaved = YES;
+        NSLog(@"CollectionViewController- Saving Diffs: %@ ", [diffDrawings debugDescription]);
+        [self.collectionView resetTouchRecorder];
+        [self.board promiseSaving];
+        
+    }
 }
 
 -(void) willBeginDrawingOnScreen
