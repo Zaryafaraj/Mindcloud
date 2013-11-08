@@ -14,7 +14,7 @@ class SubscriptionHandler(tornado.web.RequestHandler):
 
     @tornado.web.asynchronous
     @gen.engine
-    def delete(self,user_id, collection_name):
+    def delete(self, user_id, collection_name):
 
         self.__log.info('%s - DELETE: User %s unsubscribes from sharing space of collection %s' % (str(self.__class__), user_id, collection_name))
 

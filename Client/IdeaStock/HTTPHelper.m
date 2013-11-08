@@ -21,7 +21,7 @@
     [request addValue:contentType forHTTPHeaderField:@"content-type"];
     NSMutableData * postBody = [NSMutableData data];
     [postBody appendData:[[NSString stringWithFormat:@"--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    [postBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", fileName, fileName] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", fileName] dataUsingEncoding:NSUTF8StringEncoding]];
     [postBody appendData:[@"Content-Type: application/xml\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
     
     [postBody appendData:[NSData dataWithData:data]];

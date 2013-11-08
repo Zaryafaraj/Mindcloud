@@ -44,7 +44,7 @@ class CollectionImageHandler(tornado.web.RequestHandler):
         collection_name = urllib2.unquote(collection_name)
         #if there is an actual file
         if len(self.request.files) > 0:
-            file_name, sent_file = self.request.files.popitem()
+            sent_file = self.request.files.popitem()[1][0]
             #result_code = yield gen.Task(StorageServer.add_thumbnail, user_id, collection_name, file)
             #self.set_status(result_code)
             #self.finish()

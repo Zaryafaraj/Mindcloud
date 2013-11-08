@@ -58,7 +58,7 @@ class CollectionFileHandler(tornado.web.RequestHandler):
             file_name = urllib2.unquote(file_name)
 
             if len(self.request.files) > 0:
-                collection_file = self.request.files[file_name][0]
+                collection_file = self.request.files.popitem()[1][0]
                 #add talking with joker here based on CollectionHandler
                 result_code = yield gen.Task(StorageServer.set_collection_file, user_id, collection_name, file_name,
                                              collection_file)

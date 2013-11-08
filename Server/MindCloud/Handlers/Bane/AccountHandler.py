@@ -39,7 +39,7 @@ class AccountHandler(tornado.web.RequestHandler):
         #if we have a file
         sent_file = None
         if len(self.request.files) > 0:
-            filename, sent_file = self.request.files.popitem()
+            sent_file = self.request.files.popitem()[1][0]
         collection_name = self.get_argument('collectionName')
         result_code = yield gen.Task(StorageServer.add_collection, user_id=user_id, collection_name=collection_name, file=sent_file)
         self.set_status(result_code)

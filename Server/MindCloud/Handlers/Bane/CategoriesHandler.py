@@ -42,7 +42,7 @@ class CategoriesHandler(tornado.web.RequestHandler):
 
         if len(self.request.files) > 0:
 
-            file_name, categories_file = self.request.files.popitem()
+            categories_file = self.request.files.popitem()[1][0]
             result_code = yield gen.Task(StorageServer.save_categories, user_id, categories_file)
             self.set_status(result_code)
             self.finish()

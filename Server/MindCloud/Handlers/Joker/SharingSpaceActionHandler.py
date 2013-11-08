@@ -21,7 +21,7 @@ class SharingSpaceActionHandler(tornado.web.RequestHandler):
         action_json = self.get_argument('action')
         sent_file = None
         if len(self.request.files) > 0:
-            filename, sent_file = self.request.files.popitem()
+            sent_file = self.request.files.popitem()[1][0]
         sharing_action = \
             SharingActionFactory.from_json_and_file(action_json, sent_file)
         if sharing_action is None:
