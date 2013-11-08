@@ -44,7 +44,7 @@ class NoteImageHandler(tornado.web.RequestHandler):
         if len(self.request.files) < 1:
             self.set_status(StorageResponse.BAD_REQUEST)
         else:
-            note_img = self.request.files['file'][0]
+            file_name, note_img = self.request.files.popitem()
 
             sharing_secret = yield gen.Task(SharingController.get_sharing_secret_from_subscriber_info,
                 user_id, collection_name)

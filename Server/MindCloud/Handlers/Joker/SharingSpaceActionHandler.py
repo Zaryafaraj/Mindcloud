@@ -19,11 +19,11 @@ class SharingSpaceActionHandler(tornado.web.RequestHandler):
         self.__log.info('SharingSpaceActionHandler - Received action for sharing space %s' % sharing_secret)
 
         action_json = self.get_argument('action')
-        file = None
+        sent_file = None
         if len(self.request.files) > 0:
-            file = self.request.files['file'][0]
+            filename, sent_file = self.request.files.popitem()
         sharing_action = \
-            SharingActionFactory.from_json_and_file(action_json, file)
+            SharingActionFactory.from_json_and_file(action_json, sent_file)
         if sharing_action is None:
             self.set_status(400)
             self.finish()

@@ -74,7 +74,7 @@ class CollectionHandler(tornado.web.RequestHandler):
 
         collection_name = urllib2.unquote(collection_name)
         if len(self.request.files) > 0:
-            collection_file = self.request.files['file'][0]
+            file_name, collection_file = self.request.files.popitem()
 
             sharing_secret = yield gen.Task(SharingController.get_sharing_secret_from_subscriber_info,
                 user_id, collection_name)

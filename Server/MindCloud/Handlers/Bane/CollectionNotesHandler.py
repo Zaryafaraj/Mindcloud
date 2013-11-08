@@ -44,7 +44,7 @@ class CollectionNotesHandler(tornado.web.RequestHandler):
         note_name = self.get_argument('noteName')
         #if there is an actual file
         if len(self.request.files) > 0:
-            note_file = self.request.files['file'][0]
+            file_name, note_file = self.request.files.popitem()
 
 
         sharing_secret = yield gen.Task(SharingController.get_sharing_secret_from_subscriber_info,

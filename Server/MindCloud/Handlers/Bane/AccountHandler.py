@@ -37,11 +37,11 @@ class AccountHandler(tornado.web.RequestHandler):
         self.__log.info('Bane-AccountHandler - POST:  adding collection for user %s' % user_id)
 
         #if we have a file
-        file = None
-        if len(self.request.files) > 0 :
-            file = self.request.files['file'][0]
+        sent_file = None
+        if len(self.request.files) > 0:
+            filename, sent_file = self.request.files.popitem()
         collection_name = self.get_argument('collectionName')
-        result_code = yield gen.Task(StorageServer.add_collection, user_id=user_id, collection_name=collection_name, file=file)
+        result_code = yield gen.Task(StorageServer.add_collection, user_id=user_id, collection_name=collection_name, file=sent_file)
         self.set_status(result_code)
         self.finish()
 

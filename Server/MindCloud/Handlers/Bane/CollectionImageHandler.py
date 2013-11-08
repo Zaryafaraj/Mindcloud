@@ -44,7 +44,7 @@ class CollectionImageHandler(tornado.web.RequestHandler):
         collection_name = urllib2.unquote(collection_name)
         #if there is an actual file
         if len(self.request.files) > 0:
-            file = self.request.files['file'][0]
+            file_name, sent_file = self.request.files.popitem()
             #result_code = yield gen.Task(StorageServer.add_thumbnail, user_id, collection_name, file)
             #self.set_status(result_code)
             #self.finish()
@@ -53,7 +53,7 @@ class CollectionImageHandler(tornado.web.RequestHandler):
                 user_id, collection_name)
             if sharing_secret is None:
                 #its not shared
-                result_code = yield gen.Task(StorageServer.add_thumbnail, user_id, collection_name, file)
+                result_code = yield gen.Task(StorageServer.add_thumbnail, user_id, collection_name, sent_file)
                 self.set_status(result_code)
             else:
                 #its shared
@@ -63,11 +63,11 @@ class CollectionImageHandler(tornado.web.RequestHandler):
                 if sharing_server is None:
                     #sharing server could not be found just update it locally
                     self.__log.info('Collection Thumbnail Handler - POST: sharing server not found for %s; performing updates locally' % sharing_secret)
-                    result_code = yield gen.Task(StorageServer.add_thumbnail, user_id, collection_name, file)
+                    result_code = yield gen.Task(StorageServer.add_thumbnail, user_id, collection_name, sent_file)
                     self.set_status(result_code)
                 else:
                     result_code = yield gen.Task(joker_helper.update_thumbnail, sharing_server,
-                        sharing_secret, user_id, collection_name, file)
+                        sharing_secret, user_id, collection_name, sent_file)
                     self.set_status(result_code)
             self.finish()
         else:
