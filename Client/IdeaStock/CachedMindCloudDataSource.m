@@ -821,8 +821,6 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
 
 -(void) createCollectionToDisk:(NSString *) collectionName
 {
-//    NSString * path = [[FileSystemHelper getPathForCollectionWithName:collectionName] stringByDeletingLastPathComponent];
-//    [FileSystemHelper createMissingDirectoryForPath:path];
     NSData * emptyCollectionFile = [[[[XoomlFragment alloc] initAsEmpty] toXmlString] dataUsingEncoding:NSUTF8StringEncoding];
     [self saveToDiskCollectionData:emptyCollectionFile
                      ForCollection:collectionName];

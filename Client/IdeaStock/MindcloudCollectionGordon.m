@@ -1033,6 +1033,7 @@ CachedObject> dataSource;
 -(void) cacheIsSynched:(NSNotification *) notification
 {
     self.isInSynchWithServer = YES;
+    [self startTimer];
 }
 
 #pragma mark - timers
