@@ -672,7 +672,8 @@ CachedObject> dataSource;
     NSData * collectionData = [self.dataSource getCollectionFromCache:self.collectionName];
     if (!collectionData)
     {
-        NSLog(@"MindcloudCollectionGordon -Collection Data is nil. Data must have not been downloaded properly");
+        NSLog(@"MindcloudCollectionGordon -Collection Data is nil. Data must have not been downloaded properly; Synching client side changes");
+        [self cacheIsSynched:notification];
         return;
     }
     

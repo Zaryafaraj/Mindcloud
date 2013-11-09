@@ -10,7 +10,8 @@
 
 @interface CollectionAction : MindcloudBaseAction
 
-typedef void (^get_collection_callback)(NSData * collectionData);
+typedef void (^get_collection_callback)(NSData * collectionData, BOOL shouldSynchClient);
+
 typedef void (^update_collection_callback)(void);
 typedef void (^delete_collection_callback)(void);
 typedef void (^rename_collection_callback)(void);

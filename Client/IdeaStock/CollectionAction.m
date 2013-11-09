@@ -51,11 +51,18 @@
         if (self.lastStatusCode != 200 && self.lastStatusCode != 304)
         {
             NSLog(@"Received status %d", self.lastStatusCode);
-            self.getCallback(nil);
+            if (self.lastStatusCode == 404)
+            {
+                self.getCallback(nil, YES);
+            }
+            else
+            {
+                self.getCallback(nil, NO);
+            }
             return;
         }
         
-        self.getCallback(self.receivedData);
+        self.getCallback(self.receivedData, NO);
     }
     
     if ([self.request.HTTPMethod isEqualToString:@"DELETE"])

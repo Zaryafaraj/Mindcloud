@@ -595,7 +595,7 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     [NetworkActivityHelper addActivityInProgress];
     [mindcloud getCollectionManifestForUser:userID
                               forCollection:collectionName
-                               withCallback:^(NSData * collectionData){
+                               withCallback:^(NSData * collectionData, BOOL shouldSynchClient){
                                    if (collectionData)
                                    {
                                        
@@ -607,6 +607,11 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
                                    else
                                    {
                                        [NetworkActivityHelper removeActivityInProgress];
+                                       if (shouldSynchClient)
+                                       {
+                                           //get the rest of the associatedItems
+                                           [self getAllAssociatedItems:collectionName];
+                                       }
                                    }
                                }];
 }
