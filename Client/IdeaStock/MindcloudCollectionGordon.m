@@ -151,7 +151,7 @@ CachedObject> dataSource;
     
     //In any case listen for the download to get finished
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(dummy:)
+                                             selector:@selector(collectionDownloaded:)
                                                  name:COLLECTION_DOWNLOADED_EVENT
                                                object:nil];
     
@@ -187,14 +187,6 @@ CachedObject> dataSource;
                                                  name:LISTENER_DOWNLOADED_FRAGMENT
                                                object:nil];
 }
-
-
--(void) dummy:(NSNotification *) not
-{
-    NSLog(@"D");
-}
-
-
 
 /*===============================================*/
 #pragma mark - Association
