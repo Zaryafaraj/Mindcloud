@@ -103,6 +103,25 @@
     return self;
 }
 
+-(void) setBulletinBoardName:(NSString *)bulletinBoardName
+{
+    NSString * oldName = _bulletinBoardName;
+    
+    //TODO this is a bad way of doing this. We should not save the collection
+    //nbame in the path. and create the path dynamically
+    for(NSString * noteId in self.imagePathsForNotes)
+    {
+        NSString * imagePath = self.imagePathsForNotes[noteId];
+        NSString * oldPath = [NSString stringWithFormat:@"/%@/", oldName];
+        NSString * newPath = [NSString stringWithFormat:@"/%@/", bulletinBoardName];
+        imagePath = [imagePath stringByReplacingOccurrencesOfString:oldPath
+                                                         withString:newPath];
+        self.imagePathsForNotes[noteId] = imagePath;
+    }
+    _bulletinBoardName = bulletinBoardName;
+    self.gordonDataSource.collectionName = bulletinBoardName;
+}
+
 #pragma mark - Notifications
 
 //for a new note to appear on the screen, different pieces of an update must arrive.
@@ -729,7 +748,8 @@
     NSString * thumbnailNoteId = [self.thumbnailStack lastObject];
     NSString * thumbnailPath = self.imagePathsForNotes[thumbnailNoteId];
     if (thumbnailPath == nil) return nil;
-    NSData * thumbnailData = [ self getImageDataForPath:thumbnailPath];
+    //make sure if we have renamed
+    NSData * thumbnailData = [self getImageDataForPath:thumbnailPath];
     return thumbnailData;
 }
 

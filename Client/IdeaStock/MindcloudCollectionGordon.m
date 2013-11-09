@@ -75,7 +75,6 @@ CachedObject> dataSource;
 @property BOOL hasStartedListening;
 @property BOOL isInSynchWithServer;
 
-@property (nonatomic,strong) NSString * collectionName;
 
 //delegate should be weak
 @property (nonatomic, weak) id<MindcloudCollectionGordonDelegate> delegate;
@@ -152,7 +151,7 @@ CachedObject> dataSource;
     
     //In any case listen for the download to get finished
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(collectionDownloaded:)
+                                             selector:@selector(dummy:)
                                                  name:COLLECTION_DOWNLOADED_EVENT
                                                object:nil];
     
@@ -190,6 +189,10 @@ CachedObject> dataSource;
 }
 
 
+-(void) dummy:(NSNotification *) not
+{
+    NSLog(@"D");
+}
 
 
 

@@ -105,6 +105,10 @@
     return _board;
 }
 
+-(void) setBulletinBoardName:(NSString *)bulletinBoardName
+{
+    _bulletinBoardName = bulletinBoardName;
+}
 
 #pragma mark - Notifications
 
@@ -2193,7 +2197,6 @@ intoStackingWithMainView: (UIView *) mainView
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     //first save the thumbnail before we rename the collection
-    [self saveThumbnail];
     if ([[alertView buttonTitleAtIndex:buttonIndex]
               isEqualToString:SAVE_BUTTON_TITLE])
     {
@@ -2204,7 +2207,10 @@ intoStackingWithMainView: (UIView *) mainView
             
             [self.parent renamedCollectionWithName:self.bulletinBoardName
                                toNewCollectionName:newName];
+            self.bulletinBoardName = newName;
+            self.board.bulletinBoardName = newName;
         }
+        [self saveThumbnail];
         
     }
     

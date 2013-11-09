@@ -15,6 +15,8 @@
 
 @interface MindcloudCollectionGordon : NSObject <SynchronizedObject>
 
+@property (nonatomic,strong) NSString * collectionName;
+
 -(id) initWithCollectionName: (NSString *) collectionName
                  andDelegate:(id<MindcloudCollectionGordonDelegate>) delegate;
 
