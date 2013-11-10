@@ -371,6 +371,15 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     
 }
 
+-(NSData *) getCollectionAssetWithFilename:(NSString *)filename
+                                                   forCollection:(NSString *)collectionName
+{
+   NSString * path = [FileSystemHelper getPathForCollectionAssetWithName:filename
+                                                   forCollectionWithName:collectionName];
+    NSData * fileContent = [NSData dataWithContentsOfFile:path];
+    return fileContent;
+}
+
 #define MAX_FILE_UPLPOAD_RETRY 2
 -(void) uploadCollectionAssetForCollection:(NSString *) collectionName
                                    andFileName:(NSString *) fileName

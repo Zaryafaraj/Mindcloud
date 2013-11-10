@@ -55,4 +55,18 @@
     [aCoder encodeFloat:self.lineWidth forKey:@"lineWidth"];
 }
 
+-(id) initWithCoder:(NSCoder *) aCoder
+{
+    self = [super init];
+    if (self)
+    {
+        self.path = [aCoder decodeObjectForKey:@"path"];
+        self.color = [aCoder decodeObjectForKey:@"color"];
+        self.drawingType = [aCoder decodeIntegerForKey:@"drawingType"];
+        self.drawingId = [aCoder decodeObjectForKey:@"drawingId"];
+        self.lineWidth = [aCoder decodeFloatForKey:@"lineWidth"];
+    }
+    return self;
+}
+
 @end

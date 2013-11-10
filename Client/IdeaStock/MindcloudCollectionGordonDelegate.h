@@ -12,6 +12,7 @@
 #import "CollectionRecorder.h"
 #import "NotificationContainer.h"
 #import "XoomlFragment.h"
+#import "DiffableSerializableObject.h"
 
 @protocol MindcloudCollectionGordonDelegate <NSObject>
 
@@ -44,5 +45,8 @@
     downloadedImageWithPath:(NSString *) imagePath;
 
 -(void) collectionDidSaveContent;
+
+-(void) collectionDidDownloadCollectionAsset:(NSData *) asset
+                                 forFileName:(NSString *) fileName andAttributeName:(NSString *) attributeName;
 
 @end

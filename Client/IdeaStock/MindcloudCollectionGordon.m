@@ -361,6 +361,8 @@ CachedObject> dataSource;
     fileElement.ID = fixedId;
     [fileElement addAttributeWithName:EXTERNAL_FILENAME
                              andValue:filename];
+    [fileElement addAttributeWithName:ATTRIBUTE_TYPE
+                             andValue:ATTRIBUTE_TYPE_FILE_REF];
     
     [self setCollectionFragmentNamespaceSubElementWithNewElement:fileElement];
     [self.dataSource saveCollectionAsset:content
@@ -515,10 +517,10 @@ CachedObject> dataSource;
     NSString * manifestXML = [[NSString alloc] initWithData:collectionData encoding:NSUTF8StringEncoding];
     self.collectionFragment = [[XoomlFragment alloc] initWithXMLString:manifestXML];
     
+    [self getCollectionAssets:self.collectionFragment];
     [self notifyDelegateOfCollectionThumbnail:self.collectionFragment];
     [self notifyDelegateOfAssociations:self.collectionFragment];
     [self notifyDelegateOfCollectionAttributes:self.collectionFragment];
-    
 }
 
 -(void) notifyDelegateOfAssociations:(id <XoomlProtocol>) manifest
@@ -620,6 +622,44 @@ CachedObject> dataSource;
             id<MindcloudCollectionGordonDelegate> tempDelegate = self.delegate;
             [tempDelegate collectionHasNamespaceElementWithName:elementType
                                                      andContent:namespaceElement];
+        }
+    }
+}
+
+-(void) getAllCollectionAssetsAsynch
+{
+    [self getCollectionAssets:self.collectionFragment];
+}
+
+-(void) getCollectionAssets:(id<XoomlProtocol>) manifest
+{
+    
+    NSArray * allFragmentNamespaceElements = [manifest getAllFragmentNamespaceSubElementsForNamespace:MINDCLOUD_XMLNS];
+    for (XoomlNamespaceElement * namespaceElement in allFragmentNamespaceElements)
+    {
+        NSString * attributeType = [namespaceElement getAttributeWithName:ATTRIBUTE_TYPE];
+        if (attributeType)
+        {
+            if ([attributeType isEqualToString:ATTRIBUTE_TYPE_FILE_REF])
+            {
+                NSString * filename = [namespaceElement getAttributeWithName:EXTERNAL_FILENAME];
+                NSString * attributeName = namespaceElement.name;
+                NSData * assetData = [self.dataSource getCollectionAssetWithFilename:filename
+                                                            
+                                                                                             forCollection:self.collectionName];
+                //if there is a cached item use that. If not ignore. the call to getCollectionAsset will download and send out a notification
+                //once the item is download
+                if (assetData)
+                {
+                    
+                    id<MindcloudCollectionGordonDelegate> tempDelegate = self.delegate;
+                    if (tempDelegate)
+                    {
+                        [tempDelegate collectionDidDownloadCollectionAsset:assetData
+                                                               forFileName:filename andAttributeName:attributeName];
+                    }
+                }
+            }
         }
     }
 }

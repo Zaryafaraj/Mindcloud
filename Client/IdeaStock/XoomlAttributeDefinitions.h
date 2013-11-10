@@ -44,5 +44,7 @@
 #define GORDON_DRIVER @"Gordon"
 #define ASSOCIATON_NAMESPACE_DATA_NAME @"fragmentNamespaceData"
 #define EXTERNAL_FILENAME @"filename"
+#define ATTRIBUTE_TYPE_FILE_REF @"fileRef"
+#define ATTRIBUTE_TYPE @"type"
 
 @end

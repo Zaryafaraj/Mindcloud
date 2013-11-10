@@ -839,6 +839,26 @@
     }
 }
 
+-(void) getAllCollectionAssetsAsync
+{
+    [self.gordonDataSource getAllCollectionAssetsAsynch];
+}
+
+-(void) collectionDidDownloadCollectionAsset:(NSData *)asset
+                                 forFileName:(NSString *)fileName
+                            andAttributeName:(NSString *)attributeName
+{
+   if ([attributeName isEqualToString:MINDCLOUD_DRAWING_ATTRIBUTE])
+   {
+       ScreenDrawing * screenDrawing = [ScreenDrawing deserializeFromData:asset];
+       NSLog(@"MindcloudCollection-Drawing downloaded");
+       NSDictionary * userInfo =  @{@"result" :  screenDrawing};
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:DRAWING_DOWNLOADED_EVENT
+                                                        object:self
+                                                      userInfo:userInfo];
+   }
+}
 
 //when anything happens to a collection you will get these info
 -(void) eventsOccurredWithNotifications: (NotificationContainer *) notifications

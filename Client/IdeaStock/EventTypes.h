@@ -53,4 +53,8 @@
 
 //Synch events
 #define CACHE_IS_IN_SYNCH_WITH_SERVER @"cacheIsInSynch"
+
+
+//File Managed ment
+#define DRAWING_DOWNLOADED_EVENT @"drawingDownloaded"
 @end

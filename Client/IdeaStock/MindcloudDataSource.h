@@ -135,4 +135,6 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
                withFileName:(NSString *) fileName
               forCollection:(NSString *) collectionName;
 
+-(NSData *) getCollectionAssetWithFilename:(NSString *) filename
+                             forCollection:(NSString *) collectionName;
 @end

@@ -82,6 +82,10 @@
 
 -(void) saveAllDrawings:(ScreenDrawing *) allDrawings;
 
+//downloads and gets the collection assets.
+//there will be anotification sent out when each file is available
+//the notification will contain the type of the asset too
+-(void) getAllCollectionAssetsAsync;
 +(void) saveBulletinBoard: (id) bulletinBoard;
 
 

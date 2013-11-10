@@ -101,6 +101,9 @@
 -(void) associatedItemIsWaitingForImageForAssociationWithId:(NSString *) subCollectionId
                                          andAssociationName:(NSString *) subCollectionName;
 
+/*! will send out a notification once each asset is ready */
+-(void) getAllCollectionAssetsAsynch;
+
 /*! Call this before you finish working with Gordon
  */
 -(void) cleanup;

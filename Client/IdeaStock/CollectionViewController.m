@@ -194,6 +194,7 @@
                                              selector:@selector(stackDeletedEventOccured:)
                                                  name:STACK_DELETED_EVENT
                                                object:self.board];
+    
 }
 
 -(void) noteAddedEventOccured:(NSNotification *) notification
@@ -965,6 +966,7 @@
     UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed:)];
     self.navigationItem.leftBarButtonItem = doneButton;
     [titleView sizeToFit];
+    [self.board getAllCollectionAssetsAsync];
 }
 
 -(void) donePressed:(id) sender
@@ -1103,6 +1105,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(drawingDownloaded:)
+                                                 name:DRAWING_DOWNLOADED_EVENT
+                                               object:self.board];
 }
 
 -(void) viewDidAppear:(BOOL)animated
@@ -2086,6 +2093,17 @@ intoStackingWithMainView: (UIView *) mainView
         NSLog(@"CollectionViewController - Saving All Drawings %@ ", [allDrawings debugDescription]);
         [self.board saveAllDrawings:allDrawings];
         self.drawingsAreUnsaved = NO;
+    }
+}
+
+#pragma mark - Drawing related
+-(void) drawingDownloaded:(NSNotification *) notification
+{
+    NSDictionary * userInfo = notification.userInfo;
+    ScreenDrawing * downloadedDrawing = userInfo[@"result"];
+    if (downloadedDrawing)
+    {
+        [self.collectionView applyDiffDrawingContentFrom:downloadedDrawing];
     }
 }
 

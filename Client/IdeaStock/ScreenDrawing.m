@@ -28,6 +28,16 @@
     [aCoder encodeObject:self.gridTraces forKey:@"gridTraces"];
 }
 
+-(id) initWithCoder:(NSCoder *) coder
+{
+    self = [super init];
+    if (self)
+    {
+        self.gridTraces = [coder decodeObjectForKey:@"gridTraces"];
+    }
+    return self;
+}
+
 -(instancetype) initWithGridDictionary:(NSDictionary *) gridDictionary
 {
     self = [super init];
@@ -49,36 +59,12 @@
 {
     return [NSKeyedArchiver archivedDataWithRootObject:self];
 }
--(BOOL) deserializeFromFile:(NSString *) filename
+
++(instancetype) deserializeFromData:(NSData *) data
 {
-    
-    return true;
+    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
 }
 
--(BOOL) deserializeFromData:(NSData *) data
-{
-    return YES;
-}
-
--(BOOL) serializeDiffToFile:(NSString *) filename
-{
-    return true;
-}
-
--(BOOL) deserializeDiffFromData:(NSData *)data
-{
-    return YES;
-}
-
--(NSData *) serializeDiffToData
-{
-    return nil;
-}
-
--(BOOL) deserializeDiffFromFile:(NSString *) filename
-{
-    return true;
-}
 
 -(NSString *) description
 {

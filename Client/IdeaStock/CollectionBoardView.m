@@ -14,7 +14,7 @@
 
 @property (nonatomic, strong) NSMutableArray * viewGrid;
 
-@property (nonatomic, strong) NSMutableArray * allDrawings;
+@property (nonatomic, strong) NSMutableDictionary * allDrawings;
 
 @property (nonatomic, strong) NSMutableSet * touchedViews;
 
@@ -91,7 +91,7 @@
 
 -(void) configureInternals
 {
-    self.allDrawings = [NSMutableArray array];
+    self.allDrawings = [NSMutableDictionary dictionary];
     self.touchedViews = [NSMutableSet set];
     //haven't started drawing anything
     self.orderIndex = -1;
@@ -146,13 +146,14 @@
     if (self.orderIndex >= 0 &&
         self.orderIndex < self.allDrawings.count)
     {
-        NSSet * touchedViewsInLastOrder = self.allDrawings[self.orderIndex];
+        NSNumber * orderIndxObj = [NSNumber numberWithInteger:self.orderIndex];
+        NSSet * touchedViewsInLastOrder = self.allDrawings[orderIndxObj];
         for (PaintLayerView * view in touchedViewsInLastOrder)
         {
             [view undoIndex:self.orderIndex];
         }
     
-        [self.allDrawings removeLastObject];
+        [self.allDrawings removeObjectForKey:orderIndxObj];
         self.orderIndex--;
     }
 }
@@ -170,13 +171,14 @@
 -(void) addTouchedItem:(PaintLayerView *) view
 {
     if (view == nil) return;
-    if (self.orderIndex + 1> self.allDrawings.count)
+    NSNumber * orderIndexObj = [NSNumber numberWithInteger:self.orderIndex];
+    if (!self.allDrawings[orderIndexObj])
     {
         NSMutableSet * touchedViews = [NSMutableSet set];
-        [self.allDrawings addObject:touchedViews];
+        self.allDrawings[orderIndexObj] = touchedViews;
     }
     
-    NSMutableSet * touchedViewsInOrder = self.allDrawings[self.orderIndex];
+    NSMutableSet * touchedViewsInOrder = self.allDrawings[orderIndexObj];
     [touchedViewsInOrder addObject:view];
     [self.touchedViews addObject:view];
 }
@@ -821,6 +823,13 @@
         {
             PaintLayerView * layer = self.viewGrid[i];
             NSDictionary * drawings = [diffDrawings getDrawingsForGridIndex:i];
+            for(NSNumber * orderIndex in drawings.allKeys)
+            {
+               if (self.allDrawings[orderIndex])
+               {
+                   
+               }
+            }
             [layer applyDiffDrawingContentFrom:drawings];
             int lastOrderIndex = [layer getMaxOrderIndex];
             if (lastOrderIndex > maxOrderIndex)

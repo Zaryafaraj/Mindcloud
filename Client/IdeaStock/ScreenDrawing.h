@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DiffableSerializableObject.h"
 
-@interface ScreenDrawing : NSObject <DiffableSerializableObject>
+@interface ScreenDrawing : NSObject <DiffableSerializableObject, NSCoding>
 
 /*! gridDictionary is a dictionary keyed on grid index.
     the values are another set of dictionaries keyed on order index

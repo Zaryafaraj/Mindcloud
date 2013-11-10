@@ -8,16 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol DiffableSerializableObject <NSObject>
+@protocol DiffableSerializableObject <NSObject, NSCoding>
 
 -(BOOL) serializeToFile:(NSString *) filename;
 -(NSData *) serializeToData;
--(BOOL) deserializeFromFile:(NSString *) filename;
--(BOOL) deserializeFromData:(NSData *) data;
-
--(BOOL) serializeDiffToFile:(NSString *) filename;
--(NSData *) serializeDiffToData;
--(BOOL) deserializeDiffFromFile:(NSString *) filename;
--(BOOL) deserializeDiffFromData:(NSData *)data;
++(instancetype) deserializeFromData:(NSData *) data;
 
 @end
