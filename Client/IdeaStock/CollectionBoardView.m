@@ -738,8 +738,16 @@
     for (PaintLayerView * view in self.viewGrid)
     {
         [view clearContent];
+        [self.touchedViews addObject:view];
+        NSNumber * index = [NSNumber numberWithInt:view.gridIndex];
+        [self.validUndoViews addObject:index];
     }
     [self.viewsWithoutTouchEnded removeAllObjects];
+    id<CollectionBoardDelegate> temp = self.delegate;
+    if (temp)
+    {
+        [temp didFinishDrawingOnScreen];
+    }
 }
 
 -(void) resetTouchRecorder
