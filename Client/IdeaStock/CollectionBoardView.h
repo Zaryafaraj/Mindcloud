@@ -32,7 +32,11 @@
 
 @property (nonatomic) BOOL eraseModeEnabled;
 
--(void) undo;
+/*! Sometime when we undo the reason is that the there was an unwanted artifact
+    for example a double tap that causing drawing. In this case we need to
+    record them so that we don't communicate them at all with the server
+ */
+-(void) undo:(BOOL) isUnwantedArtifact;
 
 -(ScreenDrawing *) getAllScreenDrawings;
 

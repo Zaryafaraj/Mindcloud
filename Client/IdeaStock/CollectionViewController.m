@@ -1981,7 +1981,7 @@ intoStackingWithMainView: (UIView *) mainView
 
 - (IBAction)undoPressed:(id)sender
 {
-    [self.collectionView undo];
+    [self.collectionView undo:NO];
 }
 
 -(void) enablePaintMode
@@ -2295,14 +2295,11 @@ intoStackingWithMainView: (UIView *) mainView
     [self.drawingSynchTimer invalidate];
     self.drawingSynchTimer = nil;
     ScreenDrawing * diffDrawings = [self.collectionView getNewScreenDrawingsWithRebasing:YES];
-    if ([diffDrawings hasAnyThingToSave])
-    {
-        self.drawingsAreUnsaved = YES;
-        NSLog(@"CollectionViewController- Saving Diffs: %@ ", [diffDrawings debugDescription]);
-        [self.collectionView resetTouchRecorder];
-        [self.board promiseSaving];
-        
-    }
+    self.drawingsAreUnsaved = YES;
+    NSLog(@"CollectionViewController- Saving Diffs: %@ ", [diffDrawings debugDescription]);
+    [self.collectionView resetTouchRecorder];
+    [self.board promiseSaving];
+    
 }
 
 -(void) willBeginDrawingOnScreen

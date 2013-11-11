@@ -141,20 +141,34 @@
     }
 }
 
--(void) undo
+-(void) undo:(BOOL) isUnwantedArtifact
 {
     if (self.orderIndex >= 0 &&
         self.orderIndex < self.allDrawings.count)
     {
         NSNumber * orderIndxObj = [NSNumber numberWithInteger:self.orderIndex];
         NSSet * touchedViewsInLastOrder = self.allDrawings[orderIndxObj];
+        BOOL didChangeDrawings = NO;
         for (PaintLayerView * view in touchedViewsInLastOrder)
         {
             [view undoIndex:self.orderIndex];
+            if (!isUnwantedArtifact)
+            {
+                [self.touchedViews addObject:view];
+                didChangeDrawings = YES;
+            }
         }
     
         [self.allDrawings removeObjectForKey:orderIndxObj];
         self.orderIndex--;
+        if (didChangeDrawings)
+        {
+            id<CollectionBoardDelegate> temp = self.delegate;
+            if (temp)
+            {
+                [temp didFinishDrawingOnScreen];
+            }
+        }
     }
 }
 
@@ -202,7 +216,7 @@
         {
             //[temp doubleTapDetectedAtLocation:[touch locationInView:self]];
         }
-        [self undo];
+        [self undo:YES];
         return;
     }
     if (!self.drawingEnabled) return;
