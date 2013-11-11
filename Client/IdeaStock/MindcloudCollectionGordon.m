@@ -635,6 +635,7 @@ CachedObject> dataSource;
 {
     [self getCollectionAssets:self.collectionFragment];
 }
+
 -(void) getCollectionAssets:(id<XoomlProtocol>) manifest
 {
     
