@@ -825,10 +825,12 @@
             NSDictionary * drawings = [diffDrawings getDrawingsForGridIndex:i];
             for(NSNumber * orderIndex in drawings.allKeys)
             {
-               if (self.allDrawings[orderIndex])
-               {
-                   
-               }
+                if (!self.allDrawings[orderIndex])
+                {
+                    self.allDrawings[orderIndex] = [NSMutableSet set];
+                }
+                NSMutableSet * drawingsInOrder = self.allDrawings[orderIndex];
+                [drawingsInOrder addObject:layer];
             }
             [layer applyDiffDrawingContentFrom:drawings];
             int lastOrderIndex = [layer getMaxOrderIndex];
