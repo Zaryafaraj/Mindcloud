@@ -18,6 +18,8 @@
 #define ASSOCIATION_IMAGE_READY_EVENT @"associationImageReadyEvent"
 #define FRAGMENT_MERGE_FINISHED_EVENT @"FragmentMergeFinishedEvent"
 
+#define COLLECTION_ASSET_RECEIVED_EVENT @"collectoinAssetReceived"
+
 //subCollection resolutoin events
 #define ASSOCIATION_RESOLVED_EVENT @"associationResolvedEvent"
 //Events resulting from an event from the listerner controller to UI

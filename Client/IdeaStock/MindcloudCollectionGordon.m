@@ -166,6 +166,11 @@ CachedObject> dataSource;
                                                  name:IMAGE_DOWNLOADED_EVENT
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(collectionAssetDownloaded:)
+                                                 name:COLLECTION_ASSET_RECEIVED_EVENT
+                                               object:nil];
+    
     //notifications for listener updates
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(listenerDownloadedAssociatedItem:)
@@ -630,7 +635,6 @@ CachedObject> dataSource;
 {
     [self getCollectionAssets:self.collectionFragment];
 }
-
 -(void) getCollectionAssets:(id<XoomlProtocol>) manifest
 {
     
@@ -645,8 +649,8 @@ CachedObject> dataSource;
                 NSString * filename = [namespaceElement getAttributeWithName:EXTERNAL_FILENAME];
                 NSString * attributeName = namespaceElement.name;
                 NSData * assetData = [self.dataSource getCollectionAssetWithFilename:filename
-                                                            
-                                                                                             forCollection:self.collectionName];
+                                                                        andAssetType:attributeName
+                                                                       forCollection:self.collectionName];
                 //if there is a cached item use that. If not ignore. the call to getCollectionAsset will download and send out a notification
                 //once the item is download
                 if (assetData)
@@ -656,7 +660,8 @@ CachedObject> dataSource;
                     if (tempDelegate)
                     {
                         [tempDelegate collectionDidDownloadCollectionAsset:assetData
-                                                               forFileName:filename andAttributeName:attributeName];
+                                                               forFileName:filename
+                                                          andAttributeName:attributeName];
                     }
                 }
             }
@@ -824,6 +829,26 @@ CachedObject> dataSource;
     }
 }
 
+-(void) collectionAssetDownloaded:(NSNotification *) notification
+{
+    NSDictionary * dict = notification.userInfo[@"result"];
+    NSString * collectionName = dict[@"collectionName"];
+    NSString * fileName = dict[@"filename"];
+    NSData * content = dict[@"data"];
+    NSString * assetType = dict[@"assetType"];
+    
+    if (content && [collectionName isEqualToString:self.collectionName])
+    {
+        
+        id<MindcloudCollectionGordonDelegate> tempDelegate = self.delegate;
+        if (tempDelegate)
+        {
+            [tempDelegate collectionDidDownloadCollectionAsset:content
+                                                   forFileName:fileName
+                                              andAttributeName:assetType];
+        }
+    }
+}
 
 -(void) associatedItemImageDownloaded:(NSNotification *) notification
 {

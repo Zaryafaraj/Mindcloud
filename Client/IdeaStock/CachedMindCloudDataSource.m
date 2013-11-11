@@ -51,6 +51,9 @@
 //keyed on (collectionName + associatedItemName + imgName) and valued on yes/no
 //these two are kinda redundant
 @property NSMutableDictionary * collectionImagesCache;
+//collection assets that are being downloaded. We use this dictionary to make sure we don't ask more than once for an asset. For example, if we are in the middle of downloading
+//and we ask for the asset we won't download it twice but just wait for this one to finish
+@property NSMutableSet * collectionAssetDownloadQueue;
 //keyed on collection name value is a dictionary keyed on associatedItem name  and image path
 @property BOOL isCategoriesUpdated;
 
@@ -91,6 +94,7 @@
     self.isCategoriesUpdated = NO;
     self.collectionAssetUploadInProgress = NO;
     self.isInProgressOfGettingThumbnail = [NSMutableDictionary dictionary];
+    self.collectionAssetDownloadQueue = [NSMutableSet set];
     return self;
 }
 
@@ -371,12 +375,49 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     
 }
 
--(NSData *) getCollectionAssetWithFilename:(NSString *)filename
-                                                   forCollection:(NSString *)collectionName
+-(NSData *) getCollectionAssetWithFilename:(NSString *) filename
+                              andAssetType:(NSString *) assetType
+                             forCollection:(NSString *) collectionName;
 {
-   NSString * path = [FileSystemHelper getPathForCollectionAssetWithName:filename
-                                                   forCollectionWithName:collectionName];
+    NSString * path = [FileSystemHelper getPathForCollectionAssetWithName:filename
+                                                    forCollectionWithName:collectionName];
     NSData * fileContent = [NSData dataWithContentsOfFile:path];
+    
+    Mindcloud * mindcloud = [Mindcloud getMindCloud];
+    NSString * userID = [UserPropertiesHelper userID];
+    
+    //someone else has requested for it. Caller will get notified once that is downloaded
+    if ([self.collectionAssetDownloadQueue containsObject:filename])
+        return fileContent;
+    
+    [self.collectionAssetDownloadQueue addObject:filename];
+    [NetworkActivityHelper addActivityInProgress];
+    [mindcloud getCollectionAssetForUser:userID
+                           andCollection:collectionName
+                             andFileName:filename
+                             andCallback:^(NSData * collectionData){
+                                 
+                                 if (collectionData != nil)
+                                 {
+                                     NSDictionary * userDict =
+                                     @{@"result":
+                                           @{@"collectionName" : collectionName,
+                                             @"filename" : filename,
+                                             @"data" : collectionData,
+                                             @"assetType" : assetType}
+                                       };
+                                     
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:COLLECTION_ASSET_RECEIVED_EVENT
+                                                                                         object:self
+                                                                                       userInfo:userDict];
+                                     [self saveToDiskCollectionAssetData:collectionData
+                                                            withFileName:filename
+                                                           forCollection:collectionName];
+                                     [NetworkActivityHelper removeActivityInProgress];
+                                     [self.collectionAssetDownloadQueue removeObject:filename];
+                                 }
+                             }];
+    
     return fileContent;
 }
 
@@ -895,6 +936,15 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
 {
     NSString * path = [FileSystemHelper getPathForThumbnailForCollectionWithName:collectionName];
     [imgData writeToFile:path atomically:NO];
+}
+
+-(BOOL) saveToDiskCollectionAssetData:(NSData *) assetData
+                     withFileName:(NSString *) fileName
+                    forCollection:(NSString *) collectionName
+{
+    NSString * path = [FileSystemHelper getPathForCollectionAssetWithName:fileName
+                                                    forCollectionWithName:collectionName];
+    return [assetData writeToFile:path atomically:YES];
 }
 
 -(BOOL) saveToDiskCollectionAsset:(id<DiffableSerializableObject>) assetData
