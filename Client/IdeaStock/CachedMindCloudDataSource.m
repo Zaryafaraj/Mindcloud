@@ -117,10 +117,10 @@
      {
          //make sure to remove stale items from cache
          [self consolidateCache:collection];
-         for (NSString * collectionName in collection)
-         {
-             [self createCollectionToDisk:collectionName];
-         }
+//         for (NSString * collectionName in collection)
+//         {
+//             [self createCollectionToDisk:collectionName];
+//         }
          if (collection != nil)
          {
              [[NSNotificationCenter defaultCenter] postNotificationName:ALL_COLLECTIONS_LIST_DOWNLOADED_EVENT
