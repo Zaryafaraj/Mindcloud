@@ -17,6 +17,11 @@
     orderIndex
  */
 @property (nonatomic, strong) NSDictionary * gridTraces;
+/*! NSSet of NSNumbers indicating the index of views that have their items
+    undone. So we know to communicate them even if they are empty
+ */
+
+@property (nonatomic, strong) NSSet * undidIndexes;
 
 @end
 
@@ -34,16 +39,19 @@
     if (self)
     {
         self.gridTraces = [coder decodeObjectForKey:@"gridTraces"];
+        self.undidIndexes = [NSSet set];
     }
     return self;
 }
 
 -(instancetype) initWithGridDictionary:(NSDictionary *) gridDictionary
+                       andUndidIndexes:(NSSet *) undidIndexes;
 {
     self = [super init];
     if (self)
     {
         self.gridTraces = gridDictionary;
+        self.undidIndexes = undidIndexes;
     }
     return self;
 }
@@ -105,4 +113,16 @@
     return self.gridTraces.allKeys;
 }
 
+-(BOOL) hasAnyThingToSave
+{
+    for(NSNumber * index in self.gridTraces)
+    {
+        NSDictionary * tracesInTheGrid = self.gridTraces[index];
+        if ([self.undidIndexes containsObject:index] || tracesInTheGrid.count > 0)
+        {
+            return YES;
+        }
+    }
+    return NO;
+}
 @end

@@ -14,9 +14,12 @@
 /*! gridDictionary is a dictionary keyed on grid index.
     the values are another set of dictionaries keyed on order index
     the values of that are NSSets that contain all the drawings for that
-    orderIndex
+    orderIndex. 
+    UndidIndexes is a set of NSSNumbers which contains the indexes of 
+    the views who have been undone
  */
--(instancetype) initWithGridDictionary:(NSDictionary *) gridDictionary;
+-(instancetype) initWithGridDictionary:(NSDictionary *) gridDictionary
+                       andUndidIndexes:(NSSet *) undidIndexes;
 
 /*! returns a dictionary keyed on orderIndex and valued on NSSet of all the 
     drawings in that index. 
@@ -28,5 +31,7 @@
     for which This ScreenDrawing has information about
  */
 -(NSArray *) getAvailableGridIndices;
+
+-(BOOL) hasAnyThingToSave;
 
 @end

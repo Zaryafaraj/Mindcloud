@@ -20,6 +20,10 @@
 
 @property (nonatomic, strong) NSMutableSet * viewsWithoutTouchEnded;
 
+//To make sure that we communicate views that a vlaid undo happened on them
+//and became empty as opposed to views that a undo for an artifact happend to them. This is an NSSet keyed on NSNumber which is the index of the view
+@property (nonatomic, strong) NSMutableSet * validUndoViews;
+
 @property NSInteger orderIndex;
 
 @property (nonatomic, strong) NSMutableSet * overlappingViewsFromLastTouch;
@@ -98,6 +102,7 @@
     self.multipleTouchEnabled = YES;
     self.viewsWithoutTouchEnded = [NSMutableSet set];
     self.overlappingViewsFromLastTouch = [NSMutableSet set];
+    self.validUndoViews = [NSMutableSet set];
 }
 
 
@@ -156,6 +161,8 @@
             {
                 [self.touchedViews addObject:view];
                 didChangeDrawings = YES;
+                NSNumber * indexObj = [NSNumber numberWithInt: view.gridIndex];
+                [self.validUndoViews addObject:indexObj];
             }
         }
     
@@ -214,7 +221,7 @@
         id<CollectionBoardDelegate> temp =  self.delegate;
         if (temp)
         {
-            //[temp doubleTapDetectedAtLocation:[touch locationInView:self]];
+            [temp doubleTapDetectedAtLocation:[touch locationInView:self]];
         }
         [self undo:YES];
         return;
@@ -735,37 +742,10 @@
     [self.viewsWithoutTouchEnded removeAllObjects];
 }
 
--(NSDictionary *) getAllDrawingData
-{
-    NSMutableDictionary * result = [NSMutableDictionary dictionary];
-    for (int i = 0 ; i < self.viewGrid.count; i++)
-    {
-        PaintLayerView * layer = self.viewGrid[i];
-        NSNumber * index = [NSNumber numberWithInt:i];
-        NSData * data = [layer serializeLayer];
-        result[index] = data;
-    }
-    return result;
-}
-
--(NSDictionary *) getAllDrawingDataForTouchedViews
-{
-    NSMutableDictionary * result = [NSMutableDictionary dictionary];
-    int i = 0;
-    //NSLog(@" ==== \n %@ ===== \n" , self.touchedViews);
-    for(PaintLayerView * layer in self.touchedViews)
-    {
-        NSNumber * index = [NSNumber numberWithInt:i];
-        NSData * data = [layer serializeLayer];
-        result[index] = data;
-        i++;
-    }
-    return result;
-}
-
 -(void) resetTouchRecorder
 {
     [self.touchedViews removeAllObjects];
+    [self.validUndoViews removeAllObjects];
 }
 
 -(ScreenDrawing *) getNewScreenDrawingsWithRebasing:(BOOL) shouldRebase
@@ -783,7 +763,8 @@
         }
     }
     
-    ScreenDrawing * answer =  [[ScreenDrawing alloc] initWithGridDictionary:layerDiffs];
+    ScreenDrawing * answer =  [[ScreenDrawing alloc] initWithGridDictionary:layerDiffs
+                                                            andUndidIndexes:[self.validUndoViews copy]];
     return answer;
 }
 
@@ -797,7 +778,7 @@
         layerDrawings[gridNumber] = allDrawings;
     }
     
-    ScreenDrawing * answer = [[ScreenDrawing alloc] initWithGridDictionary:layerDrawings];
+    ScreenDrawing * answer = [[ScreenDrawing alloc] initWithGridDictionary:layerDrawings andUndidIndexes:[self.validUndoViews copy]];
     return answer;
 }
 

@@ -2295,11 +2295,13 @@ intoStackingWithMainView: (UIView *) mainView
     [self.drawingSynchTimer invalidate];
     self.drawingSynchTimer = nil;
     ScreenDrawing * diffDrawings = [self.collectionView getNewScreenDrawingsWithRebasing:YES];
-    self.drawingsAreUnsaved = YES;
-    NSLog(@"CollectionViewController- Saving Diffs: %@ ", [diffDrawings debugDescription]);
-    [self.collectionView resetTouchRecorder];
-    [self.board promiseSaving];
-    
+    if ([diffDrawings hasAnyThingToSave])
+    {
+        self.drawingsAreUnsaved = YES;
+        NSLog(@"CollectionViewController- Saving Diffs: %@ ", [diffDrawings debugDescription]);
+        [self.collectionView resetTouchRecorder];
+        [self.board promiseSaving];
+    }
 }
 
 -(void) willBeginDrawingOnScreen
