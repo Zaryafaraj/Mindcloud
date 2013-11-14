@@ -651,32 +651,43 @@
     for(UpdateFragmentNamespaceSubElementNotification * notification in notifications)
     {
         
-        CollectionStackingAttribute * newStackingModel = [CollectionStackingAttribute collectionSTackingAttributeFromNamespaceElement:[notification getSubElement]];
-        
-        //if its not a stacking ignore
-        if(newStackingModel == nil) continue;
-        
-        NSString * stackId = [notification getSubElement].ID;
-        //get the old stacking and remove the deleted notes
-        CollectionStackingAttribute * oldStacking = self.stackings[stackId];
-        if (oldStacking)
+        XoomlNamespaceElement * subElement = [notification getSubElement];
+        if ([subElement.name isEqualToString:MINDCLOUD_DRAWING_ATTRIBUTE])
         {
-            NSMutableSet * deletedNotes = [oldStacking.refIds mutableCopy];
-            [deletedNotes minusSet:newStackingModel.refIds];
-            for (NSString * deletedNote in deletedNotes)
+            //we have a drawing. Download it. Once the download is done. The notificatiosn
+            //will take care of displaying it
+            [self.gordonDataSource getCollectionAssetForNamespaceElement:subElement];
+        }
+        else
+        {
+            CollectionStackingAttribute * newStackingModel = [CollectionStackingAttribute collectionSTackingAttributeFromNamespaceElement:[notification getSubElement]];
+            
+            //if its not a stacking ignore
+            if(newStackingModel == nil) continue;
+            
+            NSString * stackId = [notification getSubElement].ID;
+            //get the old stacking and remove the deleted notes
+            CollectionStackingAttribute * oldStacking = self.stackings[stackId];
+            if (oldStacking)
             {
-                [self.noteToStackingMap removeObjectForKey:deletedNote];
-                
+                NSMutableSet * deletedNotes = [oldStacking.refIds mutableCopy];
+                [deletedNotes minusSet:newStackingModel.refIds];
+                for (NSString * deletedNote in deletedNotes)
+                {
+                    [self.noteToStackingMap removeObjectForKey:deletedNote];
+                    
+                }
             }
+            
+            for (NSString * noteId in newStackingModel.refIds)
+            {
+                self.noteToStackingMap[noteId] = newStackingModel.ID;
+            }
+            
+            self.stackings[stackId] = newStackingModel;
+            [updatedStackings addObject:stackId];
         }
-        
-        for (NSString * noteId in newStackingModel.refIds)
-        {
-            self.noteToStackingMap[noteId] = newStackingModel.ID;
-        }
-        
-        self.stackings[stackId] = newStackingModel;
-        [updatedStackings addObject:stackId];
+    
     }
     
     if ([updatedStackings count] == 0) return;
