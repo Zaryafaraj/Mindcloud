@@ -511,7 +511,7 @@
 }
 
 #pragma mark - merge helpers
--(void) updateCollectionForAddNoteNotifications:(NSArray *) possibleNotifications
+-(void) updateCollectionForAddAssociationNotifications:(NSArray *) possibleNotifications
 {
     //the contents of these notes may be added later by another notifiaction
     for(AddAssociationNotification * associationNotification in possibleNotifications)
@@ -529,7 +529,7 @@
     }
 }
 
--(void) updateCollectionForUpdateNoteNotifications:(NSArray *) possibleAssociations
+-(void) updateCollectionForUpdateAssociationNotifications:(NSArray *) possibleAssociations
 {
     NSMutableArray * updatedNotes = [NSMutableArray array];
     for (UpdateAssociationNotification * associationNotification in possibleAssociations)
@@ -558,7 +558,7 @@
                                                       userInfo:userInfo];
 }
 
--(void) updateCollectionForDeleteNoteNotifications:(NSArray *) possibleAssociationsNotifications
+-(void) updateCollectionForDeleteAssociationNotifications:(NSArray *) possibleAssociationsNotifications
 {
     NSMutableDictionary * deletedNotes = [NSMutableDictionary dictionary];
     for (DeleteAssociationNotification * notification in possibleAssociationsNotifications)
@@ -597,7 +597,7 @@
                                                       userInfo:userInfo];
 }
 
--(void) updateCollectionForAddStackingNotifications:(NSArray *) notifications
+-(void) updateCollectionForAddSubelementNotifications:(NSArray *) notifications
 {
     //for a stacking we add it anyways and add notes that are alread there.
     //When a new note comes in that was part of the stacking but we didn't have it
@@ -605,31 +605,45 @@
     NSMutableArray * addedStackings = [NSMutableArray array];
     for (AddFragmentNamespaceSubElementNotification * notification in notifications)
     {
-        CollectionStackingAttribute * newStackingModel = [CollectionStackingAttribute collectionSTackingAttributeFromNamespaceElement:[notification getSubElement]];
-        
-        //if its not a stacking ignore
-        if(newStackingModel == nil) continue;
-        
-        NSString * stackId = [notification getSubElement].ID;
-        self.stackings[stackId] = newStackingModel;
-        for (NSString * noteId in newStackingModel.refIds)
+        XoomlNamespaceElement * subElement = [notification getSubElement];
+        if ([subElement.name isEqualToString:MINDCLOUD_DRAWING_ATTRIBUTE])
         {
-            self.noteToStackingMap[noteId] = newStackingModel.ID;
+            //we have a drawing. Download it. Once the download is done. The notificatiosn
+            //will take care of displaying it
+            [self.gordonDataSource getCollectionAssetForNamespaceElement:subElement];
         }
-        [addedStackings addObject:stackId];
+        else
+        {
+            CollectionStackingAttribute * newStackingModel = [CollectionStackingAttribute collectionSTackingAttributeFromNamespaceElement:[notification getSubElement]];
+            
+            //if its not a stacking ignore
+            if(newStackingModel == nil) continue;
+            
+            NSString * stackId = [notification getSubElement].ID;
+            self.stackings[stackId] = newStackingModel;
+            for (NSString * noteId in newStackingModel.refIds)
+            {
+                self.noteToStackingMap[noteId] = newStackingModel.ID;
+            }
+            [addedStackings addObject:stackId];
+        }
+        
+        if ([addedStackings count] == 0) return;
+        
     }
     
-    if ([addedStackings count] == 0) return;
-    
-    NSDictionary * userInfo =  @{@"result" :  addedStackings};
-    
-    NSLog(@"MindcloudCollection: Add Stacking Event: %@", addedStackings);
-    [[NSNotificationCenter defaultCenter] postNotificationName:STACK_ADDED_EVENT
-                                                        object:self
-                                                      userInfo:userInfo];
+    if (addedStackings.count > 0)
+    {
+        NSDictionary * userInfo =  @{@"result" :  addedStackings};
+        
+        NSLog(@"MindcloudCollection: Add Stacking Event: %@", addedStackings);
+        [[NSNotificationCenter defaultCenter] postNotificationName:STACK_ADDED_EVENT
+                                                            object:self
+                                                          userInfo:userInfo];
+    }
 }
 
--(void) updateCollectionForUpdateStackingNotifications:(NSArray *) notifications
+-(void) updateCollectionForUpdateSubelementNotifications:(NSArray *) notifications
 {
     //we treat update stacking just like add stacking. New notes will be added to
     //it once they arrive
@@ -675,7 +689,7 @@
                                                       userInfo:userInfo];
 }
 
--(void) updateCollectionForDeleteStackingNotifications:(NSArray *) notifications
+-(void) updateCollectionForDeleteNamespaceSubElementNotifications:(NSArray *) notifications
 {
     NSMutableArray * deletedStackings = [NSMutableArray array];
     for (DeleteFragmentNamespaceSubElementNotification * notification in notifications)
@@ -865,19 +879,19 @@
 {
     //we pick the items we are intersted in from the notification container
     //The order of these updates are optimized
-    NSArray * possibleDeleteStackings = notifications.getDeleteFragmentNamespaceSubElementNotifications;
-    NSArray * possibleDeleteNotes = notifications.getDeleteAssociationNotifications;
-    NSArray * possibleAddNotes = notifications.getAddAssociationNotifications;
-    NSArray * possibleAddStackings = notifications.getAddFragmentNamespaceSubElementNotifications;
-    NSArray * possibleUpdateStackings = notifications.getUpdateFragmentNamespaceSubElementNotifications;
-    NSArray * possibleUpdateNotes = notifications.getUpdateAssociationNotifications;
+    NSArray * possibleDeleteSubElements = notifications.getDeleteFragmentNamespaceSubElementNotifications;
+    NSArray * possibleDeleteAssociations = notifications.getDeleteAssociationNotifications;
+    NSArray * possibleAddAssociation = notifications.getAddAssociationNotifications;
+    NSArray * possibleAddSubElements = notifications.getAddFragmentNamespaceSubElementNotifications;
+    NSArray * possibleUpdateSubElements = notifications.getUpdateFragmentNamespaceSubElementNotifications;
+    NSArray * possibleUpdateAssociations = notifications.getUpdateAssociationNotifications;
     
-    [self updateCollectionForDeleteStackingNotifications:possibleDeleteStackings];
-    [self updateCollectionForDeleteNoteNotifications: possibleDeleteNotes];
-    [self updateCollectionForAddNoteNotifications:possibleAddNotes];
-    [self updateCollectionForAddStackingNotifications:possibleAddStackings];
-    [self updateCollectionForUpdateStackingNotifications:possibleUpdateStackings];
-    [self updateCollectionForUpdateNoteNotifications:possibleUpdateNotes];
+    [self updateCollectionForDeleteNamespaceSubElementNotifications:possibleDeleteSubElements];
+    [self updateCollectionForDeleteAssociationNotifications: possibleDeleteAssociations];
+    [self updateCollectionForAddAssociationNotifications:possibleAddAssociation];
+    [self updateCollectionForAddSubelementNotifications:possibleAddSubElements];
+    [self updateCollectionForUpdateSubelementNotifications:possibleUpdateSubElements];
+    [self updateCollectionForUpdateAssociationNotifications:possibleUpdateAssociations];
 }
 
 -(void) associationWithId:(NSString *) associationId

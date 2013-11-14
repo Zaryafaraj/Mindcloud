@@ -104,6 +104,8 @@
 /*! will send out a notification once each asset is ready */
 -(void) getAllCollectionAssetsAsynch;
 
+-(void) getCollectionAssetForNamespaceElement:(XoomlNamespaceElement *) namespaceElement;
+
 /*! Call this before you finish working with Gordon
  */
 -(void) cleanup;
