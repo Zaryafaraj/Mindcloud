@@ -298,7 +298,6 @@
             return;
         }
     }
-    
 }
 
 -(void) moveCollections:(NSArray *) collectionsToMove
