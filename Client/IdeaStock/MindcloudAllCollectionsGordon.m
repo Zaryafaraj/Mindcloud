@@ -71,7 +71,7 @@
         
         NSData * categoriesData = [self.dataSource getCategories];
         
-        //no offline daata
+        //no offline data
         if (categoriesData == nil || categoriesData.length == 0)
         {
             self.categoriesFragment = [[XoomlFragment alloc] initAsEmpty];
