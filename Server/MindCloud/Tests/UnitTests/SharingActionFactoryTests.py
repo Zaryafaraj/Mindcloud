@@ -9,6 +9,7 @@ from Sharing.UpdateSharedManifestAction import UpdateSharedManifestAction
 from Sharing.UpdateSharedNoteAction import UpdateSharedNoteAction
 from Sharing.UpdateSharedNoteImageAction import UpdateSharedNoteImageAction
 from Sharing.UpdateSharedThumbnailAction import UpdateSharedThumbnailAction
+from Sharing.SendDiffFileAction import SendDiffFileAction
 from Storage.StorageResponse import StorageResponse
 from Storage.StorageServer import StorageServer
 from Tests.TestingProperties import TestingProperties
@@ -37,6 +38,21 @@ class SharingActionFactoryTestCase(AsyncTestCase):
         self.assertEqual(collection_name, sharing_action.get_collection_name())
         self.assertTrue(sharing_action.get_associated_file() is not None)
         self.assertEqual(SharingEvent.UPDATE_MANIFEST, sharing_action.get_action_type())
+
+    def test_create_action_for_send_diff_file(self):
+
+        user_id = 'userID'
+        collection_name = 'collection_name'
+        diff_file = open('../test_resources/XooML.xml')
+        resource_path = 'XooML.xml'
+        sharing_action = SharingActionFactory.from_diff_file_and_user(diff_file,
+                                                                      user_id,
+                                                                      collection_name,
+                                                                      resource_path)
+        self.assertEqual(user_id, sharing_action.get_user_id())
+        self.assertEqual(collection_name, sharing_action.get_collection_name())
+        self.assertTrue(sharing_action.get_associated_file() is not None)
+        self.assertEqual(SharingEvent.SEND_DIFF_FILE, sharing_action.get_action_type())
 
     def test_deserialize_json_for_update_manifest_invalid_json(self):
 
@@ -444,6 +460,42 @@ class SharingActionFactoryTestCase(AsyncTestCase):
                                                             manifest_action, callback=self.stop)
         sharing_action_list = self.wait()
         self.assertTrue(sharing_action_list is None)
+
+    def test_create_related_actions_send_diff_file(self):
+
+        collection_name = 'sharing_collection'
+        subscribers = [self.__subscriber_id]
+        sharing_secret = \
+            self.__create_sharing_record(subscribers, collection_name)
+        subscribers.append(self.__account_id)
+
+        test_file = open('../test_resources/XooML.xml')
+        diff_action = SendDiffFileAction(self.__account_id, collection_name, test_file, 'XooML.xml')
+
+        SharingActionFactory.create_related_sharing_actions(sharing_secret,
+                                                            diff_action,
+                                                            callback=self.stop)
+        sharing_action_list = self.wait()
+
+        self.assertEqual(2, len(sharing_action_list))
+
+        for sharing_action in sharing_action_list:
+            user_id = sharing_action.get_user_id()
+            self.assertTrue(user_id in subscribers)
+            subscribers.remove(user_id)
+            self.assertEqual(SharingEvent.SEND_DIFF_FILE,
+                             sharing_action.get_action_type())
+        self.assertEqual(0, len(subscribers))
+
+        #cleanup
+        SharingController.remove_sharing_record_by_secret(sharing_secret, callback=self.stop)
+        self.wait()
+        for sharing_action in sharing_action_list:
+            user_id = sharing_action.get_user_id()
+            collection_name = sharing_action.get_collection_name()
+            StorageServer.remove_collection(user_id, collection_name,
+                                            callback=self.stop)
+            self.wait()
 
     def test_created_related_actions_multiple_subscribers(self):
 
