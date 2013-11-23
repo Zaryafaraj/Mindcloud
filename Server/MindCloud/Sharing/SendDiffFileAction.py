@@ -32,7 +32,7 @@ class SendDiffFileAction(SharingAction):
     @gen.engine
     def execute(self, callback=None, delegate=None, retry_counter=0):
         #a diff file has nothing to execute.
-        callable(200)
+        callback(200)
 
     def get_collection_name(self):
         return self.__collection_name

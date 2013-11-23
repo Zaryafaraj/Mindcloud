@@ -1,7 +1,9 @@
 __author__ = 'afathali'
 
+
 class TestingProperties():
 
-    account_id = 'A84FD293-1515-4CC2-BBD2-FC78FEED475D'
-    subscriber_id ='FDB51632-0973-43D4-8990-1BFC3D16909E'
-    second_subscriber_id ='6FB4A061-CAB1-4A7F-9637-94B0FDD15D84'
+    #These account IDs need to be provisioned
+    account_id = '3A6F1066-A862-4237-8AE0-90A39A3E44C9'
+    subscriber_id = 'B98ECC6C-3868-48D0-90BD-4B7363ABAE61'
+    second_subscriber_id ='2A595BC0-B92F-44BC-9F37-9E7761058300'
