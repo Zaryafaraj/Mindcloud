@@ -10,11 +10,18 @@ from Sharing.UpdateSharedThumbnailAction import UpdateSharedThumbnailAction
 
 __author__ = 'afathali'
 
+
 class SharingActionFactory():
 
     __USER_ID_KEY = 'user_id'
     __COLLECTION_NAME_KEY = 'collection_name'
     __NOTE_NAME_KEY = 'note_name'
+
+    @staticmethod
+    def from_diff_file_and_user(diff_file, user_id):
+        """
+        Returns a sharing action from a diff file sent by a user
+        """
 
     @staticmethod
     def from_json_and_file(json_str, file=None):
@@ -55,7 +62,7 @@ class SharingActionFactory():
 
             elif SharingEvent.UPDATE_NOTE_IMG in json_obj:
                 if file is None:
-                   return None
+                    return None
 
                 details = json_obj[SharingEvent.UPDATE_NOTE_IMG]
                 user_id = details[SharingActionFactory.__USER_ID_KEY]
@@ -116,7 +123,7 @@ class SharingActionFactory():
                 if user_id != sharing_action.get_user_id():
                     related_action =\
                         sharing_action.clone_for_user_and_collection(user_id,
-                            collection_name)
+                                                                     collection_name)
                     all_actions.append(related_action)
 
             if callback is not None:

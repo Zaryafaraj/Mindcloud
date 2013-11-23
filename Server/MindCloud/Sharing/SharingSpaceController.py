@@ -28,7 +28,7 @@ class SharingSpaceController(SharingActionDelegate):
     #slowness allows us to see the next incoming actions and if necessary
     #replace an existing action in a queue by the new action
     #it seems that 5 is kinda our magic number any bigger and we have
-    #weird lost packets in dropbox
+    #weird lost packets in Dropbox
     __BATCH_SIZE = MindcloudProperties.Properties.action_batch_size
 
     #current remaining actions in a batch

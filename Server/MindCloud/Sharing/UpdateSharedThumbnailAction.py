@@ -10,6 +10,7 @@ from Storage.StorageServer import StorageServer
 
 __author__ = 'afathali'
 
+
 class UpdateSharedThumbnailAction(SharingAction):
 
     #TODO for testing purposes

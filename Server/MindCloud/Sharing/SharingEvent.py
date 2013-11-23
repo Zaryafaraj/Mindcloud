@@ -14,6 +14,7 @@ class SharingEvent:
     UPDATE_NOTE_IMG = 'update_note_img'
     DELETE_NOTE = 'delete_note'
     UPDATE_THUMBNAIL = 'update_thumbnail'
+    SEND_DIFF_FILE = 'send_diff_file'
 
     __event_dictionary = {}
     #determines whether an action was added to this event or not
