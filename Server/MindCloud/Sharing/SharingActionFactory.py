@@ -7,6 +7,7 @@ from Sharing.UpdateSharedManifestAction import UpdateSharedManifestAction
 from Sharing.UpdateSharedNoteAction import UpdateSharedNoteAction
 from Sharing.UpdateSharedNoteImageAction import UpdateSharedNoteImageAction
 from Sharing.UpdateSharedThumbnailAction import UpdateSharedThumbnailAction
+from Sharing.SendDiffFileAction import SendDiffFileAction
 
 __author__ = 'afathali'
 
@@ -18,10 +19,13 @@ class SharingActionFactory():
     __NOTE_NAME_KEY = 'note_name'
 
     @staticmethod
-    def from_diff_file_and_user(diff_file, user_id):
+    def from_diff_file_and_user(diff_file, user_id, collection_name, resource_path):
         """
         Returns a sharing action from a diff file sent by a user
         """
+        sharing_action = SendDiffFileAction(user_id, collection_name,
+                                            diff_file, resource_path)
+        return sharing_action
 
     @staticmethod
     def from_json_and_file(json_str, file=None):

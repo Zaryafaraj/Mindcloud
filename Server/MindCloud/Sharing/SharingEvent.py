@@ -48,6 +48,7 @@ class SharingEvent:
         # UPDATE_MANIFEST = content,
         # UPDATE_NOTE = {NOTE1: content1, NOTE2 : content2}
         # UPDATE_NOTE_IMG = {NOTE1 : content1, NOTE4: content4}
+        # SEND_DIFF_FILE = {FILE_PATH : content1, FILE_PATH: content2}
         #}
         if event_type == SharingEvent.UPDATE_MANIFEST or \
            event_type == SharingEvent.UPDATE_THUMBNAIL:

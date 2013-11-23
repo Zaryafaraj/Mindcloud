@@ -15,11 +15,16 @@ class SendDiffFileAction(SharingAction):
     __user_id = None
     __collection_name = None
     __diff_file = None
+    #Resource path is the path starting from root of the collection to the
+    #location that the file is located. For example if the file is in the
+    #collection the resourcePath == file name
+    __resource_path = None
     name = " "
 
-    def __init__(self, user_id, collection_name, diff_file):
+    def __init__(self, user_id, collection_name, diff_file, resource_path):
         self.__user_id = user_id
         self.__collection_name = collection_name
+        self.__resource_path = resource_path
         if isinstance(diff_file, HTTPFile):
             diff_file = cStringIO.StringIO(diff_file.body)
         self.__diff_file = diff_file
@@ -45,14 +50,15 @@ class SendDiffFileAction(SharingAction):
         clone_note_file = cStringIO.StringIO()
         self.__diff_file.seek(0)
         shutil.copyfileobj(self.__diff_file, clone_note_file)
-        new_action = SendDiffFileAction(user_id, collection_name, clone_note_file)
+        new_action = SendDiffFileAction(user_id, collection_name,
+                                        clone_note_file, self.__resource_path)
         return new_action
 
     def get_action_resource_name(self):
         """
         Returns the name of the resource affected by this action
         """
-        return None
+        return self.__resource_path
 
     @gen.engine
     def was_successful(self, callback=None):

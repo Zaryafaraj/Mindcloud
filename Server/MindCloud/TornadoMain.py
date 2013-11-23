@@ -22,6 +22,7 @@ from Handlers.Joker.LoadBalancerConfigHandler import LoadBalancerConfigHandler
 from Handlers.Joker.SharingLoadBalancerHandler import SharingLoadBalancer, SharingLoadBalancerHandler
 from Handlers.Joker.SharingSpaceActionHandler import SharingSpaceActionHandler
 from Handlers.Joker.SharingSpaceListenerHandler import SharingSpaceListenerHandler
+from Handlers.Joker.SharingSpaceDiffHandler import SharingSpaceDiffHandler
 from Handlers.Bane.CollectionFileHandler import CollectionFileHandler
 
 
