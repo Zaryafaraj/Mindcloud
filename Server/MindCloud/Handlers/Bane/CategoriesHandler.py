@@ -14,7 +14,6 @@ class CategoriesHandler(tornado.web.RequestHandler):
     """
 
     __log = Log.log()
-
     @tornado.web.asynchronous
     @gen.engine
     def get(self, user_id):
