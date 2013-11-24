@@ -1,7 +1,5 @@
 import json
-from random import Random
 import uuid
-import time
 import cStringIO
 from tornado.ioloop import IOLoop
 from tornado.testing import AsyncTestCase
@@ -20,7 +18,8 @@ from Tests.UnitTests.MockFactory import MockFactory
 __author__ = 'afathali'
 
 
-class SharingSpaceTestcase(AsyncTestCase):
+#noinspection PyBroadException
+class SharingSpaceTestCase(AsyncTestCase):
     __account_id = TestingProperties.account_id
     __subscriber_id = TestingProperties.subscriber_id
     __second_subscriber_id = TestingProperties.second_subscriber_id
@@ -32,7 +31,8 @@ class SharingSpaceTestcase(AsyncTestCase):
     def get_new_ioloop(self):
         return IOLoop.instance()
 
-    def __simple_response_callback(self, status_code, body):
+    @staticmethod
+    def __simple_response_callback(status_code, body):
         if body is None:
             body = ' '
         print '\n'.join(['Request finished', str(status_code), body])
@@ -131,7 +131,6 @@ class SharingSpaceTestcase(AsyncTestCase):
         self.assertTrue(user_id3 in backup_user_ids)
 
         sharing_space.clear()
-
 
     def test_remove_listeners(self):
         sharing_space = SharingSpaceController()
@@ -238,12 +237,11 @@ class SharingSpaceTestcase(AsyncTestCase):
 
     def __create_collection(self, account_id, collection_name):
 
-        file = open('../test_resources/XooML.xml')
+        test_file = open('../test_resources/XooML.xml')
         StorageServer.add_collection(user_id=account_id,
-                                     collection_name=collection_name, callback=self.stop, file=file)
+                                     collection_name=collection_name, callback=self.stop, file=test_file)
         response = self.wait(timeout=100)
         self.assertEqual(StorageResponse.OK, response)
-
 
     def __get_collection_manifest_content(self, account_id, collection_name):
         StorageServer.get_collection_manifest(account_id,
@@ -278,7 +276,7 @@ class SharingSpaceTestcase(AsyncTestCase):
 
         StorageServer.remove_collection(user_id, collection_name,
                                         callback=self.stop)
-        response = self.wait(timeout=100)
+        self.wait(timeout=100)
 
     def test_add_action_single_user_no_listener_update_manifest(self):
         sharing_space = SharingSpaceController()
@@ -396,7 +394,6 @@ class SharingSpaceTestcase(AsyncTestCase):
         response = self.wait(timeout=100)
         self.assertTrue(response is not None)
         return response.read()
-
 
     def test_add_action_single_user_no_listener_update_note_image(self):
         sharing_space = SharingSpaceController()
@@ -739,8 +736,7 @@ class SharingSpaceTestcase(AsyncTestCase):
             note_content2 = self.__get_note_content(self.__subscriber_id,
                                                     collection_name2, note_name)
             expected_note_content = note_str_list[counter]
-            if note_content1 != note_content2 or \
-                            expected_note_content != note_content1:
+            if note_content1 != note_content2 or expected_note_content != note_content1:
                 acceptable_invalids -= 1
             if acceptable_invalids < 0:
                 self.fail("invalid results more than acceptable threshold")
@@ -934,7 +930,6 @@ class SharingSpaceTestcase(AsyncTestCase):
                                                            self.owner_simple_callback)
         sharing_space.add_listener(self.__account_id, owner_mock_request1)
         sharing_space.add_listener(self.__account_id, owner_mock_request2)
-
 
         #subscriber sends an action
         thumbnail_file = open('../test_resources/workfile.jpg')
@@ -1134,7 +1129,6 @@ class SharingSpaceTestcase(AsyncTestCase):
         self.assertTrue(success)
         self.assertTrue(action_type in self.__primary_listener_notification_action)
 
-
         #subscriber sends another action
         #subscriber sends an action
         new_note_file = open('../test_resources/sharing_note1.xml')
@@ -1144,7 +1138,7 @@ class SharingSpaceTestcase(AsyncTestCase):
         update_note_action = UpdateSharedNoteAction(self.__subscriber_id, collection_name2,
                                                     new_note_name, note_file_like)
         sharing_space.add_action(update_note_action)
-        last_action_type = update_note_action.get_action_type()
+        update_note_action.get_action_type()
 
         #wait for a while
         print 'waiting for the backup listener notification'
@@ -1198,7 +1192,7 @@ class SharingSpaceTestcase(AsyncTestCase):
                                                     new_note_name, note_file_like)
         sharing_space.add_action(update_note_action)
         pending_note_actions = []
-        last_action_type = update_note_action.get_action_type()
+        update_note_action.get_action_type()
         pending_note_actions.append(update_note_action.get_action_resource_name())
 
         #because the last primary action became the backup action
@@ -1222,12 +1216,12 @@ class SharingSpaceTestcase(AsyncTestCase):
         self.__simple_backup_callback_flag = False
 
         #add an action that we will replace later
-        replacable_note_file = open('../test_resources/sharing_note1.xml')
-        replacable_note_name = 'replaceable_note'
-        expected_note_body = replacable_note_file.read()
+        replaceable_note_file = open('../test_resources/sharing_note1.xml')
+        replaceable_note_name = 'replaceable_note'
+        expected_note_body = replaceable_note_file.read()
         note_file_like = cStringIO.StringIO(expected_note_body)
         update_note_action = UpdateSharedNoteAction(self.__subscriber_id, collection_name2,
-                                                    replacable_note_name, note_file_like)
+                                                    replaceable_note_name, note_file_like)
         sharing_space.add_action(update_note_action)
 
         #now we are going to just add all types of actions to
@@ -1242,9 +1236,9 @@ class SharingSpaceTestcase(AsyncTestCase):
             sharing_space.add_action(update_note_action)
             pending_note_actions.append(update_note_action.get_action_resource_name())
 
-        #this will replace the replacable action
+        #this will replace the replaceable action
         replaced_note_file = open('../test_resources/sharing_note1.xml')
-        replaced_note_name = replacable_note_name
+        replaced_note_name = replaceable_note_name
         expected_note_body = replaced_note_file.read()
         note_file_like = cStringIO.StringIO(expected_note_body)
         update_note_action = UpdateSharedNoteAction(self.__subscriber_id, collection_name2,
@@ -1261,15 +1255,12 @@ class SharingSpaceTestcase(AsyncTestCase):
         sharing_space.add_action(update_manifest_action)
         #and an update thumbnail
         thumbnail_file = open('../test_resources/workfile.jpg')
-        update_thumbnail_action = UpdateSharedThumbnailAction(self.__subscriber_id,
-                                                              collection_name2, thumbnail_file)
+        UpdateSharedThumbnailAction(self.__subscriber_id, collection_name2, thumbnail_file)
 
         thumbnail_file2 = open('../test_resources/sharing_note_img2.jpg')
         update_thumbnail_action2 = UpdateSharedThumbnailAction(self.__subscriber_id,
                                                                collection_name2, thumbnail_file2)
         sharing_space.add_action(update_thumbnail_action2)
-
-        update_thumbnail_action = update_thumbnail_action2
 
         #some deleted
         pending_delete_actions = []
@@ -1286,7 +1277,6 @@ class SharingSpaceTestcase(AsyncTestCase):
         #an sprinkle of update note image actions
         pending_img_actions = []
         for x in range(2):
-            new_note_img = open('../test_resources/workfile.jpg')
             img_file_like = cStringIO.StringIO(expected_note_body)
             new_note_name = 'new_note_img' + str(x)
             update_img_action = UpdateSharedNoteImageAction(self.__subscriber_id,
@@ -1494,7 +1484,6 @@ class SharingSpaceTestcase(AsyncTestCase):
         sharing_space.add_listener(self.__second_subscriber_id, owner_mock_request1)
         sharing_space.add_listener(self.__second_subscriber_id, owner_mock_request2)
 
-
         #cleanup flags
         self.__simple_callback_flag = False
         self.__simple_backup_callback_flag = False
@@ -1577,6 +1566,7 @@ class SharingSpaceTestcase(AsyncTestCase):
 
         self.__simple_callback_flag = True
         print 'first listener returned'
+        print status
         print body
         response_json = json.loads(body)
         self.__primary_listener_notification_action = response_json
@@ -1585,13 +1575,13 @@ class SharingSpaceTestcase(AsyncTestCase):
     def owner_backup_callback(self, status, body):
         self.__simple_backup_callback_flag = True
         print 'backup listener returned'
+        print status
         print body
         response_json = json.loads(body)
         self.__primary_listener_notification_action = response_json
         self.__backup_listeners_returned += 1
 
-
-    def test_retreive_sotred_note_img_not_existing(self):
+    def test_retrieve_stored_note_img_not_existing(self):
 
         sharing_space = SharingSpaceController()
         sharing_space.get_temp_img('img-dummy', 'img-dummer',
@@ -1599,7 +1589,7 @@ class SharingSpaceTestcase(AsyncTestCase):
         img = self.wait()
         self.assertTrue(img is None)
 
-    def test_retreive_stored_note_img_not_cached(self):
+    def test_retrieve_stored_note_img_not_cached(self):
 
         sharing_space = SharingSpaceController()
 
@@ -1622,14 +1612,14 @@ class SharingSpaceTestcase(AsyncTestCase):
         StorageServer.remove_collection(self.__account_id, collection_name, callback=self.stop)
         self.wait()
 
-    def test_retreive_stored_thumbnail_not_existing(self):
+    def test_retrieve_stored_thumbnail_not_existing(self):
         sharing_space = SharingSpaceController()
         sharing_space.get_temp_img('img-dummy', 'img-dummer',
                                    'img-dumms', note_name=None, callback=self.stop)
         img = self.wait()
         self.assertTrue(img is None)
 
-    def test_retreive_stored_thumbnail_not_cached(self):
+    def test_retrieve_stored_thumbnail_not_cached(self):
 
         collection_name = str(uuid.uuid1())
         StorageServer.add_collection(self.__account_id, collection_name,
@@ -1652,6 +1642,3 @@ class SharingSpaceTestcase(AsyncTestCase):
         StorageServer.remove_collection(self.__account_id, collection_name,
                                         callback=self.stop)
         self.wait()
-
-
-
