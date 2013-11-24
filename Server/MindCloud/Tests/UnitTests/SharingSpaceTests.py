@@ -1448,9 +1448,9 @@ class SharingSpaceTestCase(AsyncTestCase):
         collection_name1 = 'col_listener1'
         collection_name2 = 'col_listener2'
 
+        #Owner and subscriber1 create two collections and each add a note to them
         self.__create_collection(self.__account_id, collection_name1)
         self.__create_collection(self.__subscriber_id, collection_name2)
-
         note_name1 = 'note_listener1'
         note_name2 = 'note_listener2'
         note_file1 = open('../test_resources/note.xml')
@@ -1484,7 +1484,9 @@ class SharingSpaceTestCase(AsyncTestCase):
         sharing_space.add_listener(self.__second_subscriber_id, owner_mock_request1)
         sharing_space.add_listener(self.__second_subscriber_id, owner_mock_request2)
 
-        #cleanup flags
+        #Right now we have everyone listening in the sharing space
+
+        #cleanup flags for the test
         self.__simple_callback_flag = False
         self.__simple_backup_callback_flag = False
 
@@ -1495,8 +1497,10 @@ class SharingSpaceTestCase(AsyncTestCase):
         note_file_like = cStringIO.StringIO(expected_note_body)
         update_note_action = UpdateSharedNoteAction(self.__account_id, collection_name1,
                                                     new_note_name, note_file_like)
-        sharing_space.add_action(update_note_action)
+        sharing_space.add_action(update_note_action, owner=self.__account_id)
 
+        #As a result of this action the primary listener of subscriber 1 and subscriber 2
+        #Need to be notified
         #check to see if the primary listener has been notified
         #busy wait three times and then give up
         success = self.__simple_callback_flag
@@ -1514,18 +1518,26 @@ class SharingSpaceTestCase(AsyncTestCase):
         #we have three users, two responses should come back because
         #one listener is the one who made the action
         self.assertEqual(2, self.__primary_listeners_returned)
-        #cleanup
+        #cleanup again for the next round
         self.__simple_backup_callback_flag = False
         self.__primary_listeners_returned = 0
 
-        #now add some actions for the backup listeners to record
+        #Now we have two primary listeners returning for subscriber1 and subscriber2
+        #now add some actions for the backup listeners to record.
+        #The second subscriber send an action
         new_note_file = open('../test_resources/sharing_note1.xml')
         new_note_name = 'recording_note'
         expected_note_body = new_note_file.read()
         note_file_like = cStringIO.StringIO(expected_note_body)
         update_note_action = UpdateSharedNoteAction(self.__second_subscriber_id, collection_name2,
                                                     new_note_name, note_file_like)
-        sharing_space.add_action(update_note_action)
+        sharing_space.add_action(update_note_action, owner=self.__second_subscriber_id)
+
+        #Because we have two backup listeners for subscriber1 and subscriber2 and
+        #Both primary and backup for the owner, and the action was added by subscriber2
+        #Only the backup listener of subscriber1 should record the action and the
+        #primary listener of the owner should simply return because there are
+        #Already two listeners for it
 
         #wait a little bit
         try:
@@ -1533,19 +1545,20 @@ class SharingSpaceTestCase(AsyncTestCase):
         except Exception:
             pass
 
-        #now add the primary listeners for the two primary listeners
-        #that returned
+        #now add the primary listeners for the two subscribers that returned
         owner_mock_request1 = MockFactory.get_mock_request(self.__account_id,
                                                            self.owner_simple_callback)
         sharing_space.add_listener(self.__subscriber_id, owner_mock_request1)
-
-        #Another subscriber listens both on primary and backup port
         owner_mock_request1 = MockFactory.get_mock_request(self.__account_id,
                                                            self.owner_simple_callback)
         sharing_space.add_listener(self.__second_subscriber_id, owner_mock_request1)
 
-        #check to see if the primary listener has been notified
-        #busy wait three times and then give up
+        #check to see if the primary listener has been notified.
+        #As mentioned only the backup listener for the subscriber 1 should return because it has recording
+        #For owner, primary listener should have returned in another callback
+        #For subscriber2, since the subscriber2 made the action nothing should be recorded
+        #For subscriber1 , the listener should return as soon as a second listener has
+        #established connection
         success = self.__simple_backup_callback_flag
         if not success:
             for count in range(3):
@@ -1558,8 +1571,6 @@ class SharingSpaceTestCase(AsyncTestCase):
 
         self.assertTrue(success)
         self.assertEqual(1, self.__primary_listeners_returned)
-        #only one backup callback should return. Two listeners return one is the priamry listener
-        #remainign from the owner and the other is the backup listener for first subscriber
         self.assertEqual(1, self.__backup_listeners_returned)
 
     def owner_simple_callback(self, status, body):
