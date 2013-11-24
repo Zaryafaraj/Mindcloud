@@ -10,6 +10,7 @@ from Sharing.UpdateSharedManifestAction import UpdateSharedManifestAction
 from Sharing.UpdateSharedNoteAction import UpdateSharedNoteAction
 from Sharing.UpdateSharedNoteImageAction import UpdateSharedNoteImageAction
 from Sharing.UpdateSharedThumbnailAction import UpdateSharedThumbnailAction
+from Sharing.SendDiffFileAction import SendDiffFileAction
 from Storage.StorageResponse import StorageResponse
 from Storage.StorageServer import StorageServer
 from Tests.TestingProperties import TestingProperties
@@ -477,6 +478,23 @@ class SharingSpaceTestCase(AsyncTestCase):
         #cleanup
         self.__remove_collection(self.__account_id, collection_name)
 
+    def test_add_action_single_user_no_listener_send_diff_file(self):
+
+        sharing_space = SharingSpaceController()
+
+        collection_name = 'diff_col1'
+        self.__create_collection(self.__account_id, collection_name)
+
+        diff_file = open('../test_resources/screen.drw')
+        send_diff_file_action = SendDiffFileAction(self.__account_id, collection_name,
+                                                   diff_file, 'screen.drw')
+        sharing_space.add_action(send_diff_file_action)
+        #In the lack of listeners a send diff file action will just be ignored
+        #its the responsibility of a Bane api to save the file completely
+
+        #cleanup
+        self.__remove_collection(self.__account_id, collection_name)
+
     def test_add_action_single_user_no_listener_update_thumbnail(self):
 
         sharing_space = SharingSpaceController()
@@ -914,6 +932,47 @@ class SharingSpaceTestCase(AsyncTestCase):
         img = self.wait()
 
         self.assertTrue(img is not None)
+
+    def test_primary_listener_notified_send_diff_file(self):
+
+        sharing_space = SharingSpaceController()
+        collection_name1 = 'col_listener1'
+        collection_name2 = 'col_listener2'
+        self.__create_collection(self.__account_id, collection_name1)
+        self.__create_collection(self.__subscriber_id, collection_name2)
+
+        #owner listens both on primary and backup port
+        owner_mock_request1 = MockFactory.get_mock_request(self.__account_id,
+                                                           self.owner_simple_callback)
+        owner_mock_request2 = MockFactory.get_mock_request(self.__account_id,
+                                                           self.owner_simple_callback)
+        sharing_space.add_listener(self.__account_id, owner_mock_request1)
+        sharing_space.add_listener(self.__account_id, owner_mock_request2)
+
+        #subscriber sends the diff file action
+        diff_file = open('../test_resources/screen.drw')
+        expected_diff_file_body = diff_file.read()
+        send_diff_file_action = SendDiffFileAction(self.__subscriber_id, collection_name2,
+                                                   diff_file, 'screen.drw')
+        sharing_space.add_action(send_diff_file_action)
+        action_type = send_diff_file_action.get_action_type()
+
+        #check to see if the primary listener has been notified
+        #busy wait three times and then give up
+        success = self.__simple_callback_flag
+        if not success:
+            for count in range(2):
+                if not success:
+                    try:
+                        self.wait(timeout=5)
+                    except Exception:
+                        if self.__simple_callback_flag:
+                            success = True
+
+        self.assertTrue(success)
+        self.assertTrue(action_type in self.__primary_listener_notification_action)
+        received_value = self.__primary_listener_notification_action[action_type]['screen.drw']
+        self.assertEqual(received_value, expected_diff_file_body)
 
     def test_primary_listener_notified_update_thumbnail(self):
 

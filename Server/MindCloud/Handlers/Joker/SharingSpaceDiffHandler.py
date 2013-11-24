@@ -14,6 +14,10 @@ class SharingSpaceDiffHandler(tornado.web.RequestHandler):
     @gen.engine
     def post(self, sharing_secret):
 
+        """
+        Always assumes that the file that is passed in is base64
+        """
+
         #Check to see if the required params are here
         user_id = self.get_argument('user_id', default=None)
         collection_name = self.get_argument('collection_name', default=None)
