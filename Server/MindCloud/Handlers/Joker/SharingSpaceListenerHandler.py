@@ -13,6 +13,7 @@ class SharingSpaceListenerHandler(tornado.web.RequestHandler):
     @gen.engine
     def post(self, sharing_secret, user_id):
 
+        print "XXXXXX"
         sharing_storage = SharingSpaceStorage.get_instance()
         is_valid = yield gen.Task(sharing_storage.validate_secret, sharing_secret)
         if is_valid:
