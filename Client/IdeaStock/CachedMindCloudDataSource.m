@@ -1222,6 +1222,20 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     [self associatedItemDeletesReceivedForCollectionName:collectionName andAssociatedItem:associatedItemDeleteDict];
 }
 
+-(void) diffFileReceivedForAssetAtPath:(NSString *) assetPath
+                              withData:(NSData *) data
+{
+    if ([assetPath rangeOfString:@"/"].location == NSNotFound)
+    {
+        NSDictionary * userInfo = @{@"result" : @{@"parent" : @"",
+                                                  @"assetName" : assetPath,
+                                                  @"diffContent" : data}};
+        [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_DOWNLOADED_DIFF
+                                                            object:self
+                                                          userInfo:userInfo];
+    }
+}
+
 -(void) thumbnailGotUpdated:(NSString *) thumbnailPath
           forCollectionName:(NSString *) collectionName
           withSharingSecret:(NSString *) sharingSecret

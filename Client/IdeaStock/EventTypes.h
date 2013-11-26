@@ -38,6 +38,7 @@
 #define LISTENER_DOWNLOADED_IMAGE @"listenerDownloadedImage"
 #define LISTENER_DELETED_ASSOCIATION @"listenerDeletedAssociation"
 #define LISTENER_DOWNLOADED_FRAGMENT @"listenerDownloadedFragment"
+#define LISTENER_DOWNLOADED_DIFF @"listenerDownloadedDiff"
 
 //Sharing management
 #define COLLECTION_SHARED @"collectionShared"
@@ -59,4 +60,5 @@
 
 //File Managed ment
 #define DRAWING_DOWNLOADED_EVENT @"drawingDownloaded"
+#define DRAWING_DIFF_DOWNLOADED_EVENT @"drawingDiffDownloaded"
 @end

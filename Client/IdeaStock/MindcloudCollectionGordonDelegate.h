@@ -41,6 +41,9 @@
                                           withImagePath:(NSString *) imagePath
                                    andAssociatedItemFragment:(XoomlFragment *) associatedItemFragment;
 
+-(void) eventOccuredWithDownloadingOfCollectionAssetDiff:(NSData *) diffContent
+                                             forFileName:(NSString *) fileName;
+
 -(void) associationWithId:(NSString *) subCollectionId
     downloadedImageWithPath:(NSString *) imagePath;
 

@@ -31,8 +31,8 @@ andBase64FileContent:(NSData *) content
         self.request.HTTPMethod = @"POST";
         NSDictionary * params = @{@"user_id" : userId,
                                   @"collection_name" : collectionName,
-                                  @"resource_path" : resourcePath};
-        self.request = [HTTPHelper addPostFile:self.postData
+                                  @"resource_path" : path};
+        self.request = [HTTPHelper addPostFile:content
                                       withName:filename
                                      andParams:params
                                             to:self.request];

@@ -468,7 +468,6 @@ static Mindcloud * instance;
                                                              andPath:path
                                                 andBase64FileContent:content];
     
-    action.postData = content;
     action.postCallback = callback;
     [action executePOST];
 }

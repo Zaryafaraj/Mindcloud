@@ -27,7 +27,7 @@
 #import "MindcloudCollection.h"
 
 #define SHARED_SYNCH_PERIOD 1
-#define UNSHARED_SYNCH_PERIOD 2
+#define UNSHARED_SYNCH_PERIOD 300000
 
 @interface MindcloudCollectionGordon()
 /*
@@ -190,6 +190,11 @@ CachedObject> dataSource;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(listenerDownloadedCollectionFragment:)
                                                  name:LISTENER_DOWNLOADED_FRAGMENT
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(listenerDownloadedDiff:)
+                                                 name:LISTENER_DOWNLOADED_DIFF
                                                object:nil];
 }
 
@@ -977,6 +982,22 @@ CachedObject> dataSource;
                          andActionRecorder:self.recorder
                          ForCollectionName:self.collectionName];
         
+    }
+}
+
+-(void) listenerDownloadedDiff:(NSNotification *) notification
+{
+    NSDictionary * result = notification.userInfo[@"result"];
+    NSString * assetName = result[@"assetName"];
+    NSData * diffContent = result[@"diffContent"];
+    NSString * parent = result[@"parent"];
+    //its a collection diff
+    if ([parent isEqualToString:@""])
+    {
+        
+        id<MindcloudCollectionGordonDelegate> tempDelegate = self.delegate;
+        [tempDelegate eventOccuredWithDownloadingOfCollectionAssetDiff:diffContent
+                                                           forFileName:assetName];
     }
 }
 

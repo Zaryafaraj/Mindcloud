@@ -1110,6 +1110,11 @@
                                              selector:@selector(drawingDownloaded:)
                                                  name:DRAWING_DOWNLOADED_EVENT
                                                object:self.board];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(drawingDiffDownloaded:)
+                                                 name:DRAWING_DIFF_DOWNLOADED_EVENT
+                                               object:self.board];
 }
 
 -(void) viewDidAppear:(BOOL)animated
@@ -2098,6 +2103,16 @@ intoStackingWithMainView: (UIView *) mainView
 
 #pragma mark - Drawing related
 -(void) drawingDownloaded:(NSNotification *) notification
+{
+    NSDictionary * userInfo = notification.userInfo;
+    ScreenDrawing * downloadedDrawing = userInfo[@"result"];
+    if (downloadedDrawing)
+    {
+        [self.collectionView applyDiffDrawingContentFrom:downloadedDrawing];
+    }
+}
+
+-(void) drawingDiffDownloaded:(NSNotification *) notification
 {
     NSDictionary * userInfo = notification.userInfo;
     ScreenDrawing * downloadedDrawing = userInfo[@"result"];

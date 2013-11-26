@@ -29,4 +29,6 @@
           withSharingSecret:(NSString *) sharingSecret
                  andBaseURL:(NSString *) baseURL;
 
+-(void) diffFileReceivedForAssetAtPath:(NSString *) assetPath
+                              withData:(NSData *) data;
 @end

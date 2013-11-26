@@ -981,6 +981,22 @@
     }
 }
 
+-(void) eventOccuredWithDownloadingOfCollectionAssetDiff:(NSData *)diffContent
+                                             forFileName:(NSString *)fileName
+{
+    if ([fileName isEqualToString:[ExternalFileHelper filenameForScreenDrawing]])
+    {
+       NSLog(@"MindcloudCollection-Drawing Diff Received");
+        
+        ScreenDrawing * screenDrawing = [ScreenDrawing deserializeFromData:diffContent];
+        NSDictionary * userInfo =  @{@"result" :  screenDrawing};
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:DRAWING_DIFF_DOWNLOADED_EVENT
+                                                            object:self
+                                                          userInfo:userInfo];
+    }
+}
+
 -(void) refresh
 {
     [self.gordonDataSource refresh];

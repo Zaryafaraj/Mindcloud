@@ -16,6 +16,7 @@
 #define UPDATE_ASSOCIATION_IMG_KEY @"update_note_img"
 #define DELETE_ASSOCIATION_KEY @"delete_note"
 #define UPDATE_THUMBNAIL_KEY @"update_thumbnail"
+#define DIFF_FILE_RECEIVED @"send_diff_file"
 #define TOTAL_LISTENERS 2
 #define MAX_FAILURE_RETRIES 5
 
@@ -173,7 +174,7 @@
                  andFileName:(NSString *) filename
                   andContent:(id<DiffableSerializableObject>) content
 {
-    if (self.sharingSpaceURL == nil)
+    if (self.sharingSpaceURL != nil)
     {
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userId = [UserPropertiesHelper userID];
@@ -229,6 +230,21 @@
             [self.delegate thumbnailGotUpdated:result[eventKey] forCollectionName:self.collectionName
                              withSharingSecret:self.sharingSecret
                                     andBaseURL:self.sharingSpaceURL];
+        }
+        if ([eventKey isEqualToString:DIFF_FILE_RECEIVED])
+        {
+            NSLog(@"CollectionSharingAdapter - Diff File received");
+            NSDictionary * diffs = result[eventKey];
+            for(NSString * diffFilePath in diffs)
+            {
+                NSString * value = diffs[diffFilePath];
+                //decode from base64
+                NSData * diffData = [[NSData alloc] initWithBase64EncodedString:value
+                                                                        options:0];
+                [self.delegate diffFileReceivedForAssetAtPath:diffFilePath
+                                                     withData:diffData];
+            }
+            
         }
     }
 }

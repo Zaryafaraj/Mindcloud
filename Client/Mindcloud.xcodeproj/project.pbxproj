@@ -1352,6 +1352,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1361,6 +1362,7 @@
 				INFOPLIST_FILE = "IdeaStock/Mindcloud-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = Mindcloud;
+				PROVISIONING_PROFILE = "";
 				REZ_SEARCH_PATHS = /usr/include/libxml2;
 				"REZ_SEARCH_PATHS[sdk=*]" = "$(SDKROOT)/usr/include/libxml2";
 				USER_HEADER_SEARCH_PATHS = /usr/include/libxml2;
@@ -1376,6 +1378,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1385,6 +1388,7 @@
 				INFOPLIST_FILE = "IdeaStock/Mindcloud-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = Mindcloud;
+				PROVISIONING_PROFILE = "";
 				REZ_SEARCH_PATHS = /usr/include/libxml2;
 				"REZ_SEARCH_PATHS[sdk=*]" = "$(SDKROOT)/usr/include/libxml2";
 				USER_HEADER_SEARCH_PATHS = /usr/include/libxml2;
