@@ -21,6 +21,7 @@
 #import "TempImageAction.h"
 #import "DiffableSerializableObject.h"
 #import "CollectionAssetAction.h"
+#import "DiffFileAction.h"
 
 @interface Mindcloud : NSObject
 
@@ -132,6 +133,13 @@
               forUser:(NSString *) userId
          withCallback:(listener_returned_callback) callback;
 
+-(void) sendDiffFileWithName:(NSString *) filename
+                     andPath:(NSString *) path
+               andCollection:(NSString *) collectionName
+                 withContent:(id<DiffableSerializableObject>) content
+              toSharingSpace:(NSString *) sharingSpaceURL
+            forSharingSecret:(NSString *) sharingSecret;
+
 -(void) closeListenersToURL:(NSString *) listeningURL
            forSharingSecret:(NSString *) sharingSecret
               andCollection:(NSString *) collectionName
@@ -161,4 +169,13 @@
                        andCollection:(NSString *) collectionName
                          andFileName:(NSString *) fileName
                          andCallback:(delete_collection_asset_callback) callback;
+
+-(void) sendDiffFileForUser:(NSString *) userId
+              andCollection:(NSString *) collectionName
+         andSharingSpaceURL:(NSString *) sharingSpaceURL
+           andSharingSecret:(NSString *) sharingSecret
+               withFileName:(NSString *) fileName
+                    andPath:(NSString *) path
+                 andBase64Content:(NSData *) content
+                andCallback:(diff_file_sent_callback) callback;
 @end

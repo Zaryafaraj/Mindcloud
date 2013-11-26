@@ -96,6 +96,7 @@
     }];
 }
 
+
 -(void) startListening
 {
     
@@ -166,6 +167,32 @@
             [self listen];
         }
     }];
+}
+
+-(void) sendDiffFileWithPath:(NSString *) path
+                 andFileName:(NSString *) filename
+                  andContent:(id<DiffableSerializableObject>) content
+{
+    if (self.sharingSpaceURL == nil)
+    {
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userId = [UserPropertiesHelper userID];
+        NSData * base64Data = [[content serializeToData]base64EncodedDataWithOptions:0];
+        [mindcloud sendDiffFileForUser:userId
+                         andCollection:self.collectionName
+                    andSharingSpaceURL:self.sharingSpaceURL
+                      andSharingSecret:self.sharingSecret
+                          withFileName:filename
+                               andPath:path
+                      andBase64Content:base64Data
+                           andCallback:^(BOOL finished){
+                               ;
+                           }];
+    }
+    else
+    {
+        NSLog(@"CollectionSharingAdapter - SharingSpaceURL Not Set");
+    }
 }
 
 -(void) processListenerResult:(NSDictionary *) result

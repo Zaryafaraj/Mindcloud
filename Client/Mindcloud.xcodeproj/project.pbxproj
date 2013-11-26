@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D374CAD418445CF20070C359 /* DiffFileAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D374CAD318445CF20070C359 /* DiffFileAction.m */; };
 		D709470B1523BDFE008E4AD9 /* CollectionNote.m in Sources */ = {isa = PBXBuildFile; fileRef = D709470A1523BDFE008E4AD9 /* CollectionNote.m */; };
 		D70947231523DC27008E4AD9 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D70947161523DC27008E4AD9 /* DDXMLElementAdditions.m */; };
 		D70947241523DC27008E4AD9 /* NSString+DDXML.m in Sources */ = {isa = PBXBuildFile; fileRef = D70947191523DC27008E4AD9 /* NSString+DDXML.m */; };
@@ -138,6 +139,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D374CAD218445CF20070C359 /* DiffFileAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiffFileAction.h; sourceTree = "<group>"; };
+		D374CAD318445CF20070C359 /* DiffFileAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiffFileAction.m; sourceTree = "<group>"; };
 		D70947091523BDFE008E4AD9 /* CollectionNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionNote.h; sourceTree = "<group>"; };
 		D709470A1523BDFE008E4AD9 /* CollectionNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionNote.m; sourceTree = "<group>"; };
 		D70947151523DC27008E4AD9 /* DDXMLElementAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElementAdditions.h; sourceTree = "<group>"; };
@@ -823,6 +826,8 @@
 				DB4D940C16E337DB007FE65A /* TempImageAction.m */,
 				DB3FD1E31826EC5900F6A1B1 /* CollectionAssetAction.h */,
 				DB3FD1E41826EC5900F6A1B1 /* CollectionAssetAction.m */,
+				D374CAD218445CF20070C359 /* DiffFileAction.h */,
+				D374CAD318445CF20070C359 /* DiffFileAction.m */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -1154,6 +1159,7 @@
 				DBB1BB8417FF708A00E43310 /* UIImage+ImageEffects.m in Sources */,
 				D7BF46661547303700F06412 /* AllCollectionsViewController.m in Sources */,
 				DB3FD1E51826EC5900F6A1B1 /* CollectionAssetAction.m in Sources */,
+				D374CAD418445CF20070C359 /* DiffFileAction.m in Sources */,
 				DBC4E35B17F14B5100F595FE /* UIViewController+MMDrawerController.m in Sources */,
 				DB20ADE1181F838D0062EA5B /* BrushSelectionView.m in Sources */,
 				D71EA185154CD3FB00496663 /* CollectionViewController.m in Sources */,

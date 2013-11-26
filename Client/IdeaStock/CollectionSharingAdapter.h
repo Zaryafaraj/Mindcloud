@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CollectionSharingAdapterDelegate.h"
+#import "DiffableSerializableObject.h"
 
 @interface CollectionSharingAdapter : NSObject
 
@@ -19,6 +20,10 @@
 -(void) getSharingInfo;
 -(void) startListening;
 -(void) stopListening;
+
+-(void) sendDiffFileWithPath:(NSString *) path
+                 andFileName:(NSString *) filename
+                  andContent:(id<DiffableSerializableObject>) content;
 
 -(void) adjustListeners;
 @end

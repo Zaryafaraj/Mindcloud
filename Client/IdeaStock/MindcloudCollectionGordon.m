@@ -1104,7 +1104,21 @@ CachedObject> dataSource;
     [self startTimer];
 }
 
+
+#pragma mark - files
+-(void) sendCollectionDiffFileWithFilename:(NSString *) filename
+                                andContent:(id<DiffableSerializableObject>) content
+{
+    //for collection files the name of the file is the path. since
+    //a collection is relative root
+    NSString * path = filename;
+    [self.sharingAdapter sendDiffFileWithPath:path
+                              andFileName:filename
+                                   andContent:content];
+}
+
 #pragma mark - timers
+
 -(void)restartTimer{
     [self stopTimer];
     [self startTimer];

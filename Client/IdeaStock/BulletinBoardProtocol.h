@@ -81,7 +81,9 @@
 
 
 -(void) saveAllDrawings:(ScreenDrawing *) allDrawings;
-
+/*! Sending a diff won't save the drawing anywhere, just communicates it
+ with all the listeners. Use saveAllDrawings to persistently save it*/
+-(void) sendDiffDrawings:(ScreenDrawing *) diffDrawings;
 //downloads and gets the collection assets.
 //there will be anotification sent out when each file is available
 //the notification will contain the type of the asset too

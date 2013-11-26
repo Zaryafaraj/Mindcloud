@@ -384,6 +384,15 @@ static Mindcloud * instance;
     [action executeDELETE];
 }
 
+-(void) sendDiffFileWithName:(NSString *) filename
+                     andPath:(NSString *) path
+               andCollection:(NSString *) collectionName
+                 withContent:(id<DiffableSerializableObject>) content
+              toSharingSpace:(NSString *) sharingSpaceURL
+            forSharingSecret:(NSString *) sharingSecret
+{
+    
+}
 //super ugly !
 -(void) getTempImageForUser:(NSString *) userId
               andCollection:(NSString *) collectionName
@@ -440,6 +449,28 @@ static Mindcloud * instance;
                                                                      andCollection:collectionName andFileName:fileName];
     action.deleteCallback = callback;
     [action executeDELETE];
+}
+
+-(void) sendDiffFileForUser:(NSString *) userId
+              andCollection:(NSString *) collectionName
+         andSharingSpaceURL:(NSString *) sharingSpaceURL
+           andSharingSecret:(NSString *) sharingSecret
+               withFileName:(NSString *) fileName
+                    andPath:(NSString *) path
+                 andBase64Content:(NSData *) content
+                andCallback:(diff_file_sent_callback) callback;
+{
+    DiffFileAction * action = [[DiffFileAction alloc] initWithUserId:userId
+                                                   andCollectionName:collectionName
+                                                    andSharingSecret:sharingSecret
+                                                  andSharingSpaceURL:sharingSpaceURL
+                                                         andFilename:fileName
+                                                             andPath:path
+                                                andBase64FileContent:content];
+    
+    action.postData = content;
+    action.postCallback = callback;
+    [action executePOST];
 }
 
 @end

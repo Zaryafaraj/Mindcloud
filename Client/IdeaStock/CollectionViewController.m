@@ -2302,6 +2302,7 @@ intoStackingWithMainView: (UIView *) mainView
         [self.collectionView resetTouchRecorder];
         [self.board promiseSaving];
     }
+    [self.board sendDiffDrawings:diffDrawings];
 }
 
 -(void) willBeginDrawingOnScreen

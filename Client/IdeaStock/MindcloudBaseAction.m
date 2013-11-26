@@ -91,6 +91,13 @@
 
 -(void) executePOST
 {
+    self.request.HTTPMethod = @"POST";
+    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:self.request
+                                                                   delegate:self];
+    if (!theConnection)
+    {
+        NSLog(@"Failed to connect to %@", self.request.URL);
+    }
     return;
 }
 

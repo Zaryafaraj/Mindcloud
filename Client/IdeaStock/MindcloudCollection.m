@@ -229,6 +229,14 @@
                                                    andExternalContent:allDrawings];
 }
 
+-(void) sendDiffDrawings:(ScreenDrawing *)diffDrawings
+{
+    
+    NSString * fileName = [ExternalFileHelper filenameForScreenDrawing];
+    [self.gordonDataSource sendCollectionDiffFileWithFilename:fileName
+                                                   andContent:diffDrawings];
+}
+
 -(void) addNotesWithIDs: (NSArray *) noteIDs
              toStacking:(NSString *) stackingId
 {

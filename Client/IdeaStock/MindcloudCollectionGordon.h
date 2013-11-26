@@ -110,4 +110,10 @@
  */
 -(void) cleanup;
 
+/*===============================================*/
+#pragma mark - files
+/*===============================================*/
+
+-(void) sendCollectionDiffFileWithFilename:(NSString *) filename
+                                andContent:(id<DiffableSerializableObject>) content;
 @end
