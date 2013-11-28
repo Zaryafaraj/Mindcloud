@@ -192,7 +192,8 @@
     }
     else
     {
-        NSLog(@"CollectionSharingAdapter - SharingSpaceURL Not Set");
+        //its not shared do nothing
+//        NSLog(@"CollectionSharingAdapter - SharingSpaceURL Not Set");
     }
 }
 

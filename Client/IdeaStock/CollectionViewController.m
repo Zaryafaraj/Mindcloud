@@ -2297,7 +2297,7 @@ intoStackingWithMainView: (UIView *) mainView
                                                               target:self
                                                             selector:@selector(synchDrawings:)
                                                             userInfo:nil
-                                                             repeats:YES];
+                                                             repeats:NO];
     
 //    NSLog(@"DIFFS : \n %@ \n ==== ", diffDrawings);
 //    NSLog(@"ALL : \n %@ \n ==== ", allDrawings);
@@ -2316,8 +2316,8 @@ intoStackingWithMainView: (UIView *) mainView
         NSLog(@"CollectionViewController- Saving Diffs: %@ ", [diffDrawings debugDescription]);
         [self.collectionView resetTouchRecorder];
         [self.board promiseSaving];
+        [self.board sendDiffDrawings:diffDrawings];
     }
-    [self.board sendDiffDrawings:diffDrawings];
 }
 
 -(void) willBeginDrawingOnScreen
