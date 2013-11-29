@@ -18,4 +18,7 @@
 
 +(ClearMessage *) clearMessage;
 
++(PeerMessage *) messageFromString:(NSString *) message
+                     withMessageId:(NSString *) messageId;
+
 @end

@@ -1236,6 +1236,17 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     }
 }
 
+-(void) messageReceivedWithId:(NSString *)messageId
+                   andContent:(NSString *)message
+{
+    NSDictionary * userInfo = @{@"result" : @{@"messageId": messageId,
+                                              @"message" : message}};
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:LISTENER_RECEIVED_MSG
+                                                        object:self
+                                                      userInfo:userInfo];
+}
+
 -(void) thumbnailGotUpdated:(NSString *) thumbnailPath
           forCollectionName:(NSString *) collectionName
           withSharingSecret:(NSString *) sharingSecret

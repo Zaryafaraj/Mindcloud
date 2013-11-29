@@ -44,6 +44,9 @@
 -(void) eventOccuredWithDownloadingOfCollectionAssetDiff:(NSData *) diffContent
                                              forFileName:(NSString *) fileName;
 
+-(void) eventOccuredWithReceivingOfMessage:(NSString *) message
+                             withMessageID:(NSString *) messageId;
+
 -(void) associationWithId:(NSString *) subCollectionId
     downloadedImageWithPath:(NSString *) imagePath;
 

@@ -189,6 +189,39 @@
     }
 }
 
+-(void) undoItemsAtOrderIndex:(NSArray *) orderIndexes
+{
+    BOOL didChangeDrawings = NO;
+    for(NSNumber * num in orderIndexes)
+    {
+       
+        if (self.orderIndex >= 0 &&
+            self.orderIndex < self.allDrawings.count)
+        {
+            NSSet * touchedViewsInLastOrder = self.allDrawings[num];
+            for (PaintLayerView * view in touchedViewsInLastOrder)
+            {
+                [view undoIndex:num.integerValue];
+                [self.touchedViews addObject:view];
+                didChangeDrawings = YES;
+                NSNumber * indexObj = [NSNumber numberWithInt: view.gridIndex];
+                [self.validUndoViews addObject:indexObj];
+            }
+        
+            [self.allDrawings removeObjectForKey:num];
+        }
+    }
+    
+    if (didChangeDrawings)
+    {
+        id<CollectionBoardDelegate> temp = self.delegate;
+        if (temp)
+        {
+            [temp didFinishDrawingOnScreen];
+        }
+    }
+}
+
 -(void) enableDebugMode
 {
    for (UIView * gridView in self.viewGrid)

@@ -124,4 +124,17 @@
     }
     return NO;
 }
+
+-(BOOL) hasDiffToSend
+{
+    for(NSNumber * index in self.gridTraces)
+    {
+        NSDictionary * tracesInTheGrid = self.gridTraces[index];
+        if (tracesInTheGrid.count > 0)
+        {
+            return YES;
+        }
+    }
+    return NO;
+}
 @end

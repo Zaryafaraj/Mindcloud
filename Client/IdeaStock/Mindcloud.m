@@ -483,7 +483,7 @@ static Mindcloud * instance;
     SendMessageAction * action = [[SendMessageAction alloc] initWithUserId:userId
                                                          andCollectionName:collectionName
                                                           andSharingSecret:sharingSecret andSharingSpaceURL:sharingSpaceURL
-                                                                andMessage:messageId
+                                                                andMessage:message
                                                               andMessageId:messageId];
     action.postCallback = callback;
     [action executePOST];

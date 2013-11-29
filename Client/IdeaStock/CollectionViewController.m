@@ -27,6 +27,7 @@
 #import "PaintbrushViewController.h"
 #import "PaintColorViewController.h"
 #import "ScreenDrawing.h"
+#import "UndoMessage.h"
 
 @interface CollectionViewController ()
 
@@ -1115,6 +1116,16 @@
                                              selector:@selector(drawingDiffDownloaded:)
                                                  name:DRAWING_DIFF_DOWNLOADED_EVENT
                                                object:self.board];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(undoEventOccurred:)
+                                                 name:UNDO_OCCURRED_EVENT
+                                               object:self.board];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(clearEventOccurred:)
+                                                 name:CLEAR_OCCURRED_EVENT
+                                               object:self.board];
 }
 
 -(void) viewDidAppear:(BOOL)animated
@@ -2128,6 +2139,18 @@ intoStackingWithMainView: (UIView *) mainView
     }
 }
 
+-(void) undoEventOccurred:(NSNotification *) notification
+{
+    NSDictionary * userInfo = notification.userInfo;
+    UndoMessage * undoMsg = userInfo[@"result"];
+    [self.collectionView undoItemsAtOrderIndex:undoMsg.orderIndices];
+}
+
+-(void) clearEventOccurred:(NSNotification *) notification
+{
+    [self.collectionView clearPaintedItems];
+}
+
 #pragma mark - note delegate
 - (void) note: (id)note changedTextTo: (NSString *) text{
     
@@ -2322,7 +2345,10 @@ intoStackingWithMainView: (UIView *) mainView
         NSLog(@"CollectionViewController- Saving Diffs: %@ ", [diffDrawings debugDescription]);
         [self.collectionView resetTouchRecorder];
         [self.board promiseSaving];
-        [self.board sendDiffDrawings:diffDrawings];
+        if ([diffDrawings hasDiffToSend])
+        {
+            [self.board sendDiffDrawings:diffDrawings];
+        }
     }
 }
 

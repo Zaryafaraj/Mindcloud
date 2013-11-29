@@ -17,6 +17,7 @@
 #define DELETE_ASSOCIATION_KEY @"delete_note"
 #define UPDATE_THUMBNAIL_KEY @"update_thumbnail"
 #define DIFF_FILE_RECEIVED @"send_diff_file"
+#define CUSTOM_MESSAGE_RECEIVED @"send_custom_message"
 #define TOTAL_LISTENERS 2
 #define MAX_FAILURE_RETRIES 5
 
@@ -246,6 +247,17 @@
                                                      withData:diffData];
             }
             
+        }
+        if ([eventKey isEqualToString:CUSTOM_MESSAGE_RECEIVED])
+        {
+            NSLog(@"CollectionSharingAdapter - Custom Message received");
+            NSDictionary * messages = result[eventKey];
+            for(NSString * messageId in messages.allKeys)
+            {
+                NSString * message = messages[messageId];
+                [self.delegate messageReceivedWithId:messageId
+                                          andContent:message];
+            }
         }
     }
 }

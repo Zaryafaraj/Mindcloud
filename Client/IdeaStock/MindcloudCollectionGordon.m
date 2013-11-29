@@ -196,6 +196,11 @@ CachedObject> dataSource;
                                              selector:@selector(listenerDownloadedDiff:)
                                                  name:LISTENER_DOWNLOADED_DIFF
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(listenerReceivedMessage:)
+                                                 name:LISTENER_RECEIVED_MSG
+                                               object:nil];
 }
 
 /*===============================================*/
@@ -1001,6 +1006,16 @@ CachedObject> dataSource;
     }
 }
 
+-(void) listenerReceivedMessage:(NSNotification *) notification
+{
+    NSDictionary * result = notification.userInfo[@"result"];
+    NSString * messageId = result[@"messageId"];
+    NSString * message = result[@"message"];
+    id<MindcloudCollectionGordonDelegate> tempDelegate = self.delegate;
+    [tempDelegate eventOccuredWithReceivingOfMessage:message
+                                       withMessageID:messageId];
+}
+
 /*! Gets called when we finish merging two manifests
  */
 -(void) mergeFinished:(NSNotification *) notification
@@ -1143,7 +1158,7 @@ CachedObject> dataSource;
 -(void) sendCustomMessageToEveryone:(NSString *) message
                       withMessageId:(NSString *) messageId
 {
-    [self.sharingAdapter sendMessage:messageId
+    [self.sharingAdapter sendMessage:message
                        withMessageId:messageId];
 }
 

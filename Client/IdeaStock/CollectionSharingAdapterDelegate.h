@@ -31,4 +31,7 @@
 
 -(void) diffFileReceivedForAssetAtPath:(NSString *) assetPath
                               withData:(NSData *) data;
+
+-(void) messageReceivedWithId:(NSString *) messageId
+                   andContent:(NSString *)message;
 @end

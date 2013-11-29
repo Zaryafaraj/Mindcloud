@@ -1015,6 +1015,29 @@
     }
 }
 
+-(void) eventOccuredWithReceivingOfMessage:(NSString *)message
+                             withMessageID:(NSString *)messageId
+{
+    PeerMessage * peerMessage = [MessageFactory messageFromString:message
+                                                withMessageId:messageId];
+    if ([peerMessage isKindOfClass:[ClearMessage class]])
+    {
+        NSDictionary * userInfo =  @{};
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:CLEAR_OCCURRED_EVENT
+                                                            object:self
+                                                          userInfo:userInfo];
+        
+    }
+    else if ([peerMessage isKindOfClass:[UndoMessage class]])
+    {
+        NSDictionary * userInfo =  @{@"result" : peerMessage};
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:UNDO_OCCURRED_EVENT
+                                                            object:self
+                                                          userInfo:userInfo];
+    }
+}
 -(void) refresh
 {
     [self.gordonDataSource refresh];

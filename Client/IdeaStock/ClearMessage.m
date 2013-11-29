@@ -12,7 +12,7 @@
 
 -(NSString *) messageString
 {
-    NSString * msg =  @"{'action':'clear'}";
+    NSString * msg =  @"{\"action\":\"clear\"}";
     return msg;
 }
 @end

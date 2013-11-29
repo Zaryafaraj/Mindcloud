@@ -40,6 +40,8 @@
  */
 -(NSInteger) undo:(BOOL) isUnwantedArtifact;
 
+-(void) undoItemsAtOrderIndex:(NSArray *) orderIndexes;
+
 -(ScreenDrawing *) getAllScreenDrawings;
 
 //if shouldRebase is true all the new drawings that are return will be moved to old drawings

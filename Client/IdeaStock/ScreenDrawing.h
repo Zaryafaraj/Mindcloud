@@ -34,4 +34,6 @@
 
 -(BOOL) hasAnyThingToSave;
 
+-(BOOL) hasDiffToSend;
+
 @end

@@ -28,4 +28,37 @@
     return [[ClearMessage alloc] initWithMessageId:msgId];
 }
 
++(PeerMessage *) messageFromString:(NSString *) message
+                     withMessageId:(NSString *) messageId
+{
+    
+    NSError * err = nil;
+    NSData * msgData = [message dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary * result = [NSJSONSerialization JSONObjectWithData:msgData
+                                         options:NSJSONReadingAllowFragments
+                                           error:&err];
+    if (err != nil)
+    {
+        NSLog(@"MessageFactory - Invalid Message. error %@", err);
+    }
+    NSString * msgType = result[@"action"];
+    if (msgType != nil)
+    {
+        if ([msgType isEqualToString:@"undo"])
+        {
+            NSArray * orderIndexes = result[@"orderIndexes"];
+            if (orderIndexes != nil)
+            {
+                return [[UndoMessage alloc] initWithMessageId:messageId
+                                              andOrderIndices:orderIndexes];
+            }
+        }
+        if([msgType isEqualToString:@"clear"])
+        {
+            return [[ClearMessage alloc] initWithMessageId:messageId];
+        }
+    }
+    return nil;
+}
+
 @end

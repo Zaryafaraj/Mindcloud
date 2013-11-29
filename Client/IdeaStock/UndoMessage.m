@@ -29,18 +29,21 @@
 
 -(NSString *) messageString
 {
-    NSString * msg =  @"{'action':'undo','orderIndexes:{";
+    NSString * msg =  @"{\"action\":\"undo\",\"orderIndexes\":[";
     for (int i = 0; i< self.orderIndices.count; i++)
     {
         NSNumber * number = self.orderIndices[i];
-        msg = [msg stringByAppendingString:number.stringValue];
+        
+        NSString * numberMsg = [NSString stringWithFormat:@"\"%@\"", number.stringValue];
+        msg = [msg stringByAppendingString:numberMsg];
+        
         if (i != self.orderIndices.count - 1)
         {
             msg = [msg stringByAppendingString:@","];
         }
         
     }
-    msg = [msg stringByAppendingString:@"}}"];
+    msg = [msg stringByAppendingString:@"]}"];
     return msg;
 }
 
