@@ -7,13 +7,13 @@ from Sharing.UpdateSharedManifestAction import UpdateSharedManifestAction
 from Sharing.UpdateSharedNoteAction import UpdateSharedNoteAction
 from Sharing.UpdateSharedNoteImageAction import UpdateSharedNoteImageAction
 from Sharing.UpdateSharedThumbnailAction import UpdateSharedThumbnailAction
+from Sharing.SendCustomMessageAction import SendCustomMessageAction
 from Sharing.SendDiffFileAction import SendDiffFileAction
 
 __author__ = 'afathali'
 
 
 class SharingActionFactory():
-
     __USER_ID_KEY = 'user_id'
     __COLLECTION_NAME_KEY = 'collection_name'
     __NOTE_NAME_KEY = 'note_name'
@@ -28,7 +28,15 @@ class SharingActionFactory():
         return sharing_action
 
     @staticmethod
-    def from_json_and_file(json_str, file=None):
+    def from_custom_message_and_user(custom_message, msg_id, user_id, collection_name):
+        """
+        Returns a sharing action for sending a custom message
+        """
+        sharing_action = SendCustomMessageAction(user_id, msg_id, collection_name, custom_message)
+        return sharing_action
+
+    @staticmethod
+    def from_json_and_file(json_str, custom_file=None):
         """
 
         Returns a sharing action from json string
@@ -44,28 +52,28 @@ class SharingActionFactory():
         try:
             json_obj = json.loads(json_str)
             if SharingEvent.UPDATE_MANIFEST in json_obj:
-                if file is None:
+                if custom_file is None:
                     return None
 
                 details = json_obj[SharingEvent.UPDATE_MANIFEST]
                 user_id = details[SharingActionFactory.__USER_ID_KEY]
                 collection_name = details[SharingActionFactory.__COLLECTION_NAME_KEY]
-                sharing_action = UpdateSharedManifestAction(user_id, collection_name, file)
+                sharing_action = UpdateSharedManifestAction(user_id, collection_name, custom_file)
                 return sharing_action
 
             elif SharingEvent.UPDATE_NOTE in json_obj:
-                if file is None:
+                if custom_file is None:
                     return None
                 details = json_obj[SharingEvent.UPDATE_NOTE]
                 user_id = details[SharingActionFactory.__USER_ID_KEY]
                 collection_name = details[SharingActionFactory.__COLLECTION_NAME_KEY]
                 note_name = details[SharingActionFactory.__NOTE_NAME_KEY]
                 sharing_action = UpdateSharedNoteAction(user_id, collection_name,
-                    note_name, file)
+                                                        note_name, custom_file)
                 return sharing_action
 
             elif SharingEvent.UPDATE_NOTE_IMG in json_obj:
-                if file is None:
+                if custom_file is None:
                     return None
 
                 details = json_obj[SharingEvent.UPDATE_NOTE_IMG]
@@ -73,7 +81,7 @@ class SharingActionFactory():
                 collection_name = details[SharingActionFactory.__COLLECTION_NAME_KEY]
                 note_name = details[SharingActionFactory.__NOTE_NAME_KEY]
                 sharing_action = UpdateSharedNoteImageAction(user_id,
-                    collection_name, note_name, file)
+                                                             collection_name, note_name, custom_file)
                 return sharing_action
 
             elif SharingEvent.DELETE_NOTE in json_obj:
@@ -82,17 +90,17 @@ class SharingActionFactory():
                 collection_name = details[SharingActionFactory.__COLLECTION_NAME_KEY]
                 note_name = details[SharingActionFactory.__NOTE_NAME_KEY]
                 sharing_action = DeleteSharedNoteAction(user_id, collection_name,
-                    note_name)
+                                                        note_name)
                 return sharing_action
             elif SharingEvent.UPDATE_THUMBNAIL:
 
-                if file is None:
+                if custom_file is None:
                     return None
 
                 details = json_obj[SharingEvent.UPDATE_THUMBNAIL]
                 user_id = details[SharingActionFactory.__USER_ID_KEY]
                 collection_name = details[SharingActionFactory.__COLLECTION_NAME_KEY]
-                sharing_action = UpdateSharedThumbnailAction(user_id, collection_name, file)
+                sharing_action = UpdateSharedThumbnailAction(user_id, collection_name, custom_file)
                 return sharing_action
 
             else:
@@ -125,14 +133,10 @@ class SharingActionFactory():
                 user_id = subscriber_info[0]
                 collection_name = subscriber_info[1]
                 if user_id != sharing_action.get_user_id():
-                    related_action =\
+                    related_action = \
                         sharing_action.clone_for_user_and_collection(user_id,
                                                                      collection_name)
                     all_actions.append(related_action)
 
             if callback is not None:
                 callback(all_actions)
-
-
-
-

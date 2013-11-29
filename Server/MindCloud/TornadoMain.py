@@ -58,6 +58,7 @@ class Application(tornado.web.Application):
             (r"/SharingSpace/([0-9A-Za-z]{8})/Listen", SharingSpaceListenerHandler),
             #Base64 Diff. Every diff file should be encoded in base64
             (r"/SharingSpace/([0-9A-Za-z]{8})/B64Diff", SharingSpaceDiffHandler),
+            (r"/SharingSpace/([0-9A-Za-z]{8})/Message", SharingSpaceCustomMessageHandler),
             (r"/SharingSpace/([0-9A-Za-z]{8})/Listen/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})", SharingSpaceListenerHandler)
         ]
         tornado.web.Application.__init__(self, handlers)

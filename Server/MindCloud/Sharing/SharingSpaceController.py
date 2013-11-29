@@ -256,7 +256,7 @@ class SharingSpaceController(SharingActionDelegate):
         self.__sharing_queue.push_action(sharing_action)
 
         #if the class is not processing the actions start processing them
-        if  not self.__sharing_queue.is_being_processed :
+        if  not self.__sharing_queue.is_being_processed:
             self.__process_next_batch_of_queue_actions()
 
 

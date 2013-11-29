@@ -4,6 +4,7 @@ from Sharing.UpdateSharedNoteAction import UpdateSharedNoteAction
 from Sharing.UpdateSharedNoteImageAction import UpdateSharedNoteImageAction
 from Sharing.UpdateSharedThumbnailAction import UpdateSharedThumbnailAction
 from Sharing.SendDiffFileAction import SendDiffFileAction
+from Sharing.SendCustomMessageAction import SendCustomMessageAction
 from Tests.TestingProperties import TestingProperties
 
 __author__ = 'afathali'
@@ -55,6 +56,20 @@ class SharingActionTestCase(AsyncTestCase):
         test_file = open('../test_resources/XooML2.xml')
         send_diff_action = SendDiffFileAction(self.__account_id, first_collection_name, test_file, 'XooML.xml')
         send_diff_action.execute(callback=self.stop)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+
+    def test_send_custom_message(self):
+
+        #create collection
+        first_collection_name = 'shareable_collection'
+        test_file = open('../test_resources/XooML.xml')
+        StorageServer.add_collection(user_id=self.__account_id,
+                                     collection_name=first_collection_name, callback=self.stop, file=test_file)
+        response = self.wait()
+        self.assertEqual(StorageResponse.OK, response)
+        send_msg_action = SendCustomMessageAction(self.__account_id, 'msgID', first_collection_name, 'msg')
+        send_msg_action.execute(callback=self.stop)
         response = self.wait()
         self.assertEqual(StorageResponse.OK, response)
 

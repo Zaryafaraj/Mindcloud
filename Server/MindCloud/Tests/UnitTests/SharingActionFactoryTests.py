@@ -10,6 +10,7 @@ from Sharing.UpdateSharedNoteAction import UpdateSharedNoteAction
 from Sharing.UpdateSharedNoteImageAction import UpdateSharedNoteImageAction
 from Sharing.UpdateSharedThumbnailAction import UpdateSharedThumbnailAction
 from Sharing.SendDiffFileAction import SendDiffFileAction
+from Sharing.SendCustomMessageAction import SendCustomMessageAction
 from Storage.StorageResponse import StorageResponse
 from Storage.StorageServer import StorageServer
 from Tests.TestingProperties import TestingProperties
@@ -53,6 +54,22 @@ class SharingActionFactoryTestCase(AsyncTestCase):
         self.assertEqual(collection_name, sharing_action.get_collection_name())
         self.assertTrue(sharing_action.get_associated_file() is not None)
         self.assertEqual(SharingEvent.SEND_DIFF_FILE, sharing_action.get_action_type())
+
+    def test_create_action_for_custom_message(self):
+
+        user_id = 'UserId'
+        collection_name = 'collection_name'
+        msg = "{'hello' : 'hi'}"
+        msg_id = 'ID1234'
+
+        sharing_action = SharingActionFactory.from_custom_message_and_user(msg, msg_id, user_id, collection_name)
+
+        self.assertEqual(user_id, sharing_action.get_user_id())
+        self.assertEqual(collection_name, sharing_action.get_collection_name())
+        self.assertTrue(sharing_action.get_associated_file() is None)
+        self.assertEqual(SharingEvent.SEND_CUSTOM_MSG, sharing_action.get_action_type())
+        self.assertEqual(msg_id, sharing_action.get_action_resource_name())
+        self.assertEqual(msg, sharing_action.get_custom_message())
 
     def test_deserialize_json_for_update_manifest_invalid_json(self):
 
@@ -485,6 +502,46 @@ class SharingActionFactoryTestCase(AsyncTestCase):
             subscribers.remove(user_id)
             self.assertEqual(SharingEvent.SEND_DIFF_FILE,
                              sharing_action.get_action_type())
+        self.assertEqual(0, len(subscribers))
+
+        #cleanup
+        SharingController.remove_sharing_record_by_secret(sharing_secret, callback=self.stop)
+        self.wait()
+        for sharing_action in sharing_action_list:
+            user_id = sharing_action.get_user_id()
+            collection_name = sharing_action.get_collection_name()
+            StorageServer.remove_collection(user_id, collection_name,
+                                            callback=self.stop)
+            self.wait()
+
+    def test_create_related_actions_custom_message(self):
+        collection_name = 'sharing_collection'
+        subscribers = [self.__subscriber_id]
+        sharing_secret = \
+            self.__create_sharing_record(subscribers, collection_name)
+        subscribers.append(self.__account_id)
+
+        msg = 'custom_msg'
+        msg_id = 'customMSGId'
+        message_action = SendCustomMessageAction(self.__account_id, msg_id, collection_name, msg)
+
+        SharingActionFactory.create_related_sharing_actions(sharing_secret,
+                                                            message_action,
+                                                            callback=self.stop)
+        sharing_action_list = self.wait()
+
+        self.assertEqual(2, len(sharing_action_list))
+
+        for sharing_action in sharing_action_list:
+            user_id = sharing_action.get_user_id()
+            self.assertTrue(user_id in subscribers)
+            subscribers.remove(user_id)
+            self.assertEqual(SharingEvent.SEND_CUSTOM_MSG,
+                             sharing_action.get_action_type())
+            self.assertEqual(msg,
+                             sharing_action.get_custom_message())
+            self.assertEqual(msg_id,
+                             sharing_action.get_action_resource_name())
         self.assertEqual(0, len(subscribers))
 
         #cleanup
