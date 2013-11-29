@@ -20,7 +20,6 @@
 /*! NSSet of NSNumbers indicating the index of views that have their items
     undone. So we know to communicate them even if they are empty
  */
-
 @property (nonatomic, strong) NSSet * undidIndexes;
 
 @end

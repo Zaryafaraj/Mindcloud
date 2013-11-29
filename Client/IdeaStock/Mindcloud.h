@@ -22,6 +22,7 @@
 #import "DiffableSerializableObject.h"
 #import "CollectionAssetAction.h"
 #import "DiffFileAction.h"
+#import "SendMessageAction.h"
 
 @interface Mindcloud : NSObject
 
@@ -178,4 +179,13 @@
                     andPath:(NSString *) path
                  andBase64Content:(NSData *) content
                 andCallback:(diff_file_sent_callback) callback;
+
+-(void) sendMessageForUser:(NSString *) userId
+              andCollection:(NSString *) collectionName
+         andSharingSpaceURL:(NSString *) sharingSpaceURL
+          andSharingSecret:(NSString *) sharingSecret
+                andMessage:(NSString *) message
+              andMessageId:(NSString *) messageId
+               andCallback:(message_sent_callback) callback;
+
 @end

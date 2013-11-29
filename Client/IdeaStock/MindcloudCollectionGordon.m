@@ -1138,6 +1138,15 @@ CachedObject> dataSource;
                                    andContent:content];
 }
 
+
+#pragma mark - message
+-(void) sendCustomMessageToEveryone:(NSString *) message
+                      withMessageId:(NSString *) messageId
+{
+    [self.sharingAdapter sendMessage:messageId
+                       withMessageId:messageId];
+}
+
 #pragma mark - timers
 
 -(void)restartTimer{

@@ -87,6 +87,12 @@
 //downloads and gets the collection assets.
 //there will be anotification sent out when each file is available
 //the notification will contain the type of the asset too
+
+/*! orderINdexes is an NSArray of NSNumber of NSIntegers that are the 
+    order index for the undo */
+-(void) sendUndoMessage:(NSArray *) orderIndexes;
+-(void) sendClearMessage;
+
 -(void) getAllCollectionAssetsAsync;
 +(void) saveBulletinBoard: (id) bulletinBoard;
 

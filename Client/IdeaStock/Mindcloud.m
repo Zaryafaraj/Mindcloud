@@ -472,4 +472,21 @@ static Mindcloud * instance;
     [action executePOST];
 }
 
+-(void) sendMessageForUser:(NSString *) userId
+              andCollection:(NSString *) collectionName
+         andSharingSpaceURL:(NSString *) sharingSpaceURL
+          andSharingSecret:(NSString *) sharingSecret
+                andMessage:(NSString *) message
+              andMessageId:(NSString *) messageId
+               andCallback:(message_sent_callback) callback;
+{
+    SendMessageAction * action = [[SendMessageAction alloc] initWithUserId:userId
+                                                         andCollectionName:collectionName
+                                                          andSharingSecret:sharingSecret andSharingSpaceURL:sharingSpaceURL
+                                                                andMessage:messageId
+                                                              andMessageId:messageId];
+    action.postCallback = callback;
+    [action executePOST];
+}
+
 @end

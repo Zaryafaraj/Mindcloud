@@ -25,5 +25,8 @@
                  andFileName:(NSString *) filename
                   andContent:(id<DiffableSerializableObject>) content;
 
+-(void) sendMessage:(NSString *) message
+      withMessageId:(NSString *) messageId;
+
 -(void) adjustListeners;
 @end

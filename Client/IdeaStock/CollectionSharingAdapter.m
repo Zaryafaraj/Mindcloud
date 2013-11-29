@@ -250,6 +250,29 @@
     }
 }
 
+-(void) sendMessage:(NSString *) message
+      withMessageId:(NSString *) messageId
+{
+    
+    if (self.sharingSpaceURL != nil)
+    {
+        Mindcloud * mindcloud = [Mindcloud getMindCloud];
+        NSString * userId = [UserPropertiesHelper userID];
+        [mindcloud sendMessageForUser:userId
+                        andCollection:self.collectionName
+                   andSharingSpaceURL:self.sharingSpaceURL
+                     andSharingSecret:self.sharingSecret
+                           andMessage:message
+                         andMessageId:messageId
+                          andCallback:^(BOOL callback){;}];
+    }
+    else
+    {
+        //its not shared do nothing
+//        NSLog(@"CollectionSharingAdapter - SharingSpaceURL Not Set");
+    }
+}
+
 -(void) stopListening
 {
     if (!self.isShared) return;

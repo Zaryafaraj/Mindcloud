@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		D374CAD418445CF20070C359 /* DiffFileAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D374CAD318445CF20070C359 /* DiffFileAction.m */; };
+		D3A3ECAB184837BB00174649 /* SendMessageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A3ECAA184837BB00174649 /* SendMessageAction.m */; };
+		D3A3ECAE1848409400174649 /* MessageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A3ECAD1848409400174649 /* MessageFactory.m */; };
+		D3A3ECB21848419A00174649 /* PeerMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A3ECB11848419A00174649 /* PeerMessage.m */; };
+		D3A3ECB51848422100174649 /* UndoMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A3ECB41848422100174649 /* UndoMessage.m */; };
+		D3A3ECB81848423800174649 /* ClearMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A3ECB71848423800174649 /* ClearMessage.m */; };
 		D709470B1523BDFE008E4AD9 /* CollectionNote.m in Sources */ = {isa = PBXBuildFile; fileRef = D709470A1523BDFE008E4AD9 /* CollectionNote.m */; };
 		D70947231523DC27008E4AD9 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D70947161523DC27008E4AD9 /* DDXMLElementAdditions.m */; };
 		D70947241523DC27008E4AD9 /* NSString+DDXML.m in Sources */ = {isa = PBXBuildFile; fileRef = D70947191523DC27008E4AD9 /* NSString+DDXML.m */; };
@@ -141,6 +146,16 @@
 /* Begin PBXFileReference section */
 		D374CAD218445CF20070C359 /* DiffFileAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiffFileAction.h; sourceTree = "<group>"; };
 		D374CAD318445CF20070C359 /* DiffFileAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiffFileAction.m; sourceTree = "<group>"; };
+		D3A3ECA9184837BB00174649 /* SendMessageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendMessageAction.h; sourceTree = "<group>"; };
+		D3A3ECAA184837BB00174649 /* SendMessageAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMessageAction.m; sourceTree = "<group>"; };
+		D3A3ECAC1848409400174649 /* MessageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageFactory.h; sourceTree = "<group>"; };
+		D3A3ECAD1848409400174649 /* MessageFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageFactory.m; sourceTree = "<group>"; };
+		D3A3ECB01848419A00174649 /* PeerMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeerMessage.h; sourceTree = "<group>"; };
+		D3A3ECB11848419A00174649 /* PeerMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeerMessage.m; sourceTree = "<group>"; };
+		D3A3ECB31848422100174649 /* UndoMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UndoMessage.h; sourceTree = "<group>"; };
+		D3A3ECB41848422100174649 /* UndoMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UndoMessage.m; sourceTree = "<group>"; };
+		D3A3ECB61848423800174649 /* ClearMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClearMessage.h; sourceTree = "<group>"; };
+		D3A3ECB71848423800174649 /* ClearMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClearMessage.m; sourceTree = "<group>"; };
 		D70947091523BDFE008E4AD9 /* CollectionNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionNote.h; sourceTree = "<group>"; };
 		D709470A1523BDFE008E4AD9 /* CollectionNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionNote.m; sourceTree = "<group>"; };
 		D70947151523DC27008E4AD9 /* DDXMLElementAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElementAdditions.h; sourceTree = "<group>"; };
@@ -424,6 +439,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D3A3ECAF1848409B00174649 /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				D3A3ECAC1848409400174649 /* MessageFactory.h */,
+				D3A3ECAD1848409400174649 /* MessageFactory.m */,
+				D3A3ECB01848419A00174649 /* PeerMessage.h */,
+				D3A3ECB11848419A00174649 /* PeerMessage.m */,
+				D3A3ECB31848422100174649 /* UndoMessage.h */,
+				D3A3ECB41848422100174649 /* UndoMessage.m */,
+				D3A3ECB61848423800174649 /* ClearMessage.h */,
+				D3A3ECB71848423800174649 /* ClearMessage.m */,
+			);
+			name = Messages;
+			sourceTree = "<group>";
+		};
 		D70947131523DC27008E4AD9 /* KissXML */ = {
 			isa = PBXGroup;
 			children = (
@@ -708,6 +738,7 @@
 		DB4E0AC5163DCD1E00AB82E6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D3A3ECAF1848409B00174649 /* Messages */,
 				D7B1432B1526A50400DC7556 /* MindcloudCollection.h */,
 				D7B1432C1526A50400DC7556 /* MindcloudCollection.m */,
 				DB4E0AC7163DCD3D00AB82E6 /* MindcloudAllCollections.h */,
@@ -828,6 +859,8 @@
 				DB3FD1E41826EC5900F6A1B1 /* CollectionAssetAction.m */,
 				D374CAD218445CF20070C359 /* DiffFileAction.h */,
 				D374CAD318445CF20070C359 /* DiffFileAction.m */,
+				D3A3ECA9184837BB00174649 /* SendMessageAction.h */,
+				D3A3ECAA184837BB00174649 /* SendMessageAction.m */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -1147,6 +1180,7 @@
 				DBBD10C917F7E73300FB8780 /* NoteAnimator.m in Sources */,
 				D70947241523DC27008E4AD9 /* NSString+DDXML.m in Sources */,
 				D70947251523DC27008E4AD9 /* DDXMLDocument.m in Sources */,
+				D3A3ECAB184837BB00174649 /* SendMessageAction.m in Sources */,
 				D70947261523DC27008E4AD9 /* DDXMLElement.m in Sources */,
 				DB73371D1813B2C400505556 /* ExternalFileHelper.m in Sources */,
 				DBC4E36117F164E300F595FE /* AllCollectionsNavigationControllerViewController.m in Sources */,
@@ -1166,6 +1200,7 @@
 				DB90B37A18023761009CACA3 /* AllCollectionsAnimationHelper.m in Sources */,
 				D7F1FF2C154D1A3300D07B58 /* NoteView.m in Sources */,
 				D7E44BEE15643AA90080EF71 /* StackView.m in Sources */,
+				D3A3ECB81848423800174649 /* ClearMessage.m in Sources */,
 				D7E44C03156573800080EF71 /* StackViewController.m in Sources */,
 				D7DD09E31572190D00918BDF /* ImageNoteView.m in Sources */,
 				DB99FFB5160E5C5D0042ED2A /* UserPropertiesHelper.m in Sources */,
@@ -1173,6 +1208,7 @@
 				DB99FFCC160E8ABB0042ED2A /* MindcloudBaseAction.m in Sources */,
 				DBC1B7F317CACCBA0036431A /* MindcloudAuthenticationGordon.m in Sources */,
 				DB7B876517D0393F001933FA /* XoomlFragment.m in Sources */,
+				D3A3ECAE1848409400174649 /* MessageFactory.m in Sources */,
 				DBBAF259160E9E5000C81C25 /* AuthenticationAction.m in Sources */,
 				DB3FD1DF182498C500F6A1B1 /* ScreenDrawing.m in Sources */,
 				DB592C101820DAE400024926 /* ColorCell.m in Sources */,
@@ -1233,7 +1269,9 @@
 				DB601A3916E2C2380007A636 /* ListenerAction.m in Sources */,
 				DBAC849817D5190F003D2B7F /* UpdateFragmentNamespaceElementNotification.m in Sources */,
 				DBBBB9C317CC6FA700081C3B /* XoomlNamespaceElement.m in Sources */,
+				D3A3ECB21848419A00174649 /* PeerMessage.m in Sources */,
 				DB57B054180DD9E2002F993B /* PaintLayerView.m in Sources */,
+				D3A3ECB51848422100174649 /* UndoMessage.m in Sources */,
 				DB601A3D16E2CFED0007A636 /* CollectionSharingAdapter.m in Sources */,
 				DBAC849E17D519E2003D2B7F /* AddFragmentNamespaceSubElementNotification.m in Sources */,
 				DB4D940D16E337DB007FE65A /* TempImageAction.m in Sources */,

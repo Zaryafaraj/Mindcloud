@@ -1955,6 +1955,7 @@ intoStackingWithMainView: (UIView *) mainView
     if (self.isPainting)
     {
         [self.collectionView clearPaintedItems];
+        [self.board sendClearMessage];
     }
 }
 
@@ -1986,7 +1987,12 @@ intoStackingWithMainView: (UIView *) mainView
 
 - (IBAction)undoPressed:(id)sender
 {
-    [self.collectionView undo:NO];
+    NSInteger orderIndex = [self.collectionView undo:NO];
+    NSNumber * orderIndexObj = [NSNumber numberWithInteger:orderIndex];
+    if (orderIndex > -1)
+    {
+        [self.board sendUndoMessage:@[orderIndexObj]];
+    }
 }
 
 -(void) enablePaintMode

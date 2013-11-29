@@ -15,6 +15,7 @@
 #import "FileSystemHelper.h"
 #import "CollectionNote.h"
 #import "ExternalFileHelper.h"
+#import "MessageFactory.h"
 
 @interface MindcloudCollection()
 
@@ -235,6 +236,23 @@
     NSString * fileName = [ExternalFileHelper filenameForScreenDrawing];
     [self.gordonDataSource sendCollectionDiffFileWithFilename:fileName
                                                    andContent:diffDrawings];
+}
+
+-(void) sendUndoMessage:(NSArray *)orderIndexes
+{
+    UndoMessage * message = [MessageFactory undoMessageWithOrderIndices:orderIndexes];
+    NSString * messageString = [message messageString];
+    [self.gordonDataSource sendCustomMessageToEveryone:messageString
+                                         withMessageId:message.messageId];
+    
+}
+
+-(void) sendClearMessage
+{
+    ClearMessage * message = [MessageFactory clearMessage];
+    NSString * messageString = [message messageString];
+    [self.gordonDataSource sendCustomMessageToEveryone:messageString
+                                         withMessageId:message.messageId];
 }
 
 -(void) addNotesWithIDs: (NSArray *) noteIDs

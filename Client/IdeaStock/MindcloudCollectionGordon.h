@@ -116,4 +116,10 @@
 
 -(void) sendCollectionDiffFileWithFilename:(NSString *) filename
                                 andContent:(id<DiffableSerializableObject>) content;
+
+/*===============================================*/
+#pragma mark - message
+/*===============================================*/
+-(void) sendCustomMessageToEveryone:(NSString *) message
+                      withMessageId:(NSString *) messageId;
 @end

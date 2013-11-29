@@ -146,7 +146,7 @@
     }
 }
 
--(void) undo:(BOOL) isUnwantedArtifact
+-(NSInteger) undo:(BOOL) isUnwantedArtifact
 {
     if (self.orderIndex >= 0 &&
         self.orderIndex < self.allDrawings.count)
@@ -167,6 +167,7 @@
         }
     
         [self.allDrawings removeObjectForKey:orderIndxObj];
+        NSInteger undidOrder = self.orderIndex;
         self.orderIndex--;
         if (didChangeDrawings)
         {
@@ -175,7 +176,16 @@
             {
                 [temp didFinishDrawingOnScreen];
             }
+            return undidOrder;
         }
+        else
+        {
+            return -1;
+        }
+    }
+    else
+    {
+        return -1;
     }
 }
 
@@ -818,6 +828,7 @@
 -(void) applyDiffDrawingContentFrom:(ScreenDrawing *) diffDrawings
 {
     NSArray * avaiableIndices = [diffDrawings getAvailableGridIndices];
+    
     int maxOrderIndex = self.orderIndex;
     for (NSNumber * index in avaiableIndices)
     {
@@ -848,6 +859,9 @@
     {
         self.orderIndex = maxOrderIndex++;
     }
+    
+    
+    
 }
 
 @end
