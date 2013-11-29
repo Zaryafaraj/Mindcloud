@@ -7,7 +7,7 @@ from Sharing.SharingSpaceStorage import SharingSpaceStorage
 from Sharing.SharingActionFactory import SharingActionFactory
 
 
-class SharingSpaceDiffHandler(tornado.web.RequestHandler):
+class SharingSpaceMessageHandler(tornado.web.RequestHandler):
     """
     An api for sending custom messages to all listeners
     """
@@ -24,7 +24,7 @@ class SharingSpaceDiffHandler(tornado.web.RequestHandler):
         #Check to see if the required params are here
         user_id = self.get_argument('user_id', default=None)
         collection_name = self.get_argument('collection_name', default=None)
-        custom_message = self.get_argument('message', default=None)
+        custom_message = self.get_argument('msg', default=None)
         msg_id = self.get_argument('msg_id', default=None)
         if user_id is None or collection_name is None or custom_message is None or msg_id is None:
             self.set_status(400)

@@ -11,6 +11,7 @@ from Handlers.Joker.JokerHealthCheckHandler import JokerHealthCheckHandler
 from Handlers.Joker.SharingSpaceActionHandler import SharingSpaceActionHandler
 from Handlers.Joker.SharingSpaceListenerHandler import SharingSpaceListenerHandler
 from Handlers.Joker.SharingSpaceDiffHandler import SharingSpaceDiffHandler
+from Handlers.Joker.SharingSpaceMessageHandler import SharingSpaceMessageHandler
 from Properties import MindcloudProperties
 
 
@@ -26,6 +27,7 @@ class Application(tornado.web.Application):
             (r"/SharingSpace/([0-9A-Za-z]{8})/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/([\w+\-*%*\d*]+)/(\w+)", SharingSpaceActionHandler),
             (r"/SharingSpace/([0-9A-Za-z]{8})", SharingSpaceActionHandler),
             (r"/SharingSpace/([0-9A-Za-z]{8})/B64Diff", SharingSpaceDiffHandler),
+            (r"/SharingSpace/([0-9A-Za-z]{8})/Message", SharingSpaceMessageHandler),
             (r"/SharingSpace/([0-9A-Za-z]{8})/Listen/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})", SharingSpaceListenerHandler),
             (r"/HealthCheck", JokerHealthCheckHandler)
         ]

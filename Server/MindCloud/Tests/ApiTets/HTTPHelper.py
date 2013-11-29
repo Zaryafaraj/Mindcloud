@@ -12,8 +12,9 @@ class HTTPHelper:
         content_type = 'multipart/form-data; boundary=' + boundary
         headers = HTTPHeaders({'content-type':content_type})
         postData = ''
+
         for paramName in params:
-            postData = "--" + boundary +\
+            postData += "\r\n--" + boundary +\
                        "\r\nContent-Disposition: form-data; name=\""\
                        + paramName + "\"\r\n\r\n"
             postData += params[paramName]

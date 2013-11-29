@@ -1,3 +1,4 @@
+__author__ = 'Fathalian'
 import json
 import random
 import urllib
@@ -8,11 +9,9 @@ from Tests.ApiTets.HTTPHelper import HTTPHelper
 from Tests.TestingProperties import TestingProperties
 from TornadoMain import Application
 
-__author__ = 'afathali'
-
 
 #noinspection PyBroadException
-class SharingSpaceDiffAPITests(AsyncHTTPTestCase):
+class SharingSpaceCustomMessageAPITests(AsyncHTTPTestCase):
 
     account_id = TestingProperties.account_id
     subscriber_id = TestingProperties.subscriber_id
@@ -68,7 +67,7 @@ class SharingSpaceDiffAPITests(AsyncHTTPTestCase):
             url = '/'.join(['', subscribe_id, 'Collections', subscriber_collection])
             self.fetch(path=url, method='DELETE')
 
-    def test_send_diff_file(self):
+    def test_send_custom_msg(self):
 
         collection_name = 'share_api_col_name' + str(random.randint(0, 100))
         owner_id = self.account_id
@@ -78,15 +77,16 @@ class SharingSpaceDiffAPITests(AsyncHTTPTestCase):
             self.__create_shared_collection(owner_id, subscribers,
                                             collection_name)
 
-        diff_file = open('../../test_resources/screen.drw')
+        msg = "{'item1' : 'nice' . 'item2' : 'go'}"
         params = {'user_id': owner_id,
                   'collection_name': collection_name,
-                  'resource_path': 'screen.draw'}
-        header, post_body = HTTPHelper.create_multipart_request_with_file_and_params(params,
-                                                                                     'file', diff_file)
-        diff_file_url = '/'.join(['', 'SharingSpace', sharing_secret, 'B64Diff'])
+                  'msg_id': 'msg_id',
+                  'msg': msg
+                  }
+        header, post_body = HTTPHelper.create_multipart_request_with_parameters(params)
+        send_msg = '/'.join(['', 'SharingSpace', sharing_secret, 'Message'])
 
-        response = self.fetch(path=diff_file_url, method='POST',
+        response = self.fetch(path=send_msg, method='POST',
                               headers=header, body=post_body)
 
         self.__wait(5)
@@ -105,13 +105,15 @@ class SharingSpaceDiffAPITests(AsyncHTTPTestCase):
             self.__create_shared_collection(owner_id, subscribers,
                                             collection_name)
 
-        diff_file = open('../../test_resources/screen.drw')
-        params = {}
-        header, post_body = HTTPHelper.create_multipart_request_with_file_and_params(params,
-                                                                                     'file', diff_file)
-        diff_file_url = '/'.join(['', 'SharingSpace', sharing_secret, 'B64Diff'])
+        msg = "{'item1' : 'nice' . 'item2' : 'go'}"
+        params = {'user_id': owner_id,
+                  'collection_name': collection_name,
+                  'msg': msg
+        }
+        header, post_body = HTTPHelper.create_multipart_request_with_parameters(params)
+        send_msg_url = '/'.join(['', 'SharingSpace', sharing_secret, 'Message'])
 
-        response = self.fetch(path=diff_file_url, method='POST',
+        response = self.fetch(path=send_msg_url, method='POST',
                               headers=header, body=post_body)
 
         self.__wait(5)
@@ -120,20 +122,21 @@ class SharingSpaceDiffAPITests(AsyncHTTPTestCase):
         self.__cleanup(owner_id, collection_name, subscriber_list)
         SharingSpaceStorage.get_instance().stop_cleanup_service()
 
-    def test_send_missing_file_invalid_sharing_secret(self):
+    def test_send_msg_invalid_sharing_secret(self):
 
         collection_name = 'share_api_col_name' + str(random.randint(0, 100))
         owner_id = self.account_id
-        diff_file = open('../../test_resources/screen.drw')
+
+        msg = "{'item1' : 'nice' . 'item2' : 'go'}"
         params = {'user_id': owner_id,
                   'collection_name': collection_name,
-                  'resource_path': 'screen.draw'}
-        header, post_body = HTTPHelper.create_multipart_request_with_file_and_params(params,
-                                                                                     'file', diff_file)
-        diff_file_url = '/'.join(['', 'SharingSpace', 'SSSSSSSS', 'B64Diff'])
+                  'msg_id': 'msg_id',
+                  'msg': msg}
 
-        response = self.fetch(path=diff_file_url, method='POST',
+        header, post_body = HTTPHelper.create_multipart_request_with_parameters(params)
+        send_msg = '/'.join(['', 'SharingSpace', 'SSSSSSSS', 'Message'])
+
+        response = self.fetch(path=send_msg, method='POST',
                               headers=header, body=post_body)
-
         self.__wait(5)
         self.assertEqual(404, response.code)
