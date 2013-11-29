@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) NSMutableArray * viewGrid;
 
+/* all the drawings who have been touched */
 @property (nonatomic, strong) NSMutableDictionary * allDrawings;
 
 @property (nonatomic, strong) NSMutableSet * touchedViews;
@@ -192,9 +193,11 @@
 -(void) undoItemsAtOrderIndex:(NSArray *) orderIndexes
 {
     BOOL didChangeDrawings = NO;
-    for(NSNumber * num in orderIndexes)
+    for(NSString * numStr in orderIndexes)
     {
        
+        NSInteger  numInt = [numStr integerValue];
+        NSNumber * num = [NSNumber numberWithInteger:numInt];
         if (self.orderIndex >= 0 &&
             self.orderIndex < self.allDrawings.count)
         {
@@ -206,6 +209,11 @@
                 didChangeDrawings = YES;
                 NSNumber * indexObj = [NSNumber numberWithInt: view.gridIndex];
                 [self.validUndoViews addObject:indexObj];
+            }
+            
+            if (self.orderIndex == numInt)
+            {
+                self.orderIndex--;
             }
         
             [self.allDrawings removeObjectForKey:num];
@@ -359,6 +367,7 @@
         //layer.backgroundColor = [UIColor yellowColor];
     }
     [self.overlappingViewsFromLastTouch removeAllObjects];
+    [self.allDrawings removeAllObjects];
 }
 -(void) touchesMoved:(NSSet *)touches
            withEvent:(UIEvent *)event
@@ -791,6 +800,11 @@
     {
         [temp didFinishDrawingOnScreen];
     }
+    [self.allDrawings removeAllObjects];
+    [self.touchedViews removeAllObjects];
+    [self.viewsWithoutTouchEnded removeAllObjects];
+    [self.validUndoViews removeAllObjects];
+    [self.overlappingViewsFromLastTouch removeAllObjects];
 }
 
 -(void) resetTouchRecorder
