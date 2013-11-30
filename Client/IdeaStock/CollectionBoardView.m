@@ -805,6 +805,7 @@
     [self.viewsWithoutTouchEnded removeAllObjects];
     [self.validUndoViews removeAllObjects];
     [self.overlappingViewsFromLastTouch removeAllObjects];
+    self.orderIndex = -1;
 }
 
 -(void) resetTouchRecorder

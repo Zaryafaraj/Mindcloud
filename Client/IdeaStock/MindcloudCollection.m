@@ -69,6 +69,11 @@
  */
 @property (strong, atomic) NoteFragmentResolver * noteResolver;
 
+//this is to make sure we don't redownload or re-retrieve the files from the disk or server.
+//once any asset is downloaded there is no more need to downloaded it because sharing events
+//will take care of it
+@property (strong, atomic) NSMutableSet * downloadedFiles;
+
 @end
 
 @implementation MindcloudCollection
@@ -86,7 +91,7 @@
     self.collectionAttributesForNotes = [NSMutableDictionary dictionary];
     self.stackings = [NSMutableDictionary dictionary];
     self.noteToStackingMap = [NSMutableDictionary dictionary];
-    
+    self.downloadedFiles = [NSMutableSet set];
     self.bulletinBoardName = collectionName;
     
     self.gordonDataSource = [[MindcloudCollectionGordon alloc] initWithCollectionName:collectionName
@@ -682,7 +687,13 @@
         {
             //we have a drawing. Download it. Once the download is done. The notificatiosn
             //will take care of displaying it
-            [self.gordonDataSource getCollectionAssetForNamespaceElement:subElement];
+            //make sure that we get the item only once.
+            //the later downloading of this item should
+            //happen when listeners are notified
+            if (![self.downloadedFiles containsObject:subElement.name])
+            {
+                [self.gordonDataSource getCollectionAssetForNamespaceElement:subElement];
+            }
         }
         else
         {
@@ -903,11 +914,12 @@
    {
        ScreenDrawing * screenDrawing = [ScreenDrawing deserializeFromData:asset];
        NSLog(@"MindcloudCollection-Drawing downloaded");
+       [self.downloadedFiles addObject:attributeName];
        NSDictionary * userInfo =  @{@"result" :  screenDrawing};
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:DRAWING_DOWNLOADED_EVENT
-                                                        object:self
-                                                      userInfo:userInfo];
+       [[NSNotificationCenter defaultCenter] postNotificationName:DRAWING_DOWNLOADED_EVENT
+                                                           object:self
+                                                         userInfo:userInfo];
    }
 }
 

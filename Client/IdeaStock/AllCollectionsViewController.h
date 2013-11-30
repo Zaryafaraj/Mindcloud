@@ -11,6 +11,7 @@
 #import "UIEditableTableViewDelegate.h"
 #import "CategorizationViewDelegate.h"
 #import "MindcloudAllCollectionsDelegate.h"
+#import "EAIntroView.h"
 
 #define UNTITLED_COLLECTION_NAME @"Untitled"
 
@@ -23,7 +24,8 @@ UITableViewDataSource,
 UIEditableTableViewDelegate,
 UIPopoverControllerDelegate,
 CategorizationViewDelegate,
-MindcloudAllCollectionsDelegate>
+MindcloudAllCollectionsDelegate,
+EAIntroDelegate>
 
 @property (atomic) BOOL actionInProgress;
 @property (weak, nonatomic) CategoriesViewController * categoriesController;

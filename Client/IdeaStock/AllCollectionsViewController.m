@@ -19,6 +19,8 @@
 #import "AllCollectionsNavigationControllerViewController.h"
 #import "ThemeFactory.h"
 #import "AllCollectionsAnimationHelper.h"
+#import "EAIntroPage.h"
+#import "EAIntroView.h"
 
 @interface AllCollectionsViewController()
 
@@ -534,8 +536,37 @@
     self.navigationItem.leftBarButtonItem = showPanel;
 }
 
+-(void) showTutorialsIfNecessary
+{
+   
+    EAIntroPage *page1 = [EAIntroPage page];
+    page1.title = @"Hello world";
+    page1.desc = @"salam";
+    page1.bgImage = [UIImage imageNamed:@"bg1"];
+    page1.titleImage = [UIImage imageNamed:@"title1"];
+    
+    EAIntroPage *page2 = [EAIntroPage page];
+    page2.title = @"This is page 2";
+    page2.desc = @"Chetori";
+    page2.bgImage = [UIImage imageNamed:@"bg2"];
+    page2.titleImage = [UIImage imageNamed:@"title2"];
+    
+    EAIntroPage *page3 = [EAIntroPage page];
+    page3.title = @"s page 3";
+    page3.desc = @"kojaboodi";
+    page3.bgImage = [UIImage imageNamed:@"bg3"];
+    page3.titleImage = [UIImage imageNamed:@"title3"];
+    
+    EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.navigationController.view.bounds
+                                                   andPages:@[page1,page2,page3]];
+    [intro setDelegate:self];
+    
+    [intro showInView:self.navigationController.view animateDuration:0.3];
+}
+
 -(void) viewDidLoad{
     [super viewDidLoad];
+    [self showTutorialsIfNecessary];
     [self.collectionView setAllowsMultipleSelection:NO];
     [self manageToolbars];
     self.isEditing = NO;
@@ -1199,5 +1230,16 @@
     [alert show];
 }
 
+#pragma mark EAIntroView Delagte
+
+- (void)introDidFinish:(EAIntroView *)introView
+{
+    NSLog(@"TAMOOM SHOD");
+}
+- (void)intro:(EAIntroView *)introView pageAppeared:(EAIntroPage *)page withIndex:(NSInteger)pageIndex
+{
+    
+    NSLog(@"RAFT page %@", page);
+}
 
 @end
