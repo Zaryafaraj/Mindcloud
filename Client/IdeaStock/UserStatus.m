@@ -21,6 +21,19 @@
     return currentStatus;
 }
 
+-(void) setIsUserOnline:(BOOL)isUserOnline
+{
+    _isUserOnline = isUserOnline;
+    //if user is offline and we haven't notified the user yet
+    //notify him
+    if (!isUserOnline && !self.hasUserBeenNotifiedOfBeingOffline)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:USER_OFFLINE
+                                                            object:self];
+        self.hasUserBeenNotifiedOfBeingOffline = YES;
+    }
+}
+
 -(id) init
 {
     self = [super init];
@@ -44,7 +57,7 @@
 
 - (void) userIsOffline:(NSNotification *) notification
 {
-    self.isUserOnline = NO;
+    _isUserOnline = NO;
     self.hasUserBeenNotifiedOfBeingOffline = NO;
 }
 

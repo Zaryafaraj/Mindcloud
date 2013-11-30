@@ -22,6 +22,7 @@
 #import "EAIntroPage.h"
 #import "EAIntroView.h"
 #import "MindcloudAuthenticator.h"
+#import "EventTypes.h"
 
 @interface AllCollectionsViewController()
 
@@ -523,8 +524,24 @@
                                                  name:RESIZE_POPOVER_FOR_SECRET
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userIsOffline:)
+                                                 name:USER_OFFLINE
+                                               object:nil];
     
     
+    
+}
+
+-(void) userIsOffline:(NSNotification *) notification
+{
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Could Not Connect To Mindcloud"
+                                                     message:@"Please check your internet connection.\n You can still use mindcloud when you are offline and your changes will be saved the next time you are online."
+                                                    delegate:Nil
+                                           cancelButtonTitle:@"ok"
+                                           otherButtonTitles: nil];
+    alert.alertViewStyle = UIAlertViewStyleDefault;
+    [alert show];
 }
 
 -(void) configureNavigationBar
@@ -549,7 +566,7 @@
 -(void) showTutorialsIfNecessary
 {
    
-    if ([UserPropertiesHelper hasUserBeenRegesitered])
+    if (![UserPropertiesHelper hasUserBeenRegesitered])
     {
         self.authenticator = [[MindcloudAuthenticator alloc] init];
         [self.authenticator authorizeUser];
