@@ -36,4 +36,6 @@
 
 -(BOOL) hasDiffToSend;
 
+@property (nonatomic) BOOL hasClear;
+
 @end

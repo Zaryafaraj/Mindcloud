@@ -39,6 +39,7 @@
     {
         self.gridTraces = [coder decodeObjectForKey:@"gridTraces"];
         self.undidIndexes = [NSSet set];
+        self.hasClear = NO;
     }
     return self;
 }
@@ -114,6 +115,8 @@
 
 -(BOOL) hasAnyThingToSave
 {
+    if (self.hasClear) return YES;
+    
     for(NSNumber * index in self.gridTraces)
     {
         NSDictionary * tracesInTheGrid = self.gridTraces[index];

@@ -33,6 +33,8 @@
 @property (nonatomic) CGPoint lastTouchBeganLocation;
 @property (nonatomic, strong) PaintLayerView * lastTouchBeganView;
 
+@property (nonatomic) BOOL hasUnsavedClear;
+
 @end
 
 @implementation CollectionBoardView
@@ -104,6 +106,7 @@
     self.viewsWithoutTouchEnded = [NSMutableSet set];
     self.overlappingViewsFromLastTouch = [NSMutableSet set];
     self.validUndoViews = [NSMutableSet set];
+    self.hasUnsavedClear = NO;
 }
 
 
@@ -800,6 +803,7 @@
     {
         [temp didFinishDrawingOnScreen];
     }
+    self.hasUnsavedClear = YES;
     [self.allDrawings removeAllObjects];
     [self.touchedViews removeAllObjects];
     [self.viewsWithoutTouchEnded removeAllObjects];
@@ -812,6 +816,7 @@
 {
     [self.touchedViews removeAllObjects];
     [self.validUndoViews removeAllObjects];
+    self.hasUnsavedClear = NO;
 }
 
 -(ScreenDrawing *) getNewScreenDrawingsWithRebasing:(BOOL) shouldRebase
@@ -831,6 +836,10 @@
     
     ScreenDrawing * answer =  [[ScreenDrawing alloc] initWithGridDictionary:layerDiffs
                                                             andUndidIndexes:[self.validUndoViews copy]];
+    if (self.hasUnsavedClear)
+    {
+        answer.hasClear = YES;
+    }
     return answer;
 }
 
