@@ -43,4 +43,7 @@
 - (void)setCurrentPageIndex:(NSInteger)currentPageIndex;
 - (void)setCurrentPageIndex:(NSInteger)currentPageIndex animated:(BOOL)animated;
 
+-(void) setSkipButtonTitle:(NSString *) title;
+-(void) setLoginButtonTitle:(NSString *) title;
+
 @end

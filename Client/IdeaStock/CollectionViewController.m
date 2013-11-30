@@ -2364,7 +2364,7 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) doubleTapDetectedAtLocation:(CGPoint)location
 {
-    [self doubledTappedLocation:location];
+    //[self doubledTappedLocation:location];
 }
 
 #pragma mark - paintBrushDelegate

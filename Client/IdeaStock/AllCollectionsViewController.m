@@ -536,6 +536,9 @@
     self.navigationItem.leftBarButtonItem = showPanel;
 }
 
+#define SKIP_BUTTON_TITLE @"continue without an account"
+#define LOGIN_BUTTON_TITLE @"Login"
+
 -(void) showTutorialsIfNecessary
 {
    
@@ -561,6 +564,7 @@
                                                    andPages:@[page1,page2,page3]];
     [intro setDelegate:self];
     
+    [intro setSkipButtonTitle:SKIP_BUTTON_TITLE];
     [intro showInView:self.navigationController.view animateDuration:0.3];
 }
 

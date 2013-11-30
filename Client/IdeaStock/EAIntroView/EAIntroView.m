@@ -48,6 +48,16 @@
     return self;
 }
 
+-(void) setSkipButtonTitle:(NSString *) title
+{
+    [self.skipButton setTitle:NSLocalizedString(title, nil) forState:UIControlStateNormal];
+    [self.skipButton sizeToFit];
+}
+
+-(void) setLoginButtonTitle:(NSString *) title
+{
+    
+}
 #pragma mark - Private
 
 - (void)applyDefaultsToSelfDuringInitializationWithframe:(CGRect)frame pages:(NSArray *)pagesArray {
@@ -314,9 +324,10 @@
     self.pageControl.numberOfPages = _pages.count;
     [self addSubview:self.pageControl];
     
-    self.skipButton = [[UIButton alloc] initWithFrame:CGRectMake(self.scrollView.frame.size.width - 80, self.pageControl.frame.origin.y - ((30 - self.pageControl.frame.size.height)/2), 80, 30)];
+    self.skipButton = [[UIButton alloc] initWithFrame:CGRectMake(self.scrollView.frame.size.width - 280, self.pageControl.frame.origin.y - ((30 - self.pageControl.frame.size.height)/2), 280, 30)];
+    //[self.skipButton sizeToFit];
     
-    self.skipButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+    self.skipButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [self.skipButton setTitle:NSLocalizedString(@"Skip", nil) forState:UIControlStateNormal];
     [self.skipButton addTarget:self action:@selector(skipIntroduction) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.skipButton];
