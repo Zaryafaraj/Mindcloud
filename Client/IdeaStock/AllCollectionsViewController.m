@@ -546,35 +546,38 @@
 -(void) showTutorialsIfNecessary
 {
    
-    self.authenticator = [[MindcloudAuthenticator alloc] init];
-    [self.authenticator authorizeUser];
-    self.authenticator.delegate = self;
-    
-    EAIntroPage *page1 = [EAIntroPage page];
-    page1.title = @"Hello world";
-    page1.desc = @"salam";
-    page1.bgImage = [UIImage imageNamed:@"bg1"];
-    page1.titleImage = [UIImage imageNamed:@"title1"];
-    
-    EAIntroPage *page2 = [EAIntroPage page];
-    page2.title = @"This is page 2";
-    page2.desc = @"Chetori";
-    page2.bgImage = [UIImage imageNamed:@"bg2"];
-    page2.titleImage = [UIImage imageNamed:@"title2"];
-    
-    EAIntroPage *page3 = [EAIntroPage page];
-    page3.title = @"s page 3";
-    page3.desc = @"kojaboodi";
-    page3.bgImage = [UIImage imageNamed:@"bg3"];
-    page3.titleImage = [UIImage imageNamed:@"title3"];
-    
-    EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.navigationController.view.bounds
-                                                   andPages:@[page1,page2,page3]];
-    [intro setDelegate:self];
-    
-    [intro setSkipButtonTitle:SKIP_BUTTON_TITLE];
-    [intro showInView:self.navigationController.view animateDuration:0.3];
-    self.introView = intro;
+    if ([UserPropertiesHelper hasUserBeenRegesitered])
+    {
+        self.authenticator = [[MindcloudAuthenticator alloc] init];
+        [self.authenticator authorizeUser];
+        self.authenticator.delegate = self;
+        
+        EAIntroPage *page1 = [EAIntroPage page];
+        page1.title = @"Hello world";
+        page1.desc = @"salam";
+        page1.bgImage = [UIImage imageNamed:@"bg1"];
+        page1.titleImage = [UIImage imageNamed:@"title1"];
+        
+        EAIntroPage *page2 = [EAIntroPage page];
+        page2.title = @"This is page 2";
+        page2.desc = @"Chetori";
+        page2.bgImage = [UIImage imageNamed:@"bg2"];
+        page2.titleImage = [UIImage imageNamed:@"title2"];
+        
+        EAIntroPage *page3 = [EAIntroPage page];
+        page3.title = @"s page 3";
+        page3.desc = @"kojaboodi";
+        page3.bgImage = [UIImage imageNamed:@"bg3"];
+        page3.titleImage = [UIImage imageNamed:@"title3"];
+        
+        EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.navigationController.view.bounds
+                                                       andPages:@[page1,page2,page3]];
+        [intro setDelegate:self];
+        
+        [intro setSkipButtonTitle:SKIP_BUTTON_TITLE];
+        [intro showInView:self.navigationController.view animateDuration:0.3];
+        self.introView = intro;
+    }
 }
 
 -(void) viewDidLoad{

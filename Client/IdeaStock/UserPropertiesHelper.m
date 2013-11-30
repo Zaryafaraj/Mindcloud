@@ -25,6 +25,21 @@ static NSString * user_id;
     return plistPath;
     
 }
+
++(BOOL) hasUserBeenRegesitered
+{
+    NSString * propertiesListPath = [self getUserPropertiesListPath];
+    if ([FileSystemHelper doesFileExist:propertiesListPath])
+    {
+        //first lunch of the app
+        NSDictionary * userInfo = [NSDictionary dictionaryWithContentsOfFile: propertiesListPath];
+        user_id = userInfo[USER_ID_KEY];
+        
+        if (user_id) return YES;
+    }
+    return NO;
+}
+
 +(NSString *) userID{
     
     //if userID has been cached befoer then just return it

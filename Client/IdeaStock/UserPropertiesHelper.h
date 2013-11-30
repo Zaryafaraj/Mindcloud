@@ -12,4 +12,6 @@
 
 +(NSString *) userID;
 
++(BOOL) hasUserBeenRegesitered;
+
 @end
