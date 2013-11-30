@@ -269,13 +269,13 @@
     UITouch * touch = [touches anyObject];
     if (touch.tapCount == 2)
     {
-        id<CollectionBoardDelegate> temp =  self.delegate;
-        if (temp)
-        {
-            [temp doubleTapDetectedAtLocation:[touch locationInView:self]];
-        }
-        [self undo:YES];
-        return;
+//        id<CollectionBoardDelegate> temp =  self.delegate;
+//        if (temp)
+//        {
+//            [temp doubleTapDetectedAtLocation:[touch locationInView:self]];
+//        }
+//        [self undo:YES];
+//        return;
     }
     if (!self.drawingEnabled) return;
     
@@ -312,10 +312,10 @@
     {
         return;
     }
-    if (touch.tapCount == 2)
-    {
-        return;
-    }
+//    if (touch.tapCount == 2)
+//    {
+//        return;
+//    }
     
     if (!self.drawingEnabled) return;
     
