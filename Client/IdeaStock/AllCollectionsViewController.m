@@ -508,6 +508,8 @@
 
 -(void) addInitialListeners
 {
+    
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(ApplicationHasGoneInBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     
@@ -520,6 +522,7 @@
                                              selector:@selector(resizePopOver:)
                                                  name:RESIZE_POPOVER_FOR_SECRET
                                                object:nil];
+    
     
     
 }

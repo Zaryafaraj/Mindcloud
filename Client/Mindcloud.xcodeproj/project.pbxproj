@@ -16,6 +16,7 @@
 		D3A3ECB51848422100174649 /* UndoMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A3ECB41848422100174649 /* UndoMessage.m */; };
 		D3A3ECB81848423800174649 /* ClearMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A3ECB71848423800174649 /* ClearMessage.m */; };
 		D3CF453B1849975000A48593 /* MindcloudAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CF453A1849975000A48593 /* MindcloudAuthenticator.m */; };
+		D3CF453E1849CFAA00A48593 /* UserStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CF453D1849CFAA00A48593 /* UserStatus.m */; };
 		D709470B1523BDFE008E4AD9 /* CollectionNote.m in Sources */ = {isa = PBXBuildFile; fileRef = D709470A1523BDFE008E4AD9 /* CollectionNote.m */; };
 		D70947231523DC27008E4AD9 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D70947161523DC27008E4AD9 /* DDXMLElementAdditions.m */; };
 		D70947241523DC27008E4AD9 /* NSString+DDXML.m in Sources */ = {isa = PBXBuildFile; fileRef = D70947191523DC27008E4AD9 /* NSString+DDXML.m */; };
@@ -165,6 +166,8 @@
 		D3A3ECB71848423800174649 /* ClearMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClearMessage.m; sourceTree = "<group>"; };
 		D3CF45391849975000A48593 /* MindcloudAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAuthenticator.h; sourceTree = "<group>"; };
 		D3CF453A1849975000A48593 /* MindcloudAuthenticator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudAuthenticator.m; sourceTree = "<group>"; };
+		D3CF453C1849CFAA00A48593 /* UserStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserStatus.h; sourceTree = "<group>"; };
+		D3CF453D1849CFAA00A48593 /* UserStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserStatus.m; sourceTree = "<group>"; };
 		D70947091523BDFE008E4AD9 /* CollectionNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionNote.h; sourceTree = "<group>"; };
 		D709470A1523BDFE008E4AD9 /* CollectionNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionNote.m; sourceTree = "<group>"; };
 		D70947151523DC27008E4AD9 /* DDXMLElementAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElementAdditions.h; sourceTree = "<group>"; };
@@ -736,6 +739,8 @@
 		DB4338A1169D5169000353DA /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				D3CF453C1849CFAA00A48593 /* UserStatus.h */,
+				D3CF453D1849CFAA00A48593 /* UserStatus.m */,
 				D7DEF2C21530D37800D13CF4 /* FileSystemHelper.h */,
 				D7DEF2C31530D37800D13CF4 /* FileSystemHelper.m */,
 				DBEE54B41640F16300BD9F93 /* HTTPHelper.h */,
@@ -1226,6 +1231,7 @@
 				D34C375418497F3400F43087 /* EAIntroView.m in Sources */,
 				D3A3ECB81848423800174649 /* ClearMessage.m in Sources */,
 				D7E44C03156573800080EF71 /* StackViewController.m in Sources */,
+				D3CF453E1849CFAA00A48593 /* UserStatus.m in Sources */,
 				D7DD09E31572190D00918BDF /* ImageNoteView.m in Sources */,
 				DB99FFB5160E5C5D0042ED2A /* UserPropertiesHelper.m in Sources */,
 				DB99FFBF160E66870042ED2A /* StringUtils.m in Sources */,

@@ -7,6 +7,8 @@
 //
 
 #import "MindcloudBaseAction.h"
+#import "EventTypes.h"
+#import "UserStatus.h"
 
 @interface MindcloudBaseAction()
 
@@ -130,10 +132,22 @@
     NSLog(@"Connection failed! Error - %@ %@",
           [error localizedDescription],
           [error userInfo][NSURLErrorFailingURLStringErrorKey]);
+    if (error.code == - 1004)
+    {
+        [UserStatus userStatus].isUserOnline = NO;
+    }
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    //if user was offline and now came back online make sure we send the
+    //notification
+    if (![UserStatus userStatus].isUserOnline)
+    {
+        [UserStatus userStatus].isUserOnline = YES;
+        [UserStatus userStatus].hasUserBeenNotifiedOfBeingOffline = NO;
+    }
+    
     //enable for debug
     // do something with the data
     // receivedData is declared as a method instance elsewhere
