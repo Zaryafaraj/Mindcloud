@@ -21,8 +21,12 @@
 #import "AllCollectionsAnimationHelper.h"
 #import "EAIntroPage.h"
 #import "EAIntroView.h"
+#import "MindcloudAuthenticator.h"
 
 @interface AllCollectionsViewController()
+
+@property (strong, nonatomic) MindcloudAuthenticator * authenticator;
+@property (weak, nonatomic) EAIntroView * introView;
 
 @property (weak, nonatomic) UIView * lastView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -542,6 +546,10 @@
 -(void) showTutorialsIfNecessary
 {
    
+    self.authenticator = [[MindcloudAuthenticator alloc] init];
+    [self.authenticator authorizeUser];
+    self.authenticator.delegate = self;
+    
     EAIntroPage *page1 = [EAIntroPage page];
     page1.title = @"Hello world";
     page1.desc = @"salam";
@@ -566,6 +574,7 @@
     
     [intro setSkipButtonTitle:SKIP_BUTTON_TITLE];
     [intro showInView:self.navigationController.view animateDuration:0.3];
+    self.introView = intro;
 }
 
 -(void) viewDidLoad{
@@ -1240,10 +1249,25 @@
 {
     NSLog(@"TAMOOM SHOD");
 }
+
+- (void)loginDidOccur
+{
+    [self.authenticator authenticateUser];
+}
+
 - (void)intro:(EAIntroView *)introView pageAppeared:(EAIntroPage *)page withIndex:(NSInteger)pageIndex
 {
     
     NSLog(@"RAFT page %@", page);
+}
+
+#pragma mark MindcloudAuthenticatorDelegate
+-(void) userFinishedAuthenticating:(BOOL)success
+{
+    if (self.introView)
+    {
+        [self.introView hideWithFadeOutDuration:0.3];
+    }
 }
 
 @end

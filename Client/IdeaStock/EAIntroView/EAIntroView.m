@@ -135,6 +135,11 @@
     [self hideWithFadeOutDuration:0.3];
 }
 
+- (void)loginUser
+{
+    [self.delegate loginDidOccur];
+}
+
 #pragma mark - Properties
 
 - (UIScrollView *)scrollView {
@@ -331,6 +336,15 @@
     [self.skipButton setTitle:NSLocalizedString(@"Skip", nil) forState:UIControlStateNormal];
     [self.skipButton addTarget:self action:@selector(skipIntroduction) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.skipButton];
+    
+    
+    self.loginButton = [[UIButton alloc] initWithFrame:CGRectMake(self.scrollView.frame.size.width - 850, self.pageControl.frame.origin.y - ((30 - self.pageControl.frame.size.height)/2), 280, 30)];
+    //[self.skipButton sizeToFit];
+    
+    self.loginButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+    [self.loginButton setTitle:NSLocalizedString(@"Login", nil) forState:UIControlStateNormal];
+    [self.loginButton addTarget:self action:@selector(loginUser) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.loginButton];
 }
 
 #pragma mark - UIScrollView Delegate

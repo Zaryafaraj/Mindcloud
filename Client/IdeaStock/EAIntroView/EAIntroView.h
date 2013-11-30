@@ -12,6 +12,7 @@
 @optional
 - (void)introDidFinish:(EAIntroView *)introView;
 - (void)intro:(EAIntroView *)introView pageAppeared:(EAIntroPage *)page withIndex:(NSInteger)pageIndex;
+- (void)loginDidOccur;
 @end
 
 @interface EAIntroView : UIView <UIScrollViewDelegate>
@@ -29,6 +30,7 @@
 @property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic, assign) CGFloat pageControlY;
 @property (nonatomic, strong) UIButton *skipButton;
+@property (nonatomic, strong) UIButton *loginButton;
 
 @property (nonatomic, assign) NSInteger currentPageIndex;
 @property (nonatomic, assign) NSInteger visiblePageIndex;
