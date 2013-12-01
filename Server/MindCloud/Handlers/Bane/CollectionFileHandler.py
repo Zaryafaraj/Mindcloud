@@ -72,6 +72,7 @@ class CollectionFileHandler(tornado.web.RequestHandler):
                 self.set_status(result_code)
                 self.finish()
 
+                #TODO - This is not the most efficient way of doing this. Rethinkg the design
                 #if we managed to save the file for one user, we need to save it for all the users
                 #since file saves don't go to joker (since they are heavy & their sharing
                 # is done by sending diff files). We do it here.
@@ -86,11 +87,13 @@ class CollectionFileHandler(tornado.web.RequestHandler):
                                 for subscriber_info in subscribers:
                                     subscriber_id = subscriber_info[0]
                                     subscriber_collection = subscriber_info[1]
-                                    #fire and forget
-                                    StorageServer.set_collection_file(subscriber_id,
-                                                                      subscriber_collection,
-                                                                      file_name,
-                                                                      collection_file)
+                                    if subscriber_id != user_id:
+                                        #fire and forget
+                                        yield gen.Task(StorageServer.set_collection_file,
+                                                       subscriber_id,
+                                                       subscriber_collection,
+                                                       file_name,
+                                                       collection_file)
 
             else:
                 self.set_status(StorageResponse.BAD_REQUEST)
