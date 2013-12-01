@@ -17,6 +17,7 @@ typedef void (^delete_collection_asset_callback)(BOOL didDelete);
 @property (nonatomic, strong) save_collection_asset_callback postCallback;
 @property (nonatomic, strong) get_collection_asset_callback getCallback;
 @property (nonatomic, strong) delete_collection_asset_callback deleteCallback;
+@property (nonatomic, strong) NSString * sharingSecret;
 
 
 @property (nonatomic, strong) NSData * postData;

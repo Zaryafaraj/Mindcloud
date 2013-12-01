@@ -417,13 +417,18 @@ static Mindcloud * instance;
                      andCollection:(NSString *) collectionName
                        withContnet:(id<DiffableSerializableObject>) content
                        andFileName:(NSString *) fileName
+                  andSharingSecret:(NSString *) sharingSecret
                        andCallback:(save_collection_asset_callback) callback
 {
     CollectionAssetAction * action = [[CollectionAssetAction alloc] initWithUserId:userId
-                                                                     andCollection:collectionName andFileName:fileName];
+                                                                      andCollection:collectionName andFileName:fileName];
     action.postCallback = callback;
     NSData * assetData = [content serializeToData];
     action.postData = assetData;
+    if (sharingSecret)
+    {
+        action.sharingSecret = sharingSecret;
+    }
     [action executePOST];
 }
 

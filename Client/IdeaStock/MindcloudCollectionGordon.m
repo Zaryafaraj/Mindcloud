@@ -405,9 +405,14 @@ CachedObject> dataSource;
 -(void) saveCollectionAsset:(id<DiffableSerializableObject>) content
                withFileName:(NSString *) fileName
 {
+    NSString * sharingSecret = nil;
+    if (self.sharingAdapter.isShared)
+    {
+        sharingSecret = [self.sharingAdapter getSharingSecret];
+    }
     [self.dataSource saveCollectionAsset:content
                             withFileName:fileName
-                           forCollection:self.collectionName];
+                           forCollection:self.collectionName withSharingSecret:sharingSecret];
 }
 
 -(void) setCollectionThumbnailWithData:(NSData *) thumbnailData

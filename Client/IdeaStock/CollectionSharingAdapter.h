@@ -29,4 +29,6 @@
       withMessageId:(NSString *) messageId;
 
 -(void) adjustListeners;
+
+-(NSString *) getSharingSecret;
 @end

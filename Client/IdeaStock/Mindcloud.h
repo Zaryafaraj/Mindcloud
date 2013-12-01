@@ -159,6 +159,7 @@
                      andCollection:(NSString *) collectionName
                        withContnet:(id<DiffableSerializableObject>) content
                        andFileName:(NSString *) fileName
+                  andSharingSecret:(NSString *) sharingSecret
                        andCallback:(save_collection_asset_callback) callback;
 
 -(void) getCollectionAssetForUser:(NSString *) userId

@@ -296,4 +296,9 @@
         //nothing for now
     }];
 }
+
+-(NSString *) getSharingSecret
+{
+    return self.sharingSecret;
+}
 @end

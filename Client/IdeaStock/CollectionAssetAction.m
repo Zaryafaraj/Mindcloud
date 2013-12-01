@@ -93,9 +93,21 @@
 {
     
     self.request.HTTPMethod = @"POST";
+    NSDictionary * params ;
+    if (self.sharingSecret)
+    {
+        
+        params = @{@"fileName" : self.fileName,
+                   @"sharing_secret" : self.sharingSecret};
+    }
+    else
+    {
+        
+        params = @{@"fileName" : self.fileName};
+    }
     self.request = [HTTPHelper addPostFile:self.postData
                                   withName: self.fileName
-                                 andParams:@{@"fileName": self.fileName}
+                                 andParams:params
                                         to:self.request];
     
     NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:self.request

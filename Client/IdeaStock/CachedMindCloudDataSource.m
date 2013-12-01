@@ -360,7 +360,8 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
 
 -(void) saveCollectionAsset:(id<DiffableSerializableObject>) content
                withFileName:(NSString *) fileName
-              forCollection:(NSString *) collectionName;
+              forCollection:(NSString *) collectionName
+          withSharingSecret:(NSString *) sharingSecret
 {
     //to something like the method above
     [self saveToDiskCollectionAsset: content
@@ -370,7 +371,7 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     [self uploadCollectionAssetForCollection:collectionName
                                  andFileName:fileName
                                   andContent:content
-                             andRetryCounter:0];
+                             andRetryCounter:0 andSharingSecret:sharingSecret];
     
     
 }
@@ -425,7 +426,8 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
 -(void) uploadCollectionAssetForCollection:(NSString *) collectionName
                                    andFileName:(NSString *) fileName
                                     andContent:(id<DiffableSerializableObject>) content
-                               andRetryCounter:(int) retryCounter
+                           andRetryCounter:(int) retryCounter
+                          andSharingSecret:(NSString *) sharingSecret;
 {
     //if there is something in progress just put it in the queue
     //once the item in progress is done it will pick this back up
@@ -443,6 +445,7 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
                                 andCollection:collectionName
                                   withContnet:content
                                   andFileName:fileName
+                             andSharingSecret:sharingSecret
                                   andCallback:^(BOOL didFinish){
                                       //If upload failed but we had one more retry chance retry
                                       if (!didFinish && retryCounter < MAX_FILE_UPLPOAD_RETRY)
@@ -452,7 +455,7 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
                                           [self uploadCollectionAssetForCollection:collectionName
                                                                            andFileName:fileName
                                                                             andContent:content
-                                                                       andRetryCounter:newRetryCounter];
+                                                                       andRetryCounter:newRetryCounter andSharingSecret:sharingSecret];
                                       }
                                       //else pick up a new job
                                       else
@@ -467,7 +470,7 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
                                               [self.collectionAssetUploadQueue removeObjectForKey:lastFileName];
                                               [self uploadCollectionAssetForCollection:collectionName
                                                                                andFileName:lastFileName
-                                                                                andContent:lastContent andRetryCounter:0];
+                                                                                andContent:lastContent andRetryCounter:0 andSharingSecret:sharingSecret];
                                           }
                                       }
                                   }];

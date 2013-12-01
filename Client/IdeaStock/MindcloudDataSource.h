@@ -131,9 +131,13 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
 -(void) setThumbnail:(NSData *)thumbnailData
        forCollection:(NSString *)collectionName;
 
+/*! Sharing secret is optional. If the collection is shared
+    and sharing secret is specified the changes will be saved for all the subscribers.
+ */
 -(void) saveCollectionAsset:(id<DiffableSerializableObject>) content
                withFileName:(NSString *) fileName
-              forCollection:(NSString *) collectionName;
+              forCollection:(NSString *) collectionName
+          withSharingSecret:(NSString *) sharingSecret;
 
 -(NSData *) getCollectionAssetWithFilename:(NSString *) filename
                               andAssetType:(NSString *) assetType
