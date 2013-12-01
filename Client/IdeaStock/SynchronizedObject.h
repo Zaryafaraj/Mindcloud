@@ -22,4 +22,6 @@
 
 -(void) promiseSynchronization;
 
+-(void) promiseSavingAssets;
+
 @end

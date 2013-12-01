@@ -50,7 +50,7 @@
 -(void) associationWithId:(NSString *) subCollectionId
     downloadedImageWithPath:(NSString *) imagePath;
 
--(void) collectionDidSaveContent;
+-(void) savePendingAssets;
 
 -(void) collectionDidDownloadCollectionAsset:(NSData *) asset
                                  forFileName:(NSString *) fileName andAttributeName:(NSString *) attributeName;

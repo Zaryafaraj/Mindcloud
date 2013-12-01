@@ -64,15 +64,18 @@
 -(void) addCollectionFragmentNamespaceSubElement:(XoomlNamespaceElement *) namespaceElement;
 
 
+-(BOOL) doesFragmentNamespaceExistWithId:(NSString *) ID
+                                 andName: (NSString *) attributeName
+                            andNamespace:(NSString *) parentNamespace;
+
 /*!
     Convinience method that creates a namespace attribute with attributeName and
-    points to a file with filename which its contents should be from the content obj.
-    If fixedId is not nil.
+    points to a file with filename which its contents should be saved independently
  */
 -(void) setCollectionFragmentNamespaceFileWithName:(NSString *) filename
                                   andAttributeName:(NSString *) attributeName
-                            andParentNamespaceName:(NSString *) namespaceName andFixedId:(NSString *) fixedId
-                                andExternalContent:(id<DiffableSerializableObject>) content;
+                            andParentNamespaceName:(NSString *) namespaceName
+                                        andFixedId:(NSString *) fixedId;
 
 /*! If the item is there it will update it, if its not it will create a new one
  */
@@ -113,6 +116,9 @@
 /*===============================================*/
 #pragma mark - files
 /*===============================================*/
+
+-(void) saveCollectionAsset:(id<DiffableSerializableObject>) content
+               withFileName:(NSString *) fileName;
 
 -(void) sendCollectionDiffFileWithFilename:(NSString *) filename
                                 andContent:(id<DiffableSerializableObject>) content;

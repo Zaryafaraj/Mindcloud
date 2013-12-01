@@ -14,7 +14,7 @@
 
 @protocol MindcloudCollectionDelegate<NSObject>
 
--(void) collectionDidSave;
+-(void) savePendingAsset;
 
 @end
 
@@ -33,4 +33,5 @@ MindcloudCollectionGordonDelegate>
 //temporarily until we implement background synch
 - (void) pause;
 - (void) promiseSaving;
+- (void) promiseSavingDrawings;
 @end

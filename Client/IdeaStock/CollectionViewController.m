@@ -2107,13 +2107,13 @@ intoStackingWithMainView: (UIView *) mainView
 }
 
 #pragma mark - MindcloudCollectionDelegate
--(void) collectionDidSave
+-(void) savePendingAsset
 {
     if (self.drawingsAreUnsaved)
     {
         ScreenDrawing * allDrawings = [self.collectionView getAllScreenDrawings];
         NSLog(@"CollectionViewController - Saving All Drawings %@ ", [allDrawings debugDescription]);
-        [self.board saveAllDrawings:allDrawings];
+        [self.board saveAllDrawingsFile:allDrawings];
         self.drawingsAreUnsaved = NO;
     }
 }
@@ -2344,7 +2344,7 @@ intoStackingWithMainView: (UIView *) mainView
         self.drawingsAreUnsaved = YES;
         NSLog(@"CollectionViewController- Saving Diffs: %@ ", [diffDrawings debugDescription]);
         [self.collectionView resetTouchRecorder];
-        [self.board promiseSaving];
+        [self.board promiseSavingDrawings];
         if ([diffDrawings hasDiffToSend])
         {
             [self.board sendDiffDrawings:diffDrawings];

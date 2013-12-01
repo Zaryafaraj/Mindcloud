@@ -40,6 +40,7 @@ SharingAwareObject,
 cachedCollectionContainer,
 CachedObject> dataSource;
 
+@property (nonatomic) BOOL hasAssetsToSave;
 /*
  To record any possible conflicting items for synchronization
  */
@@ -99,6 +100,7 @@ CachedObject> dataSource;
         self.collectionName = collectionName;
         self.hasStartedListening = NO;
         self.isInSynchWithServer = NO;
+        self.hasAssetsToSave = NO;
         if(delegate != nil)
         {
             self.delegate = delegate;
@@ -363,28 +365,49 @@ CachedObject> dataSource;
     self.needSynchronization = YES;
 }
 
+-(BOOL) doesFragmentNamespaceExistWithId:(NSString *) ID
+                                 andName: (NSString *) attributeName
+                            andNamespace:(NSString *) parentNamespace
+{
+    XoomlNamespaceElement * elem = [self.collectionFragment getFragmentNamespaceSubElementWithId:ID
+                                                                                     andName:attributeName
+                                                                               fromNamespace:parentNamespace];
+    return elem == nil ? NO : YES;
+    
+}
 -(void) setCollectionFragmentNamespaceFileWithName:(NSString *) filename
                                   andAttributeName:(NSString *) attributeName
                             andParentNamespaceName:(NSString *) namespaceName
                                         andFixedId:(NSString *) fixedId
-                                andExternalContent:(id<DiffableSerializableObject>) content
 {
     
-    //first make the file attribute
-    XoomlNamespaceElement * fileElement = [[XoomlNamespaceElement alloc] initWithName:attributeName
-                                                                   andParentNamespace:namespaceName];
-    fileElement.ID = fixedId;
-    [fileElement addAttributeWithName:EXTERNAL_FILENAME
-                             andValue:filename];
-    [fileElement addAttributeWithName:ATTRIBUTE_TYPE
-                             andValue:ATTRIBUTE_TYPE_FILE_REF];
+    BOOL attributeExists = [self doesFragmentNamespaceExistWithId:fixedId
+                                                          andName:attributeName
+                                                     andNamespace:namespaceName];
+    if (!attributeExists)
+    {
+        //first make the file attribute
+        XoomlNamespaceElement * fileElement = [[XoomlNamespaceElement alloc] initWithName:attributeName
+                                                                       andParentNamespace:namespaceName];
+        fileElement.ID = fixedId;
+        [fileElement addAttributeWithName:EXTERNAL_FILENAME
+                                 andValue:filename];
+        [fileElement addAttributeWithName:ATTRIBUTE_TYPE
+                                 andValue:ATTRIBUTE_TYPE_FILE_REF];
+        
+        [self setCollectionFragmentNamespaceSubElementWithNewElement:fileElement];
+        self.needSynchronization = YES;
+        
+    }
     
-    [self setCollectionFragmentNamespaceSubElementWithNewElement:fileElement];
+}
+
+-(void) saveCollectionAsset:(id<DiffableSerializableObject>) content
+               withFileName:(NSString *) fileName
+{
     [self.dataSource saveCollectionAsset:content
-                            withFileName:filename
+                            withFileName:fileName
                            forCollection:self.collectionName];
-    
-    self.needSynchronization = YES;
 }
 
 -(void) setCollectionThumbnailWithData:(NSData *) thumbnailData
@@ -1211,15 +1234,26 @@ CachedObject> dataSource;
     self.needSynchronization = YES;
 }
 
+-(void) promiseSavingAssets
+{
+    self.hasAssetsToSave = YES;
+}
+
 -(void) synchronize:(NSTimer *) timer{
     
+    if (self.hasAssetsToSave && self.isInSynchWithServer)
+    {
+        [self.delegate savePendingAssets];
+        self.hasAssetsToSave = NO;
+    }
     //only save the manifest file in case its in synch with the server
     if (self.needSynchronization && self.isInSynchWithServer){
         self.needSynchronization = NO;
         NSData * fragmentContent = [self.collectionFragment data];
         
-        [self.dataSource updateCollectionWithName:self.collectionName andFragmentContent:fragmentContent];
-        [self.delegate collectionDidSaveContent];
+        [self.dataSource updateCollectionWithName:self.collectionName
+                               andFragmentContent:fragmentContent];
+        //[self.delegate collectionDidSaveContent];
     }
 }
 

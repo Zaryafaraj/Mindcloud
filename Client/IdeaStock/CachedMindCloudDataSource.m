@@ -436,7 +436,7 @@ withAuthenticationDelegate:(id<AuthorizationDelegate>) del;
     }
     else
     {
-        self.collectionFragmentUpdateInProgress = YES;
+        self.collectionAssetUploadInProgress = YES;
         Mindcloud * mindcloud = [Mindcloud getMindCloud];
         NSString * userID = [UserPropertiesHelper userID];
         [mindcloud saveCollectionAssetForUser:userID

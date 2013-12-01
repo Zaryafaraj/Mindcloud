@@ -80,7 +80,8 @@
 -(NSDictionary *) getAllScreenDrawings;
 
 
--(void) saveAllDrawings:(ScreenDrawing *) allDrawings;
+-(void) setDrawingAttribute;
+-(void) saveAllDrawingsFile:(ScreenDrawing *) allDrawings;
 /*! Sending a diff won't save the drawing anywhere, just communicates it
  with all the listeners. Use saveAllDrawings to persistently save it*/
 -(void) sendDiffDrawings:(ScreenDrawing *) diffDrawings;

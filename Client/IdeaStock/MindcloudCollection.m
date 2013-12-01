@@ -19,6 +19,9 @@
 
 @interface MindcloudCollection()
 
+/* Acts as a cache in order to not explicitly call gordon every time we change
+ drawing */
+@property (nonatomic) BOOL drawingAttributeExists;
 /*
  Holds the actual individual note contents. This dictonary is keyed on the noteID.
  The noteIDs in this dictionary determine whether a note belongs to this bulletin board or not.
@@ -93,7 +96,7 @@
     self.noteToStackingMap = [NSMutableDictionary dictionary];
     self.downloadedFiles = [NSMutableSet set];
     self.bulletinBoardName = collectionName;
-    
+    self.drawingAttributeExists = NO;
     self.gordonDataSource = [[MindcloudCollectionGordon alloc] initWithCollectionName:collectionName
                                                                           andDelegate:self];
     
@@ -226,13 +229,24 @@
     
 }
 
--(void) saveAllDrawings:(ScreenDrawing *) allDrawings
+-(void) setDrawingAttribute
+{
+    if (!self.drawingAttributeExists)
+    {
+        
+        NSString * fileName = [ExternalFileHelper filenameForScreenDrawing];
+        [self.gordonDataSource setCollectionFragmentNamespaceFileWithName:fileName
+                                                         andAttributeName:MINDCLOUD_DRAWING_ATTRIBUTE
+                                                   andParentNamespaceName:MINDCLOUD_BOARDS_NAMESPACE andFixedId:VERSIONED_MINDCLOUD_DRAWING_ID];
+        self.drawingAttributeExists = YES;
+    }
+}
+
+-(void) saveAllDrawingsFile:(ScreenDrawing *) allDrawings
 {
     NSString * fileName = [ExternalFileHelper filenameForScreenDrawing];
-    [self.gordonDataSource setCollectionFragmentNamespaceFileWithName:fileName
-                                                     andAttributeName:MINDCLOUD_DRAWING_ATTRIBUTE
-                                               andParentNamespaceName:MINDCLOUD_BOARDS_NAMESPACE andFixedId:VERSIONED_MINDCLOUD_DRAWING_ID
-                                                   andExternalContent:allDrawings];
+    [self.gordonDataSource saveCollectionAsset:allDrawings
+                                  withFileName:fileName];
 }
 
 -(void) sendDiffDrawings:(ScreenDrawing *)diffDrawings
@@ -1065,14 +1079,21 @@
     [self.gordonDataSource synchronize];
 }
 
--(void) collectionDidSaveContent
+-(void) savePendingAssets
 {
-    [self.delegate collectionDidSave];
+    [self.delegate savePendingAsset];
 }
 
 - (void) promiseSaving
 {
     [self.gordonDataSource promiseSynchronization];
+}
+
+- (void) promiseSavingDrawings
+{
+    [self.gordonDataSource promiseSavingAssets];
+    [self setDrawingAttribute];
+    //if manifest is in need of modification, modify it
 }
 
 @end
