@@ -56,7 +56,7 @@
 
 -(void) setLoginButtonTitle:(NSString *) title
 {
-    
+    [self.loginButton setTitle:NSLocalizedString(title, nil) forState:UIControlStateNormal];
 }
 #pragma mark - Private
 
@@ -319,29 +319,25 @@
 }
 
 - (void)buildFooterView {
-    self.pageControl = [[UIPageControl alloc]
-                        initWithFrame:CGRectMake(0,
-                                                 self.frame.size.height - self.pageControlY,
-                                                 self.frame.size.width, 20)];
+    UIPageControl * pageCtrl = [[UIPageControl alloc] init];
+    self.pageControl = pageCtrl;
     
+    self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
     //Set defersCurrentPageDisplay to YES to prevent page control jerking when switching pages with page control. This prevents page control from instant change of page indication.
     self.pageControl.defersCurrentPageDisplay = YES;
     
-    self.pageControl.autoresizingMask =  UIViewAutoresizingFlexibleWidth;
-    [self.pageControl addTarget:self action:@selector(showPanelAtPageControl) forControlEvents:UIControlEventValueChanged];
+    [self.pageControl addTarget:self
+                         action:@selector(showPanelAtPageControl)
+               forControlEvents:UIControlEventValueChanged];
     self.pageControl.numberOfPages = _pages.count;
     [self addSubview:self.pageControl];
     
     
-    
     //skip button
-    //self.skipButton = [[UIButton alloc] initWithFrame:CGRectMake(self.scrollView.frame.size.width - 280, self.pageControl.frame.origin.y - ((30 - self.pageControl.frame.size.height)/2), 280, 30)];
-    
     UIButton * skipBtn = [[UIButton alloc] init];
     self.skipButton = skipBtn;
     self.skipButton.translatesAutoresizingMaskIntoConstraints = NO;
     
-    //self.skipButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin ;
     [self.skipButton setTitle:NSLocalizedString(@"Skip", nil)
                      forState:UIControlStateNormal];
     [self.skipButton addTarget:self
@@ -351,10 +347,8 @@
     [self addSubview:self.skipButton];
     
     UIButton * loginBtn = [[UIButton alloc] init];
-    //self.loginButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin ;
     self.loginButton = loginBtn;
     self.loginButton.translatesAutoresizingMaskIntoConstraints = NO;
-    //self.loginButton.autoresizingMask = UIViewAutores;
     [self.loginButton setTitle:NSLocalizedString(@"Login", nil) forState:UIControlStateNormal];
     [self.loginButton addTarget:self
                          action:@selector(loginUser)
@@ -363,13 +357,29 @@
     [self addSubview:self.loginButton];
     
     
-    NSDictionary * metrics = @{@"margin" : @20};
-    NSDictionary * views = NSDictionaryOfVariableBindings(loginBtn, skipBtn);
+    NSDictionary * metrics = @{@"HMargin" : @40,
+                               @"VMargin" : @20,
+                               @"pageCtrlMargin" : @20};
+    NSDictionary * views = NSDictionaryOfVariableBindings(loginBtn, skipBtn, pageCtrl);
     //NSString * hc = @"|-margin-[loginBtn]";
-    NSString * hc = @"H:|-margin-[loginBtn]-[skipBtn]-margin-|";
-    NSString * vc1 = @"V:[loginBtn]-margin-|";
-    NSString * vc2 = @"V:[skipBtn]-margin-|";
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:hc
+    NSString * hc1 = @"H:|-HMargin-[loginBtn]";
+    NSString * hc2 = @"H:[skipBtn]-HMargin-|";
+    NSString * hc3 = @"H:|-[pageCtrl]-|";
+    NSString * vc1 = @"V:[loginBtn]-VMargin-|";
+    NSString * vc2 = @"V:[skipBtn]-VMargin-|";
+    NSString * vc3 = @"V:[pageCtrl]-pageCtrlMargin-[skipBtn]";
+    
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:hc1
+                                                                options:0
+                                                                metrics:metrics
+                                                                  views:views]];
+    
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:hc2
+                                                                options:0
+                                                                metrics:metrics
+                                                                  views:views]];
+    
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:hc3
                                                                 options:0
                                                                 metrics:metrics
                                                                   views:views]];
@@ -383,15 +393,12 @@
                                                                 options:0
                                                                 metrics:metrics
                                                                   views:views]];
+                      
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:vc3
+                                                                options:0
+                                                                metrics:metrics
+                                                                  views:views]];
     
-    
-    
-//    self.loginButton = [[UIButton alloc] initWithFrame:CGRectMake(self.scrollView.frame.size.width - 850, self.pageControl.frame.origin.y - ((30 - self.pageControl.frame.size.height)/2), 280, 30)];
-//    
-//    self.loginButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
-//    [self.loginButton setTitle:NSLocalizedString(@"Login", nil) forState:UIControlStateNormal];
-//    [self.loginButton addTarget:self action:@selector(loginUser) forControlEvents:UIControlEventTouchUpInside];
-//    [self addSubview:self.loginButton];
 }
 
 #pragma mark - UIScrollView Delegate

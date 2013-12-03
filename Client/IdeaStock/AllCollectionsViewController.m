@@ -560,8 +560,8 @@
     self.navigationItem.leftBarButtonItem = showPanel;
 }
 
-#define SKIP_BUTTON_TITLE @"continue without an account"
-#define LOGIN_BUTTON_TITLE @"Login"
+#define SKIP_BUTTON_TITLE @"Continue without an account"
+#define LOGIN_BUTTON_TITLE @"Login with Dropbox"
 
 -(void) showTutorialsIfNecessary
 {
