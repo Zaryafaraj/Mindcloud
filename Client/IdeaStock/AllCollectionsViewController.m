@@ -566,11 +566,12 @@
 -(void) showTutorialsIfNecessary
 {
    
-    if (![UserPropertiesHelper hasUserBeenRegesitered])
+    if (YES)
+    //if (![UserPropertiesHelper hasUserBeenRegesitered])
     {
-        self.authenticator = [[MindcloudAuthenticator alloc] init];
-        [self.authenticator authorizeUser];
-        self.authenticator.delegate = self;
+        // self.authenticator = [[MindcloudAuthenticator alloc] init];
+        //[self.authenticator authorizeUser];
+        //self.authenticator.delegate = self;
         
         EAIntroPage *page1 = [EAIntroPage page];
         page1.title = @"Hello world";
@@ -595,6 +596,7 @@
         [intro setDelegate:self];
         
         [intro setSkipButtonTitle:SKIP_BUTTON_TITLE];
+        [intro setLoginButtonTitle:LOGIN_BUTTON_TITLE];
         [intro showInView:self.navigationController.view animateDuration:0.3];
         self.introView = intro;
     }
