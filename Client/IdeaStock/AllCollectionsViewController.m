@@ -574,25 +574,30 @@
         //self.authenticator.delegate = self;
         
         EAIntroPage *page1 = [EAIntroPage page];
-        page1.title = @"Hello world";
-        page1.desc = @"salam";
-        page1.bgImage = [UIImage imageNamed:@"bg1"];
-        page1.titleImage = [UIImage imageNamed:@"title1"];
+        page1.title = @"Welcome to Mindcloud";
+        page1.desc = @"Full age sex set feel her told. Tastes giving in passed direct me valley as supply. End great stood boy noisy often way taken short. Rent the size our more door. Years no place abode in no child my. Man pianoforte too solicitude friendship devonshire ten ask. Course sooner its silent but formal she led. Extensive he assurance extremity at breakfast. Dear sure ye sold fine sell on. Projection at up connection literature insensible motionless proj";
+        //page1.bgImage = [UIImage imageNamed:@"bg1"];
+        //page1.titleImage = [UIImage imageNamed:@"p1Intro"];
         
         EAIntroPage *page2 = [EAIntroPage page];
         page2.title = @"This is page 2";
         page2.desc = @"Chetori";
-        page2.bgImage = [UIImage imageNamed:@"bg2"];
+        //page2.bgImage = [UIImage imageNamed:@"bg2"];
         page2.titleImage = [UIImage imageNamed:@"title2"];
         
         EAIntroPage *page3 = [EAIntroPage page];
         page3.title = @"s page 3";
         page3.desc = @"kojaboodi";
-        page3.bgImage = [UIImage imageNamed:@"bg3"];
+        //page3.bgImage = [UIImage imageNamed:@"bg3"];
         page3.titleImage = [UIImage imageNamed:@"title3"];
         
+        EAIntroPage *page4 = [EAIntroPage page];
+        page4.title = @"s page 4";
+        page4.desc = @"lalal";
+        //page4.bgImage = [UIImage imageNamed:@"bg1"];
+        page4.titleImage = [UIImage imageNamed:@"title3"];
         EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.navigationController.view.bounds
-                                                       andPages:@[page1,page2,page3]];
+                                                       andPages:@[page1,page2,page3, page4]];
         [intro setDelegate:self];
         
         [intro setSkipButtonTitle:SKIP_BUTTON_TITLE];

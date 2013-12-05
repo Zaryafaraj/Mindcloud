@@ -4,6 +4,7 @@
 //  Copyright (c) 2013 Evgeny Aleksandrov. License: MIT.
 
 #import "EAIntroView.h"
+#import "ThemeFactory.h"
 
 @interface EAIntroView()
 
@@ -231,12 +232,20 @@
     self.pageBgFront.image = [self bgForPage:0];
 }
 
-- (UIView *)viewForPage:(EAIntroPage *)page atXIndex:(CGFloat *)xIndex {
+- (UIView *)viewForPage:(EAIntroPage *)page
+               atXIndex:(CGFloat *)xIndex {
     
     UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(*xIndex, 0, self.scrollView.frame.size.width, self.scrollView.frame.size.height)];
     
+    
+    pageView.backgroundColor = [[ThemeFactory currentTheme] tintColor];
     *xIndex += self.scrollView.frame.size.width;
     
+    int index = *xIndex;
+    if (index == 0)
+    {
+        NSLog(@"IX");
+    }
     if(page.customView) {
         [pageView addSubview:page.customView];
         return pageView;
