@@ -48,4 +48,5 @@
 -(void) setSkipButtonTitle:(NSString *) title;
 -(void) setLoginButtonTitle:(NSString *) title;
 
+
 @end

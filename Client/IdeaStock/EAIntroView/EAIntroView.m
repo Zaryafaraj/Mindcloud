@@ -11,7 +11,6 @@
 @property (nonatomic, strong) UIImageView *bgImageView;
 @property (nonatomic, strong) UIImageView *pageBgBack;
 @property (nonatomic, strong) UIImageView *pageBgFront;
-
 @end
 
 @interface EAIntroPage()
@@ -185,7 +184,7 @@
 #pragma mark - UI building
 
 - (void)buildUI {
-    self.backgroundColor = [UIColor blackColor];
+    self.backgroundColor = [[ThemeFactory currentTheme] tintColor];
     
     [self buildBackgroundImage];
     [self buildScrollView];
@@ -235,78 +234,108 @@
 - (UIView *)viewForPage:(EAIntroPage *)page
                atXIndex:(CGFloat *)xIndex {
     
+    //UIView * pageView = [[UIView alloc] init];
     UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(*xIndex, 0, self.scrollView.frame.size.width, self.scrollView.frame.size.height)];
     
     
-    pageView.backgroundColor = [[ThemeFactory currentTheme] tintColor];
     *xIndex += self.scrollView.frame.size.width;
-    
-    int index = *xIndex;
-    if (index == 0)
+    pageView.backgroundColor = [UIColor grayColor];
+    if (YES)
     {
-        NSLog(@"IX");
-    }
-    if(page.customView) {
-        [pageView addSubview:page.customView];
-        return pageView;
-    }
-    
-    if(page.titleImage) {
-        UIImageView *titleImageView = [[UIImageView alloc] initWithImage:page.titleImage];
-        CGRect rect1 = titleImageView.frame;
-        rect1.origin.x = (self.scrollView.frame.size.width - rect1.size.width)/2;
-        rect1.origin.y = page.imgPositionY;
-        titleImageView.frame = rect1;
-        [pageView addSubview:titleImageView];
-    }
-    
-    if(page.title.length) {
-        CGFloat titleHeight;
+        NSString * heroTitle = page.title;
+        NSString * heroDesc = page.description;
+        NSString * instruction = page.instruction;
+        UILabel * heroTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(200,200 , 200, 200)];
+        heroTitleLabel.textColor = [UIColor colorWithWhite:1.0 alpha:1];
+        heroTitleLabel.font = [UIFont systemFontOfSize:90];
+        NSDictionary *attrs = @{ NSForegroundColorAttributeName : heroTitleLabel.textColor,
+                                 NSFontAttributeName : heroTitleLabel.font,
+                                 NSTextEffectAttributeName : NSTextEffectLetterpressStyle};
         
-        if ([page.title respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
-            NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:page.title attributes:@{ NSFontAttributeName: page.titleFont }];
-            CGRect rect = [attributedText boundingRectWithSize:(CGSize){self.scrollView.frame.size.width - 20, CGFLOAT_MAX} options:NSStringDrawingUsesLineFragmentOrigin context:nil];
-            titleHeight = ceilf(rect.size.height);
-        } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            titleHeight = [page.title sizeWithFont:page.titleFont constrainedToSize:CGSizeMake(self.scrollView.frame.size.width - 20, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping].height;
-#pragma clang diagnostic pop
+        NSAttributedString* attrString = [[NSAttributedString alloc]
+                                          initWithString: heroTitle
+                                          attributes:attrs];
+        
+        heroTitleLabel.attributedText = attrString;
+        pageView.translatesAutoresizingMaskIntoConstraints = NO;
+        heroTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [pageView addSubview:heroTitleLabel];
+        NSLayoutConstraint * constraint = [NSLayoutConstraint constraintWithItem:heroTitleLabel
+                                                                       attribute:NSLayoutAttributeCenterY
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:pageView
+                                                                       attribute:NSLayoutAttributeCenterY
+                                                                      multiplier:1.f constant:0.f];
+        
+        NSLayoutConstraint * constraint2 = [NSLayoutConstraint constraintWithItem:heroTitleLabel
+                                                                       attribute:NSLayoutAttributeCenterX
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:pageView
+                                                                       attribute:NSLayoutAttributeCenterX
+                                                                      multiplier:1.f constant:0.f];
+        [pageView addConstraint:constraint];
+        [pageView addConstraint:constraint2];
+        pageView.backgroundColor = [UIColor greenColor];
+    }
+    else
+    {
+        if(page.titleImage) {
+            UIImageView *titleImageView = [[UIImageView alloc] initWithImage:page.titleImage];
+            CGRect rect1 = titleImageView.frame;
+            rect1.origin.x = (self.scrollView.frame.size.width - rect1.size.width)/2;
+            rect1.origin.y = page.imgPositionY;
+            titleImageView.frame = rect1;
+            [pageView addSubview:titleImageView];
         }
         
-        CGRect titleLabelFrame = CGRectMake(10, self.frame.size.height - page.titlePositionY, self.scrollView.frame.size.width - 20, titleHeight);
-        
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:titleLabelFrame];
-        titleLabel.text = page.title;
-        titleLabel.font = page.titleFont;
-        titleLabel.textColor = page.titleColor;
-        titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.textAlignment = NSTextAlignmentCenter;
-        titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        [pageView addSubview:titleLabel];
-    }
-    
-    if([page.desc length]) {
-        CGRect descLabelFrame = CGRectMake(0, self.frame.size.height - page.descPositionY, self.scrollView.frame.size.width, 500);
-        
-        UITextView *descLabel = [[UITextView alloc] initWithFrame:descLabelFrame];
-        descLabel.text = page.desc;
-        descLabel.scrollEnabled = NO;
-        descLabel.font = page.descFont;
-        descLabel.textColor = page.descColor;
-        descLabel.backgroundColor = [UIColor clearColor];
-        descLabel.textAlignment = NSTextAlignmentCenter;
-        descLabel.userInteractionEnabled = NO;
-        //[descLabel sizeToFit];
-        [pageView addSubview:descLabel];
-    }
-    
-    if(page.subviews) {
-        for (UIView *subV in page.subviews) {
-            [pageView addSubview:subV];
+        if(page.title.length) {
+            CGFloat titleHeight;
+            
+            if ([page.title respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
+                NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:page.title attributes:@{ NSFontAttributeName: page.titleFont }];
+                CGRect rect = [attributedText boundingRectWithSize:(CGSize){self.scrollView.frame.size.width - 20, CGFLOAT_MAX} options:NSStringDrawingUsesLineFragmentOrigin context:nil];
+                titleHeight = ceilf(rect.size.height);
+            } else {
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                titleHeight = [page.title sizeWithFont:page.titleFont constrainedToSize:CGSizeMake(self.scrollView.frame.size.width - 20, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping].height;
+    #pragma clang diagnostic pop
+            }
+            
+            CGRect titleLabelFrame = CGRectMake(10, self.frame.size.height - page.titlePositionY, self.scrollView.frame.size.width - 20, titleHeight);
+            
+            UILabel *titleLabel = [[UILabel alloc] initWithFrame:titleLabelFrame];
+            titleLabel.text = page.title;
+            titleLabel.font = page.titleFont;
+            titleLabel.textColor = page.titleColor;
+            titleLabel.backgroundColor = [UIColor clearColor];
+            titleLabel.textAlignment = NSTextAlignmentCenter;
+            titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            [pageView addSubview:titleLabel];
         }
+        
+        if([page.desc length]) {
+            CGRect descLabelFrame = CGRectMake(0, self.frame.size.height - page.descPositionY, self.scrollView.frame.size.width, 500);
+            
+            UITextView *descLabel = [[UITextView alloc] initWithFrame:descLabelFrame];
+            descLabel.text = page.desc;
+            descLabel.scrollEnabled = NO;
+            descLabel.font = page.descFont;
+            descLabel.textColor = page.descColor;
+            descLabel.backgroundColor = [UIColor clearColor];
+            descLabel.textAlignment = NSTextAlignmentCenter;
+            descLabel.userInteractionEnabled = NO;
+            //[descLabel sizeToFit];
+            [pageView addSubview:descLabel];
+        }
+        
+        if(page.subviews) {
+            for (UIView *subV in page.subviews) {
+                [pageView addSubview:subV];
+            }
+        }
+        
     }
-    
     return pageView;
 }
 

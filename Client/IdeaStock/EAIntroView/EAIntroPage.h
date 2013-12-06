@@ -20,12 +20,14 @@
 // title and description labels Y position - from bottom of the screen
 // all items from subviews array will be added on page
 @property (nonatomic, strong) UIImage *titleImage;
+@property (nonatomic) int index;
 @property (nonatomic, assign) CGFloat imgPositionY;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) UIFont *titleFont;
 @property (nonatomic, strong) UIColor *titleColor;
 @property (nonatomic, assign) CGFloat titlePositionY;
 @property (nonatomic, strong) NSString *desc;
+@property (nonatomic, strong) NSString *instruction;
 @property (nonatomic, strong) UIFont *descFont;
 @property (nonatomic, strong) UIColor *descColor;
 @property (nonatomic, assign) CGFloat descPositionY;
