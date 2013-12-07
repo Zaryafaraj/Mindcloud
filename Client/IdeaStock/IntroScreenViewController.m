@@ -27,12 +27,13 @@
     return self;
 }
 
-#define NUMBER_OF_PAGES 4
+#define NUMBER_OF_PAGES 5
 #define VIEW_OFFSET 150
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.pageControl.numberOfPages = NUMBER_OF_PAGES;
     self.pageViews = [NSMutableDictionary dictionary];
     self.scrollView.backgroundColor = [[ThemeFactory currentTheme] tintColor];
     self.scrollView.delegate = self;
@@ -105,52 +106,51 @@
         withPageNumber:(int) i
 {
     
-    UIColor * color = [UIColor whiteColor];
-    if ( i == 0)
-    {
-        color = [UIColor yellowColor];
-    }
-    if ( i ==1 )
-    {
-        color = [UIColor greenColor];
-    }
-    if ( i ==2 )
-    {
-        color = [UIColor redColor];
-    }
-    if ( i == 3)
-    {
-        color = [UIColor blueColor];
-    }
-    
+    UIColor * color = [UIColor clearColor];
     UIView * view = [[UIView alloc] init];
     view.backgroundColor = color;
+    if( i == 1)
+    {
+        [self setupPage1:view];
+    }
     return view;
-//    UILabel * label1 = [[UILabel alloc] init];
-//    label1.text = [NSString stringWithFormat:@"%d", i];
-//    
-//    label1.font = [UIFont systemFontOfSize:72];
-//    label1.translatesAutoresizingMaskIntoConstraints = NO;
-//    
-//    [contentView addSubview:label1];
-//    NSLayoutConstraint * constraint1 = [NSLayoutConstraint constraintWithItem:label1
-//                                                                    attribute:NSLayoutAttributeCenterY
-//                                                                    relatedBy:NSLayoutRelationEqual
-//                                                                       toItem:contentView
-//                                                                    attribute:NSLayoutAttributeCenterY
-//                                                                   multiplier:1.f
-//                                                                     constant:0.f];
-//    
-//    CGFloat pageNum = NUMBER_OF_PAGES;
-//    NSLayoutConstraint * constraint2 = [NSLayoutConstraint constraintWithItem:label1
-//                                                                    attribute:NSLayoutAttributeCenterX
-//                                                                    relatedBy:NSLayoutRelationEqual
-//                                                                       toItem:contentView
-//                                                                    attribute:NSLayoutAttributeCenterX
-//                                                                   multiplier: 1 / pageNum
-//                                                                     constant:0.f + (i - 1)];
-//    
-//    [contentView addConstraints:@[constraint1, constraint2]];
+}
+
+-(void) setupPage1:(UIView *) page
+{
+    NSString * heroTitle = @"Mindcloud";
+    UILabel * heroTitleLabel = [[UILabel alloc] init];
+    heroTitleLabel.textColor = [UIColor colorWithWhite:1.0 alpha:1];
+    heroTitleLabel.font = [UIFont systemFontOfSize:90];
+    NSDictionary *attrs = @{ NSForegroundColorAttributeName : heroTitleLabel.textColor,
+                             NSFontAttributeName : heroTitleLabel.font,
+                             NSTextEffectAttributeName : NSTextEffectLetterpressStyle};
+    
+    NSAttributedString* attrString = [[NSAttributedString alloc]
+                                      initWithString: heroTitle
+                                      attributes:attrs];
+    
+    heroTitleLabel.attributedText = attrString;
+    page.translatesAutoresizingMaskIntoConstraints = NO;
+    heroTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [page addSubview:heroTitleLabel];
+    NSLayoutConstraint * constraint = [NSLayoutConstraint constraintWithItem:heroTitleLabel
+                                                                   attribute:NSLayoutAttributeCenterY
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:page
+                                                                   attribute:NSLayoutAttributeCenterY
+                                                                  multiplier:1.f
+                                                                    constant:0.f];
+    
+    NSLayoutConstraint * constraint2 = [NSLayoutConstraint constraintWithItem:heroTitleLabel
+                                                                    attribute:NSLayoutAttributeCenterX
+                                                                    relatedBy:NSLayoutRelationEqual
+                                                                       toItem:page
+                                                                    attribute:NSLayoutAttributeCenterX
+                                                                   multiplier:1.f
+                                                                     constant:0.f];
+    // [page addConstraint:constraint];
+    //[page addConstraint:constraint2];
 }
 
 -(void) setScrollViewContent:(UIView *) contentView
@@ -192,16 +192,6 @@
     NSLog(@"HI");
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    // Update the page when more than 50% of the previous/next page is visible
-}
 
 -(void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
@@ -209,6 +199,20 @@
     CGFloat pageWidth = self.scrollView.frame.size.width;
     int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
     self.pageControl.currentPage = page;
+    [self dismissSelfIfNeccessary];
+}
+
+-(void) scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    
+    [self dismissSelfIfNeccessary];
+}
+
+-(void) dismissSelfIfNeccessary
+{
+    NSInteger newPageIndex = (self.scrollView.contentOffset.x + self.scrollView.bounds.size.width/2)/self.scrollView.frame.size.width;
+    
+    NSLog(@"fff - %d" , newPageIndex);
 }
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                          duration:(NSTimeInterval)duration
