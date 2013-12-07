@@ -11,6 +11,7 @@
 
 @interface IntroScreenViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 
 @end
 
@@ -30,6 +31,7 @@
 {
     [super viewDidLoad];
     self.scrollView.backgroundColor = [[ThemeFactory currentTheme] tintColor];
+    self.scrollView.delegate = self;
     UIView * contentView = [[UIView alloc] init];
     contentView.backgroundColor = [UIColor clearColor];
     contentView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -77,6 +79,14 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    // Update the page when more than 50% of the previous/next page is visible
+    CGFloat pageWidth = self.scrollView.frame.size.width;
+    int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    self.pageControl.currentPage = page;
 }
 
 @end

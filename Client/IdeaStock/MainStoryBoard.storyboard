@@ -125,23 +125,27 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3yK-oz-wwb">
-                                        <rect key="frame" x="482" y="966" width="266" height="38"/>
+                                        <rect key="frame" x="610" y="966" width="138" height="38"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                        <state key="normal" title="Continue without an account">
+                                        <state key="normal" title="Skip Signing in">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OO9-a5-hOp">
-                                        <rect key="frame" x="20" y="966" width="52" height="38"/>
+                                        <rect key="frame" x="20" y="966" width="193" height="38"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                        <state key="normal" title="Login">
+                                        <state key="normal" title="Sign in with Dropbox">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
+                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="wiV-br-ayr">
+                                        <rect key="frame" x="365" y="885" width="39" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </pageControl>
                                 </subviews>
                                 <color key="backgroundColor" red="0.36500284080000001" green="0.78605741259999995" blue="0.4033442438" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="0.36500284080000001" green="0.78605741259999995" blue="0.4033442438" alpha="1" colorSpace="calibratedRGB"/>
@@ -151,11 +155,13 @@
                         <constraints>
                             <constraint firstItem="BNJ-kF-bdC" firstAttribute="width" secondItem="UEC-pW-kqL" secondAttribute="width" id="4H3-lo-oZ0"/>
                             <constraint firstItem="3yK-oz-wwb" firstAttribute="bottom" secondItem="BNJ-kF-bdC" secondAttribute="bottom" constant="-20" id="F7c-zQ-Qcf"/>
+                            <constraint firstItem="wiV-br-ayr" firstAttribute="top" secondItem="BNJ-kF-bdC" secondAttribute="bottom" constant="-139" id="KBx-yx-4p6"/>
                             <constraint firstItem="BNJ-kF-bdC" firstAttribute="leading" secondItem="dI8-Wu-mBm" secondAttribute="leading" id="YFJ-5t-6ml"/>
                             <constraint firstItem="3yK-oz-wwb" firstAttribute="trailing" secondItem="BNJ-kF-bdC" secondAttribute="trailing" constant="-20" id="cQ5-IN-IFe"/>
                             <constraint firstItem="OO9-a5-hOp" firstAttribute="leading" secondItem="BNJ-kF-bdC" secondAttribute="leading" constant="20" id="dbJ-HV-b0E"/>
                             <constraint firstItem="UEC-pW-kqL" firstAttribute="top" secondItem="BNJ-kF-bdC" secondAttribute="top" id="eKh-ch-OmU"/>
                             <constraint firstItem="UEC-pW-kqL" firstAttribute="top" secondItem="dI8-Wu-mBm" secondAttribute="top" id="gpw-Ra-Vuh"/>
+                            <constraint firstItem="wiV-br-ayr" firstAttribute="centerX" secondItem="BNJ-kF-bdC" secondAttribute="centerX" constant="0.5" id="kpk-ct-8K5"/>
                             <constraint firstItem="BNJ-kF-bdC" firstAttribute="height" secondItem="UEC-pW-kqL" secondAttribute="height" id="nKS-vc-n4p"/>
                             <constraint firstItem="OO9-a5-hOp" firstAttribute="bottom" secondItem="BNJ-kF-bdC" secondAttribute="bottom" constant="-20" id="pQ6-oA-J27"/>
                             <constraint firstAttribute="bottom" secondItem="BNJ-kF-bdC" secondAttribute="bottom" id="pfz-eQ-0Mi"/>
@@ -164,6 +170,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="pageControl" destination="wiV-br-ayr" id="dM3-O8-Za0"/>
                         <outlet property="scrollView" destination="UEC-pW-kqL" id="dhb-Af-bwc"/>
                     </connections>
                 </viewController>
