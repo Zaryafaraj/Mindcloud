@@ -17,6 +17,7 @@
 		D3A3ECB81848423800174649 /* ClearMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A3ECB71848423800174649 /* ClearMessage.m */; };
 		D3CF453B1849975000A48593 /* MindcloudAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CF453A1849975000A48593 /* MindcloudAuthenticator.m */; };
 		D3CF453E1849CFAA00A48593 /* UserStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CF453D1849CFAA00A48593 /* UserStatus.m */; };
+		D3CF45451852CF9400A48593 /* IntroScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CF45441852CF9400A48593 /* IntroScreenViewController.m */; };
 		D709470B1523BDFE008E4AD9 /* CollectionNote.m in Sources */ = {isa = PBXBuildFile; fileRef = D709470A1523BDFE008E4AD9 /* CollectionNote.m */; };
 		D70947231523DC27008E4AD9 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D70947161523DC27008E4AD9 /* DDXMLElementAdditions.m */; };
 		D70947241523DC27008E4AD9 /* NSString+DDXML.m in Sources */ = {isa = PBXBuildFile; fileRef = D70947191523DC27008E4AD9 /* NSString+DDXML.m */; };
@@ -168,6 +169,9 @@
 		D3CF453A1849975000A48593 /* MindcloudAuthenticator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudAuthenticator.m; sourceTree = "<group>"; };
 		D3CF453C1849CFAA00A48593 /* UserStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserStatus.h; sourceTree = "<group>"; };
 		D3CF453D1849CFAA00A48593 /* UserStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserStatus.m; sourceTree = "<group>"; };
+		D3CF45431852CF9400A48593 /* IntroScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroScreenViewController.h; sourceTree = "<group>"; };
+		D3CF45441852CF9400A48593 /* IntroScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroScreenViewController.m; sourceTree = "<group>"; };
+		D3EF83241852E8FF002688E4 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		D70947091523BDFE008E4AD9 /* CollectionNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionNote.h; sourceTree = "<group>"; };
 		D709470A1523BDFE008E4AD9 /* CollectionNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionNote.m; sourceTree = "<group>"; };
 		D70947151523DC27008E4AD9 /* DDXMLElementAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElementAdditions.h; sourceTree = "<group>"; };
@@ -536,6 +540,7 @@
 		D7A53CE11522F39400183CB6 = {
 			isa = PBXGroup;
 			children = (
+				D3EF83241852E8FF002688E4 /* Reveal.framework */,
 				DBD06AA216DC93BD00463ECC /* MessageUI.framework */,
 				D7A53CFC1522F39500183CB6 /* main.m */,
 				DB99FFC2160E73230042ED2A /* QuartzCore.framework */,
@@ -696,6 +701,8 @@
 				DB20ADDD181F67250062EA5B /* PaintbrushViewController.m */,
 				DB592C0B1820DA8400024926 /* PaintColorViewController.h */,
 				DB592C0C1820DA8400024926 /* PaintColorViewController.m */,
+				D3CF45431852CF9400A48593 /* IntroScreenViewController.h */,
+				D3CF45441852CF9400A48593 /* IntroScreenViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1266,6 +1273,7 @@
 				DB4FF4CE16ACA8DB00DC6DAA /* MultimediaHelper.m in Sources */,
 				DB42E73616AE58500021D6FA /* NetworkActivityHelper.m in Sources */,
 				DB3FD53016B77FA400024AC6 /* CollectionStackingAttribute.m in Sources */,
+				D3CF45451852CF9400A48593 /* IntroScreenViewController.m in Sources */,
 				DB3FD53416B7A4D900024AC6 /* CollectionNoteAttribute.m in Sources */,
 				DB9CA54C16BF8F2D0030B3F7 /* NamingHelper.m in Sources */,
 				DBBA28A916CC7996007C7B4A /* CollectionRecorder.m in Sources */,
@@ -1425,12 +1433,19 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					/Users/Fathalian/MindCloud/Client,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IdeaStock/Mindcloud-Prefix.pch";
 				INFOPLIST_FILE = "IdeaStock/Mindcloud-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = (
+					"-lxml2",
+					"-ObjC",
+					"-framework",
+					Reveal,
+				);
 				PRODUCT_NAME = Mindcloud;
 				PROVISIONING_PROFILE = "";
 				REZ_SEARCH_PATHS = /usr/include/libxml2;
@@ -1451,12 +1466,19 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					/Users/Fathalian/MindCloud/Client,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IdeaStock/Mindcloud-Prefix.pch";
 				INFOPLIST_FILE = "IdeaStock/Mindcloud-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = (
+					"-lxml2",
+					"-ObjC",
+					"-framework",
+					Reveal,
+				);
 				PRODUCT_NAME = Mindcloud;
 				PROVISIONING_PROFILE = "";
 				REZ_SEARCH_PATHS = /usr/include/libxml2;

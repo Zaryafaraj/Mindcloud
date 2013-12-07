@@ -23,6 +23,7 @@
 #import "EAIntroView.h"
 #import "MindcloudAuthenticator.h"
 #import "EventTypes.h"
+#import "IntroScreenViewController.h"
 
 @interface AllCollectionsViewController()
 
@@ -567,6 +568,12 @@
 {
    
     if (YES)
+    {
+        IntroScreenViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"IntroScreenVC"];
+        [self presentViewController:vc animated:NO
+                         completion:^(void){}];
+    }
+    if (NO)
     //if (![UserPropertiesHelper hasUserBeenRegesitered])
     {
         // self.authenticator = [[MindcloudAuthenticator alloc] init];
