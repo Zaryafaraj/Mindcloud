@@ -48,6 +48,7 @@
     [self setContentView:contentView];
 }
 
+
 -(void) setContentView:(UIView *) contentView
 {
     
@@ -217,4 +218,24 @@
     
     self.scrollView.contentOffset = CGPointMake(xOffset, self.scrollView.contentOffset.y);
 }
+
+
+- (IBAction)skipPressed:(id)sender
+{
+    if (self.delegate)
+    {
+        id<IntroScreenDelegate> temp = self.delegate;
+        [temp introScreenFinished:YES];
+    }
+}
+
+- (IBAction)signinPressed:(id)sender
+{
+    if (self.delegate)
+    {
+        id<IntroScreenDelegate> temp = self.delegate;
+        [temp signInPressed];
+    }
+}
+
 @end

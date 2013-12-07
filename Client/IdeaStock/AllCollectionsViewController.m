@@ -28,7 +28,6 @@
 @interface AllCollectionsViewController()
 
 @property (strong, nonatomic) MindcloudAuthenticator * authenticator;
-@property (weak, nonatomic) EAIntroView * introView;
 
 @property (weak, nonatomic) UIView * lastView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -564,64 +563,24 @@
 #define SKIP_BUTTON_TITLE @"Continue without an account"
 #define LOGIN_BUTTON_TITLE @"Login with Dropbox"
 
--(void) showTutorialsIfNecessary
+-(void) showIntroIfNeccessary
 {
    
     if (YES)
     {
+        self.authenticator = [[MindcloudAuthenticator alloc] init];
+        //        self.authenticator.delegate = self;
+        [self.authenticator authorizeUser];
         IntroScreenViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"IntroScreenVC"];
+        vc.delegate = self;
         [self presentViewController:vc animated:NO
                          completion:^(void){}];
-    }
-    if (NO)
-    //if (![UserPropertiesHelper hasUserBeenRegesitered])
-    {
-        // self.authenticator = [[MindcloudAuthenticator alloc] init];
-        //[self.authenticator authorizeUser];
-        //self.authenticator.delegate = self;
-        
-        EAIntroPage *page1 = [EAIntroPage page];
-        page1.title = @"mindcloud";
-        page1.desc = @"The experience of thinking and collaborating on a whiteboard brought to your ipad";
-        page1.instruction = @"Swipe to learn more";
-        //page1.bgImage = [UIImage imageNamed:@"bg1"];
-        //page1.titleImage = [UIImage imageNamed:@"p1Intro"];
-        page1.index = 1;
-        
-        EAIntroPage *page2 = [EAIntroPage page];
-        page2.title = @"This is page 2";
-        page2.desc = @"Chetori";
-        //page2.bgImage = [UIImage imageNamed:@"bg2"];
-        page2.titleImage = [UIImage imageNamed:@"title2"];
-        page2.index = 2;
-        
-        EAIntroPage *page3 = [EAIntroPage page];
-        page3.title = @"s page 3";
-        page3.desc = @"kojaboodi";
-        //page3.bgImage = [UIImage imageNamed:@"bg3"];
-        page3.titleImage = [UIImage imageNamed:@"title3"];
-        page3.index = 3;
-        
-        EAIntroPage *page4 = [EAIntroPage page];
-        page4.title = @"s page 4";
-        page4.desc = @"lalal";
-        //page4.bgImage = [UIImage imageNamed:@"bg1"];
-        page4.titleImage = [UIImage imageNamed:@"title3"];
-        EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.navigationController.view.bounds
-                                                       andPages:@[page1,page2,page3, page4]];
-        page4.index = 4;
-        [intro setDelegate:self];
-        
-        [intro setSkipButtonTitle:SKIP_BUTTON_TITLE];
-        [intro setLoginButtonTitle:LOGIN_BUTTON_TITLE];
-        [intro showInView:self.navigationController.view animateDuration:0.3];
-        self.introView = intro;
     }
 }
 
 -(void) viewDidLoad{
     [super viewDidLoad];
-    [self showTutorialsIfNecessary];
+    [self showIntroIfNeccessary];
     [self.collectionView setAllowsMultipleSelection:NO];
     [self manageToolbars];
     self.isEditing = NO;
@@ -1285,29 +1244,29 @@
     [alert show];
 }
 
-#pragma mark EAIntroView Delagte
+#pragma mark IntroScreen Delagte
 
-- (void)introDidFinish:(EAIntroView *)introView
+- (void)introScreenFinished:(BOOL)skipped
 {
+    if (skipped)
+    {
+        //set a flag somewhere
+    }
+    [self.presentedViewController dismissViewControllerAnimated:NO
+                                                     completion:^{}];
+    
 }
 
-- (void)loginDidOccur
+- (void) signInPressed
 {
     [self.authenticator authenticateUser];
 }
 
-- (void)intro:(EAIntroView *)introView pageAppeared:(EAIntroPage *)page withIndex:(NSInteger)pageIndex
-{
-    
-}
 
 #pragma mark MindcloudAuthenticatorDelegate
 -(void) userFinishedAuthenticating:(BOOL)success
 {
-    if (self.introView)
-    {
-        [self.introView hideWithFadeOutDuration:0.3];
-    }
+    [self introScreenFinished:success];
 }
 
 @end

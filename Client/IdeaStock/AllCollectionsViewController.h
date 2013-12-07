@@ -11,8 +11,8 @@
 #import "UIEditableTableViewDelegate.h"
 #import "CategorizationViewDelegate.h"
 #import "MindcloudAllCollectionsDelegate.h"
-#import "EAIntroView.h"
 #import "MindcloudAuthenticator.h"
+#import "IntroScreenViewController.h"
 
 #define UNTITLED_COLLECTION_NAME @"Untitled"
 
@@ -26,7 +26,7 @@ UIEditableTableViewDelegate,
 UIPopoverControllerDelegate,
 CategorizationViewDelegate,
 MindcloudAllCollectionsDelegate,
-EAIntroDelegate,
+IntroScreenDelegate,
 MindlcoudAuthenticatorDelegate>
 
 @property (atomic) BOOL actionInProgress;
