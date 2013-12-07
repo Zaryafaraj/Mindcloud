@@ -27,6 +27,7 @@
 }
 
 #define NUMBER_OF_PAGES 4
+#define VIEW_OFFSET 150
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -52,7 +53,7 @@
                                                                              toItem:self.scrollView
                                                                           attribute:NSLayoutAttributeHeight
                                                                          multiplier:1
-                                                                           constant:0];
+                                                                           constant: -VIEW_OFFSET];
     
     NSString * hc = @"H:|[contentView]|";
     NSString * vc = @"V:|[contentView]|";
