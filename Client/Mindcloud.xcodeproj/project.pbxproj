@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D34C375318497F3400F43087 /* EAIntroPage.m in Sources */ = {isa = PBXBuildFile; fileRef = D34C375018497F3400F43087 /* EAIntroPage.m */; };
-		D34C375418497F3400F43087 /* EAIntroView.m in Sources */ = {isa = PBXBuildFile; fileRef = D34C375218497F3400F43087 /* EAIntroView.m */; };
 		D374CAD418445CF20070C359 /* DiffFileAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D374CAD318445CF20070C359 /* DiffFileAction.m */; };
 		D3A3ECAB184837BB00174649 /* SendMessageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A3ECAA184837BB00174649 /* SendMessageAction.m */; };
 		D3A3ECAE1848409400174649 /* MessageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A3ECAD1848409400174649 /* MessageFactory.m */; };
@@ -149,10 +147,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D34C374F18497F3400F43087 /* EAIntroPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAIntroPage.h; sourceTree = "<group>"; };
-		D34C375018497F3400F43087 /* EAIntroPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAIntroPage.m; sourceTree = "<group>"; };
-		D34C375118497F3400F43087 /* EAIntroView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAIntroView.h; sourceTree = "<group>"; };
-		D34C375218497F3400F43087 /* EAIntroView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAIntroView.m; sourceTree = "<group>"; };
 		D374CAD218445CF20070C359 /* DiffFileAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiffFileAction.h; sourceTree = "<group>"; };
 		D374CAD318445CF20070C359 /* DiffFileAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiffFileAction.m; sourceTree = "<group>"; };
 		D3A3ECA9184837BB00174649 /* SendMessageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendMessageAction.h; sourceTree = "<group>"; };
@@ -455,17 +449,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D34C374E18497F3400F43087 /* EAIntroView */ = {
-			isa = PBXGroup;
-			children = (
-				D34C374F18497F3400F43087 /* EAIntroPage.h */,
-				D34C375018497F3400F43087 /* EAIntroPage.m */,
-				D34C375118497F3400F43087 /* EAIntroView.h */,
-				D34C375218497F3400F43087 /* EAIntroView.m */,
-			);
-			path = EAIntroView;
-			sourceTree = "<group>";
-		};
 		D3A3ECAF1848409B00174649 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
@@ -623,7 +606,6 @@
 		D7BF466315472E0D00F06412 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				D34C374E18497F3400F43087 /* EAIntroView */,
 				DB57B04E18090A2B002F993B /* Services */,
 				DBB1BB7B17FF688B00E43310 /* Effects */,
 				DBC4E34E17F14B5100F595FE /* MMDrawerController */,
@@ -1235,7 +1217,6 @@
 				DB90B37A18023761009CACA3 /* AllCollectionsAnimationHelper.m in Sources */,
 				D7F1FF2C154D1A3300D07B58 /* NoteView.m in Sources */,
 				D7E44BEE15643AA90080EF71 /* StackView.m in Sources */,
-				D34C375418497F3400F43087 /* EAIntroView.m in Sources */,
 				D3A3ECB81848423800174649 /* ClearMessage.m in Sources */,
 				D7E44C03156573800080EF71 /* StackViewController.m in Sources */,
 				D3CF453E1849CFAA00A48593 /* UserStatus.m in Sources */,
@@ -1311,7 +1292,6 @@
 				D3A3ECB21848419A00174649 /* PeerMessage.m in Sources */,
 				DB57B054180DD9E2002F993B /* PaintLayerView.m in Sources */,
 				D3A3ECB51848422100174649 /* UndoMessage.m in Sources */,
-				D34C375318497F3400F43087 /* EAIntroPage.m in Sources */,
 				DB601A3D16E2CFED0007A636 /* CollectionSharingAdapter.m in Sources */,
 				DBAC849E17D519E2003D2B7F /* AddFragmentNamespaceSubElementNotification.m in Sources */,
 				DB4D940D16E337DB007FE65A /* TempImageAction.m in Sources */,

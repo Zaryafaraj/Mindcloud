@@ -19,8 +19,6 @@
 #import "AllCollectionsNavigationControllerViewController.h"
 #import "ThemeFactory.h"
 #import "AllCollectionsAnimationHelper.h"
-#import "EAIntroPage.h"
-#import "EAIntroView.h"
 #import "MindcloudAuthenticator.h"
 #import "EventTypes.h"
 #import "IntroScreenViewController.h"
