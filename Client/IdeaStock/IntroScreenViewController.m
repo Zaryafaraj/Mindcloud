@@ -112,7 +112,7 @@
     view.backgroundColor = color;
     if( i == 0)
     {
-        // [self setupPage0:view];
+         [self setupPage0:view];
     }
     return view;
 }
@@ -120,12 +120,22 @@
 -(void) setupPage0:(UIView *) page
 {
     NSString * heroTitle = @"Mindcloud";
+    NSString * heroDescription = @"Think, Brainstorm, Collaborate";
+    NSString * instruction = @"Swipe to learn more";
     UILabel * heroTitleLabel = [[UILabel alloc] init];
+    UILabel * heroDescriptionLabel = [[UILabel alloc] init];
+    UILabel * instructionLabel = [[UILabel alloc] init];
     heroTitleLabel.textColor = [UIColor colorWithWhite:1.0 alpha:1];
-    heroTitleLabel.font = [UIFont systemFontOfSize:90];
+    heroTitleLabel.font = [UIFont systemFontOfSize:120];
+    heroDescriptionLabel.textColor = heroTitleLabel.textColor;
+    heroDescriptionLabel.font = [UIFont systemFontOfSize:23];
+    instructionLabel.textColor = heroTitleLabel.textColor;
+    instructionLabel.font = [UIFont systemFontOfSize:20];
+    
     NSDictionary *attrs = @{ NSForegroundColorAttributeName : heroTitleLabel.textColor,
                              NSFontAttributeName : heroTitleLabel.font,
                              NSTextEffectAttributeName : NSTextEffectLetterpressStyle};
+    
     
     NSAttributedString* attrString = [[NSAttributedString alloc]
                                       initWithString: heroTitle
@@ -133,13 +143,25 @@
     
     heroTitleLabel.attributedText = attrString;
     heroTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    heroDescriptionLabel.text = heroDescription;
+    heroDescriptionLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    heroDescriptionLabel.shadowColor = [UIColor darkGrayColor];
+    heroDescriptionLabel.shadowOffset = CGSizeMake(0, 1);
+    instructionLabel.text = instruction;
+    instructionLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    instructionLabel.shadowColor = [UIColor darkGrayColor];
+    instructionLabel.shadowOffset = CGSizeMake(0, 1);
+    
     [page addSubview:heroTitleLabel];
+    [page addSubview:heroDescriptionLabel];
+    [page addSubview:instructionLabel];
+    
     NSLayoutConstraint * constraint = [NSLayoutConstraint constraintWithItem:heroTitleLabel
                                                                    attribute:NSLayoutAttributeCenterY
                                                                    relatedBy:NSLayoutRelationEqual
                                                                       toItem:page
                                                                    attribute:NSLayoutAttributeCenterY
-                                                                  multiplier:1.f
+                                                                  multiplier:0.75
                                                                     constant:0.f];
     
     NSLayoutConstraint * constraint2 = [NSLayoutConstraint constraintWithItem:heroTitleLabel
@@ -149,8 +171,68 @@
                                                                     attribute:NSLayoutAttributeCenterX
                                                                    multiplier:1.f
                                                                      constant:0.f];
-    //[page addConstraint:constraint];
-    //[page addConstraint:constraint2];
+    
+    NSLayoutConstraint * constraint3 = [NSLayoutConstraint constraintWithItem:heroDescriptionLabel
+                                                                    attribute:NSLayoutAttributeCenterX
+                                                                    relatedBy:NSLayoutRelationEqual
+                                                                       toItem:page
+                                                                    attribute:NSLayoutAttributeCenterX
+                                                                   multiplier:1.f
+                                                                     constant:0.f];
+    
+    NSLayoutConstraint * constraint4 = [NSLayoutConstraint constraintWithItem:instructionLabel
+                                                                    attribute:NSLayoutAttributeCenterX
+                                                                    relatedBy:NSLayoutRelationEqual
+                                                                       toItem:page
+                                                                    attribute:NSLayoutAttributeCenterX
+                                                                   multiplier:1.f
+                                                                     constant:+850.f];
+    [page addConstraint:constraint];
+    [page addConstraint:constraint2];
+    [page addConstraint:constraint3];
+    [page addConstraint:constraint4];
+    
+    NSDictionary * heroViews = NSDictionaryOfVariableBindings(heroTitleLabel, heroDescriptionLabel);
+    NSString * heroConstraint = @"V:[heroTitleLabel]-30-[heroDescriptionLabel]";
+    [page addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:heroConstraint
+                                                                 options:0
+                                                                 metrics:nil
+                                                                   views:heroViews]];
+    
+    NSDictionary * instructionViews = NSDictionaryOfVariableBindings(heroDescriptionLabel, instructionLabel);
+    NSString * instructionConstraint = @"V:[heroDescriptionLabel]-150-[instructionLabel]";
+    [page addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:instructionConstraint
+                                                                 options:0
+                                                                 metrics:nil
+                                                                   views:instructionViews]];
+    
+    [UIView animateWithDuration:1.0
+                          delay:0.7
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         heroTitleLabel.transform = CGAffineTransformTranslate(heroTitleLabel.transform, 0, -100);
+                         heroDescriptionLabel.transform = CGAffineTransformTranslate(heroDescriptionLabel.transform, 0, -100);
+                     }completion:^(BOOL completed){
+                     }];
+    
+    
+    //run the block for move in of the instruction after the delay equle to the delay of moving
+    //up
+    //the reason we don't run this animation with the other animations is that it animates layoutNeeded
+    //since I didn't find any way to animate a single layout constraint if we do that animation
+    //in the other animation blocks it will cause all the other animations to get messed up
+    //the right
+    double delayInSeconds = 0.7;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        constraint4.constant = 0;
+        [UIView animateWithDuration:1.5
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+                             [page layoutIfNeeded];
+                         }completion:^(BOOL finished){}];
+    });
 }
 
 -(void) setScrollViewContent:(UIView *) contentView
