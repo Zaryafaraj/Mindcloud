@@ -161,7 +161,7 @@
                                                                    relatedBy:NSLayoutRelationEqual
                                                                       toItem:page
                                                                    attribute:NSLayoutAttributeCenterY
-                                                                  multiplier:0.75
+                                                                  multiplier:1.f
                                                                     constant:0.f];
     
     NSLayoutConstraint * constraint2 = [NSLayoutConstraint constraintWithItem:heroTitleLabel
@@ -186,7 +186,7 @@
                                                                        toItem:page
                                                                     attribute:NSLayoutAttributeCenterX
                                                                    multiplier:1.f
-                                                                     constant:+850.f];
+                                                                     constant:+650.f];
     [page addConstraint:constraint];
     [page addConstraint:constraint2];
     [page addConstraint:constraint3];
@@ -206,32 +206,31 @@
                                                                  metrics:nil
                                                                    views:instructionViews]];
     
-    [UIView animateWithDuration:1.0
-                          delay:0.7
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         heroTitleLabel.transform = CGAffineTransformTranslate(heroTitleLabel.transform, 0, -100);
-                         heroDescriptionLabel.transform = CGAffineTransformTranslate(heroDescriptionLabel.transform, 0, -100);
-                     }completion:^(BOOL completed){
-                     }];
-    
-    
-    //run the block for move in of the instruction after the delay equle to the delay of moving
-    //up
-    //the reason we don't run this animation with the other animations is that it animates layoutNeeded
-    //since I didn't find any way to animate a single layout constraint if we do that animation
-    //in the other animation blocks it will cause all the other animations to get messed up
-    //the right
-    double delayInSeconds = 0.7;
+    //wait for 0.7 for current layout to settle in then animate a change
+    double delayInSeconds = 0.1;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        constraint4.constant = 0;
-        [UIView animateWithDuration:1.5
-                              delay:0
+        
+        [UIView animateWithDuration:1.0
+                              delay:0.7
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
+                             //move the heros 100 up and move the instruction to the center
+                             constraint.constant = -100;
                              [page layoutIfNeeded];
-                         }completion:^(BOOL finished){}];
+                         }completion:^(BOOL completed){
+                         }];
+        
+        [UIView animateWithDuration:1.1
+                              delay:0.8
+                            options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             
+            constraint4.constant = 0;
+            [page layoutIfNeeded];
+                         }completion:^(BOOL completed){
+                         }];
+        
     });
 }
 
