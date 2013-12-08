@@ -273,8 +273,8 @@
                                                                           toItem:pageView
                                                                        attribute:NSLayoutAttributeCenterX
                                                                       multiplier:1.f constant:0.f];
-        [pageView addConstraint:constraint];
-        [pageView addConstraint:constraint2];
+//        [pageView addConstraint:constraint];
+//        [pageView addConstraint:constraint2];
         pageView.backgroundColor = [UIColor greenColor];
     }
     else

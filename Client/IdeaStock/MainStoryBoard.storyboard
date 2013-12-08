@@ -176,6 +176,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="container" destination="BNJ-kF-bdC" id="FsY-dw-t7k"/>
                         <outlet property="pageControl" destination="wiV-br-ayr" id="dM3-O8-Za0"/>
                         <outlet property="scrollView" destination="UEC-pW-kqL" id="dhb-Af-bwc"/>
                     </connections>

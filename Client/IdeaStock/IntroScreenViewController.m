@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 //indexed on page number starting from 0
 @property (strong, nonatomic) NSMutableDictionary * pageViews;
+@property (weak, nonatomic) IBOutlet UIView *container;
 @end
 
 @implementation IntroScreenViewController
@@ -34,15 +35,14 @@
 {
     [super viewDidLoad];
     self.pageControl.numberOfPages = NUMBER_OF_PAGES;
+    self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
     self.pageViews = [NSMutableDictionary dictionary];
     self.scrollView.backgroundColor = [[ThemeFactory currentTheme] tintColor];
     self.scrollView.delegate = self;
     UIView * contentView = [[UIView alloc] init];
-    contentView.contentMode = UIViewContentModeRedraw;
     contentView.backgroundColor = [UIColor clearColor];
     contentView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.scrollView addSubview:contentView];
-    
     
     [self setScrollViewContent:contentView];
     
@@ -91,10 +91,11 @@
         [array addObject: widthConstraint];
         [array addObject: heightConstraint];
         [array addObjectsFromArray:originConstraints];
-        constraint = [constraint stringByAppendingString:[NSString stringWithFormat:@"[view%d]-0-", i]];
+        constraint = [constraint stringByAppendingString:[NSString stringWithFormat:@"[view%d]", i]];
     }
     
-    constraint = [constraint stringByAppendingString:@"|"];
+    //for some reason auto layout messes up when we add this constraint
+    //constraint = [constraint stringByAppendingString:@"|"];
     [contentView addConstraints: [NSLayoutConstraint constraintsWithVisualFormat:constraint
                                                                                      options:0
                                                                                      metrics:nil
@@ -109,14 +110,14 @@
     UIColor * color = [UIColor clearColor];
     UIView * view = [[UIView alloc] init];
     view.backgroundColor = color;
-    if( i == 1)
+    if( i == 0)
     {
-        [self setupPage1:view];
+        // [self setupPage0:view];
     }
     return view;
 }
 
--(void) setupPage1:(UIView *) page
+-(void) setupPage0:(UIView *) page
 {
     NSString * heroTitle = @"Mindcloud";
     UILabel * heroTitleLabel = [[UILabel alloc] init];
@@ -131,7 +132,6 @@
                                       attributes:attrs];
     
     heroTitleLabel.attributedText = attrString;
-    page.translatesAutoresizingMaskIntoConstraints = NO;
     heroTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [page addSubview:heroTitleLabel];
     NSLayoutConstraint * constraint = [NSLayoutConstraint constraintWithItem:heroTitleLabel
@@ -149,7 +149,7 @@
                                                                     attribute:NSLayoutAttributeCenterX
                                                                    multiplier:1.f
                                                                      constant:0.f];
-    // [page addConstraint:constraint];
+    //[page addConstraint:constraint];
     //[page addConstraint:constraint2];
 }
 
