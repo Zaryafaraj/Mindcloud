@@ -179,6 +179,12 @@
                         <outlet property="container" destination="BNJ-kF-bdC" id="FsY-dw-t7k"/>
                         <outlet property="pageControl" destination="wiV-br-ayr" id="dM3-O8-Za0"/>
                         <outlet property="scrollView" destination="UEC-pW-kqL" id="dhb-Af-bwc"/>
+                        <outlet property="signinButton" destination="OO9-a5-hOp" id="Xfa-jx-GS4"/>
+                        <outlet property="signinConstraint1" destination="pQ6-oA-J27" id="Hfi-bc-6i5"/>
+                        <outlet property="signinConstraint2" destination="dbJ-HV-b0E" id="eLP-cu-bcs"/>
+                        <outlet property="skipButton" destination="3yK-oz-wwb" id="Ksw-3E-wad"/>
+                        <outlet property="skipConstraint1" destination="cQ5-IN-IFe" id="LAq-uQ-zBz"/>
+                        <outlet property="skipConstraint2" destination="F7c-zQ-Qcf" id="gyj-kv-ZE3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="skd-Eh-JCB" userLabel="First Responder" sceneMemberID="firstResponder"/>
