@@ -77,17 +77,17 @@
                                                                              constant:0];
         
         NSLayoutConstraint * heightConstraint = [NSLayoutConstraint constraintWithItem:result
-                                                                            attribute:NSLayoutAttributeHeight
-                                                                            relatedBy:NSLayoutRelationEqual
-                                                                               toItem:contentView
-                                                                            attribute:NSLayoutAttributeHeight
-                                                                           multiplier:1
-                                                                             constant:0];
+                                                                             attribute:NSLayoutAttributeHeight
+                                                                             relatedBy:NSLayoutRelationEqual
+                                                                                toItem:contentView
+                                                                             attribute:NSLayoutAttributeHeight
+                                                                            multiplier:1
+                                                                              constant:0];
         NSDictionary * viewBindings = NSDictionaryOfVariableBindings(result);
         NSString * originContrainst = @"V:|[result]|";
         NSArray * originConstraints = [NSLayoutConstraint constraintsWithVisualFormat:originContrainst
-                                                options:0 metrics:nil
-                                                  views:viewBindings];
+                                                                              options:0 metrics:nil
+                                                                                views:viewBindings];
         [array addObject: widthConstraint];
         [array addObject: heightConstraint];
         [array addObjectsFromArray:originConstraints];
@@ -97,14 +97,14 @@
     //for some reason auto layout messes up when we add this constraint
     //constraint = [constraint stringByAppendingString:@"|"];
     [contentView addConstraints: [NSLayoutConstraint constraintsWithVisualFormat:constraint
-                                                                                     options:0
-                                                                                     metrics:nil
-                                                                               views:dict]];
+                                                                         options:0
+                                                                         metrics:nil
+                                                                           views:dict]];
     [contentView addConstraints:array];
 }
 
 -(UIView *) setPageContent:(UIView *) contentView
-        withPageNumber:(int) i
+            withPageNumber:(int) i
 {
     
     UIColor * color = [UIColor clearColor];
@@ -112,7 +112,7 @@
     view.backgroundColor = color;
     if( i == 0)
     {
-         [self setupHeroPage:view];
+        [self setupHeroPage:view];
     }
     if ( i == 1)
     {
@@ -120,7 +120,8 @@
         NSString * desc = @"Layout your notes and images freely or organize them into stacks.\nHave the freedom to be creative and the organization to be focused.";
         [self setupInfoPage:view
                   withTitle:title
-             andDescription:desc];
+             andDescription:desc
+                      split:NO];
     }
     if ( i == 2 )
     {
@@ -128,7 +129,8 @@
         NSString * desc = @"Write, sketch, or mark the screen by simply drawing on it.";
         [self setupInfoPage:view
                   withTitle:title
-             andDescription:desc];
+             andDescription:desc
+                      split:NO];
         
     }
     if (i == 3)
@@ -137,7 +139,8 @@
         NSString * desc = @"Collaborate with anyone with just two taps.\nEveryone who is collaborating with you sees your changes immediately.";
         [self setupInfoPage:view
                   withTitle:title
-             andDescription:desc];
+             andDescription:desc
+                      split:YES];
     }
     return view;
 }
@@ -251,8 +254,8 @@
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              
-            constraint4.constant = 0;
-            [page layoutIfNeeded];
+                             constraint4.constant = 0;
+                             [page layoutIfNeeded];
                          }completion:^(BOOL completed){
                          }];
         
@@ -262,6 +265,7 @@
 -(void) setupInfoPage:(UIView *) page
             withTitle:(NSString *) title
        andDescription:(NSString *) description
+                split:(BOOL) split
 {
     UILabel * titleLabel = [[UILabel alloc] init];
     UILabel * descriptionLabel = [[UILabel alloc] init];
@@ -304,12 +308,12 @@
     
     
     NSLayoutConstraint * titlePosY = [NSLayoutConstraint constraintWithItem:titleLabel
-                                                                     attribute:NSLayoutAttributeCenterY
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:page
-                                                                     attribute:NSLayoutAttributeCenterY
-                                                                    multiplier:1.5
-                                                                      constant:0.f];
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:page
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                 multiplier:1.5
+                                                                   constant:0.f];
     NSArray * constraints = @[titleCenterX, descriptionCenterX, titlePosY];
     [page addConstraints:constraints];
     
@@ -328,24 +332,6 @@
     [page addSubview:scrollView];
     
     
-    NSLayoutConstraint * scrollViewPosX = [NSLayoutConstraint constraintWithItem:scrollView
-                                                                     attribute:NSLayoutAttributeCenterX
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:page
-                                                                     attribute:NSLayoutAttributeCenterX
-                                                                    multiplier:1.0
-                                                                      constant:0.f];
-    
-    NSLayoutConstraint * scrollViewHeight = [NSLayoutConstraint constraintWithItem:scrollView
-                                                                         attribute:NSLayoutAttributeHeight
-                                                                         relatedBy:NSLayoutRelationEqual
-                                                                            toItem:scrollView
-                                                                         attribute:NSLayoutAttributeWidth
-                                                                        multiplier:0.75
-                                                                          constant:0.f];
-    
-    NSArray * scrollViewConstraints = @[scrollViewPosX, scrollViewHeight];
-    
     NSDictionary * scrollViewDict = NSDictionaryOfVariableBindings(scrollView, titleLabel);
     
     NSString * scrollViewConstraintV = @"V:[scrollView]-50-[titleLabel]";
@@ -353,25 +339,109 @@
                                                                  options:0
                                                                  metrics:nil
                                                                    views:scrollViewDict]];
-    NSString * scrollViewWidthConstraint = @"[scrollView(==550)]";
-    [page addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:scrollViewWidthConstraint
-                                                                 options:0
-                                                                 metrics:nil
-                                                                   views:scrollViewDict]];
-    
-    [page addConstraints:scrollViewConstraints];
-    
+    if (split)
+    {
+        UIScrollView * scrollView2 = [[UIScrollView alloc] init];
+        scrollView2.backgroundColor = [UIColor whiteColor];
+        scrollView2.showsHorizontalScrollIndicator = NO;
+        scrollView2.showsVerticalScrollIndicator = NO;
+        scrollView2.translatesAutoresizingMaskIntoConstraints = NO;
+        [page addSubview:scrollView2];
+        
+        NSDictionary * scrollViewDict2 = NSDictionaryOfVariableBindings(scrollView2, scrollView, titleLabel);
+        
+        NSString * scrollViewConstraintV2 = @"V:[scrollView2]-50-[titleLabel]";
+        [page addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:scrollViewConstraintV2
+                                                                     options:0
+                                                                     metrics:nil
+                                                                       views:scrollViewDict2]];
+        
+        
+        NSString * scrollViewConstraintH = @"H:|-50-[scrollView]-20-[scrollView2]-50-|";
+        [page addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:scrollViewConstraintH
+                                                                     options:0
+                                                                     metrics:nil
+                                                                       views:scrollViewDict2]];
+        
+        NSString * scrollViewConstraintTop = @"V:|-(>=75,<=200)-[scrollView]";
+        [page addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:scrollViewConstraintTop
+                                                                     options:0
+                                                                     metrics:nil
+                                                                       views:scrollViewDict2]];
+//        NSString * scrollViewWidthConstraint = @"[scrollView(==300)]";
+//        [page addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:scrollViewWidthConstraint
+//                                                                     options:0
+//                                                                     metrics:nil
+//                                                                       views:scrollViewDict2]];
+        
+        NSLayoutConstraint * scrollViewEqualWidth = [NSLayoutConstraint constraintWithItem:scrollView
+                                                                                 attribute:NSLayoutAttributeWidth
+                                                                                 relatedBy:NSLayoutRelationEqual
+                                                                                    toItem:scrollView2
+                                                                                 attribute:NSLayoutAttributeWidth
+                                                                                multiplier:1.f
+                                                                                  constant:0.f];
+        
+        NSLayoutConstraint * scrollViewHeight = [NSLayoutConstraint constraintWithItem:scrollView2
+                                                                             attribute:NSLayoutAttributeHeight
+                                                                             relatedBy:NSLayoutRelationLessThanOrEqual
+                                                                                toItem:scrollView2
+                                                                             attribute:NSLayoutAttributeWidth
+                                                                            multiplier:1.3
+                                                                              constant:0.f];
+        
+        NSLayoutConstraint * scrollViewEqualHeight = [NSLayoutConstraint constraintWithItem:scrollView
+                                                                                  attribute:NSLayoutAttributeHeight
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:scrollView2
+                                                                                  attribute:NSLayoutAttributeHeight
+                                                                                 multiplier:1.f
+                                                                                   constant:0.f];
+        NSArray * scrollViewConstraints = @[scrollViewEqualHeight, scrollViewEqualWidth, scrollViewHeight];
+        
+        [page addConstraints:scrollViewConstraints];
+        
+    }
+    else
+    {
+        NSLayoutConstraint * scrollViewPosX = [NSLayoutConstraint constraintWithItem:scrollView
+                                                                           attribute:NSLayoutAttributeCenterX
+                                                                           relatedBy:NSLayoutRelationEqual
+                                                                              toItem:page
+                                                                           attribute:NSLayoutAttributeCenterX
+                                                                          multiplier:1.0
+                                                                            constant:0.f];
+        
+        NSLayoutConstraint * scrollViewHeight = [NSLayoutConstraint constraintWithItem:scrollView
+                                                                             attribute:NSLayoutAttributeHeight
+                                                                             relatedBy:NSLayoutRelationEqual
+                                                                                toItem:scrollView
+                                                                             attribute:NSLayoutAttributeWidth
+                                                                            multiplier:0.75
+                                                                              constant:0.f];
+        
+        NSArray * scrollViewConstraints = @[scrollViewPosX, scrollViewHeight];
+        
+        
+        NSString * scrollViewWidthConstraint = @"[scrollView(==550)]";
+        [page addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:scrollViewWidthConstraint
+                                                                     options:0
+                                                                     metrics:nil
+                                                                       views:scrollViewDict]];
+        
+        [page addConstraints:scrollViewConstraints];
+    }
 }
 -(void) setScrollViewContent:(UIView *) contentView
 {
     
     NSLayoutConstraint * widthConstraint = [NSLayoutConstraint constraintWithItem:contentView
-                                                                   attribute:NSLayoutAttributeWidth
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self.scrollView
-                                                                   attribute:NSLayoutAttributeWidth
-                                                                  multiplier:NUMBER_OF_PAGES
-                                                                    constant:0];
+                                                                        attribute:NSLayoutAttributeWidth
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:self.scrollView
+                                                                        attribute:NSLayoutAttributeWidth
+                                                                       multiplier:NUMBER_OF_PAGES
+                                                                         constant:0];
     NSLayoutConstraint * heightConstraints = [NSLayoutConstraint constraintWithItem:contentView
                                                                           attribute:NSLayoutAttributeHeight
                                                                           relatedBy:NSLayoutRelationEqual
@@ -384,13 +454,13 @@
     NSString * vc = @"V:|[contentView]|";
     NSDictionary * views = NSDictionaryOfVariableBindings(contentView);
     [self.scrollView addConstraints: [NSLayoutConstraint constraintsWithVisualFormat:hc
-                                                                                     options:0
-                                                                                     metrics:nil
+                                                                             options:0
+                                                                             metrics:nil
                                                                                views:views]];
     
     [self.scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:vc
-                                                                                   options:0
-                                                                                   metrics:nil
+                                                                            options:0
+                                                                            metrics:nil
                                                                               views:views]];
     [self.scrollView addConstraints:@[heightConstraints, widthConstraint]];
 }
@@ -398,7 +468,6 @@
 
 -(void) viewDidAppear:(BOOL)animated
 {
-    NSLog(@"HI");
 }
 
 
