@@ -29,7 +29,7 @@
 }
 
 #define NUMBER_OF_PAGES 5
-#define VIEW_OFFSET 150
+#define VIEW_OFFSET 75
 
 - (void)viewDidLoad
 {
@@ -112,12 +112,37 @@
     view.backgroundColor = color;
     if( i == 0)
     {
-         [self setupPage0:view];
+         [self setupHeroPage:view];
+    }
+    if ( i == 1)
+    {
+        NSString * title = @"Stay creative and focused";
+        NSString * desc = @"Layout your notes and images freely or organize them into stacks.\nHave the freedom to be creative and the organization to be focused.";
+        [self setupInfoPage:view
+                  withTitle:title
+             andDescription:desc];
+    }
+    if ( i == 2 )
+    {
+        NSString * title = @"Express yourself freely";
+        NSString * desc = @"Write, sketch, or mark the screen by simply drawing on it.";
+        [self setupInfoPage:view
+                  withTitle:title
+             andDescription:desc];
+        
+    }
+    if (i == 3)
+    {
+        NSString * title = @"Collaborate Easily";
+        NSString * desc = @"Collaborate with anyone with just two taps.\nEveryone who is collaborating with you sees your changes immediately.";
+        [self setupInfoPage:view
+                  withTitle:title
+             andDescription:desc];
     }
     return view;
 }
 
--(void) setupPage0:(UIView *) page
+-(void) setupHeroPage:(UIView *) page
 {
     NSString * heroTitle = @"Mindcloud";
     NSString * heroDescription = @"Think, Brainstorm, Collaborate";
@@ -234,6 +259,109 @@
     });
 }
 
+-(void) setupInfoPage:(UIView *) page
+            withTitle:(NSString *) title
+       andDescription:(NSString *) description
+{
+    UILabel * titleLabel = [[UILabel alloc] init];
+    UILabel * descriptionLabel = [[UILabel alloc] init];
+    
+    titleLabel.textColor = [UIColor colorWithWhite:1 alpha:1];
+    titleLabel.font = [UIFont systemFontOfSize:24];
+    titleLabel.text = title;
+    titleLabel.shadowColor = [UIColor darkGrayColor];
+    titleLabel.shadowOffset = CGSizeMake(0, 1);
+    titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    descriptionLabel.textColor = [UIColor colorWithWhite:1 alpha:1];
+    descriptionLabel.font = [UIFont systemFontOfSize:18];
+    descriptionLabel.text = description;
+    descriptionLabel.textAlignment = NSTextAlignmentCenter;
+    descriptionLabel.shadowColor = [UIColor darkGrayColor];
+    descriptionLabel.shadowOffset = CGSizeMake(0, 1);
+    descriptionLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    descriptionLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    descriptionLabel.numberOfLines = 3;
+    
+    [page addSubview:titleLabel];
+    [page addSubview:descriptionLabel];
+    
+    NSLayoutConstraint * titleCenterX = [NSLayoutConstraint constraintWithItem:titleLabel
+                                                                     attribute:NSLayoutAttributeCenterX
+                                                                     relatedBy:NSLayoutRelationEqual
+                                                                        toItem:page
+                                                                     attribute:NSLayoutAttributeCenterX
+                                                                    multiplier:1.f
+                                                                      constant:0.f];
+    
+    NSLayoutConstraint * descriptionCenterX = [NSLayoutConstraint constraintWithItem:descriptionLabel
+                                                                           attribute:NSLayoutAttributeCenterX
+                                                                           relatedBy:NSLayoutRelationEqual
+                                                                              toItem:page
+                                                                           attribute:NSLayoutAttributeCenterX
+                                                                          multiplier:1.f
+                                                                            constant:0.f];
+    
+    
+    NSLayoutConstraint * titlePosY = [NSLayoutConstraint constraintWithItem:titleLabel
+                                                                     attribute:NSLayoutAttributeCenterY
+                                                                     relatedBy:NSLayoutRelationEqual
+                                                                        toItem:page
+                                                                     attribute:NSLayoutAttributeCenterY
+                                                                    multiplier:1.5
+                                                                      constant:0.f];
+    NSArray * constraints = @[titleCenterX, descriptionCenterX, titlePosY];
+    [page addConstraints:constraints];
+    
+    NSDictionary * titleViews = NSDictionaryOfVariableBindings(titleLabel, descriptionLabel);
+    NSString * titleConstraints = @"V:[titleLabel]-30-[descriptionLabel]";
+    [page addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:titleConstraints
+                                                                 options:0
+                                                                 metrics:nil
+                                                                   views:titleViews]];
+    
+    UIScrollView * scrollView = [[UIScrollView alloc] init];
+    scrollView.backgroundColor = [UIColor whiteColor];
+    scrollView.showsHorizontalScrollIndicator = NO;
+    scrollView.showsVerticalScrollIndicator = NO;
+    scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    [page addSubview:scrollView];
+    
+    
+    NSLayoutConstraint * scrollViewPosX = [NSLayoutConstraint constraintWithItem:scrollView
+                                                                     attribute:NSLayoutAttributeCenterX
+                                                                     relatedBy:NSLayoutRelationEqual
+                                                                        toItem:page
+                                                                     attribute:NSLayoutAttributeCenterX
+                                                                    multiplier:1.0
+                                                                      constant:0.f];
+    
+    NSLayoutConstraint * scrollViewHeight = [NSLayoutConstraint constraintWithItem:scrollView
+                                                                         attribute:NSLayoutAttributeHeight
+                                                                         relatedBy:NSLayoutRelationEqual
+                                                                            toItem:scrollView
+                                                                         attribute:NSLayoutAttributeWidth
+                                                                        multiplier:0.75
+                                                                          constant:0.f];
+    
+    NSArray * scrollViewConstraints = @[scrollViewPosX, scrollViewHeight];
+    
+    NSDictionary * scrollViewDict = NSDictionaryOfVariableBindings(scrollView, titleLabel);
+    
+    NSString * scrollViewConstraintV = @"V:[scrollView]-50-[titleLabel]";
+    [page addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:scrollViewConstraintV
+                                                                 options:0
+                                                                 metrics:nil
+                                                                   views:scrollViewDict]];
+    NSString * scrollViewWidthConstraint = @"[scrollView(==550)]";
+    [page addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:scrollViewWidthConstraint
+                                                                 options:0
+                                                                 metrics:nil
+                                                                   views:scrollViewDict]];
+    
+    [page addConstraints:scrollViewConstraints];
+    
+}
 -(void) setScrollViewContent:(UIView *) contentView
 {
     
