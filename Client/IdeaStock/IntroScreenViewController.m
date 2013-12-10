@@ -614,33 +614,13 @@
 {
     
     //UIView * superView = self.skipButton.superview;
-    UIView * superView = self.container.superview;
     if (entered)
     {
-        [self.container.superview removeConstraint:self.skipConstraint1];
-        [self.container.superview removeConstraint:self.skipConstraint2];
-        [self.container.superview removeConstraint:self.signinConstraint1];
-        [self.container.superview removeConstraint:self.signinConstraint2];
-        NSLayoutConstraint * newSkipConstraintX = [NSLayoutConstraint constraintWithItem:self.skipButton
-                                                                               attribute:NSLayoutAttributeCenterX
-                                                                               relatedBy:NSLayoutRelationEqual
-                                                                                  toItem:superView
-                                                                               attribute:NSLayoutAttributeCenterX
-                                                                              multiplier:1.0
-                                                                                constant:0.f];
-        
-        NSLayoutConstraint * newSigninConstraintX = [NSLayoutConstraint constraintWithItem:self.signinButton
-                                                                                 attribute:NSLayoutAttributeCenterX
-                                                                                 relatedBy:NSLayoutRelationEqual
-                                                                                    toItem:superView
-                                                                                 attribute:NSLayoutAttributeCenterX
-                                                                                multiplier:1.0
-                                                                                  constant:0.f];
         
         NSLayoutConstraint * newSigninConstraintY = [NSLayoutConstraint constraintWithItem:self.signinButton
                                                                                  attribute:NSLayoutAttributeCenterY
                                                                                  relatedBy:NSLayoutRelationEqual
-                                                                                    toItem:superView
+                                                                                    toItem:self.signinButton.superview
                                                                                  attribute:NSLayoutAttributeCenterY
                                                                                 multiplier:1.0
                                                                                   constant:-50.f];
@@ -648,24 +628,36 @@
         NSLayoutConstraint * newSkipConstraintY = [NSLayoutConstraint constraintWithItem:self.skipButton
                                                                                attribute:NSLayoutAttributeCenterY
                                                                                relatedBy:NSLayoutRelationEqual
-                                                                                  toItem:superView
+                                                                                  toItem:self.skipButton.superview
                                                                                attribute:NSLayoutAttributeCenterY
                                                                               multiplier:1.0
                                                                                 constant:+50.f];
         
+        NSLayoutConstraint * xConstraintsSignIn = [NSLayoutConstraint constraintWithItem:self.signinButton
+                                                                             attribute:NSLayoutAttributeCenterX
+                                                                             relatedBy:NSLayoutRelationEqual
+                                                                                toItem:self.pageControl
+                                                                             attribute:NSLayoutAttributeCenterX
+                                                                            multiplier:1
+                                                                              constant:0];
         
-        NSArray * endButtonConstraints = @[newSigninConstraintX, newSkipConstraintX, newSkipConstraintY, newSigninConstraintY];
+        NSLayoutConstraint * xConstraintsSkip = [NSLayoutConstraint constraintWithItem:self.skipButton
+                                                                               attribute:NSLayoutAttributeCenterX
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:self.pageControl
+                                                                               attribute:NSLayoutAttributeCenterX
+                                                                              multiplier:1
+                                                                                constant:0];
+        NSArray * endButtonConstraints = @[newSkipConstraintY, newSigninConstraintY, xConstraintsSignIn, xConstraintsSkip];
         self.endButtonConstraints = endButtonConstraints;
-        [superView addConstraints:endButtonConstraints];
+        [self.skipButton.superview addConstraints:endButtonConstraints];
         
-        if (self.lastPageAnimationInProgress) return;
         [UIView animateWithDuration:1.0
                               delay:0
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              self.lastPageAnimationInProgress = YES;
-                             [superView layoutIfNeeded];
-                             //self.signinButton.titleLabel.font = [UIFont systemFontOfSize:48];
+                             [self.container.superview layoutIfNeeded];
                          }completion:^(BOOL completed){
                              self.lastPageAnimationInProgress = NO;
                              self.lastPagehasFinalLayout = YES;
@@ -677,23 +669,15 @@
         
         for (NSLayoutConstraint * constraint in self.endButtonConstraints)
         {
-            [superView removeConstraint:constraint];
+            [self.skipButton.superview removeConstraint:constraint];
         }
-        
-        superView = self.container.superview;
-        [superView addConstraint:self.skipConstraint1];
-        [superView addConstraint:self.skipConstraint2];
-        [superView addConstraint:self.signinConstraint1];
-        [superView addConstraint:self.signinConstraint2];
-        
-        if (self.lastPageAnimationInProgress) return;
         
         [UIView animateWithDuration:0.5
                               delay:0
                             options:UIViewAnimationOptionCurveLinear
                          animations:^{
                              self.lastPageAnimationInProgress = YES;
-                             [superView layoutIfNeeded];
+                             [self.skipButton.superview layoutIfNeeded];
                              
                          }completion:^(BOOL completed){
                              self.lastPageAnimationInProgress = NO;
