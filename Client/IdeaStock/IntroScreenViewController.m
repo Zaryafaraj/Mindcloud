@@ -511,7 +511,8 @@
     
     CGFloat pageWidth = self.scrollView.frame.size.width;
     int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-    if (self.pageControl.currentPage != page)
+    if (self.pageControl.currentPage != page ||
+        (self.pageControl.currentPage == page && page ==4 && !self.lastPagehasFinalLayout))
     {
         self.lastPage = self.pageControl.currentPage;
         self.pageControl.currentPage = page;
