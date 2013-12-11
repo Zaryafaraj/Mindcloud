@@ -26,7 +26,8 @@
 
 @property (nonatomic) int lastPage;
 @property (nonatomic) BOOL lastPagehasFinalLayout;
-@property (nonatomic) BOOL lastPageAnimationInProgress;
+@property (nonatomic) BOOL lastPageStartLayoutAnimationInProgress;
+@property (nonatomic) BOOL lastPageResetLayoutAnimationInProgress;
 //because sometimes scrolling happens because of rotation to fix content offset
 //and we start some animations based on scrolling, we set this flag when the scrolling
 //happens so that we don't animate stuff when user has not scrolled himself
@@ -650,14 +651,16 @@
         self.endButtonConstraints = endButtonConstraints;
         [self.skipButton.superview addConstraints:endButtonConstraints];
         
+        if (self.lastPageStartLayoutAnimationInProgress) return;
+        
         [UIView animateWithDuration:1.0
                               delay:0
-                            options:UIViewAnimationOptionCurveEaseOut
+                            options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
-                             self.lastPageAnimationInProgress = YES;
+                             self.lastPageStartLayoutAnimationInProgress = YES;
                              [self.container.superview layoutIfNeeded];
                          }completion:^(BOOL completed){
-                             self.lastPageAnimationInProgress = NO;
+                             self.lastPageStartLayoutAnimationInProgress = NO;
                              self.lastPagehasFinalLayout = YES;
                          }];
         
@@ -666,7 +669,7 @@
     {
         
         [self.container.superview layoutIfNeeded];
-        if (self.lastPageAnimationInProgress) return;
+        if (self.lastPageResetLayoutAnimationInProgress) return;
         for (NSLayoutConstraint * constraint in self.endButtonConstraints)
         {
             [self.skipButton.superview removeConstraint:constraint];
@@ -674,13 +677,13 @@
         
         [UIView animateWithDuration:0.5
                               delay:0
-                            options:UIViewAnimationOptionCurveLinear
+                            options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
-                             self.lastPageAnimationInProgress = YES;
+                             self.lastPageResetLayoutAnimationInProgress = YES;
                              [self.skipButton.superview layoutIfNeeded];
                              
                          }completion:^(BOOL completed){
-                             self.lastPageAnimationInProgress = NO;
+                             self.lastPageResetLayoutAnimationInProgress = NO;
                              self.lastPagehasFinalLayout = NO;
                          }];
     }
