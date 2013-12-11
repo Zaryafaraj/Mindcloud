@@ -487,11 +487,6 @@
 }
 
 
--(void) viewDidAppear:(BOOL)animated
-{
-}
-
-
 -(void) scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (self.pageControl.currentPage == 4 && !self.rotationCausedScrolling)
@@ -518,15 +513,9 @@
     if (self.pageControl.currentPage != page)
     {
         self.lastPage = self.pageControl.currentPage;
+        self.pageControl.currentPage = page;
+        [self dismissSelfIfNeccessary];
     }
-    self.pageControl.currentPage = page;
-    [self dismissSelfIfNeccessary];
-}
-
--(void) scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-{
-    
-    [self dismissSelfIfNeccessary];
 }
 
 -(void) dismissSelfIfNeccessary
@@ -621,7 +610,8 @@
 -(void) animatePage4:(BOOL) entered
 {
     
-    if (entered)
+    //to make sure we don't double animate when two scrolling events are sent
+    if (entered && !self.lastPagehasFinalLayout)
     {
         
         
