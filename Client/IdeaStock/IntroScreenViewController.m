@@ -27,6 +27,10 @@
 @property (nonatomic) int lastPage;
 @property (nonatomic) BOOL lastPagehasFinalLayout;
 @property (nonatomic) BOOL lastPageAnimationInProgress;
+//because sometimes scrolling happens because of rotation to fix content offset
+//and we start some animations based on scrolling, we set this flag when the scrolling
+//happens so that we don't animate stuff when user has not scrolled himself
+@property (nonatomic) BOOL rotationCausedScrolling;
 @property (nonatomic, strong) NSArray * endButtonConstraints;
 //for detecting scroll direction
 @property (nonatomic, assign) NSInteger lastContentOffset;
@@ -487,29 +491,24 @@
 {
 }
 
-//-(void) scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    if (self.pageControl.currentPage == 4)
-//    {
-//        //scroll direction right
-//        if (self.lastContentOffset > scrollView.contentOffset.x)
-//            if (!self.lastPageAnimationInProgress && !self.lastPagehasFinalLayout)
-//        {
-//            [self animatePage4:NO];
-//        }
-//        //scroll direction left
-//        if (self.lastContentOffset < scrollView.contentOffset.x)
-//        {
-//            if (!self.lastPageAnimationInProgress && self.lastPagehasFinalLayout)
-//            {
-//                [self animatePage4:YES];
-//            }
-//        }
-//        
-//        self.lastContentOffset = scrollView.contentOffset.x;
-//        
-//    }
-//}
+
+-(void) scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (self.pageControl.currentPage == 4 && !self.rotationCausedScrolling)
+    {
+        CGFloat pageWidth = self.scrollView.frame.size.width;
+        int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+        if (page == 3)
+        {
+                [self animatePage4:NO];
+        }
+    }
+    
+    if (self.rotationCausedScrolling)
+    {
+        self.rotationCausedScrolling = NO;
+    }
+}
 
 -(void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
@@ -536,6 +535,11 @@
     [self pageAppearedAtIndex:newPageIndex];
 }
 
+-(void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    self.rotationCausedScrolling= YES;
+}
+
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                          duration:(NSTimeInterval)duration
 {
@@ -545,6 +549,10 @@
     self.scrollView.contentOffset = CGPointMake(xOffset, self.scrollView.contentOffset.y);
 }
 
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self.scrollView.superview layoutIfNeeded];
+}
 
 - (IBAction)skipPressed:(id)sender
 {
@@ -579,7 +587,7 @@
             [self animatePage3];
             if (self.lastPage == 4)
             {
-                [self animatePage4:NO];
+//                [self animatePage4:NO];
             }
             break;
             
@@ -613,9 +621,9 @@
 -(void) animatePage4:(BOOL) entered
 {
     
-    //UIView * superView = self.skipButton.superview;
     if (entered)
     {
+        
         
         NSLayoutConstraint * newSigninConstraintY = [NSLayoutConstraint constraintWithItem:self.signinButton
                                                                                  attribute:NSLayoutAttributeCenterY
@@ -667,6 +675,8 @@
     else
     {
         
+        [self.container.superview layoutIfNeeded];
+        if (self.lastPageAnimationInProgress) return;
         for (NSLayoutConstraint * constraint in self.endButtonConstraints)
         {
             [self.skipButton.superview removeConstraint:constraint];
