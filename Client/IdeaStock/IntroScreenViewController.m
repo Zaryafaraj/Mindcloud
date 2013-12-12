@@ -504,6 +504,11 @@
         }
     }
     
+    if (self.pageControl.currentPage == 1 && !self.rotationCausedScrolling)
+    {
+        CGPoint contentOffset = scrollView.contentOffset;
+        [self parallexPage:1 withParentContentOffset:contentOffset];
+    }
     if (self.rotationCausedScrolling)
     {
         self.rotationCausedScrolling = NO;
@@ -907,4 +912,29 @@
     }
 }
 
+-(void) parallexPage:(int) pageNo
+withParentContentOffset:(CGPoint) contentOffset
+{
+    NSNumber * number = [NSNumber numberWithInt:pageNo];
+    UIView * page = self.pageViews[number];
+    if (page)
+    {
+        UIScrollView * scrollView;
+        for(UIView * view in page.subviews)
+        {
+            if ([view isKindOfClass:[UIScrollView class]])
+            {
+                scrollView = (UIScrollView *) view;
+            }
+        }
+        if (scrollView == nil)
+        {
+            return ;
+        }
+        
+        CGFloat percentageMoved = contentOffset.x / (page.bounds.size.width * (pageNo+1));
+        scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x * percentageMoved, scrollView.contentOffset.y);
+        
+    }
+}
 @end
