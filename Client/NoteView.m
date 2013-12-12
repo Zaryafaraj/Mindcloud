@@ -43,6 +43,16 @@
     return self;
 }
 
+-(id) init
+{
+    self = [super init];
+    if (self)
+    {
+        [self _configureView];
+    }
+    return self;
+}
+
 -(instancetype) _configureView
 {
     [NoteView setLayers:self];

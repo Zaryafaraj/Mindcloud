@@ -8,6 +8,7 @@
 
 #import "IntroScreenViewController.h"
 #import "ThemeFactory.h"
+#import "NoteView.h"
 
 @interface IntroScreenViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -17,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIView *container;
 @property (weak, nonatomic) IBOutlet UIButton *skipButton;
 @property (weak, nonatomic) IBOutlet UIButton *signinButton;
+@property (weak, nonatomic) IBOutlet NoteView *prototypeNote;
 
 
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *skipConstraint1;
@@ -346,7 +348,7 @@
                                                                    views:titleViews]];
     
     UIScrollView * scrollView = [[UIScrollView alloc] init];
-    scrollView.backgroundColor = [UIColor whiteColor];
+    scrollView.backgroundColor = [UIColor clearColor];
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.showsVerticalScrollIndicator = NO;
     scrollView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -568,7 +570,6 @@
     switch (index) {
         case 1:
             [self animatePage1];
-            break;
             
         case 2:
             [self animatePage2];
@@ -594,7 +595,78 @@
 -(void) animatePage1
 {
     
-    NSLog(@"Animate Page 1");
+    //run animations only once
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NoteView * noteView = [self.prototypeNote prototype];
+        noteView.alpha = 1;
+        noteView.text = @"You can add notes super quick to capture ideas";
+        
+        NSNumber * number = [NSNumber numberWithInt:1];
+        UIView * page = self.pageViews[number];
+        if (page)
+        {
+            UIScrollView * scrollView;
+            for(UIView * view in page.subviews)
+            {
+                if ([view isKindOfClass:[UIScrollView class]])
+                {
+                    scrollView = (UIScrollView *) view;
+                }
+            }
+            if (scrollView == nil)
+            {
+                return ;
+            }
+            
+            [scrollView addSubview:noteView];
+            noteView.translatesAutoresizingMaskIntoConstraints = NO;
+            page.translatesAutoresizingMaskIntoConstraints = NO;
+            
+            NSLayoutConstraint * noteCenterX = [NSLayoutConstraint constraintWithItem:noteView
+                                                                            attribute:NSLayoutAttributeCenterX
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:scrollView
+                                                                            attribute:NSLayoutAttributeCenterX
+                                                                           multiplier:0.60
+                                                                             constant:0];
+            
+            NSLayoutConstraint * noteCenterY = [NSLayoutConstraint constraintWithItem:noteView
+                                                                            attribute:NSLayoutAttributeCenterY
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:scrollView
+                                                                            attribute:NSLayoutAttributeCenterY
+                                                                           multiplier:0.60
+                                                                             constant:0];
+            
+            NSDictionary * viewDicts = NSDictionaryOfVariableBindings(noteView);
+            NSString * noteWidth = @"H:[noteView(==233)]";
+            NSString * noteHeight = @"V:[noteView(==165)]";
+            
+            NSArray * constraints = @[noteCenterX, noteCenterY];
+            [scrollView addConstraints:constraints];
+            [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:noteWidth
+                                                                         options:0
+                                                                         metrics:nil
+                                                                           views:viewDicts]];
+            
+            [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:noteHeight
+                                                                         options:0
+                                                                         metrics:nil
+                                                                           views:viewDicts]];
+            
+            noteView.transform = CGAffineTransformScale(noteView.transform, 0.1, 0.1);
+            [UIView animateWithDuration:0.6
+                                  delay:0.0
+                 usingSpringWithDamping:0.4
+                  initialSpringVelocity:2.0
+                                options:UIViewAnimationOptionCurveEaseIn
+                             animations:^{
+                                 noteView.transform = CGAffineTransformScale(noteView.transform, 10, 10);
+                             }completion:nil];
+        }
+        
+    });
 }
 
 -(void) animatePage2
