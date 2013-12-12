@@ -11,5 +11,5 @@
 @interface ImageNoteView : NoteView
 
 @property (nonatomic, strong) UIImage *image;
-
+@property (nonatomic) BOOL resizesToFitImage;
 @end

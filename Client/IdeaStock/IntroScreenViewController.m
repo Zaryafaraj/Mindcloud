@@ -9,6 +9,7 @@
 #import "IntroScreenViewController.h"
 #import "ThemeFactory.h"
 #import "NoteView.h"
+#import "ImageNoteView.h"
 
 @interface IntroScreenViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -20,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *signinButton;
 @property (weak, nonatomic) IBOutlet NoteView *prototypeNote;
 
+@property (weak, nonatomic) IBOutlet ImageNoteView *prototypeImageNote;
 
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *skipConstraint1;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *skipConstraint2;
@@ -600,7 +602,21 @@
     dispatch_once(&onceToken, ^{
         NoteView * noteView = [self.prototypeNote prototype];
         noteView.alpha = 1;
-        noteView.text = @"You can add notes super quick to capture ideas";
+        noteView.text = @"You can quickly add notes to capture ideas";
+        
+        NoteView * stackNote2 = [self.prototypeNote prototype];
+        stackNote2.alpha = 1;
+        stackNote2.text = @"Stacks provide an organized view into your notes";
+        
+        NoteView * stackNote3 = [self.prototypeNote prototype];
+        stackNote3.alpha = 1;
+        stackNote3.text = @"Everything can be moved around anywhere on the screen";
+        
+        ImageNoteView * imageNoteView = [self.prototypeImageNote prototype];
+        imageNoteView.alpha = 1;
+        UIImage * image = [UIImage imageNamed:@"board"];
+        imageNoteView.resizesToFitImage = NO;
+        imageNoteView.image = image;
         
         NSNumber * number = [NSNumber numberWithInt:1];
         UIView * page = self.pageViews[number];
@@ -620,8 +636,15 @@
             }
             
             [scrollView addSubview:noteView];
+            [scrollView addSubview:imageNoteView];
+            [scrollView addSubview:stackNote2];
+            [scrollView addSubview:stackNote3];
+            
+            imageNoteView.translatesAutoresizingMaskIntoConstraints = NO;
             noteView.translatesAutoresizingMaskIntoConstraints = NO;
             page.translatesAutoresizingMaskIntoConstraints = NO;
+            stackNote2.translatesAutoresizingMaskIntoConstraints = NO;
+            stackNote3.translatesAutoresizingMaskIntoConstraints = NO;
             
             NSLayoutConstraint * noteCenterX = [NSLayoutConstraint constraintWithItem:noteView
                                                                             attribute:NSLayoutAttributeCenterX
@@ -631,6 +654,7 @@
                                                                            multiplier:0.60
                                                                              constant:0];
             
+            
             NSLayoutConstraint * noteCenterY = [NSLayoutConstraint constraintWithItem:noteView
                                                                             attribute:NSLayoutAttributeCenterY
                                                                             relatedBy:NSLayoutRelationEqual
@@ -639,11 +663,54 @@
                                                                            multiplier:0.60
                                                                              constant:0];
             
-            NSDictionary * viewDicts = NSDictionaryOfVariableBindings(noteView);
+            NSLayoutConstraint * stackNoteCenterX = [NSLayoutConstraint constraintWithItem:stackNote3
+                                                                            attribute:NSLayoutAttributeCenterX
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:scrollView
+                                                                            attribute:NSLayoutAttributeCenterX
+                                                                           multiplier:1.5
+                                                                             constant:0];
+            
+            NSLayoutConstraint * stackNoteCenterY = [NSLayoutConstraint constraintWithItem:stackNote3
+                                                                            attribute:NSLayoutAttributeCenterY
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:scrollView
+                                                                            attribute:NSLayoutAttributeCenterY
+                                                                           multiplier:1.4
+                                                                             constant:0];
+            
+            NSLayoutConstraint * stackNote2CenterX = [NSLayoutConstraint constraintWithItem:stackNote2
+                                                                            attribute:NSLayoutAttributeCenterX
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:scrollView
+                                                                            attribute:NSLayoutAttributeCenterX
+                                                                           multiplier:1.5
+                                                                             constant:+17];
+            
+            NSLayoutConstraint * stackNote2CenterY = [NSLayoutConstraint constraintWithItem:stackNote2
+                                                                            attribute:NSLayoutAttributeCenterY
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:scrollView
+                                                                            attribute:NSLayoutAttributeCenterY
+                                                                           multiplier:1.4
+                                                                             constant:-185];
+            
+            
+            NSDictionary * viewDicts = NSDictionaryOfVariableBindings(imageNoteView, noteView, stackNote2, stackNote3);
             NSString * noteWidth = @"H:[noteView(==233)]";
             NSString * noteHeight = @"V:[noteView(==165)]";
+            NSString * imageWidth = @"H:[imageNoteView(==233)]";
+            NSString * imageHeight = @"V:[imageNoteView(==165)]";
+            NSString * stackNote2Width = @"H:[stackNote2(==233)]";
+            NSString * stackNote2Height = @"V:[stackNote2(==165)]";
+            NSString * stackNote3Width = @"H:[stackNote3(==233)]";
+            NSString * stackNote3Height = @"V:[stackNote3(==165)]";
             
-            NSArray * constraints = @[noteCenterX, noteCenterY];
+            NSString * imageConstraintH = @"H:[noteView]-(-270)-[imageNoteView]";
+            NSString * imageConstraintV = @"V:[noteView]-(-40)-[imageNoteView]";
+            
+            NSArray * constraints = @[noteCenterX, noteCenterY, stackNoteCenterX, stackNoteCenterY,
+                                      stackNote2CenterX, stackNote2CenterY, stackNoteCenterX, stackNoteCenterY];
             [scrollView addConstraints:constraints];
             [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:noteWidth
                                                                          options:0
@@ -655,7 +722,57 @@
                                                                          metrics:nil
                                                                            views:viewDicts]];
             
+            
+            [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:imageHeight
+                                                                         options:0
+                                                                         metrics:nil
+                                                                           views:viewDicts]];
+            
+            [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:imageWidth
+                                                                         options:0
+                                                                         metrics:nil
+                                                                           views:viewDicts]];
+            
+            [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:imageConstraintH
+                                                                         options:0
+                                                                         metrics:nil
+                                                                           views:viewDicts]];
+            
+            [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:imageConstraintV
+                                                                         options:0
+                                                                         metrics:nil
+                                                                           views:viewDicts]];
+            
+            
+            
+            [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:stackNote2Width
+                                                                         options:0
+                                                                         metrics:nil
+                                                                           views:viewDicts]];
+            
+            
+            [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:stackNote2Height
+                                                                               options:0
+                                                                               metrics:nil
+                                                                                 views:viewDicts]];
+            
+            
+            [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:stackNote3Width
+                                                                         options:0
+                                                                         metrics:nil
+                                                                           views:viewDicts]];
+            
+            
+            [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:stackNote3Height
+                                                                               options:0
+                                                                               metrics:nil
+                                                                                 views:viewDicts]];
+            
+            
             noteView.transform = CGAffineTransformScale(noteView.transform, 0.1, 0.1);
+            imageNoteView.transform = CGAffineTransformScale(imageNoteView.transform, 0.1, 0.1);
+            stackNote2.transform = CGAffineTransformScale(stackNote2.transform, 0.1, 0.1);
+            stackNote3.transform = CGAffineTransformScale(stackNote3.transform, 0.1, 0.1);
             [UIView animateWithDuration:0.6
                                   delay:0.0
                  usingSpringWithDamping:0.4
@@ -663,7 +780,35 @@
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
                                  noteView.transform = CGAffineTransformScale(noteView.transform, 10, 10);
-                             }completion:nil];
+                                 stackNote2.transform = CGAffineTransformScale(stackNote2.transform, 10, 10);
+                                 stackNote3.transform = CGAffineTransformScale(stackNote3.transform, 8, 8);
+                                 imageNoteView.transform = CGAffineTransformScale(imageNoteView.transform, 12, 12);
+                             }completion:^(BOOL completed){
+                                 [UIView animateWithDuration:1.0
+                                                       delay:0.5
+                                                     options:UIViewAnimationOptionCurveEaseIn
+                                                  animations:^{
+                                                      stackNote2CenterX.constant = 0;
+                                                      stackNote2CenterY.constant = -90;
+                                                      stackNoteCenterY.constant = -90;
+                                                      stackNote3.transform = CGAffineTransformIdentity;
+                                                      stackNote2.transform = CGAffineTransformRotate(stackNote2.transform, M_PI_4 * 1/8);
+                                                      [self.scrollView layoutIfNeeded];
+                                                  }completion:^(BOOL finished){
+                                                      
+                                                      [UIView animateWithDuration:0.7
+                                                                            delay:0.5
+                                                                          options:UIViewAnimationOptionCurveEaseIn
+                                                                       animations:^{
+                                                                           CGAffineTransform scale = CGAffineTransformScale(imageNoteView.transform, 0.95, 0.95);
+                                                                           imageNoteView.transform = CGAffineTransformTranslate(scale, 50, -20);
+                                                                       }completion:^(BOOL finished){
+                                                                           
+                                                                       }];
+                                                      
+                                                  }];
+                             }];
+            
         }
         
     });

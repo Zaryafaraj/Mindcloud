@@ -42,6 +42,7 @@
 
 -(void) configureImageView
 {
+    self.resizesToFitImage = YES;
     //find the text view
     for (UIView * subView in self.subviews){
         if ([subView isKindOfClass:[UIImageView class]])
@@ -56,8 +57,13 @@
 -(void) setImage:(UIImage *)image
 {
     _image = image;
-    [self resizeNoteToMatchImageSize];
+    if (self.resizesToFitImage)
+    {
+        [self resizeNoteToMatchImageSize];
+    }
+    
     [self.imageView setImage:image];
+    
 }
 
 -(UIImage *) image
