@@ -24,6 +24,14 @@
     return path;
 }
 
++(NSString *) getPathForIntroBezierPath
+{
+    NSString * path = [NSHomeDirectory() stringByAppendingString:@"/Documents/Cache/"];
+    [self createMissingDirectoryForPath:path];
+    path = [path stringByAppendingString:@"introPath1.pth"];
+    return path;
+}
+
 +(NSString *) getPathForCategories
 {
     NSString * path = [NSHomeDirectory() stringByAppendingString:@"/Documents/Cache/"];

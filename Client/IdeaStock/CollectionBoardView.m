@@ -300,10 +300,13 @@
                                       forTouch:touch
                                       andEvent:event
                                  andOrderIndex:self.orderIndex];
-    [self.viewsWithoutTouchEnded addObject:touchedLayer];
-    
-    self.lastTouchBeganLocation = location;
-    self.lastTouchBeganView = touchedLayer;
+    if (touchedLayer != nil)
+    {
+        [self.viewsWithoutTouchEnded addObject:touchedLayer];
+        
+        self.lastTouchBeganLocation = location;
+        self.lastTouchBeganView = touchedLayer;
+    }
 }
 
 -(void) touchesEnded:(NSSet *)touches
@@ -352,6 +355,11 @@
     {
         [temp didFinishDrawingOnScreen];
     }
+    if (currentTouchedLayer == nil)
+    {
+        return;
+    }
+    
     [self.viewsWithoutTouchEnded removeObject:currentTouchedLayer];
 }
 
@@ -413,6 +421,8 @@
         
         CGPoint currentInSelf = [touch locationInView:self];
         CGPoint currentInChild = [prevTouchedLayer convertPoint:currentInSelf fromView:self];
+        
+        if (prevTouchedLayer == nil) return;
         
         [self addTouchedItem:prevTouchedLayer];
         
@@ -921,4 +931,9 @@
     
 }
 
+-(void) debug_captureBezier
+{
+    PaintLayerView * layer = self.viewGrid[0];
+    [layer debug_writeBezierPathToFile];
+}
 @end

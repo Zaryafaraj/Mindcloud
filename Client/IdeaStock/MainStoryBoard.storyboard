@@ -627,6 +627,11 @@
                             <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" indicatorStyle="white" minimumZoomScale="0.20000000000000001" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="QXW-F8-5QD" customClass="CollectionScrollView">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PF9-Vp-upE" userLabel="PatternView">
+                                        <rect key="frame" x="0.0" y="0.0" width="384" height="480"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="efj-z7-K4y" userLabel="CollectionBoard" customClass="CollectionBoardView">
                                         <rect key="frame" x="0.0" y="0.0" width="2000" height="2000"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -705,9 +710,14 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="IzC-P6-Dcb"/>
-                                    <barButtonItem title="Color" id="0AR-qY-9ZY">
+                                    <barButtonItem title="debug_capture_bezier" id="0AR-qY-9ZY">
                                         <connections>
-                                            <action selector="colorPressed:" destination="9HL-37-GHp" id="YV6-QU-VWI"/>
+                                            <action selector="captureBezierPressed:" destination="9HL-37-GHp" id="WqC-wZ-VtL"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Color" id="88W-pY-Zht">
+                                        <connections>
+                                            <action selector="colorPressed:" destination="9HL-37-GHp" id="WxN-Ym-v2m"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Brush" id="A3l-fq-Xmv">

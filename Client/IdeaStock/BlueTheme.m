@@ -18,8 +18,11 @@
 
 -(UIColor *) collectionBackgroundColor
 {
-    return
-    [UIColor colorWithPatternImage:[UIImage imageNamed:@"CollectionBigBackgroud"]];
+    return [UIColor colorWithRed:227
+                           green:227
+                            blue:227
+                           alpha:1];
+//    [UIColor colorWithPatternImage:[UIImage imageNamed:@"CollectionBigBackgroud"]];
     //[UIColor colorWithPatternImage:[UIImage imageNamed:@"signin_backgroun_pattern"]];
 }
 
@@ -51,6 +54,11 @@
 {
     UIColor * white =[UIColor colorWithHue:0.000 saturation:0.000 brightness:0.971 alpha:1.000];
     return white;
+}
+
+-(UIColor *) noisePatternForCollection
+{
+    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"noisy-collection-transparent"]];
 }
 
 @end

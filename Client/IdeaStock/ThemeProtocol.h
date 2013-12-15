@@ -24,4 +24,6 @@
 
 -(UIColor *) defaultColorForDrawing;
 
+-(UIColor *) noisePatternForCollection;
+
 @end

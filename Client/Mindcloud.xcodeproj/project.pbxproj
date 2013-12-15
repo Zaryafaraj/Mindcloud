@@ -16,6 +16,8 @@
 		D3CF453B1849975000A48593 /* MindcloudAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CF453A1849975000A48593 /* MindcloudAuthenticator.m */; };
 		D3CF453E1849CFAA00A48593 /* UserStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CF453D1849CFAA00A48593 /* UserStatus.m */; };
 		D3CF45451852CF9400A48593 /* IntroScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CF45441852CF9400A48593 /* IntroScreenViewController.m */; };
+		D3EF832F185AE7BA002688E4 /* introPath1.pth in Resources */ = {isa = PBXBuildFile; fileRef = D3EF832E185AE7BA002688E4 /* introPath1.pth */; };
+		D3EF8332185AEC41002688E4 /* TutorialPaintView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3EF8331185AEC41002688E4 /* TutorialPaintView.m */; };
 		D709470B1523BDFE008E4AD9 /* CollectionNote.m in Sources */ = {isa = PBXBuildFile; fileRef = D709470A1523BDFE008E4AD9 /* CollectionNote.m */; };
 		D70947231523DC27008E4AD9 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D70947161523DC27008E4AD9 /* DDXMLElementAdditions.m */; };
 		D70947241523DC27008E4AD9 /* NSString+DDXML.m in Sources */ = {isa = PBXBuildFile; fileRef = D70947191523DC27008E4AD9 /* NSString+DDXML.m */; };
@@ -166,6 +168,9 @@
 		D3CF45431852CF9400A48593 /* IntroScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroScreenViewController.h; sourceTree = "<group>"; };
 		D3CF45441852CF9400A48593 /* IntroScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroScreenViewController.m; sourceTree = "<group>"; };
 		D3EF83241852E8FF002688E4 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
+		D3EF832E185AE7BA002688E4 /* introPath1.pth */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = introPath1.pth; sourceTree = "<group>"; };
+		D3EF8330185AEC41002688E4 /* TutorialPaintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialPaintView.h; sourceTree = "<group>"; };
+		D3EF8331185AEC41002688E4 /* TutorialPaintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPaintView.m; sourceTree = "<group>"; };
 		D70947091523BDFE008E4AD9 /* CollectionNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionNote.h; sourceTree = "<group>"; };
 		D709470A1523BDFE008E4AD9 /* CollectionNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionNote.m; sourceTree = "<group>"; };
 		D70947151523DC27008E4AD9 /* DDXMLElementAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElementAdditions.h; sourceTree = "<group>"; };
@@ -577,6 +582,7 @@
 			isa = PBXGroup;
 			children = (
 				DB0BF4FB1814752A00C05DFA /* bgbg.png */,
+				D3EF832E185AE7BA002688E4 /* introPath1.pth */,
 				DBE3171717F64E4900EEBA18 /* test_image_note.jpg */,
 				D7A53CF81522F39500183CB6 /* Mindcloud-Info.plist */,
 				D7A53CF91522F39500183CB6 /* InfoPlist.strings */,
@@ -652,6 +658,8 @@
 				DB20ADE0181F838D0062EA5B /* BrushSelectionView.m */,
 				DB592C0E1820DAE400024926 /* ColorCell.h */,
 				DB592C0F1820DAE400024926 /* ColorCell.m */,
+				D3EF8330185AEC41002688E4 /* TutorialPaintView.h */,
+				D3EF8331185AEC41002688E4 /* TutorialPaintView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1149,6 +1157,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3EF832F185AE7BA002688E4 /* introPath1.pth in Resources */,
 				D7A53CFB1522F39500183CB6 /* InfoPlist.strings in Resources */,
 				DB0BF4FC1814752A00C05DFA /* bgbg.png in Resources */,
 				D7BF465D154728DD00F06412 /* MainStoryBoard.storyboard in Resources */,
@@ -1279,6 +1288,7 @@
 				DBDB105A16D0388200B5F7AE /* MergeResult.m in Sources */,
 				DBBBB9BA17CC67AA00081C3B /* XoomlAssociation.m in Sources */,
 				DBDB106016D1E06A00B5F7AE /* NoteFragmentResolver.m in Sources */,
+				D3EF8332185AEC41002688E4 /* TutorialPaintView.m in Sources */,
 				DBDB106316D1E08B00B5F7AE /* NoteResolutionNotification.m in Sources */,
 				DBD06A9116D98F9C00463ECC /* SharingAction.m in Sources */,
 				DBC4E35A17F14B5100F595FE /* MMDrawerVisualState.m in Sources */,

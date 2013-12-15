@@ -55,4 +55,7 @@
 
 -(void) applyDiffDrawingContentFrom:(ScreenDrawing *) diffDrawings;
 
+
+-(void) debug_captureBezier;
+
 @end

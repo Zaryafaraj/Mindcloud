@@ -7,6 +7,7 @@
 //
 
 #import "DrawingTraceContainer.h"
+#import "FileSystemHelper.h"
 
 @interface DrawingTraceContainer()
 
@@ -147,9 +148,9 @@
     
     if (!self) return nil;
     
-    self.baseDrawings = [aDecoder decodeObjectForKey:@"drawings"];
+    self.baseDrawings = [aDecoder decodeObjectForKey:@"baseDrawings"];
     
-    self.drawings = [NSMutableDictionary dictionary];
+    self.drawings = [aDecoder decodeObjectForKey:@"drawings"];
     
     return self;
 }
@@ -202,11 +203,21 @@
 
 -(void) encodeWithCoder:(NSCoder *)aCoder
 {
-    //first transfer everything in drawings to base drawings
-//    [self.baseDrawings addObjectsFromArray:self.drawings.allValues];
-//    [self.drawings removeAllObjects];
-//    
-//    [aCoder encodeObject:self.baseDrawings forKey:@"drawings"];
+    [aCoder encodeObject:self.baseDrawings forKey:@"baseDrawings"];
+    [aCoder encodeObject:self.drawings forKey:@"drawings"];
+}
+
+-(void) debug_saveContainerToFile
+{
+    NSString * prefix = [FileSystemHelper getPathForIntroBezierPath];
+    NSLog(@"Saved the file to: %@", prefix);
+    [NSKeyedArchiver archiveRootObject:self
+                                toFile:prefix];
+}
+
++(instancetype) containerWithTheContentsOfTheFile:(NSString *) filename
+{
+    return [NSKeyedUnarchiver unarchiveObjectWithFile:filename];
 }
 
 @end

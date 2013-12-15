@@ -953,7 +953,6 @@
 
 -(void) viewWillAppear:(BOOL)animated{
     
-    self.collectionView.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
     self.navigationItem.hidesBackButton = YES;
     
     UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -1900,6 +1899,11 @@ intoStackingWithMainView: (UIView *) mainView
         [self.lastPopOver dismissPopoverAnimated:YES];
     }
     self.lastPopOver = popover;
+}
+
+- (IBAction)captureBezierPressed:(id)sender
+{
+    [self.collectionView debug_captureBezier];
 }
 
 #define BRUSH_BOX_WIDTH 350

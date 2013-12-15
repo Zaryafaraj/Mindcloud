@@ -10,6 +10,9 @@
 #import "ThemeFactory.h"
 #import "NoteView.h"
 #import "ImageNoteView.h"
+#import "DrawingTraceContainer.h"
+#import "FileSystemHelper.h"
+#import "TutorialPaintView.h"
 
 @interface IntroScreenViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -54,7 +57,8 @@
 
 #define NUMBER_OF_PAGES 5
 #define VIEW_OFFSET 75
-
+#define PAGE1_DRAWING_FILEPATH @"introPath1"
+#define DRAWING_FILE_TYPE @"pth"
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -144,6 +148,7 @@
         NSString * title = @"Stay creative and focused";
         NSString * desc = @"Layout your notes and images freely or organize them into stacks.\nHave the freedom to be creative and the organization to be focused.";
         [self setupInfoPage:view
+                 withPageNo:i
                   withTitle:title
              andDescription:desc
                       split:NO];
@@ -153,6 +158,7 @@
         NSString * title = @"Express yourself freely";
         NSString * desc = @"Write, sketch, or mark the screen by simply drawing on it.";
         [self setupInfoPage:view
+                 withPageNo:i
                   withTitle:title
              andDescription:desc
                       split:NO];
@@ -163,6 +169,7 @@
         NSString * title = @"Collaborate Easily";
         NSString * desc = @"Collaborate with anyone with just two taps.\nEveryone who is collaborating with you sees your changes immediately.";
         [self setupInfoPage:view
+                 withPageNo:i
                   withTitle:title
              andDescription:desc
                       split:YES];
@@ -288,6 +295,7 @@
 }
 
 -(void) setupInfoPage:(UIView *) page
+           withPageNo:(int) pageNo
             withTitle:(NSString *) title
        andDescription:(NSString *) description
                 split:(BOOL) split
@@ -353,7 +361,52 @@
     scrollView.backgroundColor = [UIColor clearColor];
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.showsVerticalScrollIndicator = NO;
+    scrollView.bounces = NO;
     scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    if (pageNo == 2)
+    {
+        
+        scrollView.showsHorizontalScrollIndicator = YES;
+        scrollView.showsVerticalScrollIndicator = YES;
+        scrollView.bounces = NO;
+        NSString * filePath = [[NSBundle mainBundle] pathForResource:PAGE1_DRAWING_FILEPATH ofType:DRAWING_FILE_TYPE];
+        DrawingTraceContainer * drawingContainer = [DrawingTraceContainer containerWithTheContentsOfTheFile:filePath];
+        TutorialPaintView * paintView = [[TutorialPaintView alloc] initWithContainer:drawingContainer];
+        paintView.backgroundColor = [UIColor greenColor];
+        paintView.translatesAutoresizingMaskIntoConstraints = NO;
+        [scrollView addSubview:paintView];
+        
+        NSLayoutConstraint * paintViewWidth = [NSLayoutConstraint constraintWithItem:paintView
+                                                                           attribute:NSLayoutAttributeWidth
+                                                                           relatedBy:NSLayoutRelationEqual
+                                                                              toItem:scrollView
+                                                                           attribute:NSLayoutAttributeWidth
+                                                                          multiplier:4
+                                                                            constant:1];
+        
+        NSLayoutConstraint * paintViewHeigth = [NSLayoutConstraint constraintWithItem:paintView
+                                                                           attribute:NSLayoutAttributeHeight
+                                                                           relatedBy:NSLayoutRelationEqual
+                                                                              toItem:scrollView
+                                                                           attribute:NSLayoutAttributeHeight
+                                                                          multiplier:4
+                                                                            constant:1];
+        NSArray * paintViewConstraints = @[paintViewWidth, paintViewHeigth];
+        NSString * paintViewConstraintH = @"H:|-0-[paintView]-0-|";
+        NSString * paintViewConstraintV = @"V:|-0-[paintView]-0-|";
+        NSDictionary * paintDict = NSDictionaryOfVariableBindings(paintView);
+        [scrollView addConstraints:paintViewConstraints];
+        [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:paintViewConstraintH
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:paintDict]];
+        
+        [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:paintViewConstraintV
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:paintDict]];
+    }
+    
     [page addSubview:scrollView];
     
     
@@ -577,6 +630,7 @@
     switch (index) {
         case 1:
             [self animatePage1];
+            break;
             
         case 2:
             [self animatePage2];
@@ -821,8 +875,6 @@
 
 -(void) animatePage2
 {
-    
-    NSLog(@"Animate Page 2");
 }
 
 -(void) animatePage3

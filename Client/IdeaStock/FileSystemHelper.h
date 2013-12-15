@@ -35,4 +35,6 @@
 + (BOOL) removeAssociation:(NSString *) subCollectionName
      fromCollection:(NSString *) collectionName;
 
++(NSString *) getPathForIntroBezierPath;
+
 @end

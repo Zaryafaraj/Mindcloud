@@ -34,4 +34,7 @@
 
 -(int) getMaxOrderIndex;
 
+-(void) debug_saveContainerToFile;
+
++(instancetype) containerWithTheContentsOfTheFile:(NSString *) filename;
 @end
