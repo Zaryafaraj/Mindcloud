@@ -283,17 +283,18 @@
                                 <rect key="frame" x="0.0" y="20" width="298" height="44"/>
                                 <items>
                                     <barButtonItem title="Edit" id="DGJ-d8-OJF">
+                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <connections>
                                             <action selector="editPressed:" destination="Qqu-fd-gph" id="hle-2W-qd5"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem enabled="NO" title="Rename" id="p9a-ai-bDc">
+                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <connections>
                                             <action selector="renamePressed:" destination="Qqu-fd-gph" id="RY8-7B-VBf"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
-                                <color key="barTintColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelectionDuringEditing="YES" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bN0-Hu-7hX">
                                 <rect key="frame" x="0.0" y="101" width="280" height="855"/>
@@ -320,9 +321,9 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7kV-Db-NES">
-                                <rect key="frame" x="0.0" y="0.0" width="298" height="20"/>
+                                <rect key="frame" x="0.0" y="0.0" width="298" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -336,7 +337,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ejb-3r-xXi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="954" y="-3095"/>
+            <point key="canvasLocation" x="950" y="-3091"/>
         </scene>
         <!--Sharing View Controller - SharingView-->
         <scene sceneID="Qcg-Ue-70r">
@@ -507,31 +508,31 @@
                                 <rect key="frame" x="0.0" y="916" width="768" height="44"/>
                                 <items>
                                     <barButtonItem enabled="NO" title="  Categorize  " id="eOo-p7-RNb">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <connections>
                                             <action selector="categorizedPressed:" destination="C4k-Gx-gPL" id="TxH-zD-qIF"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem enabled="NO" title="Rename  " id="0Q9-ix-kI4">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <connections>
                                             <action selector="renamePressed:" destination="C4k-Gx-gPL" id="m7I-Ql-kIC"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem enabled="NO" title="Delete  " id="vdd-fp-afS">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <connections>
                                             <action selector="deletePressed:" destination="C4k-Gx-gPL" id="DIA-V1-x5K"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem enabled="NO" title="Unshare  " id="VhD-cj-b6y">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <connections>
                                             <action selector="unsharePressed:" destination="C4k-Gx-gPL" id="7Fn-HG-dnc"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem enabled="NO" title="Share  " id="1KY-yG-IgQ">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <connections>
                                             <action selector="sharePressed:" destination="C4k-Gx-gPL" id="hey-2h-zd3"/>
                                         </connections>
@@ -540,25 +541,25 @@
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
                                     <barButtonItem title="Subscribe  " id="fvF-6J-lfP">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <connections>
                                             <action selector="subscribePressed:" destination="C4k-Gx-gPL" id="jTL-ev-nCQ"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Done  " id="zGk-Ze-iMT">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <connections>
                                             <action selector="cancelPressed:" destination="C4k-Gx-gPL" id="ca9-GR-NLv"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Select  " id="04P-dP-H7k">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <connections>
                                             <action selector="editPressed:" destination="C4k-Gx-gPL" id="cz5-sY-Em3"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem systemItem="add" id="eTp-YV-1ie">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <connections>
                                             <action selector="addPressed:" destination="C4k-Gx-gPL" id="04o-i0-mba"/>
                                         </connections>
@@ -997,7 +998,6 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="hlw-lc-y9s">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.39276733994483948" green="0.51843875646591209" blue="0.9213988184928894" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Ucl-pk-dyn">

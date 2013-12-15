@@ -963,7 +963,8 @@
     titleView.text = self.bulletinBoardName;
     self.navigationItem.titleView = titleView;
     
-    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed:)];
+    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:0 target:self action:@selector(donePressed:)];
+    doneButton.tintColor = [UIColor darkTextColor];
     self.navigationItem.leftBarButtonItem = doneButton;
     [titleView sizeToFit];
     [self.board getAllCollectionAssetsAsync];
@@ -2250,7 +2251,7 @@ intoStackingWithMainView: (UIView *) mainView
 //To make status bar color consistent
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 }
 
 #pragma mark - popover delegate

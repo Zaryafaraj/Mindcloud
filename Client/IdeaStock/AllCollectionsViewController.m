@@ -555,6 +555,7 @@
                                                                    style:UIBarButtonItemStyleBordered
                                                                   target:self
                                                                   action:@selector(showCategoriesPressed:)];
+    showPanel.tintColor = [UIColor darkTextColor];
     self.navigationItem.leftBarButtonItem = showPanel;
 }
 
@@ -603,6 +604,10 @@
 
 -(void) configureCategoriesPanel
 {
+    
+    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+    [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init]
+                                       forBarMetrics:UIBarMetricsDefault];
     
     //this is not a good design. This view controller going all the way up the hierarchy to get categories controller. They should be uncoupled.
     if ([self.navigationController isKindOfClass:[AllCollectionsNavigationControllerViewController class]])

@@ -18,7 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [application setStatusBarStyle:UIStatusBarStyleLightContent];
+    [application setStatusBarStyle:UIStatusBarStyleDefault];
     return YES;
 }
 
