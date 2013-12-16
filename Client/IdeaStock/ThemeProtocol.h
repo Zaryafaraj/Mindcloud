@@ -12,6 +12,8 @@
 
 -(UIColor *) tintColor;
 
+-(UIColor *) navigationBarButtonItemColor;
+
 -(UIColor *) collectionBackgroundColor;
 
 -(UIColor *) backgroundColorForAllCollectionCategory;

@@ -433,17 +433,17 @@
         <!--All Collections View Controller-->
         <scene sceneID="cXb-B5-PaF">
             <objects>
-                <viewController restorationIdentifier="MainScreenViewController" storyboardIdentifier="MainScreenViewController" id="C4k-Gx-gPL" customClass="AllCollectionsViewController" sceneMemberID="viewController">
+                <viewController restorationIdentifier="MainScreenViewController" storyboardIdentifier="MainScreenViewController" extendedLayoutIncludesOpaqueBars="YES" id="C4k-Gx-gPL" customClass="AllCollectionsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="eaJ-JW-xx3"/>
                         <viewControllerLayoutGuide type="bottom" id="aHI-ji-Rbg"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleAspectFit" id="Jx3-sE-JAL">
-                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BzD-cR-F4A">
-                                <rect key="frame" x="0.0" y="176" width="768" height="784"/>
+                                <rect key="frame" x="0.0" y="176" width="768" height="848"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="10" id="z7C-mu-znQ">
                                     <size key="itemSize" width="203" height="149"/>
@@ -453,7 +453,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.10000000000000014" contentMode="center" placeholderIntrinsicWidth="250" placeholderIntrinsicHeight="250" reuseIdentifier="CollectionCell" id="WAv-an-XHa" customClass="CollectionCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="280" height="250"/>
+                                        <rect key="frame" x="0.0" y="64" width="280" height="250"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="280" height="250"/>
@@ -508,31 +508,31 @@
                                 <rect key="frame" x="0.0" y="916" width="768" height="44"/>
                                 <items>
                                     <barButtonItem enabled="NO" title="  Categorize  " id="eOo-p7-RNb">
-                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
                                         <connections>
                                             <action selector="categorizedPressed:" destination="C4k-Gx-gPL" id="TxH-zD-qIF"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem enabled="NO" title="Rename  " id="0Q9-ix-kI4">
-                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
                                         <connections>
                                             <action selector="renamePressed:" destination="C4k-Gx-gPL" id="m7I-Ql-kIC"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem enabled="NO" title="Delete  " id="vdd-fp-afS">
-                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
                                         <connections>
                                             <action selector="deletePressed:" destination="C4k-Gx-gPL" id="DIA-V1-x5K"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem enabled="NO" title="Unshare  " id="VhD-cj-b6y">
-                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
                                         <connections>
                                             <action selector="unsharePressed:" destination="C4k-Gx-gPL" id="7Fn-HG-dnc"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem enabled="NO" title="Share  " id="1KY-yG-IgQ">
-                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
                                         <connections>
                                             <action selector="sharePressed:" destination="C4k-Gx-gPL" id="hey-2h-zd3"/>
                                         </connections>
@@ -541,25 +541,25 @@
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
                                     <barButtonItem title="Subscribe  " id="fvF-6J-lfP">
-                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
                                         <connections>
                                             <action selector="subscribePressed:" destination="C4k-Gx-gPL" id="jTL-ev-nCQ"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Done  " id="zGk-Ze-iMT">
-                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
                                         <connections>
                                             <action selector="cancelPressed:" destination="C4k-Gx-gPL" id="ca9-GR-NLv"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Select  " id="04P-dP-H7k">
-                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
                                         <connections>
                                             <action selector="editPressed:" destination="C4k-Gx-gPL" id="cz5-sY-Em3"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem systemItem="add" id="eTp-YV-1ie">
-                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
                                         <connections>
                                             <action selector="addPressed:" destination="C4k-Gx-gPL" id="04o-i0-mba"/>
                                         </connections>
@@ -568,7 +568,7 @@
                                 <color key="barTintColor" red="0.2666666667" green="0.47058823529999999" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XJQ-se-dPS">
-                                <rect key="frame" x="0.0" y="37" width="460" height="101"/>
+                                <rect key="frame" x="0.0" y="78" width="460" height="101"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="All Collections" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qf1-Fk-LOz">
@@ -593,7 +593,6 @@
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="top" secondItem="Jx3-sE-JAL" secondAttribute="top" constant="916" id="sus-iJ-Ow0"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="GOI-mm-J7V"/>
                     <connections>
@@ -681,6 +680,12 @@
                                             <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CU7-1N-ESK">
                                                 <rect key="frame" x="0.0" y="700" width="768" height="44"/>
                                                 <items>
+                                                    <barButtonItem systemItem="camera" id="nyw-cC-aU9">
+                                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
+                                                        <connections>
+                                                            <action selector="cameraPressed:" destination="9HL-37-GHp" id="oGh-5m-Pge"/>
+                                                        </connections>
+                                                    </barButtonItem>
                                                     <barButtonItem title="Expand" id="3Cp-b8-UFf">
                                                         <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <connections>
@@ -753,12 +758,6 @@
                                             <action selector="paintPressed:" destination="9HL-37-GHp" id="a3W-Vj-klj"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem systemItem="camera" id="nyw-cC-aU9">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <action selector="cameraPressed:" destination="9HL-37-GHp" id="oGh-5m-Pge"/>
-                                        </connections>
-                                    </barButtonItem>
                                 </items>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="barTintColor" white="0.93000000000000005" alpha="1" colorSpace="calibratedWhite"/>
@@ -794,7 +793,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V18-oK-TF6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2886" y="-1727"/>
+            <point key="canvasLocation" x="2902" y="-1831"/>
         </scene>
         <!--PaintBrush View Controller-->
         <scene sceneID="7e9-er-B66">

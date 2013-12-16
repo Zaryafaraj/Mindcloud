@@ -555,7 +555,7 @@
                                                                    style:UIBarButtonItemStyleBordered
                                                                   target:self
                                                                   action:@selector(showCategoriesPressed:)];
-    showPanel.tintColor = [UIColor darkTextColor];
+    showPanel.tintColor = [[ThemeFactory currentTheme] navigationBarButtonItemColor];
     self.navigationItem.leftBarButtonItem = showPanel;
 }
 

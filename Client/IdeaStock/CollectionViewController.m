@@ -964,12 +964,16 @@
     titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     
     titleView.backgroundColor = [UIColor clearColor];
-    titleView.textColor = [UIColor whiteColor];
+    titleView.textColor = [[ThemeFactory currentTheme] navigationBarButtonItemColor];
     titleView.text = self.bulletinBoardName;
     self.navigationItem.titleView = titleView;
     
     UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:0 target:self action:@selector(donePressed:)];
-    doneButton.tintColor = [UIColor darkTextColor];
+//    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+//wU
+//                                                                   target:self
+//                                                                   action:@selector(donePressed:)];
+    doneButton.tintColor = [[ThemeFactory currentTheme] navigationBarButtonItemColor];
     self.navigationItem.leftBarButtonItem = doneButton;
     [titleView sizeToFit];
     [self.board getAllCollectionAssetsAsync];
@@ -1072,6 +1076,7 @@
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.collectionView];
     
     self.navigationItem.rightBarButtonItems = [self.toolbar.items copy];
+    
     [self initateDataStructures];
     
     [self addCollectionViewGestureRecognizersToCollectionView: self.collectionView];
