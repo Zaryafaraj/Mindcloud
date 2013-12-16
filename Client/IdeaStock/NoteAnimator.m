@@ -34,7 +34,7 @@
     [layer addAnimation:selectAnimation forKey:@"scaleAnimation"];
     
     CABasicAnimation * shadowAnimation = [CABasicAnimation animationWithKeyPath:@"shadowOffset"];
-    CGSize toValue = CGSizeMake(layer.shadowOffset.width + HIGHLIGHT_SHADOW_ADDITON_X,
+    CGSize toValue = CGSizeMake(layer.shadowOffset.width,
                                 layer.shadowOffset.height + HIGHLIGHT_SHADOW_ADDITON_Y);
     
     shadowAnimation.fromValue = [NSValue valueWithCGSize:layer.shadowOffset];
@@ -72,7 +72,7 @@
     [layer addAnimation:selectAnimation forKey:@"scaleAnimation"];
     
     CABasicAnimation * shadowAnimation = [CABasicAnimation animationWithKeyPath:@"shadowOffset"];
-    CGSize toValue = CGSizeMake(layer.shadowOffset.width - HIGHLIGHT_SHADOW_ADDITON_X,
+    CGSize toValue = CGSizeMake(layer.shadowOffset.width,
                                 layer.shadowOffset.height - HIGHLIGHT_SHADOW_ADDITON_Y);
     
     shadowAnimation.fromValue = [NSValue valueWithCGSize:layer.shadowOffset];

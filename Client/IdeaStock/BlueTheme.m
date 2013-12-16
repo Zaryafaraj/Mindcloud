@@ -18,10 +18,12 @@
 
 -(UIColor *) collectionBackgroundColor
 {
-    return [UIColor colorWithRed:227
-                           green:227
-                            blue:227
-                           alpha:1];
+    return [UIColor redColor];
+    //return [UIColor colorWithWhite:0.99 alpha:1];
+//    return [UIColor colorWithRed:227
+//                           green:227
+//                            blue:227
+//                           alpha:1];
 //    [UIColor colorWithPatternImage:[UIImage imageNamed:@"CollectionBigBackgroud"]];
     //[UIColor colorWithPatternImage:[UIImage imageNamed:@"signin_backgroun_pattern"]];
 }

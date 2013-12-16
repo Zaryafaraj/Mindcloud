@@ -73,6 +73,7 @@
 @property (nonatomic) BOOL drawingsAreUnsaved;
 
 @property (nonatomic, strong) NSTimer * drawingSynchTimer;
+@property (weak, nonatomic) IBOutlet UIView *patternView;
 
 @end
 
@@ -952,6 +953,10 @@
 #pragma mark - UI Events
 
 -(void) viewWillAppear:(BOOL)animated{
+    
+    self.patternView.backgroundColor = [[ThemeFactory currentTheme] noisePatternForCollection];
+    //[UIColor clearColor];
+    
     
     self.navigationItem.hidesBackButton = YES;
     

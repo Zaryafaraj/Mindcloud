@@ -8,6 +8,7 @@
 
 #import "CollectionScrollView.h"
 #import "CollectionBoardView.h"
+#import "ThemeFactory.h"
 
 @interface CollectionScrollView()
 
@@ -42,6 +43,9 @@
     self.scrollEnabled = YES;
     self.maximumZoomScale = 2;
     self.multipleTouchEnabled = YES;
+    
+    self.backgroundColor = [UIColor clearColor];
+//    self.backgroundColor = [[ThemeFactory ;currentTheme] noisePatternForCollection];
 }
 
 -(void) scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view

@@ -74,7 +74,7 @@
             UIColor * themeColor = [[ThemeFactory currentTheme] tintColor];
             self._textView.textColor = [UIColor colorWithWhite:0.25 alpha:1];
             self._textView.tintColor = themeColor;
-            self._textView.keyboardAppearance = UIKeyboardAppearanceDark;
+            self._textView.keyboardAppearance = UIKeyboardAppearanceLight;
             break;
         }
     }
@@ -114,15 +114,17 @@
 
 +(NoteView *) setLayers:(NoteView *) view
 {
+    view.backgroundColor = [UIColor whiteColor];
     view.layer.borderColor = [UIColor clearColor].CGColor;
-    view.layer.borderWidth = 3;
+    view.layer.borderWidth = 1;
     //view.layer.shouldRasterize = YES;
     view.layer.edgeAntialiasingMask = kCALayerTopEdge | kCALayerBottomEdge | kCALayerRightEdge | kCALayerLeftEdge;
     view.clipsToBounds = NO;
     view.layer.masksToBounds = NO;
     view.layer.shadowColor = [UIColor blackColor].CGColor;
-    view.layer.shadowOffset = CGSizeMake(1, 2);
-    view.layer.shadowOpacity = 0.9;
+    view.layer.shadowOffset = CGSizeMake(0, 1);
+    view.layer.shadowOpacity = 0.3;
+    view.layer.shadowRadius = 2;
     return view;
 }
 

@@ -362,7 +362,7 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     self.view.backgroundColor = [UIColor clearColor];
-    UIColor * bgColor = [UIColor colorWithWhite:0.1 alpha:0.8];
+    UIColor * bgColor = [UIColor colorWithWhite:0.36 alpha:0.85];
     self.view.superview.backgroundColor = bgColor;
     self.toolbar.barTintColor = bgColor;
 //    CGFloat viewCenterX = self.view.center.x;
