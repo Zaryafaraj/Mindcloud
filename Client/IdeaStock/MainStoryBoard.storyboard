@@ -616,21 +616,21 @@
         <!--Collection View Controller-->
         <scene sceneID="Ziq-OW-pgx">
             <objects>
-                <viewController storyboardIdentifier="CollectionView" modalTransitionStyle="flipHorizontal" id="9HL-37-GHp" customClass="CollectionViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CollectionView" extendedLayoutIncludesOpaqueBars="YES" modalTransitionStyle="flipHorizontal" id="9HL-37-GHp" customClass="CollectionViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nBN-HK-wMT"/>
                         <viewControllerLayoutGuide type="bottom" id="lwh-b9-xW6"/>
                     </layoutGuides>
                     <view key="view" autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="4HH-7a-1rX">
-                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PF9-Vp-upE" userLabel="PatternView">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="916"/>
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="980"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </view>
                             <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" indicatorStyle="white" minimumZoomScale="0.20000000000000001" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="QXW-F8-5QD" customClass="CollectionScrollView">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="efj-z7-K4y" userLabel="CollectionBoard" customClass="CollectionBoardView">
                                         <rect key="frame" x="0.0" y="0.0" width="2000" height="2000"/>
@@ -706,7 +706,7 @@
                                 </connections>
                             </scrollView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cfm-Vh-f3W">
-                                <rect key="frame" x="0.0" y="916" width="768" height="44"/>
+                                <rect key="frame" x="0.0" y="980" width="768" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <items>
@@ -775,7 +775,7 @@
                             <constraint firstItem="lwh-b9-xW6" firstAttribute="top" secondItem="Cfm-Vh-f3W" secondAttribute="bottom" id="g2K-dB-zVH"/>
                             <constraint firstItem="QXW-F8-5QD" firstAttribute="leading" secondItem="4HH-7a-1rX" secondAttribute="leading" id="l7o-kT-aTt"/>
                             <constraint firstItem="Cfm-Vh-f3W" firstAttribute="trailing" secondItem="QXW-F8-5QD" secondAttribute="trailing" id="tzo-I6-VRf"/>
-                            <constraint firstItem="PF9-Vp-upE" firstAttribute="top" secondItem="nBN-HK-wMT" secondAttribute="bottom" id="vfj-Ld-VvI"/>
+                            <constraint firstItem="PF9-Vp-upE" firstAttribute="top" secondItem="nBN-HK-wMT" secondAttribute="bottom" constant="-64" id="vfj-Ld-VvI"/>
                             <constraint firstAttribute="trailing" secondItem="QXW-F8-5QD" secondAttribute="trailing" id="yaS-2w-Tz0"/>
                         </constraints>
                     </view>
@@ -1005,16 +1005,19 @@
         <!--All Collections Navigation Controller View Controller-->
         <scene sceneID="L88-Mp-S2Q">
             <objects>
-                <navigationController restorationIdentifier="MainScreenNavigationController" storyboardIdentifier="MainScreenNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="zQi-sg-YA4" customClass="AllCollectionsNavigationControllerViewController" sceneMemberID="viewController">
+                <navigationController restorationIdentifier="MainScreenNavigationController" storyboardIdentifier="MainScreenNavigationController" extendedLayoutIncludesOpaqueBars="YES" id="zQi-sg-YA4" customClass="AllCollectionsNavigationControllerViewController" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="hlw-lc-y9s">
+                    <navigationBar key="navigationBar" opaque="NO" contentMode="scaleToFill" id="hlw-lc-y9s">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.89019607840000003" green="0.89019607840000003" blue="0.89019607840000003" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Ucl-pk-dyn">
                         <rect key="frame" x="0.0" y="980" width="768" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.89019607840000003" green="0.89019607840000003" blue="0.89019607840000003" alpha="1" colorSpace="calibratedRGB"/>
                     </toolbar>
                     <connections>
                         <segue destination="C4k-Gx-gPL" kind="relationship" relationship="rootViewController" id="dwv-S1-i6b"/>
@@ -1029,7 +1032,6 @@
         <image name="rainbow" width="2556" height="100"/>
         <image name="test_image_note.jpg" width="700" height="525"/>
     </resources>
-    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
