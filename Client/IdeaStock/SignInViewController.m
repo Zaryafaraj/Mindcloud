@@ -66,8 +66,4 @@
     [self performSegueWithIdentifier:@"MainScreenSegue" sender:self];
 }
 
--(UIStatusBarStyle) preferredStatusBarStyle
-{
-    return UIStatusBarStyleDefault;
-}
 @end

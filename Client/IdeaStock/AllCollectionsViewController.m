@@ -565,7 +565,7 @@
 -(void) showIntroIfNeccessary
 {
    
-    if (NO)
+    if (YES)
     {
         self.authenticator = [[MindcloudAuthenticator alloc] init];
         //        self.authenticator.delegate = self;

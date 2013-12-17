@@ -61,7 +61,9 @@
 #define DRAWING_FILE_TYPE @"pth"
 - (void)viewDidLoad
 {
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     [super viewDidLoad];
+    
     self.lastPage = -1;
     self.pageControl.numberOfPages = NUMBER_OF_PAGES;
     self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
