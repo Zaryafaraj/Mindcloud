@@ -17,6 +17,7 @@
 
 -(void) clearAllTraces;
 
+/*! The results are sorted based on their order index */
 -(NSArray *) getAllTracers;
 
 -(void) applyBaseContainer:(DrawingTraceContainer *) base;

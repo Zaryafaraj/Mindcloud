@@ -13,6 +13,7 @@
 #import "DrawingTraceContainer.h"
 #import "FileSystemHelper.h"
 #import "TutorialPaintView.h"
+#import "TutorialScrollView.h"
 
 @interface IntroScreenViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -42,6 +43,9 @@
 @property (nonatomic, strong) NSArray * endButtonConstraints;
 //for detecting scroll direction
 @property (nonatomic, assign) NSInteger lastContentOffset;
+
+@property (nonatomic, strong) TutorialScrollView * firstDrawingScrollView;
+
 @end
 
 @implementation IntroScreenViewController
@@ -363,26 +367,27 @@
                                                                  options:0
                                                                  metrics:nil
                                                                    views:titleViews]];
+    UIScrollView * scrollView;
     
-    UIScrollView * scrollView = [[UIScrollView alloc] init];
-    scrollView.backgroundColor = [UIColor clearColor];
-    scrollView.showsHorizontalScrollIndicator = NO;
-    scrollView.showsVerticalScrollIndicator = NO;
-    scrollView.bounces = NO;
-    scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     if (pageNo == 2)
     {
         
+        TutorialScrollView * tutorialScrollView = [[TutorialScrollView alloc] init];
+        scrollView = tutorialScrollView;
+        scrollView.backgroundColor = [UIColor clearColor];
         scrollView.showsHorizontalScrollIndicator = YES;
         scrollView.showsVerticalScrollIndicator = YES;
         scrollView.bounces = NO;
+        scrollView.translatesAutoresizingMaskIntoConstraints = NO;
         NSString * filePath = [[NSBundle mainBundle] pathForResource:PAGE1_DRAWING_FILEPATH ofType:DRAWING_FILE_TYPE];
         DrawingTraceContainer * drawingContainer = [DrawingTraceContainer containerWithTheContentsOfTheFile:filePath];
         TutorialPaintView * paintView = [[TutorialPaintView alloc] initWithContainer:drawingContainer];
-        paintView.backgroundColor = [UIColor greenColor];
+        paintView.backgroundColor = [UIColor clearColor];
         paintView.translatesAutoresizingMaskIntoConstraints = NO;
+        tutorialScrollView.paintView = paintView;
         [scrollView addSubview:paintView];
-        
+        self.firstDrawingScrollView = tutorialScrollView;
+       
         NSLayoutConstraint * paintViewWidth = [NSLayoutConstraint constraintWithItem:paintView
                                                                            attribute:NSLayoutAttributeWidth
                                                                            relatedBy:NSLayoutRelationEqual
@@ -413,7 +418,16 @@
                                                                            metrics:nil
                                                                              views:paintDict]];
     }
-    
+    else
+    {
+        
+        scrollView = [[UIScrollView alloc] init];
+        scrollView.backgroundColor = [UIColor clearColor];
+        scrollView.showsHorizontalScrollIndicator = NO;
+        scrollView.showsVerticalScrollIndicator = NO;
+        scrollView.bounces = NO;
+        scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
     [page addSubview:scrollView];
     
     
@@ -882,6 +896,11 @@
 
 -(void) animatePage2
 {
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self.firstDrawingScrollView displayContent:YES];
+    });
 }
 
 -(void) animatePage3

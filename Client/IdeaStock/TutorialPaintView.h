@@ -10,6 +10,8 @@
 #import "DrawingTraceContainer.h"
 
 @interface TutorialPaintView : UIView
-
 -(id) initWithContainer:(DrawingTraceContainer *) container;
+
+-(void) startDrawing;
+
 @end
