@@ -274,7 +274,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
 }
 
 
--(NSData *) debug_writeBezierPathToFile
+-(void) debug_writeBezierPathToFile
 {
     NSLog(@"X");
     [self.container debug_saveContainerToFile];

@@ -37,7 +37,7 @@
 
 -(NSData *) serializeLayer;
 
--(NSData *) debug_writeBezierPathToFile;
+-(void) debug_writeBezierPathToFile;
 
 -(NSDictionary *) getNewDrawings;
 

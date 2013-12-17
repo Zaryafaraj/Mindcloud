@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "TutorialPaintView.h"
 
-@interface TutorialScrollView : UIScrollView <UIScrollViewDelegate>
+@interface TutorialScrollView : UIScrollView <TutorialPaintViewDelegate>
 
 @property (nonatomic, strong) TutorialPaintView * paintView;
+@property (nonatomic, assign) int  stopPoint;
 
 -(void) displayContent:(BOOL) animated;
 

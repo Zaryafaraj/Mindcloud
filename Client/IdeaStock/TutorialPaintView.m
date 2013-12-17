@@ -8,6 +8,7 @@
 
 #import "TutorialPaintView.h"
 
+
 @interface TutorialPaintView()
 
 @property (nonatomic, strong) DrawingTraceContainer * container;
@@ -34,27 +35,29 @@
     self.allTraces = [self.container getAllTracers].mutableCopy;
     DrawingTrace * firstTrace = self.allTraces[0];
     [self animateTrace:firstTrace];
-//    for(DrawingTrace * trace in allTraces)
-//    {
-//        CGPathAddPath(pathRef, NULL, trace.path.CGPath);
-//    }
-//    
-//    CAShapeLayer * bezier = [[CAShapeLayer alloc] init];
-//    bezier.path = pathRef;
-//    bezier.strokeColor = [UIColor blackColor].CGColor;
-//    bezier.lineWidth = 5;
-//    bezier.strokeStart = 0;
-//    bezier.strokeEnd = 1.0;
-//    [self.layer addSublayer:bezier];
-//    
 }
 
 -(void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
-    
-    
     [self.allTraces removeObjectAtIndex:0];
-    if (self.allTraces.count == 0) return;
+    if (self.allTraces.count == 0 )
+    {
+        id<TutorialPaintViewDelegate> tempDel = self.delegate;
+        if (self.delegate)
+        {
+            [tempDel animationsFinished];
+        }
+        return;
+    }
+    if ( self.allTraces.count == self.stopPoint)
+    {
+        id<TutorialPaintViewDelegate> tempDel = self.delegate;
+        if (self.delegate)
+        {
+            [tempDel animationsStoppedAtIndex:self.allTraces.count];
+        }
+        return;
+    }
     DrawingTrace * trace = self.allTraces[0];
     [self animateTrace:trace];
 }
@@ -66,13 +69,15 @@
     bezier.strokeColor = trace.color.CGColor;
     bezier.fillColor = [UIColor clearColor].CGColor;
     bezier.lineWidth = trace.lineWidth;
+    bezier.lineCap = kCALineCapRound;
     bezier.strokeStart = 0;
     bezier.strokeEnd = 1.0;
     [self.layer addSublayer:bezier];
     
     CABasicAnimation *animateStrokeEnd = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
     animateStrokeEnd.delegate = self;
-    animateStrokeEnd.duration  = 1.0;
+    animateStrokeEnd.duration  = 0.3;
+    animateStrokeEnd.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     animateStrokeEnd.fromValue = [NSNumber numberWithFloat:0.0f];
     animateStrokeEnd.toValue   = [NSNumber numberWithFloat:1.0f];
     [bezier addAnimation:animateStrokeEnd forKey:@"strokeEndAnimation"];

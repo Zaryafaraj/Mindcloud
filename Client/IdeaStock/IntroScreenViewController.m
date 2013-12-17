@@ -373,10 +373,11 @@
     {
         
         TutorialScrollView * tutorialScrollView = [[TutorialScrollView alloc] init];
+        tutorialScrollView.stopPoint = 1;
         scrollView = tutorialScrollView;
         scrollView.backgroundColor = [UIColor clearColor];
-        scrollView.showsHorizontalScrollIndicator = YES;
-        scrollView.showsVerticalScrollIndicator = YES;
+        scrollView.showsHorizontalScrollIndicator = NO;
+        scrollView.showsVerticalScrollIndicator = NO;
         scrollView.bounces = NO;
         scrollView.translatesAutoresizingMaskIntoConstraints = NO;
         NSString * filePath = [[NSBundle mainBundle] pathForResource:PAGE1_DRAWING_FILEPATH ofType:DRAWING_FILE_TYPE];
@@ -393,7 +394,7 @@
                                                                            relatedBy:NSLayoutRelationEqual
                                                                               toItem:scrollView
                                                                            attribute:NSLayoutAttributeWidth
-                                                                          multiplier:4
+                                                                          multiplier:1
                                                                             constant:1];
         
         NSLayoutConstraint * paintViewHeigth = [NSLayoutConstraint constraintWithItem:paintView
