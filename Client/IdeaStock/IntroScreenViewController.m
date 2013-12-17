@@ -377,6 +377,7 @@
         scrollView = tutorialScrollView;
         scrollView.backgroundColor = [UIColor clearColor];
         scrollView.showsHorizontalScrollIndicator = NO;
+        scrollView.scrollEnabled = NO;
         scrollView.showsVerticalScrollIndicator = NO;
         scrollView.bounces = NO;
         scrollView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -402,7 +403,7 @@
                                                                            relatedBy:NSLayoutRelationEqual
                                                                               toItem:scrollView
                                                                            attribute:NSLayoutAttributeHeight
-                                                                          multiplier:4
+                                                                          multiplier:1
                                                                             constant:1];
         NSArray * paintViewConstraints = @[paintViewWidth, paintViewHeigth];
         NSString * paintViewConstraintH = @"H:|-0-[paintView]-0-|";
@@ -441,14 +442,51 @@
                                                                    views:scrollViewDict]];
     if (split)
     {
+        
+        UIImageView * avatar1 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"intro-avatar1"]];
+        UIImageView * avatar2 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"intro-avatar2"]];
+        avatar1.translatesAutoresizingMaskIntoConstraints = NO;
+        avatar2.translatesAutoresizingMaskIntoConstraints = NO;
         UIScrollView * scrollView2 = [[UIScrollView alloc] init];
-        scrollView2.backgroundColor = [UIColor whiteColor];
+        scrollView2.backgroundColor = [UIColor clearColor];
         scrollView2.showsHorizontalScrollIndicator = NO;
         scrollView2.showsVerticalScrollIndicator = NO;
         scrollView2.translatesAutoresizingMaskIntoConstraints = NO;
-        [page addSubview:scrollView2];
+        TutorialPaintView * avatar1PaintView = [[TutorialPaintView alloc] initWithContainer:nil];
+        TutorialPaintView * avatar2PaintView = [[TutorialPaintView alloc] initWithContainer:nil];
+        [scrollView addSubview:avatar1];
+        [scrollView2 addSubview:avatar2];
         
+        
+        NSDictionary * avatarViewDict = NSDictionaryOfVariableBindings(avatar1, avatar2, scrollView, scrollView2);
+        NSString * avatar1ConstraintH = @"H:|-20-[avatar1(==100)]";
+        NSString * avatar1ConstraintV = @"V:|-20-[avatar1(==100)]";
+        NSString * avatar2ConstraintH = @"H:[avatar2(==100)]-20-|";
+        NSString * avatar2ConstraintV = @"V:|-20-[avatar2(==100)]";
+        
+        [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:avatar1ConstraintH
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:avatarViewDict]];
+        
+        [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:avatar1ConstraintV
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:avatarViewDict]];
+        
+        [scrollView2 addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:avatar2ConstraintH
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:avatarViewDict]];
+        
+        [scrollView2 addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:avatar2ConstraintV
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:avatarViewDict]];
+        
+        [page addSubview:scrollView2];
         NSDictionary * scrollViewDict2 = NSDictionaryOfVariableBindings(scrollView2, scrollView, titleLabel);
+        
         
         NSString * scrollViewConstraintV2 = @"V:[scrollView2]-50-[titleLabel]";
         [page addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:scrollViewConstraintV2
