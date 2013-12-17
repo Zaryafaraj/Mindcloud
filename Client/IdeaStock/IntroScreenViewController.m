@@ -59,10 +59,15 @@
 #define VIEW_OFFSET 75
 #define PAGE1_DRAWING_FILEPATH @"introPath1"
 #define DRAWING_FILE_TYPE @"pth"
+-(UIStatusBarStyle) preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad
 {
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     [super viewDidLoad];
+    [self setNeedsStatusBarAppearanceUpdate];
     
     self.lastPage = -1;
     self.pageControl.numberOfPages = NUMBER_OF_PAGES;
