@@ -1094,6 +1094,7 @@
 -(void) addPaintViewControl
 {
     self.paintControl = [[PaintControlView alloc] initWithFrame:CGRectMake(100, 100, 60, 60)];
+    self.paintControl.topOffset = self.navigationController.navigationBar.frame.size.height;
     self.paintControl.backgroundColor = [UIColor redColor];
     [self.view addSubview:self.paintControl];
 }

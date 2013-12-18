@@ -10,4 +10,6 @@
 
 @interface PaintControlView : UIView
 
+@property (nonatomic) CGFloat topOffset;
+
 @end
