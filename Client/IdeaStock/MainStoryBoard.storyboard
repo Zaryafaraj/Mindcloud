@@ -5,104 +5,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
-        <!--Sign In View Controller-->
-        <scene sceneID="5pI-Lq-2nz">
-            <objects>
-                <viewController id="rXM-GQ-Qri" customClass="SignInViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="JCT-e9-pkG"/>
-                        <viewControllerLayoutGuide type="bottom" id="4SE-eK-fTb"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="N4j-6X-BWL">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mindboard" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g1p-G5-gzf">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="370"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="370" id="xRU-0f-iGm"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="129"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sXC-Ay-UAj">
-                                <rect key="frame" x="213" y="403" width="342" height="94"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="342" id="WQB-Ki-CY6"/>
-                                    <constraint firstAttribute="height" constant="94" id="f4q-6U-2tF"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <state key="normal" title="Sign In Using Dropbox">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="signInPressed:" destination="rXM-GQ-Qri" eventType="touchUpInside" id="dyW-xf-2Ee"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7te-tY-PxJ">
-                                <rect key="frame" x="213" y="505" width="342" height="94"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="94" id="39f-Ag-cVZ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <state key="normal" title="Try It">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rainbow" translatesAutoresizingMaskIntoConstraints="NO" id="tYo-d4-VwA">
-                                <rect key="frame" x="-10" y="963" width="783" height="61"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="61" id="hVV-Xw-3F5"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" red="0.15294117647058825" green="0.19607843137254902" blue="0.23921568627450979" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstItem="7te-tY-PxJ" firstAttribute="leading" secondItem="sXC-Ay-UAj" secondAttribute="leading" id="49S-oc-Iml"/>
-                            <constraint firstItem="tYo-d4-VwA" firstAttribute="leading" secondItem="N4j-6X-BWL" secondAttribute="leading" constant="-10" id="4CM-9y-gBM"/>
-                            <constraint firstAttribute="bottom" secondItem="tYo-d4-VwA" secondAttribute="bottom" id="Bnf-yx-m12"/>
-                            <constraint firstItem="g1p-G5-gzf" firstAttribute="top" secondItem="N4j-6X-BWL" secondAttribute="top" id="CDa-Ry-zul"/>
-                            <constraint firstAttribute="trailing" secondItem="tYo-d4-VwA" secondAttribute="trailing" constant="-5" id="NGV-IK-beb"/>
-                            <constraint firstItem="g1p-G5-gzf" firstAttribute="centerX" secondItem="sXC-Ay-UAj" secondAttribute="centerX" id="NX4-f2-Jsl"/>
-                            <constraint firstItem="sXC-Ay-UAj" firstAttribute="trailing" secondItem="7te-tY-PxJ" secondAttribute="trailing" id="j7Y-6c-9Cd"/>
-                            <constraint firstAttribute="trailing" secondItem="g1p-G5-gzf" secondAttribute="trailing" id="scN-hT-UYa"/>
-                            <constraint firstItem="g1p-G5-gzf" firstAttribute="leading" secondItem="N4j-6X-BWL" secondAttribute="leading" id="wMH-Ei-Xmp"/>
-                            <constraint firstItem="7te-tY-PxJ" firstAttribute="top" secondItem="sXC-Ay-UAj" secondAttribute="bottom" constant="8" symbolic="YES" id="wca-JH-IJD"/>
-                            <constraint firstItem="sXC-Ay-UAj" firstAttribute="top" secondItem="g1p-G5-gzf" secondAttribute="bottom" constant="33" id="wsG-P0-key"/>
-                        </constraints>
-                    </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="koz-us-uQq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-310" y="-387"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="BD2-I6-kLI">
-            <objects>
-                <viewController id="MsG-U3-4xo" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="P65-LI-7LR"/>
-                        <viewControllerLayoutGuide type="bottom" id="dYx-98-ci8"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="o6r-g6-cV2">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zdN-ok-tJl" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-360" y="1986"/>
-        </scene>
         <!--Intro Screen View Controller-->
         <scene sceneID="HSq-bX-FaD">
             <objects>
@@ -233,7 +135,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="skd-Eh-JCB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-210" y="700"/>
+            <point key="canvasLocation" x="-202" y="-348"/>
         </scene>
         <!--Categorization View Controller-->
         <scene sceneID="Isa-HG-j6W">
@@ -1028,7 +930,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="rainbow" width="2556" height="100"/>
         <image name="test_image_note.jpg" width="700" height="525"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
