@@ -28,6 +28,7 @@
 #import "PaintColorViewController.h"
 #import "ScreenDrawing.h"
 #import "UndoMessage.h"
+#import "PaintControlView.h"
 
 @interface CollectionViewController ()
 
@@ -75,6 +76,7 @@
 @property (nonatomic, strong) NSTimer * drawingSynchTimer;
 @property (weak, nonatomic) IBOutlet UIView *patternView;
 
+@property (strong, nonatomic) PaintControlView * paintControl;
 @end
 
 #pragma mark - Definitions
@@ -1086,6 +1088,14 @@
     [self addListenerNotifications];
     //self.collectionView.delegate = self;
     
+    [self addPaintViewControl];
+}
+
+-(void) addPaintViewControl
+{
+    self.paintControl = [[PaintControlView alloc] initWithFrame:CGRectMake(100, 100, 60, 60)];
+    self.paintControl.backgroundColor = [UIColor redColor];
+    [self.view addSubview:self.paintControl];
 }
 
 -(void) addInitialObservers
