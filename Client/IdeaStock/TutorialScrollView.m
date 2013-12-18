@@ -21,7 +21,6 @@
 
 -(void) displayContent:(BOOL) animated
 {
-    self.contentOffset = CGPointMake(self.contentOffset.x + 90, self.contentOffset.y + 60);
     self.paintView.stopPoint = 0;
     self.paintView.delegate = self;
     [self.paintView startDrawing];
@@ -30,10 +29,20 @@
 #pragma mark paintViewDelegate
 -(void) animationsStoppedAtIndex:(int)index
 {
+    id<TutorialScrollViewDelegate> temp = self.animationDelegate;
+    if (temp)
+    {
+        [temp animationStopped:self];
+    }
 }
 
 -(void) animationsFinished
 {
-    
+    id<TutorialScrollViewDelegate> temp = self.animationDelegate;
+    if (temp)
+    {
+        [temp animationFinished:self];
+    }
 }
+
 @end

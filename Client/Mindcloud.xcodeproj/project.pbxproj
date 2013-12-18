@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		D333B3EC185FD010002A24B8 /* TutorialScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D333B3EB185FD010002A24B8 /* TutorialScrollView.m */; };
 		D333B3F6185FF46E002A24B8 /* introPath1.pth in Resources */ = {isa = PBXBuildFile; fileRef = D333B3F5185FF46E002A24B8 /* introPath1.pth */; };
+		D333B3FF18612306002A24B8 /* IntroScreenCollaborationCordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = D333B3FE18612306002A24B8 /* IntroScreenCollaborationCordinator.m */; };
+		D333B41518618911002A24B8 /* introPath2.pth in Resources */ = {isa = PBXBuildFile; fileRef = D333B41418618911002A24B8 /* introPath2.pth */; };
 		D374CAD418445CF20070C359 /* DiffFileAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D374CAD318445CF20070C359 /* DiffFileAction.m */; };
 		D3A3ECAB184837BB00174649 /* SendMessageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A3ECAA184837BB00174649 /* SendMessageAction.m */; };
 		D3A3ECAE1848409400174649 /* MessageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A3ECAD1848409400174649 /* MessageFactory.m */; };
@@ -50,7 +52,6 @@
 		DB03C357169FEB0000C38FD7 /* CollectionSubCollectionsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C356169FEB0000C38FD7 /* CollectionSubCollectionsAction.m */; };
 		DB03C35B169FEE6C00C38FD7 /* SubCollectionAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35A169FEE6C00C38FD7 /* SubCollectionAction.m */; };
 		DB03C35E169FF1F800C38FD7 /* SubCollectionImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35D169FF1F800C38FD7 /* SubCollectionImageAction.m */; };
-		DB0BF4FC1814752A00C05DFA /* bgbg.png in Resources */ = {isa = PBXBuildFile; fileRef = DB0BF4FB1814752A00C05DFA /* bgbg.png */; };
 		DB205A92180536EC00C94A2B /* CollectionScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB205A91180536EC00C94A2B /* CollectionScrollView.m */; };
 		DB20ADDE181F67250062EA5B /* PaintbrushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB20ADDD181F67250062EA5B /* PaintbrushViewController.m */; };
 		DB20ADE1181F838D0062EA5B /* BrushSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB20ADE0181F838D0062EA5B /* BrushSelectionView.m */; };
@@ -153,6 +154,9 @@
 		D333B3EA185FD010002A24B8 /* TutorialScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialScrollView.h; sourceTree = "<group>"; };
 		D333B3EB185FD010002A24B8 /* TutorialScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialScrollView.m; sourceTree = "<group>"; };
 		D333B3F5185FF46E002A24B8 /* introPath1.pth */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = introPath1.pth; sourceTree = "<group>"; };
+		D333B3FD18612306002A24B8 /* IntroScreenCollaborationCordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroScreenCollaborationCordinator.h; sourceTree = "<group>"; };
+		D333B3FE18612306002A24B8 /* IntroScreenCollaborationCordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroScreenCollaborationCordinator.m; sourceTree = "<group>"; };
+		D333B41418618911002A24B8 /* introPath2.pth */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = introPath2.pth; sourceTree = "<group>"; };
 		D374CAD218445CF20070C359 /* DiffFileAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiffFileAction.h; sourceTree = "<group>"; };
 		D374CAD318445CF20070C359 /* DiffFileAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiffFileAction.m; sourceTree = "<group>"; };
 		D3A3ECA9184837BB00174649 /* SendMessageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendMessageAction.h; sourceTree = "<group>"; };
@@ -236,7 +240,6 @@
 		DB03C35C169FF1F800C38FD7 /* SubCollectionImageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCollectionImageAction.h; sourceTree = "<group>"; };
 		DB03C35D169FF1F800C38FD7 /* SubCollectionImageAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCollectionImageAction.m; sourceTree = "<group>"; };
 		DB03C360169FFD3B00C38FD7 /* EventTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EventTypes.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		DB0BF4FB1814752A00C05DFA /* bgbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bgbg.png; sourceTree = "<group>"; };
 		DB15E9ED16E71BB80024BA4C /* SharingAwareObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharingAwareObject.h; sourceTree = "<group>"; };
 		DB15E9EE16E725DB0024BA4C /* cachedCollectionContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cachedCollectionContainer.h; sourceTree = "<group>"; };
 		DB205A90180536EC00C94A2B /* CollectionScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionScrollView.h; sourceTree = "<group>"; };
@@ -585,7 +588,7 @@
 			isa = PBXGroup;
 			children = (
 				D333B3F5185FF46E002A24B8 /* introPath1.pth */,
-				DB0BF4FB1814752A00C05DFA /* bgbg.png */,
+				D333B41418618911002A24B8 /* introPath2.pth */,
 				DBE3171717F64E4900EEBA18 /* test_image_note.jpg */,
 				D7A53CF81522F39500183CB6 /* Mindcloud-Info.plist */,
 				D7A53CF91522F39500183CB6 /* InfoPlist.strings */,
@@ -698,6 +701,8 @@
 				DB592C0C1820DA8400024926 /* PaintColorViewController.m */,
 				D3CF45431852CF9400A48593 /* IntroScreenViewController.h */,
 				D3CF45441852CF9400A48593 /* IntroScreenViewController.m */,
+				D333B3FD18612306002A24B8 /* IntroScreenCollaborationCordinator.h */,
+				D333B3FE18612306002A24B8 /* IntroScreenCollaborationCordinator.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1164,10 +1169,10 @@
 			files = (
 				D333B3F6185FF46E002A24B8 /* introPath1.pth in Resources */,
 				D7A53CFB1522F39500183CB6 /* InfoPlist.strings in Resources */,
-				DB0BF4FC1814752A00C05DFA /* bgbg.png in Resources */,
 				D7BF465D154728DD00F06412 /* MainStoryBoard.storyboard in Resources */,
 				DBE3171817F64E4900EEBA18 /* test_image_note.jpg in Resources */,
 				DB64030717DABE5700DC9578 /* Images.xcassets in Resources */,
+				D333B41518618911002A24B8 /* introPath2.pth in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1291,6 +1296,7 @@
 				DB205A92180536EC00C94A2B /* CollectionScrollView.m in Sources */,
 				DBDB105716D032C200B5F7AE /* MergerThread.m in Sources */,
 				DBDB105A16D0388200B5F7AE /* MergeResult.m in Sources */,
+				D333B3FF18612306002A24B8 /* IntroScreenCollaborationCordinator.m in Sources */,
 				DBBBB9BA17CC67AA00081C3B /* XoomlAssociation.m in Sources */,
 				DBDB106016D1E06A00B5F7AE /* NoteFragmentResolver.m in Sources */,
 				D3EF8332185AEC41002688E4 /* TutorialPaintView.m in Sources */,
