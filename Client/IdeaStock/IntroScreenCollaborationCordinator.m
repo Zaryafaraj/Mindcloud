@@ -111,7 +111,7 @@
                          imageNoteView1.hidden = YES;
                          
                          [UIView animateWithDuration:0.6
-                                               delay:0.5
+                                               delay:0.1
                               usingSpringWithDamping:0.4
                                initialSpringVelocity:2.0
                                              options:UIViewAnimationOptionCurveEaseIn
@@ -138,6 +138,7 @@
     imageNoteView.resizesToFitImage = NO;
     imageNoteView.image = image;
     imageNoteView.translatesAutoresizingMaskIntoConstraints = NO;
+    imageNoteView.userInteractionEnabled = NO;
     
     [paintView addSubview:imageNoteView];
     

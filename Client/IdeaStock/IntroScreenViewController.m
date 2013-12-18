@@ -472,7 +472,6 @@
 {
     
     TutorialScrollView * scrollView = [[TutorialScrollView alloc] init];
-    scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x + 90, scrollView.contentOffset.y + 60);
     scrollView.stopPoint = 1;
     scrollView.backgroundColor = [UIColor clearColor];
     scrollView.showsHorizontalScrollIndicator = NO;
@@ -567,6 +566,9 @@
     scrollView1.bounces = NO;
     scrollView1.scrollEnabled = NO;
     scrollView1.translatesAutoresizingMaskIntoConstraints = NO;
+    scrollView1.layer.borderColor = [UIColor whiteColor].CGColor;
+    scrollView1.layer.borderWidth = 20;
+    
     
     TutorialScrollView * scrollView2 = [[TutorialScrollView alloc] init];
     scrollView2.backgroundColor = [UIColor clearColor];
@@ -574,6 +576,8 @@
     scrollView2.showsVerticalScrollIndicator = NO;
     scrollView2.translatesAutoresizingMaskIntoConstraints = NO;
     scrollView2.scrollEnabled = NO;
+    scrollView2.layer.borderColor = [UIColor whiteColor].CGColor;
+    scrollView2.layer.borderWidth = 20;
     
     NSString * filePath = [[NSBundle mainBundle] pathForResource:PAGE2_DRAWING_FILEPATH ofType:DRAWING_FILE_TYPE];
     DrawingTraceContainer * drawingContainer = [DrawingTraceContainer containerWithTheContentsOfTheFile:filePath];
@@ -662,13 +666,13 @@
     
     NSDictionary * scrollViewDict = NSDictionaryOfVariableBindings(scrollView1, titleLabel);
     
-    NSString * scrollViewConstraintV = @"V:[scrollView1]-50-[titleLabel]";
+    NSString * scrollViewConstraintV = @"V:[scrollView1]-30-[titleLabel]";
     [page addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:scrollViewConstraintV
                                                                  options:0
                                                                  metrics:nil
                                                                    views:scrollViewDict]];
     
-    NSString * scrollViewConstraintV2 = @"V:[scrollView2]-50-[titleLabel]";
+    NSString * scrollViewConstraintV2 = @"V:[scrollView2]-30-[titleLabel]";
     [page addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:scrollViewConstraintV2
                                                                  options:0
                                                                  metrics:nil
@@ -833,20 +837,24 @@
         NoteView * noteView = [self.prototypeNote prototype];
         noteView.alpha = 1;
         noteView.text = @"You can quickly add notes to capture ideas";
+        noteView.userInteractionEnabled = NO;
         
         NoteView * stackNote2 = [self.prototypeNote prototype];
         stackNote2.alpha = 1;
         stackNote2.text = @"Stacks provide an organized view into your notes";
+        stackNote2.userInteractionEnabled = NO;
         
         NoteView * stackNote3 = [self.prototypeNote prototype];
         stackNote3.alpha = 1;
         stackNote3.text = @"Everything can be moved around anywhere on the screen";
+        stackNote3.userInteractionEnabled = NO;
         
         ImageNoteView * imageNoteView = [self.prototypeImageNote prototype];
         imageNoteView.alpha = 1;
         UIImage * image = [UIImage imageNamed:@"board"];
         imageNoteView.resizesToFitImage = NO;
         imageNoteView.image = image;
+        imageNoteView.userInteractionEnabled = NO;
         
         NSNumber * number = [NSNumber numberWithInt:1];
         UIView * page = self.pageViews[number];
@@ -1026,16 +1034,6 @@
                                                       [self.scrollView layoutIfNeeded];
                                                   }completion:^(BOOL finished){
                                                       
-                                                      [UIView animateWithDuration:0.7
-                                                                            delay:0.5
-                                                                          options:UIViewAnimationOptionCurveEaseIn
-                                                                       animations:^{
-                                                                           CGAffineTransform scale = CGAffineTransformScale(imageNoteView.transform, 0.95, 0.95);
-                                                                           imageNoteView.transform = CGAffineTransformTranslate(scale, 50, -20);
-                                                                       }completion:^(BOOL finished){
-                                                                           
-                                                                       }];
-                                                      
                                                   }];
                              }];
             
@@ -1049,6 +1047,9 @@
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        
+        self.firstDrawingScrollView.contentOffset = CGPointMake(self.firstDrawingScrollView.contentOffset.x + 90,
+                                                                self.firstDrawingScrollView.contentOffset.y + 60);
         [self.firstDrawingScrollView displayContent:YES];
     });
 }
@@ -1073,8 +1074,8 @@
         NSDictionary * avatarViewDict = NSDictionaryOfVariableBindings(avatar1, avatar2);
         NSString * avatar1ConstraintH = @"H:|-30-[avatar1(==60)]";
         NSString * avatar1ConstraintV = @"V:|-30-[avatar1(==60)]";
-        NSString * avatar2ConstraintH = @"H:[avatar2(==60)]-20-|";
-        NSString * avatar2ConstraintV = @"V:|-20-[avatar2(==60)]";
+        NSString * avatar2ConstraintH = @"H:[avatar2(==60)]-30-|";
+        NSString * avatar2ConstraintV = @"V:|-30-[avatar2(==60)]";
         
         [avatar1PaintView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:avatar1ConstraintH
                                                                                  options:0
