@@ -7,6 +7,7 @@
 //
 
 #import "PaintControlView.h"
+#import "ThemeFactory.h"
 
 @interface PaintControlView()
 
@@ -26,6 +27,47 @@
         UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                               action:@selector(controlTapped:)];
         [self addGestureRecognizer:tgr];
+        self.backgroundColor = [[ThemeFactory currentTheme] colorForPaintControl];
+        //self.translatesAutoresizingMaskIntoConstraints = NO;
+        UIImage * img = [[ThemeFactory currentTheme] imageForPaintControl];
+        UIImageView * imgView = [[UIImageView alloc] initWithImage:img];
+        imgView.tintColor = [UIColor whiteColor];
+        [self addSubview:imgView];
+        
+        imgView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        NSDictionary * views = NSDictionaryOfVariableBindings(imgView);
+        
+        NSDictionary * metrics = @{@"imgWidth" : [NSNumber numberWithInt:frame.size.width * 0.45],
+                                   @"imgHeight" : [NSNumber numberWithInt:frame.size.height * 0.45]};
+        
+        NSLayoutConstraint * centerX = [NSLayoutConstraint constraintWithItem:imgView
+                                                                  attribute:NSLayoutAttributeCenterX
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:self
+                                                                  attribute:NSLayoutAttributeCenterX
+                                                                 multiplier:1
+                                                                   constant:0];
+        
+        NSLayoutConstraint * centerY = [NSLayoutConstraint constraintWithItem:imgView
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:self
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                 multiplier:1
+                                                                   constant:0];
+        NSString * imgConstraintH = @"H:[imgView(==imgWidth)]";
+        NSString * imgConstraintV = @"V:[imgView(==imgHeight)]";
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:imgConstraintH
+                                                                    options:0
+                                                                    metrics:metrics
+                                                                      views:views]];
+        
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:imgConstraintV
+                                                                    options:0
+                                                                    metrics:metrics
+                                                                      views:views]];
+        [self addConstraints:@[centerX, centerY]];
 //        UIView *bgView = [[UIView alloc] initWithFrame:self.backgroundView.frame];
 //        bgView.backgroundColor = [UIColor clearColor];
 //        bgView.layer.borderColor = [UIColor whiteColor].CGColor;

@@ -28,4 +28,8 @@
 
 -(UIColor *) noisePatternForCollection;
 
+-(UIColor *) colorForPaintControl;
+
+-(UIImage *) imageForPaintControl;
+
 @end

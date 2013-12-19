@@ -1109,7 +1109,6 @@
     [self addListenerNotifications];
     //self.collectionView.delegate = self;
     
-    [self addPaintViewControl];
 }
 
 -(void) addPaintViewControl
@@ -1120,7 +1119,6 @@
                                                                            buttonSize.width,
                                                                            buttonSize.height)];
     self.paintControl.topOffset = self.navigationController.navigationBar.frame.size.height;
-    self.paintControl.backgroundColor = [UIColor redColor];
     self.paintControl.delegate = self;
     [self.view addSubview:self.paintControl];
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
@@ -1179,6 +1177,7 @@
 -(void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self addPaintViewControl];
     if (self.shouldRefresh)
     {
         [self layoutNotes];

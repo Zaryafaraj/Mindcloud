@@ -66,4 +66,15 @@
     return [UIColor colorWithWhite:0.18 alpha:1];
 }
 
+-(UIColor *) colorForPaintControl
+{
+    return [UIColor redColor];
+}
+
+-(UIImage *) imageForPaintControl
+{
+    UIImage * img = [UIImage imageNamed:@"paint-control-icon"];
+    return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
 @end
