@@ -34,7 +34,7 @@
         
         UIDynamicItemBehavior * basicPhysics = [[UIDynamicItemBehavior alloc] initWithItems:items];
         
-        basicPhysics.friction = 5550.0;
+        basicPhysics.friction = 550.0;
         basicPhysics.density *= 2;
         basicPhysics.resistance = 0.8;
         [self addChildBehavior:basicPhysics];

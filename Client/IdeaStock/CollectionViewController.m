@@ -1114,7 +1114,11 @@
 
 -(void) addPaintViewControl
 {
-    self.paintControl = [[PaintControlView alloc] initWithFrame:CGRectMake(100, 100, 70, 70)];
+    CGSize buttonSize = CGSizeMake(70, 70);
+    self.paintControl = [[PaintControlView alloc] initWithFrame:CGRectMake(self.view.center.x - buttonSize.width/2,
+                                                                           self.view.bounds.origin.x + self.view.bounds.size.height - buttonSize.height - 10,
+                                                                           buttonSize.width,
+                                                                           buttonSize.height)];
     self.paintControl.topOffset = self.navigationController.navigationBar.frame.size.height;
     self.paintControl.backgroundColor = [UIColor redColor];
     self.paintControl.delegate = self;
@@ -2477,7 +2481,7 @@ intoStackingWithMainView: (UIView *) mainView
     CGVector forceVector = CGVectorMake(velocity.x * directionVector.dx,
                                          velocity.y * directionVector.dy);
     CGFloat forceSize = sqrtf(forceVector.dx * forceVector.dx + forceVector.dy * forceVector.dy);
-    forceSize *= 0.008;
+    forceSize *= 0.01;
     [behavior setForce:forceSize];
     [self.animator addBehavior:behavior];
     self.pushBehavior = behavior;
