@@ -17,6 +17,9 @@
         self.layer.cornerRadius = frame.size.width / 2;
         UIPanGestureRecognizer * gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(controlPanned:)];
         [self addGestureRecognizer:gr];
+        UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                              action:@selector(controlTapped:)];
+        [self addGestureRecognizer:tgr];
 //        UIView *bgView = [[UIView alloc] initWithFrame:self.backgroundView.frame];
 //        bgView.backgroundColor = [UIColor clearColor];
 //        bgView.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -25,6 +28,10 @@
         // Initialization code
     }
     return self;
+}
+
+-(void) controlTapped: (UITapGestureRecognizer *) sender
+{
 }
 
 #define EDGE_OFFSET_TOP 10
@@ -119,10 +126,13 @@
     
     if (shouldAdjust)
     {
+        velocityAxis = ABS(velocityAxis)/2;
+        velocityAxis = MIN(velocityAxis, 50);
+        NSLog(@"%f", velocityAxis);
         [UIView animateWithDuration:0.5
                               delay:0
              usingSpringWithDamping:0.5
-              initialSpringVelocity:velocityAxis/2
+              initialSpringVelocity:velocityAxis
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
                              view.center = newCenter;
