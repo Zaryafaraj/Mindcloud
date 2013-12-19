@@ -712,7 +712,7 @@
 {
     if (self.pushBehavior)
     {
-        [self.animator removeBehavior:self.pushBehavior];
+        [self.animator removeAllBehaviors];
         self.pushBehavior = nil;
     }
     
@@ -724,6 +724,7 @@
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
                          self.paintControl.center = CGPointMake(loc.x - 10, loc.y - 10);
+                         self.paintControl.transform = CGAffineTransformIdentity;
                      }completion:^(BOOL completed){}];
 }
 
@@ -2490,7 +2491,7 @@ intoStackingWithMainView: (UIView *) mainView
     CGVector forceVector = CGVectorMake(velocity.x * directionVector.dx,
                                          velocity.y * directionVector.dy);
     CGFloat forceSize = sqrtf(forceVector.dx * forceVector.dx + forceVector.dy * forceVector.dy);
-    forceSize *= 0.01;
+    forceSize *= 0.02;
     [behavior setForce:forceSize];
     [self.animator addBehavior:behavior];
     self.pushBehavior = behavior;
@@ -2500,7 +2501,7 @@ intoStackingWithMainView: (UIView *) mainView
 {
     if (self.pushBehavior)
     {
-        [self.animator removeBehavior:self.pushBehavior];
+        [self.animator removeAllBehaviors];
         self.pushBehavior = nil;
     }
 }
@@ -2509,13 +2510,13 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) collisionHappened
 {
-    double delayInSeconds = 0.05;
+    double delayInSeconds = 0.1;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         
         if (self.pushBehavior)
         {
-            [self.animator removeBehavior:self.pushBehavior];
+            [self.animator removeAllBehaviors];
             self.pushBehavior = nil;
             [self.paintControl adjustToClosestEdge];
         }
