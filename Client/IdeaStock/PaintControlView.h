@@ -12,4 +12,5 @@
 
 @property (nonatomic) CGFloat topOffset;
 
+-(void) adjustViewToBeInBoundsForRotation;
 @end

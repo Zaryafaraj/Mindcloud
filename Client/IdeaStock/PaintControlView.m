@@ -27,6 +27,10 @@
     return self;
 }
 
+#define EDGE_OFFSET_TOP 10
+#define EDGE_OFFSET_SIDE 5
+#define EDGE_OFFSET_BOTTOM 5
+
 -(void) controlPanned: (UIPanGestureRecognizer *) sender{
     if( sender.state == UIGestureRecognizerStateChanged ||
        sender.state == UIGestureRecognizerStateEnded)
@@ -47,6 +51,39 @@
     }
 }
 
+-(void) adjustViewToBeInBoundsForRotation
+{
+    CGFloat distanceFromBottom = self.superview.bounds.size.height - self.center.y;
+    CGFloat distanceFromRight = self.superview.bounds.size.width - self.center.x;
+    CGFloat scalingFactorRight = distanceFromRight / self.superview.frame.size.width;
+    CGFloat scalingFactorBottom = distanceFromBottom / self.superview.frame.size.height;
+    
+    CGFloat newDistanceFromRight = self.superview.frame.size.height * scalingFactorRight;
+    CGFloat newDistanceFromBottom = self.superview.frame.size.width * scalingFactorBottom;
+    CGFloat newX = self.superview.bounds.size.height - newDistanceFromRight;
+    CGFloat newY = self.superview.bounds.size.width - newDistanceFromBottom;
+    if (newY - self.bounds.size.width/2< self.superview.bounds.origin.x + self.topOffset)
+    {
+        newY = self.superview.bounds.origin.x + self.topOffset + self.frame.size.width/2 + EDGE_OFFSET_TOP;
+    }
+    if (newY + self.bounds.size.height/2> self.superview.bounds.size.width)
+    {
+        newY = self.superview.bounds.size.width - self.bounds.size.width/2 - EDGE_OFFSET_BOTTOM;
+    }
+    
+    if (newX - self.bounds.size.width/2 < 0)
+    {
+        newX = self.bounds.size.width/2 + EDGE_OFFSET_SIDE;
+    }
+    
+    if (newX + self.bounds.size.width/2 > self.superview.bounds.size.height)
+    {
+        newX = self.superview.bounds.size.height - self.bounds.size.width/2 - EDGE_OFFSET_SIDE;
+    }
+    
+    self.center = CGPointMake(newX, newY);
+}
+
 -(void) adjustViewToBeInBounds:(UIView *) view
                   withVelocity:(CGPoint) velocity
 {
@@ -57,25 +94,25 @@
     
     if (newCenter.y - (self.frame.size.height/2) < self.topOffset)
     {
-        newCenter = CGPointMake(newCenter.x, self.topOffset + self.frame.size.height/2);
+        newCenter = CGPointMake(newCenter.x, self.topOffset + self.frame.size.height/2 + EDGE_OFFSET_TOP);
         velocityAxis = velocity.y;
         shouldAdjust = YES;
     }
     if (newCenter.x - (self.frame.size.width/2) < 0)
     {
-        newCenter = CGPointMake(self.frame.size.width/2, newCenter.y);
+        newCenter = CGPointMake(self.frame.size.width/2 + EDGE_OFFSET_SIDE, newCenter.y);
         velocityAxis = velocity.x;
         shouldAdjust = YES;
     }
     if (newCenter.y + (self.frame.size.height)/2 > self.superview.frame.size.height)
     {
-        newCenter = CGPointMake(newCenter.x, self.superview.frame.size.height - self.frame.size.height/2);
+        newCenter = CGPointMake(newCenter.x, self.superview.frame.size.height - self.frame.size.height/2 - EDGE_OFFSET_BOTTOM);
         velocityAxis = velocity.y;
         shouldAdjust = YES;
     }
     if (newCenter.x + (self.frame.size.width)/2 > self.superview.frame.size.width)
     {
-        newCenter = CGPointMake(self.superview.frame.size.width - self.frame.size.width/2, newCenter.y);
+        newCenter = CGPointMake(self.superview.frame.size.width - self.frame.size.width/2 - EDGE_OFFSET_SIDE, newCenter.y);
         velocityAxis = velocity.x;
         shouldAdjust = YES;
     }
@@ -92,6 +129,7 @@
                          }completion:^(BOOL completed){}];
     }
 }
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

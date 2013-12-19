@@ -142,7 +142,7 @@
 {
     [self.board pause];
     [self.collectionView unload];
-//    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void) applicationWillEnterForeground:(NSNotification *) notification
@@ -321,7 +321,7 @@
         if (noteStackingId)
         {
             
-        NSLog(@"CollectionViewController: Note%@ is part of stacking %@; updating stacking", noteId, noteStackingId);
+            NSLog(@"CollectionViewController: Note%@ is part of stacking %@; updating stacking", noteId, noteStackingId);
             
         }
         
@@ -334,15 +334,15 @@
             [self sanitizeNoteViewForCollectionView:noteView];
             [self.collectionView addSubview:noteView];
         }
-    
+        
         CGPoint newCenter = CGPointMake(positionX, positionY);
         if (noteStackingId && noteView.superview == self.collectionView)
         {
-//            [noteView removeFromSuperview];
+            //            [noteView removeFromSuperview];
             [CollectionLayoutHelper moveView:noteView inCollectionView:self.collectionView toNewCenter:newCenter
                               withCompletion:^{
-//                [noteView removeFromSuperview];
-            }];
+                                  //                [noteView removeFromSuperview];
+                              }];
         }
         
         //scale = scale / view.scaleOffset;
@@ -359,7 +359,7 @@
         {
             [CollectionLayoutHelper moveView:view
                             inCollectionView:self.collectionView
-                                  toNewCenter:newCenter];
+                                 toNewCenter:newCenter];
         }
     }
 }
@@ -465,10 +465,10 @@
                 {
                     [CollectionLayoutHelper moveView:noteView
                                     inCollectionView:self.collectionView
-                                          toNewCenter:newCenter
-                                       withCompletion:^{
-                        [stack addNoteView:noteView];
-                    }];
+                                         toNewCenter:newCenter
+                                      withCompletion:^{
+                                          [stack addNoteView:noteView];
+                                      }];
                 }
                 else
                 {
@@ -547,7 +547,7 @@
         CollectionStackingAttribute * stacking = [self.board getStackModelFor:stackId];
         
         if (stacking == nil) break;
-    
+        
         StackView * stack = self.stackViews[stackId];
         float scaling = [stacking.scale floatValue];
         
@@ -971,10 +971,10 @@
     self.navigationItem.titleView = titleView;
     
     UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:0 target:self action:@selector(donePressed:)];
-//    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
-//wU
-//                                                                   target:self
-//                                                                   action:@selector(donePressed:)];
+    //    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+    //wU
+    //                                                                   target:self
+    //                                                                   action:@selector(donePressed:)];
     doneButton.tintColor = [[ThemeFactory currentTheme] navigationBarButtonItemColor];
     self.navigationItem.leftBarButtonItem = doneButton;
     [titleView sizeToFit];
@@ -1019,7 +1019,7 @@
     if (thumbnailData != nil)
     {
         [self.parent thumbnailCreatedForCollectionName:self.bulletinBoardName
-                                          withData:thumbnailData];
+                                              withData:thumbnailData];
     }
 }
 -(void) finishWorkingWithCollection
@@ -1057,8 +1057,8 @@
     self.parentScrollView.translatesAutoresizingMaskIntoConstraints = NO;
     
     NSDictionary * viewsDictionary = NSDictionaryOfVariableBindings(topScroll, contentView);
-//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[topScroll]|" options:0 metrics: 0 views:viewsDictionary]];
-//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[topScroll]|" options:0 metrics: 0 views:viewsDictionary]];
+    //    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[topScroll]|" options:0 metrics: 0 views:viewsDictionary]];
+    //    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[topScroll]|" options:0 metrics: 0 views:viewsDictionary]];
     [topScroll addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics: 0 views:viewsDictionary]];
     [topScroll addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics: 0 views:viewsDictionary]];
 }
@@ -1188,6 +1188,11 @@
     self.normalActionBarItems = self.actionBar.items;
 }
 
+-(void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    
+    [self.paintControl adjustViewToBeInBoundsForRotation];
+}
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -1197,9 +1202,36 @@
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-   [CollectionLayoutHelper layoutViewsForOrientationChange:self.collectionView];
+    [CollectionLayoutHelper layoutViewsForOrientationChange:self.collectionView];
 }
 
+-(void) adjustFreeControls
+{
+    float positionXCenter = self.paintControl.center.x;
+    float positionYCenter = self.paintControl.center.y;
+    BOOL changed = NO;
+    if ( positionXCenter + self.paintControl.bounds.size.width/2 > self.paintControl.superview.bounds.origin.x + self.paintControl.superview.bounds.size.width ){
+        positionXCenter = self.paintControl.superview.bounds.origin.x + self.paintControl.superview.bounds.size.width - self.paintControl.bounds.size.width;
+        changed = YES;
+    }
+    if ( positionYCenter + self.paintControl.bounds.size.height > self.paintControl.superview.bounds.origin.y + self.paintControl.superview.bounds.size.height){
+        positionYCenter = self.paintControl.superview.bounds.origin.x + self.paintControl.superview.bounds.size.height - self.paintControl.bounds.size.height;
+        changed = YES;
+    }
+    if (positionXCenter - self.paintControl.bounds.size.width/2 <  self.paintControl.superview.bounds.origin.x){
+        positionXCenter = self.paintControl.superview.bounds.origin.x;
+        changed = YES;
+    }
+    if (positionYCenter - self.paintControl.bounds.size.width/2 < self.paintControl.superview.bounds.origin.y + self.navigationController.navigationBar.bounds.size.height){
+        positionYCenter = self.paintControl.superview.bounds.origin.y + self.navigationController.navigationBar.bounds.size.height;
+        changed = YES;
+    }
+    
+    if(changed){
+        self.paintControl.center = CGPointMake(positionXCenter, positionYCenter);
+        
+    }
+}
 -(void) viewDidUnload
 {
     [self setTitle:nil];
@@ -1347,7 +1379,7 @@
     noteItem.noteText = note.text;
     
     [self.board addNoteWithContent:noteItem
-                      andCollectionAttributes:noteCollectionAttribute];
+           andCollectionAttributes:noteCollectionAttribute];
     
     return noteID;
 }
@@ -1389,9 +1421,9 @@
     
     return [[CollectionNoteAttribute alloc] initWithName:noteName
                                                 andRefId:noteId
-                                   andPositionX:positionX
-                                   andPositionY:positionY
-                                     andScaling:scale];
+                                            andPositionX:positionX
+                                            andPositionY:positionY
+                                              andScaling:scale];
     
 }
 
@@ -1605,12 +1637,12 @@
 }
 
 /*! creates an stacking with all the notes in the items.
-    P
+ P
  */
 -(NSString *) createStackingWithItems:(NSArray *) items
-                    andMainView:(UIView *) mainView
-            withDestinationView:(UIView *) destinationView
-                      withScale:(CGFloat) scale
+                          andMainView:(UIView *) mainView
+                  withDestinationView:(UIView *) destinationView
+                            withScale:(CGFloat) scale
 {
     
     NSMutableArray * allNotes = [self getAllNormalNotesInViews:items];
@@ -1623,7 +1655,7 @@
     }
     
     NSString * stackingID = [self mergeItems: items
-                      intoStackingWithMainView: mainView];
+                    intoStackingWithMainView: mainView];
     
     
     
@@ -1724,7 +1756,7 @@ intoStackingWithMainView: (UIView *) mainView
                 for (UIView * note in ((StackView *)view).views)
                 {
                     NSString *stackingNoteID = ((NoteView *)note).ID;
-                                [stackingNoteIDs addObject:stackingNoteID];
+                    [stackingNoteIDs addObject:stackingNoteID];
                 }
             }
         }
@@ -1738,7 +1770,7 @@ intoStackingWithMainView: (UIView *) mainView
         topItemID = ((StackView *)mainView).mainView.ID;
     }
     
-//    if (topItemID == nil) return stackingID;
+    //    if (topItemID == nil) return stackingID;
     //make sure that the top of the stack is at index 0
     if ([stackingNoteIDs containsObject:topItemID])
     {
@@ -2219,12 +2251,12 @@ intoStackingWithMainView: (UIView *) mainView
         imagePicker.delegate = self;
         imagePicker.modalPresentationCapturesStatusBarAppearance = NO;
         [self presentViewController:imagePicker animated:YES completion:^{}];
-//        UIPopoverController * presenter =
-//        [[UIPopoverController alloc] initWithContentViewController:imagePicker];
-       // self.lastPopOver = presenter;
-//        [presenter presentPopoverFromBarButtonItem:self.cameraButton
-//                          permittedArrowDirections:UIPopoverArrowDirectionAny
-//                                          animated:YES];
+        //        UIPopoverController * presenter =
+        //        [[UIPopoverController alloc] initWithContentViewController:imagePicker];
+        // self.lastPopOver = presenter;
+        //        [presenter presentPopoverFromBarButtonItem:self.cameraButton
+        //                          permittedArrowDirections:UIPopoverArrowDirectionAny
+        //                                          animated:YES];
     }
 }
 
@@ -2286,7 +2318,7 @@ intoStackingWithMainView: (UIView *) mainView
     
     //first save the thumbnail before we rename the collection
     if ([[alertView buttonTitleAtIndex:buttonIndex]
-              isEqualToString:SAVE_BUTTON_TITLE])
+         isEqualToString:SAVE_BUTTON_TITLE])
     {
         
         NSString * newName = [[alertView textFieldAtIndex:0] text];
@@ -2336,7 +2368,7 @@ intoStackingWithMainView: (UIView *) mainView
 -(void) didFinishDrawingOnScreen
 {
     self.parentScrollView.delaysContentTouches = YES;
-   for (UIGestureRecognizer * gr in self.collectionView.gestureRecognizers)
+    for (UIGestureRecognizer * gr in self.collectionView.gestureRecognizers)
     {
         gr.enabled = YES;
     }
@@ -2354,9 +2386,9 @@ intoStackingWithMainView: (UIView *) mainView
                                                             userInfo:nil
                                                              repeats:NO];
     
-//    NSLog(@"DIFFS : \n %@ \n ==== ", diffDrawings);
-//    NSLog(@"ALL : \n %@ \n ==== ", allDrawings);
-//    [self.board communicateDrawingDiffs:diffDrawings];
+    //    NSLog(@"DIFFS : \n %@ \n ==== ", diffDrawings);
+    //    NSLog(@"ALL : \n %@ \n ==== ", allDrawings);
+    //    [self.board communicateDrawingDiffs:diffDrawings];
     
 }
 

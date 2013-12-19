@@ -9,6 +9,7 @@
 #import "CollectionLayoutHelper.h"
 #import "NoteView.h"
 #import "BulletinBoardObject.h"
+#import "PaintControlView.h"
 
 @interface CollectionLayoutHelper()
 
@@ -282,7 +283,6 @@ withMoveNoteFunction:(update_note_location_function) updateNote
 {
     
     for (UIView * view in collectionView.subviews){
-        
         if ([view isKindOfClass:[NoteView class]] || [view isKindOfClass:[StackView class]])
         {
             
