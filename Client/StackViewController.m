@@ -384,10 +384,6 @@
 {
     [super viewDidLoad];
     
-    UIColor * bgColor = [UIColor colorWithWhite:0.1 alpha:0.5];
-    //self.view.tintColor = [UIColor blueColor];
-    
-    
     [self.stackView setContentSize:self.stackView.bounds.size];
     NSLog(@"Notes in stacking: %d", [self.notes count]);
     for (NoteView * view in self.notes){

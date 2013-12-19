@@ -1122,6 +1122,16 @@
     self.paintControl.delegate = self;
     [self.view addSubview:self.paintControl];
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+    
+    self.paintControl.transform = CGAffineTransformTranslate(self.paintControl.transform, 0, +80);
+    [UIView animateWithDuration:1
+                          delay:0.0
+         usingSpringWithDamping:0.5
+          initialSpringVelocity:5
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         self.paintControl.transform = CGAffineTransformTranslate(self.paintControl.transform, 0, -80);
+                     }completion:^(BOOL completed){}];
 }
 
 -(void) addInitialObservers
