@@ -704,6 +704,19 @@
 
 #pragma mark - Gesture Events
 
+-(void) screenPressed:(UILongPressGestureRecognizer *) sender
+{
+    CGPoint loc = [sender locationInView:self.paintControl.superview];
+    [UIView animateWithDuration:0.5
+                          delay:0
+         usingSpringWithDamping:0.4
+          initialSpringVelocity:15
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         self.paintControl.center = CGPointMake(loc.x - 10, loc.y - 10);
+                     }completion:^(BOOL completed){}];
+}
+
 -(void) screenTapped: (UITapGestureRecognizer *) sender{
     if (self.editMode){
         self.editMode = NO;
@@ -1912,8 +1925,11 @@ intoStackingWithMainView: (UIView *) mainView
     UITapGestureRecognizer * gr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenDoubleTapped:)];
     gr.numberOfTapsRequired = 2;
     UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenTapped:)];
+    UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                        action:@selector(screenPressed:)];
     [collectionView addGestureRecognizer:gr];
     [collectionView addGestureRecognizer:tgr];
+    [collectionView addGestureRecognizer:lpgr];
 }
 
 #pragma mark - utilities bar

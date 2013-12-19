@@ -126,9 +126,7 @@
     
     if (shouldAdjust)
     {
-        velocityAxis = ABS(velocityAxis)/2;
-        velocityAxis = MIN(velocityAxis, 50);
-        NSLog(@"%f", velocityAxis);
+        velocityAxis = MIN(velocityAxis/2, 50);
         [UIView animateWithDuration:0.5
                               delay:0
              usingSpringWithDamping:0.5
