@@ -29,6 +29,7 @@
 #import "ScreenDrawing.h"
 #import "UndoMessage.h"
 #import "PaintControlView.h"
+#import "PushWithFrictionBehavior.h"
 
 @interface CollectionViewController ()
 
@@ -77,6 +78,9 @@
 @property (weak, nonatomic) IBOutlet UIView *patternView;
 
 @property (strong, nonatomic) PaintControlView * paintControl;
+
+@property (strong, nonatomic) PushWithFrictionBehavior * pushBehavior;
+
 @end
 
 #pragma mark - Definitions
@@ -706,6 +710,12 @@
 
 -(void) screenPressed:(UILongPressGestureRecognizer *) sender
 {
+    if (self.pushBehavior)
+    {
+        [self.animator removeBehavior:self.pushBehavior];
+        self.pushBehavior = nil;
+    }
+    
     CGPoint loc = [sender locationInView:self.paintControl.superview];
     [UIView animateWithDuration:0.5
                           delay:0
@@ -1088,14 +1098,12 @@
     [self configureToolbar];
     [self configureActionBar];
     
-    self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.collectionView];
     
     self.navigationItem.rightBarButtonItems = [self.toolbar.items copy];
     
     [self initateDataStructures];
     
     [self addCollectionViewGestureRecognizersToCollectionView: self.collectionView];
-    
     
     [self addInitialObservers];
     [self addListenerNotifications];
@@ -1106,10 +1114,12 @@
 
 -(void) addPaintViewControl
 {
-    self.paintControl = [[PaintControlView alloc] initWithFrame:CGRectMake(100, 100, 60, 60)];
+    self.paintControl = [[PaintControlView alloc] initWithFrame:CGRectMake(100, 100, 70, 70)];
     self.paintControl.topOffset = self.navigationController.navigationBar.frame.size.height;
     self.paintControl.backgroundColor = [UIColor redColor];
+    self.paintControl.delegate = self;
     [self.view addSubview:self.paintControl];
+    self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
 }
 
 -(void) addInitialObservers
@@ -2453,6 +2463,51 @@ intoStackingWithMainView: (UIView *) mainView
 -(void) paintColorSelected:(UIColor *)color
 {
     self.collectionView.currentColor = color;
+}
+
+#pragma mark - paintControlDelegate
+-(void) controlReleasedWithVelocity:(CGPoint) velocity
+                  withPushDirection:(CGVector) directionVector
+{
+    PushWithFrictionBehavior * behavior = [[PushWithFrictionBehavior alloc] initWithItmes:@[self.paintControl]];
+    
+    behavior.delegate = self;
+    [behavior setPushVector:directionVector];
+    //[behavior setInitialVelocity:velocity];
+    CGVector forceVector = CGVectorMake(velocity.x * directionVector.dx,
+                                         velocity.y * directionVector.dy);
+    CGFloat forceSize = sqrtf(forceVector.dx * forceVector.dx + forceVector.dy * forceVector.dy);
+    forceSize *= 0.008;
+    [behavior setForce:forceSize];
+    [self.animator addBehavior:behavior];
+    self.pushBehavior = behavior;
+}
+
+-(void) controlDragged
+{
+    if (self.pushBehavior)
+    {
+        [self.animator removeBehavior:self.pushBehavior];
+        self.pushBehavior = nil;
+    }
+}
+
+#pragma PushWithFrictionDelegate
+
+-(void) collisionHappened
+{
+    double delayInSeconds = 0.05;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        
+        if (self.pushBehavior)
+        {
+            [self.animator removeBehavior:self.pushBehavior];
+            self.pushBehavior = nil;
+            [self.paintControl adjustToClosestEdge];
+        }
+        
+    });
 }
 
 @end

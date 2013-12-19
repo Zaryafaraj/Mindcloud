@@ -8,6 +8,12 @@
 
 #import "PaintControlView.h"
 
+@interface PaintControlView()
+
+@property (nonatomic) CGPoint lastTranslation;
+
+@end
+
 @implementation PaintControlView
 
 - (id)initWithFrame:(CGRect)frame
@@ -39,6 +45,8 @@
 #define EDGE_OFFSET_BOTTOM 5
 
 -(void) controlPanned: (UIPanGestureRecognizer *) sender{
+    
+    
     if( sender.state == UIGestureRecognizerStateChanged ||
        sender.state == UIGestureRecognizerStateEnded)
     {
@@ -48,6 +56,16 @@
                                         pannedView.center.y + translation.y);
         pannedView.center = newCenter;
         [sender setTranslation:CGPointZero inView:self.superview];
+        
+        if(sender.state == UIGestureRecognizerStateChanged)
+        {
+            self.lastTranslation = translation;
+            id<PaintControlViewDelegate> temp = self.delegate;
+            if (temp)
+            {
+                [temp controlDragged];
+            }
+        }
     }
     
     if (sender.state == UIGestureRecognizerStateEnded)
@@ -55,6 +73,13 @@
         CGPoint velocity = [sender velocityInView:sender.view.superview];
         [self adjustViewToBeInBounds:sender.view
                         withVelocity:velocity];
+        
+        id<PaintControlViewDelegate> temp = self.delegate;
+        if (temp)
+        {
+            CGVector direction = CGVectorMake(self.lastTranslation.x/80, self.lastTranslation.y/80);
+            [temp controlReleasedWithVelocity:velocity withPushDirection:direction];
+        }
     }
 }
 
@@ -91,7 +116,7 @@
     self.center = CGPointMake(newX, newY);
 }
 
--(void) adjustViewToBeInBounds:(UIView *) view
+-(BOOL) adjustViewToBeInBounds:(UIView *) view
                   withVelocity:(CGPoint) velocity
 {
     
@@ -136,8 +161,72 @@
                              view.center = newCenter;
                          }completion:^(BOOL completed){}];
     }
+    return shouldAdjust;
 }
 
+
+-(void) adjustToClosestEdge
+{
+    BOOL didAdjust = [self adjustViewToBeInBounds:self
+                                     withVelocity:CGPointMake(0, 0)];
+    
+    if (!didAdjust)
+    {
+        
+        CGFloat newX;
+        CGFloat newY;
+        
+        CGFloat distanceToRight = abs(self.superview.bounds.size.width -EDGE_OFFSET_SIDE - self.center.x);
+        CGFloat distanceToLeft = abs(self.center.x + EDGE_OFFSET_SIDE);
+        CGFloat distanceToTop = abs(self.center.y + EDGE_OFFSET_TOP + self.topOffset);
+        CGFloat distanceToBottom = abs(self.superview.bounds.size.height - self.center.y - EDGE_OFFSET_BOTTOM);
+        
+        BOOL shouldSnapToSides = YES;
+        if (MIN(distanceToTop, distanceToBottom) < MIN(distanceToRight, distanceToLeft))
+        {
+            shouldSnapToSides = NO;
+        }
+        if (distanceToRight <= distanceToLeft)
+        {
+            newX = self.superview.bounds.origin.x + self.superview.bounds.size.width - EDGE_OFFSET_SIDE - self.bounds.size.width/2;
+        }
+        else
+        {
+            newX = self.superview.bounds.origin.x + EDGE_OFFSET_SIDE + self.bounds.size.width/2;
+        }
+        
+        if (distanceToBottom <= distanceToTop)
+        {
+            newY = self.superview.bounds.origin.y + self.superview.bounds.size.height - EDGE_OFFSET_BOTTOM - self.bounds.size.height/2;
+        }
+        else
+        {
+            newY = self.superview.bounds.origin.y + EDGE_OFFSET_TOP + self.topOffset + self.bounds.size.height/2;
+        }
+        
+        CGPoint newCenter;
+        
+        if (shouldSnapToSides)
+        {
+            newCenter = CGPointMake(newX, self.center.y);
+        }
+        else
+        {
+            newCenter = CGPointMake(self.center.x, newY);
+        }
+        
+        
+        [UIView animateWithDuration:0.5
+                              delay:0
+             usingSpringWithDamping:0.5
+              initialSpringVelocity:0
+                            options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+                             self.center = newCenter;
+                         }completion:^(BOOL completed){}];
+        
+    }
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

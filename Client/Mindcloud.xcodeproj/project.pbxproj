@@ -12,6 +12,7 @@
 		D333B3FF18612306002A24B8 /* IntroScreenCollaborationCordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = D333B3FE18612306002A24B8 /* IntroScreenCollaborationCordinator.m */; };
 		D333B41518618911002A24B8 /* introPath2.pth in Resources */ = {isa = PBXBuildFile; fileRef = D333B41418618911002A24B8 /* introPath2.pth */; };
 		D360D0CD18624AD0006E60AB /* PaintControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = D360D0CC18624AD0006E60AB /* PaintControlView.m */; };
+		D360D0D01862AB17006E60AB /* PushWithFrictionBehavior.m in Sources */ = {isa = PBXBuildFile; fileRef = D360D0CF1862AB17006E60AB /* PushWithFrictionBehavior.m */; };
 		D374CAD418445CF20070C359 /* DiffFileAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D374CAD318445CF20070C359 /* DiffFileAction.m */; };
 		D3A3ECAB184837BB00174649 /* SendMessageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A3ECAA184837BB00174649 /* SendMessageAction.m */; };
 		D3A3ECAE1848409400174649 /* MessageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A3ECAD1848409400174649 /* MessageFactory.m */; };
@@ -160,6 +161,8 @@
 		D333B41418618911002A24B8 /* introPath2.pth */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = introPath2.pth; sourceTree = "<group>"; };
 		D360D0CB18624AD0006E60AB /* PaintControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintControlView.h; sourceTree = "<group>"; };
 		D360D0CC18624AD0006E60AB /* PaintControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintControlView.m; sourceTree = "<group>"; };
+		D360D0CE1862AB17006E60AB /* PushWithFrictionBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushWithFrictionBehavior.h; sourceTree = "<group>"; };
+		D360D0CF1862AB17006E60AB /* PushWithFrictionBehavior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushWithFrictionBehavior.m; sourceTree = "<group>"; };
 		D374CAD218445CF20070C359 /* DiffFileAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiffFileAction.h; sourceTree = "<group>"; };
 		D374CAD318445CF20070C359 /* DiffFileAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiffFileAction.m; sourceTree = "<group>"; };
 		D3A3ECA9184837BB00174649 /* SendMessageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendMessageAction.h; sourceTree = "<group>"; };
@@ -851,6 +854,8 @@
 				DBBD10C817F7E73300FB8780 /* NoteAnimator.m */,
 				DB90B37818023761009CACA3 /* AllCollectionsAnimationHelper.h */,
 				DB90B37918023761009CACA3 /* AllCollectionsAnimationHelper.m */,
+				D360D0CE1862AB17006E60AB /* PushWithFrictionBehavior.h */,
+				D360D0CF1862AB17006E60AB /* PushWithFrictionBehavior.m */,
 			);
 			name = Animation;
 			sourceTree = "<group>";
@@ -1307,6 +1312,7 @@
 				D3EF8332185AEC41002688E4 /* TutorialPaintView.m in Sources */,
 				DBDB106316D1E08B00B5F7AE /* NoteResolutionNotification.m in Sources */,
 				DBD06A9116D98F9C00463ECC /* SharingAction.m in Sources */,
+				D360D0D01862AB17006E60AB /* PushWithFrictionBehavior.m in Sources */,
 				DBC4E35A17F14B5100F595FE /* MMDrawerVisualState.m in Sources */,
 				DBD06A9516D9B6D100463ECC /* SharingViewController.m in Sources */,
 				DBD06A9816D9D51700463ECC /* AllCollectionsSharingAdapter.m in Sources */,

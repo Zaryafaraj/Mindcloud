@@ -8,9 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol PaintControlViewDelegate <NSObject>
+
+-(void) controlReleasedWithVelocity:(CGPoint)velocity
+                  withPushDirection:(CGVector) directionVector;
+
+-(void) controlDragged;
+
+@end
+
 @interface PaintControlView : UIView
+
+@property (nonatomic, weak) id<PaintControlViewDelegate> delegate;
 
 @property (nonatomic) CGFloat topOffset;
 
 -(void) adjustViewToBeInBoundsForRotation;
+
+-(void) adjustToClosestEdge;
+
 @end
