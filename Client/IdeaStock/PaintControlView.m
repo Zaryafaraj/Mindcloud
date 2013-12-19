@@ -26,6 +26,10 @@
         [self addGestureRecognizer:gr];
         UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                               action:@selector(controlTapped:)];
+        self.layer.shadowOffset = CGSizeMake(0,1);
+        self.layer.shadowOpacity = 1;
+        self.layer.shadowRadius = 1;
+        self.layer.shadowColor = [UIColor darkGrayColor].CGColor;
         [self addGestureRecognizer:tgr];
         self.backgroundColor = [[ThemeFactory currentTheme] colorForPaintControl];
         //self.translatesAutoresizingMaskIntoConstraints = NO;
