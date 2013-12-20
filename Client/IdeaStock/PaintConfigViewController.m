@@ -37,7 +37,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIView * view = self.view;
     
 	// Do any additional setup after loading the view.
 }

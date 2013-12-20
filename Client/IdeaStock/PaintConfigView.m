@@ -49,15 +49,15 @@
     self.brushView.lineColor = selectedColor;
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self)
-    {
-        [self createSubViews];
-    }
-    return self;
-}
+//- (id)initWithFrame:(CGRect)frame
+//{
+//    self = [super initWithFrame:frame];
+//    if (self)
+//    {
+//        [self createSubViews];
+//    }
+//    return self;
+//}
 
 -(id) initWithCoder:(NSCoder *)aDecoder
 {

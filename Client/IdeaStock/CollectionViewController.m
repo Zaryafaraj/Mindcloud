@@ -2512,6 +2512,7 @@ intoStackingWithMainView: (UIView *) mainView
 {
     PaintConfigViewController * configController = [[PaintConfigViewController alloc] init];
     UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:configController];
+    popover.popoverContentSize = CGSizeMake(600, 300);
     popover.delegate = self;
     [popover presentPopoverFromRect:self.paintControl.frame
                              inView:self.paintControl.superview
