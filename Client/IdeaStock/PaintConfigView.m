@@ -15,8 +15,15 @@
 
 @property (nonatomic, strong) UICollectionView * colorView;
 @property (strong, nonatomic) BrushColors * model;
-@property (strong, nonatomic) IBOutlet BrushSelectionView * brushView;
+@property (strong, nonatomic) BrushSelectionView * brushView;
 @property (strong, nonatomic) UISlider * slider;
+@property (strong, nonatomic) UIView * dividerLine;
+
+@property (strong, nonatomic) UIButton * paintButton;
+@property (strong, nonatomic) UIButton * undoButton;
+@property (strong, nonatomic) UIButton * eraserButton;
+@property (strong, nonatomic) UIButton * clearButton;
+
 @end
 
 @implementation PaintConfigView
@@ -70,10 +77,14 @@
     self.colorView.delegate = self;
     self.colorView.allowsSelection = YES;
     self.model = [[BrushColors alloc] init];
+    [self addSubview:self.colorView];
     
     self.brushView = [[BrushSelectionView alloc] init];
     self.brushView.lineWidth = self.currentBrushWidth;
     self.brushView.lineColor = self.selectedColor;
+    self.brushView.lineWidth = self.currentBrushWidth;
+    self.brushView.lineColor = self.selectedColor;
+    [self addSubview:self.brushView];
     
     self.slider = [[UISlider alloc] init];
     self.slider.minimumValue = self.minBrushWidth;
@@ -82,13 +93,84 @@
     [self.slider addTarget:self
                     action:@selector(sliderValueChanged:)
           forControlEvents:UIControlEventValueChanged];
-    self.brushView.lineWidth = self.currentBrushWidth;
-    self.brushView.lineColor = self.selectedColor;
+    [self addSubview:self.slider];
+    
+    
+    self.undoButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.undoButton addTarget:self
+                        action:@selector(undoPressed:)
+              forControlEvents:UIControlEventTouchDown];
+    [self.undoButton setTitle:@"undo" forState:UIControlStateNormal];
+    [self addSubview:self.undoButton];
+    
+    self.paintButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.paintButton addTarget:self
+                        action:@selector(paintPressed:)
+              forControlEvents:UIControlEventTouchDown];
+    [self.paintButton setTitle:@"paint" forState:UIControlStateNormal];
+    [self addSubview:self.paintButton];
+    
+    self.eraserButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.eraserButton addTarget:self
+                        action:@selector(eraserPressed:)
+              forControlEvents:UIControlEventTouchDown];
+    [self.eraserButton setTitle:@"erase" forState:UIControlStateNormal];
+    [self addSubview:self.eraserButton];
+    
+    self.clearButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.clearButton addTarget:self
+                        action:@selector(clearPressed:)
+              forControlEvents:UIControlEventTouchDown];
+    [self.clearButton setTitle:@"clear" forState:UIControlStateNormal];
+    [self addSubview:self.clearButton];
+    
+    UIView *lineView = [[UIView alloc] init];
+    lineView.backgroundColor = [UIColor blackColor];
+    self.dividerLine = lineView;
+    [self addSubview:lineView];
+    
 }
 
-- (IBAction)sliderValueChanged:(id)sender {
+- (void)sliderValueChanged:(id)sender {
     _currentBrushWidth = self.slider.value;
     self.brushView.lineWidth = _currentBrushWidth;
+}
+
+-(void) undoPressed:(id) sender
+{
+    id<PaintConfigDelegate> temp = self.delegate;
+    if (temp)
+    {
+        [temp undoPressed];
+    }
+    
+}
+
+-(void) paintPressed:(id) sender
+{
+    id<PaintConfigDelegate> temp = self.delegate;
+    if (temp)
+    {
+        [temp paintPressed];
+    }
+}
+
+-(void) clearPressed:(id) sender
+{
+    id<PaintConfigDelegate> temp = self.delegate;
+    if (temp)
+    {
+        [temp clearPressed];
+    }
+}
+
+-(void) eraserPressed:(id) sender
+{
+    id<PaintConfigDelegate> temp = self.delegate;
+    if (temp)
+    {
+        [temp eraserPressed];
+    }
 }
 
 -(void) setMaxBrushWidth:(CGFloat)maxBrushWidth

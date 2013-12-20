@@ -13,6 +13,11 @@
 -(void) paintColorSelected:(UIColor *) currentColor;
 -(void) brushSelectedWithWidth:(CGFloat) width;
 
+-(void) undoPressed;
+-(void) paintPressed;
+-(void) clearPressed;
+-(void) eraserPressed;
+
 @end
 
 @interface PaintConfigView : UIView <UICollectionViewDataSource, UICollectionViewDelegate>
