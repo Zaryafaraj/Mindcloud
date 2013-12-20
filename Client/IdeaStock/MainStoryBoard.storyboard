@@ -744,7 +744,34 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zuD-90-jX8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2874" y="-361"/>
+            <point key="canvasLocation" x="1002" y="2351"/>
+        </scene>
+        <!--Paint Config View Controller-->
+        <scene sceneID="vdR-rH-eb5">
+            <objects>
+                <viewController id="mxv-N9-H6b" customClass="PaintConfigViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="GyA-0r-3Mz"/>
+                        <viewControllerLayoutGuide type="bottom" id="ckh-Iv-3tK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ywv-93-MI9" customClass="PaintConfigView">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="AAAAAAAA" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YmL-rG-QDO">
+                                <rect key="frame" x="200" y="353" width="463" height="317"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="76"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Bui-xA-ddn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2892" y="-338"/>
         </scene>
         <!--Paint Color View Controller-->
         <scene sceneID="K5c-sn-h0k">
@@ -818,7 +845,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nfb-dL-iY3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2874" y="836"/>
+            <point key="canvasLocation" x="2066" y="2351"/>
         </scene>
         <!--Stack View Controller-->
         <scene sceneID="bwM-MX-fXe">

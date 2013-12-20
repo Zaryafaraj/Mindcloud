@@ -19,6 +19,22 @@
 }
 */
 
+-(id) initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+        
+        self.layer.cornerRadius = frame.size.width / 2;
+        UIView *bgView = [[UIView alloc] initWithFrame:self.backgroundView.frame];
+        bgView.backgroundColor = [UIColor clearColor];
+        bgView.layer.borderColor = [UIColor whiteColor].CGColor;
+        bgView.layer.borderWidth = 3;
+        bgView.layer.cornerRadius = 25;
+        self.selectedBackgroundView = bgView;
+    }
+    return self;
+}
 -(id) initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];

@@ -30,6 +30,7 @@
 #import "UndoMessage.h"
 #import "PaintControlView.h"
 #import "PushWithFrictionBehavior.h"
+#import "PaintConfigViewController.h"
 
 @interface CollectionViewController ()
 
@@ -1294,6 +1295,7 @@
         [self.activeImageSheet dismissWithClickedButtonIndex:-1 animated:NO];
         self.activeImageSheet = nil;
     }
+    
     [action showFromBarButtonItem:sender animated:NO];
     self.activeImageSheet = action;
 }
@@ -2504,6 +2506,22 @@ intoStackingWithMainView: (UIView *) mainView
         [self.animator removeAllBehaviors];
         self.pushBehavior = nil;
     }
+}
+
+-(void) controlSelected
+{
+    PaintConfigViewController * configController = [[PaintConfigViewController alloc] init];
+    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:configController];
+    popover.delegate = self;
+    [popover presentPopoverFromRect:self.paintControl.frame
+                             inView:self.paintControl.superview
+           permittedArrowDirections:UIPopoverArrowDirectionAny
+                           animated:YES];
+    if (self.lastPopOver)
+    {
+        [self.lastPopOver dismissPopoverAnimated:YES];
+    }
+    self.lastPopOver = popover;
 }
 
 #pragma PushWithFrictionDelegate

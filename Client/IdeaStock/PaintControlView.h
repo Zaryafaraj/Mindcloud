@@ -15,6 +15,8 @@
 
 -(void) controlDragged;
 
+-(void) controlSelected;
+
 @end
 
 @interface PaintControlView : UIView

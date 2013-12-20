@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D328D0CC1863C32C008BB14B /* PaintConfigView.m in Sources */ = {isa = PBXBuildFile; fileRef = D328D0CB1863C32C008BB14B /* PaintConfigView.m */; };
+		D328D0CF1863DA9E008BB14B /* PaintConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D328D0CE1863DA9E008BB14B /* PaintConfigViewController.m */; };
 		D333B3EC185FD010002A24B8 /* TutorialScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D333B3EB185FD010002A24B8 /* TutorialScrollView.m */; };
 		D333B3F6185FF46E002A24B8 /* introPath1.pth in Resources */ = {isa = PBXBuildFile; fileRef = D333B3F5185FF46E002A24B8 /* introPath1.pth */; };
 		D333B3FF18612306002A24B8 /* IntroScreenCollaborationCordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = D333B3FE18612306002A24B8 /* IntroScreenCollaborationCordinator.m */; };
@@ -156,6 +157,8 @@
 /* Begin PBXFileReference section */
 		D328D0CA1863C32C008BB14B /* PaintConfigView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintConfigView.h; sourceTree = "<group>"; };
 		D328D0CB1863C32C008BB14B /* PaintConfigView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintConfigView.m; sourceTree = "<group>"; };
+		D328D0CD1863DA9E008BB14B /* PaintConfigViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintConfigViewController.h; sourceTree = "<group>"; };
+		D328D0CE1863DA9E008BB14B /* PaintConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintConfigViewController.m; sourceTree = "<group>"; };
 		D333B3EA185FD010002A24B8 /* TutorialScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialScrollView.h; sourceTree = "<group>"; };
 		D333B3EB185FD010002A24B8 /* TutorialScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialScrollView.m; sourceTree = "<group>"; };
 		D333B3F5185FF46E002A24B8 /* introPath1.pth */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = introPath1.pth; sourceTree = "<group>"; };
@@ -716,6 +719,8 @@
 				D3CF45441852CF9400A48593 /* IntroScreenViewController.m */,
 				D333B3FD18612306002A24B8 /* IntroScreenCollaborationCordinator.h */,
 				D333B3FE18612306002A24B8 /* IntroScreenCollaborationCordinator.m */,
+				D328D0CD1863DA9E008BB14B /* PaintConfigViewController.h */,
+				D328D0CE1863DA9E008BB14B /* PaintConfigViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1253,6 +1258,7 @@
 				D7E44BEE15643AA90080EF71 /* StackView.m in Sources */,
 				D3A3ECB81848423800174649 /* ClearMessage.m in Sources */,
 				D7E44C03156573800080EF71 /* StackViewController.m in Sources */,
+				D328D0CF1863DA9E008BB14B /* PaintConfigViewController.m in Sources */,
 				D3CF453E1849CFAA00A48593 /* UserStatus.m in Sources */,
 				D7DD09E31572190D00918BDF /* ImageNoteView.m in Sources */,
 				DB99FFB5160E5C5D0042ED2A /* UserPropertiesHelper.m in Sources */,

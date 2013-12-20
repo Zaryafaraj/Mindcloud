@@ -84,6 +84,11 @@
 
 -(void) controlTapped: (UITapGestureRecognizer *) sender
 {
+    id<PaintControlViewDelegate> temp = self.delegate;
+    if (temp)
+    {
+        [temp controlSelected];
+    }
 }
 
 #define EDGE_OFFSET_TOP 10

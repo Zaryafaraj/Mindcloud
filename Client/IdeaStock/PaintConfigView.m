@@ -69,55 +69,85 @@
     return self;
 }
 
+
+-(id) init
+{
+    if (self = [super init])
+    {
+        [self createSubViews];
+    }
+    return self;
+}
+
+#define EDGE_OFFSET 15.0
+#define DISTANCE_BETWEEN_PAINT_AND_BRUSH 10.0
+
 -(void) createSubViews
 {
-    self.colorView = [[UICollectionView alloc] init];
-    self.colorView.collectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
+    
+    UICollectionView * colorView = [[UICollectionView alloc] initWithFrame:CGRectZero
+                                                      collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
+    self.colorView = colorView;
     self.colorView.dataSource = self;
     self.colorView.delegate = self;
     self.colorView.allowsSelection = YES;
     self.model = [[BrushColors alloc] init];
+    self.colorView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.colorView.backgroundColor = [UIColor greenColor];
+    [self.colorView registerClass:[ColorCell class] forCellWithReuseIdentifier:@"ColorCell"];
     [self addSubview:self.colorView];
     
-    self.brushView = [[BrushSelectionView alloc] init];
+    BrushSelectionView * brushView = [[BrushSelectionView alloc] init];
+    self.brushView = brushView;
     self.brushView.lineWidth = self.currentBrushWidth;
     self.brushView.lineColor = self.selectedColor;
     self.brushView.lineWidth = self.currentBrushWidth;
     self.brushView.lineColor = self.selectedColor;
+    self.brushView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.brushView];
     
-    self.slider = [[UISlider alloc] init];
+    UISlider * slider = [[UISlider alloc] init];
+    self.slider = slider;
     self.slider.minimumValue = self.minBrushWidth;
     self.slider.maximumValue = self.maxBrushWidth;
     self.slider.value = self.currentBrushWidth;
     [self.slider addTarget:self
                     action:@selector(sliderValueChanged:)
           forControlEvents:UIControlEventValueChanged];
+    self.slider.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.slider];
     
     
-    self.undoButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    UIButton * undoButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    self.undoButton = undoButton;
     [self.undoButton addTarget:self
                         action:@selector(undoPressed:)
               forControlEvents:UIControlEventTouchDown];
     [self.undoButton setTitle:@"undo" forState:UIControlStateNormal];
+    self.undoButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.undoButton];
     
-    self.paintButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    UIButton * paintButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    self.paintButton = paintButton;
     [self.paintButton addTarget:self
                         action:@selector(paintPressed:)
               forControlEvents:UIControlEventTouchDown];
     [self.paintButton setTitle:@"paint" forState:UIControlStateNormal];
+    self.paintButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.paintButton];
     
-    self.eraserButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    UIButton * eraseButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    self.eraserButton = eraseButton;
     [self.eraserButton addTarget:self
                         action:@selector(eraserPressed:)
               forControlEvents:UIControlEventTouchDown];
     [self.eraserButton setTitle:@"erase" forState:UIControlStateNormal];
+    self.eraserButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.eraserButton];
     
-    self.clearButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    UIButton * clearButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    self.clearButton = clearButton;
+    self.clearButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.clearButton addTarget:self
                         action:@selector(clearPressed:)
               forControlEvents:UIControlEventTouchDown];
@@ -127,7 +157,54 @@
     UIView *lineView = [[UIView alloc] init];
     lineView.backgroundColor = [UIColor blackColor];
     self.dividerLine = lineView;
+    self.dividerLine.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:lineView];
+    
+    NSDictionary * views = NSDictionaryOfVariableBindings(colorView, brushView, slider, undoButton, paintButton, eraseButton, clearButton, lineView);
+    
+    
+    NSLayoutConstraint * collectionViewWidth = [NSLayoutConstraint constraintWithItem:colorView
+                                                                            attribute:NSLayoutAttributeWidth
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:self
+                                                                            attribute:NSLayoutAttributeWidth
+                                                                           multiplier:0.5
+                                                                             constant:- (EDGE_OFFSET * 2 + DISTANCE_BETWEEN_PAINT_AND_BRUSH)] ;
+    
+    NSLayoutConstraint * collectionViewHeight = [NSLayoutConstraint constraintWithItem:colorView
+                                                                            attribute:NSLayoutAttributeHeight
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:self
+                                                                            attribute:NSLayoutAttributeHeight
+                                                                           multiplier:0.5
+                                                                             constant:0] ;
+    
+    NSLayoutConstraint * brushViewWidth = [NSLayoutConstraint constraintWithItem:brushView
+                                                                       attribute:NSLayoutAttributeWidth
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:self
+                                                                       attribute:NSLayoutAttributeWidth
+                                                                      multiplier:0.5
+                                                                        constant:-(EDGE_OFFSET *2 + DISTANCE_BETWEEN_PAINT_AND_BRUSH)];
+    
+    NSDictionary * metrics = @{@"brushAndCollectionDivider":[NSNumber numberWithFloat:DISTANCE_BETWEEN_PAINT_AND_BRUSH],
+                               @"edgeOffset": [NSNumber numberWithFloat:EDGE_OFFSET]};
+    NSString * colorViewConstraintV = @"V:[colorView]-edgeOffset-|";
+    NSString * colorViewConstraintH = @"H:[colorView]-edgeOffset-|";
+    
+    
+    [self addConstraints:@[collectionViewWidth, collectionViewHeight]];
+    
+    
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:colorViewConstraintV
+                                                                 options:0
+                                                                 metrics:metrics
+                                                                   views:views]];
+    
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:colorViewConstraintH
+                                                                 options:0
+                                                                 metrics:metrics
+                                                                   views:views]];
     
 }
 
