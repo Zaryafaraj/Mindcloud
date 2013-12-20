@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D328D0CC1863C32C008BB14B /* PaintConfigView.m in Sources */ = {isa = PBXBuildFile; fileRef = D328D0CB1863C32C008BB14B /* PaintConfigView.m */; };
 		D333B3EC185FD010002A24B8 /* TutorialScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D333B3EB185FD010002A24B8 /* TutorialScrollView.m */; };
 		D333B3F6185FF46E002A24B8 /* introPath1.pth in Resources */ = {isa = PBXBuildFile; fileRef = D333B3F5185FF46E002A24B8 /* introPath1.pth */; };
 		D333B3FF18612306002A24B8 /* IntroScreenCollaborationCordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = D333B3FE18612306002A24B8 /* IntroScreenCollaborationCordinator.m */; };
@@ -153,6 +154,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D328D0CA1863C32C008BB14B /* PaintConfigView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintConfigView.h; sourceTree = "<group>"; };
+		D328D0CB1863C32C008BB14B /* PaintConfigView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintConfigView.m; sourceTree = "<group>"; };
 		D333B3EA185FD010002A24B8 /* TutorialScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialScrollView.h; sourceTree = "<group>"; };
 		D333B3EB185FD010002A24B8 /* TutorialScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialScrollView.m; sourceTree = "<group>"; };
 		D333B3F5185FF46E002A24B8 /* introPath1.pth */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = introPath1.pth; sourceTree = "<group>"; };
@@ -676,6 +679,8 @@
 				D333B3EB185FD010002A24B8 /* TutorialScrollView.m */,
 				D360D0CB18624AD0006E60AB /* PaintControlView.h */,
 				D360D0CC18624AD0006E60AB /* PaintControlView.m */,
+				D328D0CA1863C32C008BB14B /* PaintConfigView.h */,
+				D328D0CB1863C32C008BB14B /* PaintConfigView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1295,6 +1300,7 @@
 				DBBA28B816CCC574007C7B4A /* UpdateFragmentNamespaceSubElementNotification.m in Sources */,
 				DBBA28BB16CCC5FD007C7B4A /* DeleteAssociationNotification.m in Sources */,
 				DBBA28BE16CCC62F007C7B4A /* AddAssociationNotification.m in Sources */,
+				D328D0CC1863C32C008BB14B /* PaintConfigView.m in Sources */,
 				DBBA28C116CCC6A8007C7B4A /* AddFragmentNamespaceElementNotification.m in Sources */,
 				DB20ADDE181F67250062EA5B /* PaintbrushViewController.m in Sources */,
 				DB8F48A417CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m in Sources */,
