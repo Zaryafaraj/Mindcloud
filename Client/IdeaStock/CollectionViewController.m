@@ -82,6 +82,7 @@
 
 @property (strong, nonatomic) PushWithFrictionBehavior * pushBehavior;
 
+@property (strong, nonatomic) PaintConfigViewController * configController;
 @end
 
 #pragma mark - Definitions
@@ -2023,8 +2024,6 @@ intoStackingWithMainView: (UIView *) mainView
     }
     
     PaintbrushViewController * brushController = [self.storyboard instantiateViewControllerWithIdentifier:@"PaintbrushController"];
-    brushController.maxBrushWidth = MAX_BRUSH_WIDTH;
-    brushController.minBrushWidth = MIN_BRUSH_WIDTH;
     brushController.currentBrushWidth = self.collectionView.currentWidth;
     brushController.currentColor = self.collectionView.currentColor;
     brushController.delegate = self;
@@ -2510,9 +2509,15 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) controlSelected
 {
-    PaintConfigViewController * configController = [[PaintConfigViewController alloc] init];
-    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:configController];
-    popover.popoverContentSize = CGSizeMake(600, 300);
+    if (!self.configController)
+    {
+        
+        PaintConfigViewController * configController = [[PaintConfigViewController alloc] init];
+        self.configController = configController;
+    }
+    
+    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:self.configController];
+    popover.popoverContentSize = CGSizeMake(300, 230);
     popover.delegate = self;
     [popover presentPopoverFromRect:self.paintControl.frame
                              inView:self.paintControl.superview

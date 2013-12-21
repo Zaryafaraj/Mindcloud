@@ -28,4 +28,6 @@
 @property (nonatomic) CGFloat maxBrushWidth;
 @property (nonatomic) CGFloat minBrushWidth;
 
+-(void) redrawSamplePath;
+
 @end

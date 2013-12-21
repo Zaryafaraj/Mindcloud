@@ -28,8 +28,8 @@
         //self.layer.cornerRadius = frame.size.width / 2;
         UIView *bgView = [[UIView alloc] initWithFrame:self.backgroundView.frame];
         bgView.backgroundColor = [UIColor clearColor];
-        bgView.layer.borderColor = [UIColor whiteColor].CGColor;
-        bgView.layer.borderWidth = 3;
+        bgView.layer.borderColor = [UIColor darkGrayColor].CGColor;
+        bgView.layer.borderWidth = 2;
         //bgView.layer.cornerRadius = 25;
         self.selectedBackgroundView = bgView;
     }
@@ -44,8 +44,8 @@
         // self.layer.cornerRadius = 25;
         UIView *bgView = [[UIView alloc] initWithFrame:self.backgroundView.frame];
         bgView.backgroundColor = [UIColor clearColor];
-        bgView.layer.borderColor = [UIColor whiteColor].CGColor;
-        bgView.layer.borderWidth = 3;
+        bgView.layer.borderColor = [UIColor darkGrayColor].CGColor;
+        bgView.layer.borderWidth = 1;
         bgView.layer.cornerRadius = 25;
         self.selectedBackgroundView = bgView;
     }
@@ -63,7 +63,7 @@
         }
         else
         {
-            self.selectedBackgroundView.layer.borderColor = [UIColor whiteColor].CGColor;
+            self.selectedBackgroundView.layer.borderColor = [UIColor darkGrayColor].CGColor;
         }
     }
 }

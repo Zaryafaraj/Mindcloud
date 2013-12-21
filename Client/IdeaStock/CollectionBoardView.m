@@ -12,6 +12,7 @@
 
 @interface CollectionBoardView()
 
+
 @property (nonatomic, strong) NSMutableArray * viewGrid;
 
 /* all the drawings who have been touched */
@@ -39,6 +40,7 @@
 
 @implementation CollectionBoardView
 
+#define DEFAULT_BRUSH_WIDTH 3.0f
 
 @synthesize eraseModeEnabled = _eraseModeEnabled;
 

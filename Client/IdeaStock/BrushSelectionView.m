@@ -17,38 +17,6 @@
 
 @implementation BrushSelectionView
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self)
-    {
-        self.samplePath = [self createSamplePath];
-    }
-    return self;
-}
-
--(id) initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self)
-    {
-        self.samplePath = [self createSamplePath];
-        self.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
-    }
-    return self;
-}
-
--(id) init
-{
-    self = [super init];
-    if (self)
-    {
-        self.samplePath = [self createSamplePath];
-        self.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
-    }
-    return self;
-}
-
 -(void) setLineWidth:(CGFloat)lineWidth
 {
     _lineWidth = lineWidth;
@@ -118,4 +86,9 @@
 }
 
 
+-(void) redrawSamplePath
+{
+    self.samplePath = [self createSamplePath];
+    [self setNeedsDisplay];
+}
 @end

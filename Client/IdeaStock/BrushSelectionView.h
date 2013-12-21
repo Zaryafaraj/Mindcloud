@@ -12,4 +12,7 @@
 
 @property (nonatomic) CGFloat lineWidth;
 @property (nonatomic, strong) UIColor * lineColor;
+
+-(void) redrawSamplePath;
+
 @end

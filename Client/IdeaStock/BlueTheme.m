@@ -52,8 +52,8 @@
 
 -(UIColor *) defaultColorForDrawing
 {
-    UIColor * white =[UIColor colorWithHue:0.000 saturation:0.000 brightness:0.971 alpha:1.000];
-    return white;
+    UIColor * aColor =[UIColor blackColor];
+    return aColor;
 }
 
 -(UIColor *) noisePatternForCollection

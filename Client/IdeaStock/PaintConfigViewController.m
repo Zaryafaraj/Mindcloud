@@ -34,11 +34,36 @@
     return self;
 }
 
+-(UIColor *) currentColor
+{
+    return ((PaintConfigView *)self.view).selectedColor;
+}
+
+-(void) setCurrentColor:(UIColor *)currentColor
+{
+    ((PaintConfigView *)self.view).selectedColor = currentColor;
+}
+
+-(CGFloat) currentWidth
+{
+    return ((PaintConfigView *)self.view).currentBrushWidth;
+}
+
+-(void) setCurrentWidth:(CGFloat)currentWidth
+{
+    ((PaintConfigView *)self.view).currentBrushWidth = currentWidth;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
 	// Do any additional setup after loading the view.
+}
+
+-(void) viewDidLayoutSubviews
+{
+    [((PaintConfigView *)self.view) redrawSamplePath];
 }
 
 - (void)didReceiveMemoryWarning

@@ -11,6 +11,9 @@
 #import "ColorCell.h"
 #import "BrushSelectionView.h"
 #import "ThemeFactory.h"
+#define MAX_BRUSH_WIDTH 25.0f
+#define MIN_BRUSH_WIDTH 2.0f
+#define DEFAULT_BRUSH_WIDTH 3.0f
 
 @interface PaintConfigView()
 
@@ -81,8 +84,7 @@
 }
 
 #define EDGE_OFFSET 10.0
-#define DISTANCE_BETWEEN_PAINT_AND_BRUSH 10.0
-#define DISTANCE_BETWEEN_SLIDER_AND_BRUSH 5
+#define DISTANCE_BETWEEN_SLIDER_AND_COLORS 20
 #define DISTANCE_BETWEEN_DIVIDER 15
 #define DISTANCE_BETWEEN_BUTTONS 5
 #define ICON_SIZE 50
@@ -94,13 +96,18 @@
     layoutManager.minimumInteritemSpacing = 0;
     layoutManager.minimumLineSpacing = 0;
     layoutManager.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    layoutManager.itemSize = CGSizeMake(50, 50);
+    layoutManager.sectionInset = UIEdgeInsetsZero;
+    layoutManager.itemSize = CGSizeMake(54, 54);
+    
     UICollectionView * colorView = [[UICollectionView alloc] initWithFrame:CGRectZero
                                                       collectionViewLayout:layoutManager];
+    colorView.contentInset = UIEdgeInsetsZero;
     self.colorView = colorView;
     self.colorView.dataSource = self;
     self.colorView.delegate = self;
     self.colorView.allowsSelection = YES;
+    self.colorView.bounces = NO;
+    self.colorView.showsHorizontalScrollIndicator = NO;
     self.model = [[BrushColors alloc] init];
     self.colorView.translatesAutoresizingMaskIntoConstraints = NO;
     self.colorView.backgroundColor = [UIColor greenColor];
@@ -109,11 +116,14 @@
     
     BrushSelectionView * brushView = [[BrushSelectionView alloc] init];
     self.brushView = brushView;
+    self.currentBrushWidth = DEFAULT_BRUSH_WIDTH;
+    self.selectedColor = [[ThemeFactory currentTheme] defaultColorForDrawing];
     self.brushView.lineWidth = self.currentBrushWidth;
     self.brushView.lineColor = self.selectedColor;
     self.brushView.lineWidth = self.currentBrushWidth;
     self.brushView.lineColor = self.selectedColor;
     self.brushView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.brushView.backgroundColor = [UIColor clearColor];
     [self addSubview:self.brushView];
     
     UISlider * slider = [[UISlider alloc] init];
@@ -125,6 +135,8 @@
                     action:@selector(sliderValueChanged:)
           forControlEvents:UIControlEventValueChanged];
     self.slider.translatesAutoresizingMaskIntoConstraints = NO;
+    self.slider.maximumValue = MAX_BRUSH_WIDTH;
+    self.slider.minimumValue = MIN_BRUSH_WIDTH;
     [self addSubview:self.slider];
     
     
@@ -191,7 +203,7 @@
                                                                              relatedBy:NSLayoutRelationEqual
                                                                                 toItem:self
                                                                              attribute:NSLayoutAttributeHeight
-                                                                            multiplier:0.5
+                                                                            multiplier:0.20
                                                                               constant:0] ;
     
     NSLayoutConstraint * sliderWidth = [NSLayoutConstraint constraintWithItem:slider
@@ -200,7 +212,7 @@
                                                                        toItem:colorView
                                                                     attribute:NSLayoutAttributeWidth
                                                                    multiplier:1.0
-                                                                     constant:0];
+                                                                     constant:- 2 * EDGE_OFFSET];
     
     NSLayoutConstraint * sliderHeight = [NSLayoutConstraint constraintWithItem:slider
                                                                      attribute:NSLayoutAttributeHeight
@@ -208,7 +220,7 @@
                                                                         toItem:colorView
                                                                      attribute:NSLayoutAttributeHeight
                                                                     multiplier:0.25
-                                                                      constant:-DISTANCE_BETWEEN_SLIDER_AND_BRUSH];
+                                                                      constant:0];
     
     NSLayoutConstraint * brushViewWidth = [NSLayoutConstraint constraintWithItem:brushView
                                                                        attribute:NSLayoutAttributeWidth
@@ -223,7 +235,7 @@
                                                                         relatedBy:NSLayoutRelationEqual
                                                                            toItem:colorView
                                                                         attribute:NSLayoutAttributeHeight
-                                                                       multiplier:0.75
+                                                                       multiplier:1.0
                                                                          constant:0];
     
     NSLayoutConstraint * dividerLineX = [NSLayoutConstraint constraintWithItem:lineView
@@ -239,7 +251,7 @@
                                                                      relatedBy:NSLayoutRelationEqual
                                                                         toItem:self
                                                                      attribute:NSLayoutAttributeWidth
-                                                                    multiplier:0.75
+                                                                    multiplier:1.00
                                                                       constant:0];
     
     NSLayoutConstraint * undoHeight = [NSLayoutConstraint constraintWithItem:undoButton
@@ -290,19 +302,17 @@
                                                                  multiplier:1.0
                                                                    constant:0];
     
-    NSDictionary * metrics = @{@"brushAndCollectionDivider":[NSNumber numberWithFloat:DISTANCE_BETWEEN_PAINT_AND_BRUSH],
+    NSDictionary * metrics = @{@"sliderAndColorsDivider":[NSNumber numberWithFloat:DISTANCE_BETWEEN_SLIDER_AND_COLORS],
                                @"edgeOffset": [NSNumber numberWithFloat:EDGE_OFFSET],
-                               @"brushAndSliderDivider" : [NSNumber numberWithFloat:DISTANCE_BETWEEN_SLIDER_AND_BRUSH],
                                @"dividerDistance" : [NSNumber numberWithFloat:DISTANCE_BETWEEN_DIVIDER],
                                @"buttonDistance" : [NSNumber numberWithFloat:DISTANCE_BETWEEN_BUTTONS],
                                @"iconSize" : [NSNumber numberWithFloat:ICON_SIZE]};
     
-    NSString * colorViewConstraintV = @"V:[colorView]-edgeOffset-|";
-    NSString * colorViewConstraintH = @"H:|-edgeOffset-[brushView]-brushAndCollectionDivider-[colorView]-edgeOffset-|";
-    NSString * sliderConstraintV = @"V:[brushView]-brushAndSliderDivider-[slider]-edgeOffset-|";
-    NSString * sliderConstraintH = @"H:|-edgeOffset-[slider]";
-    NSString * dividerConstraintV = @"V:[lineView(==1)]-dividerDistance-[brushView]";
-    NSString * paintButtonV = @"V:[paintButton(==iconSize)]-dividerDistance-[lineView]";
+    NSString * colorViewConstraintV = @"V:[paintButton(==iconSize)]-dividerDistance-[lineView(==1)]-dividerDistance-[brushView]-dividerDistance-[slider]-sliderAndColorsDivider-[colorView]-0-|";
+    //    NSString * colorViewConstraintH = @"H:|-edgeOffset-[brushView]-brushAndCollectionDivider-[colorView]-edgeOffset-|";
+    NSString * colorViewConstraintH = @"H:|-0-[colorView]-0-|";
+    NSString * brushViewConstraintH = @"H:|-0-[brushView]-0-|";
+    NSString * sliderConstraintH = @"H:|-edgeOffset-[slider]-edgeOffset-|";
     NSString * actionButtonsH = @"H:[eraseButton(==iconSize)]-buttonDistance-[undoButton(==iconSize)]-buttonDistance-[paintButton(==iconSize)]-edgeOffset-|";
     NSString * clearButtonH = @"H:|-edgeOffset-[clearButton(==iconSize)]";
     
@@ -322,12 +332,10 @@
     
     NSArray * allConstraints = @[colorViewConstraintH,
                                  colorViewConstraintV,
-                                 sliderConstraintV,
                                  sliderConstraintH,
-                                 dividerConstraintV,
-                                 paintButtonV,
                                  actionButtonsH,
-                                 clearButtonH];
+                                 clearButtonH,
+                                 brushViewConstraintH];
     
     for (NSString * constraintStr in allConstraints)
     {
@@ -428,4 +436,8 @@
     }
 }
 
+-(void) redrawSamplePath
+{
+    [self.brushView redrawSamplePath];
+}
 @end

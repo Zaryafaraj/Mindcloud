@@ -10,4 +10,7 @@
 
 @interface PaintConfigViewController : UIViewController
 
+@property (nonatomic, strong) UIColor * currentColor;
+@property (nonatomic) CGFloat currentWidth;
+
 @end
