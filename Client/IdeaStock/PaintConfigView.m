@@ -90,8 +90,13 @@
 -(void) createSubViews
 {
     
+    UICollectionViewFlowLayout * layoutManager = [[UICollectionViewFlowLayout alloc] init];
+    layoutManager.minimumInteritemSpacing = 0;
+    layoutManager.minimumLineSpacing = 0;
+    layoutManager.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    layoutManager.itemSize = CGSizeMake(50, 50);
     UICollectionView * colorView = [[UICollectionView alloc] initWithFrame:CGRectZero
-                                                      collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
+                                                      collectionViewLayout:layoutManager];
     self.colorView = colorView;
     self.colorView.dataSource = self;
     self.colorView.delegate = self;
