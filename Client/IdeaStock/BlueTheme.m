@@ -77,4 +77,28 @@
     return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
+-(UIImage *) iconForUndoControl
+{
+    UIImage * img = [UIImage imageNamed:@"undo-round"];
+    return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
+-(UIImage *) iconForPaintControl
+{
+    UIImage * img = [UIImage imageNamed:@"paint-round"];
+    return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
+-(UIImage *) iconForClearControl
+{
+    UIImage * img = [UIImage imageNamed:@"clear-round"];
+    return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
+-(UIImage *) iconForEraseControl
+{
+    UIImage * img = [UIImage imageNamed:@"eraser-round"];
+    return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
 @end

@@ -32,4 +32,12 @@
 
 -(UIImage *) imageForPaintControl;
 
+-(UIImage *) iconForUndoControl;
+
+-(UIImage *) iconForPaintControl;
+
+-(UIImage *) iconForClearControl;
+
+-(UIImage *) iconForEraseControl;
+
 @end
