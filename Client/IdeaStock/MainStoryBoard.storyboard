@@ -697,55 +697,6 @@
             </objects>
             <point key="canvasLocation" x="2902" y="-1831"/>
         </scene>
-        <!--PaintBrush View Controller-->
-        <scene sceneID="7e9-er-B66">
-            <objects>
-                <viewController restorationIdentifier="PaintbrushController" storyboardIdentifier="PaintbrushController" title="PaintbrushController" id="nQ4-rh-hPq" userLabel="PaintBrush View Controller" customClass="PaintbrushViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="FOQ-2B-O8P"/>
-                        <viewControllerLayoutGuide type="bottom" id="ZPv-kF-GET"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="zkY-Nq-drO">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.25" minValue="0.0" maxValue="21" translatesAutoresizingMaskIntoConstraints="NO" id="d9y-tD-dgp">
-                                <rect key="frame" x="234" y="971" width="300" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="296" id="Iki-7x-deJ"/>
-                                </constraints>
-                                <color key="minimumTrackTintColor" red="0.39276733990000001" green="0.51843875650000004" blue="0.92139881850000005" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <action selector="sliderValueChanged:" destination="nQ4-rh-hPq" eventType="valueChanged" id="Fdo-nd-OEI"/>
-                                </connections>
-                            </slider>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MJg-oJ-JVh" customClass="BrushSelectionView">
-                                <rect key="frame" x="237" y="857" width="295" height="100"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="2Ax-Gr-laT"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="MJg-oJ-JVh" firstAttribute="width" secondItem="d9y-tD-dgp" secondAttribute="width" id="2w7-ar-Th0"/>
-                            <constraint firstAttribute="centerX" secondItem="d9y-tD-dgp" secondAttribute="centerX" id="Ybh-Sq-48A"/>
-                            <constraint firstItem="MJg-oJ-JVh" firstAttribute="centerX" secondItem="d9y-tD-dgp" secondAttribute="centerX" constant="0.5" id="YkA-re-Yng"/>
-                            <constraint firstItem="d9y-tD-dgp" firstAttribute="top" secondItem="MJg-oJ-JVh" secondAttribute="bottom" constant="14" id="gjF-MC-FnH"/>
-                            <constraint firstItem="ZPv-kF-GET" firstAttribute="top" secondItem="d9y-tD-dgp" secondAttribute="bottom" constant="20" id="qkO-kh-VFo"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="brushView" destination="MJg-oJ-JVh" id="19w-iz-b8K"/>
-                        <outlet property="slider" destination="d9y-tD-dgp" id="JGz-x7-Rh5"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zuD-90-jX8" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1002" y="2351"/>
-        </scene>
         <!--Paint Config View Controller-->
         <scene sceneID="vdR-rH-eb5">
             <objects>
@@ -763,80 +714,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bui-xA-ddn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2892" y="-338"/>
-        </scene>
-        <!--Paint Color View Controller-->
-        <scene sceneID="K5c-sn-h0k">
-            <objects>
-                <viewController storyboardIdentifier="PaintColorViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="n8e-iY-nCK" customClass="PaintColorViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="cSi-YT-KAP"/>
-                        <viewControllerLayoutGuide type="bottom" id="Ajp-o9-oZF"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="VN3-dN-cy3">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gBe-S0-S6x">
-                                <rect key="frame" x="406" y="803" width="342" height="200"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="342" id="38b-to-xQ1"/>
-                                </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="15" minimumInteritemSpacing="15" id="Ffx-jT-Fjt">
-                                    <size key="itemSize" width="50" height="50"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="15" maxY="15"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ColorCell" id="84g-D1-0Br" customClass="ColorCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <color key="backgroundColor" red="0.5669937464" green="1" blue="0.23027516679999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    </collectionViewCell>
-                                </cells>
-                            </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BiZ-dG-cEp" customClass="BrushSelectionView">
-                                <rect key="frame" x="20" y="803" width="359" height="160"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                            </view>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.25" minValue="0.0" maxValue="21" translatesAutoresizingMaskIntoConstraints="NO" id="ewB-A9-PdM">
-                                <rect key="frame" x="18" y="971" width="363" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="minimumTrackTintColor" red="0.39276733990000001" green="0.51843875650000004" blue="0.92139881850000005" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <action selector="sliderValueChanged:" destination="nQ4-rh-hPq" eventType="valueChanged" id="X7h-uH-RRr"/>
-                                </connections>
-                            </slider>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="Ajp-o9-oZF" firstAttribute="top" secondItem="gBe-S0-S6x" secondAttribute="bottom" constant="21" id="1qN-ee-jp7"/>
-                            <constraint firstItem="gBe-S0-S6x" firstAttribute="leading" secondItem="BiZ-dG-cEp" secondAttribute="trailing" constant="27" id="2y9-n2-EFg"/>
-                            <constraint firstItem="BiZ-dG-cEp" firstAttribute="leading" secondItem="ewB-A9-PdM" secondAttribute="leading" id="CXc-Db-EK5"/>
-                            <constraint firstItem="BiZ-dG-cEp" firstAttribute="top" secondItem="cSi-YT-KAP" secondAttribute="bottom" constant="783" id="Cty-cH-Aor"/>
-                            <constraint firstItem="gBe-S0-S6x" firstAttribute="top" secondItem="BiZ-dG-cEp" secondAttribute="top" id="Gks-t8-xL1"/>
-                            <constraint firstItem="ewB-A9-PdM" firstAttribute="top" secondItem="BiZ-dG-cEp" secondAttribute="bottom" constant="8" symbolic="YES" id="NJw-80-Hjx"/>
-                            <constraint firstItem="BiZ-dG-cEp" firstAttribute="leading" secondItem="VN3-dN-cy3" secondAttribute="leading" constant="20" symbolic="YES" id="hA2-3k-pZl"/>
-                            <constraint firstAttribute="trailing" secondItem="gBe-S0-S6x" secondAttribute="trailing" constant="20" symbolic="YES" id="m93-sC-btQ"/>
-                            <constraint firstAttribute="bottom" secondItem="ewB-A9-PdM" secondAttribute="bottom" constant="20" symbolic="YES" id="nfv-Wa-vlG"/>
-                            <constraint firstItem="BiZ-dG-cEp" firstAttribute="trailing" secondItem="ewB-A9-PdM" secondAttribute="trailing" id="u7X-m7-KtM"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="collectionView" destination="gBe-S0-S6x" id="OGj-8E-xS6"/>
-                        <outlet property="samplePathView" destination="BiZ-dG-cEp" id="T8g-ES-Bzp"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Nfb-dL-iY3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2066" y="2351"/>
         </scene>
         <!--Stack View Controller-->
         <scene sceneID="bwM-MX-fXe">
@@ -878,7 +755,7 @@
                             </imageView>
                             <scrollView autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jWv-aN-rSC">
                                 <rect key="frame" x="0.0" y="42" width="540" height="578"/>
-                                <color key="backgroundColor" red="0.86715453590000002" green="0.49652980000000002" blue="0.2290579844" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.0" green="0.75294125080108643" blue="0.89411771297454834" alpha="1" colorSpace="deviceRGB"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="0.48464059819999999" green="1" blue="0.61916933500000004" alpha="1" colorSpace="calibratedRGB"/>

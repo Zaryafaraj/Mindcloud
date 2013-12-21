@@ -57,7 +57,6 @@
 		DB03C35B169FEE6C00C38FD7 /* SubCollectionAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35A169FEE6C00C38FD7 /* SubCollectionAction.m */; };
 		DB03C35E169FF1F800C38FD7 /* SubCollectionImageAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB03C35D169FF1F800C38FD7 /* SubCollectionImageAction.m */; };
 		DB205A92180536EC00C94A2B /* CollectionScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB205A91180536EC00C94A2B /* CollectionScrollView.m */; };
-		DB20ADDE181F67250062EA5B /* PaintbrushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB20ADDD181F67250062EA5B /* PaintbrushViewController.m */; };
 		DB20ADE1181F838D0062EA5B /* BrushSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB20ADE0181F838D0062EA5B /* BrushSelectionView.m */; };
 		DB3174FE16337636001229FE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3174FD16337636001229FE /* SignInViewController.m */; };
 		DB3FD1DF182498C500F6A1B1 /* ScreenDrawing.m in Sources */ = {isa = PBXBuildFile; fileRef = DB3FD1DE182498C500F6A1B1 /* ScreenDrawing.m */; };
@@ -73,7 +72,6 @@
 		DB57B05118090A4E002F993B /* ScreenCaptureService.m in Sources */ = {isa = PBXBuildFile; fileRef = DB57B05018090A4E002F993B /* ScreenCaptureService.m */; };
 		DB57B054180DD9E2002F993B /* PaintLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB57B053180DD9E2002F993B /* PaintLayerView.m */; };
 		DB57B058180DE49F002F993B /* CollectionBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB57B057180DE49F002F993B /* CollectionBoardView.m */; };
-		DB592C0D1820DA8400024926 /* PaintColorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB592C0C1820DA8400024926 /* PaintColorViewController.m */; };
 		DB592C101820DAE400024926 /* ColorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DB592C0F1820DAE400024926 /* ColorCell.m */; };
 		DB592C131821B3D000024926 /* BrushColors.m in Sources */ = {isa = PBXBuildFile; fileRef = DB592C121821B3D000024926 /* BrushColors.m */; };
 		DB601A3916E2C2380007A636 /* ListenerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DB601A3816E2C2380007A636 /* ListenerAction.m */; };
@@ -256,8 +254,6 @@
 		DB15E9EE16E725DB0024BA4C /* cachedCollectionContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cachedCollectionContainer.h; sourceTree = "<group>"; };
 		DB205A90180536EC00C94A2B /* CollectionScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionScrollView.h; sourceTree = "<group>"; };
 		DB205A91180536EC00C94A2B /* CollectionScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionScrollView.m; sourceTree = "<group>"; };
-		DB20ADDC181F67250062EA5B /* PaintbrushViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintbrushViewController.h; sourceTree = "<group>"; };
-		DB20ADDD181F67250062EA5B /* PaintbrushViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintbrushViewController.m; sourceTree = "<group>"; };
 		DB20ADDF181F838D0062EA5B /* BrushSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrushSelectionView.h; sourceTree = "<group>"; };
 		DB20ADE0181F838D0062EA5B /* BrushSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrushSelectionView.m; sourceTree = "<group>"; };
 		DB3174FC16337636001229FE /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
@@ -294,8 +290,6 @@
 		DB57B055180DE415002F993B /* PaintEnabledView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintEnabledView.h; sourceTree = "<group>"; };
 		DB57B056180DE49F002F993B /* CollectionBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionBoardView.h; sourceTree = "<group>"; };
 		DB57B057180DE49F002F993B /* CollectionBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionBoardView.m; sourceTree = "<group>"; };
-		DB592C0B1820DA8400024926 /* PaintColorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintColorViewController.h; sourceTree = "<group>"; };
-		DB592C0C1820DA8400024926 /* PaintColorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintColorViewController.m; sourceTree = "<group>"; };
 		DB592C0E1820DAE400024926 /* ColorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorCell.h; sourceTree = "<group>"; };
 		DB592C0F1820DAE400024926 /* ColorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorCell.m; sourceTree = "<group>"; };
 		DB592C111821B3D000024926 /* BrushColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrushColors.h; sourceTree = "<group>"; };
@@ -711,10 +705,6 @@
 				DBC4E35D17F14D0400F595FE /* ContainerViewController.m */,
 				DBC4E35F17F164E300F595FE /* AllCollectionsNavigationControllerViewController.h */,
 				DBC4E36017F164E300F595FE /* AllCollectionsNavigationControllerViewController.m */,
-				DB20ADDC181F67250062EA5B /* PaintbrushViewController.h */,
-				DB20ADDD181F67250062EA5B /* PaintbrushViewController.m */,
-				DB592C0B1820DA8400024926 /* PaintColorViewController.h */,
-				DB592C0C1820DA8400024926 /* PaintColorViewController.m */,
 				D3CF45431852CF9400A48593 /* IntroScreenViewController.h */,
 				D3CF45441852CF9400A48593 /* IntroScreenViewController.m */,
 				D333B3FD18612306002A24B8 /* IntroScreenCollaborationCordinator.h */,
@@ -1308,10 +1298,8 @@
 				DBBA28BE16CCC62F007C7B4A /* AddAssociationNotification.m in Sources */,
 				D328D0CC1863C32C008BB14B /* PaintConfigView.m in Sources */,
 				DBBA28C116CCC6A8007C7B4A /* AddFragmentNamespaceElementNotification.m in Sources */,
-				DB20ADDE181F67250062EA5B /* PaintbrushViewController.m in Sources */,
 				DB8F48A417CAAE4500DDDB2D /* MindcloudAllCollectionsGordon.m in Sources */,
 				DBE3171617F63A0D00EEBA18 /* BlueTheme.m in Sources */,
-				DB592C0D1820DA8400024926 /* PaintColorViewController.m in Sources */,
 				DBC4E35917F14B5100F595FE /* MMDrawerController.m in Sources */,
 				DB57B058180DE49F002F993B /* CollectionBoardView.m in Sources */,
 				DBBA28C416CCC81D007C7B4A /* DeleteFragmentNamespaceSubElementNotification.m in Sources */,

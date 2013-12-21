@@ -12,8 +12,6 @@
 #import "NoteViewDelegate.h"
 #import "MindcloudCollection.h"
 #import "CollectionBoardDelegate.h"
-#import "PaintbrushViewController.h"
-#import "PaintColorViewController.h"
 #import "PaintControlView.h"
 #import "PushWithFrictionBehavior.h"
 
@@ -23,12 +21,10 @@ StackViewDelegate,
 NoteViewDelegate,
 MindcloudCollectionDelegate,
 CollectionBoardDelegate,
-PaintbrushDelegate,
 UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
 UIActionSheetDelegate,
 UIPopoverControllerDelegate,
-PaintColorDelegate,
 PaintControlViewDelegate,
 PushWithFrictionBehaviorDelegate>
 

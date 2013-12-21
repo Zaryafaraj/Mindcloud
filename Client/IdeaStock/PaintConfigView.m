@@ -85,6 +85,7 @@
 
 #define EDGE_OFFSET 10.0
 #define DISTANCE_BETWEEN_SLIDER_AND_COLORS 20
+#define DISTANCE_BETWEEN_BOTTOMS_AND_DIVIDER 18
 #define DISTANCE_BETWEEN_DIVIDER 15
 #define DISTANCE_BETWEEN_BUTTONS 5
 #define ICON_SIZE 50
@@ -97,7 +98,7 @@
     layoutManager.minimumLineSpacing = 0;
     layoutManager.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     layoutManager.sectionInset = UIEdgeInsetsZero;
-    layoutManager.itemSize = CGSizeMake(54, 54);
+    layoutManager.itemSize = CGSizeMake(50, 50);
     
     UICollectionView * colorView = [[UICollectionView alloc] initWithFrame:CGRectZero
                                                       collectionViewLayout:layoutManager];
@@ -106,11 +107,11 @@
     self.colorView.dataSource = self;
     self.colorView.delegate = self;
     self.colorView.allowsSelection = YES;
-    self.colorView.bounces = NO;
+    self.colorView.bounces = YES;
     self.colorView.showsHorizontalScrollIndicator = NO;
     self.model = [[BrushColors alloc] init];
     self.colorView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.colorView.backgroundColor = [UIColor greenColor];
+    self.colorView.backgroundColor = [UIColor clearColor];
     [self.colorView registerClass:[ColorCell class] forCellWithReuseIdentifier:@"ColorCell"];
     [self addSubview:self.colorView];
     
@@ -306,9 +307,10 @@
                                @"edgeOffset": [NSNumber numberWithFloat:EDGE_OFFSET],
                                @"dividerDistance" : [NSNumber numberWithFloat:DISTANCE_BETWEEN_DIVIDER],
                                @"buttonDistance" : [NSNumber numberWithFloat:DISTANCE_BETWEEN_BUTTONS],
-                               @"iconSize" : [NSNumber numberWithFloat:ICON_SIZE]};
+                               @"iconSize" : [NSNumber numberWithFloat:ICON_SIZE],
+                               @"bottomDividerDistance" : [NSNumber numberWithFloat:DISTANCE_BETWEEN_BOTTOMS_AND_DIVIDER]};
     
-    NSString * colorViewConstraintV = @"V:[paintButton(==iconSize)]-dividerDistance-[lineView(==1)]-dividerDistance-[brushView]-dividerDistance-[slider]-sliderAndColorsDivider-[colorView]-0-|";
+    NSString * colorViewConstraintV = @"V:[paintButton(==iconSize)]-bottomDividerDistance-[lineView(==1)]-dividerDistance-[brushView]-dividerDistance-[slider]-sliderAndColorsDivider-[colorView]-0-|";
     //    NSString * colorViewConstraintH = @"H:|-edgeOffset-[brushView]-brushAndCollectionDivider-[colorView]-edgeOffset-|";
     NSString * colorViewConstraintH = @"H:|-0-[colorView]-0-|";
     NSString * brushViewConstraintH = @"H:|-0-[brushView]-0-|";

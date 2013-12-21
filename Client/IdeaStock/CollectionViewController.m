@@ -24,8 +24,6 @@
 #import "CollectionScrollView.h"
 #import "ScreenCaptureService.h"
 #import "CollectionBoardView.h"
-#import "PaintbrushViewController.h"
-#import "PaintColorViewController.h"
 #import "ScreenDrawing.h"
 #import "UndoMessage.h"
 #import "PaintControlView.h"
@@ -1229,7 +1227,10 @@
 
 -(void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    
+    if (self.lastPopOver)
+    {
+        [self.lastPopOver dismissPopoverAnimated:NO];
+    }
     [self.paintControl adjustViewToBeInBoundsForRotation];
 }
 -(void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -1961,84 +1962,9 @@ intoStackingWithMainView: (UIView *) mainView
 
 #pragma mark - utilities bar
 
-#define COLOR_BOX_WIDTH 350
-#define COLOR_BOX_HEIGHT 300
-- (IBAction)colorPressed:(id)sender
-{
-    
-    if ([self.lastPopOver.contentViewController isKindOfClass:[PaintColorViewController class]])
-    {
-        [self.lastPopOver dismissPopoverAnimated:YES];
-        self.lastPopOver = nil;
-        return;
-    }
-    else if ([self.lastPopOver.contentViewController isKindOfClass:[PaintbrushViewController class]])
-    {
-        PaintbrushViewController * lastPopOver = (PaintbrushViewController *)self.lastPopOver.contentViewController;
-        CGFloat selectedWidth = lastPopOver.currentBrushWidth;
-        [self brushSelectedWithWidth:selectedWidth];
-    }
-    
-    PaintColorViewController * colorController = [self.storyboard instantiateViewControllerWithIdentifier:@"PaintColorViewController"];
-    colorController.currentBrushWidth = self.collectionView.currentWidth;
-    colorController.selectedColor = self.collectionView.currentColor;
-    colorController.delegate = self;
-    
-    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:colorController];
-    popover.popoverContentSize = CGSizeMake(COLOR_BOX_WIDTH, COLOR_BOX_HEIGHT);
-    popover.delegate = self;
-    [popover presentPopoverFromBarButtonItem:sender
-                    permittedArrowDirections:UIPopoverArrowDirectionAny
-                                    animated:YES];
-    
-    if (self.lastPopOver)
-    {
-        [self.lastPopOver dismissPopoverAnimated:YES];
-    }
-    self.lastPopOver = popover;
-}
-
 - (IBAction)captureBezierPressed:(id)sender
 {
     [self.collectionView debug_captureBezier];
-}
-
-#define BRUSH_BOX_WIDTH 350
-#define BRUSH_BOX_HEIGHT 200
-
-- (IBAction)brushPressed:(id)sender
-{
-    
-    //if we are tapping the button in order to close the pop over
-    if ([self.lastPopOver.contentViewController isKindOfClass:[PaintbrushViewController class]])
-    {
-        [self.lastPopOver dismissPopoverAnimated:YES];
-        self.lastPopOver = nil;
-        return;
-    }
-    else if ([self.lastPopOver.contentViewController isKindOfClass:[PaintColorViewController class]])
-    {
-        PaintColorViewController * lastPopOver = (PaintColorViewController *)self.lastPopOver.contentViewController;
-        UIColor * aColor = lastPopOver.selectedColor;
-        [self paintColorSelected:aColor];
-    }
-    
-    PaintbrushViewController * brushController = [self.storyboard instantiateViewControllerWithIdentifier:@"PaintbrushController"];
-    brushController.currentBrushWidth = self.collectionView.currentWidth;
-    brushController.currentColor = self.collectionView.currentColor;
-    brushController.delegate = self;
-    
-    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:brushController];
-    popover.popoverContentSize = CGSizeMake(BRUSH_BOX_WIDTH, BRUSH_BOX_HEIGHT);
-    popover.delegate = self;
-    [popover presentPopoverFromBarButtonItem:sender
-                    permittedArrowDirections:UIPopoverArrowDirectionAny
-                                    animated:YES];
-    if (self.lastPopOver)
-    {
-        [self.lastPopOver dismissPopoverAnimated:YES];
-    }
-    self.lastPopOver = popover;
 }
 
 - (IBAction)paintPressed:(id)sender
@@ -2517,7 +2443,7 @@ intoStackingWithMainView: (UIView *) mainView
     }
     
     UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:self.configController];
-    popover.popoverContentSize = CGSizeMake(300, 230);
+    popover.popoverContentSize = CGSizeMake(300, 250);
     popover.delegate = self;
     [popover presentPopoverFromRect:self.paintControl.frame
                              inView:self.paintControl.superview
