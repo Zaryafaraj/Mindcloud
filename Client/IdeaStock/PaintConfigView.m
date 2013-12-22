@@ -259,12 +259,12 @@
                                                                       constant:0];
     
     NSLayoutConstraint * undoHeight = [NSLayoutConstraint constraintWithItem:undoButton
-                                                                     attribute:NSLayoutAttributeCenterY
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:paintButton
-                                                                     attribute:NSLayoutAttributeCenterY
-                                                                    multiplier:1.0
-                                                                      constant:0];
+                                                                   attribute:NSLayoutAttributeCenterY
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:paintButton
+                                                                   attribute:NSLayoutAttributeCenterY
+                                                                  multiplier:1.0
+                                                                    constant:0];
     
     NSLayoutConstraint * eraserHeight = [NSLayoutConstraint constraintWithItem:eraseButton
                                                                      attribute:NSLayoutAttributeCenterY
@@ -275,28 +275,28 @@
                                                                       constant:0];
     
     NSLayoutConstraint * clearHeight = [NSLayoutConstraint constraintWithItem:clearButton
-                                                                     attribute:NSLayoutAttributeCenterY
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:paintButton
-                                                                     attribute:NSLayoutAttributeCenterY
-                                                                    multiplier:1.0
-                                                                      constant:0];
+                                                                    attribute:NSLayoutAttributeCenterY
+                                                                    relatedBy:NSLayoutRelationEqual
+                                                                       toItem:paintButton
+                                                                    attribute:NSLayoutAttributeCenterY
+                                                                   multiplier:1.0
+                                                                     constant:0];
     
     NSLayoutConstraint * undoSize = [NSLayoutConstraint constraintWithItem:undoButton
-                                                                     attribute:NSLayoutAttributeHeight
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:paintButton
-                                                                     attribute:NSLayoutAttributeHeight
-                                                                    multiplier:1.0
-                                                                      constant:0];
+                                                                 attribute:NSLayoutAttributeHeight
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:paintButton
+                                                                 attribute:NSLayoutAttributeHeight
+                                                                multiplier:1.0
+                                                                  constant:0];
     
     NSLayoutConstraint * eraserSize = [NSLayoutConstraint constraintWithItem:eraseButton
-                                                                     attribute:NSLayoutAttributeHeight
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:paintButton
-                                                                     attribute:NSLayoutAttributeHeight
-                                                                    multiplier:1.0
-                                                                      constant:0];
+                                                                   attribute:NSLayoutAttributeHeight
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:paintButton
+                                                                   attribute:NSLayoutAttributeHeight
+                                                                  multiplier:1.0
+                                                                    constant:0];
     
     NSLayoutConstraint * clearSize = [NSLayoutConstraint constraintWithItem:clearButton
                                                                   attribute:NSLayoutAttributeHeight
@@ -356,6 +356,16 @@
 - (void)sliderValueChanged:(id)sender {
     _currentBrushWidth = self.slider.value;
     self.brushView.lineWidth = _currentBrushWidth;
+    if (!self.isInPaintMode && !self.isInEraseMode)
+    {
+        self.isInPaintMode = YES;
+        id<PaintConfigDelegate> temp = self.delegate;
+        if (temp)
+        {
+            [temp paintModeActivated];
+            self.paintButton.tintColor = [[ThemeFactory currentTheme] tintColorForActivePaintControlButton];
+        }
+    }
 }
 
 -(void) undoPressed:(id) sender
@@ -408,7 +418,7 @@
     if (self.isInEraseMode)
     {
         self.isInEraseMode = NO;
-            self.eraserButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
+        self.eraserButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
     }
     else
     {
@@ -470,6 +480,22 @@
     if (temp)
     {
         [temp paintColorSelected:selectedColor];
+        if (!self.isInPaintMode)
+        {
+            self.isInPaintMode = YES;
+            
+            if (self.isInEraseMode)
+            {
+                self.isInEraseMode = NO;
+                self.eraserButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
+            }
+            id<PaintConfigDelegate> temp = self.delegate;
+            if (temp)
+            {
+                [temp paintModeActivated];
+                self.paintButton.tintColor = [[ThemeFactory currentTheme] tintColorForActivePaintControlButton];
+            }
+        }
     }
 }
 

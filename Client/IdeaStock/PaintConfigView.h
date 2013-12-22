@@ -17,6 +17,7 @@
 -(void) paintPressed;
 -(void) clearPressed;
 -(void) eraserPressed;
+-(void) paintModeActivated;
 
 @end
 

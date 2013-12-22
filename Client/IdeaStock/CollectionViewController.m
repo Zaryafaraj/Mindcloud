@@ -2415,6 +2415,7 @@ intoStackingWithMainView: (UIView *) mainView
 {
     [self.collectionView clearPaintedItems];
     [self.board sendClearMessage];
+    
 }
 
 -(void) eraserPressed
@@ -2445,6 +2446,11 @@ intoStackingWithMainView: (UIView *) mainView
             [self enablePaintMode];
         }
     }
+    
+    if (self.lastPopOver)
+    {
+        [self.lastPopOver dismissPopoverAnimated:YES];
+    }
 }
 
 -(void) paintPressed
@@ -2474,10 +2480,10 @@ intoStackingWithMainView: (UIView *) mainView
         self.paintControl.tintColor = [[ThemeFactory currentTheme] tintColorForActivePaintControl];
     }
     
-//    if (self.lastPopOver)
-//    {
-//        [self.lastPopOver dismissPopoverAnimated:YES];
-//    }
+    if (self.lastPopOver)
+    {
+        [self.lastPopOver dismissPopoverAnimated:YES];
+    }
 }
 
 -(void) brushSelectedWithWidth:(CGFloat)width
@@ -2488,6 +2494,21 @@ intoStackingWithMainView: (UIView *) mainView
 -(void) paintColorSelected:(UIColor *)color
 {
     self.collectionView.currentColor = color;
+}
+
+-(void) paintModeActivated
+{
+    if(self.isErasing)
+    {
+        self.isErasing = NO;
+        self.collectionView.eraseModeEnabled = NO;
+        self.paintControl.eraseMode = NO;
+    }
+    
+    self.isDrawing = YES;
+    self.isInPaintMode = YES;
+    [self enablePaintMode];
+    self.paintControl.tintColor = [[ThemeFactory currentTheme] tintColorForActivePaintControl];
 }
 
 @end
