@@ -88,7 +88,7 @@
 
 #define EDGE_OFFSET 10.0
 #define DISTANCE_BETWEEN_SLIDER_AND_COLORS 20
-#define DISTANCE_BETWEEN_BOTTOMS_AND_DIVIDER 18
+#define DISTANCE_BETWEEN_BOTTOMS_AND_DIVIDER 10
 #define DISTANCE_BETWEEN_DIVIDER 15
 #define DISTANCE_BETWEEN_BUTTONS 5
 #define ICON_SIZE 50
@@ -223,7 +223,7 @@
                                                                      relatedBy:NSLayoutRelationEqual
                                                                         toItem:colorView
                                                                      attribute:NSLayoutAttributeHeight
-                                                                    multiplier:0.25
+                                                                    multiplier:0.6
                                                                       constant:0];
     
     NSLayoutConstraint * brushViewWidth = [NSLayoutConstraint constraintWithItem:brushView
