@@ -565,7 +565,8 @@
 -(void) showIntroIfNeccessary
 {
    
-    if (![UserPropertiesHelper hasUserBeenRegesitered])
+    if (YES)
+    //if (![UserPropertiesHelper hasUserBeenRegesitered])
     {
         self.authenticator = [[MindcloudAuthenticator alloc] init];
         //        self.authenticator.delegate = self;
