@@ -567,6 +567,7 @@
     scrollView1.scrollEnabled = NO;
     scrollView1.translatesAutoresizingMaskIntoConstraints = NO;
     scrollView1.layer.borderColor = [UIColor whiteColor].CGColor;
+    scrollView1.layer.cornerRadius = 10;
     scrollView1.layer.borderWidth = 20;
     
     
@@ -577,6 +578,7 @@
     scrollView2.translatesAutoresizingMaskIntoConstraints = NO;
     scrollView2.scrollEnabled = NO;
     scrollView2.layer.borderColor = [UIColor whiteColor].CGColor;
+    scrollView2.layer.cornerRadius = 10;
     scrollView2.layer.borderWidth = 20;
     
     NSString * filePath = [[NSBundle mainBundle] pathForResource:PAGE2_DRAWING_FILEPATH ofType:DRAWING_FILE_TYPE];
