@@ -30,7 +30,13 @@
 
 -(UIColor *) colorForPaintControl;
 
+-(UIColor *) tintColorForActivePaintControl;
+
+-(UIColor *) tintColorForInactivePaintControl;
+
 -(UIImage *) imageForPaintControl;
+
+-(UIImage *) imageForPaintControlEraser;
 
 -(UIImage *) iconForUndoControl;
 
@@ -39,5 +45,9 @@
 -(UIImage *) iconForClearControl;
 
 -(UIImage *) iconForEraseControl;
+
+-(UIColor *) tintColorForActivePaintControlButton;
+
+-(UIColor *) tintColorForInactivePaintControlButton;
 
 @end

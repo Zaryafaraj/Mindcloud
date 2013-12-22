@@ -14,6 +14,7 @@
 #import "CollectionBoardDelegate.h"
 #import "PaintControlView.h"
 #import "PushWithFrictionBehavior.h"
+#import "PaintConfigViewController.h"
 
 @interface CollectionViewController : UIViewController<
 UIScrollViewDelegate,
@@ -26,7 +27,8 @@ UINavigationControllerDelegate,
 UIActionSheetDelegate,
 UIPopoverControllerDelegate,
 PaintControlViewDelegate,
-PushWithFrictionBehaviorDelegate>
+PushWithFrictionBehaviorDelegate,
+PaintConfigDelegate>
 
 @property (strong,nonatomic) NSString * bulletinBoardName;
 @property (strong, nonatomic) MindcloudCollection * board;

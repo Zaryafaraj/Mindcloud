@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PaintConfigView.h"
 
 @interface PaintConfigViewController : UIViewController
 
 @property (nonatomic, strong) UIColor * currentColor;
 @property (nonatomic) CGFloat currentWidth;
+
+@property (nonatomic, weak) id<PaintConfigDelegate> delegate;
 
 @end

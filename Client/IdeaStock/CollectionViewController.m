@@ -36,9 +36,7 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem * deleteButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem * expandButton;
-@property (weak, nonatomic) IBOutlet UIToolbar *actionBar;
 
-@property (strong, nonatomic) NSArray * paintToolbarItems;
 @property (strong, nonatomic) NSArray * normalActionBarItems;
 
 @property (weak, nonatomic) IBOutlet CollectionBoardView * collectionView;
@@ -64,8 +62,9 @@
 @property (strong, nonatomic) IBOutlet NoteView *prototypeNoteView;
 @property (strong, nonatomic) IBOutlet ImageNoteView *prototypeImageView;
 
-@property BOOL isPainting;
+@property BOOL isInPaintMode;
 @property BOOL isErasing;
+@property BOOL isDrawing;
 
 @property (strong, nonatomic) UIDynamicAnimator * animator;
 
@@ -1097,7 +1096,6 @@
     [self configureScrollView];
     self.shouldRefresh = YES;
     [self configureToolbar];
-    [self configureActionBar];
     
     
     self.navigationItem.rightBarButtonItems = [self.toolbar.items copy];
@@ -1202,27 +1200,6 @@
     [toolbarItems removeObject:self.deleteButton];
     [toolbarItems removeObject:self.expandButton];
     self.toolbar.items = toolbarItems;
-}
-
--(void) configureActionBar
-{
-    NSArray * toolbarItems = self.actionBar.items;
-    NSMutableArray * normalToolbar = [NSMutableArray array];
-    NSMutableArray * paintToolbarArray = [NSMutableArray array];
-    for (int i = toolbarItems.count - 1; i >=0 ; i--)
-    {
-        //add empty spaces, camera, and paint
-        //TODO this seems very ugly. Is there any better way to do toolbar dancing ?
-        if (i == 0 || i == toolbarItems.count - 1 || i == toolbarItems.count - 2)
-        {
-            [normalToolbar addObject:toolbarItems[i]];
-        }
-        
-        [paintToolbarArray addObject:toolbarItems[i]];
-    }
-    self.actionBar.items = [[normalToolbar reverseObjectEnumerator] allObjects];
-    self.paintToolbarItems = [[paintToolbarArray reverseObjectEnumerator] allObjects];
-    self.normalActionBarItems = self.actionBar.items;
 }
 
 -(void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -1969,30 +1946,6 @@ intoStackingWithMainView: (UIView *) mainView
 
 - (IBAction)paintPressed:(id)sender
 {
-    if (self.isPainting)
-    {
-        self.isPainting = NO;
-        ((UIBarButtonItem *) sender).tintColor = [UIColor whiteColor];
-        self.actionBar.items = self.normalActionBarItems;
-        [self disablePaintMode];
-    }
-    else
-    {
-        UIColor * color = [[ThemeFactory currentTheme] tintColor];
-        self.isPainting = YES;
-        ((UIBarButtonItem *) sender).tintColor = color;
-        self.actionBar.items = self.paintToolbarItems;
-        [self enablePaintMode];
-    }
-}
-
-- (IBAction)clearPressed:(id)sender
-{
-    if (self.isPainting)
-    {
-        [self.collectionView clearPaintedItems];
-        [self.board sendClearMessage];
-    }
 }
 
 -(void) disablePaintMode
@@ -2001,33 +1954,6 @@ intoStackingWithMainView: (UIView *) mainView
     for (NoteView * note in self.noteViews.allValues)
     {
         [note disablePaintMode];
-    }
-}
-
-- (IBAction)erasePressed:(id)sender
-{
-    if (self.isErasing)
-    {
-        ((UIBarButtonItem *) sender).tintColor = [UIColor whiteColor];
-        self.isErasing = NO;
-    }
-    else
-    {
-        UIColor * color = [[ThemeFactory currentTheme] tintColor];
-        ((UIBarButtonItem *) sender).tintColor = color;
-        self.isErasing = YES;
-    }
-    
-    self.collectionView.eraseModeEnabled = self.isErasing;
-}
-
-- (IBAction)undoPressed:(id)sender
-{
-    NSInteger orderIndex = [self.collectionView undo:NO];
-    NSNumber * orderIndexObj = [NSNumber numberWithInteger:orderIndex];
-    if (orderIndex > -1)
-    {
-        [self.board sendUndoMessage:@[orderIndexObj]];
     }
 }
 
@@ -2392,20 +2318,6 @@ intoStackingWithMainView: (UIView *) mainView
     //[self doubledTappedLocation:location];
 }
 
-#pragma mark - paintBrushDelegate
-
--(void) brushSelectedWithWidth:(CGFloat)width
-{
-    self.collectionView.currentWidth = width;
-}
-
-#pragma mark - paintColorDelegate
-
--(void) paintColorSelected:(UIColor *)color
-{
-    self.collectionView.currentColor = color;
-}
-
 #pragma mark - paintControlDelegate
 -(void) controlReleasedWithVelocity:(CGPoint) velocity
                   withPushDirection:(CGVector) directionVector
@@ -2440,6 +2352,7 @@ intoStackingWithMainView: (UIView *) mainView
         
         PaintConfigViewController * configController = [[PaintConfigViewController alloc] init];
         self.configController = configController;
+        self.configController.delegate = self;
     }
     
     UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:self.configController];
@@ -2456,7 +2369,7 @@ intoStackingWithMainView: (UIView *) mainView
     self.lastPopOver = popover;
 }
 
-#pragma PushWithFrictionDelegate
+#pragma mark PushWithFrictionDelegate
 
 -(void) collisionHappened
 {
@@ -2472,6 +2385,96 @@ intoStackingWithMainView: (UIView *) mainView
         }
         
     });
+}
+
+#pragma mark PaintConfigDelegate
+-(void) undoPressed
+{
+    NSInteger orderIndex = [self.collectionView undo:NO];
+    NSNumber * orderIndexObj = [NSNumber numberWithInteger:orderIndex];
+    if (orderIndex > -1)
+    {
+        [self.board sendUndoMessage:@[orderIndexObj]];
+    }
+}
+
+-(void) clearPressed
+{
+    [self.collectionView clearPaintedItems];
+    [self.board sendClearMessage];
+}
+
+-(void) eraserPressed
+{
+
+    if (self.isErasing)
+    {
+        self.isErasing = NO;
+        self.collectionView.eraseModeEnabled = NO;
+        self.paintControl.eraseMode = NO;
+        self.isInPaintMode = NO;
+        [self disablePaintMode];
+    }
+    else
+    {
+        self.isErasing = YES;
+        self.collectionView.eraseModeEnabled = YES;
+        self.paintControl.eraseMode = YES;
+        self.isInPaintMode = YES;
+        
+        if (self.isDrawing)
+        {
+            self.isDrawing = NO;
+            self.paintControl.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControl];
+        }
+        else
+        {
+            [self enablePaintMode];
+        }
+    }
+}
+
+-(void) paintPressed
+{
+    if (self.isDrawing)
+    {
+        self.isDrawing = NO;
+        self.isInPaintMode = NO;
+        [self disablePaintMode];
+        self.paintControl.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControl];
+    }
+    else
+    {
+        self.isDrawing = YES;
+        self.isInPaintMode = YES;
+        if (self.isErasing)
+        {
+            self.isErasing = NO;
+            self.collectionView.eraseModeEnabled = NO;
+            self.paintControl.eraseMode = NO;
+        }
+        else
+        {
+            [self enablePaintMode];
+        }
+        
+        self.paintControl.tintColor = [[ThemeFactory currentTheme] tintColorForActivePaintControl];
+    }
+    
+//    if (self.lastPopOver)
+//    {
+//        [self.lastPopOver dismissPopoverAnimated:YES];
+//    }
+}
+
+-(void) brushSelectedWithWidth:(CGFloat)width
+{
+    self.collectionView.currentWidth = width;
+}
+
+-(void) paintColorSelected:(UIColor *)color
+{
+    self.collectionView.currentColor = color;
 }
 
 @end

@@ -13,6 +13,8 @@
 
 @property (nonatomic) CGPoint lastTranslation;
 
+@property (nonatomic, strong) UIImageView * imgView;
+
 @end
 
 @implementation PaintControlView
@@ -35,7 +37,8 @@
         //self.translatesAutoresizingMaskIntoConstraints = NO;
         UIImage * img = [[ThemeFactory currentTheme] imageForPaintControl];
         UIImageView * imgView = [[UIImageView alloc] initWithImage:img];
-        imgView.tintColor = [UIColor whiteColor];
+        self.imgView = imgView;
+        imgView.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControl];
         [self addSubview:imgView];
         
         imgView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -82,6 +85,22 @@
     return self;
 }
 
+-(void) setEraseMode:(BOOL)eraseMode
+{
+    if (eraseMode)
+    {
+        self.imgView.image = [[ThemeFactory currentTheme] imageForPaintControlEraser];
+    }
+    else
+    {
+        
+        self.imgView.image = [[ThemeFactory currentTheme] imageForPaintControl];
+    }
+}
+-(void) setTintColor:(UIColor *)tintColor
+{
+    self.imgView.tintColor = tintColor;
+}
 -(void) controlTapped: (UITapGestureRecognizer *) sender
 {
     id<PaintControlViewDelegate> temp = self.delegate;

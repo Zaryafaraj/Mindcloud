@@ -34,6 +34,16 @@
     return self;
 }
 
+-(id<PaintConfigDelegate>) delegate
+{
+    return ((PaintConfigView *)self.view).delegate;
+}
+
+-(void) setDelegate:(id<PaintConfigDelegate>)delegate
+{
+    ((PaintConfigView *)self.view).delegate = delegate;
+}
+
 -(UIColor *) currentColor
 {
     return ((PaintConfigView *)self.view).selectedColor;

@@ -28,6 +28,9 @@
 @property (strong, nonatomic) UIButton * eraserButton;
 @property (strong, nonatomic) UIButton * clearButton;
 
+@property (nonatomic,assign) BOOL isInPaintMode;
+@property (nonatomic,assign) BOOL isInEraseMode;
+
 @end
 
 @implementation PaintConfigView
@@ -150,7 +153,7 @@
     UIImage * btnImage = [[ThemeFactory currentTheme] iconForUndoControl];
     [self.undoButton setImage:btnImage
                      forState:UIControlStateNormal];
-    self.undoButton.tintColor = [UIColor darkGrayColor];
+    self.undoButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
     [self addSubview:self.undoButton];
     
     UIButton * paintButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -161,7 +164,7 @@
     btnImage = [[ThemeFactory currentTheme] iconForPaintControl];
     [self.paintButton setImage:btnImage
                       forState:UIControlStateNormal];
-    self.paintButton.tintColor = [UIColor darkGrayColor];
+    self.paintButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
     self.paintButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.paintButton];
     
@@ -173,7 +176,7 @@
     btnImage = [[ThemeFactory currentTheme] iconForEraseControl];
     [self.eraserButton setImage:btnImage
                        forState:UIControlStateNormal];
-    self.eraserButton.tintColor = [UIColor darkGrayColor];
+    self.eraserButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
     self.eraserButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.eraserButton];
     
@@ -187,7 +190,7 @@
     btnImage = [[ThemeFactory currentTheme] iconForClearControl];
     [self.clearButton setImage:btnImage
                       forState:UIControlStateNormal];
-    self.clearButton.tintColor = [UIColor darkGrayColor];
+    self.clearButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
     [self addSubview:self.clearButton];
     
     UIView *lineView = [[UIView alloc] init];
@@ -367,6 +370,23 @@
 
 -(void) paintPressed:(id) sender
 {
+    if (self.isInPaintMode)
+    {
+        self.isInPaintMode = NO;
+        self.paintButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
+    }
+    else
+    {
+        self.isInPaintMode = YES;
+        self.paintButton.tintColor = [[ThemeFactory currentTheme] tintColorForActivePaintControlButton];
+        
+        if (self.isInEraseMode)
+        {
+            self.isInEraseMode = NO;
+            self.eraserButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
+        }
+    }
+    
     id<PaintConfigDelegate> temp = self.delegate;
     if (temp)
     {
@@ -385,6 +405,21 @@
 
 -(void) eraserPressed:(id) sender
 {
+    if (self.isInEraseMode)
+    {
+        self.isInEraseMode = NO;
+            self.eraserButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
+    }
+    else
+    {
+        self.isInEraseMode = YES;
+        self.eraserButton.tintColor = [[ThemeFactory currentTheme] tintColorForActivePaintControlButton];
+        if (self.isInPaintMode)
+        {
+            self.isInPaintMode = NO;
+            self.paintButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
+        }
+    }
     id<PaintConfigDelegate> temp = self.delegate;
     if (temp)
     {

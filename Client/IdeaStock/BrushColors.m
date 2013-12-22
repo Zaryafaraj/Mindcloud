@@ -80,6 +80,7 @@
                     peter,
                     emerald,
                     turquoise,
+                    windRed,
                     rainBlue,
                     grassGreen,
                     portlandYellow,

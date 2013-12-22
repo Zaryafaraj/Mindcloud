@@ -25,6 +25,8 @@
 
 @property (nonatomic) CGFloat topOffset;
 
+@property (nonatomic) BOOL eraseMode;
+
 -(void) adjustViewToBeInBoundsForRotation;
 
 -(void) adjustToClosestEdge;

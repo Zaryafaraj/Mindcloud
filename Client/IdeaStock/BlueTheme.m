@@ -68,12 +68,18 @@
 
 -(UIColor *) colorForPaintControl
 {
-    return [UIColor redColor];
+    return [UIColor colorWithHue:0.975 saturation:1.000 brightness:0.974 alpha:1.000];
 }
 
 -(UIImage *) imageForPaintControl
 {
     UIImage * img = [UIImage imageNamed:@"paint-control-icon"];
+    return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
+-(UIImage *) imageForPaintControlEraser
+{
+    UIImage * img = [UIImage imageNamed:@"paint-control-eraser"];
     return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
@@ -99,6 +105,27 @@
 {
     UIImage * img = [UIImage imageNamed:@"eraser-round"];
     return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
+-(UIColor *) tintColorForActivePaintControl
+{
+    return [UIColor colorWithWhite:0.20 alpha:1];
+}
+
+-(UIColor *) tintColorForInactivePaintControl
+{
+    
+    return [UIColor whiteColor];
+}
+
+-(UIColor *) tintColorForActivePaintControlButton
+{
+    return [self tintColor];
+}
+
+-(UIColor *) tintColorForInactivePaintControlButton
+{
+    return [UIColor darkGrayColor];
 }
 
 @end
