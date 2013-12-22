@@ -128,4 +128,15 @@
     return [UIColor darkGrayColor];
 }
 
+-(UIImage *) imageForDeleteIcon
+{
+    
+    UIImage * img = [UIImage imageNamed:@"delete-round"];
+    return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
+-(UIColor *) tintColorForDeleteIcon
+{
+    return [UIColor colorWithWhite:0.15 alpha:0.7];
+}
 @end

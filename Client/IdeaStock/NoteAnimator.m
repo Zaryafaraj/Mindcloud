@@ -17,6 +17,7 @@
 #define HIGHLIGHT_ADDITONAL_RADIUS 3
 
 +(void) animateNoteHighlighted:(NoteView *) note
+              withDeleteButton:(UIButton *) deleteButton
 {
     CALayer * layer = note.layer;
     layer.transform = CATransform3DIdentity;
@@ -53,9 +54,22 @@
     shadowRadiusAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
     shadowRadiusAnimation.duration = HIGHLIGHT_DURATION;
     [layer addAnimation:shadowRadiusAnimation forKey:@"shadowRadius"];
+    
+    deleteButton.hidden = NO;
+    deleteButton.transform = CGAffineTransformIdentity;
+    deleteButton.transform = CGAffineTransformScale(deleteButton.transform, 0.1, 0.1);
+    [UIView animateWithDuration:1
+                          delay:0
+         usingSpringWithDamping:0.6
+          initialSpringVelocity:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         deleteButton.transform = CGAffineTransformScale(deleteButton.transform, 10, 10);
+                     }completion:^(BOOL completed){}];
 }
 
 +(void) animateNoteUnhighlighted:(NoteView *) note
+                withDeleteButton:(UIButton *) deleteButton
 {
     
     CALayer * layer = note.layer;
@@ -91,6 +105,17 @@
     shadowRadiusAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     shadowRadiusAnimation.duration = HIGHLIGHT_DURATION;
     [layer addAnimation:shadowRadiusAnimation forKey:@"shadowRadius"];
+    
+    [UIView animateWithDuration:1
+                          delay:0
+         usingSpringWithDamping:0.8
+          initialSpringVelocity:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         deleteButton.transform = CGAffineTransformScale(deleteButton.transform, 0.001, 0.001);
+                     }completion:^(BOOL completed){
+                         deleteButton.hidden = YES;
+                     }];
 }
 
 @end

@@ -594,12 +594,6 @@
                                                             <action selector="expandPressed:" destination="9HL-37-GHp" id="H7n-CG-mWp"/>
                                                         </connections>
                                                     </barButtonItem>
-                                                    <barButtonItem systemItem="trash" id="x4X-3T-v6V">
-                                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                        <connections>
-                                                            <action selector="deletePressed:" destination="9HL-37-GHp" id="xZZ-fC-Lev"/>
-                                                        </connections>
-                                                    </barButtonItem>
                                                 </items>
                                                 <color key="barTintColor" red="0.26666666666666666" green="0.47058823529411764" blue="0.792156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                             </toolbar>
@@ -627,7 +621,6 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="efj-z7-K4y" id="Bka-NP-n1K"/>
-                        <outlet property="deleteButton" destination="x4X-3T-v6V" id="Hdn-vV-kUf"/>
                         <outlet property="expandButton" destination="3Cp-b8-UFf" id="FHP-RN-s23"/>
                         <outlet property="parentScrollView" destination="QXW-F8-5QD" id="t8h-Yl-a0E"/>
                         <outlet property="patternView" destination="PF9-Vp-upE" id="zOE-RW-QIU"/>

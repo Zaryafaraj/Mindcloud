@@ -34,7 +34,6 @@
 
 #pragma mark - UI Elements
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem * deleteButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem * expandButton;
 
 @property (strong, nonatomic) NSArray * normalActionBarItems;
@@ -1208,7 +1207,6 @@
 -(void) configureToolbar
 {
     NSMutableArray * toolbarItems = [self.toolbar.items mutableCopy];
-    [toolbarItems removeObject:self.deleteButton];
     [toolbarItems removeObject:self.expandButton];
     self.toolbar.items = toolbarItems;
 }
@@ -1320,19 +1318,8 @@
     }
 }
 
--(IBAction) deletePressed:(id) sender {
-    
-    if(!self.editMode) return;
-    
-    [self removeContextualToolbarItems:self.highlightedView];
-    
-    if ([self.highlightedView isKindOfClass:[StackView class]]){
-        [self deleteStack:(StackView *) self.highlightedView];
-    }
-    else if ([self.highlightedView isKindOfClass:[NoteView class]]){
-        
-        [self deleteNote:(NoteView *) self.highlightedView];
-    }
+-(void) deletePressed:(id) sender
+{
 }
 
 -(void) cleanupCollection
@@ -1979,7 +1966,6 @@ intoStackingWithMainView: (UIView *) mainView
 -(void) removeContextualToolbarItems:(UIView *) contextView{
     
     NSMutableArray * newToolbarItems = [self.navigationItem.rightBarButtonItems mutableCopy];
-    [newToolbarItems removeObject:self.deleteButton];
     if( [contextView isKindOfClass:[StackView class]])
     {
         [newToolbarItems removeObject:self.expandButton];
@@ -1993,7 +1979,6 @@ intoStackingWithMainView: (UIView *) mainView
     if ( [contextView isKindOfClass:[StackView class]]){
         [newToolbarItems addObject:self.expandButton];
     }
-    [newToolbarItems addObject:self.deleteButton];
     self.navigationItem.rightBarButtonItems = newToolbarItems;
 }
 
@@ -2132,6 +2117,22 @@ intoStackingWithMainView: (UIView *) mainView
     }
 }
 
+
+-(void) noteDeletePressed:(id) note
+{
+    if(!self.editMode) return;
+    
+    [self removeContextualToolbarItems:self.highlightedView];
+    
+    if ([self.highlightedView isKindOfClass:[StackView class]]){
+        [self deleteStack:(StackView *) self.highlightedView];
+    }
+    else if ([self.highlightedView isKindOfClass:[NoteView class]]){
+        
+        [self deleteNote:(NoteView *) self.highlightedView];
+    }
+    
+}
 
 #pragma mark - action sheet delegate
 

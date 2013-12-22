@@ -50,4 +50,8 @@
 
 -(UIColor *) tintColorForInactivePaintControlButton;
 
+-(UIImage *) imageForDeleteIcon;
+
+-(UIColor *) tintColorForDeleteIcon;
+
 @end

@@ -11,8 +11,10 @@
 
 @interface NoteAnimator : NSObject
 
-+(void) animateNoteHighlighted:(NoteView *) note;
++(void) animateNoteHighlighted:(NoteView *) note
+              withDeleteButton:(UIButton *) deleteButton;
 
-+(void) animateNoteUnhighlighted:(NoteView *) note;
++(void) animateNoteUnhighlighted:(NoteView *) note
+                withDeleteButton:(UIButton *) deleteButton;
 
 @end

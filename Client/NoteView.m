@@ -16,6 +16,7 @@
 
 @property (nonatomic) CGRect originalFrame;
 @property (nonatomic) CGRect lastFrame;
+@property (nonatomic) UIButton * deleteButton;
 
 @end
 
@@ -149,13 +150,29 @@
 -(void) setHighlighted:(BOOL) highlighted
 {
     _highlighted = highlighted;
+    if (!self.deleteButton)
+    {
+        UIButton * delButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        self.deleteButton = delButton;
+        [self.deleteButton addTarget:self
+                              action:@selector(deletePressed:)
+                    forControlEvents:UIControlEventTouchDown];
+        
+        UIImage * btnImage = [[ThemeFactory currentTheme] imageForDeleteIcon];
+        [self.deleteButton setImage:btnImage
+                           forState:UIControlStateNormal];
+        [self addSubview:self.deleteButton];
+        self.deleteButton.frame = CGRectMake(10,10 , 40, 40);
+        self.deleteButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
+    }
+    
     if (highlighted)
     {
-        [NoteAnimator animateNoteHighlighted:self];
+        [NoteAnimator animateNoteHighlighted:self withDeleteButton:self.deleteButton];
     }
     else
     {
-        [NoteAnimator animateNoteUnhighlighted:self];
+        [NoteAnimator animateNoteUnhighlighted:self withDeleteButton:self.deleteButton];
     }
 }
 
@@ -273,6 +290,16 @@
 -(void) disablePaintMode
 {
     self._textView.userInteractionEnabled = YES;
+}
+
+-(void) deletePressed:(id)sender
+{
+    id<NoteViewDelegate> temp = self.delegate;
+    if (temp)
+    {
+        [temp noteDeletePressed:self];
+    }
+    
 }
 
 -(void) resizeToRect:(CGRect) rect
