@@ -36,6 +36,8 @@
 
 @property (nonatomic) BOOL hasUnsavedClear;
 
+@property (nonatomic) NSTimeInterval lastTouchTime;
+
 @end
 
 @implementation CollectionBoardView
@@ -271,18 +273,27 @@
         return;
     }
     
+    if (!self.drawingEnabled) return;
+    
     UITouch * touch = [touches anyObject];
+    NSTimeInterval now = event.timestamp;
+    NSTimeInterval timeDiff = now - self.lastTouchTime;
+    self.lastTouchTime = now;
+    NSLog(@"--->> %f", timeDiff);
     if (touch.tapCount == 2)
     {
-//        id<CollectionBoardDelegate> temp =  self.delegate;
-//        if (temp)
-//        {
-//            [temp doubleTapDetectedAtLocation:[touch locationInView:self]];
-//        }
-//        [self undo:YES];
-//        return;
+        if (timeDiff <= 0.2)
+        {
+        
+            id<CollectionBoardDelegate> temp =  self.delegate;
+            if (temp)
+            {
+                [temp doubleTapDetectedAtLocation:[touch locationInView:self]];
+            }
+            [self undo:YES];
+            return;
+        }
     }
-    if (!self.drawingEnabled) return;
     
     id<CollectionBoardDelegate> temp = self.delegate;
     if (temp)

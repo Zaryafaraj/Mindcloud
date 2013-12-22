@@ -145,7 +145,6 @@
 
 -(void) disablePaintMode
 {
-    
     self.scrollEnabled = YES;
     self.delaysContentTouches = NO;
     [self.surrogateView hidePaintLayer];

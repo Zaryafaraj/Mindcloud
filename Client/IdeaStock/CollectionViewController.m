@@ -2304,7 +2304,6 @@ intoStackingWithMainView: (UIView *) mainView
     if ([diffDrawings hasAnyThingToSave])
     {
         self.drawingsAreUnsaved = YES;
-        NSLog(@"CollectionViewController- Saving Diffs: %@ ", [diffDrawings debugDescription]);
         [self.collectionView resetTouchRecorder];
         [self.board promiseSavingDrawings];
         if ([diffDrawings hasDiffToSend])
@@ -2329,7 +2328,7 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) doubleTapDetectedAtLocation:(CGPoint)location
 {
-    //[self doubledTappedLocation:location];
+    [self doubledTappedLocation:location];
 }
 
 #pragma mark - paintControlDelegate
