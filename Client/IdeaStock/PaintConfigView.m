@@ -134,13 +134,13 @@
     self.slider = slider;
     self.slider.minimumValue = self.minBrushWidth;
     self.slider.maximumValue = self.maxBrushWidth;
-    self.slider.value = self.currentBrushWidth;
     [self.slider addTarget:self
                     action:@selector(sliderValueChanged:)
           forControlEvents:UIControlEventValueChanged];
     self.slider.translatesAutoresizingMaskIntoConstraints = NO;
     self.slider.maximumValue = MAX_BRUSH_WIDTH;
     self.slider.minimumValue = MIN_BRUSH_WIDTH;
+    self.slider.value = self.currentBrushWidth;
     [self addSubview:self.slider];
     
     

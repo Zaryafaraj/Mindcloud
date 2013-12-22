@@ -64,6 +64,14 @@
     ((PaintConfigView *)self.view).currentBrushWidth = currentWidth;
 }
 
+-(void) viewWillDisappear:(BOOL)animated
+{
+    id<PaintConfigDelegate> temp = self.delegate;
+    if (temp)
+    {
+        [temp brushSelectedWithWidth:self.currentWidth];
+    }
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
