@@ -530,7 +530,14 @@
 -(void) sanitizeNoteViewForCollectionView:(NoteView *) view
 {
     for (UIGestureRecognizer * gr in view.gestureRecognizers){
-        [view removeGestureRecognizer:gr];
+        if ([gr isKindOfClass:[UILongPressGestureRecognizer class]])
+        {
+            continue;
+        }
+        else
+        {
+            [view removeGestureRecognizer:gr];
+        }
     }
     
     [self addGestureRecognizersToNote:view];
@@ -709,6 +716,10 @@
 
 -(void) screenPressed:(UILongPressGestureRecognizer *) sender
 {
+    if (self.isInPaintMode)
+    {
+        [self.collectionView cleanupPinchArtifacts];
+    }
     if (self.pushBehavior)
     {
         [self.animator removeAllBehaviors];
@@ -2309,7 +2320,10 @@ intoStackingWithMainView: (UIView *) mainView
     self.parentScrollView.delaysContentTouches = NO;
     for (UIGestureRecognizer * gr in self.collectionView.gestureRecognizers)
     {
-        gr.enabled = NO;
+        if (![gr isKindOfClass:[UILongPressGestureRecognizer class]])
+        {
+            gr.enabled = NO;
+        }
     }
 }
 
