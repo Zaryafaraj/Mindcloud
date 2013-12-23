@@ -101,7 +101,7 @@
     layoutManager.minimumLineSpacing = 0;
     layoutManager.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     layoutManager.sectionInset = UIEdgeInsetsZero;
-    layoutManager.itemSize = CGSizeMake(50, 50);
+    layoutManager.itemSize = CGSizeMake(70, 50);
     
     UICollectionView * colorView = [[UICollectionView alloc] initWithFrame:CGRectZero
                                                       collectionViewLayout:layoutManager];
