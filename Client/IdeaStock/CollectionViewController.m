@@ -1908,11 +1908,14 @@ intoStackingWithMainView: (UIView *) mainView
 
 #pragma mark - Gesture recoginizers
 
+#define MINIMUM_OBJECT_PRESS_DURATION 0.16
+
 -(void) addGestureRecognizersToNote:(NoteView *)note
 {
     UIPanGestureRecognizer * gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(objectPanned:)];
     UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
     UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
+    lpgr.minimumPressDuration = MINIMUM_OBJECT_PRESS_DURATION;
     UIRotationGestureRecognizer * rgr = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(objectRotated:)];
     
     [note addGestureRecognizer:lpgr];
@@ -1927,6 +1930,7 @@ intoStackingWithMainView: (UIView *) mainView
     UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stackTapped:)];
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
+    lpgr.minimumPressDuration = MINIMUM_OBJECT_PRESS_DURATION;
     UIRotationGestureRecognizer * rgr = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(objectRotated:)];
     
     [stack addGestureRecognizer:gr];
@@ -1936,12 +1940,12 @@ intoStackingWithMainView: (UIView *) mainView
     [stack addGestureRecognizer:rgr];
 }
 
-#define MINIMUM_PRESS_DURATION 0.18
+#define MINIMUM_SCREEN_PRESS_DURATION 0.18
 -(void) addCollectionViewGestureRecognizersToCollectionView: (UIView *) collectionView
 {
     UILongPressGestureRecognizer * gr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(screenPressed:)];
     
-    gr.minimumPressDuration = MINIMUM_PRESS_DURATION;
+    gr.minimumPressDuration = MINIMUM_SCREEN_PRESS_DURATION;
     UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenTapped:)];
     [collectionView addGestureRecognizer:gr];
     [collectionView addGestureRecognizer:tgr];
