@@ -2453,7 +2453,7 @@ intoStackingWithMainView: (UIView *) mainView
     
     if (self.lastPopOver)
     {
-        [self.lastPopOver dismissPopoverAnimated:YES];
+        [self.lastPopOver dismissPopoverAnimated:NO];
     }
 }
 
@@ -2486,7 +2486,7 @@ intoStackingWithMainView: (UIView *) mainView
     
     if (self.lastPopOver)
     {
-        [self.lastPopOver dismissPopoverAnimated:YES];
+        [self.lastPopOver dismissPopoverAnimated:NO];
     }
 }
 
