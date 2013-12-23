@@ -68,7 +68,8 @@
 
 -(UIColor *) colorForPaintControl
 {
-    return [UIColor colorWithHue:0.975 saturation:1.000 brightness:0.974 alpha:1.000];
+    return [self tintColor];
+    //return [UIColor colorWithHue:0.975 saturation:1.000 brightness:0.974 alpha:1.000];
 }
 
 -(UIImage *) imageForPaintControl
@@ -109,13 +110,13 @@
 
 -(UIColor *) tintColorForActivePaintControl
 {
-    return [UIColor colorWithWhite:0.20 alpha:1];
+    return [UIColor whiteColor];
 }
 
 -(UIColor *) tintColorForInactivePaintControl
 {
     
-    return [UIColor whiteColor];
+    return [UIColor colorWithWhite:1.0 alpha:0.5];
 }
 
 -(UIColor *) tintColorForActivePaintControlButton
@@ -137,6 +138,6 @@
 
 -(UIColor *) tintColorForDeleteIcon
 {
-    return [UIColor colorWithWhite:0.15 alpha:0.7];
+    return [UIColor colorWithWhite:0.35 alpha:0.7];
 }
 @end

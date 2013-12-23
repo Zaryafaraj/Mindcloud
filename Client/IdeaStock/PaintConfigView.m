@@ -164,7 +164,8 @@
     btnImage = [[ThemeFactory currentTheme] iconForPaintControl];
     [self.paintButton setImage:btnImage
                       forState:UIControlStateNormal];
-    self.paintButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
+    self.paintButton.tintColor = [[ThemeFactory currentTheme] tintColorForActivePaintControlButton];
+    self.isInPaintMode = YES;
     self.paintButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.paintButton];
     

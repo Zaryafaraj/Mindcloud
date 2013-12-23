@@ -162,7 +162,7 @@
         [self.deleteButton setImage:btnImage
                            forState:UIControlStateNormal];
         [self addSubview:self.deleteButton];
-        self.deleteButton.frame = CGRectMake(10,10 , 40, 40);
+        self.deleteButton.frame = CGRectMake(-20,-20 , 40, 40);
         self.deleteButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
     }
     
@@ -284,12 +284,12 @@
 
 -(void) enablePaintMode
 {
-    self._textView.userInteractionEnabled = NO;
+    //self._textView.userInteractionEnabled = NO;
 }
 
 -(void) disablePaintMode
 {
-    self._textView.userInteractionEnabled = YES;
+    //self._textView.userInteractionEnabled = YES;
 }
 
 -(void) deletePressed:(id)sender

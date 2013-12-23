@@ -58,7 +58,7 @@
     deleteButton.hidden = NO;
     deleteButton.transform = CGAffineTransformIdentity;
     deleteButton.transform = CGAffineTransformScale(deleteButton.transform, 0.1, 0.1);
-    [UIView animateWithDuration:1
+    [UIView animateWithDuration:0.6
                           delay:0
          usingSpringWithDamping:0.6
           initialSpringVelocity:0
@@ -106,7 +106,7 @@
     shadowRadiusAnimation.duration = HIGHLIGHT_DURATION;
     [layer addAnimation:shadowRadiusAnimation forKey:@"shadowRadius"];
     
-    [UIView animateWithDuration:1
+    [UIView animateWithDuration:0.6
                           delay:0
          usingSpringWithDamping:0.8
           initialSpringVelocity:0

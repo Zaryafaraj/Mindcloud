@@ -37,7 +37,7 @@
         [self setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
         
         [self setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {
-            MMDrawerControllerDrawerVisualStateBlock block = [MMDrawerVisualState swingingDoorVisualStateBlock];
+            MMDrawerControllerDrawerVisualStateBlock block = [MMDrawerVisualState slideAndScaleVisualStateBlock];
             if(block){
                 block(drawerController, drawerSide, percentVisible);
             }

@@ -115,7 +115,7 @@
 
 
 //have done performance tests and reached 100. Do not change
-#define GRID_CELL_SIZE 1000
+#define GRID_CELL_SIZE 200
 #define VIEW_WIDTH 2000
 #define VIEW_HEIGHT 2000
 -(void) configurePaintLayer
@@ -136,7 +136,7 @@
                                           GRID_CELL_SIZE);
             
             PaintLayerView * paintLayer = [[PaintLayerView alloc] initWithFrame:gridFrame];
-//            paintLayer.layer.borderWidth = 1.0;
+//            paintLayer.layer.borderWidth = 2.0;
 //            paintLayer.layer.borderColor = [UIColor blackColor].CGColor;
             paintLayer.multipleTouchEnabled = YES;
             paintLayer.clipsToBounds = NO;
@@ -282,7 +282,7 @@
     NSLog(@"--->> %f", timeDiff);
     if (touch.tapCount == 2)
     {
-        if (timeDiff <= 0.2)
+        if (timeDiff <= 0.3)
         {
         
             id<CollectionBoardDelegate> temp =  self.delegate;

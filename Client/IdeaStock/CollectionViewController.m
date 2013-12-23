@@ -713,29 +713,29 @@
 
 #pragma mark - Gesture Events
 
--(void) screenPressed:(UILongPressGestureRecognizer *) sender
-{
-    if (self.isInPaintMode)
-    {
-        [self.collectionView cleanupPinchArtifacts];
-    }
-    if (self.pushBehavior)
-    {
-        [self.animator removeAllBehaviors];
-        self.pushBehavior = nil;
-    }
-    
-    CGPoint loc = [sender locationInView:self.paintControl.superview];
-    [UIView animateWithDuration:0.5
-                          delay:0
-         usingSpringWithDamping:0.4
-          initialSpringVelocity:15
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.paintControl.center = CGPointMake(loc.x - 10, loc.y - 10);
-                         self.paintControl.transform = CGAffineTransformIdentity;
-                     }completion:^(BOOL completed){}];
-}
+//-(void) screenPressed:(UILongPressGestureRecognizer *) sender
+//{
+//    if (self.isInPaintMode)
+//    {
+//        [self.collectionView cleanupPinchArtifacts];
+//    }
+//    if (self.pushBehavior)
+//    {
+//        [self.animator removeAllBehaviors];
+//        self.pushBehavior = nil;
+//    }
+//    
+//    CGPoint loc = [sender locationInView:self.paintControl.superview];
+//    [UIView animateWithDuration:0.5
+//                          delay:0
+//         usingSpringWithDamping:0.4
+//          initialSpringVelocity:15
+//                        options:UIViewAnimationOptionCurveEaseIn
+//                     animations:^{
+//                         self.paintControl.center = CGPointMake(loc.x - 10, loc.y - 10);
+//                         self.paintControl.transform = CGAffineTransformIdentity;
+//                     }completion:^(BOOL completed){}];
+//}
 
 -(void) screenTapped: (UITapGestureRecognizer *) sender{
     if (self.editMode){
@@ -1141,6 +1141,12 @@
                      animations:^{
                          self.paintControl.transform = CGAffineTransformTranslate(self.paintControl.transform, 0, -80);
                      }completion:^(BOOL completed){}];
+    
+        self.isDrawing = YES;
+        self.isInPaintMode = YES;
+        [self enablePaintMode];
+    
+        self.paintControl.tintColor = [[ThemeFactory currentTheme] tintColorForActivePaintControl];
 }
 
 -(void) addInitialObservers
@@ -1928,11 +1934,8 @@ intoStackingWithMainView: (UIView *) mainView
     UITapGestureRecognizer * gr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenDoubleTapped:)];
     gr.numberOfTapsRequired = 2;
     UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenTapped:)];
-    UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                                                        action:@selector(screenPressed:)];
     [collectionView addGestureRecognizer:gr];
     [collectionView addGestureRecognizer:tgr];
-    [collectionView addGestureRecognizer:lpgr];
 }
 
 #pragma mark - utilities bar
@@ -2440,7 +2443,7 @@ intoStackingWithMainView: (UIView *) mainView
         if (self.isDrawing)
         {
             self.isDrawing = NO;
-            self.paintControl.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControl];
+            self.paintControl.tintColor = [[ThemeFactory currentTheme] tintColorForActivePaintControl];
         }
         else
         {
