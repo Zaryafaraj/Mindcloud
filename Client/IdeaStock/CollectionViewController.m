@@ -758,11 +758,18 @@
     [self resignFirstResponders];
 }
 
--(void) screenDoubleTapped:(UITapGestureRecognizer *) sender{
-    
-    
-    CGPoint location = [sender locationOfTouch:0 inView:self.collectionView];
-    [self doubledTappedLocation:location];
+-(void) screenPressed:(UILongPressGestureRecognizer *) sender
+{
+    if (sender.state == UIGestureRecognizerStateBegan)
+    {
+        CGPoint location = [sender locationOfTouch:0 inView:self.collectionView];
+        [self doubledTappedLocation:location];
+        
+        if (self.isInPaintMode)
+        {
+            [self.collectionView cleanupPinchArtifacts];
+        }
+    }
 }
 
 -(void) doubledTappedLocation:(CGPoint) location
@@ -1929,10 +1936,12 @@ intoStackingWithMainView: (UIView *) mainView
     [stack addGestureRecognizer:rgr];
 }
 
+#define MINIMUM_PRESS_DURATION 0.18
 -(void) addCollectionViewGestureRecognizersToCollectionView: (UIView *) collectionView
 {
-    UITapGestureRecognizer * gr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenDoubleTapped:)];
-    gr.numberOfTapsRequired = 2;
+    UILongPressGestureRecognizer * gr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(screenPressed:)];
+    
+    gr.minimumPressDuration = MINIMUM_PRESS_DURATION;
     UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenTapped:)];
     [collectionView addGestureRecognizer:gr];
     [collectionView addGestureRecognizer:tgr];

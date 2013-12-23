@@ -276,24 +276,6 @@
     if (!self.drawingEnabled) return;
     
     UITouch * touch = [touches anyObject];
-    NSTimeInterval now = event.timestamp;
-    NSTimeInterval timeDiff = now - self.lastTouchTime;
-    self.lastTouchTime = now;
-    NSLog(@"--->> %f", timeDiff);
-    if (touch.tapCount == 2)
-    {
-        if (timeDiff <= 0.3)
-        {
-        
-            id<CollectionBoardDelegate> temp =  self.delegate;
-            if (temp)
-            {
-                [temp doubleTapDetectedAtLocation:[touch locationInView:self]];
-            }
-            [self undo:YES];
-            return;
-        }
-    }
     
     id<CollectionBoardDelegate> temp = self.delegate;
     if (temp)
