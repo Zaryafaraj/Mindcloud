@@ -12,7 +12,9 @@
 
 -(void) didFinishDrawingOnScreen;
 -(void) willBeginDrawingOnScreen;
-
+/*! if true is returned it means that the tap should not 
+    be captured for drawing */
+-(BOOL) screenTapped;
 -(void) doubleTapDetectedAtLocation:(CGPoint) location;
 
 @end

@@ -268,6 +268,15 @@
     
     //we only handle single touch gestures. the other gestures
     //will be handled by the respective views
+    id<CollectionBoardDelegate> temp = self.delegate;
+    if (temp)
+    {
+        BOOL didCauseCancelation = [temp screenTapped];
+        if (didCauseCancelation)
+        {
+            return;
+        }
+    }
     if (event.allTouches.count > 1)
     {
         return;
@@ -277,7 +286,6 @@
     
     UITouch * touch = [touches anyObject];
     
-    id<CollectionBoardDelegate> temp = self.delegate;
     if (temp)
     {
         [temp willBeginDrawingOnScreen];

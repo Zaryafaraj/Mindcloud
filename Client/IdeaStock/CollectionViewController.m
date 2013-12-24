@@ -100,6 +100,17 @@
 @implementation CollectionViewController
 
 @synthesize activeView = _activeField;
+
+-(void) setActiveView:(UIView *)activeView
+{
+    _activeField = activeView;
+}
+
+-(UIView *) activeView
+{
+    return _activeField;
+}
+
 #pragma mark - getter/setters
 
 -(MindcloudCollection *) board{
@@ -712,51 +723,6 @@
 }
 
 #pragma mark - Gesture Events
-
-//-(void) screenPressed:(UILongPressGestureRecognizer *) sender
-//{
-//    if (self.isInPaintMode)
-//    {
-//        [self.collectionView cleanupPinchArtifacts];
-//    }
-//    if (self.pushBehavior)
-//    {
-//        [self.animator removeAllBehaviors];
-//        self.pushBehavior = nil;
-//    }
-//    
-//    CGPoint loc = [sender locationInView:self.paintControl.superview];
-//    [UIView animateWithDuration:0.5
-//                          delay:0
-//         usingSpringWithDamping:0.4
-//          initialSpringVelocity:15
-//                        options:UIViewAnimationOptionCurveEaseIn
-//                     animations:^{
-//                         self.paintControl.center = CGPointMake(loc.x - 10, loc.y - 10);
-//                         self.paintControl.transform = CGAffineTransformIdentity;
-//                     }completion:^(BOOL completed){}];
-//}
-
--(void) screenTapped: (UITapGestureRecognizer *) sender{
-    if (self.editMode){
-        self.editMode = NO;
-        self.highlightedView.highlighted = NO;
-        [self removeContextualToolbarItems:self.highlightedView];
-        if ([self.highlightedView isKindOfClass:[NoteView class]]){
-            [self updateNoteLocation:(NoteView *) self.highlightedView];
-        }
-        else if ([self.highlightedView isKindOfClass:[StackView class]]){
-            StackView * stack = (StackView *)self.highlightedView;
-            for(NoteView * stackNoteView in stack.views){
-                stackNoteView.center = stack.center;
-                [self updateNoteLocation:stackNoteView];
-            }
-        }
-        self.highlightedView = nil;
-        
-    }
-    [self resignFirstResponders];
-}
 
 -(void) screenPressed:(UILongPressGestureRecognizer *) sender
 {
@@ -1946,9 +1912,7 @@ intoStackingWithMainView: (UIView *) mainView
     UILongPressGestureRecognizer * gr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(screenPressed:)];
     
     gr.minimumPressDuration = MINIMUM_SCREEN_PRESS_DURATION;
-    UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenTapped:)];
     [collectionView addGestureRecognizer:gr];
-    [collectionView addGestureRecognizer:tgr];
 }
 
 #pragma mark - utilities bar
@@ -2124,13 +2088,19 @@ intoStackingWithMainView: (UIView *) mainView
     [self.board updateNoteContentOf:noteId withContentsOf:newNoteObj];
 }
 
--(void) resignFirstResponders{
-    for(UIView * view in self.collectionView.subviews){
-        if ([view conformsToProtocol:@protocol(BulletinBoardObject)]){
-            id<BulletinBoardObject> obj = (id<BulletinBoardObject>) view;
+-(BOOL) resignFirstResponders{
+    
+    if (self.activeView)
+    {
+        [self.activeView resignFirstResponder];
+        if ([self.activeView conformsToProtocol:@protocol(BulletinBoardObject)]){
+            id<BulletinBoardObject> obj = (id<BulletinBoardObject>) self.activeView;
             [obj resignSubViewsAsFirstResponder];
         }
+        [self.activeView resignFirstResponder];
+        return YES;
     }
+    return NO;
 }
 
 
@@ -2348,6 +2318,31 @@ intoStackingWithMainView: (UIView *) mainView
     [self doubledTappedLocation:location];
 }
 
+-(BOOL) screenTapped
+{
+    BOOL didCancelItem = NO;
+    if (self.editMode)
+    {
+        didCancelItem = YES;
+        self.editMode = NO;
+        self.highlightedView.highlighted = NO;
+        [self removeContextualToolbarItems:self.highlightedView];
+        if ([self.highlightedView isKindOfClass:[NoteView class]]){
+            [self updateNoteLocation:(NoteView *) self.highlightedView];
+        }
+        else if ([self.highlightedView isKindOfClass:[StackView class]]){
+            StackView * stack = (StackView *)self.highlightedView;
+            for(NoteView * stackNoteView in stack.views){
+                stackNoteView.center = stack.center;
+                [self updateNoteLocation:stackNoteView];
+            }
+        }
+        self.highlightedView = nil;
+        
+    }
+    didCancelItem = didCancelItem || [self resignFirstResponders];
+    return didCancelItem;
+}
 #pragma mark - paintControlDelegate
 -(void) controlReleasedWithVelocity:(CGPoint) velocity
                   withPushDirection:(CGVector) directionVector
