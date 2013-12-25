@@ -1095,31 +1095,34 @@
 
 -(void) addPaintViewControl
 {
-    CGSize buttonSize = CGSizeMake(70, 70);
-    self.paintControl = [[PaintControlView alloc] initWithFrame:CGRectMake(self.view.center.x - buttonSize.width/2,
-                                                                           self.view.bounds.origin.x + self.view.bounds.size.height - buttonSize.height - 10,
-                                                                           buttonSize.width,
-                                                                           buttonSize.height)];
-    self.paintControl.topOffset = self.navigationController.navigationBar.frame.size.height;
-    self.paintControl.delegate = self;
-    [self.view addSubview:self.paintControl];
-    self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
-    
-    self.paintControl.transform = CGAffineTransformTranslate(self.paintControl.transform, 0, +80);
-    [UIView animateWithDuration:1
-                          delay:0.0
-         usingSpringWithDamping:0.5
-          initialSpringVelocity:5
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.paintControl.transform = CGAffineTransformTranslate(self.paintControl.transform, 0, -80);
-                     }completion:^(BOOL completed){}];
-    
+    if (!self.paintControl)
+    {
+        CGSize buttonSize = CGSizeMake(70, 70);
+        self.paintControl = [[PaintControlView alloc] initWithFrame:CGRectMake(self.view.center.x - buttonSize.width/2,
+                                                                               self.view.bounds.origin.x + self.view.bounds.size.height - buttonSize.height - 10,
+                                                                               buttonSize.width,
+                                                                               buttonSize.height)];
+        self.paintControl.topOffset = self.navigationController.navigationBar.frame.size.height;
+        self.paintControl.delegate = self;
+        [self.view addSubview:self.paintControl];
+        self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+        
+        self.paintControl.transform = CGAffineTransformTranslate(self.paintControl.transform, 0, +80);
+        [UIView animateWithDuration:1
+                              delay:0.0
+             usingSpringWithDamping:0.5
+              initialSpringVelocity:5
+                            options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+                             self.paintControl.transform = CGAffineTransformTranslate(self.paintControl.transform, 0, -80);
+                         }completion:^(BOOL completed){}];
+        
         self.isDrawing = YES;
         self.isInPaintMode = YES;
         [self enablePaintMode];
-    
+        
         self.paintControl.tintColor = [[ThemeFactory currentTheme] tintColorForActivePaintControl];
+    }
 }
 
 -(void) addInitialObservers
