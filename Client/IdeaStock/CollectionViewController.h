@@ -33,6 +33,8 @@ UITextFieldDelegate>
 
 @property (strong,nonatomic) NSString * bulletinBoardName;
 @property (strong, nonatomic) MindcloudCollection * board;
+@property (nonatomic, assign) BOOL isNewCollection;
+
 @property (weak,nonatomic) AllCollectionsViewController * parent;
 
 //because modal view does'nt provide this notification

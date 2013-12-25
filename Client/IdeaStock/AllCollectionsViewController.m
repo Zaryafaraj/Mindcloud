@@ -53,6 +53,7 @@
 @property BOOL didCategoriesPresentAlertView;
 @property BOOL isInSharingMode;
 
+@property (nonatomic, assign) BOOL isNewCollection;
 @property (strong, nonatomic) AllCollectionsAnimationHelper * animatinHelper;
 
 @property MindcloudAllCollections * model;
@@ -337,6 +338,7 @@
     
     self.workingCollectionName = name;
     [self disableTogglingLeftPanel];
+    self.isNewCollection = YES;
     [self performSegueWithIdentifier:@"CollectionViewSegue" sender:self];
 }
 
@@ -859,6 +861,7 @@
         
         self.workingCollectionName = name;
         [self disableTogglingLeftPanel];
+        self.isNewCollection = NO;
         [self performSegueWithIdentifier:@"CollectionViewSegue" sender:self];
     }
     
@@ -884,6 +887,11 @@
         
         CollectionViewController * dest = [segue destinationViewController];
         //present the collection view
+        if (self.isNewCollection)
+        {
+            dest.isNewCollection = YES;
+        }
+        
         dest.bulletinBoardName = name;
         dest.parent = self;
         MindcloudCollection * board = [[MindcloudCollection alloc] initCollection:name];

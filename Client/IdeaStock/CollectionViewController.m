@@ -979,6 +979,11 @@
     UIBarButtonItem * cameraButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(cameraPressed:)];
     self.navigationItem.rightBarButtonItem = cameraButton;
     cameraButton.tintColor = [[ThemeFactory currentTheme] navigationBarButtonItemColor];
+    
+    if (self.isNewCollection)
+    {
+        [titleView becomeFirstResponder];
+    }
 }
 
 -(void) donePressed:(id) sender
