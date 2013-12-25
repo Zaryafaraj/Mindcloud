@@ -154,6 +154,16 @@
     }
 }
 
+-(void) setBounds:(CGRect)bounds
+{
+    //For some reason a method called applyISEngineLayoutValues from UIView Geomatry calls this with a value of 3k. I don't have time right now
+    //to investigate why that happens so I am disabling setBounds for no
+}
+
+-(void) setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+}
 -(NSInteger) undo:(BOOL) isUnwantedArtifact
 {
     if (self.orderIndex >= 0 &&

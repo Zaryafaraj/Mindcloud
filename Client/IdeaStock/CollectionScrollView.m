@@ -36,12 +36,14 @@
     return self;
 }
 
+#define MIN_ZOOM_SCALE 0.5
+#define MAX_ZOOM_SCALE 2
 -(void) configureView
 {
     self.delegate = self;
-    self.minimumZoomScale = 0.5;
+    self.minimumZoomScale = MIN_ZOOM_SCALE;
     self.scrollEnabled = YES;
-    self.maximumZoomScale = 2;
+    self.maximumZoomScale = MAX_ZOOM_SCALE;
     self.multipleTouchEnabled = YES;
     
     self.backgroundColor = [UIColor clearColor];
@@ -76,6 +78,8 @@
     CGFloat surrogateWidth = self.surrogateView.bounds.size.width;
     CGFloat surrogateHeight = self.surrogateView.bounds.size.height;
     
+    NSLog(@"SS - (%f, %f)" , surrogateWidth, surrogateHeight);
+    NSLog(@"S - (%f, %f)", self.bounds.size.width, self.bounds.size.height);
     CGFloat minZoomWidth =  self.bounds.size.width / surrogateWidth;
     CGFloat minZoomHeight =  self.bounds.size.height / surrogateHeight;
     CGFloat actualZoomFactor = MAX(minZoomHeight, minZoomWidth);
@@ -141,6 +145,11 @@
     self.scrollEnabled = NO;
     self.delaysContentTouches = YES;
     [self.surrogateView showPaintLayer];
+}
+
+-(void) setMinimumZoomScale:(CGFloat)minimumZoomScale
+{
+    [super setMinimumZoomScale:minimumZoomScale];
 }
 
 -(void) disablePaintMode
