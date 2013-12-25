@@ -586,25 +586,6 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <color key="tintColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
                                             </view>
-                                            <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CU7-1N-ESK">
-                                                <rect key="frame" x="0.0" y="700" width="768" height="44"/>
-                                                <items>
-                                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="KXM-rJ-Ogq"/>
-                                                    <barButtonItem systemItem="camera" id="nyw-cC-aU9">
-                                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
-                                                        <connections>
-                                                            <action selector="cameraPressed:" destination="9HL-37-GHp" id="oGh-5m-Pge"/>
-                                                        </connections>
-                                                    </barButtonItem>
-                                                    <barButtonItem title="Expand" id="3Cp-b8-UFf">
-                                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                        <connections>
-                                                            <action selector="expandPressed:" destination="9HL-37-GHp" id="H7n-CG-mWp"/>
-                                                        </connections>
-                                                    </barButtonItem>
-                                                </items>
-                                                <color key="barTintColor" red="0.26666666666666666" green="0.47058823529411764" blue="0.792156862745098" alpha="1" colorSpace="calibratedRGB"/>
-                                            </toolbar>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
@@ -629,12 +610,10 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="efj-z7-K4y" id="Bka-NP-n1K"/>
-                        <outlet property="expandButton" destination="3Cp-b8-UFf" id="FHP-RN-s23"/>
                         <outlet property="parentScrollView" destination="QXW-F8-5QD" id="t8h-Yl-a0E"/>
                         <outlet property="patternView" destination="PF9-Vp-upE" id="zOE-RW-QIU"/>
                         <outlet property="prototypeImageView" destination="O4b-nD-qa5" id="JNE-Cu-gdH"/>
                         <outlet property="prototypeNoteView" destination="rJw-4W-tVJ" id="wy0-Qm-7b6"/>
-                        <outlet property="toolbar" destination="CU7-1N-ESK" id="BfB-Yf-6q1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V18-oK-TF6" userLabel="First Responder" sceneMemberID="firstResponder"/>

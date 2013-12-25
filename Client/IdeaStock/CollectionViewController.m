@@ -33,11 +33,6 @@
 @interface CollectionViewController ()
 
 #pragma mark - UI Elements
-@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem * expandButton;
-
-@property (strong, nonatomic) NSArray * normalActionBarItems;
-
 @property (weak, nonatomic) IBOutlet CollectionBoardView * collectionView;
 @property (weak, nonatomic) IBOutlet CollectionScrollView *parentScrollView;
 
@@ -52,7 +47,6 @@
 @property BOOL isRefreshing;
 @property BOOL shouldRefresh;
 @property UIActionSheet * activeImageSheet;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *cameraButton;
 @property (strong, nonatomic) UIPopoverController * lastPopOver;
 
 //we remove this prototype view from the super view at the begining of
@@ -768,9 +762,7 @@
         
         if (self.highlightedView && self.highlightedView != sender.view){
             self.highlightedView.highlighted = NO;
-            [self removeContextualToolbarItems:self.highlightedView];
             self.highlightedView = (UIView <BulletinBoardObject> *) sender.view;
-            [self addContextualToolbarItems:self.highlightedView];
             self.highlightedView.highlighted = YES;
         }
         else if (self.editMode){
@@ -787,7 +779,6 @@
     
     self.editMode = NO;
     self.highlightedView = nil;
-    [self removeContextualToolbarItems:view];
     
     if ([view conformsToProtocol:@protocol(BulletinBoardObject)]){
         ((UIView <BulletinBoardObject> * ) view).highlighted = NO;
@@ -810,8 +801,6 @@
     
     self.editMode = YES;
     self.highlightedView = (UIView <BulletinBoardObject> *) view;
-    
-    [self addContextualToolbarItems:view];
     
     if ([view conformsToProtocol:@protocol(BulletinBoardObject)]){
         ((UIView <BulletinBoardObject> * ) view).highlighted = YES;
@@ -960,31 +949,36 @@
 
 #pragma mark - UI Events
 
--(void) viewWillAppear:(BOOL)animated{
-    
+-(void) viewWillAppear:(BOOL)animated
+{
     self.patternView.backgroundColor = [[ThemeFactory currentTheme] noisePatternForCollection];
-    //[UIColor clearColor];
-    
+    [self configureNavigationBar];
+    [self.board getAllCollectionAssetsAsync];
+}
+
+-(void) configureNavigationBar
+{
     
     self.navigationItem.hidesBackButton = YES;
     
-    UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
+    UITextField * titleView = [[UITextField alloc] initWithFrame:CGRectZero];
     titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     
     titleView.backgroundColor = [UIColor clearColor];
-    titleView.textColor = [[ThemeFactory currentTheme] navigationBarButtonItemColor];
+    titleView.textColor = [[ThemeFactory currentTheme] tintColor];
     titleView.text = self.bulletinBoardName;
+    titleView.delegate = self;
+    
     self.navigationItem.titleView = titleView;
     
     UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:0 target:self action:@selector(donePressed:)];
-    //    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
-    //wU
-    //                                                                   target:self
-    //                                                                   action:@selector(donePressed:)];
     doneButton.tintColor = [[ThemeFactory currentTheme] navigationBarButtonItemColor];
     self.navigationItem.leftBarButtonItem = doneButton;
     [titleView sizeToFit];
-    [self.board getAllCollectionAssetsAsync];
+    
+    UIBarButtonItem * cameraButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(cameraPressed:)];
+    self.navigationItem.rightBarButtonItem = cameraButton;
+    cameraButton.tintColor = [[ThemeFactory currentTheme] navigationBarButtonItemColor];
 }
 
 -(void) donePressed:(id) sender
@@ -1078,10 +1072,8 @@
     [self removePrototypesFromView];
     [self configureScrollView];
     self.shouldRefresh = YES;
-    [self configureToolbar];
     
     
-    self.navigationItem.rightBarButtonItems = [self.toolbar.items copy];
     
     [self initateDataStructures];
     
@@ -1186,13 +1178,6 @@
     }
 }
 
--(void) configureToolbar
-{
-    NSMutableArray * toolbarItems = [self.toolbar.items mutableCopy];
-    [toolbarItems removeObject:self.expandButton];
-    self.toolbar.items = toolbarItems;
-}
-
 -(void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     if (self.lastPopOver)
@@ -1245,7 +1230,6 @@
     [self setTitle:nil];
     [self setView:nil];
     [self setCollectionView:nil];
-    [self setToolbar:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewDidUnload];
 }
@@ -1293,7 +1277,6 @@
         [self layoutStackView:(StackView *) self.highlightedView inRect:fittingRect ];
         
         //clean up
-        [self removeContextualToolbarItems:self.highlightedView];
         NSString * stackingID = ((StackView *)self.highlightedView).ID;
         [self.board removeStacking:stackingID];
         [self.stackViews removeObjectForKey:stackingID];
@@ -1949,24 +1932,6 @@ intoStackingWithMainView: (UIView *) mainView
         [note enablePaintMode];
     }
 }
--(void) removeContextualToolbarItems:(UIView *) contextView{
-    
-    NSMutableArray * newToolbarItems = [self.navigationItem.rightBarButtonItems mutableCopy];
-    if( [contextView isKindOfClass:[StackView class]])
-    {
-        [newToolbarItems removeObject:self.expandButton];
-    }
-    self.navigationItem.rightBarButtonItems = newToolbarItems;
-}
-
--(void) addContextualToolbarItems: (UIView *) contextView
-{
-    NSMutableArray * newToolbarItems = [self.navigationItem.rightBarButtonItems mutableCopy];
-    if ( [contextView isKindOfClass:[StackView class]]){
-        [newToolbarItems addObject:self.expandButton];
-    }
-    self.navigationItem.rightBarButtonItems = newToolbarItems;
-}
 
 #pragma mark - stack delegate methods
 -(void) returnedstackViewController:(StackViewController *)sender{
@@ -2106,6 +2071,12 @@ intoStackingWithMainView: (UIView *) mainView
         [self.activeView resignFirstResponder];
         return YES;
     }
+    
+    if ([self.navigationItem.titleView isFirstResponder])
+    {
+        [self.navigationItem.titleView resignFirstResponder];
+        return YES;
+    }
     return NO;
 }
 
@@ -2113,8 +2084,6 @@ intoStackingWithMainView: (UIView *) mainView
 -(void) noteDeletePressed:(id) note
 {
     if(!self.editMode) return;
-    
-    [self removeContextualToolbarItems:self.highlightedView];
     
     if ([self.highlightedView isKindOfClass:[StackView class]]){
         [self deleteStack:(StackView *) self.highlightedView];
@@ -2338,7 +2307,6 @@ intoStackingWithMainView: (UIView *) mainView
         didCancelItem = YES;
         self.editMode = NO;
         self.highlightedView.highlighted = NO;
-        [self removeContextualToolbarItems:self.highlightedView];
         if ([self.highlightedView isKindOfClass:[NoteView class]]){
             [self updateNoteLocation:(NoteView *) self.highlightedView];
         }
@@ -2533,6 +2501,13 @@ intoStackingWithMainView: (UIView *) mainView
     self.isInPaintMode = YES;
     [self enablePaintMode];
     self.paintControl.tintColor = [[ThemeFactory currentTheme] tintColorForActivePaintControl];
+}
+
+#pragma mark - UITextFieldDelegate
+
+-(void) textFieldDidEndEditing:(UITextField *)textField
+{
+    [self.navigationItem.titleView sizeToFit];
 }
 
 @end

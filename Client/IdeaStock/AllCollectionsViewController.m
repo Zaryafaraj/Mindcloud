@@ -317,11 +317,22 @@
     [alert show];
 }
 
+-(NSString *) generateNameForUntitledCollection
+{
+    NSDate * date = [NSDate date];
+    NSDateFormatter * dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormat setTimeStyle:NSDateFormatterShortStyle];
+    NSString * dateString = [dateFormat stringFromDate:date];
+    dateString = [dateString stringByReplacingOccurrencesOfString:@":" withString:@"."];
+    return [NSString stringWithFormat:@"Ideas for %@", dateString];
+}
+
 -(IBAction) addPressed:(id)sender {
     
     [self dismissPopOver];
     [self deselectAll];
-    NSString * name = UNTITLED_COLLECTION_NAME;
+    NSString * name = [self generateNameForUntitledCollection];
     name = [self addCollection:name];
     
     self.workingCollectionName = name;
@@ -508,7 +519,6 @@
 -(void) addInitialListeners
 {
     
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(ApplicationHasGoneInBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     
@@ -564,12 +574,10 @@
 
 -(void) showIntroIfNeccessary
 {
-   
-    if (NO)
-    //if (![UserPropertiesHelper hasUserBeenRegesitered])
+    if (![UserPropertiesHelper hasUserBeenRegesitered])
     {
         self.authenticator = [[MindcloudAuthenticator alloc] init];
-        //        self.authenticator.delegate = self;
+        self.authenticator.delegate = self;
         [self.authenticator authorizeUser];
         IntroScreenViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"IntroScreenVC"];
         vc.delegate = self;

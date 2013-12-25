@@ -36,25 +36,25 @@ class Application(tornado.web.Application):
 
         handlers = [
             #Bane
-            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)", CollectionHandler),
-            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Share", SharingHandler),
+            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+,*\.*\-*%*\d*]+)", CollectionHandler),
+            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+,*\.*\-*%*\d*]+)/Share", SharingHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/ShareSpaces/Subscribe", SharingSubscriptionHandler),
-            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Subscribe", SubscriptionHandler),
-            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Notes", CollectionNotesHandler),
-            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Notes/([\w+\-*%*\d*]+)", NoteHandler),
-            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Notes/([\w+\-*%*\d*]+)/Image", NoteImageHandler),
-            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Thumbnail", CollectionImageHandler),
+            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+,*\.*\-*%*\d*]+)/Subscribe", SubscriptionHandler),
+            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+,*\.*\-*%*\d*]+)/Notes", CollectionNotesHandler),
+            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+,*\.*\-*%*\d*]+)/Notes/([\w+,*\.*\-*%*\d*]+)", NoteHandler),
+            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+,*\.*\-*%*\d*]+)/Notes/([\w+,*\.*\-*%*\d*]+)/Image", NoteImageHandler),
+            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+,*\.*\-*%*\d*]+)/Thumbnail", CollectionImageHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections", AccountHandler),
             (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Categories", CategoriesHandler),
-            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Files", CollectionFileHandler),
-            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+\-*%*\d*]+)/Files/([\w+\-*%*\d*]+\.+\w+)", CollectionFileHandler),
+            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+,*\.*\-*%*\d*]+)/Files", CollectionFileHandler),
+            (r"/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/Collections/([\w+,*\.*\-*%*\d*]+)/Files/([\w+,*\.*\-*%*\d*]+\.+\w+)", CollectionFileHandler),
             (r"/Authorize/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})", AuthorizationHandler),
             #Joker Load Balancer
             (r"/SharingFactory/([0-9A-Za-z]{8})", SharingLoadBalancerHandler),
             (r"/Configs/Jokers", LoadBalancerConfigHandler),
             #Joker
-            (r"/SharingSpace/([0-9A-Za-z]{8})/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/([\w+\-*%*\d*]+)/([\w+\-*%*\d*]+)/(\w+)", SharingSpaceActionHandler),
-            (r"/SharingSpace/([0-9A-Za-z]{8})/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/([\w+\-*%*\d*]+)/(\w+)", SharingSpaceActionHandler),
+            (r"/SharingSpace/([0-9A-Za-z]{8})/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/([\w+,*\.*\-*%*\d*]+)/([\w+,*\.*\-*%*\d*]+)/(\w+)", SharingSpaceActionHandler),
+            (r"/SharingSpace/([0-9A-Za-z]{8})/([0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12})/([\w+,*\.*\-*%*\d*]+)/(\w+)", SharingSpaceActionHandler),
             (r"/SharingSpace/([0-9A-Za-z]{8})", SharingSpaceActionHandler),
             (r"/SharingSpace/([0-9A-Za-z]{8})/Listen", SharingSpaceListenerHandler),
             #Base64 Diff. Every diff file should be encoded in base64

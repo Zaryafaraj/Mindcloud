@@ -28,7 +28,8 @@ UIActionSheetDelegate,
 UIPopoverControllerDelegate,
 PaintControlViewDelegate,
 PushWithFrictionBehaviorDelegate,
-PaintConfigDelegate>
+PaintConfigDelegate,
+UITextFieldDelegate>
 
 @property (strong,nonatomic) NSString * bulletinBoardName;
 @property (strong, nonatomic) MindcloudCollection * board;
