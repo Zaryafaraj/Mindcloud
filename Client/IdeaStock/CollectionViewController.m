@@ -1252,7 +1252,10 @@
 
 - (IBAction)cameraPressed:(id)sender {
     
-    if (self.lastPopOver) return;
+    if (self.lastPopOver)
+    {
+        [self.lastPopOver dismissPopoverAnimated:NO];
+    }
     
     UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil
                                                          delegate:self
@@ -2165,20 +2168,23 @@ intoStackingWithMainView: (UIView *) mainView
 -(void) imagePickerController:(UIImagePickerController *)picker
         didFinishPickingImage:(UIImage *)image
                   editingInfo:(NSDictionary *)editingInfo{
+    
     if (picker.sourceType == UIImagePickerControllerSourceTypeCamera)
     {
         [self dismissViewControllerAnimated:YES completion:^(void){}];
     }
     
-    CGRect frame = CGRectMake(self.collectionView.bounds.origin.x + IMAGE_OFFSET_X,
-                              self.collectionView.bounds.origin.y + IMAGE_OFFSET_Y,
-                              NOTE_WIDTH,
-                              NOTE_HEIGHT);
-    
     //its okey to set frame cause there is not ransform on the item
     ImageNoteView * note = [self.prototypeImageView prototype];
-    note.frame = frame;
+    
     note.image = image;
+    
+    
+    //put the image in the center
+    CGPoint center = CGPointMake(self.collectionView.bounds.origin.x + self.parentScrollView.contentOffset.x + self.parentScrollView.center.x,
+                                 self.collectionView.bounds.origin.y + self.parentScrollView.contentOffset.y + self.parentScrollView.center.y);
+    
+    note.center = center;
     NSString * noteID = [AttributeHelper generateUUID];
     note.ID = noteID;
     note.delegate = self;
