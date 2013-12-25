@@ -967,6 +967,7 @@
     titleView.backgroundColor = [UIColor clearColor];
     titleView.textColor = [[ThemeFactory currentTheme] tintColor];
     titleView.text = self.bulletinBoardName;
+    titleView.textAlignment = NSTextAlignmentCenter;
     titleView.delegate = self;
     
     self.navigationItem.titleView = titleView;
