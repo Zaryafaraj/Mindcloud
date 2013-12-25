@@ -988,30 +988,9 @@
 
 -(void) donePressed:(id) sender
 {
-    
-    //first save the board. This will give us some time if the alert view showing up for the saved results to be come
-    //consistent on the server
     [self.board save];
-    
-    if ([self.bulletinBoardName rangeOfString:UNTITLED_COLLECTION_NAME].location != NSNotFound)
-    {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@" Collection Name"
-                                                         message:nil
-                                                        delegate:self
-                                               cancelButtonTitle:nil
-                                               otherButtonTitles:SAVE_BUTTON_TITLE, nil];
-        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-        [alert show];
-        
-        UITextField * placeholderText = [alert textFieldAtIndex:0];
-        placeholderText.placeholder = self.bulletinBoardName;
-    }
-    
-    else
-    {
-        [self saveThumbnail];
-        [self finishWorkingWithCollection];
-    }
+    [self saveThumbnail];
+    [self finishWorkingWithCollection];
 }
 
 
@@ -2513,6 +2492,15 @@ intoStackingWithMainView: (UIView *) mainView
 -(void) textFieldDidEndEditing:(UITextField *)textField
 {
     [self.navigationItem.titleView sizeToFit];
+    
+    NSString * newName = textField.text;
+    if (![newName isEqualToString:self.bulletinBoardName])
+    {
+        [self.parent renamedCollectionWithName:self.bulletinBoardName
+                           toNewCollectionName:newName];
+        self.bulletinBoardName = newName;
+        self.board.bulletinBoardName = newName;
+    }
 }
 
 @end
