@@ -18,8 +18,8 @@
 #define EXPAND_COL_SIZE 5
 #define STACKING_SCALING_WIDTH 1.0
 #define STACKING_SCALING_HEIGHT 1.0
-#define NOTE_WIDTH 310
-#define NOTE_HEIGHT 220
+#define NOTE_WIDTH 350
+#define NOTE_HEIGHT 260
 #define STACK_WIDTH 310
 #define STACK_HEIGHT 220
 @interface CollectionLayoutHelper : NSObject
