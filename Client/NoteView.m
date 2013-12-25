@@ -17,7 +17,7 @@
 @property (nonatomic) CGRect originalFrame;
 @property (nonatomic) CGRect lastFrame;
 @property (nonatomic) UIButton * deleteButton;
-
+@property (nonatomic) UIView * noteView;
 @end
 
 @implementation NoteView
@@ -56,6 +56,7 @@
 
 -(instancetype) _configureView
 {
+    self.noteView = self.subviews.firstObject;
     [NoteView setLayers:self];
     [self configureTextView];
     return self;
@@ -64,7 +65,7 @@
 -(void) configureTextView
 {
     //find the text view
-    for (UIView * subView in self.subviews){
+    for (UIView * subView in self.noteView.subviews){
         if ([subView isKindOfClass:[UITextView class]])
         {
             self._textView = ((UITextView *) subView);
@@ -107,14 +108,16 @@
     animation.fromValue = [UIBezierPath bezierPathWithCGPath:toValue];
     animation.toValue = [UIBezierPath bezierPathWithCGPath:self.layer.shadowPath];
     
-    self.layer.shadowPath = toValue;
+    self.noteView.layer.shadowPath = toValue;
     
-    [self.layer addAnimation:animation forKey:@"shadowPath"];
+    [self.noteView.layer addAnimation:animation forKey:@"shadowPath"];
     CGPathRelease(toValue);
 }
 
-+(NoteView *) setLayers:(NoteView *) view
++(NoteView *) setLayers:(NoteView *) noteView
 {
+    UIView * view = noteView.noteView;
+    
     view.backgroundColor = [UIColor whiteColor];
     view.layer.borderColor = [UIColor clearColor].CGColor;
     view.layer.borderWidth = 1;
@@ -126,7 +129,8 @@
     view.layer.shadowOffset = CGSizeMake(0, 1);
     view.layer.shadowOpacity = 0.3;
     view.layer.shadowRadius = 2;
-    return view;
+    
+    return noteView;
 }
 
 -(CGFloat)scaleOffset
@@ -162,7 +166,7 @@
         [self.deleteButton setImage:btnImage
                            forState:UIControlStateNormal];
         [self addSubview:self.deleteButton];
-        self.deleteButton.frame = CGRectMake(-20,-20 , 40, 40);
+        self.deleteButton.frame = CGRectMake(0,0 , 40, 40);
         self.deleteButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
     }
     
@@ -195,16 +199,20 @@
 
 -(void) adjustSubViewsForPropertyChangeInNote
 {
-    CGRect bounds = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-    CGPathRef shadowPath = CGPathCreateWithRect(bounds,&CGAffineTransformIdentity);
+    CGRect noteFrame = CGRectMake(20,
+                                  20,
+                                  self.bounds.size.width - 40,
+                                  self.bounds.size.height - 40);
+    self.noteView.frame = noteFrame;
+    CGPathRef shadowPath = CGPathCreateWithRect(noteFrame,&CGAffineTransformIdentity);
     self.layer.shadowPath = shadowPath;
     
     if (self._textView)
     {
         CGRect newFrame = CGRectMake(TEXT_X_OFFSET,
                                      TEXT_Y_OFFSET,
-                                     self.bounds.size.width - 2 * TEXT_X_OFFSET,
-                                     self.bounds.size.height - 2 * TEXT_Y_OFFSET);
+                                     self.noteView.bounds.size.width - 2 * TEXT_X_OFFSET,
+                                     self.noteView.bounds.size.height - 2 * TEXT_Y_OFFSET);
         self._textView.frame = newFrame;
     }
     
@@ -248,7 +256,7 @@
 
 -(BOOL) isScalingValid: (CGFloat) scaleFactor;
 {
-    if (self.scaleOffset * scaleFactor > 2 || self.scaleOffset * scaleFactor < 0.9) return NO;
+    if (self.scaleOffset * scaleFactor > 4 || self.scaleOffset * scaleFactor < 0.9) return NO;
     else return YES;
 }
 
@@ -333,11 +341,14 @@
 -(instancetype) _configurePrototype: (NoteView *) prototype
 {
     UITextView * prototypeTextView = [[UITextView alloc] initWithFrame:self._textView.frame];
+    UIView * protoTypeNoteView = [[UIView alloc] initWithFrame:self.noteView.frame];
     prototypeTextView.backgroundColor = self._textView.backgroundColor;
-    [prototype addSubview:prototypeTextView];
+    [protoTypeNoteView addSubview:prototypeTextView];
     prototype._textView = prototypeTextView;
     prototype.text = self.text;
+    [prototype addSubview:protoTypeNoteView];
     prototype.delegate = self.delegate;
+    prototype.noteView = protoTypeNoteView;
     prototype.backgroundColor = self.backgroundColor;
     prototype.alpha = self.alpha;
     prototype = [NoteView setLayers:prototype];
