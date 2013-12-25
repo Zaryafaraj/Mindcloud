@@ -2181,10 +2181,13 @@ intoStackingWithMainView: (UIView *) mainView
     
     
     //put the image in the center
-    CGPoint center = CGPointMake(self.collectionView.bounds.origin.x + self.parentScrollView.contentOffset.x + self.parentScrollView.center.x,
-                                 self.collectionView.bounds.origin.y + self.parentScrollView.contentOffset.y + self.parentScrollView.center.y);
+    CGFloat zoomScale = self.parentScrollView.zoomScale;
+    CGPoint center = CGPointMake(self.parentScrollView.contentOffset.x + self.parentScrollView.bounds.size.width/2,
+                                 self.parentScrollView.contentOffset.y + self.parentScrollView.bounds.size.height/2);
     
-    note.center = center;
+    
+//    CGPoint center = [self.parentScrollView convertPoint:self.parentScrollView.center toView:self.collectionView];
+    note.center = CGPointMake(center.x * 1/zoomScale, center.y * 1/zoomScale);
     NSString * noteID = [AttributeHelper generateUUID];
     note.ID = noteID;
     note.delegate = self;
