@@ -115,7 +115,7 @@
 
 
 //have done performance tests and reached 100. Do not change
-#define GRID_CELL_SIZE 200
+#define GRID_CELL_SIZE 400
 #define VIEW_WIDTH 2000
 #define VIEW_HEIGHT 2000
 -(void) configurePaintLayer

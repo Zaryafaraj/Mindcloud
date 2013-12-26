@@ -720,6 +720,55 @@
 
 #pragma mark - Gesture Events
 
+-(void) screenSwippedForUndo:(UISwipeGestureRecognizer *) sender
+{
+    self.hud.alpha = 1;
+    if (!self.hud)
+    {
+        [self createHUD];
+    }
+    if (self.hud.hidden)
+    {
+        CGSize hudSize = CGSizeMake(100, 100);
+        CGRect hudFrame = CGRectMake(self.view.center.x - hudSize.width/2,
+                                     self.view.center.y - hudSize.height/2,
+                                     hudSize.width,
+                                     hudSize.height);
+        self.hud.frame = hudFrame;
+        self.hud.hidden = NO;
+    }
+    
+    [self.hud setTitleText:@"Undo"];
+    [self undoPressed];
+    
+    [UIView animateWithDuration:0.2
+                          delay:0.5
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         self.hud.alpha = 0;
+                     }completion:^(BOOL finished){
+                         self.hud.hidden = YES;
+                     }];
+    
+}
+
+
+-(void) screenSwippedForRedo:(UISwipeGestureRecognizer *) sender
+{
+    NSLog(@"Redo");
+}
+
+-(void) screenSwippedForPen:(UISwipeGestureRecognizer *) sender
+{
+    NSLog(@"Pen");
+}
+
+
+-(void) screenSwippedForEraser:(UISwipeGestureRecognizer *) sender
+{
+    NSLog(@"eraser");
+}
+
 -(void) screenPressed:(UILongPressGestureRecognizer *) sender
 {
     if (sender.state == UIGestureRecognizerStateBegan)
@@ -967,7 +1016,7 @@
     titleView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     
     titleView.backgroundColor = [UIColor clearColor];
-    titleView.textColor = [[ThemeFactory currentTheme] tintColor];
+    titleView.textColor = [[ThemeFactory currentTheme] navigationBarButtonItemColor];
     titleView.text = self.bulletinBoardName;
     titleView.textAlignment = NSTextAlignmentCenter;
     titleView.delegate = self;
@@ -1866,6 +1915,10 @@ intoStackingWithMainView: (UIView *) mainView
     [note addGestureRecognizer:gr];
     [note addGestureRecognizer:rgr];
     [note addGestureRecognizer:pgr];
+    
+    pgr.delegate = self;
+    gr.delegate = self;
+    rgr.delegate = self;
 }
 
 -(void) addGestureRecognizersToStack:(StackView *) stack
@@ -1882,6 +1935,10 @@ intoStackingWithMainView: (UIView *) mainView
     [stack addGestureRecognizer:tgr];
     [stack addGestureRecognizer:lpgr];
     [stack addGestureRecognizer:rgr];
+    
+    gr.delegate = self;
+    pgr.delegate = self;
+    rgr.delegate = self;
 }
 
 #define MINIMUM_SCREEN_PRESS_DURATION 0.18
@@ -1890,18 +1947,69 @@ intoStackingWithMainView: (UIView *) mainView
     UILongPressGestureRecognizer * gr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(screenPressed:)];
     
     gr.minimumPressDuration = MINIMUM_SCREEN_PRESS_DURATION;
+    
+    UISwipeGestureRecognizer * lswgr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(screenSwippedForUndo:)];
+    lswgr.direction = UISwipeGestureRecognizerDirectionLeft;
+    ;
+    lswgr.numberOfTouchesRequired = 2;
+    
+    UISwipeGestureRecognizer * rswgr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(screenSwippedForRedo:)];
+    rswgr.direction = UISwipeGestureRecognizerDirectionRight;
+    ;
+    rswgr.numberOfTouchesRequired = 2;
+    
+    
+    UISwipeGestureRecognizer * uswgr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(screenSwippedForPen:)];
+    uswgr.direction = UISwipeGestureRecognizerDirectionUp;
+    ;
+    uswgr.numberOfTouchesRequired = 2;
+    
+    UISwipeGestureRecognizer * dswgr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(screenSwippedForEraser:)];
+    dswgr.direction = UISwipeGestureRecognizerDirectionDown;
+    ;
+    dswgr.numberOfTouchesRequired = 2;
+    
+    UIPanGestureRecognizer * pgr;
+    for (UIGestureRecognizer * gr in self.parentScrollView.gestureRecognizers)
+    {
+        
+        if ([gr isKindOfClass:[UIPinchGestureRecognizer class]])
+        {
+            [gr requireGestureRecognizerToFail:lswgr];
+            [gr requireGestureRecognizerToFail:rswgr];
+            [gr requireGestureRecognizerToFail:uswgr];
+            [gr requireGestureRecognizerToFail:dswgr];
+//            gr.delaysTouchesBegan = YES;
+//            gr.delaysTouchesEnded = YES;
+        }
+        if ([gr isKindOfClass:[UIPanGestureRecognizer class]])
+        {
+            pgr = (UIPanGestureRecognizer *)gr;
+        }
+    }
+    if (pgr)
+    {
+        [self.parentScrollView removeGestureRecognizer:pgr];
+    }
+    
     [collectionView addGestureRecognizer:gr];
+    [collectionView addGestureRecognizer:lswgr];
+    [collectionView addGestureRecognizer:rswgr];
+    [collectionView addGestureRecognizer:uswgr];
+    [collectionView addGestureRecognizer:dswgr];
+    
+    lswgr.delegate = self;
+    rswgr.delegate = self;
+    uswgr.delegate = self;
+    dswgr.delegate = self;
 }
+
 
 #pragma mark - utilities bar
 
 - (IBAction)captureBezierPressed:(id)sender
 {
     [self.collectionView debug_captureBezier];
-}
-
-- (IBAction)paintPressed:(id)sender
-{
 }
 
 -(void) disablePaintMode
@@ -2510,21 +2618,27 @@ intoStackingWithMainView: (UIView *) mainView
 
 #pragma mark CollectionScrollViewDelegate
 
+-(void) createHUD
+{
+    CGSize hudSize = CGSizeMake(100, 100);
+    CGRect hudFrame = CGRectMake(self.view.center.x - hudSize.width/2,
+                                 self.view.center.y - hudSize.height/2,
+                                 hudSize.width,
+                                 hudSize.height);
+    self.hud = [[CollectionHUD alloc] initWithFrame:hudFrame];
+    [self.view addSubview:self.hud];
+}
+
 -(void) viewDidZoomWithZoomScale:(int)zoomscale
 {
+    return;
     self.hud.alpha = 1;
     if (zoomscale < 0) zoomscale = 0;
     if (zoomscale > 100) zoomscale = 100;
     
     if (!self.hud)
     {
-        CGSize hudSize = CGSizeMake(100, 100);
-        CGRect hudFrame = CGRectMake(self.view.center.x - hudSize.width/2,
-                                     self.view.center.y - hudSize.height/2,
-                                     hudSize.width,
-                                     hudSize.height);
-        self.hud = [[CollectionHUD alloc] initWithFrame:hudFrame];
-        [self.view addSubview:self.hud];
+        [self createHUD];
     }
     
     if (self.hud.hidden)
@@ -2544,6 +2658,7 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) viewFinishedZoomingWithScale:(int)zoomScale
 {
+    return;
     if (self.hud)
     {
         [UIView animateWithDuration:0.2
@@ -2555,4 +2670,29 @@ intoStackingWithMainView: (UIView *) mainView
     }
 }
 
+#pragma mark UIGestureRecognizerDelegate
+-(BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    if (gestureRecognizer.view == otherGestureRecognizer.view)
+    {
+        if ([gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]])
+        {
+            if ([otherGestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]])
+            {
+                return NO;
+            }
+        }
+        else
+        {
+            return YES;
+        }
+    }
+    if([gestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]] ||
+       [otherGestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]])
+    {
+        return YES;
+    }
+
+    return NO;
+}
 @end

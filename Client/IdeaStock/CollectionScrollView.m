@@ -42,10 +42,9 @@
 {
     self.delegate = self;
     self.minimumZoomScale = MIN_ZOOM_SCALE;
-    self.scrollEnabled = YES;
+    self.scrollEnabled = NO;
     self.maximumZoomScale = MAX_ZOOM_SCALE;
     self.multipleTouchEnabled = YES;
-    
     self.backgroundColor = [UIColor clearColor];
 //    self.backgroundColor = [[ThemeFactory ;currentTheme] noisePatternForCollection];
 }
@@ -183,5 +182,6 @@
     self.delaysContentTouches = NO;
     [self.surrogateView hidePaintLayer];
 }
+
 
 @end

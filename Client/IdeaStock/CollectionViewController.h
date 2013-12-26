@@ -31,7 +31,8 @@ PaintControlViewDelegate,
 PushWithFrictionBehaviorDelegate,
 PaintConfigDelegate,
 CollectionScrollviewDelegate,
-UITextFieldDelegate>
+UITextFieldDelegate,
+UIGestureRecognizerDelegate>
 
 @property (strong,nonatomic) NSString * bulletinBoardName;
 @property (strong, nonatomic) MindcloudCollection * board;

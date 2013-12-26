@@ -256,7 +256,7 @@
 
 -(BOOL) isScalingValid: (CGFloat) scaleFactor;
 {
-    if (self.scaleOffset * scaleFactor > 4 || self.scaleOffset * scaleFactor < 0.9) return NO;
+    if (self.scaleOffset * scaleFactor > 2 || self.scaleOffset * scaleFactor < 0.9) return NO;
     else return YES;
 }
 
