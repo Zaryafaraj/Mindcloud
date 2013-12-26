@@ -29,6 +29,7 @@
 #import "PaintControlView.h"
 #import "PushWithFrictionBehavior.h"
 #import "PaintConfigViewController.h"
+#import "CollectionHUD.h"
 
 @interface CollectionViewController ()
 
@@ -48,6 +49,7 @@
 @property BOOL shouldRefresh;
 @property UIActionSheet * activeImageSheet;
 @property (strong, nonatomic) UIPopoverController * lastPopOver;
+@property (strong, nonatomic) CollectionHUD * hud;
 
 //we remove this prototype view from the super view at the begining of
 //when the contoller loads. So we need a strong pointer to it so that it
@@ -1057,9 +1059,7 @@
     [self removePrototypesFromView];
     [self configureScrollView];
     self.shouldRefresh = YES;
-    
-    
-    
+    self.parentScrollView.collectionDel = self;
     [self initateDataStructures];
     
     [self addCollectionViewGestureRecognizersToCollectionView: self.collectionView];
@@ -1165,6 +1165,10 @@
 
 -(void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    if (!self.hud.hidden)
+    {
+        self.hud.hidden = YES;
+    }
     if (self.lastPopOver)
     {
         [self.lastPopOver dismissPopoverAnimated:NO];
@@ -2501,6 +2505,53 @@ intoStackingWithMainView: (UIView *) mainView
                            toNewCollectionName:newName];
         self.bulletinBoardName = newName;
         self.board.bulletinBoardName = newName;
+    }
+}
+
+#pragma mark CollectionScrollViewDelegate
+
+-(void) viewDidZoomWithZoomScale:(int)zoomscale
+{
+    self.hud.alpha = 1;
+    if (zoomscale < 0) zoomscale = 0;
+    if (zoomscale > 100) zoomscale = 100;
+    
+    if (!self.hud)
+    {
+        CGSize hudSize = CGSizeMake(100, 100);
+        CGRect hudFrame = CGRectMake(self.view.center.x - hudSize.width/2,
+                                     self.view.center.y - hudSize.height/2,
+                                     hudSize.width,
+                                     hudSize.height);
+        self.hud = [[CollectionHUD alloc] initWithFrame:hudFrame];
+        [self.view addSubview:self.hud];
+    }
+    
+    if (self.hud.hidden)
+    {
+        CGSize hudSize = CGSizeMake(100, 100);
+        CGRect hudFrame = CGRectMake(self.view.center.x - hudSize.width/2,
+                                     self.view.center.y - hudSize.height/2,
+                                     hudSize.width,
+                                     hudSize.height);
+        self.hud.frame = hudFrame;
+        self.hud.hidden = NO;
+    }
+    
+    NSString * scale = [NSString stringWithFormat:@"%d%%", zoomscale];
+    [self.hud setTitleText:scale];
+}
+
+-(void) viewFinishedZoomingWithScale:(int)zoomScale
+{
+    if (self.hud)
+    {
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             self.hud.alpha = 0;
+                         }completion:^(BOOL finished){
+                             self.hud.hidden = YES;
+                         }];
     }
 }
 

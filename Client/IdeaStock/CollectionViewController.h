@@ -15,6 +15,7 @@
 #import "PaintControlView.h"
 #import "PushWithFrictionBehavior.h"
 #import "PaintConfigViewController.h"
+#import "CollectionScrollView.h"
 
 @interface CollectionViewController : UIViewController<
 UIScrollViewDelegate,
@@ -29,6 +30,7 @@ UIPopoverControllerDelegate,
 PaintControlViewDelegate,
 PushWithFrictionBehaviorDelegate,
 PaintConfigDelegate,
+CollectionScrollviewDelegate,
 UITextFieldDelegate>
 
 @property (strong,nonatomic) NSString * bulletinBoardName;

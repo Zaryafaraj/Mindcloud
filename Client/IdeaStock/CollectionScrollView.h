@@ -8,7 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol CollectionScrollviewDelegate <NSObject>
+
+-(void) viewDidZoomWithZoomScale:(int) zoomScale;
+-(void) viewFinishedZoomingWithScale:(int) zoomScale;
+
+@end
+
 @interface CollectionScrollView : UIScrollView <UIScrollViewDelegate>
+
+@property (nonatomic, weak) id<CollectionScrollviewDelegate> collectionDel;
 
 -(void) willRotateToInterfaceOrientation:(UIInterfaceOrientation) orientation;
 

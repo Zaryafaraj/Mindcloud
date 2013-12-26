@@ -55,6 +55,33 @@
     [self.surrogateView cleanupPinchArtifacts];
 }
 
+-(void) scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
+{
+    id<CollectionScrollviewDelegate> temp = self.collectionDel;
+    if (temp)
+    {
+        int zoomPerc = [self zoomPercentageFromZoomScale:scale];
+        [temp viewFinishedZoomingWithScale:zoomPerc];
+    }
+}
+
+-(int) zoomPercentageFromZoomScale:(CGFloat) zoomScale
+{
+    CGFloat perc = (zoomScale - self.minimumZoomScale) / (self.maximumZoomScale - self.minimumZoomScale);
+    int percInt = perc * 100;
+    return percInt;
+}
+
+-(void) scrollViewDidZoom:(UIScrollView *)scrollView
+{
+    CGFloat scale = scrollView.zoomScale;
+    id<CollectionScrollviewDelegate> temp = self.collectionDel;
+    if (temp)
+    {
+        int zoomPerc = [self zoomPercentageFromZoomScale:scale];
+        [temp viewDidZoomWithZoomScale:zoomPerc];
+    }
+}
 //this assumes that bounds have already made it to the target orientation sizes
 -(void) willRotateToInterfaceOrientation:(UIInterfaceOrientation) orientation
 {
@@ -78,8 +105,6 @@
     CGFloat surrogateWidth = self.surrogateView.bounds.size.width;
     CGFloat surrogateHeight = self.surrogateView.bounds.size.height;
     
-    NSLog(@"SS - (%f, %f)" , surrogateWidth, surrogateHeight);
-    NSLog(@"S - (%f, %f)", self.bounds.size.width, self.bounds.size.height);
     CGFloat minZoomWidth =  self.bounds.size.width / surrogateWidth;
     CGFloat minZoomHeight =  self.bounds.size.height / surrogateHeight;
     CGFloat actualZoomFactor = MAX(minZoomHeight, minZoomWidth);
