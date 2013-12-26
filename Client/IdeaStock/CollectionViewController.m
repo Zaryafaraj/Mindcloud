@@ -1993,10 +1993,10 @@ intoStackingWithMainView: (UIView *) mainView
     }
     
     [collectionView addGestureRecognizer:gr];
-    [collectionView addGestureRecognizer:lswgr];
-    [collectionView addGestureRecognizer:rswgr];
-    [collectionView addGestureRecognizer:uswgr];
-    [collectionView addGestureRecognizer:dswgr];
+    [self.view addGestureRecognizer:lswgr];
+    [self.view addGestureRecognizer:rswgr];
+    [self.view addGestureRecognizer:uswgr];
+    [self.view addGestureRecognizer:dswgr];
     
     lswgr.delegate = self;
     rswgr.delegate = self;
@@ -2492,6 +2492,7 @@ intoStackingWithMainView: (UIView *) mainView
 #pragma mark PaintConfigDelegate
 -(void) undoPressed
 {
+    NSLog(@"UNDO");
     NSInteger orderIndex = [self.collectionView undo:NO];
     NSNumber * orderIndexObj = [NSNumber numberWithInteger:orderIndex];
     if (orderIndex > -1)
@@ -2631,7 +2632,6 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) viewDidZoomWithZoomScale:(int)zoomscale
 {
-    return;
     self.hud.alpha = 1;
     if (zoomscale < 0) zoomscale = 0;
     if (zoomscale > 100) zoomscale = 100;
@@ -2658,7 +2658,6 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) viewFinishedZoomingWithScale:(int)zoomScale
 {
-    return;
     if (self.hud)
     {
         [UIView animateWithDuration:0.2
