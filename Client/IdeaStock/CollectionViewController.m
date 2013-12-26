@@ -771,14 +771,49 @@
         self.hud.hidden = NO;
     }
     
-    [self.hud setTitleText:@"Undo"];
+    UIImage * undoImg = [[ThemeFactory currentTheme] imageForUndo];
+    [self.hud setTitleImage:undoImg];
     [self undoPressed];
 }
 
 
 -(void) screenSwippedForRedo:(UISwipeGestureRecognizer *) sender
 {
-    NSLog(@"Redo");
+    
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         self.hud.alpha = 1;
+                     }completion:^(BOOL finished){
+                         [UIView animateWithDuration:0.5
+                                               delay:0.2
+                                             options:UIViewAnimationOptionBeginFromCurrentState
+                                          animations:^{
+                                              self.hud.alpha = 0.0;
+                                          }completion:^(BOOL finished){
+                                          }];
+                         
+                     }];
+    
+    if (!self.hud)
+    {
+        [self createHUD];
+    }
+    if (self.hud.hidden)
+    {
+        CGSize hudSize = CGSizeMake(100, 100);
+        CGRect hudFrame = CGRectMake(self.view.center.x - hudSize.width/2,
+                                     self.view.center.y - hudSize.height/2,
+                                     hudSize.width,
+                                     hudSize.height);
+        self.hud.frame = hudFrame;
+        self.hud.hidden = NO;
+    }
+    
+    UIImage * redoImg = [[ThemeFactory currentTheme] imageForRedo];
+    [self.hud setTitleImage:redoImg];
+    [self redoPressed];
 }
 
 -(void) screenSwippedForPen:(UISwipeGestureRecognizer *) sender
@@ -814,7 +849,8 @@
         self.hud.hidden = NO;
     }
     
-    [self.hud setTitleText:@"Pen"];
+    UIImage * penImg = [[ThemeFactory currentTheme] imageForPaintControl];
+    [self.hud setTitleImage:penImg];
     
     if (!self.isDrawing)
     {
@@ -870,7 +906,8 @@
         self.hud.hidden = NO;
     }
     
-    [self.hud setTitleText:@"Eraser"];
+    UIImage * eraserImg = [[ThemeFactory currentTheme] imageForPaintControlEraser];
+    [self.hud setTitleImage:eraserImg];
     
     if (!self.isErasing)
     {
@@ -2605,13 +2642,17 @@ intoStackingWithMainView: (UIView *) mainView
 #pragma mark PaintConfigDelegate
 -(void) undoPressed
 {
-    NSLog(@"UNDO");
     NSInteger orderIndex = [self.collectionView undo:NO];
     NSNumber * orderIndexObj = [NSNumber numberWithInteger:orderIndex];
     if (orderIndex > -1)
     {
         [self.board sendUndoMessage:@[orderIndexObj]];
     }
+}
+
+-(void) redoPressed
+{
+    
 }
 
 -(void) clearPressed

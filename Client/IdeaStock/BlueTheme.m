@@ -90,6 +90,12 @@
     return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
+-(UIImage *) iconForRedoControl
+{
+    UIImage * img = [UIImage imageNamed:@"redo-round"];
+    return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
 -(UIImage *) iconForPaintControl
 {
     UIImage * img = [UIImage imageNamed:@"paint-round"];
@@ -140,4 +146,17 @@
 {
     return [UIColor colorWithWhite:0.35 alpha:0.7];
 }
+
+-(UIImage *) imageForUndo
+{
+    UIImage * img = [UIImage imageNamed:@"undo"];
+    return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
+-(UIImage *) imageForRedo
+{
+    UIImage * img = [UIImage imageNamed:@"redo"];
+    return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
 @end

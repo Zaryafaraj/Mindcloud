@@ -25,6 +25,7 @@
 
 @property (strong, nonatomic) UIButton * paintButton;
 @property (strong, nonatomic) UIButton * undoButton;
+@property (strong, nonatomic) UIButton * redoButton;
 @property (strong, nonatomic) UIButton * eraserButton;
 @property (strong, nonatomic) UIButton * clearButton;
 
@@ -86,11 +87,11 @@
     return self;
 }
 
-#define EDGE_OFFSET 10.0
+#define EDGE_OFFSET 11.0
 #define DISTANCE_BETWEEN_SLIDER_AND_COLORS 20
 #define DISTANCE_BETWEEN_BOTTOMS_AND_DIVIDER 10
 #define DISTANCE_BETWEEN_DIVIDER 15
-#define DISTANCE_BETWEEN_BUTTONS 5
+#define DISTANCE_BETWEEN_BUTTONS 7
 #define ICON_SIZE 50
 
 -(void) createSubViews
@@ -156,6 +157,18 @@
     self.undoButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
     [self addSubview:self.undoButton];
     
+    UIButton * redoButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    self.redoButton = redoButton;
+    [self.redoButton addTarget:self
+                        action:@selector(redoPressed:)
+              forControlEvents:UIControlEventTouchDown];
+    self.redoButton.translatesAutoresizingMaskIntoConstraints = NO;
+    btnImage = [[ThemeFactory currentTheme] iconForRedoControl];
+    [self.redoButton setImage:btnImage
+                     forState:UIControlStateNormal];
+    self.redoButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
+    [self addSubview:self.redoButton];
+    
     UIButton * paintButton = [UIButton buttonWithType:UIButtonTypeSystem];
     self.paintButton = paintButton;
     [self.paintButton addTarget:self
@@ -201,7 +214,7 @@
     self.dividerLine.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:lineView];
     
-    NSDictionary * views = NSDictionaryOfVariableBindings(colorView, brushView, slider, undoButton, paintButton, eraseButton, clearButton, lineView);
+    NSDictionary * views = NSDictionaryOfVariableBindings(colorView, brushView, slider, undoButton, redoButton, paintButton, eraseButton, clearButton, lineView);
     
     NSLayoutConstraint * collectionViewHeight = [NSLayoutConstraint constraintWithItem:colorView
                                                                              attribute:NSLayoutAttributeHeight
@@ -267,6 +280,14 @@
                                                                   multiplier:1.0
                                                                     constant:0];
     
+    NSLayoutConstraint * redoHeight = [NSLayoutConstraint constraintWithItem:redoButton
+                                                                   attribute:NSLayoutAttributeCenterY
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:paintButton
+                                                                   attribute:NSLayoutAttributeCenterY
+                                                                  multiplier:1.0
+                                                                    constant:0];
+    
     NSLayoutConstraint * eraserHeight = [NSLayoutConstraint constraintWithItem:eraseButton
                                                                      attribute:NSLayoutAttributeCenterY
                                                                      relatedBy:NSLayoutRelationEqual
@@ -291,6 +312,14 @@
                                                                 multiplier:1.0
                                                                   constant:0];
     
+    NSLayoutConstraint * redoSize = [NSLayoutConstraint constraintWithItem:redoButton
+                                                                 attribute:NSLayoutAttributeHeight
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:paintButton
+                                                                 attribute:NSLayoutAttributeHeight
+                                                                multiplier:1.0
+                                                                  constant:0];
+    
     NSLayoutConstraint * eraserSize = [NSLayoutConstraint constraintWithItem:eraseButton
                                                                    attribute:NSLayoutAttributeHeight
                                                                    relatedBy:NSLayoutRelationEqual
@@ -307,6 +336,7 @@
                                                                  multiplier:1.0
                                                                    constant:0];
     
+    
     NSDictionary * metrics = @{@"sliderAndColorsDivider":[NSNumber numberWithFloat:DISTANCE_BETWEEN_SLIDER_AND_COLORS],
                                @"edgeOffset": [NSNumber numberWithFloat:EDGE_OFFSET],
                                @"dividerDistance" : [NSNumber numberWithFloat:DISTANCE_BETWEEN_DIVIDER],
@@ -319,9 +349,7 @@
     NSString * colorViewConstraintH = @"H:|-0-[colorView]-0-|";
     NSString * brushViewConstraintH = @"H:|-0-[brushView]-0-|";
     NSString * sliderConstraintH = @"H:|-edgeOffset-[slider]-edgeOffset-|";
-    NSString * actionButtonsH = @"H:[eraseButton(==iconSize)]-buttonDistance-[undoButton(==iconSize)]-buttonDistance-[paintButton(==iconSize)]-edgeOffset-|";
-    NSString * clearButtonH = @"H:|-edgeOffset-[clearButton(==iconSize)]";
-    
+    NSString * actionButtonsH = @"H:|-edgeOffset-[clearButton(==iconSize)]-buttonDistance-[undoButton(==iconSize)]-buttonDistance-[redoButton(==iconSize)]-buttonDistance-[eraseButton(==iconSize)]-buttonDistance-[paintButton(==iconSize)]-edgeOffset-|";
     [self addConstraints:@[collectionViewHeight,
                            brushViewWidth,
                            brushViewHeight,
@@ -330,18 +358,21 @@
                            dividerLineX,
                            dividerWidth,
                            undoHeight,
+                           redoHeight,
                            clearHeight,
                            eraserHeight,
                            undoSize,
+                           redoSize,
                            clearSize,
-                           eraserSize]];
+                           eraserSize
+                           ]];
     
     NSArray * allConstraints = @[colorViewConstraintH,
                                  colorViewConstraintV,
                                  sliderConstraintH,
                                  actionButtonsH,
-                                 clearButtonH,
-                                 brushViewConstraintH];
+                                 brushViewConstraintH
+                                 ];
     
     for (NSString * constraintStr in allConstraints)
     {

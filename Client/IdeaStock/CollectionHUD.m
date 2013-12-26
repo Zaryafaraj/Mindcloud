@@ -85,7 +85,7 @@
                                                                    relatedBy:NSLayoutRelationEqual
                                                                       toItem:self
                                                                    attribute:NSLayoutAttributeWidth
-                                                                  multiplier:0.75
+                                                                  multiplier:0.5
                                                                     constant:0];
     
     NSLayoutConstraint * imageHeight = [NSLayoutConstraint constraintWithItem:image
@@ -93,7 +93,7 @@
                                                                    relatedBy:NSLayoutRelationEqual
                                                                       toItem:self
                                                                    attribute:NSLayoutAttributeHeight
-                                                                  multiplier:0.75
+                                                                  multiplier:0.5
                                                                     constant:0];
     
     NSArray * constraints = @[labelX, labelY, imageX, imageY, imageWidth, imageHeight];
@@ -111,10 +111,10 @@
 
 -(void) setTitleImage:(UIImage *) image
 {
-    
     self.image.hidden = NO;
     self.label.hidden = YES;
     self.image.image = image;
+    self.image.tintColor = [UIColor whiteColor];
 }
 
 /*

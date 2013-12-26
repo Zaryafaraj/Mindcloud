@@ -46,6 +46,8 @@
 
 -(UIImage *) iconForEraseControl;
 
+-(UIImage *) iconForRedoControl;
+
 -(UIColor *) tintColorForActivePaintControlButton;
 
 -(UIColor *) tintColorForInactivePaintControlButton;
@@ -53,5 +55,9 @@
 -(UIImage *) imageForDeleteIcon;
 
 -(UIColor *) tintColorForDeleteIcon;
+
+-(UIImage *) imageForUndo;
+
+-(UIImage *) imageForRedo;
 
 @end
