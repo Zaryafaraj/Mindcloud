@@ -34,6 +34,26 @@
     return self;
 }
 
+-(void) setPenEnabled:(BOOL)penEnabled
+{
+    ((PaintConfigView *)self.view).penEnabled = penEnabled;
+}
+
+-(void) setEraserEnabled:(BOOL)eraserEnabled
+{
+    ((PaintConfigView *)self.view).eraserEnabled = eraserEnabled;
+}
+
+-(BOOL) penEnabled
+{
+    return ((PaintConfigView *)self.view).penEnabled;
+}
+
+-(BOOL) eraserEnabled
+{
+    return ((PaintConfigView *)self.view).eraserEnabled;
+}
+
 -(id<PaintConfigDelegate>) delegate
 {
     return ((PaintConfigView *)self.view).delegate;

@@ -303,7 +303,6 @@
     
     if (touches.count > 1) return;
     
-    NSLog(@"---- %d",touch.tapCount);
     
     self.orderIndex++;
     CGPoint location = [touch locationInView:self];
@@ -331,7 +330,6 @@
     UITouch * touch = [touches anyObject];
     if (event.allTouches.count > 1)
     {
-        NSLog(@"eeeeee %d",touch.tapCount);
         return;
     }
 //    if (touch.tapCount == 2)
@@ -339,7 +337,6 @@
 //        return;
 //    }
     
-    NSLog(@"XXXXX %d",touch.tapCount);
     if (!self.drawingEnabled) return;
     
     CGPoint touchLocation = [touch locationInView:self];
@@ -411,7 +408,6 @@
     
     UITouch * touch = [touches anyObject];
     
-    NSLog(@"ddddd %d",touch.tapCount);
     CGPoint touchLocation = [touch locationInView:self];
     CGPoint prevLocation = [touch previousLocationInView:self];
     PaintLayerView * currentTouchedLayer = [self getGridCellForTouchLocation:touchLocation];

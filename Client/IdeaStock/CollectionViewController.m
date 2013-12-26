@@ -96,6 +96,23 @@
 @implementation CollectionViewController
 
 @synthesize activeView = _activeField;
+@synthesize configController = _configController;
+
+-(void) setConfigController:(PaintConfigViewController *)configController
+{
+    _configController = configController;
+}
+
+-(PaintConfigViewController *) configController
+{
+    if(!_configController)
+    {
+        PaintConfigViewController * configController = [[PaintConfigViewController alloc] init];
+        _configController = configController;
+        _configController.delegate = self;
+    }
+    return _configController;
+}
 
 -(void) setActiveView:(UIView *)activeView
 {
@@ -722,7 +739,23 @@
 
 -(void) screenSwippedForUndo:(UISwipeGestureRecognizer *) sender
 {
-    self.hud.alpha = 1;
+    
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         self.hud.alpha = 1;
+                     }completion:^(BOOL finished){
+                         [UIView animateWithDuration:0.5
+                                               delay:0.2
+                                             options:UIViewAnimationOptionBeginFromCurrentState
+                                          animations:^{
+                                              self.hud.alpha = 0.0;
+                                          }completion:^(BOOL finished){
+                                          }];
+                         
+                     }];
+    
     if (!self.hud)
     {
         [self createHUD];
@@ -740,16 +773,6 @@
     
     [self.hud setTitleText:@"Undo"];
     [self undoPressed];
-    
-    [UIView animateWithDuration:0.2
-                          delay:0.5
-                        options:UIViewAnimationOptionCurveLinear
-                     animations:^{
-                         self.hud.alpha = 0;
-                     }completion:^(BOOL finished){
-                         self.hud.hidden = YES;
-                     }];
-    
 }
 
 
@@ -760,13 +783,111 @@
 
 -(void) screenSwippedForPen:(UISwipeGestureRecognizer *) sender
 {
-    NSLog(@"Pen");
+    
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         self.hud.alpha = 1;
+                     }completion:^(BOOL finished){
+                         [UIView animateWithDuration:0.5
+                                               delay:0.2
+                                             options:UIViewAnimationOptionBeginFromCurrentState
+                                          animations:^{
+                                              self.hud.alpha = 0.0;
+                                          }completion:^(BOOL finished){
+                                          }];
+                         
+                     }];
+    if (!self.hud)
+    {
+        [self createHUD];
+    }
+    if (self.hud.hidden)
+    {
+        CGSize hudSize = CGSizeMake(100, 100);
+        CGRect hudFrame = CGRectMake(self.view.center.x - hudSize.width/2,
+                                     self.view.center.y - hudSize.height/2,
+                                     hudSize.width,
+                                     hudSize.height);
+        self.hud.frame = hudFrame;
+        self.hud.hidden = NO;
+    }
+    
+    [self.hud setTitleText:@"Pen"];
+    
+    if (!self.isDrawing)
+    {
+        self.isDrawing = YES;
+        self.isErasing = NO;
+        self.paintControl.eraseMode = NO;
+        self.collectionView.eraseModeEnabled = NO;
+        self.configController.penEnabled = YES;
+        
+        if (!self.isInPaintMode)
+        {
+            self.isInPaintMode = YES;
+            [self enablePaintMode];
+        }
+        [self enablePaintMode];
+        
+        self.paintControl.tintColor = [[ThemeFactory currentTheme] tintColorForActivePaintControl];
+    
+    }
 }
 
 
 -(void) screenSwippedForEraser:(UISwipeGestureRecognizer *) sender
 {
-    NSLog(@"eraser");
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         self.hud.alpha = 1;
+                     }completion:^(BOOL finished){
+                         [UIView animateWithDuration:0.5
+                                               delay:0.2
+                                             options:UIViewAnimationOptionBeginFromCurrentState
+                                          animations:^{
+                                              self.hud.alpha = 0.0;
+                                          }completion:^(BOOL finished){
+                                          }];
+                         
+                     }];
+    
+    if (!self.hud)
+    {
+        [self createHUD];
+    }
+    if (self.hud.hidden)
+    {
+        CGSize hudSize = CGSizeMake(100, 100);
+        CGRect hudFrame = CGRectMake(self.view.center.x - hudSize.width/2,
+                                     self.view.center.y - hudSize.height/2,
+                                     hudSize.width,
+                                     hudSize.height);
+        self.hud.frame = hudFrame;
+        self.hud.hidden = NO;
+    }
+    
+    [self.hud setTitleText:@"Eraser"];
+    
+    if (!self.isErasing)
+    {
+        self.isDrawing = NO;
+        self.isErasing = YES;
+        self.paintControl.eraseMode = YES;
+        self.collectionView.eraseModeEnabled = YES;
+        self.configController.eraserEnabled = YES;
+        if (!self.isInPaintMode)
+        {
+            self.isInPaintMode = YES;
+            [self enablePaintMode];
+        }
+        
+        self.paintControl.tintColor = [[ThemeFactory currentTheme] tintColorForActivePaintControl];
+    
+    }
 }
 
 -(void) screenPressed:(UILongPressGestureRecognizer *) sender
@@ -2449,14 +2570,6 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) controlSelected
 {
-    if (!self.configController)
-    {
-        
-        PaintConfigViewController * configController = [[PaintConfigViewController alloc] init];
-        self.configController = configController;
-        self.configController.delegate = self;
-    }
-    
     UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:self.configController];
     popover.popoverContentSize = CGSizeMake(300, 250);
     popover.delegate = self;

@@ -16,4 +16,7 @@
 
 @property (nonatomic, weak) id<PaintConfigDelegate> delegate;
 
+@property (nonatomic, assign) BOOL eraserEnabled;
+@property (nonatomic, assign) BOOL penEnabled;
+
 @end

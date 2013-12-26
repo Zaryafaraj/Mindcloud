@@ -29,6 +29,9 @@
 @property (nonatomic) CGFloat maxBrushWidth;
 @property (nonatomic) CGFloat minBrushWidth;
 
+@property (nonatomic, assign) BOOL eraserEnabled;
+@property (nonatomic, assign) BOOL penEnabled;
+
 -(void) redrawSamplePath;
 
 @end

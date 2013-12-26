@@ -379,6 +379,48 @@
     
 }
 
+-(void) setEraserEnabled:(BOOL)eraserEnabled
+{
+    _eraserEnabled = eraserEnabled;
+    if (!eraserEnabled)
+    {
+        self.isInEraseMode = NO;
+        self.eraserButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
+    }
+    else
+    {
+        self.isInEraseMode = YES;
+        self.eraserButton.tintColor = [[ThemeFactory currentTheme] tintColorForActivePaintControlButton];
+        if (self.isInPaintMode)
+        {
+            self.isInPaintMode = NO;
+            self.paintButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
+        }
+    }
+}
+
+-(void) setPenEnabled:(BOOL)penEnabled
+{
+    
+    _penEnabled = penEnabled;
+    if (!penEnabled)
+    {
+        self.isInPaintMode = NO;
+        self.paintButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
+    }
+    else
+    {
+        self.isInPaintMode = YES;
+        self.paintButton.tintColor = [[ThemeFactory currentTheme] tintColorForActivePaintControlButton];
+        
+        if (self.isInEraseMode)
+        {
+            self.isInEraseMode = NO;
+            self.eraserButton.tintColor = [[ThemeFactory currentTheme] tintColorForInactivePaintControlButton];
+        }
+    }
+}
+
 -(void) paintPressed:(id) sender
 {
     if (self.isInPaintMode)
