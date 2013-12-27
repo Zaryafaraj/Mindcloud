@@ -25,7 +25,7 @@
 
 -(void) clearPaintedItems;
 
--(void) cleanupPinchArtifacts;
+-(void) cleanupUnwantedArtifacts;
 
 @property (nonatomic) BOOL eraseModeEnabled;
 

@@ -51,7 +51,7 @@
 
 -(void) scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view
 {
-    [self.surrogateView cleanupPinchArtifacts];
+    [self.surrogateView cleanupUnwantedArtifacts];
 }
 
 -(void) scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale

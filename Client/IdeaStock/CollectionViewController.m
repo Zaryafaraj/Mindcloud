@@ -773,6 +773,7 @@
     
     UIImage * undoImg = [[ThemeFactory currentTheme] imageForUndo];
     [self.hud setTitleImage:undoImg];
+    [self.collectionView cleanupUnwantedArtifacts];
     [self undoPressed];
 }
 
@@ -813,6 +814,7 @@
     
     UIImage * redoImg = [[ThemeFactory currentTheme] imageForRedo];
     [self.hud setTitleImage:redoImg];
+    [self.collectionView cleanupUnwantedArtifacts];
     [self redoPressed];
 }
 
@@ -852,6 +854,7 @@
     UIImage * penImg = [[ThemeFactory currentTheme] imageForPaintControl];
     [self.hud setTitleImage:penImg];
     
+    [self.collectionView cleanupUnwantedArtifacts];
     if (!self.isDrawing)
     {
         self.isDrawing = YES;
@@ -906,6 +909,7 @@
         self.hud.hidden = NO;
     }
     
+    [self.collectionView cleanupUnwantedArtifacts];
     UIImage * eraserImg = [[ThemeFactory currentTheme] imageForPaintControlEraser];
     [self.hud setTitleImage:eraserImg];
     
@@ -936,7 +940,7 @@
         
         if (self.isInPaintMode)
         {
-            [self.collectionView cleanupPinchArtifacts];
+            [self.collectionView cleanupUnwantedArtifacts];
         }
     }
 }
@@ -2652,7 +2656,7 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) redoPressed
 {
-    
+    NSLog(@"Redo");
 }
 
 -(void) clearPressed

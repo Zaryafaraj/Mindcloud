@@ -14,6 +14,7 @@
 -(void) brushSelectedWithWidth:(CGFloat) width;
 
 -(void) undoPressed;
+-(void) redoPressed;
 -(void) paintPressed;
 -(void) clearPressed;
 -(void) eraserPressed;

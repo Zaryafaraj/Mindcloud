@@ -407,7 +407,15 @@
     {
         [temp undoPressed];
     }
-    
+}
+
+-(void) redoPressed:(id) sender
+{
+    id<PaintConfigDelegate> temp = self.delegate;
+    if (temp)
+    {
+        [temp redoPressed];
+    }
 }
 
 -(void) setEraserEnabled:(BOOL)eraserEnabled

@@ -118,6 +118,7 @@
 #define GRID_CELL_SIZE 400
 #define VIEW_WIDTH 2000
 #define VIEW_HEIGHT 2000
+
 -(void) configurePaintLayer
 {
     
@@ -166,7 +167,14 @@
 }
 -(NSInteger) undo:(BOOL) isUnwantedArtifact
 {
-    if (self.orderIndex >= 0 &&
+    NSLog(@" OI = %d", self.orderIndex);
+    NSLog(@" AD = %@", self.allDrawings);
+    if (self.orderIndex < 0 ||
+        self.orderIndex > self.allDrawings.count)
+    {
+        NSLog(@"BAD ORDER INDEX");
+    }
+    if (self.orderIndex >= 0 &
         self.orderIndex < self.allDrawings.count)
     {
         NSNumber * orderIndxObj = [NSNumber numberWithInteger:self.orderIndex];
@@ -377,7 +385,7 @@
     [self.viewsWithoutTouchEnded removeObject:currentTouchedLayer];
 }
 
--(void) cleanupPinchArtifacts
+-(void) cleanupUnwantedArtifacts
 {
     if (self.viewsWithoutTouchEnded.count > 0)
     {
@@ -392,8 +400,10 @@
         //layer.backgroundColor = [UIColor yellowColor];
     }
     [self.overlappingViewsFromLastTouch removeAllObjects];
-    [self.allDrawings removeAllObjects];
+    
+    NSLog(@"all drawings count %d", self.allDrawings.count);
 }
+
 -(void) touchesMoved:(NSSet *)touches
            withEvent:(UIEvent *)event
 {
