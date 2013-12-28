@@ -13,12 +13,17 @@
 -(void) addDrawingTrace:(DrawingTrace *) trace
           forOrderIndex:(NSInteger) index;
 
+-(void) addDrawingTracesFromArray:(NSArray *) drawingTraces
+                    forOrderIndex:(NSInteger) index;
+
 -(void) removeDrawingTracesAtOrderIndex:(NSInteger) index;
 
 -(void) clearAllTraces;
 
 /*! The results are sorted based on their order index */
 -(NSArray *) getAllTracers;
+
+-(NSArray *) getDrawingTracesAtOrderIndex:(NSInteger) index;
 
 -(void) applyBaseContainer:(DrawingTraceContainer *) base;
 

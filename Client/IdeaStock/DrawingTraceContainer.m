@@ -82,6 +82,29 @@
     }
 }
 
+-(void) addDrawingTracesFromArray:(NSArray *) drawingTraces
+                    forOrderIndex:(NSInteger) index
+{
+    
+    NSNumber * indexObj = [NSNumber numberWithInteger:index];
+    if ([self.baseDrawings objectForKey:indexObj])
+    {
+        NSMutableSet * drawings = self.baseDrawings[indexObj];
+        [drawings addObjectsFromArray:drawingTraces];
+    }
+    else
+    {
+        if ([self.drawings objectForKey:indexObj] == nil)
+        {
+            NSMutableSet * drawingsForIndex = [NSMutableSet set];
+            self.drawings[indexObj] = drawingsForIndex;
+        }
+    
+        NSMutableSet * drawings = self.drawings[indexObj];
+        [drawings addObjectsFromArray:drawingTraces];
+    }
+}
+
 -(void) removeDrawingTracesAtOrderIndex:(NSInteger)index
 {
     NSNumber * indexObj = [NSNumber numberWithInteger:index];
@@ -89,6 +112,23 @@
     //and release the CGPath
     [self.drawings removeObjectForKey:indexObj];
     [self.baseDrawings removeObjectForKey:indexObj];
+}
+
+-(NSArray *) getDrawingTracesAtOrderIndex:(NSInteger) index
+{
+    NSNumber * indexObj = [NSNumber numberWithInteger:index];
+    NSMutableArray * drawings = [NSMutableArray array];
+    NSSet * items = [self.drawings[indexObj] copy];
+    if (items)
+    {
+        [drawings addObjectsFromArray:items.allObjects];
+    }
+    items = [self.baseDrawings[indexObj] copy];
+    if (items)
+    {
+        [drawings addObjectsFromArray:items.allObjects];
+    }
+    return drawings;
 }
 
 -(void) clearAllTraces

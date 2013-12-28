@@ -2658,7 +2658,7 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) redoPressed
 {
-    NSLog(@"Redo");
+    [self.collectionView redo];
 }
 
 -(void) clearPressed

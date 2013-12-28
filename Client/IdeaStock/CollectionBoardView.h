@@ -37,7 +37,11 @@
  */
 -(NSInteger) undo:(BOOL) isUnwantedArtifact;
 
+-(void) redo;
+
 -(void) undoItemsAtOrderIndex:(NSArray *) orderIndexes;
+
+-(void) redoItemsAtOrderIndex:(NSArray *) orderIndexes;
 
 -(ScreenDrawing *) getAllScreenDrawings;
 

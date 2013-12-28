@@ -37,6 +37,8 @@
 
 -(void) undoIndex:(NSInteger) index;
 
+-(void) redoIndex:(NSInteger) index;
+
 -(NSData *) serializeLayer;
 
 -(void) debug_writeBezierPathToFile;

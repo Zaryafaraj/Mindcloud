@@ -22,6 +22,10 @@ static const CGFloat kPointMinDistanceSquared = kPointMinDistance * kPointMinDis
 @property (atomic, strong) DrawingTraceContainer * container;
 @property (atomic, strong) DrawingTraceContainer * lastClearContainer;
 
+@property (nonatomic, assign) BOOL hasRedoableItems;
+/* keys are order indexs, valued on NSArray of drawingTraces */
+@property (nonatomic, strong) NSMutableDictionary * redoableItems;
+
 @end
 
 @implementation PaintLayerView
@@ -57,6 +61,7 @@ static const CGFloat kPointMinDistanceSquared = kPointMinDistance * kPointMinDis
 -(void) initInternals
 {
     self.container = [[DrawingTraceContainer alloc] init];
+    self.redoableItems = [NSMutableDictionary dictionary];
     self.empty = YES;
     path = CGPathCreateMutable();
 }
@@ -174,6 +179,12 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
         [self.container addDrawingTrace:trace forOrderIndex:index];
         CGPathRelease(path);
         path = nil;
+        //when a new path is drawn u cannot redo after
+        if (self.hasRedoableItems)
+        {
+            self.hasRedoableItems = NO;
+            [self.redoableItems removeAllObjects];
+        }
     }
     
 
@@ -250,6 +261,13 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     path = CGPathCreateMutable();
     self.lastClearContainer = [self.container copy];
     [self.container clearAllTraces];
+    
+    //When screen is cleared you canno't redo items
+    if (self.hasRedoableItems)
+    {
+        self.hasRedoableItems = NO;
+        [self.redoableItems removeAllObjects];
+    }
     [self setNeedsDisplay];
 }
 
@@ -282,8 +300,28 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
 
 -(void) undoIndex:(NSInteger)index
 {
-    [self.container removeDrawingTracesAtOrderIndex:index];
-    [self setNeedsDisplay];
+    NSArray * allDrawings = [self.container getDrawingTracesAtOrderIndex:index];
+    if (allDrawings.count > 0)
+    {
+        NSNumber * indexObj = [NSNumber numberWithInteger:index];
+        self.redoableItems[indexObj] = allDrawings;
+        self.hasRedoableItems = YES;
+        [self.container removeDrawingTracesAtOrderIndex:index];
+        [self setNeedsDisplay];
+    }
+}
+
+-(void) redoIndex:(NSInteger) index
+{
+    if (self.hasRedoableItems)
+    {
+        NSNumber * indexObj = [NSNumber numberWithInteger:index];
+        NSArray * drawings = self.redoableItems[indexObj];
+        [self.container addDrawingTracesFromArray:drawings
+                                    forOrderIndex:index];
+        [self.redoableItems removeObjectForKey:indexObj];
+        [self setNeedsDisplay];
+    }
 }
 
 -(void)dealloc {

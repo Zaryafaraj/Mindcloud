@@ -43,6 +43,11 @@
 
 @property (nonatomic, assign) BOOL lastActionWasClear;
 
+/*! keys are orderIndex, valued on NSSet of PaintLayerViews */
+@property (nonatomic, strong) NSMutableDictionary * redoableViews;
+
+@property (nonatomic, assign) BOOL hasRedos;
+
 @end
 
 @implementation CollectionBoardView
@@ -116,6 +121,8 @@
     self.overlappingViewsFromLastTouch = [NSMutableSet set];
     self.validUndoViews = [NSMutableSet set];
     self.hasUnsavedClear = NO;
+    self.redoableViews = [NSMutableDictionary dictionary];
+    self.hasRedos = NO;
 }
 
 
@@ -170,6 +177,38 @@
 {
     [super setFrame:frame];
 }
+
+-(void) redo
+{
+    if (self.hasRedos && self.orderIndex >= -1)
+    {
+        NSNumber * indexObj = [NSNumber numberWithInteger:(self.orderIndex+1)];
+        NSMutableSet * lastViews = self.redoableViews[indexObj];
+        if (lastViews)
+        {
+            
+            self.orderIndex++;
+            for(PaintLayerView * view in lastViews)
+            {
+                
+                [self.touchedViews addObject:view];
+                NSNumber * viewIndex = [NSNumber numberWithInt: view.gridIndex];
+                [self.validUndoViews removeObject:viewIndex];
+                [view redoIndex:self.orderIndex];
+            }
+            
+            [self.redoableViews removeObjectForKey:indexObj];
+            self.allDrawings[indexObj] = lastViews;
+            
+            id<CollectionBoardDelegate> temp = self.delegate;
+            if (temp)
+            {
+                [temp didFinishDrawingOnScreen];
+            }
+        }
+    }
+}
+
 -(NSInteger) undo:(BOOL) isUnwantedArtifact
 {
     if (self.lastActionWasClear)
@@ -195,6 +234,8 @@
         NSNumber * orderIndxObj = [NSNumber numberWithInteger:self.orderIndex];
         NSSet * touchedViewsInLastOrder = self.allDrawings[orderIndxObj];
         BOOL didChangeDrawings = NO;
+        NSMutableSet * redoableViews = [NSMutableSet set];
+        
         for (PaintLayerView * view in touchedViewsInLastOrder)
         {
             [view undoIndex:self.orderIndex];
@@ -204,7 +245,15 @@
                 didChangeDrawings = YES;
                 NSNumber * indexObj = [NSNumber numberWithInt: view.gridIndex];
                 [self.validUndoViews addObject:indexObj];
+                self.hasRedos = YES;
+                [redoableViews addObject:view];
             }
+        }
+        
+        if (!isUnwantedArtifact && self.hasRedos)
+        {
+            NSNumber * indexObj = [NSNumber numberWithInt:self.orderIndex];
+            self.redoableViews[indexObj] = redoableViews;
         }
     
         [self.allDrawings removeObjectForKey:orderIndxObj];
@@ -229,11 +278,6 @@
     {
         return -1;
     }
-}
-
--(void) redo
-{
-    
 }
 
 -(void) redoItemsAtOrderIndex:(NSArray *) orderIndexes
@@ -413,6 +457,13 @@
     }
     
     [self.viewsWithoutTouchEnded removeObject:currentTouchedLayer];
+    
+    //reset redoable objects
+    if (self.hasRedos)
+    {
+        self.hasRedos = NO;
+        [self.redoableViews removeAllObjects];
+    }
 }
 
 -(void) cleanupUnwantedArtifacts
@@ -886,6 +937,13 @@
     [self.validUndoViews removeAllObjects];
     [self.overlappingViewsFromLastTouch removeAllObjects];
     self.orderIndex = -1;
+    
+    //reset redoable objects
+    if (self.hasRedos)
+    {
+        self.hasRedos = NO;
+        [self.redoableViews removeAllObjects];
+    }
 }
 
 -(CollectionBoardState *) captureCurrentBoardState
