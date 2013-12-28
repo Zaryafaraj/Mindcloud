@@ -167,8 +167,8 @@
 }
 -(NSInteger) undo:(BOOL) isUnwantedArtifact
 {
-    NSLog(@" OI = %d", self.orderIndex);
-    NSLog(@" AD = %@", self.allDrawings);
+//    NSLog(@" OI = %d", self.orderIndex);
+//    NSLog(@" AD = %@", self.allDrawings);
     if (self.orderIndex < 0 ||
         self.orderIndex > self.allDrawings.count)
     {
@@ -195,6 +195,7 @@
         [self.allDrawings removeObjectForKey:orderIndxObj];
         NSInteger undidOrder = self.orderIndex;
         self.orderIndex--;
+        NSLog(@"1-Decreasing order index %d", self.orderIndex);
         if (didChangeDrawings)
         {
             id<CollectionBoardDelegate> temp = self.delegate;
@@ -239,6 +240,7 @@
             if (self.orderIndex == numInt)
             {
                 self.orderIndex--;
+                NSLog(@"2-Decreasing order index %d", self.orderIndex);
             }
         
             [self.allDrawings removeObjectForKey:num];
@@ -313,6 +315,8 @@
     
     
     self.orderIndex++;
+    NSLog(@"3-Increasing order %d", self.orderIndex);
+    
     CGPoint location = [touch locationInView:self];
     PaintLayerView * touchedLayer = [self getGridCellForTouchLocation:location];
     [self addTouchedItem:touchedLayer];
@@ -335,6 +339,7 @@
            withEvent:(UIEvent *)event
 {
     
+    NSLog(@"Ended");
     UITouch * touch = [touches anyObject];
     if (event.allTouches.count > 1)
     {
@@ -389,19 +394,26 @@
 {
     if (self.viewsWithoutTouchEnded.count > 0)
     {
+        
+        BOOL didCleanSomething = NO;
         for (PaintLayerView * layer in self.viewsWithoutTouchEnded)
         {
-            [layer cleanupContentBeingDrawn];
+            didCleanSomething |= [layer cleanupContentBeingDrawn];
+        }
+        
+        if (didCleanSomething)
+        {
+            self.orderIndex--;
+            NSLog(@"4-decreasing order %d", self.orderIndex);
         }
     }
     for (PaintLayerView * layer in self.overlappingViewsFromLastTouch)
     {
-        [layer cleanupContentBeingDrawn];
+        // [layer cleanupContentBeingDrawn];
         //layer.backgroundColor = [UIColor yellowColor];
     }
     [self.overlappingViewsFromLastTouch removeAllObjects];
     
-    NSLog(@"all drawings count %d", self.allDrawings.count);
 }
 
 -(void) touchesMoved:(NSSet *)touches
@@ -695,7 +707,7 @@
            [view parentTouchExitedTheView:touch
                          withCurrentPoint:currentInChild
                             andOrderIndex:self.orderIndex];
-            [self.viewsWithoutTouchEnded removeObject:view];
+            //[self.viewsWithoutTouchEnded removeObject:view];
             //view.backgroundColor = [UIColor greenColor];
         }
     }

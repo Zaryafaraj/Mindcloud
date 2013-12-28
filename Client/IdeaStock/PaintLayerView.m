@@ -250,12 +250,20 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     [self setNeedsDisplay];
 }
 
--(void) cleanupContentBeingDrawn
+-(BOOL) cleanupContentBeingDrawn
 {
-    CGPathRelease(path);
-    path = nil;
-    self.isTrackingTouch = NO;
-    [self setNeedsDisplay];
+    if (path == nil)
+    {
+        return NO;
+    }
+    else
+    {
+        CGPathRelease(path);
+        path = nil;
+        self.isTrackingTouch = NO;
+        [self setNeedsDisplay];
+        return YES;
+    }
 }
 
 -(void) undoIndex:(NSInteger)index

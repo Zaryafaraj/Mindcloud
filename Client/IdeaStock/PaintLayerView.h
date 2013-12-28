@@ -59,7 +59,9 @@
 
 @property CGFloat lineWidth;
 
--(void) cleanupContentBeingDrawn;
+/*! return values indicates wheter sometihng was cleanup or there was nothing
+ to clean*/
+-(BOOL) cleanupContentBeingDrawn;
 
 @property CGPoint previousPoint1;
 @property CGPoint previousPoint2;

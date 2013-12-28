@@ -774,6 +774,8 @@
     UIImage * undoImg = [[ThemeFactory currentTheme] imageForUndo];
     [self.hud setTitleImage:undoImg];
     [self.collectionView cleanupUnwantedArtifacts];
+    // [self.collectionView undo:YES];
+    
     [self undoPressed];
 }
 
@@ -2269,7 +2271,7 @@ intoStackingWithMainView: (UIView *) mainView
     if (self.drawingsAreUnsaved)
     {
         ScreenDrawing * allDrawings = [self.collectionView getAllScreenDrawings];
-        NSLog(@"CollectionViewController - Saving All Drawings %@ ", [allDrawings debugDescription]);
+//        NSLog(@"CollectionViewController - Saving All Drawings %@ ", [allDrawings debugDescription]);
         [self.board saveAllDrawingsFile:allDrawings];
         self.drawingsAreUnsaved = NO;
     }
