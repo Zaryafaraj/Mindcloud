@@ -35,13 +35,13 @@
 @property (nonatomic) CGPoint lastTouchBeganLocation;
 @property (nonatomic, strong) PaintLayerView * lastTouchBeganView;
 
-@property (nonatomic) BOOL hasUnsavedClear;
-
 @property (nonatomic) NSTimeInterval lastTouchTime;
 
+@property (nonatomic) BOOL hasUnsavedClear;
+@property (nonatomic) NSInteger orderIndexOfLastClear;
 @property (nonatomic, strong) CollectionBoardState * stateBeforeClear;
 
-@property (nonatomic, assign) BOOL lastActionWasClear;
+@property (nonatomic, assign) BOOL hasUndoableClear;
 
 /*! keys are orderIndex, valued on NSSet of PaintLayerViews */
 @property (nonatomic, strong) NSMutableDictionary * redoableViews;
@@ -116,6 +116,7 @@
     self.touchedViews = [NSMutableSet set];
     //haven't started drawing anything
     self.orderIndex = -1;
+    self.orderIndexOfLastClear = -1;
     self.multipleTouchEnabled = YES;
     self.viewsWithoutTouchEnded = [NSMutableSet set];
     self.overlappingViewsFromLastTouch = [NSMutableSet set];
@@ -212,11 +213,11 @@
 
 -(NSInteger) undo:(BOOL) isUnwantedArtifact
 {
-    if (self.lastActionWasClear)
+    if (self.hasUndoableClear && self.orderIndex == -1)
     {
         [self restoreBoardFromState:self.stateBeforeClear];
         self.stateBeforeClear = nil;
-        self.lastActionWasClear = NO;
+        self.hasUndoableClear = NO;
         for(PaintLayerView * view in self.viewGrid)
         {
             [view undoClearContent];
@@ -465,6 +466,11 @@
         self.hasRedos = NO;
         [self.redoableViews removeAllObjects];
     }
+    
+    if (self.hasUnsavedClear)
+    {
+        self.hasUnsavedClear = YES;
+    }
 }
 
 -(void) cleanupUnwantedArtifacts
@@ -515,7 +521,16 @@
     
     
     
-    [prevTouchedLayer parentTouchMoved:touch withEvent:event andOrderIndex:self.orderIndex];
+    if (prevTouchedLayer.isTrackingTouch)
+    {
+        [prevTouchedLayer parentTouchMoved:touch withEvent:event andOrderIndex:self.orderIndex];
+    }
+    //because we could have captured touch began and killed it we need to handle this too
+    else
+    {
+        [self touchesBegan:touches withEvent:event];
+        return;
+    }
     
     //prevTouchedLayer.backgroundColor = [UIColor blueColor];
     [self addTouchedItem:currentTouchedLayer];
@@ -527,7 +542,10 @@
     
     if (prevTouchedLayer == currentTouchedLayer)
     {
-        [prevTouchedLayer parentTouchMoved:touch withEvent:event andOrderIndex:self.orderIndex];
+        if (prevTouchedLayer.isTrackingTouch)
+        {
+            [prevTouchedLayer parentTouchMoved:touch withEvent:event andOrderIndex:self.orderIndex];
+        }
 //        prevTouchedLayer.backgroundColor = [UIColor purpleColor];
         
     }
@@ -916,7 +934,7 @@
 -(void) clearPaintedItems
 {
     self.stateBeforeClear = [self captureCurrentBoardState];
-    self.lastActionWasClear = YES;
+    self.hasUndoableClear = YES;
     
     for (PaintLayerView * view in self.viewGrid)
     {

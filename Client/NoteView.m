@@ -358,7 +358,7 @@
 
 #pragma mark - keyboard
 -(void) resignSubViewsAsFirstResponder{
-    for (UIView * subView in self.subviews){
+    for (UIView * subView in self.noteView.subviews){
         if ([subView isKindOfClass:[UITextView class]]){
             if (subView.isFirstResponder){
                 [subView resignFirstResponder];
