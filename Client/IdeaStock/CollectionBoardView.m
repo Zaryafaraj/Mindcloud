@@ -9,6 +9,7 @@
 #import "CollectionBoardView.h"
 #import "PaintLayerView.h"
 #import "ThemeFactory.h"
+#import "CollectionBoardState.h"
 
 @interface CollectionBoardView()
 
@@ -37,6 +38,10 @@
 @property (nonatomic) BOOL hasUnsavedClear;
 
 @property (nonatomic) NSTimeInterval lastTouchTime;
+
+@property (nonatomic, strong) CollectionBoardState * stateBeforeClear;
+
+@property (nonatomic, assign) BOOL lastActionWasClear;
 
 @end
 
@@ -167,12 +172,22 @@
 }
 -(NSInteger) undo:(BOOL) isUnwantedArtifact
 {
-//    NSLog(@" OI = %d", self.orderIndex);
-//    NSLog(@" AD = %@", self.allDrawings);
+    if (self.lastActionWasClear)
+    {
+        [self restoreBoardFromState:self.stateBeforeClear];
+        self.stateBeforeClear = nil;
+        self.lastActionWasClear = NO;
+        for(PaintLayerView * view in self.viewGrid)
+        {
+            [view undoClearContent];
+        }
+        return self.orderIndex;
+    }
+    
     if (self.orderIndex < 0 ||
         self.orderIndex > self.allDrawings.count)
     {
-        NSLog(@"BAD ORDER INDEX");
+        self.orderIndex = self.allDrawings.count - 1;
     }
     if (self.orderIndex >= 0 &
         self.orderIndex < self.allDrawings.count)
@@ -195,7 +210,7 @@
         [self.allDrawings removeObjectForKey:orderIndxObj];
         NSInteger undidOrder = self.orderIndex;
         self.orderIndex--;
-        NSLog(@"1-Decreasing order index %d", self.orderIndex);
+//        NSLog(@"1-Decreasing order index %d", self.orderIndex);
         if (didChangeDrawings)
         {
             id<CollectionBoardDelegate> temp = self.delegate;
@@ -214,6 +229,16 @@
     {
         return -1;
     }
+}
+
+-(void) redo
+{
+    
+}
+
+-(void) redoItemsAtOrderIndex:(NSArray *) orderIndexes
+{
+    
 }
 
 -(void) undoItemsAtOrderIndex:(NSArray *) orderIndexes
@@ -240,7 +265,7 @@
             if (self.orderIndex == numInt)
             {
                 self.orderIndex--;
-                NSLog(@"2-Decreasing order index %d", self.orderIndex);
+//                NSLog(@"2-Decreasing order index %d", self.orderIndex);
             }
         
             [self.allDrawings removeObjectForKey:num];
@@ -315,7 +340,7 @@
     
     
     self.orderIndex++;
-    NSLog(@"3-Increasing order %d", self.orderIndex);
+//    NSLog(@"3-Increasing order %d", self.orderIndex);
     
     CGPoint location = [touch locationInView:self];
     PaintLayerView * touchedLayer = [self getGridCellForTouchLocation:location];
@@ -339,7 +364,7 @@
            withEvent:(UIEvent *)event
 {
     
-    NSLog(@"Ended");
+//    NSLog(@"Ended");
     UITouch * touch = [touches anyObject];
     if (event.allTouches.count > 1)
     {
@@ -404,7 +429,7 @@
         if (didCleanSomething)
         {
             self.orderIndex--;
-            NSLog(@"4-decreasing order %d", self.orderIndex);
+//            NSLog(@"4-decreasing order %d", self.orderIndex);
         }
     }
     for (PaintLayerView * layer in self.overlappingViewsFromLastTouch)
@@ -838,6 +863,9 @@
 
 -(void) clearPaintedItems
 {
+    self.stateBeforeClear = [self captureCurrentBoardState];
+    self.lastActionWasClear = YES;
+    
     for (PaintLayerView * view in self.viewGrid)
     {
         [view clearContent];
@@ -858,6 +886,26 @@
     [self.validUndoViews removeAllObjects];
     [self.overlappingViewsFromLastTouch removeAllObjects];
     self.orderIndex = -1;
+}
+
+-(CollectionBoardState *) captureCurrentBoardState
+{
+    CollectionBoardState * state = [[CollectionBoardState alloc] init];
+    state.touchedViews = [self.touchedViews mutableCopy];
+    state.validUndoView = [self.validUndoViews mutableCopy];
+    state.allDrawings = [self.allDrawings mutableCopy];
+    state.overlappingViewsFromLastTouch = [self.overlappingViewsFromLastTouch mutableCopy];
+    state.orderIndex = self.orderIndex;
+    return state;
+}
+
+-(void) restoreBoardFromState:(CollectionBoardState *) state
+{
+    self.touchedViews = state.touchedViews;
+    self.validUndoViews = state.validUndoView;
+    self.allDrawings = state.allDrawings;
+    self.overlappingViewsFromLastTouch = state.overlappingViewsFromLastTouch;
+    self.orderIndex = state.orderIndex;
 }
 
 -(void) resetTouchRecorder

@@ -38,4 +38,7 @@
 -(void) debug_saveContainerToFile;
 
 +(instancetype) containerWithTheContentsOfTheFile:(NSString *) filename;
+
+-(instancetype) copy;
+
 @end

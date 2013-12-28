@@ -220,4 +220,12 @@
     return [NSKeyedUnarchiver unarchiveObjectWithFile:filename];
 }
 
+-(instancetype) copy
+{
+    DrawingTraceContainer * container = [[DrawingTraceContainer alloc] init];
+    container.drawings = [self.drawings mutableCopy];
+    container.baseDrawings = [self.baseDrawings mutableCopy];
+    return container;
+}
+
 @end

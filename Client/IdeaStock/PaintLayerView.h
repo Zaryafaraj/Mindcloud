@@ -33,6 +33,8 @@
 
 -(void) clearContent;
 
+-(void) undoClearContent;
+
 -(void) undoIndex:(NSInteger) index;
 
 -(NSData *) serializeLayer;

@@ -18,7 +18,9 @@ static const CGFloat kPointMinDistanceSquared = kPointMinDistance * kPointMinDis
 @interface PaintLayerView () 
 
 @property UIColor * lastLineColor;
+
 @property (atomic, strong) DrawingTraceContainer * container;
+@property (atomic, strong) DrawingTraceContainer * lastClearContainer;
 
 @end
 
@@ -246,10 +248,22 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     self.isTrackingTouch = NO;
     CGPathRelease(path);
     path = CGPathCreateMutable();
+    self.lastClearContainer = [self.container copy];
     [self.container clearAllTraces];
     [self setNeedsDisplay];
 }
 
+-(void) undoClearContent
+{
+    if (self.lastClearContainer)
+    {
+        self.empty = NO;
+        [self.container clearAllTraces];
+        self.container = self.lastClearContainer;
+        self.lastClearContainer = nil;
+        [self setNeedsDisplay];
+    }
+}
 -(BOOL) cleanupContentBeingDrawn
 {
     if (path == nil)
