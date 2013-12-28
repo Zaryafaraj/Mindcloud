@@ -22,6 +22,13 @@
                                   andOrderIndices:orderIndexes];
 }
 
++(RedoMessage *) redoMessageWithOrderIndices:(NSArray *) orderIndexes
+{
+    NSString * msgId = [AttributeHelper generateUUID];
+    return [[RedoMessage alloc] initWithMessageId:msgId
+                                  andOrderIndices:orderIndexes];
+}
+
 +(ClearMessage *) clearMessage
 {
     NSString * msgId = [AttributeHelper generateUUID];

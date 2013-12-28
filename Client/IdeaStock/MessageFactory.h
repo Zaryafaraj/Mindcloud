@@ -9,12 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "UndoMessage.h"
 #import "ClearMessage.h"
+#import "RedoMessage.h"
 
 @interface MessageFactory : NSObject
 
 /*! orderIndexes is an NSArray of NSNumber of NSIntegers that contains
     undo order index to perform */
 +(UndoMessage *) undoMessageWithOrderIndices:(NSArray *) orderIndexes;
+
++(RedoMessage *) redoMessageWithOrderIndices:(NSArray *) orderIndexes;
 
 +(ClearMessage *) clearMessage;
 

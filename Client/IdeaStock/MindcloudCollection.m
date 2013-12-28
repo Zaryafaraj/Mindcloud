@@ -266,6 +266,14 @@
     
 }
 
+-(void) sendRedoMessage:(NSArray *)orderIndexes
+{
+    RedoMessage * message = [MessageFactory redoMessageWithOrderIndices:orderIndexes];
+    NSString * messageString = [message messageString];
+    [self.gordonDataSource sendCustomMessageToEveryone:messageString
+                                         withMessageId:message.messageId];
+}
+
 -(void) sendClearMessage
 {
     ClearMessage * message = [MessageFactory clearMessage];

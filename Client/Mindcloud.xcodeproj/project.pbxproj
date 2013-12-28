@@ -23,6 +23,7 @@
 		D3A3ECB81848423800174649 /* ClearMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A3ECB71848423800174649 /* ClearMessage.m */; };
 		D3AD7B4B186BA3AB002208E3 /* CollectionHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD7B4A186BA3AB002208E3 /* CollectionHUD.m */; };
 		D3AD7B54186E9DFA002208E3 /* CollectionBoardState.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD7B53186E9DFA002208E3 /* CollectionBoardState.m */; };
+		D3AD7B57186F72AF002208E3 /* RedoMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD7B56186F72AF002208E3 /* RedoMessage.m */; };
 		D3CF453B1849975000A48593 /* MindcloudAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CF453A1849975000A48593 /* MindcloudAuthenticator.m */; };
 		D3CF453E1849CFAA00A48593 /* UserStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CF453D1849CFAA00A48593 /* UserStatus.m */; };
 		D3CF45451852CF9400A48593 /* IntroScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CF45441852CF9400A48593 /* IntroScreenViewController.m */; };
@@ -185,6 +186,8 @@
 		D3AD7B4A186BA3AB002208E3 /* CollectionHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionHUD.m; sourceTree = "<group>"; };
 		D3AD7B52186E9DFA002208E3 /* CollectionBoardState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionBoardState.h; sourceTree = "<group>"; };
 		D3AD7B53186E9DFA002208E3 /* CollectionBoardState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionBoardState.m; sourceTree = "<group>"; };
+		D3AD7B55186F72AF002208E3 /* RedoMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedoMessage.h; sourceTree = "<group>"; };
+		D3AD7B56186F72AF002208E3 /* RedoMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedoMessage.m; sourceTree = "<group>"; };
 		D3CF45391849975000A48593 /* MindcloudAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAuthenticator.h; sourceTree = "<group>"; };
 		D3CF453A1849975000A48593 /* MindcloudAuthenticator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudAuthenticator.m; sourceTree = "<group>"; };
 		D3CF453C1849CFAA00A48593 /* UserStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserStatus.h; sourceTree = "<group>"; };
@@ -483,6 +486,8 @@
 				D3A3ECB41848422100174649 /* UndoMessage.m */,
 				D3A3ECB61848423800174649 /* ClearMessage.h */,
 				D3A3ECB71848423800174649 /* ClearMessage.m */,
+				D3AD7B55186F72AF002208E3 /* RedoMessage.h */,
+				D3AD7B56186F72AF002208E3 /* RedoMessage.m */,
 			);
 			name = Messages;
 			sourceTree = "<group>";
@@ -1254,6 +1259,7 @@
 				DB20ADE1181F838D0062EA5B /* BrushSelectionView.m in Sources */,
 				D71EA185154CD3FB00496663 /* CollectionViewController.m in Sources */,
 				DB90B37A18023761009CACA3 /* AllCollectionsAnimationHelper.m in Sources */,
+				D3AD7B57186F72AF002208E3 /* RedoMessage.m in Sources */,
 				D7F1FF2C154D1A3300D07B58 /* NoteView.m in Sources */,
 				D7E44BEE15643AA90080EF71 /* StackView.m in Sources */,
 				D3A3ECB81848423800174649 /* ClearMessage.m in Sources */,

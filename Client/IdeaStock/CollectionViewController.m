@@ -2658,7 +2658,12 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) redoPressed
 {
-    [self.collectionView redo];
+    NSInteger orderIndex = [self.collectionView redo];
+    NSNumber * orderIndexObj = [NSNumber numberWithInteger:orderIndex];
+    if (orderIndex > -1)
+    {
+        [self.board sendRedoMessage:@[orderIndexObj]];
+    }
 }
 
 -(void) clearPressed

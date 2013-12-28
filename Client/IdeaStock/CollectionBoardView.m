@@ -178,7 +178,7 @@
     [super setFrame:frame];
 }
 
--(void) redo
+-(NSInteger) redo
 {
     if (self.hasRedos && self.orderIndex >= -1)
     {
@@ -186,11 +186,9 @@
         NSMutableSet * lastViews = self.redoableViews[indexObj];
         if (lastViews)
         {
-            
             self.orderIndex++;
             for(PaintLayerView * view in lastViews)
             {
-                
                 [self.touchedViews addObject:view];
                 NSNumber * viewIndex = [NSNumber numberWithInt: view.gridIndex];
                 [self.validUndoViews removeObject:viewIndex];
@@ -205,8 +203,11 @@
             {
                 [temp didFinishDrawingOnScreen];
             }
+            return self.orderIndex;
         }
     }
+    
+    return -1;
 }
 
 -(NSInteger) undo:(BOOL) isUnwantedArtifact

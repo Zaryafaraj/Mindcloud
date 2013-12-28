@@ -92,6 +92,7 @@
 /*! orderINdexes is an NSArray of NSNumber of NSIntegers that are the 
     order index for the undo */
 -(void) sendUndoMessage:(NSArray *) orderIndexes;
+-(void) sendRedoMessage:(NSArray *) orderIndexes;
 -(void) sendClearMessage;
 
 -(void) getAllCollectionAssetsAsync;
