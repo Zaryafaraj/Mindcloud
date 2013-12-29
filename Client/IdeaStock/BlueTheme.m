@@ -144,7 +144,7 @@
 
 -(UIColor *) tintColorForDeleteIcon
 {
-    return [UIColor colorWithWhite:0.35 alpha:0.7];
+    return [UIColor colorWithWhite:0.30 alpha:0.8];
 }
 
 -(UIImage *) imageForUndo
@@ -159,4 +159,8 @@
     return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
+-(UIColor *) colorForImageNoteTextPlaceholder
+{
+    return [UIColor colorWithWhite:0.9 alpha:0.9];
+}
 @end

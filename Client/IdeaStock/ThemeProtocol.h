@@ -60,4 +60,5 @@
 
 -(UIImage *) imageForRedo;
 
+-(UIColor *) colorForImageNoteTextPlaceholder;
 @end
