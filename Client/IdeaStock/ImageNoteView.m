@@ -42,7 +42,7 @@
 
 -(void) configureImageView
 {
-    self.isTextShowing = YES;
+    self.isTextShowing = NO;
     self.resizesToFitImage = YES;
     //find the text view
     UIView * noteView = self.subviews.firstObject;
@@ -155,7 +155,7 @@
     NSDictionary * noteMetric = @{@"toggleViewWidth" : TOGGLE_VIEW_WIDTH,
                                   @"toggleViewHeight" : TOGGLE_VIEW_HEIGHT};
     
-    NSArray * constraints = @[placeholderWidth, placeholderHeightOpen];
+    NSArray * constraints = @[placeholderWidth, placeholderHeightClose];
     
     NSString * placeholderConstraintsH = @"H:|-0-[placeholderView]-0-|";
     NSString * toggleConstraint = @"H:[toggleView(==toggleViewWidth)]-0-|";
