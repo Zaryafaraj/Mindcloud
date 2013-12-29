@@ -56,7 +56,7 @@
         }
         else if ([subView isKindOfClass:[UITextView class]])
         {
-            [subView removeFromSuperview];
+            ((UITextView *)subView).editable = NO;
         }
     }
     [self configurePlaceholder];
