@@ -1071,6 +1071,14 @@
                                                             object:self
                                                           userInfo:userInfo];
     }
+    else if ([peerMessage isKindOfClass:[RedoMessage class]])
+    {
+        NSDictionary * userInfo =  @{@"result" : peerMessage};
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:REDO_OCCURRED_EVENT
+                                                            object:self
+                                                          userInfo:userInfo];
+    }
 }
 -(void) refresh
 {

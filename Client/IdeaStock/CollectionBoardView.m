@@ -284,7 +284,35 @@
 
 -(void) redoItemsAtOrderIndex:(NSArray *) orderIndexes
 {
-    
+    for(NSString * numStr in orderIndexes)
+    {
+        
+        NSInteger  numInt = [numStr integerValue];
+        NSNumber * num = [NSNumber numberWithInteger:numInt];
+        if (self.hasRedos && self.orderIndex >= -1)
+        {
+            NSMutableSet * lastViews = self.redoableViews[num];
+            if (lastViews)
+            {
+                for(PaintLayerView * view in lastViews)
+                {
+                    [self.touchedViews addObject:view];
+                    NSNumber * viewIndex = [NSNumber numberWithInt: view.gridIndex];
+                    [self.validUndoViews removeObject:viewIndex];
+                    [view redoIndex:numInt];
+                }
+                
+                [self.redoableViews removeObjectForKey:num];
+                self.allDrawings[num] = lastViews;
+                
+                if (numInt > self.orderIndex)
+                {
+                    self.orderIndex = numInt;
+                }
+            }
+        }
+        
+    }
 }
 
 -(void) undoItemsAtOrderIndex:(NSArray *) orderIndexes
@@ -292,13 +320,30 @@
     BOOL didChangeDrawings = NO;
     for(NSString * numStr in orderIndexes)
     {
-       
+        if (self.hasUndoableClear && self.orderIndex == -1)
+        {
+            [self restoreBoardFromState:self.stateBeforeClear];
+            self.stateBeforeClear = nil;
+            self.hasUndoableClear = NO;
+            for(PaintLayerView * view in self.viewGrid)
+            {
+                [view undoClearContent];
+            }
+            continue;
+        }
+        
         NSInteger  numInt = [numStr integerValue];
         NSNumber * num = [NSNumber numberWithInteger:numInt];
+        if (self.orderIndex < 0 ||
+            self.orderIndex > self.allDrawings.count)
+        {
+            self.orderIndex = self.allDrawings.count - 1;
+        }
         if (self.orderIndex >= 0 &&
             self.orderIndex < self.allDrawings.count)
         {
             NSSet * touchedViewsInLastOrder = self.allDrawings[num];
+            NSMutableSet * redoableViews = [NSMutableSet set];
             for (PaintLayerView * view in touchedViewsInLastOrder)
             {
                 [view undoIndex:num.integerValue];
@@ -306,6 +351,20 @@
                 didChangeDrawings = YES;
                 NSNumber * indexObj = [NSNumber numberWithInt: view.gridIndex];
                 [self.validUndoViews addObject:indexObj];
+                self.hasRedos = YES;
+                [redoableViews addObject:view];
+            }
+            if (self.hasRedos)
+            {
+                if (self.redoableViews[num])
+                {
+                    NSMutableSet * oldRedoable = self.redoableViews[num];
+                    [oldRedoable addObjectsFromArray:redoableViews.allObjects];
+                }
+                else
+                {
+                    self.redoableViews[num] = redoableViews;
+                }
             }
             
             if (self.orderIndex == numInt)

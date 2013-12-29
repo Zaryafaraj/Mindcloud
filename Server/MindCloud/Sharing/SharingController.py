@@ -14,7 +14,6 @@ __author__ = 'afathali'
 
 
 class SharingController:
-
     __log = Log.log()
 
     SECRET_LENGTH = 8
@@ -46,14 +45,14 @@ class SharingController:
 
         else:
             subscriber_collection = DatabaseFactory.get_subscribers_collection()
-            subscriber_record = {SharingController.SUBSCRIBER_ID_KEY : user_id,
-                                 SharingController.SUBSCRIBER_COLLECTION_NAME_KEY : collection_name,
-                                 SharingController.SHARING_SPACE_SECRET_KEY : sharing_secret}
+            subscriber_record = {SharingController.SUBSCRIBER_ID_KEY: user_id,
+                                 SharingController.SUBSCRIBER_COLLECTION_NAME_KEY: collection_name,
+                                 SharingController.SHARING_SPACE_SECRET_KEY: sharing_secret}
             yield gen.Task(subscriber_collection.insert, subscriber_record)
             #add it to the cache to, since we get synchronization for free. this should be
             #optimal
             yield gen.Task(SharingController.__cache.set_subscriber_info,
-                user_id, collection_name, sharing_secret)
+                           user_id, collection_name, sharing_secret)
             callback()
 
     @staticmethod
@@ -69,7 +68,7 @@ class SharingController:
         """
         #first look up in the cache
         sharing_secret = yield gen.Task(SharingController.__cache.get_subscriber_info,
-            user_id, collection_name)
+                                        user_id, collection_name)
         if sharing_secret is not None:
             #this means we have looked up in the DB before and the sharing secret wasn't there
             if sharing_secret == 'false':
@@ -80,18 +79,21 @@ class SharingController:
         #if cache miss it look up in the DB
         else:
             subscriber_collection = DatabaseFactory.get_subscribers_collection()
-            query = {SharingController.SUBSCRIBER_ID_KEY : user_id,
-                     SharingController.SUBSCRIBER_COLLECTION_NAME_KEY : collection_name}
+            query = {SharingController.SUBSCRIBER_ID_KEY: user_id,
+                     SharingController.SUBSCRIBER_COLLECTION_NAME_KEY: collection_name}
             subscriber_record_cursor = yield gen.Task(subscriber_collection.find, query)
             result_count = len(subscriber_record_cursor[0][0])
             #if user_id and collection_name are not uniquely identifying the
             #share space then we are in trouble
             if result_count >= 2:
-                SharingController.__log.warning('SharingController - More than two sharing info found for: ' + user_id + ' - ' + collection_name)
+                SharingController.__log.warning(
+                    'SharingController - More than two sharing info found for: ' + user_id + ' - ' + collection_name)
                 result_count = 0
 
             if not result_count:
-                SharingController.__log.info('SharingController - No sharing record found for user %s and collection %s' % (user_id, collection_name))
+                SharingController.__log.info(
+                    'SharingController - No sharing record found for user %s and collection %s' % (
+                        user_id, collection_name))
                 #cache the lack of info so we don't hit the DB every time we ask for a non existing sharing record
                 yield gen.Task(SharingController.__cache.set_subscriber_info, user_id, collection_name, 'false')
                 callback(None)
@@ -100,13 +102,15 @@ class SharingController:
                 subscriber_record_bson = subscriber_record_cursor[0][0][0]
                 sharing_secret = subscriber_record_bson[SharingController.SHARING_SPACE_SECRET_KEY]
                 if sharing_secret is None or not len(sharing_secret):
-                    SharingController.__log.info('SharingController - Sharing secret is None or Empty for user %s and collection %s' % (user_id, collection_name))
+                    SharingController.__log.info(
+                        'SharingController - Sharing secret is None or Empty for user %s and collection %s' % (
+                            user_id, collection_name))
                     yield gen.Task(SharingController.__cache.set_subscriber_info, user_id, collection_name, 'false')
                     callback(None)
                 else:
                     #set the cache for future usage
                     yield gen.Task(SharingController.__cache.set_subscriber_info,
-                        user_id, collection_name, sharing_secret)
+                                   user_id, collection_name, sharing_secret)
                     #now call back to the user
                     callback(sharing_secret)
 
@@ -124,13 +128,16 @@ class SharingController:
                                         user_id,
                                         collection_name)
         if sharing_secret is None or not len(sharing_secret):
-            SharingController.__log.info('SharingController - sharing secret is none or empty for user %s and collection %s' % (user_id, collection_name))
+            SharingController.__log.info(
+                'SharingController - sharing secret is none or empty for user %s and collection %s' % (
+                    user_id, collection_name))
             callback(None)
         else:
             sharing_info = yield gen.Task(SharingController.get_sharing_record_by_secret,
-                sharing_secret)
+                                          sharing_secret)
             if sharing_info is None:
-                SharingController.__log.info('SharingController - Sharing info is none for %s and collection %s' % (user_id, collection_name))
+                SharingController.__log.info(
+                    'SharingController - Sharing info is none for %s and collection %s' % (user_id, collection_name))
             callback(sharing_info)
 
 
@@ -146,12 +153,12 @@ class SharingController:
         not guarauntee  updates to sharing record
         """
         subscriber_collection = DatabaseFactory.get_subscribers_collection()
-        query = {SharingController.SUBSCRIBER_ID_KEY : user_id,
-                 SharingController.SUBSCRIBER_COLLECTION_NAME_KEY : collection_name}
+        query = {SharingController.SUBSCRIBER_ID_KEY: user_id,
+                 SharingController.SUBSCRIBER_COLLECTION_NAME_KEY: collection_name}
         yield gen.Task(subscriber_collection.remove, query)
         #remove from cache too
         yield gen.Task(SharingController.__cache.remove_subscriber_info,
-            user_id, collection_name)
+                       user_id, collection_name)
         if callback is not None:
             callback()
 
@@ -170,8 +177,8 @@ class SharingController:
         subscriber_collection = DatabaseFactory.get_subscribers_collection()
         query = {SharingController.SHARING_SPACE_SECRET_KEY: sharing_secret}
         #first get the sharing record
-        sharing_record  = yield gen.Task(SharingController.get_sharing_record_by_secret,
-            sharing_secret)
+        sharing_record = yield gen.Task(SharingController.get_sharing_record_by_secret,
+                                        sharing_secret)
 
         if sharing_record is None:
             SharingController.__log.info('SharingController - Sharing record is None for secret %s' % sharing_secret)
@@ -183,7 +190,7 @@ class SharingController:
                 subscriber_collection_name = subscriber_info[1]
                 #just remove it from the cache
                 SharingController.__cache.remove_subscriber_info(subscriber_id,
-                    subscriber_collection_name, callback=None)
+                                                                 subscriber_collection_name, callback=None)
 
             #remove everything from the db in one shot
             yield gen.Task(subscriber_collection.remove, query)
@@ -199,29 +206,31 @@ class SharingController:
 
         #check to see whether that particular collection has been shared before
         exsisting_sharing_secret = yield gen.Task(SharingController.get_sharing_secret_from_subscriber_info,
-            user_id, collection_name)
+                                                  user_id, collection_name)
         if exsisting_sharing_secret is not None:
-            SharingController.__log.info('SharingController - exsiting sharing record found for user %s and collection %s' % (user_id, collection_name))
+            SharingController.__log.info(
+                'SharingController - exsiting sharing record found for user %s and collection %s' % (
+                    user_id, collection_name))
             callback(exsisting_sharing_secret)
 
         #we couldn't find the sharing secret so create a new sharing record
         else:
             sharing_secret = SharingController.__generate_sharing_secret()
             sharing_collection = DatabaseFactory.get_sharing_collection()
-            sharing_record = {SharingRecord.SECRET_KEY : sharing_secret,
-                              SharingRecord.OWNER_KEY : user_id,
-                              SharingRecord.COLLECTION_NAME_KEY : collection_name,
-                              SharingRecord.SUBSCIRBERS_KEY : [(user_id,collection_name)]}
+            sharing_record = {SharingRecord.SECRET_KEY: sharing_secret,
+                              SharingRecord.OWNER_KEY: user_id,
+                              SharingRecord.COLLECTION_NAME_KEY: collection_name,
+                              SharingRecord.SUBSCIRBERS_KEY: [(user_id, collection_name)]}
 
             #add sharing record to the cache
             yield gen.Task(sharing_collection.insert, sharing_record)
             yield gen.Task(SharingController.add_subscriber, user_id, collection_name,
-                sharing_secret)
+                           sharing_secret)
 
             #cache both the subscription info and the sharing record itself
             sharing_record_json = json.dumps(sharing_record)
             yield gen.Task(SharingController.__cache.set_sharing_record,
-                sharing_secret, sharing_record_json)
+                           sharing_secret, sharing_record_json)
             callback(sharing_secret)
 
     @staticmethod
@@ -236,7 +245,7 @@ class SharingController:
         """
         #try the cache
         sharing_record_json_str = yield gen.Task(SharingController.__cache.get_sharing_record,
-            sharing_secret)
+                                                 sharing_secret)
         #cache hit
         if sharing_record_json_str is not None:
             if sharing_record_json_str == 'false':
@@ -253,13 +262,14 @@ class SharingController:
         #cache miss
         else:
             sharing_collection = DatabaseFactory.get_sharing_collection()
-            query = {SharingRecord.SECRET_KEY : sharing_secret}
+            query = {SharingRecord.SECRET_KEY: sharing_secret}
             sharing_records_cursor = yield gen.Task(sharing_collection.find, query)
             result_count = len(sharing_records_cursor[0][0])
             #if we have more sharing spaces with this sharing secret
             #something is horribly wrong
             if result_count >= 2:
-                SharingController.__log.warning('SharingController - More than two sharing info found for: %s' % sharing_secret)
+                SharingController.__log.warning(
+                    'SharingController - More than two sharing info found for: %s' % sharing_secret)
                 yield gen.Task(SharingController.__cache.set_sharing_record, sharing_secret, 'false')
                 callback(None)
 
@@ -274,13 +284,14 @@ class SharingController:
                 sharing_record_bson = sharing_records_cursor[0][0][0]
                 try:
                     sharing_record = SharingRecord(
-                                    sharing_record_bson[SharingRecord.SECRET_KEY],
-                                    sharing_record_bson[SharingRecord.OWNER_KEY],
-                                    sharing_record_bson[SharingRecord.COLLECTION_NAME_KEY],
-                                    sharing_record_bson[SharingRecord.SUBSCIRBERS_KEY])
+                        sharing_record_bson[SharingRecord.SECRET_KEY],
+                        sharing_record_bson[SharingRecord.OWNER_KEY],
+                        sharing_record_bson[SharingRecord.COLLECTION_NAME_KEY],
+                        sharing_record_bson[SharingRecord.SUBSCIRBERS_KEY])
                     callback(sharing_record)
                 except Exception:
-                    SharingController.__log.warning('SharingController - corrupted sharing info found for: %s' % sharing_secret)
+                    SharingController.__log.warning(
+                        'SharingController - corrupted sharing info found for: %s' % sharing_secret)
                     yield gen.Task(SharingController.__cache.set_sharing_record, sharing_secret, 'false')
                     callback(None)
 
@@ -295,15 +306,18 @@ class SharingController:
             -``collection_name``: The name of the owners collection
         """
         sharing_secret = yield gen.Task(SharingController.get_sharing_secret_from_subscriber_info,
-            user_id, collection_name)
+                                        user_id, collection_name)
         if sharing_secret is None:
-            SharingController.__log.info('SharingController - No Sharing secret found for owner %s and collection %s' % (user_id, collection_name))
+            SharingController.__log.info(
+                'SharingController - No Sharing secret found for owner %s and collection %s' % (
+                    user_id, collection_name))
             callback(None)
         else:
             sharing_record = yield gen.Task(SharingController.get_sharing_record_by_secret,
-                sharing_secret)
+                                            sharing_secret)
             if sharing_record is None:
-                SharingController.__log.info('SharingController - No Sharing info found for sharing secret %s' % sharing_secret)
+                SharingController.__log.info(
+                    'SharingController - No Sharing info found for sharing secret %s' % sharing_secret)
                 callback(None)
             else:
                 callback(sharing_record)
@@ -318,7 +332,7 @@ class SharingController:
             - void. The callback will be called
         """
         sharing_collection = DatabaseFactory.get_sharing_collection()
-        query = {SharingRecord.SECRET_KEY : sharing_secret}
+        query = {SharingRecord.SECRET_KEY: sharing_secret}
         #first remove subscribers
         yield gen.Task(SharingController.remove_all_subscribers, sharing_secret)
         #the collection itself
@@ -337,9 +351,11 @@ class SharingController:
             -void. The callback will be called
         """
         sharing_secret = yield gen.Task(SharingController.get_sharing_secret_from_subscriber_info,
-            owner_id, collection_name)
+                                        owner_id, collection_name)
         if sharing_secret is None:
-            SharingController.__log.info('SharingController - No Sharing secret found for owner %s and collection %s' % (owner_id, collection_name))
+            SharingController.__log.info(
+                'SharingController - No Sharing secret found for owner %s and collection %s' % (
+                    owner_id, collection_name))
             callback()
         else:
             yield gen.Task(SharingController.remove_sharing_record_by_secret, sharing_secret)
@@ -363,7 +379,7 @@ class SharingController:
         yield gen.Task(sharing_collection.update, doc_key, doc_content)
         #update the cache
         yield gen.Task(SharingController.__cache.set_sharing_record,
-            sharing_record.get_sharing_secret(), sharing_record_json)
+                       sharing_record.get_sharing_secret(), sharing_record_json)
         callback()
 
     @staticmethod
@@ -377,19 +393,19 @@ class SharingController:
         """
 
         sharing_collection = DatabaseFactory.get_subscribers_collection()
-        key = {SharingController.SUBSCRIBER_ID_KEY : user_id,
-                 SharingController.SUBSCRIBER_COLLECTION_NAME_KEY : old_collection_name}
-        new_content = {SharingController.SUBSCRIBER_ID_KEY : user_id,
-                       SharingController.SUBSCRIBER_COLLECTION_NAME_KEY : new_collection_name,
-                       SharingController.SHARING_SPACE_SECRET_KEY : sharing_secret}
+        key = {SharingController.SUBSCRIBER_ID_KEY: user_id,
+               SharingController.SUBSCRIBER_COLLECTION_NAME_KEY: old_collection_name}
+        new_content = {SharingController.SUBSCRIBER_ID_KEY: user_id,
+                       SharingController.SUBSCRIBER_COLLECTION_NAME_KEY: new_collection_name,
+                       SharingController.SHARING_SPACE_SECRET_KEY: sharing_secret}
         yield gen.Task(sharing_collection.update, key, new_content)
 
         #remove the old content from cache
         yield gen.Task(SharingController.__cache.remove_subscriber_info,
-            user_id, old_collection_name)
+                       user_id, old_collection_name)
         #add new content to the cache
         yield gen.Task(SharingController.__cache.set_subscriber_info,
-            user_id, new_collection_name, sharing_secret)
+                       user_id, new_collection_name, sharing_secret)
         #TODO I can probalby use the replace cmd in memcache to reduce these two calls to one
         callback()
 
@@ -416,7 +432,8 @@ class SharingController:
                                         sharing_secret)
 
         if sharing_record is None:
-            SharingController.__log.info('SharingController - no sharing info found for sharing secret %s' % sharing_secret)
+            SharingController.__log.info(
+                'SharingController - no sharing info found for sharing secret %s' % sharing_secret)
             callback(None)
         else:
             #if we are already subscribed return
@@ -435,14 +452,16 @@ class SharingController:
                 #Copy sharing content
                 src_user_id = sharing_record.get_owner_user_id()
                 response = yield gen.Task(StorageServer.copy_collection_between_accounts,
-                                            src_user_id,
-                                            user_id,
-                                            original_collection_name,
-                                            dest_collection_name)
+                                          src_user_id,
+                                          user_id,
+                                          original_collection_name,
+                                          dest_collection_name)
 
                 #if error happens just return it
                 if response != StorageResponse.OK:
-                    SharingController.__log.warning('SharingController -failed to copy resources between sharing partners for user %s and user %s; error %s'% (src_user_id, user_id, str(response)))
+                    SharingController.__log.warning(
+                        'SharingController -failed to copy resources between sharing partners for user %s and user %s; error %s' % (
+                            src_user_id, user_id, str(response)))
                     callback(None)
 
                 #Update Mongo
@@ -452,7 +471,7 @@ class SharingController:
                     yield gen.Task(SharingController.__update_sharing_record, sharing_record)
                     #Update subscribers collection
                     yield gen.Task(SharingController.add_subscriber, user_id, dest_collection_name,
-                        sharing_secret)
+                                   sharing_secret)
                     callback(dest_collection_name)
 
     @staticmethod
@@ -476,16 +495,18 @@ class SharingController:
         """
 
         sharing_record = yield gen.Task(SharingController.get_sharing_record_from_subscriber_info,
-            user_id, collection_name)
+                                        user_id, collection_name)
         if sharing_record is not None:
             # if the unsubscriber is the owner
             # Remove the sharing info and remove the subscription info for everyone
             if sharing_record.get_owner_user_id() == user_id:
-                SharingController.__log.info('SharingController - removing user %s is owner of shared collection %s; removing all subscribers and unsharing' % (user_id, collection_name))
+                SharingController.__log.info(
+                    'SharingController - removing user %s is owner of shared collection %s; removing all subscribers and unsharing' % (
+                        user_id, collection_name))
                 yield gen.Task(SharingController.remove_all_subscribers,
-                    sharing_record.get_sharing_secret())
+                               sharing_record.get_sharing_secret())
                 yield gen.Task(SharingController.remove_sharing_record_by_secret,
-                    sharing_record.get_sharing_secret())
+                               sharing_record.get_sharing_secret())
             else:
             #remove the subscription info and update the sharing space for the user
                 yield gen.Task(SharingController.remove_subscriber, user_id, collection_name)
@@ -494,7 +515,9 @@ class SharingController:
 
             callback(StorageResponse.OK)
         else:
-            SharingController.__log.info('SharingController - sharing record not found for subscriber %s and collection %s' % (user_id, collection_name))
+            SharingController.__log.info(
+                'SharingController - sharing record not found for subscriber %s and collection %s' % (
+                    user_id, collection_name))
             callback(StorageResponse.NOT_FOUND)
 
     @staticmethod
@@ -514,21 +537,23 @@ class SharingController:
         """
 
         sharing_record = yield gen.Task(SharingController.get_sharing_record_from_subscriber_info,
-        user_id, old_collection_name)
+                                        user_id, old_collection_name)
 
         if sharing_record is not None:
             if sharing_record.get_owner_user_id() == user_id:
                 sharing_record.set_owner_collection_name(new_collection_name)
-            #since owner is also a subscriber this rename should be done in each case
+                #since owner is also a subscriber this rename should be done in each case
             sharing_record.rename_subscriber_collection_name(user_id,
-               old_collection_name, new_collection_name)
+                                                             old_collection_name, new_collection_name)
 
             #update sharing related tables
             yield gen.Task(SharingController.__update_sharing_record, sharing_record)
             yield gen.Task(SharingController.__rename_subscriber_collection_name, user_id,
-               old_collection_name, new_collection_name, sharing_record.get_sharing_secret())
+                           old_collection_name, new_collection_name, sharing_record.get_sharing_secret())
             callback(StorageResponse.OK)
         else:
-            SharingController.__log.info('SharingController - sharing record not found for subscriber %s and old collection %s' % (user_id, old_collection_name))
+            SharingController.__log.info(
+                'SharingController - sharing record not found for subscriber %s and old collection %s' % (
+                    user_id, old_collection_name))
             callback(StorageResponse.NOT_FOUND)
 

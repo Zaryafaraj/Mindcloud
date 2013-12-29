@@ -60,6 +60,17 @@
                                               andOrderIndices:orderIndexes];
             }
         }
+        
+        if ([msgType isEqualToString:@"redo"])
+        {
+            NSArray * orderIndexes = result[@"orderIndexes"];
+            if (orderIndexes != nil)
+            {
+                return [[RedoMessage alloc] initWithMessageId:messageId
+                                              andOrderIndices:orderIndexes];
+            }
+        }
+        
         if([msgType isEqualToString:@"clear"])
         {
             return [[ClearMessage alloc] initWithMessageId:messageId];

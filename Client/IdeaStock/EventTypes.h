@@ -63,6 +63,7 @@
 #define DRAWING_DOWNLOADED_EVENT @"drawingDownloaded"
 #define DRAWING_DIFF_DOWNLOADED_EVENT @"drawingDiffDownloaded"
 #define UNDO_OCCURRED_EVENT @"undoOccurred"
+#define REDO_OCCURRED_EVENT @"redoOccurred"
 #define CLEAR_OCCURRED_EVENT @"clearOccurred"
 
 #define USER_OFFLINE @"UserOffline"

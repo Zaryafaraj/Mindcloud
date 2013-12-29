@@ -1360,6 +1360,11 @@
                                                object:self.board];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(redoEventOccurred:)
+                                                 name:REDO_OCCURRED_EVENT
+                                               object:self.board];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(clearEventOccurred:)
                                                  name:CLEAR_OCCURRED_EVENT
                                                object:self.board];
@@ -2303,6 +2308,13 @@ intoStackingWithMainView: (UIView *) mainView
     NSDictionary * userInfo = notification.userInfo;
     UndoMessage * undoMsg = userInfo[@"result"];
     [self.collectionView undoItemsAtOrderIndex:undoMsg.orderIndices];
+}
+
+-(void) redoEventOccurred:(NSNotification *) notification
+{
+    NSDictionary * userInfo = notification.userInfo;
+    UndoMessage * redoMsg = userInfo[@"result"];
+    [self.collectionView redoItemsAtOrderIndex:redoMsg.orderIndices];
 }
 
 -(void) clearEventOccurred:(NSNotification *) notification
