@@ -314,7 +314,12 @@
 
 -(void) setText:(NSString *)text
 {
-    //[super setText:text];
+    self.placeHolderTextview.text = text;
+}
+
+-(NSString *) text
+{
+    return self.placeHolderTextview.text;
 }
 
 -(void) setFrame:(CGRect)frame
