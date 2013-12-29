@@ -436,6 +436,12 @@
     
     UITouch * touch = [touches anyObject];
     
+    //preventing tracking touches as drawings when a subview is touched
+    if (touch.view != self)
+    {
+        return;
+    }
+    
     if (temp)
     {
         [temp willBeginDrawingOnScreen];
@@ -475,10 +481,12 @@
     {
         return;
     }
-//    if (touch.tapCount == 2)
-//    {
-//        return;
-//    }
+    
+    //preventing tracking touches as drawings when a subview is touched
+    if (touch.view != self)
+    {
+        return;
+    }
     
     if (!self.drawingEnabled) return;
     
@@ -571,6 +579,11 @@
     if (touches.count > 1) return;
     
     UITouch * touch = [touches anyObject];
+    
+    if (touch.view != self)
+    {
+        return;
+    }
     
     CGPoint touchLocation = [touch locationInView:self];
     CGPoint prevLocation = [touch previousLocationInView:self];

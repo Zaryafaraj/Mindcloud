@@ -24,6 +24,7 @@
 		D3AD7B4B186BA3AB002208E3 /* CollectionHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD7B4A186BA3AB002208E3 /* CollectionHUD.m */; };
 		D3AD7B54186E9DFA002208E3 /* CollectionBoardState.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD7B53186E9DFA002208E3 /* CollectionBoardState.m */; };
 		D3AD7B57186F72AF002208E3 /* RedoMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD7B56186F72AF002208E3 /* RedoMessage.m */; };
+		D3AD7B591870CCDD002208E3 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3AD7B581870CCDD002208E3 /* Reveal.framework */; };
 		D3CF453B1849975000A48593 /* MindcloudAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CF453A1849975000A48593 /* MindcloudAuthenticator.m */; };
 		D3CF453E1849CFAA00A48593 /* UserStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CF453D1849CFAA00A48593 /* UserStatus.m */; };
 		D3CF45451852CF9400A48593 /* IntroScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3CF45441852CF9400A48593 /* IntroScreenViewController.m */; };
@@ -188,13 +189,13 @@
 		D3AD7B53186E9DFA002208E3 /* CollectionBoardState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionBoardState.m; sourceTree = "<group>"; };
 		D3AD7B55186F72AF002208E3 /* RedoMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedoMessage.h; sourceTree = "<group>"; };
 		D3AD7B56186F72AF002208E3 /* RedoMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedoMessage.m; sourceTree = "<group>"; };
+		D3AD7B581870CCDD002208E3 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		D3CF45391849975000A48593 /* MindcloudAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MindcloudAuthenticator.h; sourceTree = "<group>"; };
 		D3CF453A1849975000A48593 /* MindcloudAuthenticator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MindcloudAuthenticator.m; sourceTree = "<group>"; };
 		D3CF453C1849CFAA00A48593 /* UserStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserStatus.h; sourceTree = "<group>"; };
 		D3CF453D1849CFAA00A48593 /* UserStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserStatus.m; sourceTree = "<group>"; };
 		D3CF45431852CF9400A48593 /* IntroScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroScreenViewController.h; sourceTree = "<group>"; };
 		D3CF45441852CF9400A48593 /* IntroScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroScreenViewController.m; sourceTree = "<group>"; };
-		D3EF83241852E8FF002688E4 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		D3EF8330185AEC41002688E4 /* TutorialPaintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialPaintView.h; sourceTree = "<group>"; };
 		D3EF8331185AEC41002688E4 /* TutorialPaintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPaintView.m; sourceTree = "<group>"; };
 		D70947091523BDFE008E4AD9 /* CollectionNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionNote.h; sourceTree = "<group>"; };
@@ -453,6 +454,7 @@
 				DBD06AA316DC93BD00463ECC /* MessageUI.framework in Frameworks */,
 				DB99FFC3160E73230042ED2A /* QuartzCore.framework in Frameworks */,
 				DBDD1ABE15CF215A00F55223 /* libxml2.dylib in Frameworks */,
+				D3AD7B591870CCDD002208E3 /* Reveal.framework in Frameworks */,
 				D7DD09E01572112000918BDF /* MobileCoreServices.framework in Frameworks */,
 				D7A53D281522F4E100183CB6 /* Security.framework in Frameworks */,
 				D7A53CF11522F39500183CB6 /* UIKit.framework in Frameworks */,
@@ -551,7 +553,7 @@
 		D7A53CE11522F39400183CB6 = {
 			isa = PBXGroup;
 			children = (
-				D3EF83241852E8FF002688E4 /* Reveal.framework */,
+				D3AD7B581870CCDD002208E3 /* Reveal.framework */,
 				DBD06AA216DC93BD00463ECC /* MessageUI.framework */,
 				D7A53CFC1522F39500183CB6 /* main.m */,
 				DB99FFC2160E73230042ED2A /* QuartzCore.framework */,
