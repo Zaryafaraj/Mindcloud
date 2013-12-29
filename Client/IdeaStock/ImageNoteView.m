@@ -68,6 +68,7 @@
 #define TOGGLE_VIEW_WIDTH @"50"
 #define TOGGLE_VIEW_HEIGHT @"40"
 #define MAX_TOGGLE_OFFSET_FROM_TOP 40
+#define MINX_TEXT_VIEW_SIZE 55
 
 -(void) configurePlaceholder
 {
@@ -196,11 +197,21 @@
     [self.noteView addConstraints:constraints];
 }
 
+-(void) adjustPlaceholders
+{
+    if (self.placeholderHeightConstraintOpen.constant <= -MINX_TEXT_VIEW_SIZE)
+    {
+        self.placeholderHeightConstraintOpen.constant = -MINX_TEXT_VIEW_SIZE;
+    }
+}
+
 -(void) toggleTapped:(UITapGestureRecognizer *) gr
 {
     
     if (self.isTextShowing)
     {
+        
+        
         [UIView animateWithDuration:0.5
                               delay:0
              usingSpringWithDamping:0.6
@@ -220,7 +231,7 @@
     else
     {
         
-        self.placeholderHeightConstraintOpen.constant = 0;
+        
         self.placeHolderTextview.hidden = NO;
         [UIView animateWithDuration:0.5
                               delay:0
@@ -229,7 +240,10 @@
                             options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseIn
                          animations:^{
                              [self.noteView removeConstraint:self.placeholderHeightConstraintClose];
+                             [self adjustPlaceholders];
                              [self.noteView addConstraint:self.placeholderHeightConstraintOpen];
+                             
+                             
                              [self.noteView layoutIfNeeded];
                          }completion:^(BOOL completed){
                              self.isTextShowing = YES;
@@ -238,48 +252,50 @@
     }
 }
 
-//-(void) togglePanned:(UIPanGestureRecognizer *) sender
-//{
-//    
-//    if(sender.state == UIGestureRecognizerStateChanged ||
-//       sender.state == UIGestureRecognizerStateEnded){
-//        
-//        CGPoint translation = [sender translationInView:self.noteView];
-//        
-//        if (self.isTextShowing)
-//        {
-//            if(self.placeholderView.frame.size.height == 0 || self.placeholderView.frame.size.height - translation.y <= 0)
-//            {
-//                self.isTextShowing = NO;
-//                [self.noteView removeConstraint:self.placeholderHeightConstraintOpen];
-//                [self.noteView addConstraint:self.placeholderHeightConstraintClose];
-//                [self layoutIfNeeded];
-//            }
-//            else
-//            {
-//                self.placeholderHeightConstraintOpen.constant -= translation.y;
-//                [self layoutIfNeeded];
-//            }
-//        }
-//        else
-//        {
-//            if (self.placeholderView.frame.size.height - translation.y > 0)
-//            {
-//                [self.noteView removeConstraint:self.placeholderHeightConstraintClose];
-//                [self.noteView addConstraint:self.placeholderHeightConstraintOpen];
-//                [self layoutIfNeeded];
-//                self.isTextShowing = YES;
-//            }
-//        }
-//        
-//        [sender setTranslation:CGPointZero inView:self.noteView];
-//    }
-//    
-//    if (sender.state == UIGestureRecognizerStateEnded)
-//    {
-//        
-//    }
-//}
+-(void) togglePanned:(UIPanGestureRecognizer *) sender
+{
+    
+    if(sender.state == UIGestureRecognizerStateChanged ||
+       sender.state == UIGestureRecognizerStateEnded){
+        
+        CGPoint translation = [sender translationInView:self.noteView];
+        
+        if (self.isTextShowing)
+        {
+            if(self.placeholderView.frame.size.height == 0 || self.placeholderView.frame.size.height - translation.y <= 0)
+            {
+                self.isTextShowing = NO;
+                [self.noteView removeConstraint:self.placeholderHeightConstraintOpen];
+                [self.noteView addConstraint:self.placeholderHeightConstraintClose];
+                [self layoutIfNeeded];
+            }
+            else
+            {
+                self.placeholderHeightConstraintOpen.constant -= translation.y;
+                NSLog(@"~~ %f", self.placeholderHeightConstraintOpen.constant);
+                [self layoutIfNeeded];
+            }
+        }
+        else
+        {
+            if (self.placeholderView.frame.size.height - translation.y > 0)
+            {
+                [self.noteView removeConstraint:self.placeholderHeightConstraintClose];
+                [self.noteView addConstraint:self.placeholderHeightConstraintOpen];
+                self.placeholderHeightConstraintOpen.constant = -GOLDEN_RATIO_INVERSE * self.noteView.bounds.size.height;
+                [self layoutIfNeeded];
+                self.isTextShowing = YES;
+            }
+        }
+        
+        [sender setTranslation:CGPointZero inView:self.noteView];
+    }
+    
+    if (sender.state == UIGestureRecognizerStateEnded)
+    {
+        
+    }
+}
 
 -(void) setImage:(UIImage *)image
 {
