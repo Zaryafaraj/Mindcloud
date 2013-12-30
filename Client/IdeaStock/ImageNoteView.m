@@ -18,6 +18,7 @@
 @property UITextView * placeHolderTextview;
 @property UIView * toggleView;
 @property UIView * placeholderView;
+@property (atomic, strong) CAShapeLayer * toggleShapeLayer;
 @property (atomic, assign) CGSize originalSize;
 
 @property NSLayoutConstraint * placeholderHeightConstraintOpen;
@@ -125,21 +126,21 @@
                                                                           constant:0];
     
     NSLayoutConstraint * placeholderHeightOpen = [NSLayoutConstraint constraintWithItem:placeholderView
-                                                                         attribute:NSLayoutAttributeHeight
-                                                                         relatedBy:NSLayoutRelationEqual
-                                                                            toItem:self.noteView
-                                                                         attribute:NSLayoutAttributeHeight
-                                                                        multiplier:GOLDEN_RATIO_INVERSE
-                                                                          constant:0];
+                                                                              attribute:NSLayoutAttributeHeight
+                                                                              relatedBy:NSLayoutRelationEqual
+                                                                                 toItem:self.noteView
+                                                                              attribute:NSLayoutAttributeHeight
+                                                                             multiplier:GOLDEN_RATIO_INVERSE
+                                                                               constant:0];
     
     
     NSLayoutConstraint * placeholderHeightClose = [NSLayoutConstraint constraintWithItem:placeholderView
-                                                                         attribute:NSLayoutAttributeHeight
-                                                                         relatedBy:NSLayoutRelationEqual
-                                                                            toItem:self.noteView
-                                                                         attribute:NSLayoutAttributeHeight
-                                                                        multiplier:0
-                                                                          constant:0];
+                                                                               attribute:NSLayoutAttributeHeight
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:self.noteView
+                                                                               attribute:NSLayoutAttributeHeight
+                                                                              multiplier:0
+                                                                                constant:0];
     self.placeholderHeightConstraintOpen = placeholderHeightOpen;
     self.placeholderHeightConstraintClose = placeholderHeightClose;
     
@@ -149,10 +150,10 @@
     self.toggleView = toggleView;
     
     UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleTapped:)];
-//    UIPanGestureRecognizer * pgr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(togglePanned:)];
+    //    UIPanGestureRecognizer * pgr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(togglePanned:)];
     
     [toggleView addGestureRecognizer:tgr];
-//    [toggleView addGestureRecognizer:pgr];
+    //    [toggleView addGestureRecognizer:pgr];
     
     //[[ThemeFactory currentTheme] colorForImageNoteTextPlaceholder];
     
@@ -174,33 +175,35 @@
     [self.noteView addSubview:placeholderView];
     
     [self.noteView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:placeholderConstraintsH
-                                                                 options:0
-                                                                 metrics:noteMetric
-                                                                   views:views]];
+                                                                          options:0
+                                                                          metrics:noteMetric
+                                                                            views:views]];
     
     [self.noteView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:toggleConstraint
-                                                                 options:0
-                                                                 metrics:noteMetric
-                                                                   views:views]];
+                                                                          options:0
+                                                                          metrics:noteMetric
+                                                                            views:views]];
     
     [self.noteView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:constraintsV
-                                                                 options:0
-                                                                 metrics:noteMetric
-                                                                   views:views]];
+                                                                          options:0
+                                                                          metrics:noteMetric
+                                                                            views:views]];
     
     [self.noteView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:toggleViewConstraintV
-                                                                 options:0
-                                                                 metrics:noteMetric
-                                                                   views:views]];
+                                                                          options:0
+                                                                          metrics:noteMetric
+                                                                            views:views]];
     
     
     [self.noteView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:placeholderConstraintV
-                                                                 options:0
-                                                                 metrics:noteMetric
-                                                                   views:views]];
+                                                                          options:0
+                                                                          metrics:noteMetric
+                                                                            views:views]];
     [self.noteView addConstraints:constraints];
     
-    [toggleView.layer addSublayer:[self createToggleShapeUp]];
+    //    [toggleView.layer addSublayer:[self createToggleShapeDown]];
+    self.toggleShapeLayer = [self createToggleShapeUp];
+    [toggleView.layer addSublayer:self.toggleShapeLayer];
 }
 
 -(void) adjustPlaceholders
@@ -217,32 +220,47 @@
     
     bezier.strokeColor = [UIColor darkGrayColor].CGColor;
     bezier.fillColor = [UIColor clearColor].CGColor;
-    bezier.lineWidth = 1;
+    bezier.lineWidth = 5;
     bezier.lineCap = kCALineJoinBevel;
     
-    UIBezierPath* triangle = [UIBezierPath bezierPath];
-    [triangle moveToPoint:CGPointZero];
-    [triangle addLineToPoint:CGPointMake(TOGGLE_VIEW_WIDTH_FLOAT/2, TOGGLE_VIEW_HEIGHT_FLOAT/2)];
-    [triangle addLineToPoint:CGPointMake(TOGGLE_VIEW_WIDTH_FLOAT, 0)];
+    UIBezierPath * triangle = [self createTogglePath:NO];
     bezier.path = triangle.CGPath;
+    
     return bezier;
 }
 
+-(UIBezierPath *) createTogglePath:(BOOL) directionIsUp
+{
+    UIBezierPath* triangle = [UIBezierPath bezierPath];
+    
+    if (directionIsUp)
+    {
+        [triangle moveToPoint:CGPointMake(TOGGLE_VIEW_WIDTH_FLOAT/4, 0.625 *TOGGLE_VIEW_HEIGHT_FLOAT)];
+        [triangle addLineToPoint:CGPointMake(TOGGLE_VIEW_WIDTH_FLOAT/2, 3 * TOGGLE_VIEW_HEIGHT_FLOAT/8)];
+        [triangle addLineToPoint:CGPointMake(3*TOGGLE_VIEW_WIDTH_FLOAT/4, 0.625 * TOGGLE_VIEW_HEIGHT_FLOAT)];
+        return triangle;
+    }
+    else
+    {
+        [triangle moveToPoint:CGPointMake(TOGGLE_VIEW_WIDTH_FLOAT/4, 3 *TOGGLE_VIEW_HEIGHT_FLOAT/8)];
+        [triangle addLineToPoint:CGPointMake(TOGGLE_VIEW_WIDTH_FLOAT/2, 0.625 * TOGGLE_VIEW_HEIGHT_FLOAT)];
+        [triangle addLineToPoint:CGPointMake(3*TOGGLE_VIEW_WIDTH_FLOAT/4, 3* TOGGLE_VIEW_HEIGHT_FLOAT/8)];
+        return triangle;
+    }
+}
 -(CAShapeLayer *) createToggleShapeUp
 {
     CAShapeLayer * bezier = [[CAShapeLayer alloc] init];
     
     bezier.strokeColor = [UIColor darkGrayColor].CGColor;
     bezier.fillColor = [UIColor clearColor].CGColor;
-    bezier.lineWidth = 1;
+    bezier.lineWidth = 5;
     bezier.lineCap = kCALineJoinBevel;
     
-    UIBezierPath* triangle = [UIBezierPath bezierPath];
-    [triangle moveToPoint:CGPointMake(0, TOGGLE_VIEW_HEIGHT_FLOAT)];
-    [triangle addLineToPoint:CGPointMake(TOGGLE_VIEW_WIDTH_FLOAT/2, TOGGLE_VIEW_HEIGHT_FLOAT/2)];
-    [triangle addLineToPoint:CGPointMake(TOGGLE_VIEW_WIDTH_FLOAT, TOGGLE_VIEW_HEIGHT_FLOAT)];
+    UIBezierPath* triangle = [self createTogglePath:YES];
+    
     bezier.path = triangle.CGPath;
-    bezier.transform = CATransform3DScale(bezier.transform, 0.75, 0.75, 0.75);
+    
     return bezier;
 }
 -(void) toggleTapped:(UITapGestureRecognizer *) gr
@@ -250,7 +268,13 @@
     
     if (self.isTextShowing)
     {
+        CABasicAnimation *morph = [CABasicAnimation animationWithKeyPath:@"path"];
+        morph.duration = 0.5;
+        morph.toValue = (id) [self createTogglePath:YES].CGPath;
+        morph.removedOnCompletion = NO;
+        morph.fillMode = kCAFillModeForwards;
         
+        [self.toggleShapeLayer addAnimation:morph forKey:nil];
         
         [UIView animateWithDuration:0.5
                               delay:0
@@ -260,6 +284,7 @@
                          animations:^{
                              [self.noteView removeConstraint:self.placeholderHeightConstraintOpen];
                              [self.noteView addConstraint:self.placeholderHeightConstraintClose];
+                             
                              [self.noteView layoutIfNeeded];
                          }completion:^(BOOL completed){
                              [self.placeHolderTextview resignFirstResponder];
@@ -270,7 +295,12 @@
     }
     else
     {
-        
+        CABasicAnimation *morph = [CABasicAnimation animationWithKeyPath:@"path"];
+        morph.duration = 0.5;
+        morph.toValue = (id) [self createTogglePath:NO].CGPath;
+        morph.removedOnCompletion = NO;
+        morph.fillMode = kCAFillModeForwards;
+        [self.toggleShapeLayer addAnimation:morph forKey:nil];
         
         self.placeHolderTextview.hidden = NO;
         [UIView animateWithDuration:0.5
@@ -283,15 +313,27 @@
                              [self adjustPlaceholders];
                              [self.noteView addConstraint:self.placeholderHeightConstraintOpen];
                              
-                             
                              [self.noteView layoutIfNeeded];
                          }completion:^(BOOL completed){
                              self.isTextShowing = YES;
                              [self.noteView layoutIfNeeded];
                          }];
+        
+        //        CGPathRef pathRef = [self createTogglePath:NO].CGPath;
+        //        self.toggleShapeLayer.path = pathRef;
     }
 }
-
+- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
+{
+    //    if (self.isTextShowing)
+    //    {
+    //        self.toggleShapeLayer.path = [self createTogglePath:NO].CGPath;
+    //    }
+    //    else
+    //    {
+    //        self.toggleShapeLayer.path = [self createTogglePath:YES].CGPath;
+    //    }
+}
 -(void) togglePanned:(UIPanGestureRecognizer *) sender
 {
     
