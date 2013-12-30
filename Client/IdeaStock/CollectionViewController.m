@@ -1024,7 +1024,6 @@
 
 -(void) objectPanned: (UIPanGestureRecognizer *) sender{
     
-    NSLog(@"PAAAAN");
     if( sender.state == UIGestureRecognizerStateChanged ||
        sender.state == UIGestureRecognizerStateEnded){
         CGPoint translation = [sender translationInView:self.collectionView];

@@ -108,9 +108,9 @@
     animation.fromValue = [UIBezierPath bezierPathWithCGPath:toValue];
     animation.toValue = [UIBezierPath bezierPathWithCGPath:self.layer.shadowPath];
     
-    self.noteView.layer.shadowPath = toValue;
+    self.layer.shadowPath = toValue;
     
-    [self.noteView.layer addAnimation:animation forKey:@"shadowPath"];
+    [self.layer addAnimation:animation forKey:@"shadowPath"];
     CGPathRelease(toValue);
 }
 
