@@ -9,6 +9,7 @@
 #import "ImageNoteView.h"
 #import "CollectionAnimationHelper.h"
 #import "ThemeFactory.h"
+#import "CollectionLayoutHelper.h"
 
 @interface ImageNoteView()
 
@@ -17,6 +18,7 @@
 @property UITextView * placeHolderTextview;
 @property UIView * toggleView;
 @property UIView * placeholderView;
+@property (atomic, assign) CGSize originalSize;
 
 @property NSLayoutConstraint * placeholderHeightConstraintOpen;
 @property NSLayoutConstraint * placeholderHeightConstraintClose;
@@ -352,6 +354,30 @@
     return _image;
 }
 
+-(void) scaleWithScaleOffset:(CGFloat) scaleOffset animated:(BOOL) animated
+{
+    self.scaleOffset = scaleOffset;
+    
+    if (self.originalSize.width > 0 &&
+        self.originalSize.height >0)
+    {
+        
+        self.bounds = CGRectMake(self.bounds.origin.x,
+                                 self.bounds.origin.y,
+                                 self.originalSize.width * scaleOffset,
+                                 self.originalSize.height * scaleOffset);
+    }
+    else
+    {
+        self.bounds = CGRectMake(self.bounds.origin.x,
+                                 self.bounds.origin.y,
+                                 NOTE_WIDTH * scaleOffset,
+                                 NOTE_HEIGHT * scaleOffset);
+        [self resizeNoteToMatchImageSize];
+    }
+    
+}
+
 -(void) resizeNoteToMatchImageSize
 {
     if (self.image)
@@ -364,6 +390,8 @@
                                 self.frame.size.width,
                                 newNoteHeight);
     }
+    
+    self.originalSize = CGSizeMake(self.bounds.size.width, self.bounds.size.height);
 }
 
 -(void) setText:(NSString *)text

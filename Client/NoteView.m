@@ -14,7 +14,6 @@
 
 @interface NoteView()
 
-@property (nonatomic) CGRect originalFrame;
 @property (nonatomic) CGRect lastFrame;
 @property (nonatomic) UIButton * deleteButton;
 @property (nonatomic) UIView * noteView;
@@ -222,26 +221,14 @@
 
 -(void) setBounds:(CGRect)bounds
 {
-    
-//    for(NSLayoutConstraint * constraint in ( (UIView *) self.superview).constraints)
+//    NSLog(@"New: %f - %f", bounds.size.height, bounds.size.width);
+//    if (bounds.size.height == 0)
 //    {
-//        if (constraint.firstItem == self || constraint.secondItem == self)
-//        {
-//            UIView * superview = self.superview;
-//            if (constraint.firstAttribute == NSLayoutAttributeHeight)
-//            {
-//                [superview removeConstraint:constraint];
-//            }
-//      }
+//        NSLog(@"X");
 //    }
-//    NSArray * constraints =((UIView *)self.superview).constraints;
-    
-//    NSLayoutConstraint * constr;
-//    if (constraints.count > 0)
-//    {
-//         constr = constraints[0];
-//    }
+//    NSLog(@"Before: %f - %f", self.bounds.size.height, self.bounds.size.width);
     [super setBounds:bounds];
+//    NSLog(@"After: %f - %f", self.bounds.size.height, self.bounds.size.width);
     [self adjustSubViewsForPropertyChangeInNote];
 }
 
@@ -286,8 +273,8 @@
     
     self.bounds = CGRectMake(self.bounds.origin.x,
                              self.bounds.origin.y,
-                             self.originalFrame.size.width * scaleOffset,
-                             self.originalFrame.size.height * scaleOffset);
+                             NOTE_WIDTH * scaleOffset,
+                             NOTE_HEIGHT * scaleOffset);
     
 }
 
