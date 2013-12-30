@@ -56,6 +56,7 @@
 
 -(instancetype) _configureView
 {
+    self.translatesAutoresizingMaskIntoConstraints = NO;
     self.noteView = self.subviews.firstObject;
     [NoteView setLayers:self];
     [self configureTextView];
@@ -221,6 +222,25 @@
 
 -(void) setBounds:(CGRect)bounds
 {
+    
+//    for(NSLayoutConstraint * constraint in ( (UIView *) self.superview).constraints)
+//    {
+//        if (constraint.firstItem == self || constraint.secondItem == self)
+//        {
+//            UIView * superview = self.superview;
+//            if (constraint.firstAttribute == NSLayoutAttributeHeight)
+//            {
+//                [superview removeConstraint:constraint];
+//            }
+//      }
+//    }
+//    NSArray * constraints =((UIView *)self.superview).constraints;
+    
+//    NSLayoutConstraint * constr;
+//    if (constraints.count > 0)
+//    {
+//         constr = constraints[0];
+//    }
     [super setBounds:bounds];
     [self adjustSubViewsForPropertyChangeInNote];
 }

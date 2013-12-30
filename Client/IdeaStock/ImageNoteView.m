@@ -67,6 +67,8 @@
 #define TEXT_OFFSET @"10"
 #define TOGGLE_VIEW_WIDTH @"50"
 #define TOGGLE_VIEW_HEIGHT @"40"
+#define TOGGLE_VIEW_WIDTH_FLOAT 50
+#define TOGGLE_VIEW_HEIGHT_FLOAT 40
 #define MAX_TOGGLE_OFFSET_FROM_TOP 40
 #define MINX_TEXT_VIEW_SIZE 55
 
@@ -195,6 +197,8 @@
                                                                  metrics:noteMetric
                                                                    views:views]];
     [self.noteView addConstraints:constraints];
+    
+    [toggleView.layer addSublayer:[self createToggleShapeUp]];
 }
 
 -(void) adjustPlaceholders
@@ -205,6 +209,40 @@
     }
 }
 
+-(CAShapeLayer *) createToggleShapeDown
+{
+    CAShapeLayer * bezier = [[CAShapeLayer alloc] init];
+    
+    bezier.strokeColor = [UIColor darkGrayColor].CGColor;
+    bezier.fillColor = [UIColor clearColor].CGColor;
+    bezier.lineWidth = 1;
+    bezier.lineCap = kCALineJoinBevel;
+    
+    UIBezierPath* triangle = [UIBezierPath bezierPath];
+    [triangle moveToPoint:CGPointZero];
+    [triangle addLineToPoint:CGPointMake(TOGGLE_VIEW_WIDTH_FLOAT/2, TOGGLE_VIEW_HEIGHT_FLOAT/2)];
+    [triangle addLineToPoint:CGPointMake(TOGGLE_VIEW_WIDTH_FLOAT, 0)];
+    bezier.path = triangle.CGPath;
+    return bezier;
+}
+
+-(CAShapeLayer *) createToggleShapeUp
+{
+    CAShapeLayer * bezier = [[CAShapeLayer alloc] init];
+    
+    bezier.strokeColor = [UIColor darkGrayColor].CGColor;
+    bezier.fillColor = [UIColor clearColor].CGColor;
+    bezier.lineWidth = 1;
+    bezier.lineCap = kCALineJoinBevel;
+    
+    UIBezierPath* triangle = [UIBezierPath bezierPath];
+    [triangle moveToPoint:CGPointMake(0, TOGGLE_VIEW_HEIGHT_FLOAT)];
+    [triangle addLineToPoint:CGPointMake(TOGGLE_VIEW_WIDTH_FLOAT/2, TOGGLE_VIEW_HEIGHT_FLOAT/2)];
+    [triangle addLineToPoint:CGPointMake(TOGGLE_VIEW_WIDTH_FLOAT, TOGGLE_VIEW_HEIGHT_FLOAT)];
+    bezier.path = triangle.CGPath;
+    bezier.transform = CATransform3DScale(bezier.transform, 0.75, 0.75, 0.75);
+    return bezier;
+}
 -(void) toggleTapped:(UITapGestureRecognizer *) gr
 {
     

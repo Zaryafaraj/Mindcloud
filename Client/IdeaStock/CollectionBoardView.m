@@ -10,6 +10,7 @@
 #import "PaintLayerView.h"
 #import "ThemeFactory.h"
 #import "CollectionBoardState.h"
+#import "NoteView.h"
 
 @interface CollectionBoardView()
 
@@ -437,7 +438,8 @@
     UITouch * touch = [touches anyObject];
     
     //preventing tracking touches as drawings when a subview is touched
-    if (touch.view != self)
+    if ([touch.view isKindOfClass:[NoteView class]] ||
+        touch.view.superview != self)
     {
         return;
     }
@@ -483,7 +485,8 @@
     }
     
     //preventing tracking touches as drawings when a subview is touched
-    if (touch.view != self)
+    if ([touch.view isKindOfClass:[NoteView class]] ||
+        touch.view.superview != self)
     {
         return;
     }
@@ -580,7 +583,8 @@
     
     UITouch * touch = [touches anyObject];
     
-    if (touch.view != self)
+    if ([touch.view isKindOfClass:[NoteView class]] ||
+        touch.view.superview != self)
     {
         return;
     }
@@ -918,6 +922,7 @@
     }
     
 }
+
 
 -(NSSet *) getOverlappingViewsForPoint:(CGPoint) location
 {
