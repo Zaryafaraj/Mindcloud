@@ -50,6 +50,7 @@
     //find the text view
     UIView * noteView = self.subviews.firstObject;
     self.noteView = noteView;
+    self.noteView.userInteractionEnabled = NO;
     for (UIView * subView in self.noteView.subviews){
         if ([subView isKindOfClass:[UIImageView class]])
         {
