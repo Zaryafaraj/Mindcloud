@@ -221,14 +221,7 @@
 
 -(void) setBounds:(CGRect)bounds
 {
-//    NSLog(@"New: %f - %f", bounds.size.height, bounds.size.width);
-//    if (bounds.size.height == 0)
-//    {
-//        NSLog(@"X");
-//    }
-//    NSLog(@"Before: %f - %f", self.bounds.size.height, self.bounds.size.width);
     [super setBounds:bounds];
-//    NSLog(@"After: %f - %f", self.bounds.size.height, self.bounds.size.width);
     [self adjustSubViewsForPropertyChangeInNote];
 }
 
@@ -259,6 +252,7 @@
     
     self.scaleOffset = 1;
     self.rotationOffset = 0;
+    [self adjustSubViewsForPropertyChangeInNote];
 }
 
 -(BOOL) isScalingValid: (CGFloat) scaleFactor;

@@ -9,6 +9,7 @@
 #import "StackView.h"
 #import "ImageNoteView.h"
 #import "CollectionAnimationHelper.h"
+#import "CollectionLayoutHelper.h"
 
 #define MAX_VISIBLE_NOTES 3
 #define STACKING_DURATION 0.3
@@ -123,8 +124,8 @@
                          
                          note.bounds = CGRectMake(0,
                                                   0,
-                                                  self.bounds.size.width,
-                                                  self.bounds.size.height);
+                                                  self.bounds.size.width - 2 * NOTE_OFFSET_FROM_STACKING,
+                                                  self.bounds.size.height - 2 * NOTE_OFFSET_FROM_STACKING);
                          note.transform = CGAffineTransformIdentity;
                          note.center = self.center;
                      }completion:^(BOOL finished){
@@ -132,10 +133,11 @@
                          [note removeFromSuperview];
                          
                          note.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+                         
                          note.bounds = CGRectMake(0,
                                                   0,
-                                                  self.bounds.size.width,
-                                                  self.bounds.size.height);
+                                                  self.bounds.size.width - 2 * NOTE_OFFSET_FROM_STACKING,
+                                                  self.bounds.size.height - 2 * NOTE_OFFSET_FROM_STACKING);
                          
                          [self addSubview:note];
                      }
@@ -164,10 +166,11 @@
                          CGFloat totalRotation = rotationRight - currentRotation;
                          note.transform = CGAffineTransformRotate(note.transform, totalRotation);
                          
+                         
                          note.bounds = CGRectMake(0,
                                                   0,
-                                                  self.bounds.size.width,
-                                                  self.bounds.size.height);
+                                                  self.bounds.size.width - 2 * NOTE_OFFSET_FROM_STACKING,
+                                                  self.bounds.size.height - 2 * NOTE_OFFSET_FROM_STACKING);
                          note.center = self.center;
                      }completion:^(BOOL finished){
                          
@@ -175,10 +178,11 @@
                          
                          
                          note.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+                         
                          note.bounds = CGRectMake(0,
                                                   0,
-                                                  self.bounds.size.width,
-                                                  self.bounds.size.height);
+                                                  self.bounds.size.width - 2 * NOTE_OFFSET_FROM_STACKING,
+                                                  self.bounds.size.height - 2 * NOTE_OFFSET_FROM_STACKING);
                          
                          //if we are laying this on top of something else make sure it actually appears on top
                          int index = [self.views indexOfObject:note];

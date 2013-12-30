@@ -20,8 +20,10 @@
 #define STACKING_SCALING_HEIGHT 1.0
 #define NOTE_WIDTH 350
 #define NOTE_HEIGHT 260
-#define STACK_WIDTH 310
-#define STACK_HEIGHT 220
+#define STACK_WIDTH 390
+#define STACK_HEIGHT 300 
+#define NOTE_OFFSET_FROM_STACKING 20
+
 @interface CollectionLayoutHelper : NSObject
 
 +(void) adjustNotePositionsForX:(float *) positionX
