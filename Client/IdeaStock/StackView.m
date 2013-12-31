@@ -578,7 +578,7 @@
 #pragma mark - animations
 #define SCALE_SIZE 1.1
 #define HIGHLIGHT_DURATION 0.3
-#define TRANSLATION_FROM_BASE 20
+#define TRANSLATION_FROM_BASE 10
 #define TRANSLATION_DELTA 10
 -(void) animateStackHighlighted:(BOOL) highlight
 {
