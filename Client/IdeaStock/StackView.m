@@ -162,9 +162,8 @@
     [UIView animateWithDuration:STACKING_DURATION delay:0
                         options:option
                      animations:^{
-                         CGFloat currentRotation = note.rotationOffset;
                          CGFloat rotationRight = angle;
-                         CGFloat totalRotation = rotationRight - currentRotation;
+                         CGFloat totalRotation = rotationRight;
                          note.transform = CGAffineTransformRotate(CGAffineTransformIdentity, totalRotation);
                          
                          
