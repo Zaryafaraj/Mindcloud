@@ -33,6 +33,15 @@
 @synthesize image = _image;
 @synthesize imageView = _imageView;
 
+-(void) setHideControls:(BOOL)hideControls
+{
+    if (self.placeholderView && self.toggleView)
+    {
+        self.placeholderView.hidden = hideControls;
+        self.toggleView.hidden = hideControls;
+    }
+}
+
 -(id) initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
@@ -64,7 +73,12 @@
         }
     }
     [self configurePlaceholder];
-    
+}
+
+-(void) setClipsToBounds:(BOOL)clipsToBounds
+{
+    super.clipsToBounds = clipsToBounds;
+    self.noteView.clipsToBounds = YES;
 }
 
 #define GOLDEN_RATIO_INVERSE 0.382
@@ -462,6 +476,11 @@
 {
     [super setBounds:bounds];
     [self adjustSubViewsForPropertyChangeInImage];
+}
+
+-(void) setContentMode:(UIViewContentMode)contentMode
+{
+    self.imageView.contentMode = contentMode;
 }
 
 -(void) adjustSubViewsForPropertyChangeInImage

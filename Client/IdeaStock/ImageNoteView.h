@@ -12,4 +12,5 @@
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic) BOOL resizesToFitImage;
+@property (nonatomic) BOOL hideControls;
 @end

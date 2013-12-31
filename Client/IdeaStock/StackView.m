@@ -236,6 +236,14 @@
             [note removeGestureRecognizer:gr];
         }
         
+        if ([note isKindOfClass:[ImageNoteView class]])
+        {
+            ImageNoteView * imgNoteView = (ImageNoteView *) note;
+            imgNoteView.contentMode = UIViewContentModeScaleAspectFill;
+            imgNoteView.clipsToBounds = YES;
+            imgNoteView.hideControls = YES;
+        }
+        
         note._textView.editable = NO;
         
         //if its the top of the stack move it on top without rotation
@@ -289,6 +297,7 @@
 {
     for (NoteView * view in self.tempTopItems)
     {
+        
         [view removeFromSuperview];
     }
     
