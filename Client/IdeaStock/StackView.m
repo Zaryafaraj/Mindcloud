@@ -10,6 +10,7 @@
 #import "ImageNoteView.h"
 #import "CollectionAnimationHelper.h"
 #import "CollectionLayoutHelper.h"
+#import "ThemeFactory.h"
 
 #define MAX_VISIBLE_NOTES 3
 #define STACKING_DURATION 0.3
@@ -18,6 +19,7 @@
 
 @property CGRect originalFrame;
 @property NSMutableArray * tempTopItems;
+@property UIButton * deleteButton;
 
 @end
 
@@ -57,9 +59,42 @@
 -(void) setHighlighted:(BOOL) highlighted
 {
     _highlighted = highlighted;
+    
+    if (!self.deleteButton)
+    {
+        UIButton * delButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        self.deleteButton = delButton;
+        [self.deleteButton addTarget:self
+                              action:@selector(deletePressed:)
+                    forControlEvents:UIControlEventTouchDown];
+        
+        UIImage * btnImage = [[ThemeFactory currentTheme] imageForDeleteIcon];
+        [self.deleteButton setImage:btnImage
+                           forState:UIControlStateNormal];
+        [self addSubview:self.deleteButton];
+        self.deleteButton.frame = CGRectMake(10, 10 , 40, 40);
+        self.deleteButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
+    }
     [self animateStackHighlighted:highlighted];
 }
 
+-(void) deletePressed:(id) sender
+{
+    id<StackActionDelegate> temp = self.delegate;
+    if(temp)
+    {
+        [temp deleteStackPressed:self];
+    }
+}
+
+-(void) expandPressed:(id) sender
+{
+    id<StackActionDelegate> temp = self.delegate;
+    if(temp)
+    {
+        [temp expandStackPressed:self];
+    }
+}
 
 -(void) rotate:(CGFloat)rotation
 {
@@ -576,6 +611,7 @@
 }
 
 #pragma mark - animations
+
 #define SCALE_SIZE 1.1
 #define HIGHLIGHT_DURATION 0.3
 #define TRANSLATION_FROM_BASE 10
@@ -625,6 +661,19 @@
                                                      translation);
                 newShadowOffset = enclosingNoteLayer.shadowOffset.height + HIGHLIGHT_SHADOW_ADDITON_Y;
                 newShadowRadius = enclosingNoteLayer.shadowRadius + HIGHLIGHT_ADDITONAL_RADIUS;
+                
+                self.deleteButton.hidden = NO;
+                self.deleteButton.transform = CGAffineTransformIdentity;
+                self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 0.1, 0.1);
+                
+                [UIView animateWithDuration:0.6
+                                      delay:0
+                     usingSpringWithDamping:0.6
+                      initialSpringVelocity:0
+                                    options:UIViewAnimationOptionCurveEaseIn
+                                 animations:^{
+                                     self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 10, 10);
+                                 }completion:^(BOOL completed){}];
             }
             else
             {
@@ -654,6 +703,17 @@
                 
                 newShadowOffset = enclosingNoteLayer.shadowOffset.height - HIGHLIGHT_SHADOW_ADDITON_Y;
                 newShadowRadius = enclosingNoteLayer.shadowRadius - HIGHLIGHT_ADDITONAL_RADIUS;
+                
+                [UIView animateWithDuration:0.6
+                                      delay:0
+                     usingSpringWithDamping:0.8
+                      initialSpringVelocity:0
+                                    options:UIViewAnimationOptionCurveEaseIn
+                                 animations:^{
+                                     self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 0.001, 0.001);
+                                 }completion:^(BOOL completed){
+                                     self.deleteButton.hidden = YES;
+                                 }];
             }
             
             CABasicAnimation * noteAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
@@ -685,6 +745,9 @@
             shadowRadiusAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
             shadowRadiusAnimation.duration = HIGHLIGHT_DURATION;
             [enclosingNoteLayer addAnimation:shadowRadiusAnimation forKey:@"shadowRadius"];
+            
+            
+            
         }
         
     }

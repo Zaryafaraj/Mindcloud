@@ -10,9 +10,19 @@
 #import "NoteView.h"
 #import "StackView.h"
 
+@protocol StackActionDelegate <NSObject>
+
+-(void) expandStackPressed:(id) sender;
+-(void) deleteStackPressed:(id) sender;
+
+@end
+
 @interface StackView : UIView <BulletinBoardObject,UITextViewDelegate>
 
 @property (strong,nonatomic) NSMutableArray * views;
+
+@property (weak, nonatomic) id<StackActionDelegate> delegate;
+
 @property (weak, nonatomic, readonly) NoteView * mainView;
 
 -(id) initWithViews: (NSMutableArray *) views 

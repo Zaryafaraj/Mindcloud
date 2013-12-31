@@ -460,6 +460,7 @@
             StackView * stack = [[StackView alloc] initWithViews:[stackNotes mutableCopy]
                                                      andMainView:mainView
                                                        withFrame:stackFrame];
+            stack.delegate = self;
             //scale the stack if necessary
             float scaling = [stacking.scale floatValue];
             scaling = scaling/stack.scaleOffset;
@@ -1464,39 +1465,6 @@
     self.activeImageSheet = action;
 }
 
-
--(IBAction) expandPressed:(id) sender {
-    
-    if ([self.highlightedView isKindOfClass:[StackView class]] && self.editMode)
-    {
-        CGRect fittingRect = [CollectionLayoutHelper findFittingRectangle: (StackView *) self.highlightedView
-                                                                   inView:self.collectionView];
-        
-        //move stuff that is in the rectangle out of it
-        [CollectionLayoutHelper clearRectangle: fittingRect
-                              inCollectionView:self.collectionView
-                          withMoveNoteFunction:^(NoteView * note){
-                              [note resetSize];
-                              [self updateScalingAndPositionAccordingToNoteView:note];
-                          }];
-        
-        //layout stack in the empty rect
-        [self layoutStackView:(StackView *) self.highlightedView inRect:fittingRect ];
-        
-        //clean up
-        NSString * stackingID = ((StackView *)self.highlightedView).ID;
-        [self.board removeStacking:stackingID];
-        [self.stackViews removeObjectForKey:stackingID];
-        
-        self.highlightedView = nil;
-        self.editMode = NO;
-    }
-}
-
--(void) deletePressed:(id) sender
-{
-}
-
 -(void) cleanupCollection
 {
     
@@ -1853,6 +1821,8 @@
     StackView * stack = [[StackView alloc] initWithViews:allNotes
                                              andMainView:(NoteView *)mainView
                                                withFrame:stackFrame];
+    stack.delegate = self;
+    
     stack.ID = stackingID;
     StackView * stackRef = stack;
     self.stackViews[stackingID] = stackRef;
@@ -1896,6 +1866,7 @@ withDestinationView:(UIView *) destinationView
     StackView * stack = [[StackView alloc] initWithViews:allNotes
                                              andMainView:(NoteView *)mainView
                                                withFrame:stackFrame];
+    stack.delegate = self;
     stack.ID = stackingID;
     StackView * stackRef = stack;
     self.stackViews[stackingID] = stackRef;
@@ -2351,7 +2322,7 @@ intoStackingWithMainView: (UIView *) mainView
 }
 
 
--(void) noteDeletePressed:(id) note
+-(void) deletePressed:(id) note
 {
     if(!self.editMode) return;
     
@@ -2857,5 +2828,39 @@ intoStackingWithMainView: (UIView *) mainView
     }
 
     return NO;
+}
+
+#pragma mark StackActionDelegate
+-(void) deleteStackPressed:(id)sender
+{
+    [self deletePressed:sender];
+}
+
+-(void) expandStackPressed:(id)sender
+{
+    if ([self.highlightedView isKindOfClass:[StackView class]] && self.editMode)
+    {
+        CGRect fittingRect = [CollectionLayoutHelper findFittingRectangle: (StackView *) self.highlightedView
+                                                                   inView:self.collectionView];
+        
+        //move stuff that is in the rectangle out of it
+        [CollectionLayoutHelper clearRectangle: fittingRect
+                              inCollectionView:self.collectionView
+                          withMoveNoteFunction:^(NoteView * note){
+                              [note resetSize];
+                              [self updateScalingAndPositionAccordingToNoteView:note];
+                          }];
+        
+        //layout stack in the empty rect
+        [self layoutStackView:(StackView *) self.highlightedView inRect:fittingRect ];
+        
+        //clean up
+        NSString * stackingID = ((StackView *)self.highlightedView).ID;
+        [self.board removeStacking:stackingID];
+        [self.stackViews removeObjectForKey:stackingID];
+        
+        self.highlightedView = nil;
+        self.editMode = NO;
+    }
 }
 @end

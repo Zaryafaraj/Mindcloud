@@ -317,7 +317,7 @@
     id<NoteViewDelegate> temp = self.delegate;
     if (temp)
     {
-        [temp noteDeletePressed:self];
+        [temp deletePressed:self];
     }
     
 }
