@@ -117,10 +117,7 @@
 +(NoteView *) setLayers:(NoteView *) noteView
 {
     UIView * view = noteView.noteView;
-    
     view.backgroundColor = [UIColor whiteColor];
-    view.layer.borderColor = [UIColor clearColor].CGColor;
-    view.layer.borderWidth = 1;
     //view.layer.shouldRasterize = YES;
     view.layer.edgeAntialiasingMask = kCALayerTopEdge | kCALayerBottomEdge | kCALayerRightEdge | kCALayerLeftEdge;
     view.clipsToBounds = NO;
@@ -203,9 +200,11 @@
                                   20,
                                   self.bounds.size.width - 40,
                                   self.bounds.size.height - 40);
+    
+    CGRect shadowFrame = CGRectMake(0, 0, noteFrame.size.width, noteFrame.size.height);
     self.noteView.frame = noteFrame;
-    CGPathRef shadowPath = CGPathCreateWithRect(noteFrame,&CGAffineTransformIdentity);
-    self.layer.shadowPath = shadowPath;
+    CGPathRef shadowPath = CGPathCreateWithRect(shadowFrame,&CGAffineTransformIdentity);
+    self.noteView.layer.shadowPath = shadowPath;
     
     if (self._textView)
     {
