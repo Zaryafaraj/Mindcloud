@@ -272,6 +272,18 @@
     
 }
 
+-(void) scaleWithScaleOffset:(CGFloat) scaleOffset
+            fromOriginalSize:(CGSize) size
+                    animated:(BOOL) animated
+{
+    self.scaleOffset = scaleOffset;
+    
+    self.bounds = CGRectMake(self.bounds.origin.x,
+                             self.bounds.origin.y,
+                             size.width * scaleOffset,
+                             size.height * scaleOffset);
+}
+
 -(void) scale:(CGFloat) scaleFactor animated:(BOOL)animated{
     
     BOOL isValid = [self isScalingValid:scaleFactor];

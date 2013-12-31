@@ -39,6 +39,10 @@
 
 -(void) disablePaintMode;
 
+-(void) scaleWithScaleOffset:(CGFloat) scaleOffset
+            fromOriginalSize:(CGSize) size
+                    animated:(BOOL) animated;
+
 -(instancetype) prototype;
 
 

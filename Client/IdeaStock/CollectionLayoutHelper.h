@@ -21,7 +21,7 @@
 #define NOTE_WIDTH 350
 #define NOTE_HEIGHT 260
 #define STACK_WIDTH 390
-#define STACK_HEIGHT 300 
+#define STACK_HEIGHT 300
 #define NOTE_OFFSET_FROM_STACKING 20
 
 @interface CollectionLayoutHelper : NSObject
@@ -73,4 +73,5 @@ inCollectionView:(UIView *)collectionView
 +(void) scaleView:(UIView *) view
  inCollectionView:(UIView *) collectionView
         withScale:(float) scale;
+
 @end

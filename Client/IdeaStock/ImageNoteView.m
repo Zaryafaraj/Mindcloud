@@ -435,6 +435,15 @@
     
 }
 
+-(void) scaleWithScaleOffset:(CGFloat) scaleOffset
+            fromOriginalSize:(CGSize) size
+                    animated:(BOOL) animated
+{
+    self.bounds = CGRectMake(self.bounds.origin.x,
+                             self.bounds.origin.y,
+                             size.width * scaleOffset,
+                             size.height * scaleOffset);
+}
 -(void) resizeNoteToMatchImageSize
 {
     if (self.image)

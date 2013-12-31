@@ -96,7 +96,7 @@
         self.originalFrame = self.frame;
         [self layoutStackView];
     }
-    
+    //self.backgroundColor = [UIColor darkGrayColor];
     return self;
 }
 
@@ -120,6 +120,7 @@
     [UIView animateWithDuration:STACKING_DURATION delay:0
                         options:option
                      animations:^{
+                         
                          
                          
                          note.bounds = CGRectMake(0,
@@ -514,11 +515,16 @@
                              self.originalFrame.size.height * scaleOffset);
     
     //scale the sub noteViews
-    for (UIView * noteView in self.subviews)
+    
+    for(NoteView * view in self.views)
     {
-        if ([noteView isKindOfClass:[NoteView class]])
+        if (view.superview == self)
         {
-            [((NoteView *) noteView) scaleWithScaleOffset:scaleOffset animated:animated];
+            [view scaleWithScaleOffset:scaleOffset
+                      fromOriginalSize:CGSizeMake(STACK_WIDTH, STACK_HEIGHT) animated:animated];
+            [view scaleWithScaleOffset:scaleOffset animated:animated];
+            view.center = CGPointMake((self.bounds.origin.x + self.bounds.size.width) / 2,
+            (self.bounds.origin.y + self.bounds.size.height) /2);
         }
     }
     
@@ -536,11 +542,20 @@
     }
     
     self.scaleOffset *= scaleFactor;
-    
     self.bounds = CGRectMake(self.bounds.origin.x,
                              self.bounds.origin.y,
                              self.bounds.size.width * scaleFactor,
                              self.bounds.size.height * scaleFactor);
+    for(NoteView * view in self.views)
+    {
+        if (view.superview == self)
+        {
+            [view scale:scaleFactor animated:animated];
+            view.center = CGPointMake((self.bounds.origin.x + self.bounds.size.width) / 2,
+            (self.bounds.origin.y + self.bounds.size.height) /2);
+        }
+    }
+    
 }
 
 -(void) resetSize
