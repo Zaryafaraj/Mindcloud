@@ -57,16 +57,7 @@
 -(void) setHighlighted:(BOOL) highlighted
 {
     _highlighted = highlighted;
-    
-//    int lastIndex = self.views.count - 1;
-//    for (int i = 0; i < MAX_VISIBLE_NOTES; i++)
-//    {
-//        int topIndex = lastIndex - i;
-//        if (topIndex >= 0)
-//        {
-//            ((NoteView *) self.views[topIndex]).highlighted = highlighted;
-//        }
-//    }
+    [self animateStackHighlighted:highlighted];
 }
 
 
@@ -583,4 +574,110 @@
         }
     }
 }
+
+#pragma mark - animations
+#define SCALE_SIZE 1.1
+#define HIGHLIGHT_DURATION 0.3
+#define TRANSLATION_FROM_BASE 20
+#define TRANSLATION_DELTA 10
+-(void) animateStackHighlighted:(BOOL) highlight
+{
+    
+    //scale the background layer on the stack
+    CALayer * stackLayer = self.layer;
+    
+    CABasicAnimation * selectAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
+    CATransform3D toTransform = highlight ? CATransform3DMakeScale(SCALE_SIZE, SCALE_SIZE, SCALE_SIZE) : CATransform3DIdentity;
+    toTransform.m34 = - 1./500;
+    
+    
+    selectAnimation.fromValue = [NSValue valueWithCATransform3D:stackLayer.transform];
+    selectAnimation.toValue = [NSValue valueWithCATransform3D:toTransform];
+    
+    stackLayer.transform = toTransform;
+    selectAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    selectAnimation.duration = HIGHLIGHT_DURATION;
+    [stackLayer addAnimation:selectAnimation forKey:@"scaleAnimation"];
+    
+    
+    int noteNo = 0;
+    for(NoteView * note in self.views)
+    {
+        if (note.superview == self)
+        {
+            CALayer * noteLayer = note.layer;
+            [CABasicAnimation animationWithKeyPath:@"transform"];
+            CATransform3D noteToTransform;
+            if (highlight)
+            {
+                //rotate all back to their current place
+                noteToTransform = CATransform3DIdentity;
+                CGFloat translation = TRANSLATION_FROM_BASE - noteNo * TRANSLATION_DELTA;
+                noteToTransform = CATransform3DTranslate(noteToTransform, translation,
+                                                     translation,
+                                                     translation);
+            }
+            else
+            {
+                int index = [self.views indexOfObject:note];
+                //top view
+                CGFloat rotationAngle = 0;
+                
+                if (index == self.views.count - 2)
+                {
+                    rotationAngle = [self rotationAngleForStacking];
+                }
+                
+                if (index == self.views.count - 3)
+                {
+                    rotationAngle = - [self rotationAngleForStacking];
+                }
+                
+                noteToTransform = CATransform3DRotate(noteLayer.transform,
+                                                  rotationAngle,
+                                                  0, 0, 1);
+                
+                CGFloat translation = -(TRANSLATION_FROM_BASE - noteNo * TRANSLATION_DELTA);
+                
+                noteToTransform = CATransform3DTranslate(noteToTransform, translation,
+                                                     translation,
+                                                     translation);
+            }
+            
+            CABasicAnimation * noteAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
+            noteAnimation.fromValue = [NSValue valueWithCATransform3D:noteLayer.transform];
+            noteAnimation.toValue = [NSValue valueWithCATransform3D:noteToTransform];
+            
+            noteLayer.transform = noteToTransform;
+            noteAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+            noteAnimation.duration = HIGHLIGHT_DURATION;
+            [noteLayer addAnimation:noteAnimation forKey:@"noteTransform"];
+            noteNo++;
+        }
+        
+    }
+    
+//    CABasicAnimation * shadowAnimation = [CABasicAnimation animationWithKeyPath:@"shadowOffset"];
+//    CGSize toValue = CGSizeMake(layer.shadowOffset.width,
+//                                layer.shadowOffset.height + HIGHLIGHT_SHADOW_ADDITON_Y);
+//    
+//    shadowAnimation.fromValue = [NSValue valueWithCGSize:layer.shadowOffset];
+//    shadowAnimation.toValue = [NSValue valueWithCGSize:toValue];
+//    
+//    layer.shadowOffset = toValue;
+//    shadowAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+//    shadowAnimation.duration = HIGHLIGHT_DURATION;
+//    [layer addAnimation:shadowAnimation forKey:@"shadowOffset"];
+//    
+//    CABasicAnimation * shadowRadiusAnimation = [CABasicAnimation animationWithKeyPath:@"shadowRadius"];
+//    shadowRadiusAnimation.fromValue = [NSNumber numberWithFloat:layer.shadowRadius];
+//    shadowRadiusAnimation.toValue = [NSNumber numberWithFloat:layer.shadowRadius + HIGHLIGHT_ADDITONAL_RADIUS];
+//    
+//    layer.shadowRadius = layer.shadowRadius + HIGHLIGHT_ADDITONAL_RADIUS;
+//    shadowRadiusAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+//    shadowRadiusAnimation.duration = HIGHLIGHT_DURATION;
+//    [layer addAnimation:shadowRadiusAnimation forKey:@"shadowRadius"];
+}
+
+
 @end
