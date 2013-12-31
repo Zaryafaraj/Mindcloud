@@ -394,5 +394,9 @@
 }
 
 
+-(UIView *) getEnclosingNoteView
+{
+    return self.noteView;
+}
 
 @end

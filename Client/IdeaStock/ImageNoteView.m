@@ -534,4 +534,8 @@
     [self.placeHolderTextview resignFirstResponder];
 }
 
+-(UIView *) getEnclosingNoteView
+{
+    return self.noteView;
+}
 @end

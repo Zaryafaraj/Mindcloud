@@ -580,6 +580,10 @@
 #define HIGHLIGHT_DURATION 0.3
 #define TRANSLATION_FROM_BASE 10
 #define TRANSLATION_DELTA 10
+#define HIGHLIGHT_SHADOW_ADDITON_X 3
+#define HIGHLIGHT_SHADOW_ADDITON_Y 3
+#define HIGHLIGHT_ADDITONAL_RADIUS 3
+
 -(void) animateStackHighlighted:(BOOL) highlight
 {
     
@@ -605,6 +609,9 @@
     {
         if (note.superview == self)
         {
+            CALayer * enclosingNoteLayer = [note getEnclosingNoteView].layer;
+            CGFloat newShadowOffset = 0;
+            CGFloat newShadowRadius = 0;
             CALayer * noteLayer = note.layer;
             [CABasicAnimation animationWithKeyPath:@"transform"];
             CATransform3D noteToTransform;
@@ -616,6 +623,8 @@
                 noteToTransform = CATransform3DTranslate(noteToTransform, translation,
                                                      translation,
                                                      translation);
+                newShadowOffset = enclosingNoteLayer.shadowOffset.height + HIGHLIGHT_SHADOW_ADDITON_Y;
+                newShadowRadius = enclosingNoteLayer.shadowRadius + HIGHLIGHT_ADDITONAL_RADIUS;
             }
             else
             {
@@ -642,6 +651,9 @@
                 noteToTransform = CATransform3DTranslate(noteToTransform, translation,
                                                      translation,
                                                      translation);
+                
+                newShadowOffset = enclosingNoteLayer.shadowOffset.height - HIGHLIGHT_SHADOW_ADDITON_Y;
+                newShadowRadius = enclosingNoteLayer.shadowRadius - HIGHLIGHT_ADDITONAL_RADIUS;
             }
             
             CABasicAnimation * noteAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
@@ -653,30 +665,30 @@
             noteAnimation.duration = HIGHLIGHT_DURATION;
             [noteLayer addAnimation:noteAnimation forKey:@"noteTransform"];
             noteNo++;
+            
+            CABasicAnimation * shadowAnimation = [CABasicAnimation animationWithKeyPath:@"shadowOffset"];
+            
+            CGSize toValue = CGSizeMake(noteLayer.shadowOffset.width, newShadowOffset);
+                                        
+            shadowAnimation.fromValue = [NSValue valueWithCGSize:enclosingNoteLayer.shadowOffset];
+            shadowAnimation.toValue = [NSValue valueWithCGSize:toValue];
+            
+            enclosingNoteLayer.shadowOffset = toValue;
+            shadowAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+            shadowAnimation.duration = HIGHLIGHT_DURATION;
+            [enclosingNoteLayer addAnimation:shadowAnimation forKey:@"shadowOffset"];
+            
+            CABasicAnimation * shadowRadiusAnimation = [CABasicAnimation animationWithKeyPath:@"shadowRadius"];
+            shadowRadiusAnimation.fromValue = [NSNumber numberWithFloat:enclosingNoteLayer.shadowRadius];
+            shadowRadiusAnimation.toValue = [NSNumber numberWithFloat:newShadowRadius];
+            enclosingNoteLayer.shadowRadius = newShadowRadius;
+            shadowRadiusAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+            shadowRadiusAnimation.duration = HIGHLIGHT_DURATION;
+            [enclosingNoteLayer addAnimation:shadowRadiusAnimation forKey:@"shadowRadius"];
         }
         
     }
     
-//    CABasicAnimation * shadowAnimation = [CABasicAnimation animationWithKeyPath:@"shadowOffset"];
-//    CGSize toValue = CGSizeMake(layer.shadowOffset.width,
-//                                layer.shadowOffset.height + HIGHLIGHT_SHADOW_ADDITON_Y);
-//    
-//    shadowAnimation.fromValue = [NSValue valueWithCGSize:layer.shadowOffset];
-//    shadowAnimation.toValue = [NSValue valueWithCGSize:toValue];
-//    
-//    layer.shadowOffset = toValue;
-//    shadowAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
-//    shadowAnimation.duration = HIGHLIGHT_DURATION;
-//    [layer addAnimation:shadowAnimation forKey:@"shadowOffset"];
-//    
-//    CABasicAnimation * shadowRadiusAnimation = [CABasicAnimation animationWithKeyPath:@"shadowRadius"];
-//    shadowRadiusAnimation.fromValue = [NSNumber numberWithFloat:layer.shadowRadius];
-//    shadowRadiusAnimation.toValue = [NSNumber numberWithFloat:layer.shadowRadius + HIGHLIGHT_ADDITONAL_RADIUS];
-//    
-//    layer.shadowRadius = layer.shadowRadius + HIGHLIGHT_ADDITONAL_RADIUS;
-//    shadowRadiusAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
-//    shadowRadiusAnimation.duration = HIGHLIGHT_DURATION;
-//    [layer addAnimation:shadowRadiusAnimation forKey:@"shadowRadius"];
 }
 
 

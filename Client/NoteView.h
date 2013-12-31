@@ -45,5 +45,6 @@
 
 -(instancetype) prototype;
 
+-(UIView *) getEnclosingNoteView;
 
 @end
