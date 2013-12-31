@@ -2097,17 +2097,14 @@ intoStackingWithMainView: (UIView *) mainView
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stackTapped:)];
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
     lpgr.minimumPressDuration = MINIMUM_OBJECT_PRESS_DURATION;
-    UIRotationGestureRecognizer * rgr = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(objectRotated:)];
     
     [stack addGestureRecognizer:gr];
     [stack addGestureRecognizer:pgr];
     [stack addGestureRecognizer:tgr];
     [stack addGestureRecognizer:lpgr];
-    [stack addGestureRecognizer:rgr];
     
     gr.delegate = self;
     pgr.delegate = self;
-    rgr.delegate = self;
 }
 
 #define MINIMUM_SCREEN_PRESS_DURATION 0.18
@@ -2580,16 +2577,6 @@ intoStackingWithMainView: (UIView *) mainView
         didCancelItem = YES;
         self.editMode = NO;
         self.highlightedView.highlighted = NO;
-        if ([self.highlightedView isKindOfClass:[NoteView class]]){
-            [self updateNoteLocation:(NoteView *) self.highlightedView];
-        }
-        else if ([self.highlightedView isKindOfClass:[StackView class]]){
-            StackView * stack = (StackView *)self.highlightedView;
-            for(NoteView * stackNoteView in stack.views){
-                stackNoteView.center = stack.center;
-                [self updateNoteLocation:stackNoteView];
-            }
-        }
         self.highlightedView = nil;
         
     }
