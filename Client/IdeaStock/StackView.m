@@ -164,7 +164,7 @@
                          CGFloat currentRotation = note.rotationOffset;
                          CGFloat rotationRight = angle;
                          CGFloat totalRotation = rotationRight - currentRotation;
-                         note.transform = CGAffineTransformRotate(note.transform, totalRotation);
+                         note.transform = CGAffineTransformRotate(CGAffineTransformIdentity, totalRotation);
                          
                          
                          note.bounds = CGRectMake(0,
@@ -248,13 +248,13 @@
         else if ( i == [self.views count] - 2)
         {
             
-            [self animateStackingOfBelowItems:note withRotationAngle:-[self rotationAngleForStacking]];
+            [self animateStackingOfBelowItems:note withRotationAngle:[self rotationAngleForStacking]];
         }
         
         //rotate the third to top to the left
         else if ( i == [self.views count] - 3)
         {
-            [self animateStackingOfBelowItems:note withRotationAngle:[self rotationAngleForStacking]];
+            [self animateStackingOfBelowItems:note withRotationAngle:-[self rotationAngleForStacking]];
         }
         
         //for the rest no extra operations are needed
