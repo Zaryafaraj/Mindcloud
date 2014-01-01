@@ -1951,13 +1951,22 @@ intoStackingWithMainView: (UIView *) mainView
         [self.collectionView addSubview:view];
         [view resetSize];
         
+        if ([view isKindOfClass:[ImageNoteView class]])
+        {
+            ImageNoteView * imgNoteView = (ImageNoteView *) view;
+            imgNoteView.contentMode = UIViewContentModeScaleToFill;
+            imgNoteView.clipsToBounds = NO;
+            imgNoteView.hideControls = NO;
+        }
+        
+        view.userInteractionEnabled = YES;
+        view._textView.editable = YES;
         //put it in the collection views frame
         view.center = stack.center;
         view.bounds = CGRectMake(view.bounds.origin.x,
                                  view.bounds.origin.y,
                                  stack.bounds.size.width,
                                  stack.bounds.size.height);
-        NSLog(@"%@", view);
     }
 }
 
