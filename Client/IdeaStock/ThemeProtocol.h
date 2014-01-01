@@ -61,4 +61,7 @@
 -(UIImage *) imageForRedo;
 
 -(UIColor *) colorForImageNoteTextPlaceholder;
+
+-(UIImage *) imageForExpand;
+
 @end

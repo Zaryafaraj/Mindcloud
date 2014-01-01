@@ -163,4 +163,11 @@
 {
     return [UIColor colorWithWhite:0.9 alpha:0.9];
 }
+
+-(UIImage *) imageForExpand
+{
+    UIImage * img = [UIImage imageNamed:@"expand-round"];
+    return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
 @end

@@ -20,6 +20,7 @@
 @property CGRect originalFrame;
 @property NSMutableArray * tempTopItems;
 @property UIButton * deleteButton;
+@property UIButton * expandButton;
 
 //this is like a queue that make sure all the animations are finished before
 //ordering the items on the view. Because animations may finish on different
@@ -66,7 +67,13 @@
 -(void) setHighlighted:(BOOL) highlighted
 {
     _highlighted = highlighted;
-    
+    [self createDeleteButton];
+    [self createExpandButton];
+    [self animateStackHighlighted:highlighted];
+}
+
+-(void) createDeleteButton
+{
     if (!self.deleteButton)
     {
         UIButton * delButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -82,9 +89,27 @@
         self.deleteButton.frame = CGRectMake(10, 10 , 40, 40);
         self.deleteButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
     }
-    [self animateStackHighlighted:highlighted];
 }
 
+-(void) createExpandButton
+{
+    if (!self.expandButton)
+    {
+        UIButton * expandButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        self.expandButton = expandButton;
+        [self.expandButton addTarget:self
+                              action:@selector(expandPressed:)
+                    forControlEvents:UIControlEventTouchDown];
+        
+        UIImage * btnImage = [[ThemeFactory currentTheme] imageForExpand];
+        [self.expandButton setImage:btnImage
+                           forState:UIControlStateNormal];
+        self.expandButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
+        [self addSubview:self.self.expandButton];
+        self.expandButton.bounds = CGRectMake(0, 0 , 40, 40);
+        self.expandButton.hidden = YES;
+    }
+}
 -(void) deletePressed:(id) sender
 {
     id<StackActionDelegate> temp = self.delegate;
@@ -633,6 +658,7 @@
     [stackLayer addAnimation:selectAnimation forKey:@"scaleAnimation"];
     
     CGPoint deleteCenter = CGPointMake(INFINITY, INFINITY);
+    CGPoint expandCenter = CGPointMake(-1, -1);
     
     int noteNo = MAX_VISIBLE_NOTES - 1;
     for(NoteView * note in self.views)
@@ -710,6 +736,11 @@
                 
                 
             }
+            if (originInSelf.x + enclosingNote.bounds.size.width > expandCenter.x)
+            {
+                expandCenter = CGPointMake(originInSelf.x + enclosingNote.bounds.size.width,
+                                           originInSelf.y + enclosingNote.bounds.size.height);
+            }
             
             CABasicAnimation * shadowAnimation = [CABasicAnimation animationWithKeyPath:@"shadowOffset"];
             
@@ -746,6 +777,12 @@
         self.deleteButton.transform = CGAffineTransformIdentity;
         self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 0.1, 0.1);
         
+        [self.expandButton removeFromSuperview];
+        [self addSubview:self.expandButton];
+        self.expandButton.hidden = NO;
+        self.expandButton.center = expandCenter;
+        self.expandButton.transform = CGAffineTransformIdentity;
+        self.expandButton.transform = CGAffineTransformScale(self.expandButton.transform, 0.1, 0.1);
         [UIView animateWithDuration:0.6
                               delay:0
              usingSpringWithDamping:0.6
@@ -753,6 +790,8 @@
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
                              self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 10, 10);
+                             
+                             self.expandButton.transform = CGAffineTransformScale(self.expandButton.transform, 10, 10);
                          }completion:^(BOOL completed){}];
     }
     else
@@ -765,8 +804,11 @@
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
                              self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 0.001, 0.001);
+                             
+                             self.expandButton.transform = CGAffineTransformScale(self.expandButton.transform, 0.001, 0.001);
                          }completion:^(BOOL completed){
                              self.deleteButton.hidden = YES;
+                             self.expandButton.hidden = YES;
                          }];
     }
     
