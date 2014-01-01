@@ -525,6 +525,7 @@
 -(void) resetSize
 {
     [super resetSize];
+    
     [self resizeNoteToMatchImageSize];
     
 }

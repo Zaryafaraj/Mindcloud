@@ -112,10 +112,8 @@
     if (notesInStack % EXPAND_COL_SIZE != 0 ) numberOfRows++;
     
     //get a single note size from the main note in stack
-    NoteView * dummyNote = ((NoteView *)[stack.views lastObject]);
-    [dummyNote resetSize];
-    float noteWidth = dummyNote.bounds.size.width ;
-    float noteHeight = dummyNote.bounds.size.height ;
+    float noteWidth = stack.bounds.size.width ;
+    float noteHeight = stack.bounds.size.height ;
     
     //calculate the rectangle size before adding seperators
     int rowItems = notesInStack >= EXPAND_COL_SIZE ? EXPAND_COL_SIZE : notesInStack;
@@ -252,7 +250,6 @@
 withMoveNoteFunction:(update_note_location_function) updateNote
 {
     
-    [((NoteView *) [items lastObject]) resetSize];
     float noteWidth = ((NoteView *)[items lastObject]).bounds.size.width  ;
     float noteHeight = ((NoteView *)[items lastObject]).bounds.size.height;
     float seperator = SEPERATOR_RATIO * MAX(noteWidth, noteHeight);

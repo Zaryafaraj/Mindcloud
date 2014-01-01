@@ -1947,9 +1947,9 @@ intoStackingWithMainView: (UIView *) mainView
         }
         [self addGestureRecognizersToNote:view];
         
-        [view resetSize];
         [view removeFromSuperview];
         [self.collectionView addSubview:view];
+        [view resetSize];
         
         //put it in the collection views frame
         view.center = stack.center;
@@ -1957,6 +1957,7 @@ intoStackingWithMainView: (UIView *) mainView
                                  view.bounds.origin.y,
                                  stack.bounds.size.width,
                                  stack.bounds.size.height);
+        NSLog(@"%@", view);
     }
 }
 

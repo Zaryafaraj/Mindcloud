@@ -114,6 +114,9 @@
     CGPathRelease(toValue);
 }
 
+#define DEFAULT_SHADOW_OPACITY 0.3
+#define DEFAULT_SHADOW_SIZE CGSizeMake(0,1)
+#define DEFAULT_SHADOW_RADIUS 2
 +(NoteView *) setLayers:(NoteView *) noteView
 {
     UIView * view = noteView.noteView;
@@ -123,9 +126,9 @@
     view.clipsToBounds = NO;
     view.layer.masksToBounds = NO;
     view.layer.shadowColor = [UIColor blackColor].CGColor;
-    view.layer.shadowOffset = CGSizeMake(0, 1);
-    view.layer.shadowOpacity = 0.3;
-    view.layer.shadowRadius = 2;
+    view.layer.shadowOffset = DEFAULT_SHADOW_SIZE;
+    view.layer.shadowOpacity = DEFAULT_SHADOW_OPACITY;
+    view.layer.shadowRadius = DEFAULT_SHADOW_RADIUS;
     
     return noteView;
 }
@@ -251,6 +254,9 @@
     
     self.scaleOffset = 1;
     self.rotationOffset = 0;
+    self.noteView.layer.shadowOffset = DEFAULT_SHADOW_SIZE;
+    self.noteView.layer.shadowOpacity = DEFAULT_SHADOW_OPACITY;
+    self.noteView.layer.shadowRadius = DEFAULT_SHADOW_RADIUS;
     [self adjustSubViewsForPropertyChangeInNote];
 }
 
