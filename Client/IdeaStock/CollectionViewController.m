@@ -2821,11 +2821,12 @@ intoStackingWithMainView: (UIView *) mainView
         CGRect fittingRect = [CollectionLayoutHelper findFittingRectangle: (StackView *) self.highlightedView
                                                                    inView:self.collectionView];
         
+        
+        
         //move stuff that is in the rectangle out of it
         [CollectionLayoutHelper clearRectangle: fittingRect
                               inCollectionView:self.collectionView
                           withMoveNoteFunction:^(NoteView * note){
-                              [note resetSize];
                               [self updateScalingAndPositionAccordingToNoteView:note];
                           }];
         
