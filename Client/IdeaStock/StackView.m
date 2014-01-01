@@ -639,13 +639,15 @@
     selectAnimation.duration = HIGHLIGHT_DURATION;
     [stackLayer addAnimation:selectAnimation forKey:@"scaleAnimation"];
     
+    CGPoint deleteCenter = CGPointMake(INFINITY, INFINITY);
     
     int noteNo = 0;
     for(NoteView * note in self.views)
     {
         if (note.superview == self)
         {
-            CALayer * enclosingNoteLayer = [note getEnclosingNoteView].layer;
+            UIView * enclosingNote = [note getEnclosingNoteView];
+            CALayer * enclosingNoteLayer = enclosingNote.layer;
             CGFloat newShadowOffset = 0;
             CGFloat newShadowRadius = 0;
             CALayer * noteLayer = note.layer;
@@ -656,24 +658,13 @@
                 //rotate all back to their current place
                 noteToTransform = CATransform3DIdentity;
                 CGFloat translation = TRANSLATION_FROM_BASE - noteNo * TRANSLATION_DELTA;
+                
                 noteToTransform = CATransform3DTranslate(noteToTransform, translation,
                                                      translation,
                                                      translation);
                 newShadowOffset = enclosingNoteLayer.shadowOffset.height + HIGHLIGHT_SHADOW_ADDITON_Y;
                 newShadowRadius = enclosingNoteLayer.shadowRadius + HIGHLIGHT_ADDITONAL_RADIUS;
                 
-                self.deleteButton.hidden = NO;
-                self.deleteButton.transform = CGAffineTransformIdentity;
-                self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 0.1, 0.1);
-                
-                [UIView animateWithDuration:0.6
-                                      delay:0
-                     usingSpringWithDamping:0.6
-                      initialSpringVelocity:0
-                                    options:UIViewAnimationOptionCurveEaseIn
-                                 animations:^{
-                                     self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 10, 10);
-                                 }completion:^(BOOL completed){}];
             }
             else
             {
@@ -704,16 +695,6 @@
                 newShadowOffset = enclosingNoteLayer.shadowOffset.height - HIGHLIGHT_SHADOW_ADDITON_Y;
                 newShadowRadius = enclosingNoteLayer.shadowRadius - HIGHLIGHT_ADDITONAL_RADIUS;
                 
-                [UIView animateWithDuration:0.6
-                                      delay:0
-                     usingSpringWithDamping:0.8
-                      initialSpringVelocity:0
-                                    options:UIViewAnimationOptionCurveEaseIn
-                                 animations:^{
-                                     self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 0.001, 0.001);
-                                 }completion:^(BOOL completed){
-                                     self.deleteButton.hidden = YES;
-                                 }];
             }
             
             CABasicAnimation * noteAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
@@ -725,6 +706,17 @@
             noteAnimation.duration = HIGHLIGHT_DURATION;
             [noteLayer addAnimation:noteAnimation forKey:@"noteTransform"];
             noteNo++;
+            
+            CGPoint orginInNoteView = enclosingNote.frame.origin;
+            CGPoint originInSelf = [self convertPoint:orginInNoteView fromView:note];
+            if (originInSelf.x < deleteCenter.x)
+            {
+                
+                deleteCenter = CGPointMake(originInSelf.x,
+                                           originInSelf.y);
+                
+                
+            }
             
             CABasicAnimation * shadowAnimation = [CABasicAnimation animationWithKeyPath:@"shadowOffset"];
             
@@ -750,6 +742,39 @@
             
         }
         
+    }
+    if (highlight)
+    {
+        
+        [self.deleteButton removeFromSuperview];
+        [self addSubview:self.deleteButton];
+        self.deleteButton.hidden = NO;
+        self.deleteButton.center = deleteCenter;
+        self.deleteButton.transform = CGAffineTransformIdentity;
+        self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 0.1, 0.1);
+        
+        [UIView animateWithDuration:0.6
+                              delay:0
+             usingSpringWithDamping:0.6
+              initialSpringVelocity:0
+                            options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+                             self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 10, 10);
+                         }completion:^(BOOL completed){}];
+    }
+    else
+    {
+        
+        [UIView animateWithDuration:0.6
+                              delay:0
+             usingSpringWithDamping:0.8
+              initialSpringVelocity:0
+                            options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+                             self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 0.001, 0.001);
+                         }completion:^(BOOL completed){
+                             self.deleteButton.hidden = YES;
+                         }];
     }
     
 }
