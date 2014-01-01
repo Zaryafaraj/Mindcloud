@@ -1623,6 +1623,14 @@
     [self.board updateNoteAttributes:noteId withModel:oldModel];
 }
 
+-(void) updateScaleForNote:(NoteView *) view
+{
+    CollectionNoteAttribute * oldModel = [self.board getNoteModelFor:view.ID];
+    NSString * scale = [NSString stringWithFormat:@"%f", view.scaleOffset];
+    oldModel.scaling = scale;
+    [self.board updateNoteAttributes:view.ID withModel:oldModel];
+}
+
 -(void) updateScalingAndPositionAccordingToNoteView:(NoteView *) view
 {
     
@@ -1965,8 +1973,13 @@ intoStackingWithMainView: (UIView *) mainView
         view.center = stack.center;
         view.bounds = CGRectMake(view.bounds.origin.x,
                                  view.bounds.origin.y,
-                                 stack.bounds.size.width,
-                                 stack.bounds.size.height);
+                                 view.bounds.size.width,
+                                 view.bounds.size.height);
+        //make the image to the size of the stack before getting expanded
+        CGFloat newScaling = stack.bounds.size.width / NOTE_WIDTH;
+        [view scale:newScaling animated:NO];
+        [self updateNoteLocation:view];
+        [self updateScaleForNote:view];
     }
 }
 
