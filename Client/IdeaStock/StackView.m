@@ -21,6 +21,13 @@
 @property NSMutableArray * tempTopItems;
 @property UIButton * deleteButton;
 
+//this is like a queue that make sure all the animations are finished before
+//ordering the items on the view. Because animations may finish on different
+//times and based on when they finish they add a note as a subview. We will have
+//a non deterministic situation of what not will be on top of which
+//the solution is to wait until all animations are completed and the order the subView
+@property (atomic, assign) int finishedCount;
+
 @end
 
 @implementation StackView
@@ -116,6 +123,7 @@
     
     if (self)
     {
+        self.finishedCount = 0;
         self.views = views;
         //determine the topview
         [self setTopViewForMainView:mainView];
@@ -167,6 +175,7 @@
                                                   self.bounds.size.height - 2 * NOTE_OFFSET_FROM_STACKING);
                          
                          [self addSubview:note];
+                         [self animationFinished];
                      }
      ];
 }
@@ -210,23 +219,31 @@
                                                   self.bounds.size.width - 2 * NOTE_OFFSET_FROM_STACKING,
                                                   self.bounds.size.height - 2 * NOTE_OFFSET_FROM_STACKING);
                          
-                         //if we are laying this on top of something else make sure it actually appears on top
-                         int index = [self.views indexOfObject:note];
-                         
-                         if (index < [self.views count] - 1)
-                         {
-                             [self insertSubview:note
-                                    belowSubview:self.views[index+1]];
-                         }
-                         else
-                         {
-                             [self addSubview:note];
-                         }
+                         [self animationFinished];
                          
                      }
      ];
 }
 
+-(void) animationFinished
+{
+    self.finishedCount++;
+    int maxCount = self.views.count >= 3 ? 3 : 2;
+    if (self.finishedCount == maxCount)
+    {
+        UIView * topView = self.views[self.views.count - 1];
+        if (self.views.count >= 3)
+        {
+            UIView * viewToAdd = self.views[self.views.count - 3];
+            [self insertSubview:viewToAdd belowSubview:topView];
+        }
+        if (self.views.count >= 2)
+        {
+            UIView * viewToAdd = self.views[self.views.count - 2];
+            [self insertSubview:viewToAdd belowSubview:topView];
+        }
+    }
+}
 -(void) animateStackingOfInvisibleItems:(NoteView *) note
 {
     
@@ -255,7 +272,7 @@
     for (int i = 0 ; i < [self.views count]; i++)
     {
         NoteView * note = self.views[i];
-        
+        note.transform = CGAffineTransformIdentity;
         //first clean the note up
         for(UIGestureRecognizer * gr in note.gestureRecognizers)
         {
@@ -468,35 +485,11 @@
 
 -(void) setTopViewForMainView:(NoteView *) mainView
 {
-    //if the stack has an image note that always has the priority to be
-    //the top view over the mainView that was passed as the designated view to the stack
-    NoteView * topViewCandidate = nil;
-    if ([mainView isKindOfClass:[ImageNoteView class]]){
-        topViewCandidate = mainView;
-    }
-    else
+    //if main view is not at the end of the views array put it there
+    if ([self.views indexOfObject:mainView] != self.views.count - 1)
     {
-        ImageNoteView * topView = nil;
-        for (UIView * view in self.views){
-            if ([view isKindOfClass:[ImageNoteView class]]){
-                topView = (ImageNoteView *)view;
-                break;
-            }
-        }
-        if (topView != nil){
-            topViewCandidate = topView;
-        }
-        else
-        {
-            topViewCandidate = mainView;
-        }
-    }
-    
-    if ([self.views containsObject:topViewCandidate])
-    {
-        [self.views removeObject:topViewCandidate];
-        //set the object as the topview
-        [self.views addObject:topViewCandidate];
+        [self.views removeObject:mainView];
+        [self.views addObject:mainView];
     }
 }
 
@@ -613,7 +606,7 @@
 #pragma mark - animations
 
 #define SCALE_SIZE 1.1
-#define HIGHLIGHT_DURATION 0.3
+#define HIGHLIGHT_DURATION 0.4
 #define TRANSLATION_FROM_BASE 10
 #define TRANSLATION_DELTA 10
 #define HIGHLIGHT_SHADOW_ADDITON_X 3
@@ -765,7 +758,7 @@
     else
     {
         
-        [UIView animateWithDuration:0.6
+        [UIView animateWithDuration:0.4
                               delay:0
              usingSpringWithDamping:0.8
               initialSpringVelocity:0

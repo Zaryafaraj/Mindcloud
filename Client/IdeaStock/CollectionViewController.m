@@ -1747,51 +1747,35 @@
 
 #pragma mark - Stack Actions
 
+
+/*
+ If anything is stacked with an image, the image stays on top
+ If we drop a note on a stack, the dropped note will stay on top
+ If we drop another stack onto the other, the droped stack will stay on top
+ If we drop a stack ontop of a note, the stack will stay on top
+ */
 -(UIView *) findMainViewForIntersectingViews:(NSArray *) views withCandidate:(UIView *) candidate
 {
-    //if the candidate is an image view or is a stack with an image view on top
-    //the candidate is the mainView
-    if ([candidate isKindOfClass:[ImageNoteView class]]) return candidate;
+    //if candidate is image view thats the main view
+    if ([candidate isKindOfClass:[ImageNoteView class]])
+    {
+        return candidate;
+    }
+    
+    //if we have any other image views thats the main view
+    for(UIView * view in views)
+    {
+        if ([view isKindOfClass:[ImageNoteView class]])
+        {
+            return view;
+        }
+    }
+    
     if ([candidate isKindOfClass:[StackView class]])
     {
-        UIView * topOfStack = ((StackView *) candidate).mainView;
-        if ([topOfStack isKindOfClass:[ImageNoteView class]])
-        {
-            return topOfStack;
-        }
+        return ((StackView *) candidate).mainView;
     }
-    else
-    {
-        UIView * mainView = nil;
-        UIView * mainViewCandidate = nil;
-        //if there is any image view in the intersecting items then thats the mainView
-        for (UIView * view in views)
-        {
-            if ([view isKindOfClass:[ImageNoteView class]])
-            {
-                mainView = view;
-                return mainView;
-            }
-            //if not then any stackView that has top item which is imageview could be the top of stack
-            else if ([view isKindOfClass:[StackView class]])
-            {
-                UIView * topOfStack = ((StackView *) view).mainView;
-                if ([topOfStack isKindOfClass:[ImageNoteView class]])
-                {
-                    mainViewCandidate = topOfStack;
-                }
-            }
-        }
-        //if we found a better candidate return that, otherwise the first candidate is the mainview
-        if (mainViewCandidate != nil)
-        {
-            return mainViewCandidate;
-        }
-        else
-        {
-            return candidate;
-        }
-    }
+    
     return candidate;
 }
 
@@ -1808,14 +1792,8 @@
     
     CGRect stackFrame = [CollectionLayoutHelper getStackingFrameForStackingWithTopView:destinationView];
     
-    if ([mainView isKindOfClass:[StackView class]])
-    {
-        mainView = ((StackView *)mainView).mainView;
-    }
-    
     NSString * stackingID = [self mergeItems: items
                     intoStackingWithMainView: mainView];
-    
     
     
     StackView * stack = [[StackView alloc] initWithViews:allNotes
