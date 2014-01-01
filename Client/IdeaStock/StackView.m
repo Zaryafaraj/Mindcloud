@@ -641,7 +641,7 @@
     
     CGPoint deleteCenter = CGPointMake(INFINITY, INFINITY);
     
-    int noteNo = 0;
+    int noteNo = MAX_VISIBLE_NOTES - 1;
     for(NoteView * note in self.views)
     {
         if (note.superview == self)
@@ -672,12 +672,12 @@
                 //top view
                 CGFloat rotationAngle = 0;
                 
-                if (index == self.views.count - 2)
+                if (index == self.views.count - 2 && note != self.mainView)
                 {
                     rotationAngle = [self rotationAngleForStacking];
                 }
                 
-                if (index == self.views.count - 3)
+                if (index == self.views.count - 3 && note != self.mainView)
                 {
                     rotationAngle = - [self rotationAngleForStacking];
                 }
@@ -705,7 +705,7 @@
             noteAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
             noteAnimation.duration = HIGHLIGHT_DURATION;
             [noteLayer addAnimation:noteAnimation forKey:@"noteTransform"];
-            noteNo++;
+            noteNo--;
             
             CGPoint orginInNoteView = enclosingNote.frame.origin;
             CGPoint originInSelf = [self convertPoint:orginInNoteView fromView:note];
