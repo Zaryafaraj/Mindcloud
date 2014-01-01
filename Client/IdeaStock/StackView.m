@@ -105,8 +105,8 @@
         [self.expandButton setImage:btnImage
                            forState:UIControlStateNormal];
         self.expandButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
-        [self addSubview:self.self.expandButton];
-        self.expandButton.bounds = CGRectMake(0, 0 , 40, 40);
+        [self addSubview:self.expandButton];
+        self.expandButton.frame = CGRectMake(0, 0 , 40, 40);
         self.expandButton.hidden = YES;
     }
 }
@@ -658,7 +658,6 @@
     [stackLayer addAnimation:selectAnimation forKey:@"scaleAnimation"];
     
     CGPoint deleteCenter = CGPointMake(INFINITY, INFINITY);
-    CGPoint expandCenter = CGPointMake(-1, -1);
     
     int noteNo = MAX_VISIBLE_NOTES - 1;
     for(NoteView * note in self.views)
@@ -736,11 +735,6 @@
                 
                 
             }
-            if (originInSelf.x + enclosingNote.bounds.size.width > expandCenter.x)
-            {
-                expandCenter = CGPointMake(originInSelf.x + enclosingNote.bounds.size.width,
-                                           originInSelf.y + enclosingNote.bounds.size.height);
-            }
             
             CABasicAnimation * shadowAnimation = [CABasicAnimation animationWithKeyPath:@"shadowOffset"];
             
@@ -780,7 +774,8 @@
         [self.expandButton removeFromSuperview];
         [self addSubview:self.expandButton];
         self.expandButton.hidden = NO;
-        self.expandButton.center = expandCenter;
+        self.expandButton.center = CGPointMake(deleteCenter.x + 45,
+                                               deleteCenter.y);
         self.expandButton.transform = CGAffineTransformIdentity;
         self.expandButton.transform = CGAffineTransformScale(self.expandButton.transform, 0.1, 0.1);
         [UIView animateWithDuration:0.6

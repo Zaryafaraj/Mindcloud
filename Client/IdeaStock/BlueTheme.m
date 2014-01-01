@@ -144,7 +144,7 @@
 
 -(UIColor *) tintColorForDeleteIcon
 {
-    return [UIColor colorWithWhite:0.30 alpha:0.8];
+    return [UIColor colorWithWhite:0.20 alpha:1.0];
 }
 
 -(UIImage *) imageForUndo
