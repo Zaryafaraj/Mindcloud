@@ -14,9 +14,6 @@
 @interface StackViewController ()
 
 @property (weak, nonatomic) IBOutlet UIScrollView *stackView;
-@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-@property (strong,nonatomic) UIBarButtonItem * deleteButton;
-@property (strong,nonatomic) UIBarButtonItem * removeButton;
 @property (weak,nonatomic) UIView * lastOverlappedView;
 @property (strong, nonatomic) IBOutlet UIImageView *bgImage;
 
@@ -97,7 +94,6 @@
     if ( ((NoteView *) sender.view).highlighted){
         //high light the note and add the ability to pan it
         if (self.highLightedNote) {
-            [self removeToolbarItems];
             self.highLightedNote.highlighted = NO;
             
         }
@@ -107,13 +103,11 @@
 
         self.highLightedNote = (NoteView *) sender.view;
         self.isInEditMode = YES;
-        [self addToolbarItems];
     }
     else{
         //remove highlighting on the note and remove the ability for panning it
         self.highLightedNote = nil;
         self.isInEditMode = NO;
-        [self removeToolbarItems];
         for (UIGestureRecognizer * gr in [sender.view gestureRecognizers]){
             if ([gr isKindOfClass:[UIPanGestureRecognizer class]]){
                 [sender.view removeGestureRecognizer:gr];
@@ -183,19 +177,6 @@
 #pragma mark - toolbar
 #define ROW_COUNT 2
 #define COL_COUNT 2
--(void) addToolbarItems{
-    NSMutableArray * currentItems = [self.toolbar.items mutableCopy];
-    [currentItems addObject:self.removeButton];
-    [currentItems addObject:self.deleteButton];
-    self.toolbar.items = [currentItems copy];
-}
-
--(void) removeToolbarItems{
-    NSMutableArray * currentItems = [self.toolbar.items mutableCopy];
-    [currentItems removeLastObject];
-    [currentItems removeLastObject];
-    self.toolbar.items = currentItems;
-}
 
 #pragma mark - layout
 -(void) addPageToStackViewWithCurrentPageCount:(int) page
@@ -266,9 +247,6 @@
     if (self.isInEditMode){
         self.isInEditMode = NO;
         self.highLightedNote.highlighted = NO;
-        if ([self.toolbar.items count] > 2){
-            [self removeToolbarItems];
-        }
         for (UIGestureRecognizer * gr in [self.highLightedNote gestureRecognizers]){
             if ([gr isKindOfClass:[UIPanGestureRecognizer class]]){
                 [self.highLightedNote removeGestureRecognizer:gr];
@@ -364,20 +342,7 @@
     self.view.backgroundColor = [UIColor clearColor];
     UIColor * bgColor = [UIColor colorWithWhite:0.36 alpha:0.85];
     self.view.superview.backgroundColor = bgColor;
-    self.toolbar.barTintColor = bgColor;
-//    CGFloat viewCenterX = self.view.center.x;
-//    CGFloat viewCenterY = self.view.center.y;
-//    CGFloat parentCenterX = self.openStack.superview.center.x;
-//    CGFloat parentCenterY = self.openStack.superview.center.x;
-//    CGFloat distanceToStartX = parentCenterX - viewCenterX;
-//    CGFloat distanceToStartY = parentCenterY - viewCenterY + self.toolbar.bounds.size.height;
-//    CGRect blurWindow = CGRectMake(distanceToStartX,
-//                                   distanceToStartY,
-//                                   self.bgImage.bounds.size.width,
-//                                   self.bgImage.bounds.size.height);
-//    UIImage * bgImage = [MultimediaHelper blurRect:blurWindow
-//                                            inView:self.openStack.superview];
-//    self.bgImage.image = bgImage;
+    self.view.superview.layer.cornerRadius = 15;
 }
 
 -(void)viewDidLoad
@@ -391,15 +356,6 @@
         view._textView.editable = YES;
     }
     
-    //figure out the toolbar
-    NSMutableArray * toolbar = [self.toolbar.items mutableCopy];
-    self.deleteButton = [toolbar lastObject];
-    [toolbar removeLastObject];
-    self.removeButton = [toolbar lastObject];
-    [toolbar removeLastObject];
-    
-    self.toolbar.items = [toolbar copy];
-    
     //add the initial gesture recoginzer
     UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenTapped:)];
     [self.stackView addGestureRecognizer:tgr];
@@ -409,9 +365,29 @@
 -(void) viewDidAppear:(BOOL)animated
 {
     [self layoutNotes:NO];
-    [self.view insertSubview:self.toolbar aboveSubview:self.bgImage];
+    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapBehind:)];
+    
+    [recognizer setNumberOfTapsRequired:1];
+    recognizer.cancelsTouchesInView = NO; //So the user can still interact with controls in the modal view
+    [self.view.window addGestureRecognizer:recognizer];
 }
 
+- (void)handleTapBehind:(UITapGestureRecognizer *)sender
+{
+    if (sender.state == UIGestureRecognizerStateEnded)
+    {
+        CGPoint location = [sender locationInView:nil]; //Passing nil gives us coordinates in the window
+        
+        //Then we convert the tap's location into the local view's coordinate system, and test to see if it's in or outside. If outside, dismiss the view.
+        
+        if (![self.view pointInside:[self.view convertPoint:location fromView:self.view.window] withEvent:nil])
+        {
+            // Remove the recognizer first so it's view.window is valid.
+            [self.view.window removeGestureRecognizer:sender];
+            [self exitStack];
+        }
+    }
+}
 -(void) viewDidDisappear:(BOOL)animated
 {
     for(NoteView * view in self.notes)
@@ -426,16 +402,17 @@
 {
     [super viewDidUnload];
     [self setStackView:nil];
-    [self setToolbar:nil];
 }
 
--(IBAction)backPressed:(id)sender{
+-(void) exitStack
+{
     if ( self.highLightedNote) self.highLightedNote.highlighted = NO;
     [self.delegate returnedstackViewController:self];
     [self.openStack stackWillClose];;
 }
 
--(IBAction)deletePressed:(id)sender {
+-(void)deletePressed:(id)sender
+{
     
     
     [self.delegate stackViewDeletedNote:self.highLightedNote];
@@ -446,7 +423,6 @@
         [self.openStack removeNoteView:self.highLightedNote];
         [self.notes removeObject:self.highLightedNote];
         [self.highLightedNote removeFromSuperview];
-        [self removeToolbarItems];
         self.editing = NO;
         self.highLightedNote = nil;
         [self layoutNotes: YES];
@@ -467,7 +443,6 @@
     [self.delegate unstackItem:self.highLightedNote
                       fromView:self.openStack 
                  withPastCount:self.unstackCounter];
-    [self removeToolbarItems];
     self.editing = NO;
     self.highLightedNote = nil;
     [self layoutNotes: YES];
