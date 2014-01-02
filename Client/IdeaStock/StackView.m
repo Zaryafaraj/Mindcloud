@@ -776,7 +776,7 @@
         [self.expandButton removeFromSuperview];
         [self addSubview:self.expandButton];
         self.expandButton.hidden = NO;
-        self.expandButton.center = CGPointMake(deleteCenter.x + 45,
+        self.expandButton.center = CGPointMake(deleteCenter.x + (45 * self.scaleOffset),
                                                deleteCenter.y);
         self.expandButton.transform = CGAffineTransformIdentity;
         self.expandButton.transform = CGAffineTransformScale(self.expandButton.transform, 0.1, 0.1);
@@ -786,9 +786,9 @@
               initialSpringVelocity:0
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
-                             self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 10, 10);
+                             self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 10 * self.scaleOffset, 10 * self.scaleOffset);
                              
-                             self.expandButton.transform = CGAffineTransformScale(self.expandButton.transform, 10, 10);
+                             self.expandButton.transform = CGAffineTransformScale(self.expandButton.transform, 10 * self.scaleOffset, 10 * self.scaleOffset);
                          }completion:^(BOOL completed){}];
     }
     else
@@ -800,9 +800,9 @@
               initialSpringVelocity:0
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
-                             self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 0.001, 0.001);
+                             self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 0.001 * 1/self.scaleOffset, 0.001 * 1/self.scaleOffset);
                              
-                             self.expandButton.transform = CGAffineTransformScale(self.expandButton.transform, 0.001, 0.001);
+                             self.expandButton.transform = CGAffineTransformScale(self.expandButton.transform, 0.001 * 1/self.scaleOffset, 0.001 * 1/self.scaleOffset);
                          }completion:^(BOOL completed){
                              self.deleteButton.hidden = YES;
                              self.expandButton.hidden = YES;

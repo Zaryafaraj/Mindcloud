@@ -64,7 +64,9 @@
           initialSpringVelocity:0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         deleteButton.transform = CGAffineTransformScale(deleteButton.transform, 10, 10);
+                         deleteButton.transform = CGAffineTransformScale(deleteButton.transform,
+                                                                         10 * note.scaleOffset,
+                                                                         10 * note.scaleOffset);
                      }completion:^(BOOL completed){}];
 }
 
@@ -112,7 +114,7 @@
           initialSpringVelocity:0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         deleteButton.transform = CGAffineTransformScale(deleteButton.transform, 0.001, 0.001);
+                         deleteButton.transform = CGAffineTransformScale(deleteButton.transform, 0.001 * 1/note.scaleOffset, 0.001 * 1/note.scaleOffset);
                      }completion:^(BOOL completed){
                          deleteButton.hidden = YES;
                      }];
