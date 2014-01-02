@@ -298,6 +298,8 @@
     {
         NoteView * note = self.views[i];
         note.transform = CGAffineTransformIdentity;
+        note.rotationOffset = 1;
+        note.scaleOffset = 0;
         //first clean the note up
         for(UIGestureRecognizer * gr in note.gestureRecognizers)
         {
@@ -806,7 +808,6 @@
                              self.expandButton.hidden = YES;
                          }];
     }
-    
 }
 
 

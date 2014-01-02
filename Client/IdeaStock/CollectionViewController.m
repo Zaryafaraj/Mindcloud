@@ -2828,6 +2828,15 @@ intoStackingWithMainView: (UIView *) mainView
         return YES;
     }
 
+    if([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]] ||
+       [otherGestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]])
+    {
+        if ([gestureRecognizer.view isKindOfClass:[NoteView class]] ||
+            [gestureRecognizer.view isKindOfClass:[StackView class]])
+        {
+            return YES;
+        }
+    }
     return NO;
 }
 
