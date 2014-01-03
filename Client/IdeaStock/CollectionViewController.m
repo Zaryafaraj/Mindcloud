@@ -1987,17 +1987,17 @@ intoStackingWithMainView: (UIView *) mainView
 {
     [self.board removeStacking:stack.ID];
     
-    for (NoteView * view in stack.views){
-        self.noteCount--;
-        [self.noteViews removeObjectForKey:view.ID];
-        [view removeFromSuperview];
-        [self.board removeNoteWithID:((NoteView *)view).ID];
-    }
-    
+    NSArray * noteViews = stack.views;
     [CollectionAnimationHelper animateDeleteView:stack fromCollectionView:self.collectionView withCallbackAfterFinish:^(void){
         [stack removeFromSuperview];
         self.editMode = NO;
         self.highlightedView = nil;
+        for (NoteView * view in noteViews){
+            self.noteCount--;
+            [self.noteViews removeObjectForKey:view.ID];
+            [view removeFromSuperview];
+            [self.board removeNoteWithID:((NoteView *)view).ID];
+    }
     }];
     [self.stackViews removeObjectForKey:stack.ID];
 }
