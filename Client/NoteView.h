@@ -12,6 +12,7 @@
 
 #define TEXT_X_OFFSET 20
 #define TEXT_Y_OFFSET 20
+#define PLACEHOLDER_TEXT @"\n\n\nTap To Edit"
 
 @interface NoteView : UIView <BulletinBoardObject,UITextViewDelegate>
 

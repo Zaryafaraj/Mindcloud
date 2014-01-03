@@ -200,8 +200,12 @@
     //for every note we calculate its starting position and also the column and
     //the row of the next note. If the column and row of the note required a
     //new page we extend the stack view to that
-    for (UIView * view in self.notes)
+    for (NoteView * view in self.notes)
     {
+        if ([view.text isEqualToString:PLACEHOLDER_TEXT])
+        {
+            view.text = [view.text stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        }
         if (needsNewPage){
             needsNewPage = NO;
             [self addPageToStackViewWithCurrentPageCount:page];
@@ -412,6 +416,19 @@
         }
     }
 }
+
+-(void) viewWillDisappear:(BOOL)animated
+{
+    NSString * replacedPlaceholder = [PLACEHOLDER_TEXT stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    for(NoteView * view in self.notes)
+    {
+        if ([view.text isEqualToString:replacedPlaceholder])
+        {
+            view.text = PLACEHOLDER_TEXT;
+        }
+    }
+}
+
 -(void) viewDidDisappear:(BOOL)animated
 {
     for(NoteView * view in self.notes)

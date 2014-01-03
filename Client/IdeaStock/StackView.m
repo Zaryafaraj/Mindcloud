@@ -512,6 +512,8 @@
 
 -(void) setTopViewForMainView:(NoteView *) mainView
 {
+    if (mainView == nil) return;
+    
     //if main view is not at the end of the views array put it there
     if ([self.views indexOfObject:mainView] != self.views.count - 1)
     {

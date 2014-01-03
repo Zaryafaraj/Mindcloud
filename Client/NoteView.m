@@ -24,7 +24,6 @@
 
 #define STARTING_POS_OFFSET_X 0.10
 #define STARTING_POS_OFFSET_Y 0.15
-#define PLACEHOLDER_TEXT @"\n\n\nTap To Edit"
 #pragma mark - Synthesizers
 
 @synthesize text = _text;
