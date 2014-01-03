@@ -170,13 +170,13 @@
     }
 }
 
--(void) screenTapped: (UITapGestureRecognizer *) sender{
-    [self resetEditingMode];
-}
 
-#pragma mark - toolbar
-#define ROW_COUNT 2
+#define ROW_COUNT 3
 #define COL_COUNT 2
+#define COL_SEPERATOR 0
+#define ROW_SEPERATOR 0
+#define SIDE_OFFSET 5
+#define TOP_OFFSET 5
 
 #pragma mark - layout
 -(void) addPageToStackViewWithCurrentPageCount:(int) page
@@ -191,10 +191,10 @@
     int row = 0;
     float pageWidth = self.stackView.frame.size.width;
     float pageHeight = self.stackView.frame.size.height;
-    float noteWidth = (pageWidth / COL_COUNT ) * 0.82;
-    float noteHeight = (pageHeight / ROW_COUNT ) * 0.75;
-    float colSeperator = noteWidth / 7;
-    float rowSeperator = noteHeight / 5;
+    float noteWidth = (pageWidth - ((2 * SIDE_OFFSET) + ((COL_COUNT - 1) * COL_SEPERATOR))) / COL_COUNT;
+    float noteHeight = (pageHeight -((2 * TOP_OFFSET) + ((ROW_COUNT - 1) * COL_SEPERATOR))) / ROW_COUNT;
+    float colSeperator = COL_SEPERATOR;
+    float rowSeperator = ROW_SEPERATOR;
     
     BOOL needsNewPage = NO;
     //for every note we calculate its starting position and also the column and
@@ -208,8 +208,8 @@
         }
         
         //find the set the starting to position
-        CGFloat startX = (page * pageWidth) + (col * noteWidth) + ((col+1) * colSeperator);
-        CGFloat startY = (row * noteHeight) + ((row + 1) * rowSeperator);
+        CGFloat startX = ((page + 1) * SIDE_OFFSET) + (page * pageWidth) + (col * noteWidth) + (col * colSeperator);
+        CGFloat startY = (TOP_OFFSET) + (row * noteHeight) + (row  * rowSeperator);
         CGRect viewFrame = CGRectMake(startX, startY, noteWidth, noteHeight);
         
         [((NoteView *) view) resizeToRect:viewFrame Animate:YES];
@@ -241,6 +241,29 @@
     return nil;
 }
 
+-(BOOL) findFirstResponder:(UIView *) view
+{
+    if(view.isFirstResponder)
+    {
+        NSLog(@" FOUND %@", view);
+        return YES;
+    }
+    if (view.subviews.count == 0)
+    {
+        return NO;
+    }
+    
+    for(UIView * subView in view.subviews)
+    {
+        [self findFirstResponder:subView];
+    }
+    return NO;
+}
+
+- (BOOL)disablesAutomaticKeyboardDismissal
+{
+    return NO;
+}
 -(void) resetEditingMode
 {
     //tap is used for cancelation of the typing or pressing
@@ -263,6 +286,7 @@
             [obj resignSubViewsAsFirstResponder];
         }
     }
+    
 }
 
 -(void) refresh
@@ -350,15 +374,11 @@
     [super viewDidLoad];
     
     [self.stackView setContentSize:self.stackView.bounds.size];
-    NSLog(@"Notes in stacking: %d", [self.notes count]);
     for (NoteView * view in self.notes){
         view.delegate = self;
         view._textView.editable = YES;
     }
     
-    //add the initial gesture recoginzer
-    UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenTapped:)];
-    [self.stackView addGestureRecognizer:tgr];
     [self.stackView setBackgroundColor:[UIColor clearColor]];
 }
 
@@ -385,6 +405,10 @@
             // Remove the recognizer first so it's view.window is valid.
             [self.view.window removeGestureRecognizer:sender];
             [self exitStack];
+        }
+        else
+        {
+            [self resetEditingMode];
         }
     }
 }

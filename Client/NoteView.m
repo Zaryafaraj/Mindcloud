@@ -55,6 +55,7 @@
 
 -(instancetype) _configureView
 {
+    //self.backgroundColor = [UIColor blueColor];
     self.translatesAutoresizingMaskIntoConstraints = NO;
     self.noteView = self.subviews.firstObject;
     [NoteView setLayers:self];
