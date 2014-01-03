@@ -393,7 +393,9 @@
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView{
-    if ([textView.text isEqualToString:PLACEHOLDER_TEXT]){
+    NSString * smallerPlaceholder = [PLACEHOLDER_TEXT stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    if ([textView.text isEqualToString:PLACEHOLDER_TEXT] ||
+        [textView.text isEqualToString:smallerPlaceholder]){
         textView.text = @"";
     }
     self.delegate.activeView = self;
