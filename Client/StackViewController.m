@@ -23,6 +23,9 @@
 @property (nonatomic) BOOL isLocked;
 @property (nonatomic) int currentPage;
 @property (nonatomic) int unstackCounter;
+@property (nonatomic, assign) CGPoint lastPanPosition;
+@property (nonatomic, strong) NSTimer * overlapTimer;
+@property (atomic, assign) BOOL overlapAnimationInProgress;
 
 @property (weak,nonatomic) NSMutableArray * notes;
 @end
@@ -33,6 +36,7 @@
 @synthesize notes = _notes;
 @synthesize activeView = _activeView;
 
+#define MINIMUM_OBJECT_PRESS_DURATION 0.1
 -(void) setOpenStack:(StackView *)openStack
 {
     _openStack = openStack;
@@ -44,6 +48,7 @@
         }
         UILongPressGestureRecognizer * pgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
                                                                                            action:@selector(notePressed:)];
+        pgr.minimumPressDuration = MINIMUM_OBJECT_PRESS_DURATION;
         [view addGestureRecognizer:pgr];
     }
     
@@ -71,7 +76,7 @@
 }
 
 #pragma mark - gesture events
-#define OVERLAP_PERIOD 2 
+#define OVERLAP_PERIOD 0.5
 -(void) notePressed: (UILongPressGestureRecognizer *) sender{
     
     if (sender.state == UIGestureRecognizerStateBegan){
@@ -83,28 +88,37 @@
         [self pressGestureChanged:sender];
     }
     else if (sender.state == UIGestureRecognizerStateEnded){
-        [UIView animateWithDuration:0.25 animations:^{sender.view.frame = self.lastFrame;}];
+        [UIView animateWithDuration:0.20
+                         animations:^{sender.view.frame = self.lastFrame;}];
     }
 }
 
 -(void) pressGestureStarted:(UILongPressGestureRecognizer *) sender
 {
     
-    ((NoteView *) sender.view).highlighted = !((NoteView *) sender.view).highlighted;
-    if ( ((NoteView *) sender.view).highlighted){
-        //high light the note and add the ability to pan it
-        if (self.highLightedNote) {
-            self.highLightedNote.highlighted = NO;
-            
+    NoteView * noteView = ((NoteView *) sender.view);
+    
+    if (!noteView.selectedInStack)
+    {
+        noteView.selectedInStack = YES;
+        //if there is another note selected, deselect it
+        if (self.highLightedNote)
+        {
+            self.highLightedNote.selectedInStack = NO;
         }
+        
         self.lastFrame = sender.view.frame;
         UIPanGestureRecognizer * pgr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(notePanned:)];
         [sender.view addGestureRecognizer:pgr];
 
-        self.highLightedNote = (NoteView *) sender.view;
+        self.highLightedNote = noteView;
         self.isInEditMode = YES;
+        self.lastPanPosition = [sender locationInView:self.stackView];
     }
-    else{
+    else
+    {
+        noteView.selectedInStack = NO;
+        self.lastPanPosition = CGPointZero;
         //remove highlighting on the note and remove the ability for panning it
         self.highLightedNote = nil;
         self.isInEditMode = NO;
@@ -133,40 +147,74 @@
     UIView * overlappingView = [self checkForOverlapWithView:sender.view];
     if (overlappingView){
         self.lastOverlappedView = overlappingView;
-        [NSTimer scheduledTimerWithTimeInterval:OVERLAP_PERIOD
-                                         target:self
-                                       selector:@selector(fireOverlapTimer:) userInfo:nil
-                                        repeats:NO];
+        if (self.overlapTimer)
+        {
+            [self.overlapTimer invalidate];
+            self.overlapTimer = nil;
+        }
+        self.overlapTimer = [NSTimer scheduledTimerWithTimeInterval:OVERLAP_PERIOD
+                                                             target:self
+                                                           selector:@selector(fireOverlapTimer:) userInfo:nil
+                                                            repeats:NO];
         //swap the frames of overlapping frame and the current frame
         CGRect tempFrame = overlappingView.frame;
-        [UIView animateWithDuration:0.25 animations:^{ overlappingView.frame = self.lastFrame;}];
-        self.lastFrame = tempFrame;
+        if (!self.overlapAnimationInProgress)
+        {
+            self.overlapAnimationInProgress = YES;
+            [UIView animateWithDuration:0.25
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseIn
+                             animations:^{
+                                 overlappingView.frame = self.lastFrame;
+                             }completion:^(BOOL finished){
+                                 
+                                 self.overlapAnimationInProgress = NO;
+                                 self.lastFrame = tempFrame;
+                             }];
+        }
+        [UIView animateWithDuration:0.25 animations:^{ }];
     }
 }
+
 -(void) changePositionForHighlighted:(UIGestureRecognizer *) sender
 {
     //just adjust the position and scroll to the next page if necessary
-    CGPoint newStart = [sender locationInView:self.stackView];
-    CGRect newRect = CGRectMake(newStart.x, newStart.y, sender.view.bounds.size.width, sender.view.bounds.size.height);
+    CGPoint newPosition = [sender locationInView:self.stackView];
+    CGPoint translation = CGPointMake(newPosition.x - self.lastPanPosition.x,
+                                      newPosition.y - self.lastPanPosition.y);
+    
+    self.lastPanPosition = newPosition;
+    CGRect newRect = CGRectMake(sender.view.frame.origin.x + translation.x,
+                                sender.view.frame.origin.y + translation.y,
+                                sender.view.bounds.size.width,
+                                sender.view.bounds.size.height);
     if ([self checkScrollToNextPage: newRect forView: sender.view]){
-        if ( newRect.origin.x > sender.view.frame.origin.x){
-            newRect = CGRectMake(newRect.origin.x + self.stackView.frame.size.width, newRect.origin.y, newRect.size.width, newRect.size.height)  ;
-        }
-        else {
-            newRect = CGRectMake(newRect.origin.x - self.stackView.frame.size.width, newRect.origin.y, newRect.size.width, newRect.size.height)  ;
+        
+        if ( newRect.origin.x > sender.view.frame.origin.x)
+        {
+//            NSLog(@"Going to the Next Page");
+////            newRect = CGRectMake(newRect.origin.x + self.stackView.frame.size.width, newRect.origin.y, newRect.size.width, newRect.size.height)  ;
+//        }
+//        else {
+//            newRect = CGRectMake(newRect.origin.x - self.stackView.frame.size.width, newRect.origin.y, newRect.size.width, newRect.size.height)  ;
         }
     }
     [sender.view setFrame:newRect];
 }
--(void) notePanned: (UIPanGestureRecognizer *) sender{
-    
-    if (sender.state == UIGestureRecognizerStateEnded || sender.state ==UIGestureRecognizerStateChanged){
+
+-(void) notePanned: (UIPanGestureRecognizer *) sender
+{
+    if (sender.state == UIGestureRecognizerStateEnded ||
+        sender.state ==UIGestureRecognizerStateChanged)
+    {
         [self changePositionForHighlighted:sender];
         [self checkForOverlapsForHighlighted:sender];
     }
     if (sender.state == UIGestureRecognizerStateEnded){
-        [UIView animateWithDuration:0.25 animations:^{
-            sender.view.frame = self.lastFrame;}];
+        [UIView animateWithDuration:0.25
+                         animations:^{
+            sender.view.frame = self.lastFrame;
+                         }];
     }
 }
 
@@ -273,7 +321,7 @@
     //tap is used for cancelation of the typing or pressing
     if (self.isInEditMode){
         self.isInEditMode = NO;
-        self.highLightedNote.highlighted = NO;
+        self.highLightedNote.selectedInStack = NO;
         for (UIGestureRecognizer * gr in [self.highLightedNote gestureRecognizers]){
             if ([gr isKindOfClass:[UIPanGestureRecognizer class]]){
                 [self.highLightedNote removeGestureRecognizer:gr];
@@ -302,6 +350,7 @@
         }
         UILongPressGestureRecognizer * pgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
                                                                                            action:@selector(notePressed:)];
+        pgr.minimumPressDuration = MINIMUM_OBJECT_PRESS_DURATION;
         [view addGestureRecognizer:pgr];
         view.delegate = self;
     }
@@ -419,6 +468,11 @@
 
 -(void) viewWillDisappear:(BOOL)animated
 {
+    if (self.overlapTimer)
+    {
+        [self.overlapTimer invalidate];
+        self.overlapTimer = nil;
+    }
     NSString * replacedPlaceholder = [PLACEHOLDER_TEXT stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     for(NoteView * view in self.notes)
     {
@@ -447,7 +501,7 @@
 
 -(void) exitStack
 {
-    if ( self.highLightedNote) self.highLightedNote.highlighted = NO;
+    if ( self.highLightedNote) self.highLightedNote.selectedInStack = NO;
     [self.delegate returnedstackViewController:self];
     [self.openStack stackWillClose];;
 }
@@ -478,7 +532,7 @@
 -(IBAction)unstackPressed:(id)sender {
     
     [self.notes removeObject:self.highLightedNote];
-    self.highLightedNote.highlighted = NO;
+    self.highLightedNote.selectedInStack = NO;
     [self.highLightedNote removeFromSuperview];
     self.unstackCounter++;
     [self.delegate unstackItem:self.highLightedNote

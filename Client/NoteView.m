@@ -31,6 +31,7 @@
 @synthesize ID = _ID;
 @synthesize scaleOffset = _scaleOffset;
 @synthesize rotationOffset = _rotationOffset;
+@synthesize selectedInStack = _selectedInStack;
 
 -(id) initWithCoder:(NSCoder *)aDecoder
 {
@@ -151,6 +152,17 @@
     _delegate = delegate;
 }
 
+-(void) setSelectedInStack:(BOOL)selectedInStack
+{
+    if (selectedInStack)
+    {
+        self.backgroundColor = [UIColor greenColor];
+    }
+    else
+    {
+        self.backgroundColor = [UIColor clearColor];
+    }
+}
 -(void) setHighlighted:(BOOL) highlighted
 {
     _highlighted = highlighted;

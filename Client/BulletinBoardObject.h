@@ -23,6 +23,7 @@
 
 @property (strong,nonatomic) NSString * text;
 @property (nonatomic) BOOL highlighted;
+@property (nonatomic) BOOL selectedInStack;
 @property (strong, nonatomic) NSString * ID;
 @property (nonatomic) CGFloat scaleOffset;
 @property (nonatomic) CGFloat rotationOffset;

@@ -38,6 +38,7 @@
 @synthesize ID = _ID;
 @synthesize scaleOffset = _scaleOffset;
 @synthesize rotationOffset = _rotationOffset;
+@synthesize selectedInStack = _selectedInStack;
 
 -(CGFloat)scaleOffset
 {
