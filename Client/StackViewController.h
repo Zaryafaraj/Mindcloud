@@ -13,7 +13,7 @@
 
 @protocol StackViewDelegate;
 
-@interface StackViewController : UIViewController <NoteViewDelegate, UIGestureRecognizerDelegate>
+@interface StackViewController : UIViewController <NoteViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) id<StackViewDelegate,NoteViewDelegate>  delegate;
 @property (weak,nonatomic) StackView * openStack;

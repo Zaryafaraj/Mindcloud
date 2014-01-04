@@ -27,6 +27,7 @@
 @property (nonatomic, assign) CGPoint lastPanPosition;
 @property (nonatomic, strong) NSTimer * overlapTimer;
 @property (atomic, assign) BOOL overlapAnimationInProgress;
+@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 
 @property (weak,nonatomic) NSMutableArray * notes;
 @end
@@ -221,12 +222,12 @@
 }
 
 
-#define ROW_COUNT 3
+#define ROW_COUNT 2
 #define COL_COUNT 2
 #define COL_SEPERATOR 0
-#define ROW_SEPERATOR 0
-#define SIDE_OFFSET 5
-#define TOP_OFFSET 5
+#define ROW_SEPERATOR 10
+#define SIDE_OFFSET 20
+#define TOP_OFFSET 80
 
 #pragma mark - layout
 -(void) addPageToStackViewWithCurrentPageCount:(int) page
@@ -412,6 +413,8 @@
 
 -(void) viewWillAppear:(BOOL)animated
 {
+    int pageNo = self.notes.count / (COL_COUNT * ROW_COUNT);
+    self.pageControl.numberOfPages = pageNo + 1;
     self.view.backgroundColor = [UIColor clearColor];
     UIColor * bgColor = [UIColor colorWithWhite:0.36 alpha:0.85];
     self.view.superview.backgroundColor = bgColor;
@@ -421,6 +424,7 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    self.stackView.delegate = self;
     
     [self.stackView setContentSize:self.stackView.bounds.size];
     for (NoteView * view in self.notes){
@@ -579,5 +583,14 @@
         return YES;
     }
     return NO;
+}
+
+#pragma mark - UIScrollView Delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat pageWidth = self.stackView.frame.size.width;
+    float fractionalPage = self.stackView.contentOffset.x / pageWidth;
+    NSInteger page = lround(fractionalPage);
+    self.pageControl.currentPage = page; 
 }
 @end
