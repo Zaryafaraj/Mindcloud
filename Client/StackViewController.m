@@ -578,6 +578,6 @@
     {
         return YES;
     }
-    return YES;
+    return NO;
 }
 @end
