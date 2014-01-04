@@ -10,6 +10,7 @@
 #import "NoteView.h"
 #import "CollectionNote.h"
 #import "MultimediaHelper.h"
+#import "ImageNoteView.h"
 
 @interface StackViewController ()
 
@@ -36,7 +37,7 @@
 @synthesize notes = _notes;
 @synthesize activeView = _activeView;
 
-#define MINIMUM_OBJECT_PRESS_DURATION 0.1
+#define MINIMUM_OBJECT_PRESS_DURATION 0.2
 -(void) setOpenStack:(StackView *)openStack
 {
     _openStack = openStack;
@@ -255,6 +256,12 @@
         {
             view.text = [view.text stringByReplacingOccurrencesOfString:@"\n" withString:@""];
         }
+        
+        if ([view isKindOfClass:[ImageNoteView class]])
+        {
+            ImageNoteView * imgNote = (ImageNoteView *) view;
+            imgNote.hideControls = NO;
+        }
         if (needsNewPage){
             needsNewPage = NO;
             [self addPageToStackViewWithCurrentPageCount:page];
@@ -418,7 +425,10 @@
     [self.stackView setContentSize:self.stackView.bounds.size];
     for (NoteView * view in self.notes){
         view.delegate = self;
-        view._textView.editable = YES;
+        if (![view isKindOfClass:[ImageNoteView class]])
+        {
+            view._textView.editable = YES;
+        }
     }
     
     [self.stackView setBackgroundColor:[UIColor clearColor]];
@@ -428,6 +438,7 @@
 {
     [self layoutNotes:NO];
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapBehind:)];
+    recognizer.delegate = self;
     
     [recognizer setNumberOfTapsRequired:1];
     recognizer.cancelsTouchesInView = NO; //So the user can still interact with controls in the modal view
@@ -468,6 +479,11 @@
         if ([view.text isEqualToString:replacedPlaceholder])
         {
             view.text = PLACEHOLDER_TEXT;
+        }
+        if ([view isKindOfClass:[ImageNoteView class]])
+        {
+            ImageNoteView * imgNote = (ImageNoteView *) view;
+            imgNote.hideControls = YES;
         }
     }
 }
@@ -555,4 +571,13 @@
     [self.delegate note:note changedTextTo:text];
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]] &&
+        [otherGestureRecognizer isKindOfClass:[UITapGestureRecognizer class]])
+    {
+        return YES;
+    }
+    return YES;
+}
 @end
