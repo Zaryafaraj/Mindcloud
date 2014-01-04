@@ -150,6 +150,7 @@
     
     if (self)
     {
+        self.backgroundColor = [UIColor greenColor];
         self.finishedCount = 0;
         self.views = views;
         //determine the topview
@@ -643,8 +644,8 @@
 
 #define SCALE_SIZE 1.1
 #define HIGHLIGHT_DURATION 0.3
-#define TRANSLATION_FROM_BASE 0
-#define TRANSLATION_DELTA 10
+#define TRANSLATION_FROM_BASE 40
+#define TRANSLATION_DELTA 15
 #define HIGHLIGHT_SHADOW_ADDITON_X 3
 #define HIGHLIGHT_SHADOW_ADDITON_Y 3
 #define HIGHLIGHT_ADDITONAL_RADIUS 3
@@ -656,8 +657,7 @@
     CALayer * stackLayer = self.layer;
     
     CABasicAnimation * selectAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
-    CATransform3D toTransform = highlight ? CATransform3DMakeScale(SCALE_SIZE, SCALE_SIZE, SCALE_SIZE) : CATransform3DIdentity;
-    toTransform.m34 = - 1./500;
+    CATransform3D toTransform = highlight ? CATransform3DMakeScale(SCALE_SIZE, SCALE_SIZE, 1) : CATransform3DIdentity;
     
     
     selectAnimation.fromValue = [NSValue valueWithCATransform3D:stackLayer.transform];
@@ -690,7 +690,7 @@
                 
                 noteToTransform = CATransform3DTranslate(noteToTransform, translation,
                                                      translation,
-                                                     translation);
+                                                     0);
                 newShadowOffset = enclosingNoteLayer.shadowOffset.height + HIGHLIGHT_SHADOW_ADDITON_Y;
                 newShadowRadius = enclosingNoteLayer.shadowRadius + HIGHLIGHT_ADDITONAL_RADIUS;
                 
@@ -719,14 +719,14 @@
                 
                 noteToTransform = CATransform3DTranslate(noteToTransform, translation,
                                                      translation,
-                                                     translation);
+                                                     0);
                 
                 newShadowOffset = enclosingNoteLayer.shadowOffset.height - HIGHLIGHT_SHADOW_ADDITON_Y;
                 newShadowRadius = enclosingNoteLayer.shadowRadius - HIGHLIGHT_ADDITONAL_RADIUS;
                 
             }
             
-            if (note != self.mainView)
+            if (YES)
             {
                 CABasicAnimation * noteAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
                 noteAnimation.fromValue = [NSValue valueWithCATransform3D:noteLayer.transform];
