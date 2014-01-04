@@ -89,7 +89,12 @@
     }
     else if (sender.state == UIGestureRecognizerStateEnded){
         [UIView animateWithDuration:0.20
-                         animations:^{sender.view.frame = self.lastFrame;}];
+                         animations:^{
+                             ;
+//                             sender.view.center =
+//                             CGPointMake(self.lastFrame.origin.x + self.lastFrame.size.width / 2 ,
+//                                         self.lastFrame.origin.y + self.lastFrame.size.height/2);
+                         }];
     }
 }
 
@@ -172,7 +177,6 @@
                                  self.lastFrame = tempFrame;
                              }];
         }
-        [UIView animateWithDuration:0.25 animations:^{ }];
     }
 }
 
@@ -199,7 +203,7 @@
 //            newRect = CGRectMake(newRect.origin.x - self.stackView.frame.size.width, newRect.origin.y, newRect.size.width, newRect.size.height)  ;
         }
     }
-    [sender.view setFrame:newRect];
+    sender.view.center = CGPointMake(sender.view.center.x + translation.x, sender.view.center.y + translation.y);
 }
 
 -(void) notePanned: (UIPanGestureRecognizer *) sender

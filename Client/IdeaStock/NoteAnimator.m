@@ -19,6 +19,36 @@
 +(void) animateNoteHighlighted:(NoteView *) note
               withDeleteButton:(UIButton *) deleteButton
 {
+    
+    [self scaleNote:note];
+    deleteButton.hidden = NO;
+    deleteButton.transform = CGAffineTransformIdentity;
+    deleteButton.transform = CGAffineTransformScale(deleteButton.transform, 0.1, 0.1);
+    [UIView animateWithDuration:0.6
+                          delay:0
+         usingSpringWithDamping:0.6
+          initialSpringVelocity:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         deleteButton.transform = CGAffineTransformScale(deleteButton.transform,
+                                                                         10 * note.scaleOffset,
+                                                                         10 * note.scaleOffset);
+                     }completion:^(BOOL completed){}];
+}
+
++(void) animateNoteSelectedInStack:(NoteView *) note
+{
+    [self scaleNote:note];
+}
+
++(void) animateNoteDeselectedInStack:(NoteView *) note
+{
+    [self unscaleNote:note];
+}
+
++(void) scaleNote:(UIView *) note
+{
+    
     CALayer * layer = note.layer;
     layer.transform = CATransform3DIdentity;
     CABasicAnimation * selectAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
@@ -54,26 +84,28 @@
     shadowRadiusAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
     shadowRadiusAnimation.duration = HIGHLIGHT_DURATION;
     [layer addAnimation:shadowRadiusAnimation forKey:@"shadowRadius"];
-    
-    deleteButton.hidden = NO;
-    deleteButton.transform = CGAffineTransformIdentity;
-    deleteButton.transform = CGAffineTransformScale(deleteButton.transform, 0.1, 0.1);
-    [UIView animateWithDuration:0.6
-                          delay:0
-         usingSpringWithDamping:0.6
-          initialSpringVelocity:0
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         deleteButton.transform = CGAffineTransformScale(deleteButton.transform,
-                                                                         10 * note.scaleOffset,
-                                                                         10 * note.scaleOffset);
-                     }completion:^(BOOL completed){}];
 }
 
 +(void) animateNoteUnhighlighted:(NoteView *) note
                 withDeleteButton:(UIButton *) deleteButton
 {
     
+    
+    [self unscaleNote:note];
+    [UIView animateWithDuration:0.6
+                          delay:0
+         usingSpringWithDamping:0.8
+          initialSpringVelocity:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         deleteButton.transform = CGAffineTransformScale(deleteButton.transform, 0.001 * 1/note.scaleOffset, 0.001 * 1/note.scaleOffset);
+                     }completion:^(BOOL completed){
+                         deleteButton.hidden = YES;
+                     }];
+}
+
++(void) unscaleNote:(UIView *) note
+{
     CALayer * layer = note.layer;
     CABasicAnimation * selectAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
     CATransform3D toTransform = CATransform3DIdentity;
@@ -107,17 +139,5 @@
     shadowRadiusAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     shadowRadiusAnimation.duration = HIGHLIGHT_DURATION;
     [layer addAnimation:shadowRadiusAnimation forKey:@"shadowRadius"];
-    
-    [UIView animateWithDuration:0.6
-                          delay:0
-         usingSpringWithDamping:0.8
-          initialSpringVelocity:0
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         deleteButton.transform = CGAffineTransformScale(deleteButton.transform, 0.001 * 1/note.scaleOffset, 0.001 * 1/note.scaleOffset);
-                     }completion:^(BOOL completed){
-                         deleteButton.hidden = YES;
-                     }];
 }
-
 @end

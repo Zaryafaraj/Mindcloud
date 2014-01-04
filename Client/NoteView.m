@@ -152,17 +152,26 @@
     _delegate = delegate;
 }
 
+-(void) setCenter:(CGPoint)center
+{
+    [super setCenter:center];
+}
 -(void) setSelectedInStack:(BOOL)selectedInStack
 {
+    _selectedInStack = selectedInStack;
     if (selectedInStack)
     {
-        self.backgroundColor = [UIColor greenColor];
+        
+        [NoteAnimator animateNoteSelectedInStack:self];
+//        [NoteAnimator animateNoteHighlighted:self withDeleteButton:self.deleteButton];
     }
     else
     {
-        self.backgroundColor = [UIColor clearColor];
+        [NoteAnimator animateNoteDeselectedInStack:self];
+//        [NoteAnimator animateNoteUnhighlighted:self withDeleteButton:self.deleteButton];
     }
 }
+    
 -(void) setHighlighted:(BOOL) highlighted
 {
     _highlighted = highlighted;

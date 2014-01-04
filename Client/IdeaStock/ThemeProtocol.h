@@ -64,4 +64,6 @@
 
 -(UIImage *) imageForExpand;
 
+-(UIImage *) imageForUnstack;
+
 @end

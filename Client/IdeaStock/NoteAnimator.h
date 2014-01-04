@@ -17,4 +17,8 @@
 +(void) animateNoteUnhighlighted:(NoteView *) note
                 withDeleteButton:(UIButton *) deleteButton;
 
++(void) animateNoteSelectedInStack:(NoteView *) note;
+
++(void) animateNoteDeselectedInStack:(NoteView *) note;
+
 @end

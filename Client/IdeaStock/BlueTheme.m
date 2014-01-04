@@ -170,4 +170,10 @@
     return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
+-(UIImage *) imageForUnstack
+{
+    UIImage * img = [UIImage imageNamed:@"unstack-round"];
+    return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
 @end
