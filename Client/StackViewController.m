@@ -415,7 +415,7 @@
 
 -(void) viewWillAppear:(BOOL)animated
 {
-    int pageNo = self.notes.count / (COL_COUNT * ROW_COUNT);
+    int pageNo = (self.notes.count - 1)/ (COL_COUNT * ROW_COUNT);
     self.pageControl.numberOfPages = pageNo + 1;
     self.view.backgroundColor = [UIColor clearColor];
     UIColor * bgColor = [[ThemeFactory currentTheme] backgroundColorForStackController];

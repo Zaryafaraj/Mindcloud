@@ -191,8 +191,8 @@
     [UIView animateWithDuration:STACKING_DURATION delay:0
                         options:option
                      animations:^{
-                         note.bounds = aBound;
                          note.transform = CGAffineTransformIdentity;
+                         note.bounds = aBound;
                          note.center = self.center;
                      }completion:^(BOOL finished){
                          [note removeFromSuperview];
@@ -290,7 +290,6 @@
     for (int i = 0 ; i < [self.views count]; i++)
     {
         NoteView * note = self.views[i];
-        note.transform = CGAffineTransformIdentity;
         note.rotationOffset = 1;
         //first clean the note up
         for(UIGestureRecognizer * gr in note.gestureRecognizers)
