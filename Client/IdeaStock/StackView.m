@@ -257,7 +257,9 @@
     int maxCount = self.views.count >= 3 ? 3 : 2;
     if (self.finishedCount == maxCount)
     {
+        
         UIView * topView = self.views[self.views.count - 1];
+        [self addSubview:topView];
         if (self.views.count >= 3)
         {
             UIView * viewToAdd = self.views[self.views.count - 3];
@@ -636,8 +638,8 @@
 #pragma mark - animations
 
 #define SCALE_SIZE 1.1
-#define HIGHLIGHT_DURATION 0.4
-#define TRANSLATION_FROM_BASE 10
+#define HIGHLIGHT_DURATION 0.3
+#define TRANSLATION_FROM_BASE 0
 #define TRANSLATION_DELTA 10
 #define HIGHLIGHT_SHADOW_ADDITON_X 3
 #define HIGHLIGHT_SHADOW_ADDITON_Y 3
@@ -720,14 +722,17 @@
                 
             }
             
-            CABasicAnimation * noteAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
-            noteAnimation.fromValue = [NSValue valueWithCATransform3D:noteLayer.transform];
-            noteAnimation.toValue = [NSValue valueWithCATransform3D:noteToTransform];
-            
-            noteLayer.transform = noteToTransform;
-            noteAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
-            noteAnimation.duration = HIGHLIGHT_DURATION;
-            [noteLayer addAnimation:noteAnimation forKey:@"noteTransform"];
+            if (note != self.mainView)
+            {
+                CABasicAnimation * noteAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
+                noteAnimation.fromValue = [NSValue valueWithCATransform3D:noteLayer.transform];
+                noteAnimation.toValue = [NSValue valueWithCATransform3D:noteToTransform];
+                
+                noteLayer.transform = noteToTransform;
+                noteAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+                noteAnimation.duration = HIGHLIGHT_DURATION;
+                [noteLayer addAnimation:noteAnimation forKey:@"noteTransform"];
+            }
             noteNo--;
             
             CGPoint orginInNoteView = enclosingNote.frame.origin;
@@ -769,14 +774,12 @@
     if (highlight)
     {
         
-        [self.deleteButton removeFromSuperview];
         [self addSubview:self.deleteButton];
         self.deleteButton.hidden = NO;
         self.deleteButton.center = deleteCenter;
         self.deleteButton.transform = CGAffineTransformIdentity;
         self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 0.1, 0.1);
         
-        [self.expandButton removeFromSuperview];
         [self addSubview:self.expandButton];
         self.expandButton.hidden = NO;
         self.expandButton.center = CGPointMake(deleteCenter.x + (45 * self.scaleOffset),
@@ -792,7 +795,8 @@
                              self.deleteButton.transform = CGAffineTransformScale(self.deleteButton.transform, 10 * self.scaleOffset, 10 * self.scaleOffset);
                              
                              self.expandButton.transform = CGAffineTransformScale(self.expandButton.transform, 10 * self.scaleOffset, 10 * self.scaleOffset);
-                         }completion:^(BOOL completed){}];
+                         }completion:^(BOOL completed){
+                         }];
     }
     else
     {
