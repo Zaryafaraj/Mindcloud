@@ -16,6 +16,7 @@
 
 @property (nonatomic) CGRect lastFrame;
 @property (nonatomic) UIButton * deleteButton;
+@property (nonatomic) UIButton * unstackButton;
 @property (nonatomic) UIView * noteView;
 @end
 
@@ -53,6 +54,47 @@
     return self;
 }
 
+-(UIButton *) deleteButton
+{
+    
+    if (!_deleteButton)
+    {
+        UIButton * delButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        _deleteButton = delButton;
+        [_deleteButton addTarget:self
+                              action:@selector(deletePressed:)
+                    forControlEvents:UIControlEventTouchDown];
+        
+        UIImage * btnImage = [[ThemeFactory currentTheme] imageForDeleteIcon];
+        [_deleteButton setImage:btnImage
+                           forState:UIControlStateNormal];
+        [self addSubview:_deleteButton];
+        _deleteButton.frame = CGRectMake(0,0 , 40, 40);
+        _deleteButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
+    }
+    return _deleteButton;
+}
+
+-(UIButton *) unstackButton
+{
+    if(!_unstackButton)
+    {
+        UIButton * unstackBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        _unstackButton = unstackBtn;
+        [_unstackButton addTarget:self
+                              action:@selector(unstackPressed:)
+                    forControlEvents:UIControlEventTouchDown];
+        
+        UIImage * btnImage = [[ThemeFactory currentTheme] imageForUnstack];
+        [_unstackButton setImage:btnImage
+                           forState:UIControlStateNormal];
+        [self addSubview:_unstackButton];
+        _unstackButton.frame = CGRectMake(0,0 , 40, 40);
+        _unstackButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
+        _unstackButton.hidden = YES;
+    }
+    return _unstackButton;
+}
 -(instancetype) _configureView
 {
     //self.backgroundColor = [UIColor blueColor];
@@ -166,11 +208,15 @@
     if (selectedInStack)
     {
         
-        [NoteAnimator animateNoteSelectedInStack:self];
+        [NoteAnimator animateNoteSelectedInStack:self
+                                withDeleteButton:self.deleteButton
+                                andUnstackButton:self.unstackButton];
     }
     else
     {
-        [NoteAnimator animateNoteDeselectedInStack:self];
+        [NoteAnimator animateNoteDeselectedInStack:self
+                                  withDeleteButton:self.deleteButton
+                                  andUnstackButton:self.unstackButton];
     }
     _selectedInStack = selectedInStack;
 }
@@ -178,21 +224,6 @@
 -(void) setHighlighted:(BOOL) highlighted
 {
     _highlighted = highlighted;
-    if (!self.deleteButton)
-    {
-        UIButton * delButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        self.deleteButton = delButton;
-        [self.deleteButton addTarget:self
-                              action:@selector(deletePressed:)
-                    forControlEvents:UIControlEventTouchDown];
-        
-        UIImage * btnImage = [[ThemeFactory currentTheme] imageForDeleteIcon];
-        [self.deleteButton setImage:btnImage
-                           forState:UIControlStateNormal];
-        [self addSubview:self.deleteButton];
-        self.deleteButton.frame = CGRectMake(0,0 , 40, 40);
-        self.deleteButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
-    }
     
     if (highlighted)
     {
@@ -342,6 +373,10 @@
     //self._textView.userInteractionEnabled = YES;
 }
 
+-(void) unstackPressed:(id)sender
+{
+    
+}
 -(void) deletePressed:(id)sender
 {
     id<NoteViewDelegate> temp = self.delegate;

@@ -37,13 +37,56 @@
 }
 
 +(void) animateNoteSelectedInStack:(NoteView *) note
+                  withDeleteButton:(UIButton *) deleteButton
+                  andUnstackButton:(UIButton *) unstackButton
 {
     [self scaleNote:note];
+    
+    deleteButton.hidden = NO;
+    deleteButton.transform = CGAffineTransformIdentity;
+    deleteButton.transform = CGAffineTransformScale(deleteButton.transform, 0.1, 0.1);
+    
+    unstackButton.hidden = NO;
+    unstackButton.transform = CGAffineTransformIdentity;
+    unstackButton.transform = CGAffineTransformScale(unstackButton.transform, 0.1, 0.1);
+    
+    unstackButton.center = CGPointMake(deleteButton.center.x + (45 * note.scaleOffset),
+                                           deleteButton.center.y);
+    [UIView animateWithDuration:0.6
+                          delay:0
+         usingSpringWithDamping:0.6
+          initialSpringVelocity:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         deleteButton.transform = CGAffineTransformScale(deleteButton.transform,
+                                                                         10 * note.scaleOffset,
+                                                                         10 * note.scaleOffset);
+                         
+                         unstackButton.transform = CGAffineTransformScale(unstackButton.transform,
+                                                                         10 * note.scaleOffset,
+                                                                         10 * note.scaleOffset);
+                     }completion:^(BOOL completed){}];
 }
 
 +(void) animateNoteDeselectedInStack:(NoteView *) note
+                  withDeleteButton:(UIButton *) deleteButton
+                  andUnstackButton:(UIButton *) unstackButton
 {
     [self unscaleNote:note];
+    
+    [UIView animateWithDuration:0.6
+                          delay:0
+         usingSpringWithDamping:0.8
+          initialSpringVelocity:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         deleteButton.transform = CGAffineTransformScale(deleteButton.transform, 0.001 * 1/note.scaleOffset, 0.001 * 1/note.scaleOffset);
+                         
+                         unstackButton.transform = CGAffineTransformScale(unstackButton.transform, 0.001 * 1/note.scaleOffset, 0.001 * 1/note.scaleOffset);
+                         
+                     }completion:^(BOOL completed){
+                         deleteButton.hidden = YES;
+                     }];
 }
 
 +(void) scaleNote:(UIView *) note
