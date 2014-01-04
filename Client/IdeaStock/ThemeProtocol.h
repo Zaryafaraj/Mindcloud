@@ -66,4 +66,7 @@
 
 -(UIImage *) imageForUnstack;
 
+-(UIColor *) backgroundColorForStackController;
+
+-(UIColor *) tintColorForIconsInStack;
 @end

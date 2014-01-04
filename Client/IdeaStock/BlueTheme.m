@@ -147,6 +147,11 @@
     return [UIColor colorWithWhite:0.20 alpha:1.0];
 }
 
+-(UIColor *) tintColorForIconsInStack
+{
+    return [UIColor colorWithWhite:0.10 alpha:1.0];
+}
+
 -(UIImage *) imageForUndo
 {
     UIImage * img = [UIImage imageNamed:@"undo"];
@@ -172,8 +177,17 @@
 
 -(UIImage *) imageForUnstack
 {
-    UIImage * img = [UIImage imageNamed:@"unstack-round"];
+    //UIImage * img = [UIImage imageNamed:@"unstack-round"];
+    UIImage * img = [UIImage imageNamed:@"unstack-round-v2"];
     return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
+-(UIColor *) backgroundColorForStackController
+{
+    
+    //UIColor *aColor = [UIColor colorWithHue:0.627 saturation:0.574 brightness:0.921 alpha:0.85];
+    UIColor * bgColor = [UIColor colorWithWhite:0.36 alpha:0.95];
+    return bgColor;
 }
 
 @end

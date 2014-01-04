@@ -11,6 +11,7 @@
 #import "CollectionNote.h"
 #import "MultimediaHelper.h"
 #import "ImageNoteView.h"
+#import "ThemeFactory.h"
 
 @interface StackViewController ()
 
@@ -416,7 +417,7 @@
     int pageNo = self.notes.count / (COL_COUNT * ROW_COUNT);
     self.pageControl.numberOfPages = pageNo + 1;
     self.view.backgroundColor = [UIColor clearColor];
-    UIColor * bgColor = [UIColor colorWithWhite:0.36 alpha:0.85];
+    UIColor * bgColor = [[ThemeFactory currentTheme] backgroundColorForStackController];
     self.view.superview.backgroundColor = bgColor;
     self.view.superview.layer.cornerRadius = 15;
 }

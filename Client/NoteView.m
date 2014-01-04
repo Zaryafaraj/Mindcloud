@@ -90,7 +90,7 @@
                            forState:UIControlStateNormal];
         [self addSubview:_unstackButton];
         _unstackButton.frame = CGRectMake(0,0 , 40, 40);
-        _unstackButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
+        _unstackButton.tintColor = [[ThemeFactory currentTheme] tintColorForIconsInStack];
         _unstackButton.hidden = YES;
     }
     return _unstackButton;
@@ -208,6 +208,7 @@
     if (selectedInStack)
     {
         
+        self.deleteButton.tintColor = [[ThemeFactory currentTheme] tintColorForIconsInStack];
         [NoteAnimator animateNoteSelectedInStack:self
                                 withDeleteButton:self.deleteButton
                                 andUnstackButton:self.unstackButton];
@@ -227,6 +228,7 @@
     
     if (highlighted)
     {
+        self.deleteButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
         [NoteAnimator animateNoteHighlighted:self withDeleteButton:self.deleteButton];
     }
     else
