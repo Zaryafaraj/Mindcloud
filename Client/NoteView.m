@@ -167,12 +167,10 @@
     {
         
         [NoteAnimator animateNoteSelectedInStack:self];
-//        [NoteAnimator animateNoteHighlighted:self withDeleteButton:self.deleteButton];
     }
     else
     {
         [NoteAnimator animateNoteDeselectedInStack:self];
-//        [NoteAnimator animateNoteUnhighlighted:self withDeleteButton:self.deleteButton];
     }
     _selectedInStack = selectedInStack;
 }

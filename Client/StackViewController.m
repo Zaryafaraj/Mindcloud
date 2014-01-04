@@ -19,7 +19,7 @@
 
 @property (nonatomic) BOOL isInEditMode; 
 @property (weak, nonatomic) NoteView * highLightedNote;
-@property (nonatomic) CGRect lastFrame;
+@property (nonatomic) CGPoint lastCenter;
 @property (nonatomic) BOOL isLocked;
 @property (nonatomic) int currentPage;
 @property (nonatomic) int unstackCounter;
@@ -90,9 +90,7 @@
     else if (sender.state == UIGestureRecognizerStateEnded){
         [UIView animateWithDuration:0.20
                          animations:^{
-                             sender.view.center =
-                             CGPointMake(self.lastFrame.origin.x + self.lastFrame.size.width / 2 ,
-                                         self.lastFrame.origin.y + self.lastFrame.size.height/2);
+                             sender.view.center = self.lastCenter;
                          }];
     }
 }
@@ -111,7 +109,7 @@
             self.highLightedNote.selectedInStack = NO;
         }
         
-        self.lastFrame = sender.view.frame;
+        self.lastCenter = sender.view.center;
         UIPanGestureRecognizer * pgr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(notePanned:)];
         [sender.view addGestureRecognizer:pgr];
 
@@ -148,8 +146,7 @@
     //replace the current overla[[ing view so after a period of overlap_period we
     //reset the overlapping view to nil to allow it to be caught in
     //the  checkForOverlapWithView method
-    UIView * senderView = sender.view;
-    UIView * overlappingView = [self checkForOverlapWithView:sender.view];
+    UIView * overlappingView = [self checkForOverlapWithView:(NoteView *) sender.view];
     if (overlappingView){
         self.lastOverlappedView = overlappingView;
         if (self.overlapTimer)
@@ -162,7 +159,7 @@
                                                            selector:@selector(fireOverlapTimer:) userInfo:nil
                                                             repeats:NO];
         //swap the frames of overlapping frame and the current frame
-        CGRect tempFrame = overlappingView.frame;
+        CGPoint tempCenter = overlappingView.center;
         if (!self.overlapAnimationInProgress)
         {
             self.overlapAnimationInProgress = YES;
@@ -170,11 +167,11 @@
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
-                                 overlappingView.frame = self.lastFrame;
+                                 overlappingView.center = self.lastCenter;
+                                 self.lastCenter = tempCenter;
                              }completion:^(BOOL finished){
                                  
                                  self.overlapAnimationInProgress = NO;
-                                 self.lastFrame = tempFrame;
                              }];
         }
     }
@@ -217,7 +214,7 @@
     if (sender.state == UIGestureRecognizerStateEnded){
         [UIView animateWithDuration:0.25
                          animations:^{
-            sender.view.frame = self.lastFrame;
+            sender.view.center = self.lastCenter;
                          }];
     }
 }
@@ -302,25 +299,6 @@
     return nil;
 }
 
--(BOOL) findFirstResponder:(UIView *) view
-{
-    if(view.isFirstResponder)
-    {
-        NSLog(@" FOUND %@", view);
-        return YES;
-    }
-    if (view.subviews.count == 0)
-    {
-        return NO;
-    }
-    
-    for(UIView * subView in view.subviews)
-    {
-        [self findFirstResponder:subView];
-    }
-    return NO;
-}
-
 - (BOOL)disablesAutomaticKeyboardDismissal
 {
     return NO;
@@ -337,7 +315,9 @@
             }
             
         }
-        [UIView animateWithDuration:0.25 animations:^{ self.highLightedNote.frame = self.lastFrame;}];
+        [UIView animateWithDuration:0.25 animations:^{
+            self.highLightedNote.center = self.lastCenter;
+        }];
         self.highLightedNote = nil;
     }
     
@@ -566,6 +546,8 @@
 }
 
 #pragma mark - textbox delegate
+
+
 -(void) note:(id)note changedTextTo:(NSString *)text{
     if (!self.highLightedNote){
         [self.openStack setText: text];
