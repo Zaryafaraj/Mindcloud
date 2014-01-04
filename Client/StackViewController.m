@@ -228,7 +228,8 @@
 #define COL_SEPERATOR 0
 #define ROW_SEPERATOR 10
 #define SIDE_OFFSET 20
-#define TOP_OFFSET 80
+#define TOP_OFFSET 60
+#define BOTTOM_OFFSET 80
 
 #pragma mark - layout
 -(void) addPageToStackViewWithCurrentPageCount:(int) page
@@ -244,7 +245,7 @@
     float pageWidth = self.stackView.frame.size.width;
     float pageHeight = self.stackView.frame.size.height;
     float noteWidth = (pageWidth - ((2 * SIDE_OFFSET) + ((COL_COUNT - 1) * COL_SEPERATOR))) / COL_COUNT;
-    float noteHeight = (pageHeight -((2 * TOP_OFFSET) + ((ROW_COUNT - 1) * COL_SEPERATOR))) / ROW_COUNT;
+    float noteHeight = (pageHeight -((TOP_OFFSET + BOTTOM_OFFSET) + ((ROW_COUNT - 1) * COL_SEPERATOR))) / ROW_COUNT;
     float colSeperator = COL_SEPERATOR;
     float rowSeperator = ROW_SEPERATOR;
     
@@ -270,7 +271,7 @@
         }
         
         //find the set the starting to position
-        CGFloat startX = ((page + 1) * SIDE_OFFSET) + (page * pageWidth) + (col * noteWidth) + (col * colSeperator);
+        CGFloat startX = (SIDE_OFFSET) + (page * pageWidth) + (col * noteWidth) + (col * colSeperator);
         CGFloat startY = (TOP_OFFSET) + (row * noteHeight) + (row  * rowSeperator);
         CGRect viewFrame = CGRectMake(startX, startY, noteWidth, noteHeight);
         
