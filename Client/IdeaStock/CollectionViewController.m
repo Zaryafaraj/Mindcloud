@@ -457,14 +457,17 @@
             //select the last note as the mainView candidate for now; will overRide later
             NoteView * mainView = [stackNotes lastObject];
             CGRect stackFrame = [CollectionLayoutHelper getStackingFrameForStackingWithTopView:mainView];
-            StackView * stack = [[StackView alloc] initWithViews:[stackNotes mutableCopy]
-                                                     andMainView:mainView
-                                                       withFrame:stackFrame];
-            stack.delegate = self;
+            
             //scale the stack if necessary
             float scaling = [stacking.scale floatValue];
-            scaling = scaling/stack.scaleOffset;
-            if (scaling && stack.scaleOffset != scaling) [stack scale:scaling animated:YES];
+            if (scaling < 1)
+            {
+                scaling = 1;
+            }
+            StackView * stack = [[StackView alloc] initWithViews:[stackNotes mutableCopy]
+                                                     andMainView:mainView
+                                                       withFrame:stackFrame andScaling:scaling];
+            stack.delegate = self;
             
             //add stacking
             stack.ID = stackId;
@@ -1805,19 +1808,21 @@
                     intoStackingWithMainView: mainView];
     
     
+    if (scale < 1)
+    {
+        scale = 1;
+    }
+    
     StackView * stack = [[StackView alloc] initWithViews:allNotes
                                              andMainView:(NoteView *)mainView
-                                               withFrame:stackFrame];
+                                               withFrame:stackFrame
+                                              andScaling:scale];
     stack.delegate = self;
     
     stack.ID = stackingID;
     StackView * stackRef = stack;
     self.stackViews[stackingID] = stackRef;
     
-    if (scale)
-    {
-        [stack scaleWithScaleOffset:scale animated:YES];
-    }
     stack.ID = stackingID;
     
     
@@ -1850,18 +1855,19 @@ withDestinationView:(UIView *) destinationView
     
     NSString * stackingID = ID;
     
+    if (scale < 1)
+    {
+        scale = 1;
+    }
     StackView * stack = [[StackView alloc] initWithViews:allNotes
                                              andMainView:(NoteView *)mainView
-                                               withFrame:stackFrame];
+                                               withFrame:stackFrame
+                                              andScaling:scale];
     stack.delegate = self;
     stack.ID = stackingID;
     StackView * stackRef = stack;
     self.stackViews[stackingID] = stackRef;
     
-    if (scale)
-    {
-        [stack scale:scale animated:NO];
-    }
     stack.ID = stackingID;
     
     [self addGestureRecognizersToStack:stack];

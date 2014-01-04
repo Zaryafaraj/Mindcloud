@@ -27,7 +27,8 @@
 
 -(id) initWithViews: (NSMutableArray *) views 
         andMainView: (NoteView *) mainView
-          withFrame: (CGRect) frame;
+          withFrame: (CGRect) frame
+         andScaling:(CGFloat) scaleOffset;
 
 -(void) setTopViewForNote:(NoteView *) newNote;
 

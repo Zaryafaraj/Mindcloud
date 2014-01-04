@@ -148,8 +148,8 @@
     animation.duration = duration;
     animation.timingFunction = [CAMediaTimingFunction functionWithName:timingFunction];
     CGPathRef toValue = CGPathCreateWithRect(bounds,&CGAffineTransformIdentity);
-    animation.fromValue = [UIBezierPath bezierPathWithCGPath:toValue];
-    animation.toValue = [UIBezierPath bezierPathWithCGPath:self.noteView.layer.shadowPath];
+    animation.fromValue = [UIBezierPath bezierPathWithCGPath:self.noteView.layer.shadowPath];
+    animation.toValue = [UIBezierPath bezierPathWithCGPath:toValue];
     
     self.noteView.layer.shadowPath = toValue;
     
