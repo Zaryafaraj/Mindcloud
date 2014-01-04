@@ -158,7 +158,11 @@
 }
 -(void) setSelectedInStack:(BOOL)selectedInStack
 {
-    _selectedInStack = selectedInStack;
+    if (selectedInStack == _selectedInStack)
+    {
+        return;
+    }
+    
     if (selectedInStack)
     {
         
@@ -170,6 +174,7 @@
         [NoteAnimator animateNoteDeselectedInStack:self];
 //        [NoteAnimator animateNoteUnhighlighted:self withDeleteButton:self.deleteButton];
     }
+    _selectedInStack = selectedInStack;
 }
     
 -(void) setHighlighted:(BOOL) highlighted

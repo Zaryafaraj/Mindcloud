@@ -90,10 +90,9 @@
     else if (sender.state == UIGestureRecognizerStateEnded){
         [UIView animateWithDuration:0.20
                          animations:^{
-                             ;
-//                             sender.view.center =
-//                             CGPointMake(self.lastFrame.origin.x + self.lastFrame.size.width / 2 ,
-//                                         self.lastFrame.origin.y + self.lastFrame.size.height/2);
+                             sender.view.center =
+                             CGPointMake(self.lastFrame.origin.x + self.lastFrame.size.width / 2 ,
+                                         self.lastFrame.origin.y + self.lastFrame.size.height/2);
                          }];
     }
 }
@@ -149,6 +148,7 @@
     //replace the current overla[[ing view so after a period of overlap_period we
     //reset the overlapping view to nil to allow it to be caught in
     //the  checkForOverlapWithView method
+    UIView * senderView = sender.view;
     UIView * overlappingView = [self checkForOverlapWithView:sender.view];
     if (overlappingView){
         self.lastOverlappedView = overlappingView;
@@ -200,7 +200,7 @@
 ////            newRect = CGRectMake(newRect.origin.x + self.stackView.frame.size.width, newRect.origin.y, newRect.size.width, newRect.size.height)  ;
 //        }
 //        else {
-//            newRect = CGRectMake(newRect.origin.x - self.stackView.frame.size.width, newRect.origin.y, newRect.size.width, newRect.size.height)  ;
+//            newRect = CGRectMake(0ewRect.origin.x - self.stackView.frame.size.width, newRect.origin.y, newRect.size.width, newRect.size.height)  ;
         }
     }
     sender.view.center = CGPointMake(sender.view.center.x + translation.x, sender.view.center.y + translation.y);
@@ -285,11 +285,16 @@
     
 }
 
-- (UIView *) checkForOverlapWithView: (UIView *) senderView{
-    for (UIView * view in self.notes){
+- (UIView *) checkForOverlapWithView: (NoteView *) senderView{
+    for (NoteView * view in self.notes){
         if (view != senderView && view != self.lastOverlappedView){
-            CGRect halfViewFrame = CGRectMake(view.frame.origin.x, view.frame.origin.y, view.frame.size.width/2, view.frame.size.height/2);
-            if (CGRectIntersectsRect(halfViewFrame,senderView.frame)){
+            UIView * enclosingView1 = [view getEnclosingNoteView];
+            UIView * enclosingView2 = [senderView getEnclosingNoteView];
+            
+            CGPoint senderCenter = [self.stackView convertPoint:enclosingView2.center fromView:enclosingView2];
+            CGRect otherViewRect = [self.stackView convertRect:enclosingView1.frame fromView:enclosingView1];
+            if (CGRectContainsPoint(otherViewRect, senderCenter))
+            {
                 return view;
             }
         }
