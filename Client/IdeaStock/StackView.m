@@ -141,6 +141,7 @@
 }
 
 //Stack view consists of a bigger transparetn view which includes at most the top 3 notes
+
 -(id) initWithViews: (NSMutableArray *) views
         andMainView: (NoteView *) mainView
           withFrame: (CGRect) frame
@@ -572,7 +573,7 @@
         {
             [view scaleWithScaleOffset:scaleOffset
                       fromOriginalSize:CGSizeMake(STACK_WIDTH, STACK_HEIGHT) animated:animated];
-            [view scaleWithScaleOffset:scaleOffset animated:animated];
+//            [view scaleWithScaleOffset:scaleOffset animated:animated];
             view.center = CGPointMake((self.bounds.origin.x + self.bounds.size.width) / 2,
             (self.bounds.origin.y + self.bounds.size.height) /2);
         }
@@ -600,7 +601,10 @@
     {
         if (view.superview == self)
         {
-            [view scale:scaleFactor animated:animated];
+            
+            [view scaleWithScaleOffset:self.scaleOffset
+                      fromOriginalSize:CGSizeMake(STACK_WIDTH, STACK_HEIGHT) animated:animated];
+            //[view scale:scaleFactor animated:animated];
             view.center = CGPointMake((self.bounds.origin.x + self.bounds.size.width) / 2,
             (self.bounds.origin.y + self.bounds.size.height) /2);
         }

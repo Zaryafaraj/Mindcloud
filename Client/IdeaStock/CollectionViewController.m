@@ -1081,9 +1081,11 @@
     }
     
     if ([self.intersectingViews count] > 1 ){
-        UIView * mainView = [self findMainViewForIntersectingViews: self.intersectingViews
+        UIView <BulletinBoardObject> * mainView = [self findMainViewForIntersectingViews: self.intersectingViews
                                                      withCandidate:view];
-        float scale = 1;
+        
+        CGFloat scale = mainView.scaleOffset;
+        
         [self createStackingWithItems:self.intersectingViews
                           andMainView:mainView
                   withDestinationView:view withScale:scale];
@@ -1761,12 +1763,12 @@
  If we drop another stack onto the other, the droped stack will stay on top
  If we drop a stack ontop of a note, the stack will stay on top
  */
--(UIView *) findMainViewForIntersectingViews:(NSArray *) views withCandidate:(UIView *) candidate
+-(UIView<BulletinBoardObject> *) findMainViewForIntersectingViews:(NSArray *) views withCandidate:(UIView *) candidate
 {
     //if candidate is image view thats the main view
     if ([candidate isKindOfClass:[ImageNoteView class]])
     {
-        return candidate;
+        return (ImageNoteView *) candidate;
     }
     
     //if we have any other image views thats the main view
@@ -1774,7 +1776,7 @@
     {
         if ([view isKindOfClass:[ImageNoteView class]])
         {
-            return view;
+            return (ImageNoteView *) view;
         }
     }
     
@@ -1783,7 +1785,7 @@
         return ((StackView *) candidate).mainView;
     }
     
-    return candidate;
+    return (UIView<BulletinBoardObject> *)candidate;
 }
 
 /*! creates an stacking with all the notes in the items.
@@ -1814,7 +1816,7 @@
     
     if (scale)
     {
-        [stack scale:scale animated:NO];
+        [stack scaleWithScaleOffset:scale animated:YES];
     }
     stack.ID = stackingID;
     

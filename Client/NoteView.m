@@ -62,12 +62,12 @@
         UIButton * delButton = [UIButton buttonWithType:UIButtonTypeSystem];
         _deleteButton = delButton;
         [_deleteButton addTarget:self
-                              action:@selector(deletePressed:)
-                    forControlEvents:UIControlEventTouchDown];
+                          action:@selector(deletePressed:)
+                forControlEvents:UIControlEventTouchDown];
         
         UIImage * btnImage = [[ThemeFactory currentTheme] imageForDeleteIcon];
         [_deleteButton setImage:btnImage
-                           forState:UIControlStateNormal];
+                       forState:UIControlStateNormal];
         [self addSubview:_deleteButton];
         _deleteButton.frame = CGRectMake(0,0 , 40, 40);
         _deleteButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
@@ -82,12 +82,12 @@
         UIButton * unstackBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         _unstackButton = unstackBtn;
         [_unstackButton addTarget:self
-                              action:@selector(unstackPressed:)
-                    forControlEvents:UIControlEventTouchDown];
+                           action:@selector(unstackPressed:)
+                 forControlEvents:UIControlEventTouchDown];
         
         UIImage * btnImage = [[ThemeFactory currentTheme] imageForUnstack];
         [_unstackButton setImage:btnImage
-                           forState:UIControlStateNormal];
+                        forState:UIControlStateNormal];
         [self addSubview:_unstackButton];
         _unstackButton.frame = CGRectMake(0,0 , 40, 40);
         _unstackButton.tintColor = [[ThemeFactory currentTheme] tintColorForIconsInStack];
@@ -221,7 +221,7 @@
     }
     _selectedInStack = selectedInStack;
 }
-    
+
 -(void) setHighlighted:(BOOL) highlighted
 {
     _highlighted = highlighted;
@@ -319,8 +319,14 @@
 
 -(BOOL) isScalingValid: (CGFloat) scaleFactor;
 {
-    if (self.scaleOffset * scaleFactor > 2 || self.scaleOffset * scaleFactor < 0.9) return NO;
-    else return YES;
+    if (self.scaleOffset * scaleFactor > 2 || self.scaleOffset * scaleFactor < 0.9)
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
 }
 
 -(void) scaleWithScaleOffset:(CGFloat) scaleOffset animated:(BOOL) animated
