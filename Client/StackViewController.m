@@ -30,7 +30,7 @@
 @property (atomic, assign) BOOL overlapAnimationInProgress;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 
-@property (weak,nonatomic) NSMutableArray * notes;
+@property (strong,nonatomic) NSMutableArray * notes;
 @end
 
 @implementation StackViewController
@@ -587,7 +587,7 @@
 
 -(void) note:(id)note changedTextTo:(NSString *)text{
     if (!self.highLightedNote){
-        [self.openStack setTopItemText:text];
+        [self.openStack setTopItem:note];
     }
     [self.delegate note:note changedTextTo:text];
 }

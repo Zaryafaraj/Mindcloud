@@ -19,7 +19,7 @@
 
 @interface StackView : UIView <BulletinBoardObject,UITextViewDelegate>
 
-@property (strong,nonatomic) NSMutableArray * views;
+@property (strong, atomic) NSMutableArray * views;
 
 @property (weak, nonatomic) id<StackActionDelegate> delegate;
 
@@ -44,6 +44,6 @@
 
 -(NSSet *) getAllNoteIds;
 
--(void) setTopItemText:(NSString *) text;
+-(void) setTopItem:(NoteView *) note;
 
 @end

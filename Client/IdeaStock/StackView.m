@@ -171,13 +171,25 @@
     return M_PI_4 * 1/8;
 }
 
--(void) setTopItemText:(NSString *) text
+-(void) setTopItem:(NoteView *) note
 {
     if (self.tempTopItems.count > 0)
     {
         NoteView * noteView = self.tempTopItems.lastObject;
-        noteView.text = text;
+        noteView.text = note.text;
     }
+    
+    //make sure we set the item we have just touch as the main view and
+    //toward the end of the array
+   int index = [self.views indexOfObject:note];
+    if (index >= 0)
+    {
+        NSMutableArray * newViews = [self.views mutableCopy];
+        [newViews removeObject:note];
+        [newViews addObject:note];
+        self.views = newViews;
+    }
+    
 }
 -(void) animateStackingOfTopItem:(NoteView *) note
 {
@@ -423,7 +435,8 @@
 {
     
     NSMutableArray * tempItems = [NSMutableArray arrayWithCapacity:MAX_VISIBLE_NOTES];
-    for (int i = self.views.count - 3; i < self.views.count; i++)
+    int count = self.views.count;
+    for (int i = self.views.count - 3; i < count; i++)
     {
         
         if (i >=0 )
