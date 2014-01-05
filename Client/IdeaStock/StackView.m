@@ -173,12 +173,12 @@
 
 -(void) setTopItem:(NoteView *) note
 {
-    if (self.tempTopItems.count > 0)
-    {
-        NoteView * noteView = self.tempTopItems.lastObject;
-        noteView.text = note.text;
-    }
-    
+    NoteView * prototype = [self prototypeNote:note];
+    NoteView * lastTemp = self.tempTopItems.lastObject;
+    [self.tempTopItems removeLastObject];
+    [self.tempTopItems addObject:prototype];
+    prototype.frame = lastTemp.frame;
+    [self addSubview:prototype];
     //make sure we set the item we have just touch as the main view and
     //toward the end of the array
    int index = [self.views indexOfObject:note];
@@ -444,24 +444,38 @@
             NoteView * note = self.views[i];
             //if its the top of the stack move it on top without rotation
             
+            NoteView * mockNote = [self prototypeNote:note];
             [note removeFromSuperview];
-            NoteView * mockNote = [note prototype];
-            mockNote.hidden = NO;
-            mockNote.text = note.text;
-            
-            mockNote.center = note.center;
-            mockNote.bounds = CGRectMake(0,
-                                         0,
-                                         note.bounds.size.width,
-                                         note.bounds.size.height);
-            
-            mockNote.transform = note.transform;
-            
             [self addSubview:mockNote];
             [tempItems addObject:mockNote];
         }
     }
     self.tempTopItems = tempItems;
+}
+
+-(NoteView *) prototypeNote:(NoteView *) note
+
+{
+    NoteView * mockNote = [note prototype];
+    mockNote.hidden = NO;
+    mockNote.text = note.text;
+    
+    mockNote.center = note.center;
+    mockNote.bounds = CGRectMake(0,
+                                 0,
+                                 note.bounds.size.width,
+                                 note.bounds.size.height);
+    
+    mockNote.transform = note.transform;
+    
+    if ([mockNote isKindOfClass:[ImageNoteView class]])
+    {
+        ImageNoteView * imgNoteView = (ImageNoteView *) mockNote;
+        imgNoteView.contentMode = UIViewContentModeScaleAspectFill;
+        imgNoteView.clipsToBounds = YES;
+        imgNoteView.hideControls = YES;
+    }
+    return mockNote;
 }
 
 -(void) cleanupNote:(NoteView *) noteView

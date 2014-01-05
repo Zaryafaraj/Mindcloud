@@ -510,6 +510,7 @@
     UIImageView * newImageView = [[UIImageView alloc] initWithFrame:self.imageView.frame];
     [prototype.noteView addSubview:newImageView];
     prototype.imageView = newImageView;
+    prototype.image = self.image;
     newImageView.backgroundColor = self.imageView.backgroundColor;
     newImageView.alpha = self.imageView.alpha;
     [prototype configureImageView];
