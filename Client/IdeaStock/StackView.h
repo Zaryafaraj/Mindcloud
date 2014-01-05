@@ -44,4 +44,6 @@
 
 -(NSSet *) getAllNoteIds;
 
+-(void) setTopItemText:(NSString *) text;
+
 @end

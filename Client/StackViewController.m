@@ -587,7 +587,7 @@
 
 -(void) note:(id)note changedTextTo:(NSString *)text{
     if (!self.highLightedNote){
-        [self.openStack setText: text];
+        [self.openStack setTopItemText:text];
     }
     [self.delegate note:note changedTextTo:text];
 }
