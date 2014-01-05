@@ -378,48 +378,28 @@
         //if its the top of the stack move it on top without rotation
         [note removeFromSuperview];
         
-        note.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
-        note.bounds = CGRectMake(0,
-                                 0,
-                                 self.bounds.size.width,
-                                 self.bounds.size.height);
+        CGRect aBound = CGRectMake(0,
+                                   0,
+                                   self.bounds.size.width - 2 * NOTE_OFFSET_FROM_STACKING,
+                                   self.bounds.size.height - 2 * NOTE_OFFSET_FROM_STACKING);
         
-        if (i == [self.views count] - 1)
-        {
-            [self addSubview:note];
-        }
+        note.bounds = aBound;
+        note.center = CGPointMake(self.frame.size.width/2,
+                                  self.frame.size.height/2);
         
-        else if ( i == [self.views count] - 2 || i == [self.views count] - 3)
+        [self addSubview:note];
+        
+        if (i == [self.views count] -2 )
         {
-            
-            //if we are laying this on top of something else make sure it actually appears on top
-            int index = [self.views indexOfObject:note];
-            
-            if (index < [self.views count] - 1)
-            {
-                [self insertSubview:note
-                       belowSubview:self.views[index+1]];
-            }
-            else
-            {
-                [self addSubview:note];
-            }
-            
             CGFloat totalRotation = [self rotationAngleForStacking];
-            
-            if (i == [self.views count] -2 )
-            {
-                note.transform = CGAffineTransformRotate(note.transform, -totalRotation);
-            }
-            else
-            {
-                
-                note.transform = CGAffineTransformRotate(note.transform, totalRotation);
-            }
+            note.transform = CGAffineTransformRotate(note.transform, -totalRotation);
         }
-        
-        //for the rest no extra operations are needed
-        else
+        if (i == [self.views count] - 3 )
+        {
+            CGFloat totalRotation = [self rotationAngleForStacking];
+            note.transform = CGAffineTransformRotate(note.transform, totalRotation);
+        }
+        else if ( i < self.views.count - 3)
         {
             [note resetSize];
         }
@@ -435,63 +415,21 @@
         NoteView * note = self.views[i];
         //if its the top of the stack move it on top without rotation
         
-        if (i == [self.views count] - 1)
-        {
-            //remove the original one from superview
-            [note removeFromSuperview];
-            NoteView * mockNote = [note prototype];
-            mockNote.hidden = NO;
-            mockNote.text = note.text;
-            
-            mockNote.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
-            mockNote.bounds = CGRectMake(0,
-                                         0,
-                                         self.bounds.size.width,
-                                         self.bounds.size.height);
-            [self addSubview:mockNote];
-            [tempItems addObject:mockNote];
-        }
+        [note removeFromSuperview];
+        NoteView * mockNote = [note prototype];
+        mockNote.hidden = NO;
+        mockNote.text = note.text;
         
-        else if ( i == [self.views count] - 2 ||
-                  i == [self.views count] - 3)
-        {
-            
-            [note removeFromSuperview];
-            
-            NoteView * mockNote = [note prototype];
-            mockNote.text = note.text;
-            
-            mockNote.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
-            mockNote.bounds = CGRectMake(0,
+        mockNote.center = note.center;
+        mockNote.bounds = CGRectMake(0,
                                      0,
-                                     self.bounds.size.width,
-                                     self.bounds.size.height);
-            
-            int index = [self.views indexOfObject:note];
-            
-            if (index < [self.views count] - 1)
-            {
-                [self insertSubview:mockNote
-                       belowSubview:self.views[index+1]];
-            }
-            else
-            {
-                [self addSubview:mockNote];
-            }
-            
-            CGFloat totalRotation = [self rotationAngleForStacking];
-            
-            if (i == [self.views count] -2 )
-            {
-                mockNote.transform = CGAffineTransformRotate(note.transform, -totalRotation);
-            }
-            else
-            {
-                
-                mockNote.transform = CGAffineTransformRotate(note.transform, totalRotation);
-            }
-            [tempItems addObject:mockNote];
-        }
+                                     note.bounds.size.width,
+                                     note.bounds.size.height);
+        
+        mockNote.transform = note.transform;
+        
+        [self addSubview:mockNote];
+        [tempItems addObject:mockNote];
     }
     self.tempTopItems = tempItems;
 }

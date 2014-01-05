@@ -465,6 +465,9 @@
         [textView.text isEqualToString:smallerPlaceholder]){
         textView.text = @"";
     }
+    
+    //in case we are in a modal view and becoming first resoponder is deactivated
+    [textView becomeFirstResponder];
     self.delegate.activeView = self;
 }
 

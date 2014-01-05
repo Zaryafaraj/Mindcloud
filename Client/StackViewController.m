@@ -315,6 +315,7 @@
 }
 -(void) resetEditingMode
 {
+    
     //tap is used for cancelation of the typing or pressing
     if (self.isInEditMode){
         self.isInEditMode = NO;
@@ -447,7 +448,9 @@
     recognizer.delegate = self;
     
     [recognizer setNumberOfTapsRequired:1];
-    recognizer.cancelsTouchesInView = NO; //So the user can still interact with controls in the modal view
+    recognizer.delaysTouchesBegan = YES;
+    recognizer.delaysTouchesEnded = YES;
+//    recognizer.cancelsTouchesInView = NO; //So the user can still interact with controls in the modal view
     [self.view.window addGestureRecognizer:recognizer];
 }
 
@@ -464,11 +467,23 @@
             // Remove the recognizer first so it's view.window is valid.
             [self.view.window removeGestureRecognizer:sender];
             [self exitStack];
+            return;
         }
-        else
+        
+        for(NoteView * note in self.notes)
         {
-            [self resetEditingMode];
+            UIView * view = [note getEnclosingNoteView];
+            if ([view pointInside:[view convertPoint:location fromView:self.view.window] withEvent:nil])
+            {
+                
+                //the point is inside a note view should reset anything
+                return;
+            }
         }
+        
+        //the touch location was not inside a note or wasn't outside stack
+        //so it means its between notes and means reset editing
+        [self resetEditingMode];
     }
 }
 
@@ -584,8 +599,10 @@
     {
         return YES;
     }
+    
     return NO;
 }
+
 
 #pragma mark - UIScrollView Delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
