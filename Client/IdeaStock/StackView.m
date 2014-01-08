@@ -431,6 +431,11 @@
     }
 }
 
+-(NSArray *) getAllNotes
+{
+    return self.views;
+}
+
 -(void) stackWillOpen
 {
     

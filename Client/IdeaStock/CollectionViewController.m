@@ -2255,6 +2255,12 @@ intoStackingWithMainView: (UIView *) mainView
 
 -(void) stack:(StackView *)stack IsEmptyForViewController:(StackViewController *)sender
 {
+    //get the remaining note
+    NSArray * remainingNotes = [stack getAllNotes];
+    for(NoteView * note in remainingNotes)
+    {
+        [self unstackItem:note fromView:stack withPastCount:0];
+    }
     [self deleteStack:stack];
     [self dismissViewControllerAnimated:YES completion:^{}];
 }

@@ -31,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 
 @property (strong,nonatomic) NSMutableArray * notes;
+@property (strong, nonatomic) UITapGestureRecognizer * windowTapGr;
 @end
 
 @implementation StackViewController
@@ -452,6 +453,7 @@
     recognizer.delaysTouchesEnded = YES;
 //    recognizer.cancelsTouchesInView = NO; //So the user can still interact with controls in the modal view
     [self.view.window addGestureRecognizer:recognizer];
+    self.windowTapGr = recognizer;
 }
 
 - (void)handleTapBehind:(UITapGestureRecognizer *)sender
@@ -467,6 +469,7 @@
             // Remove the recognizer first so it's view.window is valid.
             [self.view.window removeGestureRecognizer:sender];
             [self exitStack];
+            self.windowTapGr = nil;
             return;
         }
         
@@ -489,6 +492,11 @@
 
 -(void) viewWillDisappear:(BOOL)animated
 {
+    if (self.windowTapGr)
+    {
+        [self.view.window removeGestureRecognizer:self.windowTapGr];
+        self.windowTapGr = nil;
+    }
     if (self.overlapTimer)
     {
         [self.overlapTimer invalidate];
@@ -545,7 +553,7 @@
         self.editing = NO;
         self.highLightedNote = nil;
         [self layoutNotes: YES];
-        if ([self.notes count] == 0)
+        if ([self.notes count] == 1)
         {
             [self.delegate stack:self.openStack IsEmptyForViewController:self];
         }
@@ -567,7 +575,7 @@
     [UIView animateWithDuration:0.5 animations:^{self.highLightedNote.alpha = 0;} completion:^(BOOL finished){
     }];
     
-    if ([self.notes count] == 0)
+    if ([self.notes count] == 1)
     {
         [self.delegate stack:self.openStack IsEmptyForViewController:self];
     }

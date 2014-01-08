@@ -44,6 +44,8 @@
 
 -(NSSet *) getAllNoteIds;
 
+-(NSArray *) getAllNotes;
+
 -(void) setTopItem:(NoteView *) note;
 
 @end
