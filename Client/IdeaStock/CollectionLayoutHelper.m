@@ -413,7 +413,6 @@ withMoveNoteFunction:(update_note_location_function) updateNote
     [noteItem resetSize];
     float offsetX = SEPERATOR_RATIO * noteItem.frame.size.width;
     float offsetY = SEPERATOR_RATIO * noteItem.frame.size.height;
-    noteItem.frame = stack.frame;
     [collectionView addSubview:noteItem];
     CGRect finalRect = CGRectMake(stack.frame.origin.x + (count * offsetX),
                                   stack.frame.origin.y + (count * offsetY),

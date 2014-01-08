@@ -2192,6 +2192,19 @@ intoStackingWithMainView: (UIView *) mainView
             [noteItem removeGestureRecognizer:gr];
         }
         
+        if ([item isKindOfClass:[ImageNoteView class]])
+        {
+            
+            ImageNoteView * imgNoteView = (ImageNoteView *) item;
+            imgNoteView.contentMode = UIViewContentModeScaleToFill;
+            imgNoteView.clipsToBounds = NO;
+            imgNoteView.hideControls = NO;
+            [imgNoteView resetSize];
+        }
+        
+        item.userInteractionEnabled = YES;
+        item._textView.editable = YES;
+        
         [self addGestureRecognizersToNote:noteItem];
         
         noteItem.delegate = self;
