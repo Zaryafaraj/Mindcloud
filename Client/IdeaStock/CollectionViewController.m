@@ -2341,7 +2341,11 @@ intoStackingWithMainView: (UIView *) mainView
         
         [self deleteNote:(NoteView *) self.highlightedView];
     }
-    
+}
+
+-(void) unstackPressed:(id)note
+{
+    // do nothing
 }
 
 #pragma mark - action sheet delegate

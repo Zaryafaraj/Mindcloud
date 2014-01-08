@@ -534,8 +534,6 @@
 
 -(void)deletePressed:(id)sender
 {
-    
-    
     [self.delegate stackViewDeletedNote:self.highLightedNote];
     [UIView animateWithDuration:0.5 animations:^{
         self.highLightedNote.transform = CGAffineTransformScale(self.highLightedNote.transform, 0.05, 0.05);
@@ -552,10 +550,9 @@
             [self.delegate stack:self.openStack IsEmptyForViewController:self];
         }
     }];
-    
 }
 
--(IBAction)unstackPressed:(id)sender {
+-(void)unstackPressed:(id)sender {
     
     [self.notes removeObject:self.highLightedNote];
     self.highLightedNote.selectedInStack = NO;

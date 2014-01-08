@@ -15,4 +15,6 @@
 
 -(void) deletePressed:(id) note;
 
+-(void) unstackPressed:(id) note;
+
 @end

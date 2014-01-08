@@ -383,8 +383,13 @@
 
 -(void) unstackPressed:(id)sender
 {
-    
+    id<NoteViewDelegate> temp = self.delegate;
+    if (temp)
+    {
+        [temp unstackPressed:self];
+    }
 }
+
 -(void) deletePressed:(id)sender
 {
     id<NoteViewDelegate> temp = self.delegate;
