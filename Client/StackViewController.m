@@ -562,7 +562,6 @@
 
 -(void)unstackPressed:(id)sender {
     
-    [self.notes removeObject:self.highLightedNote];
     self.highLightedNote.selectedInStack = NO;
     [self.highLightedNote removeFromSuperview];
     self.unstackCounter++;
@@ -580,6 +579,7 @@
         [self.delegate stack:self.openStack IsEmptyForViewController:self];
     }
     
+    [self.notes removeObject:self.highLightedNote];
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
