@@ -558,6 +558,12 @@
             [self.delegate stack:self.openStack IsEmptyForViewController:self];
         }
     }];
+    
+    //because the delete animation takes a while to finish and then
+    //removes it self from self.notes
+    //we deduct two from all notes to account for it sooner
+    int pageNo = (self.notes.count - 2)/ (COL_COUNT * ROW_COUNT);
+    [self adjustPagesForTotalPage:pageNo];
 }
 
 -(void)unstackPressed:(id)sender {
@@ -579,7 +585,32 @@
         [self.delegate stack:self.openStack IsEmptyForViewController:self];
     }
     
+    
     [self.notes removeObject:self.highLightedNote];
+    int pageNo = (self.notes.count - 1)/ (COL_COUNT * ROW_COUNT);
+    [self adjustPagesForTotalPage:pageNo];
+    
+}
+
+-(void) adjustPagesForTotalPage:(int) pageNo
+{
+    if (pageNo != self.pageControl.numberOfPages - 1)
+    {
+        if (self.pageControl.currentPage > pageNo)
+        {
+//            CGPoint newContentOffset = CGPointMake(self.stackView.contentOffset.x - self.stackView.bounds.size.width, self.stackView.contentOffset.y);
+        }
+        
+        self.pageControl.numberOfPages = pageNo + 1;
+        NSLog(@"%@", NSStringFromCGSize(self.stackView.contentSize));
+        CGSize newContentSize = CGSizeMake(self.stackView.contentSize.width - self.stackView.bounds.size.width, self.stackView.contentSize.height);
+        
+        NSLog(@"%@", NSStringFromCGSize(newContentSize));
+        NSLog(@"ss %@", NSStringFromCGPoint(self.stackView.contentOffset));
+        [self.stackView setContentSize:newContentSize];
+        
+        NSLog(@"xss %@", NSStringFromCGPoint(self.stackView.contentOffset));
+    }
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
