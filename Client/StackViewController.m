@@ -602,14 +602,9 @@
         }
         
         self.pageControl.numberOfPages = pageNo + 1;
-        NSLog(@"%@", NSStringFromCGSize(self.stackView.contentSize));
         CGSize newContentSize = CGSizeMake(self.stackView.contentSize.width - self.stackView.bounds.size.width, self.stackView.contentSize.height);
         
-        NSLog(@"%@", NSStringFromCGSize(newContentSize));
-        NSLog(@"ss %@", NSStringFromCGPoint(self.stackView.contentOffset));
         [self.stackView setContentSize:newContentSize];
-        
-        NSLog(@"xss %@", NSStringFromCGPoint(self.stackView.contentOffset));
     }
 }
 
