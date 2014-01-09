@@ -525,9 +525,9 @@
         if (self.views.count > 0 &&
             indexOfView == self.views.count - 1)
         {
-            [self bringOneBelowUp];
-            [self bringTwoBelowUp];
-            [self bringNoteIntoEndOfTempViews];
+            [self bringOneBelowUp:YES];
+            [self bringTwoBelowUp:NO];
+            [self bringNoteIntoEndOfTempViews:NO];
         }
         
         //if we are one below
@@ -536,9 +536,8 @@
         if (self.views.count > 1 &&
             indexOfView == self.views.count - 2)
         {
-            
-            [self bringTwoBelowUp];
-            [self bringNoteIntoEndOfTempViews];
+            [self bringTwoBelowUp:YES];
+            [self bringNoteIntoEndOfTempViews:NO];
         }
         
         //if we are the two below
@@ -546,14 +545,14 @@
         if (self.views.count > 2 &&
             indexOfView == self.views.count -3)
         {
-            [self bringNoteIntoEndOfTempViews];
+            [self bringNoteIntoEndOfTempViews:YES];
         }
         [self.views removeObject:note];
     }
     
 }
 
--(void) bringOneBelowUp
+-(void) bringOneBelowUp:(BOOL) removeFromSuperView
 {
     if (self.tempTopItems.count > 1)
     {
@@ -562,11 +561,14 @@
         self.tempTopItems[self.tempTopItems.count -1] = oneBelow;
         oneBelow.center = topItem.center;
         oneBelow.transform = CGAffineTransformIdentity;
-        [topItem removeFromSuperview];
+        if (removeFromSuperView)
+        {
+            [topItem removeFromSuperview];
+        }
     }
 }
 
--(void) bringTwoBelowUp
+-(void) bringTwoBelowUp:(BOOL) removeFromSuperView
 {
     
     if (self.tempTopItems.count > 2)
@@ -579,23 +581,36 @@
         thirdBelow.transform = CGAffineTransformIdentity;
         CGFloat totalRotation = [self rotationAngleForStacking];
         thirdBelow.transform = CGAffineTransformRotate(thirdBelow.transform, +totalRotation);
+        if (removeFromSuperView)
+        {
+            [twoBelow removeFromSuperview];
+        }
     }
 }
 
--(void) bringNoteIntoEndOfTempViews
+-(void) bringNoteIntoEndOfTempViews:(BOOL) removeFromSuperView
 {
     if (self.views.count > 3 && self.tempTopItems.count > 2)
     {
-        NoteView * newCandidate = self.views[self.views.count - 3];
+        NoteView * newCandidate = self.views[self.views.count - 4];
         NoteView * prototype = [self prototypeNote:newCandidate];
         NoteView * thirdBelow = self.tempTopItems[self.tempTopItems.count - 3];
-        self.tempTopItems[self.tempTopItems.count -3] = prototype;
         
-        prototype.frame = thirdBelow.frame;
-        prototype.transform = thirdBelow.transform;
+        self.tempTopItems[self.tempTopItems.count -3] = prototype;
+//        NSLog(@"ThirdBelow %@", thirdBelow);
+//        NSLog(@"Prototype %@", prototype);
+        
+        prototype.center = thirdBelow.center;
+        prototype.bounds = thirdBelow.bounds;
+        prototype.transform = CGAffineTransformIdentity;
         CGFloat totalRotation = [self rotationAngleForStacking];
         prototype.transform = CGAffineTransformRotate(prototype.transform, -totalRotation);
-        [self addSubview:prototype];
+        NoteView * secondBelow = self.tempTopItems[self.tempTopItems.count -2];
+        [self insertSubview:prototype belowSubview:secondBelow];
+        if (removeFromSuperView)
+        {
+            [thirdBelow removeFromSuperview];
+        }
     }
 }
 
