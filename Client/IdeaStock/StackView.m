@@ -174,6 +174,9 @@
 -(void) setTopItem:(NoteView *) note
 {
     NoteView * prototype = [self prototypeNote:note];
+    //to be able to detect the top item later we assing the temp view
+    //the same id
+    prototype.ID = note.ID;
     NoteView * lastTemp = self.tempTopItems.lastObject;
     [self.tempTopItems removeLastObject];
     [self.tempTopItems addObject:prototype];
@@ -189,8 +192,8 @@
         [newViews addObject:note];
         self.views = newViews;
     }
-    
 }
+
 -(void) animateStackingOfTopItem:(NoteView *) note
 {
     
@@ -510,10 +513,89 @@
 #pragma mark - deletion
 -(void) removeNoteView:(NoteView *)note
 {
+    
     if ([self.views containsObject:note])
     {
-        [self.views removeObject:note];
+        int indexOfView = [self.views indexOfObject:note];
+        
         [note removeFromSuperview];
+        //if we are top of the stack
+        //rotate the one below to the position of the top
+        //and bring back a note to the third place
+        if (self.views.count > 0 &&
+            indexOfView == self.views.count - 1)
+        {
+            [self bringOneBelowUp];
+            [self bringTwoBelowUp];
+            [self bringNoteIntoEndOfTempViews];
+        }
+        
+        //if we are one below
+        //rotate the third below to the position of one below
+        //and bring back a note to the third place
+        if (self.views.count > 1 &&
+            indexOfView == self.views.count - 2)
+        {
+            
+            [self bringTwoBelowUp];
+            [self bringNoteIntoEndOfTempViews];
+        }
+        
+        //if we are the two below
+        //bring back a note to the third place
+        if (self.views.count > 2 &&
+            indexOfView == self.views.count -3)
+        {
+            [self bringNoteIntoEndOfTempViews];
+        }
+        [self.views removeObject:note];
+    }
+    
+}
+
+-(void) bringOneBelowUp
+{
+    if (self.tempTopItems.count > 1)
+    {
+        NoteView * topItem = self.tempTopItems[self.tempTopItems.count -1];
+        NoteView * oneBelow = self.tempTopItems[self.tempTopItems.count -2];
+        self.tempTopItems[self.tempTopItems.count -1] = oneBelow;
+        oneBelow.center = topItem.center;
+        oneBelow.transform = CGAffineTransformIdentity;
+        [topItem removeFromSuperview];
+    }
+}
+
+-(void) bringTwoBelowUp
+{
+    
+    if (self.tempTopItems.count > 2)
+    {
+        
+        NoteView * twoBelow = self.tempTopItems[self.tempTopItems.count -2];
+        NoteView * thirdBelow = self.tempTopItems[self.tempTopItems.count -3];
+        self.tempTopItems[self.tempTopItems.count -2] = thirdBelow;
+        thirdBelow.center = twoBelow.center;
+        thirdBelow.transform = CGAffineTransformIdentity;
+        CGFloat totalRotation = [self rotationAngleForStacking];
+        thirdBelow.transform = CGAffineTransformRotate(thirdBelow.transform, +totalRotation);
+    }
+}
+
+-(void) bringNoteIntoEndOfTempViews
+{
+    if (self.views.count > 3 && self.tempTopItems.count > 2)
+    {
+        NoteView * newCandidate = self.views[self.views.count - 3];
+        NoteView * prototype = [self prototypeNote:newCandidate];
+        NoteView * thirdBelow = self.tempTopItems[self.tempTopItems.count - 3];
+        self.tempTopItems[self.tempTopItems.count -3] = prototype;
+        
+        prototype.frame = thirdBelow.frame;
+        prototype.transform = thirdBelow.transform;
+        CGFloat totalRotation = [self rotationAngleForStacking];
+        prototype.transform = CGAffineTransformRotate(prototype.transform, -totalRotation);
+        [self addSubview:prototype];
     }
 }
 
