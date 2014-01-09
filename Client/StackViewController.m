@@ -615,6 +615,6 @@
     CGFloat pageWidth = self.stackView.frame.size.width;
     float fractionalPage = self.stackView.contentOffset.x / pageWidth;
     NSInteger page = lround(fractionalPage);
-    self.pageControl.currentPage = page; 
+    self.pageControl.currentPage = page;
 }
 @end
