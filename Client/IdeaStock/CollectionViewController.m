@@ -2054,6 +2054,7 @@ intoStackingWithMainView: (UIView *) mainView
 -(void) addGestureRecognizersToNote:(NoteView *)note
 {
     UIPanGestureRecognizer * gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(objectPanned:)];
+    NSArray * noteGestures = note._textView.gestureRecognizers;
     UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
     UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
     lpgr.minimumPressDuration = MINIMUM_OBJECT_PRESS_DURATION;
@@ -2838,6 +2839,12 @@ intoStackingWithMainView: (UIView *) mainView
 #pragma mark UIGestureRecognizerDelegate
 -(BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
+    
+    if ([otherGestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]] ||
+        [gestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]])
+    {
+        return NO;
+    }
     if (gestureRecognizer.view == otherGestureRecognizer.view)
     {
         if ([gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]])
