@@ -378,6 +378,7 @@
     for (NoteView * view in self.tempTopItems)
     {
         
+        view.backgroundColor = [UIColor redColor];
         [view removeFromSuperview];
     }
     

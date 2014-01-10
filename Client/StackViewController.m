@@ -537,6 +537,7 @@
 {
     if ( self.highLightedNote) self.highLightedNote.selectedInStack = NO;
     [self.delegate returnedstackViewController:self];
+    [self resetEditingMode];
     [self.openStack stackWillClose];;
 }
 
