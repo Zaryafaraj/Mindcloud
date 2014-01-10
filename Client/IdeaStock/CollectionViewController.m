@@ -1108,6 +1108,7 @@
 }
 
 -(void) stackTapped: (UIPanGestureRecognizer *) sender{
+    [self exitEditMode];
     StackViewController * stackViewer = [self.storyboard instantiateViewControllerWithIdentifier:@"StackView"];
     stackViewer.delegate = self;
     stackViewer.openStack = (StackView *) sender.view;
@@ -2573,6 +2574,11 @@ intoStackingWithMainView: (UIView *) mainView
 }
 
 -(BOOL) screenTapped
+{
+    return [self exitEditMode];
+}
+
+-(BOOL) exitEditMode
 {
     BOOL didCancelItem = NO;
     if (self.editMode)

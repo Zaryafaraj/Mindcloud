@@ -181,6 +181,8 @@
     [self.tempTopItems removeLastObject];
     [self.tempTopItems addObject:prototype];
     prototype.frame = lastTemp.frame;
+    prototype.transform = lastTemp.transform;
+    [lastTemp removeFromSuperview];
     [self addSubview:prototype];
     //make sure we set the item we have just touch as the main view and
     //toward the end of the array
