@@ -33,7 +33,7 @@
 +(void) animateStackViewRemoval:(StackView *) stack
 {
     [UIView animateWithDuration:0.25
-                     animations:^{ stack.alpha = 0 ;}
+                     animations:^{ stack.alpha = 0.5 ;}
                      completion:^(BOOL finished){[stack removeFromSuperview];}];
 }
 
@@ -42,7 +42,7 @@
 {
     CGPoint newCenter = CGPointMake(noteRect.origin.x + noteRect.size.width / 2,
                                     noteRect.origin.y + noteRect.size.height / 2);
-    [UIView animateWithDuration:0.5 animations:^{note.center = newCenter;}];
+    [UIView animateWithDuration:0.6 animations:^{note.center = newCenter;}];
 }
 
 +(void) animateMoveNote:(UIView *) view
@@ -78,6 +78,8 @@ backIntoScreenBoundsInRect:(CGRect) frame
     withFinishCallback:(animate_unstack_finished) callback
 {
     
+    noteView.center = stack.center;
+    [collectionView addSubview:noteView];
         [UIView animateWithDuration:0.5 animations:^{ noteView.alpha = 1;} completion:^(BOOL isFinished){
             [UIView animateWithDuration:1 animations:^
             {

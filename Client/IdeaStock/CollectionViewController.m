@@ -706,7 +706,9 @@
     NSArray * items = stack.views;
     [self removeNotesFromStackView:stack];
     [CollectionAnimationHelper animateStackViewRemoval:stack];
-    [CollectionLayoutHelper expandNotes:items inRect:rect withMoveNoteFunction:^(NoteView * noteView){
+    [CollectionLayoutHelper expandNotes:items
+                                 inRect:rect
+                   withMoveNoteFunction:^(NoteView * noteView){
         [self updateNoteLocation:noteView];
     }];
 }
@@ -2055,7 +2057,6 @@ intoStackingWithMainView: (UIView *) mainView
 -(void) addGestureRecognizersToNote:(NoteView *)note
 {
     UIPanGestureRecognizer * gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(objectPanned:)];
-    NSArray * noteGestures = note._textView.gestureRecognizers;
     UIPinchGestureRecognizer * pgr = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(objectPinched:)];
     UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(objectPressed:)];
     lpgr.minimumPressDuration = MINIMUM_OBJECT_PRESS_DURATION;
@@ -2215,6 +2216,8 @@ intoStackingWithMainView: (UIView *) mainView
                           InCollectionView:self.collectionView
                           withCountInStack:count
                                andCallback:^(void){
+                                   
+                                   
                                    NSString * stackName =((StackView*) stackView).ID;
                                    [self.board removeNote:noteItem.ID fromStacking:stackName];
                                    float noteXCenter = noteItem.center.x;
@@ -2901,6 +2904,7 @@ intoStackingWithMainView: (UIView *) mainView
         //move stuff that is in the rectangle out of it
         [CollectionLayoutHelper clearRectangle: fittingRect
                               inCollectionView:self.collectionView
+                                  forStackView:(StackView *) self.highlightedView
                           withMoveNoteFunction:^(NoteView * note){
                               [self updateScalingAndPositionAccordingToNoteView:note];
                           }];

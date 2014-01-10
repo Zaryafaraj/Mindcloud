@@ -41,6 +41,7 @@
 
 +(void) clearRectangle:(CGRect) rect
       inCollectionView:(UIView *)collectionView
+          forStackView:(StackView *) stackView
   withMoveNoteFunction:(update_note_location_function) updateNote;
 
 +(void) expandNotes:(NSArray *) items

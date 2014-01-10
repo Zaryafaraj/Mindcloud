@@ -588,8 +588,11 @@
     
     
     [self.notes removeObject:self.highLightedNote];
-    int pageNo = (self.notes.count - 1)/ (COL_COUNT * ROW_COUNT);
-    [self adjustPagesForTotalPage:pageNo];
+    if (self.notes.count)
+    {
+        int pageNo = (self.notes.count - 1)/ (COL_COUNT * ROW_COUNT);
+        [self adjustPagesForTotalPage:pageNo];
+    }
     
 }
 
@@ -602,6 +605,7 @@
 //            CGPoint newContentOffset = CGPointMake(self.stackView.contentOffset.x - self.stackView.bounds.size.width, self.stackView.contentOffset.y);
         }
         
+        NSLog(@"pageNo = %d", pageNo);
         self.pageControl.numberOfPages = pageNo + 1;
         CGSize newContentSize = CGSizeMake(self.stackView.contentSize.width - self.stackView.bounds.size.width, self.stackView.contentSize.height);
         

@@ -152,9 +152,13 @@
 
 +(void) clearRectangle:(CGRect) rect
       inCollectionView:(UIView *)collectionView
+          forStackView:(StackView *) stackView
   withMoveNoteFunction:(update_note_location_function) updateNote
 {
     for (UIView * subView in collectionView.subviews){
+        
+        if (subView == stackView) continue;
+        
         if ([subView conformsToProtocol:@protocol(BulletinBoardObject)]){
             CGRect viewBounds = CGRectMake(subView.center.x - subView.bounds.size.width/2,
                                            subView.center.y - subView.bounds.size.height/2,
@@ -411,9 +415,8 @@ withMoveNoteFunction:(update_note_location_function) updateNote
 {
     
     [noteItem resetSize];
-    float offsetX = SEPERATOR_RATIO * noteItem.frame.size.width;
-    float offsetY = SEPERATOR_RATIO * noteItem.frame.size.height;
-    [collectionView addSubview:noteItem];
+    float offsetX = SEPERATOR_RATIO * noteItem.bounds.size.width;
+    float offsetY = SEPERATOR_RATIO * noteItem.bounds.size.height;
     CGRect finalRect = CGRectMake(stack.frame.origin.x + (count * offsetX),
                                   stack.frame.origin.y + (count * offsetY),
                                   noteItem.frame.size.width,
