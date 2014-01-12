@@ -412,7 +412,7 @@
                                 </connections>
                             </collectionView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Collections" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qf1-Fk-LOz">
-                                <rect key="frame" x="50" y="95" width="217" height="43"/>
+                                <rect key="frame" x="50" y="94" width="217" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="36"/>
                                 <color key="textColor" red="0.2531437873840332" green="0.25313621759414673" blue="0.25314050912857056" alpha="1" colorSpace="calibratedRGB"/>
@@ -485,14 +485,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="aHI-ji-Rbg" firstAttribute="top" secondItem="4g8-pq-foJ" secondAttribute="bottom" id="1GQ-qR-dus"/>
-                            <constraint firstItem="Qf1-Fk-LOz" firstAttribute="top" secondItem="eaJ-JW-xx3" secondAttribute="bottom" constant="31" id="218-GA-aIW"/>
+                            <constraint firstItem="Qf1-Fk-LOz" firstAttribute="top" secondItem="eaJ-JW-xx3" secondAttribute="bottom" constant="30" id="218-GA-aIW"/>
                             <constraint firstItem="BzD-cR-F4A" firstAttribute="trailing" secondItem="1Wk-zS-ESI" secondAttribute="trailing" id="2lT-e0-T7w"/>
-                            <constraint firstAttribute="bottom" secondItem="BzD-cR-F4A" secondAttribute="bottom" id="7N5-FA-Zkg"/>
+                            <constraint firstItem="aHI-ji-Rbg" firstAttribute="top" secondItem="BzD-cR-F4A" secondAttribute="bottom" id="3kg-Nh-3oM"/>
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="leading" secondItem="BzD-cR-F4A" secondAttribute="leading" id="FBr-fc-LG5"/>
+                            <constraint firstItem="BzD-cR-F4A" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" id="MGn-yq-ljB"/>
                             <constraint firstAttribute="trailing" secondItem="1Wk-zS-ESI" secondAttribute="trailing" id="Svh-Z4-EYm"/>
                             <constraint firstItem="BzD-cR-F4A" firstAttribute="top" secondItem="1Wk-zS-ESI" secondAttribute="top" constant="-740" id="TsX-Fz-GZX"/>
                             <constraint firstAttribute="trailing" secondItem="4g8-pq-foJ" secondAttribute="trailing" id="ZDd-U4-IkZ"/>
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" id="fsr-Y1-5xv"/>
+                            <constraint firstItem="BzD-cR-F4A" firstAttribute="top" secondItem="Qf1-Fk-LOz" secondAttribute="bottom" constant="50" id="lXf-4E-WTv"/>
                             <constraint firstItem="Qf1-Fk-LOz" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" constant="50" id="nk3-m2-oSb"/>
                             <constraint firstItem="4g8-pq-foJ" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" id="pH4-6r-S5X"/>
                             <constraint firstItem="4g8-pq-foJ" firstAttribute="top" secondItem="Jx3-sE-JAL" secondAttribute="top" id="rSf-aI-7tL"/>
