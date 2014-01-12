@@ -16,14 +16,6 @@
 
 -(UIColor *) collectionBackgroundColor;
 
--(UIColor *) backgroundColorForAllCollectionCategory;
-
--(UIColor *) backgroundColorForUncategorizedCategory;
-
--(UIColor *) backgroundColorForSharedCategory;
-
--(UIColor *) backgroundColorForCustomCategory;
-
 -(UIColor *) defaultColorForDrawing;
 
 -(UIColor *) noisePatternForCollection;

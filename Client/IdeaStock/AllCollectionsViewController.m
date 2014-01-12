@@ -18,7 +18,6 @@
 #import "NamingHelper.h"
 #import "AllCollectionsNavigationControllerViewController.h"
 #import "ThemeFactory.h"
-#import "AllCollectionsAnimationHelper.h"
 #import "MindcloudAuthenticator.h"
 #import "EventTypes.h"
 #import "IntroScreenViewController.h"
@@ -54,7 +53,6 @@
 @property BOOL isInSharingMode;
 
 @property (nonatomic, assign) BOOL isNewCollection;
-@property (strong, nonatomic) AllCollectionsAnimationHelper * animatinHelper;
 
 @property MindcloudAllCollections * model;
 
@@ -98,24 +96,7 @@
 -(void) setCurrentCategory:(NSString *)currentCategory
 {
     _currentCategory = currentCategory;
-    UIColor * aColor = [[ThemeFactory currentTheme] backgroundColorForCustomCategory];
     
-    if ([self.pageTitle.text isEqualToString:ALL])
-    {
-        aColor = [[ThemeFactory currentTheme] backgroundColorForAllCollectionCategory];
-    }
-    
-    else if ([self.pageTitle.text isEqualToString:SHARED_COLLECTIONS_KEY])
-    {
-        aColor = [[ThemeFactory currentTheme] backgroundColorForSharedCategory];
-    }
-    else if ([self.pageTitle.text isEqualToString:UNCATEGORIZED_KEY])
-    {
-        
-        aColor = [[ThemeFactory currentTheme] backgroundColorForUncategorizedCategory];
-    }
-    
-    [self.animatinHelper animateSwitchCategory:aColor withCategoryTitleView: self.pageTitle];
     self.pageTitle.text = _currentCategory;
 }
 
@@ -596,11 +577,8 @@
     self.isEditing = NO;
     self.isInSharingMode = NO;
     self.toolbar.hidden = YES;
-    self.animatinHelper = [[AllCollectionsAnimationHelper alloc] init];
     
-    UIColor * aColor = [[ThemeFactory currentTheme] backgroundColorForAllCollectionCategory];
-    self.pageTitle.superview.backgroundColor = aColor;
-    
+    self.view.backgroundColor = [[ThemeFactory currentTheme] noisePatternForCollection];
     [self configureCategoriesPanel];
     
     [self configureNavigationBar];
