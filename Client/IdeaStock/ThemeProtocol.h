@@ -61,4 +61,9 @@
 -(UIColor *) backgroundColorForStackController;
 
 -(UIColor *) tintColorForIconsInStack;
+
+-(UIImage *) imageForAddCollection;
+
+-(UIColor *) tintColorForAddCollectionIcon;
+
 @end

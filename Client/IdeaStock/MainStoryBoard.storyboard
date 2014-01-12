@@ -390,6 +390,10 @@
                                                         <constraint firstItem="Xiw-0D-LDI" firstAttribute="leading" secondItem="bPz-ZN-VKJ" secondAttribute="leading" constant="3" id="T3t-Dy-6WL"/>
                                                     </constraints>
                                                 </view>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="add-collection-round" translatesAutoresizingMaskIntoConstraints="NO" id="TXn-kn-yJa">
+                                                    <rect key="frame" x="72" y="20" width="125" height="125"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -401,6 +405,7 @@
                                         </constraints>
                                         <size key="customSize" width="280" height="250"/>
                                         <connections>
+                                            <outlet property="addPlaceholderImage" destination="TXn-kn-yJa" id="l2V-ai-mPo"/>
                                             <outlet property="picImage" destination="tEM-oN-bu8" id="dns-4X-Xvj"/>
                                             <outlet property="titleLabel" destination="Xiw-0D-LDI" id="5jt-bi-ZWu"/>
                                         </connections>
@@ -470,12 +475,6 @@
                                         <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
                                         <connections>
                                             <action selector="editPressed:" destination="C4k-Gx-gPL" id="cz5-sY-Em3"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem systemItem="add" id="eTp-YV-1ie">
-                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
-                                        <connections>
-                                            <action selector="addPressed:" destination="C4k-Gx-gPL" id="04o-i0-mba"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -728,6 +727,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="add-collection-round" width="521" height="521"/>
         <image name="test_image_note.jpg" width="700" height="525"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

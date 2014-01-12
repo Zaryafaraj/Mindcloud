@@ -11,4 +11,7 @@
 @interface CollectionCell : UICollectionViewCell
 @property (nonatomic, strong) UIImage * img;
 @property (nonatomic, strong) NSString * text;
+
+@property (nonatomic, assign) BOOL placeholderForAdd;
+
 @end

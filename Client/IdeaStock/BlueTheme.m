@@ -166,4 +166,15 @@
     return bgColor;
 }
 
+-(UIImage *) imageForAddCollection
+{
+    UIImage * img = [UIImage imageNamed:@"add-collection-round"];
+    return [img imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
+-(UIColor *) tintColorForAddCollectionIcon
+{
+    return [UIColor colorWithWhite:0.15 alpha:1];
+}
+
 @end

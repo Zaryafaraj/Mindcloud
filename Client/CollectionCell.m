@@ -13,6 +13,7 @@
 @interface CollectionCell()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *picImage;
+@property (weak, nonatomic) IBOutlet UIImageView * addPlaceholderImage;
 
 @end
 @implementation CollectionCell
@@ -43,6 +44,24 @@
     _picImage.image = img;
     
     self.picImage.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
+}
+
+
+-(void) setPlaceholderForAdd:(BOOL)placeholderForAdd
+{
+    _placeholderForAdd = placeholderForAdd;
+    if (placeholderForAdd)
+    {
+        self.addPlaceholderImage.hidden = NO;
+        self.picImage.image = nil;
+        self.img = nil;
+        self.picImage.hidden = YES;
+    }
+    else
+    {
+        self.addPlaceholderImage.hidden = YES;
+        self.picImage.hidden = NO;
+    }
 }
 /*
 // Only override drawRect: if you perform custom drawing.

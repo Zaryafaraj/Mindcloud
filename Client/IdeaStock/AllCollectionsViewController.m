@@ -135,7 +135,7 @@
     }
     else
     {
-        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:1 inSection:0];
         [self.collectionView insertItemsAtIndexPaths:@[indexPath]];
         
     }
@@ -310,7 +310,8 @@
     return [NSString stringWithFormat:@"Ideas for %@", dateString];
 }
 
--(IBAction) addPressed:(id)sender {
+-(IBAction) addPressed
+{
     
     [self dismissPopOver];
     [self deselectAll];
@@ -774,7 +775,7 @@
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.model numberOfCollectionsInCategory:self.currentCategory] ;
+    return [self.model numberOfCollectionsInCategory:self.currentCategory] + 1;
 }
 
 -(NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -785,24 +786,38 @@
 -(UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionCell" forIndexPath:indexPath];
-    NSString * collectionName = [self.model getCollectionAt:indexPath.item forCategory:self.currentCategory];
+    
     if ([cell isKindOfClass:[CollectionCell class]])
     {
         CollectionCell * colCell = (CollectionCell *)cell;
-        colCell.text = collectionName;
-        
-        //we lazily load images and make sure we cache them
-        //so any time that a cell is asked for we retrieve and cache the imag
-        NSData * previewImageData = [self.model getImageDataForCollection: collectionName];
         
         
-        if (previewImageData == nil)
+        if (indexPath.item == 0)
         {
-            colCell.img = nil;
+            colCell.placeholderForAdd = YES;
+            colCell.text = @"New";
         }
-        else if ([colCell.text isEqualToString:collectionName])
+        else
         {
-            colCell.img = [UIImage imageWithData:previewImageData];
+            
+            NSString * collectionName = [self.model getCollectionAt:indexPath.item  - 1
+                                                        forCategory:self.currentCategory];
+            colCell.placeholderForAdd = NO;
+            colCell.text = collectionName;
+            //we lazily load images and make sure we cache them
+            //so any time that a cell is asked for we retrieve and cache the imag
+            NSData * previewImageData = [self.model getImageDataForCollection: collectionName];
+            
+            
+            if (previewImageData == nil)
+            {
+                colCell.img = nil;
+            }
+            else if ([colCell.text isEqualToString:collectionName])
+            {
+                
+                colCell.img = [UIImage imageWithData:previewImageData];
+            }
         }
     }
     
@@ -813,8 +828,15 @@
 {
     return YES;
 }
+
 -(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.item == 0)
+    {
+        [self addPressed];
+        return;
+    }
+    
     //enable the edit bar buttons
     if (self.isEditing)
     {
