@@ -948,14 +948,14 @@
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(350, 262);
+    return CGSizeMake(355, 269);
 }
 
 -(UIEdgeInsets) collectionView:(UICollectionView *)collectionView
                         layout:(UICollectionViewLayout *)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(0, 10,10, 10);
+    return UIEdgeInsetsMake(0, 10,0, 10);
 }
 
 #pragma mark - Table view data source

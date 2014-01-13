@@ -23,12 +23,12 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        UIView *bgView = [[UIView alloc] initWithFrame:self.backgroundView.frame];
-        bgView.backgroundColor = [UIColor clearColor];
+//        UIView *bgView = [[UIView alloc] initWithFrame:self.backgroundView.frame];
+//        bgView.backgroundColor = [UIColor clearColor];
         self.picImage.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
-        bgView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
-        bgView.layer.borderWidth = 3;
-        self.selectedBackgroundView = bgView;
+//        bgView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+//        bgView.layer.borderWidth = 3;
+//        self.selectedBackgroundView = bgView;
         UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(collectionSelected:)];
         [self addGestureRecognizer:lpgr];
     }
