@@ -29,7 +29,8 @@ CategorizationViewDelegate,
 MindcloudAllCollectionsDelegate,
 IntroScreenDelegate,
 MindlcoudAuthenticatorDelegate,
-CollectionCellDelegate>
+CollectionCellDelegate,
+UIGestureRecognizerDelegate>
 
 @property (atomic) BOOL actionInProgress;
 @property (weak, nonatomic) CategoriesViewController * categoriesController;

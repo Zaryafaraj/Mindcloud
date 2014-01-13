@@ -37,6 +37,9 @@
     }
     return self;
 }
+- (IBAction)testButtonPressed:(id)sender {
+    NSLog(@"ZZZZZZ");
+}
 
 -(void) collectionSelected:(UILongPressGestureRecognizer *) gr
 {

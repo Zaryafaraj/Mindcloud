@@ -46,7 +46,7 @@
 @property (strong, nonatomic) UIPopoverController * lastPopOver;
 @property (weak, nonatomic) IBOutlet UILabel *pageTitle;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-@property BOOL isEditing;
+@property (nonatomic, assign) BOOL isEditing;
 @property (strong, nonatomic) NSString * currentCategory;
 @property (weak, nonatomic) UIActionSheet * activeSheet;
 @property BOOL didCategoriesPresentAlertView;
@@ -57,7 +57,7 @@
 @property MindcloudAllCollections * model;
 
 @property (nonatomic, strong) NSString * workingCollectionName;
-
+@property (nonatomic, strong) UITapGestureRecognizer * tgr;
 @end
 
 @implementation AllCollectionsViewController
@@ -98,6 +98,11 @@
     _currentCategory = currentCategory;
     
     self.pageTitle.text = _currentCategory;
+}
+
+-(void) setIsEditing:(BOOL)isEditing
+{
+    _isEditing = isEditing;
 }
 
 #pragma mark - UI events
@@ -275,6 +280,9 @@
 
 -(void) enterEditMode
 {
+    self.isEditing = YES;
+    self.tgr.cancelsTouchesInView = YES;
+    self.collectionView.allowsSelection = NO;
     [self makeEveryThingSmaller];
 }
 
@@ -282,6 +290,20 @@
 {
     
     [self makeEveryThingBigger];
+    double delayInSeconds = 0.2;
+    
+    //the reason that we run this code after a delay is that, when a touch ends two gesture recognizers recognize it simultanously.
+    //The first one that it recognizes it is the super view which is the one who runs this block
+    //now if we didn't have the delay it would set isEditing to NO and the second gesture recognizers
+    //which is for the cell (probably a tap on cell) would say oh you are not editing then i can
+    //select. The end cause of this would be the ability to select a cell and go the collection
+    //while still in edit mode
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        self.collectionView.allowsSelection = YES;
+        self.isEditing = NO;
+        self.tgr.cancelsTouchesInView = NO;
+    });
 }
 
 - (IBAction)unsharePressed:(id)sender {
@@ -437,6 +459,7 @@
             [colCell unshrink:YES];
         }
     }
+    
 }
 
 - (IBAction)deletePressed:(id)sender {
@@ -616,6 +639,39 @@
     }
 }
 
+-(void) addGestureRecognizers
+{
+    UITapGestureRecognizer * tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenTapped:)];
+    tgr.delegate = self;
+    tgr.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tgr];
+    self.tgr = tgr;
+}
+
+-(void) screenTapped:(UITapGestureRecognizer *) gr
+{
+    if (gr.state == UIGestureRecognizerStateEnded)
+    {
+        if(self.isEditing)
+        {
+            [self exitEditMode];
+            self.isEditing = NO;
+        }
+    }
+}
+
+//-(BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+//{
+//    if (self.isEditing)
+//    {
+//        return NO;
+//    }
+//    else
+//    {
+//        return YES;
+//    }
+//}
+
 -(void) viewDidLoad{
     
     [super viewDidLoad];
@@ -628,7 +684,7 @@
     
     self.view.backgroundColor = [[ThemeFactory currentTheme] noisePatternForCollection];
     [self configureCategoriesPanel];
-    
+    [self addGestureRecognizers];
     [self configureNavigationBar];
     [self addInitialListeners];
     
@@ -834,6 +890,10 @@
 {
     UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionCell" forIndexPath:indexPath];
     
+    for(UIGestureRecognizer * gr in cell.gestureRecognizers)
+    {
+        [self.tgr requireGestureRecognizerToFail:gr];
+    }
     if ([cell isKindOfClass:[CollectionCell class]])
     {
         CollectionCell * colCell = (CollectionCell *)cell;
@@ -881,9 +941,28 @@
     return cell;
 }
 
+-(BOOL) collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.isEditing)
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+}
 -(BOOL) collectionView:(UICollectionView *) collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    if (self.isEditing)
+    {
+        [self exitEditMode];
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
 }
 
 -(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -964,11 +1043,6 @@
     {
         [self disableEditButtons];
     }
-}
-
--(BOOL) collectionView:(UICollectionView *) collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return YES;
 }
 
 -(CGSize) collectionView:(UICollectionView *)collectionView
@@ -1357,8 +1431,8 @@
 //    }
     if (!self.isEditing)
     {
-        self.isEditing = YES;
         [self enterEditMode];
+        self.isEditing = YES;
     }
     [self deselectAll];
 }
