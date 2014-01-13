@@ -260,11 +260,28 @@
 
 - (IBAction)editPressed:(id)sender {
     
-    [self.collectionView setAllowsMultipleSelection:YES];
-    self.isEditing = YES;
+    if(self.isEditing)
+    {
+        self.isEditing = NO;
+        [self exitEditMode];
+    }
+    else
+    {
+        self.isEditing = YES;
+        [self enterEditMode];
+    }
     self.navigationItem.rightBarButtonItems = self.editToolbar;
 }
 
+-(void) enterEditMode
+{
+    
+}
+
+-(void) exitEditMode
+{
+    
+}
 - (IBAction)unsharePressed:(id)sender {
     
     [self dismissPopOver];
@@ -384,15 +401,27 @@
     }
 }
 
-
 -(void) deselectAll
 {
-    for (NSIndexPath * index in self.collectionView.indexPathsForSelectedItems)
+    for (NSIndexPath * index in self.collectionView.indexPathsForVisibleItems)
     {
         [self.collectionView deselectItemAtIndexPath:index animated:YES];
     }
 }
 
+-(void) makeEveryThingSmaller
+{
+    
+    for (NSIndexPath * index in self.collectionView.indexPathsForVisibleItems)
+    {
+        UICollectionViewCell * cell = [self.collectionView cellForItemAtIndexPath:index];
+        if ([cell isKindOfClass:[CollectionCell class]])
+        {
+            CollectionCell * colCell = (CollectionCell *) cell;
+            [colCell setIsInSelectMode:NO animated:YES];
+        }
+    }
+}
 - (IBAction)deletePressed:(id)sender {
     [self dismissPopOver];
     UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil
@@ -790,7 +819,7 @@
     if ([cell isKindOfClass:[CollectionCell class]])
     {
         CollectionCell * colCell = (CollectionCell *)cell;
-        
+        colCell.isInSelectMode = NO;
         
         if (indexPath.item == 0)
         {
@@ -804,6 +833,7 @@
                                                         forCategory:self.currentCategory];
             colCell.placeholderForAdd = NO;
             colCell.text = collectionName;
+            colCell.delegate = self;
             //we lazily load images and make sure we cache them
             //so any time that a cell is asked for we retrieve and cache the imag
             NSData * previewImageData = [self.model getImageDataForCollection: collectionName];
@@ -1287,6 +1317,23 @@
 -(void) userFinishedAuthenticating:(BOOL)success
 {
     [self introScreenFinished:success];
+}
+
+#pragma mark CollectionCellDelegate
+-(void) cellLongPressed:(UICollectionViewCell *)cell
+{
+    
+    if ([cell isKindOfClass:[CollectionCell class]])
+    {
+        CollectionCell * colCell = (CollectionCell *) cell;
+        [colCell setIsInSelectMode:YES animated:YES];
+    }
+    if (!self.isEditing)
+    {
+        self.isEditing = YES;
+        [self enterEditMode];
+    }
+    [self deselectAll];
 }
 
 @end

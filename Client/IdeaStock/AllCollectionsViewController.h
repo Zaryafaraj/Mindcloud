@@ -13,6 +13,7 @@
 #import "MindcloudAllCollectionsDelegate.h"
 #import "MindcloudAuthenticator.h"
 #import "IntroScreenViewController.h"
+#import "CollectionCellDelegate.h"
 
 #define UNTITLED_COLLECTION_NAME @"Untitled"
 
@@ -27,7 +28,8 @@ UIPopoverControllerDelegate,
 CategorizationViewDelegate,
 MindcloudAllCollectionsDelegate,
 IntroScreenDelegate,
-MindlcoudAuthenticatorDelegate>
+MindlcoudAuthenticatorDelegate,
+CollectionCellDelegate>
 
 @property (atomic) BOOL actionInProgress;
 @property (weak, nonatomic) CategoriesViewController * categoriesController;

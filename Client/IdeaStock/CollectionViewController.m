@@ -2846,6 +2846,7 @@ intoStackingWithMainView: (UIView *) mainView
 }
 
 #pragma mark UIGestureRecognizerDelegate
+
 -(BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     

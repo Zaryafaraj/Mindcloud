@@ -172,6 +172,7 @@
 		D360D0CF1862AB17006E60AB /* PushWithFrictionBehavior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushWithFrictionBehavior.m; sourceTree = "<group>"; };
 		D374CAD218445CF20070C359 /* DiffFileAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiffFileAction.h; sourceTree = "<group>"; };
 		D374CAD318445CF20070C359 /* DiffFileAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiffFileAction.m; sourceTree = "<group>"; };
+		D3A11963188359B4005E7349 /* CollectionCellDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionCellDelegate.h; sourceTree = "<group>"; };
 		D3A3ECA9184837BB00174649 /* SendMessageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendMessageAction.h; sourceTree = "<group>"; };
 		D3A3ECAA184837BB00174649 /* SendMessageAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMessageAction.m; sourceTree = "<group>"; };
 		D3A3ECAC1848409400174649 /* MessageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageFactory.h; sourceTree = "<group>"; };
@@ -690,6 +691,7 @@
 				D328D0CB1863C32C008BB14B /* PaintConfigView.m */,
 				D3AD7B49186BA3AB002208E3 /* CollectionHUD.h */,
 				D3AD7B4A186BA3AB002208E3 /* CollectionHUD.m */,
+				D3A11963188359B4005E7349 /* CollectionCellDelegate.h */,
 			);
 			name = Views;
 			sourceTree = "<group>";
