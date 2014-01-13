@@ -174,7 +174,19 @@
 
 -(UIColor *) tintColorForAddCollectionIcon
 {
-    return [UIColor colorWithWhite:0.15 alpha:1];
+    return [UIColor colorWithWhite:0.25 alpha:1];
+}
+
+-(UIColor *) backgroundColorFoAddCollectionCell
+{
+    UIColor *aColor = [UIColor colorWithHue:0.667 saturation:0.034 brightness:0.929 alpha:1.000];
+    return aColor;
+}
+
+-(UIColor *) backgroundColorForEmptyCollectoinCell
+{
+    UIColor *aColor = [UIColor colorWithHue:0.667 saturation:0.034 brightness:0.929 alpha:1.000];
+    return aColor;
 }
 
 @end

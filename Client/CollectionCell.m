@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *picImage;
 @property (weak, nonatomic) IBOutlet UIImageView * addPlaceholderImage;
+@property (weak, nonatomic) IBOutlet UIView *titleBackground;
 
 @end
 @implementation CollectionCell
@@ -25,7 +26,7 @@
     {
 //        UIView *bgView = [[UIView alloc] initWithFrame:self.backgroundView.frame];
 //        bgView.backgroundColor = [UIColor clearColor];
-        self.picImage.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
+        self.picImage.backgroundColor = [[ThemeFactory currentTheme] backgroundColorForEmptyCollectoinCell];
 //        bgView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
 //        bgView.layer.borderWidth = 3;
 //        self.selectedBackgroundView = bgView;
@@ -58,7 +59,7 @@
     _img = img;
     _picImage.image = img;
     
-    self.picImage.backgroundColor = [[ThemeFactory currentTheme] collectionBackgroundColor];
+    self.picImage.backgroundColor = [[ThemeFactory currentTheme] backgroundColorForEmptyCollectoinCell];
 }
 
 
@@ -68,14 +69,22 @@
     if (placeholderForAdd)
     {
         self.addPlaceholderImage.hidden = NO;
+        self.addPlaceholderImage.image = [[ThemeFactory currentTheme] imageForAddCollection];
+        self.addPlaceholderImage.tintColor = [[ThemeFactory currentTheme] tintColorForAddCollectionIcon];
+        //[UIColor blueColor];
         self.picImage.image = nil;
         self.img = nil;
-        self.picImage.hidden = YES;
+        self.picImage.image = nil;
+        self.picImage.backgroundColor = [[ThemeFactory currentTheme] backgroundColorFoAddCollectionCell];
+        self.titleLabel.hidden = YES;
+        self.titleBackground.hidden = YES;
     }
     else
     {
         self.addPlaceholderImage.hidden = YES;
-        self.picImage.hidden = NO;
+        self.picImage.backgroundColor = [[ThemeFactory currentTheme] backgroundColorForEmptyCollectoinCell];
+        self.titleLabel.hidden = NO;
+        self.titleBackground.hidden = NO;
     }
 }
 

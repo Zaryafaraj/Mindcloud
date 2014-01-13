@@ -371,24 +371,28 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A5Z-nu-nsh">
-                                                    <rect key="frame" x="3" y="3" width="324" height="66"/>
+                                                    <rect key="frame" x="3" y="3" width="325" height="66"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 </view>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Mindcloud" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xiw-0D-LDI">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Mindcloud" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xiw-0D-LDI">
                                                     <rect key="frame" x="10" y="0.0" width="312" height="69"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="69" id="MEU-Rj-b09"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
                                                     <color key="textColor" white="0.89783873175182483" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                     <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="add-collection-round" translatesAutoresizingMaskIntoConstraints="NO" id="TXn-kn-yJa">
-                                                    <rect key="frame" x="99" y="-25" width="521" height="521"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add-collection-round" translatesAutoresizingMaskIntoConstraints="NO" id="TXn-kn-yJa">
+                                                    <rect key="frame" x="103" y="78" width="125" height="125"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="125" id="bWg-GS-Feh"/>
+                                                        <constraint firstAttribute="height" constant="125" id="w2A-MZ-QsL"/>
+                                                    </constraints>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -399,17 +403,20 @@
                                             <constraint firstItem="A5Z-nu-nsh" firstAttribute="top" secondItem="WAv-an-XHa" secondAttribute="top" constant="3" id="4Yo-IG-Cix"/>
                                             <constraint firstItem="Xiw-0D-LDI" firstAttribute="centerY" secondItem="tEM-oN-bu8" secondAttribute="centerY" constant="-105.5" id="5u8-0p-nng"/>
                                             <constraint firstItem="A5Z-nu-nsh" firstAttribute="bottom" secondItem="Xiw-0D-LDI" secondAttribute="bottom" id="9Sp-cZ-3D2"/>
+                                            <constraint firstItem="TXn-kn-yJa" firstAttribute="centerX" secondItem="A5Z-nu-nsh" secondAttribute="centerX" id="JJX-f5-qiY"/>
                                             <constraint firstItem="A5Z-nu-nsh" firstAttribute="leading" secondItem="tEM-oN-bu8" secondAttribute="leading" id="Q5d-R4-HYh"/>
                                             <constraint firstItem="A5Z-nu-nsh" firstAttribute="width" secondItem="tEM-oN-bu8" secondAttribute="width" id="Wkb-Xs-tPH"/>
                                             <constraint firstItem="Xiw-0D-LDI" firstAttribute="centerX" secondItem="tEM-oN-bu8" secondAttribute="centerX" constant="1" id="o29-ob-ZgK"/>
                                             <constraint firstItem="tEM-oN-bu8" firstAttribute="leading" secondItem="WAv-an-XHa" secondAttribute="leading" constant="3" id="oGL-7C-h2J"/>
                                             <constraint firstItem="Xiw-0D-LDI" firstAttribute="centerX" secondItem="WAv-an-XHa" secondAttribute="centerX" constant="1" id="oaD-10-YTZ"/>
                                             <constraint firstItem="tEM-oN-bu8" firstAttribute="top" secondItem="WAv-an-XHa" secondAttribute="top" constant="3" id="q7P-t2-Tfv"/>
+                                            <constraint firstAttribute="centerY" secondItem="TXn-kn-yJa" secondAttribute="centerY" id="qHP-Vh-ecD"/>
                                         </constraints>
                                         <size key="customSize" width="330" height="280"/>
                                         <connections>
                                             <outlet property="addPlaceholderImage" destination="TXn-kn-yJa" id="l2V-ai-mPo"/>
                                             <outlet property="picImage" destination="tEM-oN-bu8" id="dns-4X-Xvj"/>
+                                            <outlet property="titleBackground" destination="A5Z-nu-nsh" id="G1U-oE-Ggb"/>
                                             <outlet property="titleLabel" destination="Xiw-0D-LDI" id="5jt-bi-ZWu"/>
                                         </connections>
                                     </collectionViewCell>

@@ -66,4 +66,8 @@
 
 -(UIColor *) tintColorForAddCollectionIcon;
 
+-(UIColor *) backgroundColorFoAddCollectionCell;
+
+-(UIColor *) backgroundColorForEmptyCollectoinCell;
+
 @end
