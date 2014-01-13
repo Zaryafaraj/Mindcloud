@@ -837,6 +837,7 @@
     if ([cell isKindOfClass:[CollectionCell class]])
     {
         CollectionCell * colCell = (CollectionCell *)cell;
+        [colCell reset];
         colCell.isInSelectMode = NO;
         if (self.isEditing)
         {

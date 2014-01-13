@@ -32,6 +32,7 @@
         //        bgView.layer.borderWidth = 3;
         //        self.selectedBackgroundView = bgView;
         UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(collectionSelected:)];
+        lpgr.minimumPressDuration = 0.3;
         [self addGestureRecognizer:lpgr];
     }
     return self;
@@ -183,6 +184,12 @@
         }
         self.isShrunken = NO;
     }
+}
+
+-(void) reset
+{
+    self.isShrunken = NO;
+    self.transform = CGAffineTransformIdentity;
 }
 /*
  // Only override drawRect: if you perform custom drawing.

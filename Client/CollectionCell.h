@@ -21,5 +21,6 @@
 
 -(void) shrink:(BOOL) animated;
 -(void) unshrink:(BOOL) animated;
+-(void) reset;
 
 @end
