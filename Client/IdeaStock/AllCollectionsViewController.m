@@ -948,7 +948,7 @@
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(280, 250);
+    return CGSizeMake(350, 262);
 }
 
 -(UIEdgeInsets) collectionView:(UICollectionView *)collectionView
