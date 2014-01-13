@@ -38,7 +38,7 @@
                                 <color key="backgroundColor" white="0.94700677710000003" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
                             </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UEC-pW-kqL">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UEC-pW-kqL">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
@@ -427,7 +427,7 @@
                                 </connections>
                             </collectionView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Collections" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qf1-Fk-LOz">
-                                <rect key="frame" x="50" y="94" width="217" height="32"/>
+                                <rect key="frame" x="15" y="94" width="217" height="67"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="36"/>
                                 <color key="textColor" red="0.2531437873840332" green="0.25313621759414673" blue="0.25314050912857056" alpha="1" colorSpace="calibratedRGB"/>
@@ -503,8 +503,8 @@
                             <constraint firstItem="BzD-cR-F4A" firstAttribute="top" secondItem="1Wk-zS-ESI" secondAttribute="top" constant="-740" id="TsX-Fz-GZX"/>
                             <constraint firstAttribute="trailing" secondItem="4g8-pq-foJ" secondAttribute="trailing" id="ZDd-U4-IkZ"/>
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" id="fsr-Y1-5xv"/>
-                            <constraint firstItem="BzD-cR-F4A" firstAttribute="top" secondItem="Qf1-Fk-LOz" secondAttribute="bottom" constant="50" id="lXf-4E-WTv"/>
-                            <constraint firstItem="Qf1-Fk-LOz" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" constant="50" id="nk3-m2-oSb"/>
+                            <constraint firstItem="BzD-cR-F4A" firstAttribute="top" secondItem="Qf1-Fk-LOz" secondAttribute="bottom" constant="15" id="lXf-4E-WTv"/>
+                            <constraint firstItem="Qf1-Fk-LOz" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" constant="15" id="nk3-m2-oSb"/>
                             <constraint firstItem="4g8-pq-foJ" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" id="pH4-6r-S5X"/>
                             <constraint firstItem="4g8-pq-foJ" firstAttribute="top" secondItem="Jx3-sE-JAL" secondAttribute="top" id="rSf-aI-7tL"/>
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="top" secondItem="Jx3-sE-JAL" secondAttribute="top" constant="916" id="sus-iJ-Ow0"/>

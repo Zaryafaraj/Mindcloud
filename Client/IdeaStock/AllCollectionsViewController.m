@@ -600,6 +600,7 @@
 }
 
 -(void) viewDidLoad{
+    
     [super viewDidLoad];
     [self showIntroIfNeccessary];
     [self.collectionView setAllowsMultipleSelection:NO];
