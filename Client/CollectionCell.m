@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *picImage;
 @property (weak, nonatomic) IBOutlet UIImageView * addPlaceholderImage;
 @property (weak, nonatomic) IBOutlet UIView *titleBackground;
+@property BOOL isShrunken;
 
 @end
 @implementation CollectionCell
@@ -24,12 +25,12 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-//        UIView *bgView = [[UIView alloc] initWithFrame:self.backgroundView.frame];
-//        bgView.backgroundColor = [UIColor clearColor];
+        //        UIView *bgView = [[UIView alloc] initWithFrame:self.backgroundView.frame];
+        //        bgView.backgroundColor = [UIColor clearColor];
         self.picImage.backgroundColor = [[ThemeFactory currentTheme] backgroundColorForEmptyCollectoinCell];
-//        bgView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
-//        bgView.layer.borderWidth = 3;
-//        self.selectedBackgroundView = bgView;
+        //        bgView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+        //        bgView.layer.borderWidth = 3;
+        //        self.selectedBackgroundView = bgView;
         UILongPressGestureRecognizer * lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(collectionSelected:)];
         [self addGestureRecognizer:lpgr];
     }
@@ -135,6 +136,53 @@
         self.isInSelectMode = YES;
     }
     
+}
+
+-(void) shrink:(BOOL) animated
+{
+    if (!self.isShrunken)
+    {
+        if (animated)
+        {
+            [UIView animateWithDuration:0.3
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseIn
+                             animations:^{
+                                 self.transform = CGAffineTransformScale(self.transform, 0.95, 0.95);
+                             }completion:nil];
+            
+        }
+        else
+        {
+            
+            self.transform = CGAffineTransformScale(self.transform, 0.95, 0.95);
+        }
+        self.isShrunken = YES;
+    }
+}
+
+-(void) unshrink:(BOOL) animated
+{
+    if (self.isShrunken)
+    {
+        
+        if (animated)
+        {
+            [UIView animateWithDuration:0.3
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseIn
+                             animations:^{
+        self.transform = CGAffineTransformIdentity;
+                             }completion:nil];
+            
+        }
+        else
+        {
+            
+            self.transform = CGAffineTransformIdentity;
+        }
+        self.isShrunken = NO;
+    }
 }
 /*
  // Only override drawRect: if you perform custom drawing.

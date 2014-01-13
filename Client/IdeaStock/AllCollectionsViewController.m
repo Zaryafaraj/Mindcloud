@@ -275,13 +275,15 @@
 
 -(void) enterEditMode
 {
-    
+    [self makeEveryThingSmaller];
 }
 
 -(void) exitEditMode
 {
     
+    [self makeEveryThingBigger];
 }
+
 - (IBAction)unsharePressed:(id)sender {
     
     [self dismissPopOver];
@@ -418,10 +420,25 @@
         if ([cell isKindOfClass:[CollectionCell class]])
         {
             CollectionCell * colCell = (CollectionCell *) cell;
-            [colCell setIsInSelectMode:NO animated:YES];
+            [colCell shrink:YES];
         }
     }
 }
+
+-(void) makeEveryThingBigger
+{
+    
+    for (NSIndexPath * index in self.collectionView.indexPathsForVisibleItems)
+    {
+        UICollectionViewCell * cell = [self.collectionView cellForItemAtIndexPath:index];
+        if ([cell isKindOfClass:[CollectionCell class]])
+        {
+            CollectionCell * colCell = (CollectionCell *) cell;
+            [colCell unshrink:YES];
+        }
+    }
+}
+
 - (IBAction)deletePressed:(id)sender {
     [self dismissPopOver];
     UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil
@@ -821,6 +838,14 @@
     {
         CollectionCell * colCell = (CollectionCell *)cell;
         colCell.isInSelectMode = NO;
+        if (self.isEditing)
+        {
+            [colCell shrink:NO];
+        }
+        else
+        {
+            [colCell unshrink:NO];
+        }
         
         if (indexPath.item == 0)
         {
@@ -1324,11 +1349,11 @@
 -(void) cellLongPressed:(UICollectionViewCell *)cell
 {
     
-    if ([cell isKindOfClass:[CollectionCell class]])
-    {
-        CollectionCell * colCell = (CollectionCell *) cell;
-        [colCell setIsInSelectMode:YES animated:YES];
-    }
+//    if ([cell isKindOfClass:[CollectionCell class]])
+//    {
+//        CollectionCell * colCell = (CollectionCell *) cell;
+//        [colCell setIsInSelectMode:YES animated:YES];
+//    }
     if (!self.isEditing)
     {
         self.isEditing = YES;

@@ -19,4 +19,7 @@
 -(void) setIsInSelectMode:(BOOL)isInSelectMode
                  animated:(BOOL) animated;
 
+-(void) shrink:(BOOL) animated;
+-(void) unshrink:(BOOL) animated;
+
 @end
