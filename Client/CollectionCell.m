@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView * addPlaceholderImage;
 @property (weak, nonatomic) IBOutlet UIView *titleBackground;
 @property BOOL isShrunken;
+@property (nonatomic) UIButton * deleteButton;
 
 @end
 @implementation CollectionCell
@@ -37,8 +38,33 @@
     }
     return self;
 }
-- (IBAction)testButtonPressed:(id)sender {
-    NSLog(@"ZZZZZZ");
+
+-(UIButton *) deleteButton
+{
+    
+    if (!_deleteButton)
+    {
+        UIButton * delButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        _deleteButton = delButton;
+        [_deleteButton addTarget:self
+                          action:@selector(deletePressed:)
+                forControlEvents:UIControlEventTouchDown];
+        
+        UIImage * btnImage = [[ThemeFactory currentTheme] imageForDeleteIcon];
+        [_deleteButton setImage:btnImage
+                       forState:UIControlStateNormal];
+        [self addSubview:_deleteButton];
+        _deleteButton.frame = CGRectMake(-10,-10 , 20, 20);
+        self.clipsToBounds = NO;
+        _deleteButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
+    }
+    return _deleteButton;
+}
+
+
+-(void) deletePressed:(id)sender
+{
+    NSLog(@"HAHAHAHA");
 }
 
 -(void) collectionSelected:(UILongPressGestureRecognizer *) gr
@@ -153,7 +179,9 @@
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
                                  self.transform = CGAffineTransformScale(self.transform, 0.95, 0.95);
-                             }completion:nil];
+                             }completion:^(BOOL completed){
+                                 self.deleteButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
+                             }];
             
         }
         else
