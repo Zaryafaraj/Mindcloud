@@ -54,9 +54,10 @@
         [_deleteButton setImage:btnImage
                        forState:UIControlStateNormal];
         [self addSubview:_deleteButton];
-        _deleteButton.frame = CGRectMake(self.frame.origin.x - 10, self.frame.origin.y - 10, 44, 44);
+        _deleteButton.frame = CGRectMake(-10, - 10, 34, 34);
+        _deleteButton.clipsToBounds = NO;
+        self.clipsToBounds = NO;
         
-        [self.superview addSubview:_deleteButton];
         _deleteButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
         _deleteButton.alpha = 0;
     }

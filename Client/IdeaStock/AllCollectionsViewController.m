@@ -1351,7 +1351,6 @@
         //make sure after deletion DELETE and RENAME buttons are disabled
         [self disableEditButtons];
         self.navigationItem.rightBarButtonItems = self.navigateToolbar;
-        self.isEditing = NO;
         self.isInSharingMode = NO;
         
     }
