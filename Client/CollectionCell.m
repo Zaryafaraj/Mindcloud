@@ -187,7 +187,10 @@
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
-                                 self.deleteButton.alpha = 1;
+                                 if (!self.placeholderForAdd)
+                                 {
+                                     self.deleteButton.alpha = 1;
+                                 }
                                  self.transform = CGAffineTransformScale(self.transform, 0.95, 0.95);
                              }completion:^(BOOL completed){
                              }];
@@ -197,7 +200,10 @@
         {
             
             self.transform = CGAffineTransformScale(self.transform, 0.95, 0.95);
-            self.deleteButton.alpha = 1;
+            if (!self.placeholderForAdd)
+            {
+                self.deleteButton.alpha = 1;
+            }
         }
         self.isShrunken = YES;
     }
