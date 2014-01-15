@@ -178,20 +178,14 @@
     oldCell.text = actualNewName;
 }
 
--(void) deleteCollection
+-(void) deleteCollection:(CollectionCell *) cell
 {
-    NSArray * selectedItems = [self.collectionView indexPathsForSelectedItems];
-    NSMutableArray * batchDeleteCollections = [NSMutableArray array];
-    for (NSIndexPath * selectedItem in selectedItems)
-    {
-        NSString * collectionName = [self.model getCollectionAt:selectedItem.item forCategory:self.currentCategory];
-        [batchDeleteCollections addObject:collectionName];
-    }
-    
-    [self.model batchRemoveCollections:batchDeleteCollections fromCategory:self.currentCategory];
+    NSString * collectionName = cell.text;
+    [self.model batchRemoveCollections:@[collectionName] fromCategory:self.currentCategory];
     
     [self.collectionView performBatchUpdates:^{
-        [self.collectionView deleteItemsAtIndexPaths:selectedItems];
+        NSIndexPath * indexPath = [self.collectionView indexPathForCell:cell];
+        [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
     }completion:nil];
 }
 
@@ -365,17 +359,6 @@
     [self performSegueWithIdentifier:@"CollectionViewSegue" sender:self];
 }
 
-- (IBAction)renamePressed:(id)sender {
-    [self dismissPopOver];
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The New Name of The Collection"
-                                                     message:nil
-                                                    delegate:self
-                                           cancelButtonTitle:@"Cancel"
-                                           otherButtonTitles:RENAME_BUTTON_TITLE,nil];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alert show];
-}
-
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     //perform add collection
@@ -462,82 +445,10 @@
     
 }
 
-- (IBAction)deletePressed:(id)sender {
-    [self dismissPopOver];
-    UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil
-                                                         delegate:self
-                                                cancelButtonTitle:nil
-                                           destructiveButtonTitle:DELETE_ACTION
-                                                otherButtonTitles:nil,
-                              nil];
-    //make sure an actionsheet is not presented on top of another not dismissed one
-    if (self.activeSheet)
-    {
-        [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
-        self.activeSheet = nil;
-    }
-    [action showFromBarButtonItem:sender animated:NO];
-    self.activeSheet = action;
-}
-
-
 - (IBAction)refreshPressed:(id)sender {
     
     [self dismissPopOver];
     [self.model refresh];
-}
-
-- (IBAction)categorizedPressed:(id)sender {
-    
-    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
-    [self dismissPopOver];
-    
-    CategorizationViewController * categorizationController = [self.storyboard instantiateViewControllerWithIdentifier:@"CategorizationView"];
-    
-    categorizationController.delegate = self;
-    categorizationController.rowHeight = CATEGORIZATION_ROW_HEIGHT;
-    categorizationController.categories = [self.model getEditableCategories];
-    CGSize popOverContentSize = [categorizationController getBestPopoverContentSize];
-    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:categorizationController];
-    self.lastPopOver = popover;
-    self.lastPopOver.delegate = self;
-    if (popOverContentSize.height > 0 && popOverContentSize.width > 0)
-    {
-        popover.popoverContentSize = popOverContentSize;
-    }
-    else
-    {
-        popover.popoverContentSize = CGSizeMake(200, 400);
-    }
-    [popover presentPopoverFromBarButtonItem:self.categorizeButton
-                    permittedArrowDirections:UIPopoverArrowDirectionAny
-                                    animated:YES];
-    
-}
-
-- (IBAction)sharePressed:(id)sender {
-    
-    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
-    NSString * collectionName = [self getSelectedCollectionName];
-    
-    if (collectionName == nil) return;
-    
-    
-    //manage the pop over
-    [self dismissPopOver];
-    SharingViewController * sharingController = [self.storyboard instantiateViewControllerWithIdentifier:@"SharingView"];
-    sharingController.collectionName = collectionName;
-    
-    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:sharingController];
-    self.lastPopOver = popover;
-    self.lastPopOver.delegate = self;
-    //sharingController.contentSizeForViewInPopover = CGSizeMake(370, 200);
-    popover.popoverContentSize = CGSizeMake(300, 70);
-    [popover presentPopoverFromBarButtonItem:self.shareButton
-                    permittedArrowDirections:UIPopoverArrowDirectionAny
-                                    animated:YES];
-    
-    [self.model shareCollection:collectionName];
 }
 
 - (void)showCategoriesPressed:(id)sender {
@@ -1056,7 +967,7 @@
                         layout:(UICollectionViewLayout *)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(0, 10,0, 10);
+    return UIEdgeInsetsMake(10, 10,0, 10);
 }
 
 #pragma mark - Table view data source
@@ -1146,16 +1057,7 @@
 {
     if (buttonIndex != 0) return;
     NSString * actionName = [actionSheet buttonTitleAtIndex:buttonIndex];
-    if ([actionName isEqualToString:DELETE_ACTION])
-    {
-        [self deleteCollection];
-        //make sure after deletion DELETE and RENAME buttons are disabled
-        [self disableEditButtons];
-        self.navigationItem.rightBarButtonItems = self.navigateToolbar;
-        self.isEditing = NO;
-        self.isInSharingMode = NO;
-    }
-    else if ([actionName isEqualToString:UNSHARE_ACTION])
+    if ([actionName isEqualToString:UNSHARE_ACTION])
     {
         NSString * collectionName = [self getSelectedCollectionName];
         if (collectionName != nil)
@@ -1437,4 +1339,88 @@
     [self deselectAll];
 }
 
+-(void) deletePressed:(UICollectionViewCell *) cell
+{
+    [self dismissPopOver];
+    //make sure an actionsheet is not presented on top of another not dismissed one
+    if ([cell isKindOfClass:[CollectionCell class]])
+    {
+        CollectionCell * colCell = (CollectionCell *) cell;
+        
+        [self deleteCollection:colCell];
+        //make sure after deletion DELETE and RENAME buttons are disabled
+        [self disableEditButtons];
+        self.navigationItem.rightBarButtonItems = self.navigateToolbar;
+        self.isEditing = NO;
+        self.isInSharingMode = NO;
+        
+    }
+}
+
+-(void) sharePressed:(UICollectionViewCell *) cell
+{
+    
+    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
+    NSString * collectionName = [self getSelectedCollectionName];
+    
+    if (collectionName == nil) return;
+    
+    
+    //manage the pop over
+    [self dismissPopOver];
+    SharingViewController * sharingController = [self.storyboard instantiateViewControllerWithIdentifier:@"SharingView"];
+    sharingController.collectionName = collectionName;
+    
+    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:sharingController];
+    self.lastPopOver = popover;
+    self.lastPopOver.delegate = self;
+    //sharingController.contentSizeForViewInPopover = CGSizeMake(370, 200);
+    popover.popoverContentSize = CGSizeMake(300, 70);
+    [popover presentPopoverFromBarButtonItem:self.shareButton
+                    permittedArrowDirections:UIPopoverArrowDirectionAny
+                                    animated:YES];
+    
+    [self.model shareCollection:collectionName];
+}
+
+-(void) categorizedPressed:(UICollectionViewCell *) cell
+{
+    
+    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
+    [self dismissPopOver];
+    
+    CategorizationViewController * categorizationController = [self.storyboard instantiateViewControllerWithIdentifier:@"CategorizationView"];
+    
+    categorizationController.delegate = self;
+    categorizationController.rowHeight = CATEGORIZATION_ROW_HEIGHT;
+    categorizationController.categories = [self.model getEditableCategories];
+    CGSize popOverContentSize = [categorizationController getBestPopoverContentSize];
+    UIPopoverController * popover = [[UIPopoverController alloc] initWithContentViewController:categorizationController];
+    self.lastPopOver = popover;
+    self.lastPopOver.delegate = self;
+    if (popOverContentSize.height > 0 && popOverContentSize.width > 0)
+    {
+        popover.popoverContentSize = popOverContentSize;
+    }
+    else
+    {
+        popover.popoverContentSize = CGSizeMake(200, 400);
+    }
+    [popover presentPopoverFromBarButtonItem:self.categorizeButton
+                    permittedArrowDirections:UIPopoverArrowDirectionAny
+                                    animated:YES];
+}
+
+-(void) renamePressed:(UICollectionViewCell *) cell
+{
+    
+    [self dismissPopOver];
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The New Name of The Collection"
+                                                     message:nil
+                                                    delegate:self
+                                           cancelButtonTitle:@"Cancel"
+                                           otherButtonTitles:RENAME_BUTTON_TITLE,nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+}
 @end

@@ -12,4 +12,12 @@
 
 -(void) cellLongPressed:(UICollectionViewCell *) cell;
 
+-(void) deletePressed:(UICollectionViewCell *) cell;
+
+-(void) sharePressed:(UICollectionViewCell *) cell;
+
+-(void) categorizedPressed:(UICollectionViewCell *) cell;
+
+-(void) renamePressed:(UICollectionViewCell *) cell;
+
 @end

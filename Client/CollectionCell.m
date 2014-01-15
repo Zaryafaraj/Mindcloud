@@ -54,9 +54,11 @@
         [_deleteButton setImage:btnImage
                        forState:UIControlStateNormal];
         [self addSubview:_deleteButton];
-        _deleteButton.frame = CGRectMake(-10,-10 , 20, 20);
-        self.clipsToBounds = NO;
+        _deleteButton.frame = CGRectMake(self.frame.origin.x - 10, self.frame.origin.y - 10, 44, 44);
+        
+        [self.superview addSubview:_deleteButton];
         _deleteButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
+        _deleteButton.alpha = 0;
     }
     return _deleteButton;
 }
@@ -64,7 +66,12 @@
 
 -(void) deletePressed:(id)sender
 {
-    NSLog(@"HAHAHAHA");
+    
+    id<CollectionCellDelegate> tempDel = self.delegate;
+    if (tempDel)
+    {
+        [tempDel deletePressed:self];
+    }
 }
 
 -(void) collectionSelected:(UILongPressGestureRecognizer *) gr
@@ -174,13 +181,14 @@
     {
         if (animated)
         {
+            self.deleteButton.alpha = 0;
             [UIView animateWithDuration:0.3
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
+                                 self.deleteButton.alpha = 1;
                                  self.transform = CGAffineTransformScale(self.transform, 0.95, 0.95);
                              }completion:^(BOOL completed){
-                                 self.deleteButton.tintColor = [[ThemeFactory currentTheme] tintColorForDeleteIcon];
                              }];
             
         }
@@ -188,6 +196,7 @@
         {
             
             self.transform = CGAffineTransformScale(self.transform, 0.95, 0.95);
+            self.deleteButton.alpha = 1;
         }
         self.isShrunken = YES;
     }
@@ -204,7 +213,8 @@
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
-        self.transform = CGAffineTransformIdentity;
+                                 self.transform = CGAffineTransformIdentity;
+                                 self.deleteButton.alpha = 0;
                              }completion:nil];
             
         }
@@ -212,6 +222,7 @@
         {
             
             self.transform = CGAffineTransformIdentity;
+            self.deleteButton.alpha = 0;
         }
         self.isShrunken = NO;
     }
@@ -219,6 +230,8 @@
 
 -(void) reset
 {
+    [self.deleteButton removeFromSuperview];
+    self.deleteButton = nil;
     self.isShrunken = NO;
     self.transform = CGAffineTransformIdentity;
 }

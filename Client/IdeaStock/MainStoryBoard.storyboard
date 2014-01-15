@@ -350,7 +350,7 @@
                                 <color key="backgroundColor" white="0.95000000000000007" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BzD-cR-F4A">
-                                <rect key="frame" x="0.0" y="176" width="768" height="808"/>
+                                <rect key="frame" x="0.0" y="166" width="768" height="818"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="z7C-mu-znQ">
                                     <size key="itemSize" width="330" height="280"/>
@@ -427,7 +427,7 @@
                                 </connections>
                             </collectionView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Collections" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qf1-Fk-LOz">
-                                <rect key="frame" x="15" y="94" width="217" height="67"/>
+                                <rect key="frame" x="15" y="94" width="217" height="57"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="36"/>
                                 <color key="textColor" red="0.2531437873840332" green="0.25313621759414673" blue="0.25314050912857056" alpha="1" colorSpace="calibratedRGB"/>
@@ -500,7 +500,7 @@
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="leading" secondItem="BzD-cR-F4A" secondAttribute="leading" id="FBr-fc-LG5"/>
                             <constraint firstItem="BzD-cR-F4A" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" id="MGn-yq-ljB"/>
                             <constraint firstAttribute="trailing" secondItem="1Wk-zS-ESI" secondAttribute="trailing" id="Svh-Z4-EYm"/>
-                            <constraint firstItem="BzD-cR-F4A" firstAttribute="top" secondItem="1Wk-zS-ESI" secondAttribute="top" constant="-740" id="TsX-Fz-GZX"/>
+                            <constraint firstItem="BzD-cR-F4A" firstAttribute="top" secondItem="1Wk-zS-ESI" secondAttribute="top" constant="-750" id="TsX-Fz-GZX"/>
                             <constraint firstAttribute="trailing" secondItem="4g8-pq-foJ" secondAttribute="trailing" id="ZDd-U4-IkZ"/>
                             <constraint firstItem="1Wk-zS-ESI" firstAttribute="leading" secondItem="Jx3-sE-JAL" secondAttribute="leading" id="fsr-Y1-5xv"/>
                             <constraint firstItem="BzD-cR-F4A" firstAttribute="top" secondItem="Qf1-Fk-LOz" secondAttribute="bottom" constant="15" id="lXf-4E-WTv"/>
