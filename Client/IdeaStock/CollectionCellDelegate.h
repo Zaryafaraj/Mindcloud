@@ -14,7 +14,8 @@
 
 -(void) deletePressed:(UICollectionViewCell *) cell;
 
--(void) sharePressed:(UICollectionViewCell *) cell;
+-(void) sharePressed:(UICollectionViewCell *) cell
+          fromButton:(UIButton *) button;
 
 -(void) categorizedPressed:(UICollectionViewCell *) cell;
 

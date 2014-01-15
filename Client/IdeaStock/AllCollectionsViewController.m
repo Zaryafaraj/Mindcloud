@@ -220,7 +220,7 @@
 -(void) dismissPopOver
 {
     if (self.lastPopOver != nil){
-        [self.lastPopOver dismissPopoverAnimated:YES];
+        [self.lastPopOver dismissPopoverAnimated:NO];
         self.lastPopOver = nil;
     }
 }
@@ -1356,11 +1356,17 @@
     }
 }
 
--(void) sharePressed:(UICollectionViewCell *) cell
+-(void) sharePressed:(UICollectionViewCell *) cell fromButton:(UIButton *)button
 {
     
     [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
-    NSString * collectionName = [self getSelectedCollectionName];
+    
+    NSString * collectionName = nil;
+    if ([cell isKindOfClass:[CollectionCell class]])
+    {
+        CollectionCell * colCell = (CollectionCell *) cell;
+        collectionName = colCell.text;
+    }
     
     if (collectionName == nil) return;
     
@@ -1375,9 +1381,10 @@
     self.lastPopOver.delegate = self;
     //sharingController.contentSizeForViewInPopover = CGSizeMake(370, 200);
     popover.popoverContentSize = CGSizeMake(300, 70);
-    [popover presentPopoverFromBarButtonItem:self.shareButton
-                    permittedArrowDirections:UIPopoverArrowDirectionAny
-                                    animated:YES];
+    [popover presentPopoverFromRect:button.frame
+                             inView:button.superview
+           permittedArrowDirections:UIPopoverArrowDirectionAny
+                           animated:NO];
     
     [self.model shareCollection:collectionName];
 }

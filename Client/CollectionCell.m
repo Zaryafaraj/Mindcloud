@@ -66,15 +66,6 @@
 }
 
 
--(void) deletePressed:(id)sender
-{
-    
-    id<CollectionCellDelegate> tempDel = self.delegate;
-    if (tempDel)
-    {
-        [tempDel deletePressed:self];
-    }
-}
 
 -(void) collectionSelected:(UILongPressGestureRecognizer *) gr
 {
@@ -255,6 +246,45 @@
     self.deleteButton = nil;
     self.isShrunken = NO;
     self.transform = CGAffineTransformIdentity;
+}
+
+- (IBAction)sharePressed:(id)sender
+{
+    id<CollectionCellDelegate> tempDel = self.delegate;
+    if (tempDel)
+    {
+        [tempDel sharePressed:self fromButton:sender];
+    }
+}
+
+- (IBAction)categorizedPressed:(id)sender
+{
+    
+    id<CollectionCellDelegate> tempDel = self.delegate;
+    if (tempDel)
+    {
+        [tempDel categorizedPressed:self];
+    }
+}
+
+- (IBAction)renamePressed:(id)sender
+{
+    
+    id<CollectionCellDelegate> tempDel = self.delegate;
+    if (tempDel)
+    {
+        [tempDel renamePressed:self];
+    }
+}
+
+-(void) deletePressed:(id)sender
+{
+    
+    id<CollectionCellDelegate> tempDel = self.delegate;
+    if (tempDel)
+    {
+        [tempDel deletePressed:self];
+    }
 }
 /*
  // Only override drawRect: if you perform custom drawing.
