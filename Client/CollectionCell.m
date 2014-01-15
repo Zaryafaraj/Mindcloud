@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIView *titleBackground;
 @property BOOL isShrunken;
 @property (nonatomic) UIButton * deleteButton;
+@property (weak, nonatomic) IBOutlet UIView *footer;
 
 @end
 @implementation CollectionCell
@@ -190,6 +191,12 @@
                                  if (!self.placeholderForAdd)
                                  {
                                      self.deleteButton.alpha = 1;
+                                     
+                                     if (self.footer.hidden)
+                                     {
+                                         self.footer.hidden = NO;
+                                     }
+                                     self.footer.alpha = 1;
                                  }
                                  self.transform = CGAffineTransformScale(self.transform, 0.95, 0.95);
                              }completion:^(BOOL completed){
@@ -203,6 +210,11 @@
             if (!self.placeholderForAdd)
             {
                 self.deleteButton.alpha = 1;
+                if (self.footer.hidden)
+                {
+                    self.footer.hidden = NO;
+                }
+                self.footer.alpha = 1;
             }
         }
         self.isShrunken = YES;
@@ -222,6 +234,7 @@
                              animations:^{
                                  self.transform = CGAffineTransformIdentity;
                                  self.deleteButton.alpha = 0;
+                                 self.footer.alpha = 0;
                              }completion:nil];
             
         }
@@ -230,6 +243,7 @@
             
             self.transform = CGAffineTransformIdentity;
             self.deleteButton.alpha = 0;
+            self.footer.alpha = 0;
         }
         self.isShrunken = NO;
     }

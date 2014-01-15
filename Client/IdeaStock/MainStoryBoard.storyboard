@@ -375,6 +375,51 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 </view>
+                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qsf-OJ-WFj" userLabel="footer">
+                                                    <rect key="frame" x="2" y="232" width="325" height="48"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M9I-eJ-ZCU">
+                                                            <rect key="frame" x="263" y="7" width="47" height="34"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                            <size key="titleShadowOffset" width="0.0" height="1"/>
+                                                            <state key="normal" title="Share">
+                                                                <color key="titleColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                                                <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R3P-ee-UYK">
+                                                            <rect key="frame" x="15" y="7" width="87" height="34"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                            <size key="titleShadowOffset" width="0.0" height="1"/>
+                                                            <state key="normal" title="Categorize">
+                                                                <color key="titleColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                                                <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zda-bd-OeE">
+                                                            <rect key="frame" x="118" y="7" width="67" height="34"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                            <size key="titleShadowOffset" width="0.0" height="1"/>
+                                                            <state key="normal" title="Rename">
+                                                                <color key="titleColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                                                <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                        </button>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="centerY" secondItem="R3P-ee-UYK" secondAttribute="centerY" id="KxH-wC-yld"/>
+                                                        <constraint firstAttribute="trailing" secondItem="M9I-eJ-ZCU" secondAttribute="trailing" constant="15" id="YAq-oX-R23"/>
+                                                        <constraint firstAttribute="centerY" secondItem="Zda-bd-OeE" secondAttribute="centerY" id="iHB-Am-suE"/>
+                                                        <constraint firstAttribute="centerY" secondItem="M9I-eJ-ZCU" secondAttribute="centerY" id="jhb-wH-kFT"/>
+                                                        <constraint firstItem="Zda-bd-OeE" firstAttribute="leading" secondItem="R3P-ee-UYK" secondAttribute="trailing" constant="16" id="oMV-0Y-HF6"/>
+                                                        <constraint firstItem="R3P-ee-UYK" firstAttribute="leading" secondItem="Qsf-OJ-WFj" secondAttribute="leading" constant="15" id="rsd-Co-cYF"/>
+                                                    </constraints>
+                                                </view>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Mindcloud" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xiw-0D-LDI">
                                                     <rect key="frame" x="10" y="0.0" width="312" height="69"/>
                                                     <constraints>
@@ -387,7 +432,7 @@
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add-collection-round" translatesAutoresizingMaskIntoConstraints="NO" id="TXn-kn-yJa">
-                                                    <rect key="frame" x="103" y="78" width="125" height="125"/>
+                                                    <rect key="frame" x="103" y="77" width="125" height="125"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="125" id="bWg-GS-Feh"/>
@@ -401,11 +446,15 @@
                                             <constraint firstItem="Xiw-0D-LDI" firstAttribute="leading" secondItem="WAv-an-XHa" secondAttribute="leading" constant="10" id="0k1-Yx-193"/>
                                             <constraint firstItem="Xiw-0D-LDI" firstAttribute="centerY" secondItem="WAv-an-XHa" secondAttribute="centerY" constant="-105.5" id="112-W6-NqH"/>
                                             <constraint firstItem="A5Z-nu-nsh" firstAttribute="top" secondItem="WAv-an-XHa" secondAttribute="top" constant="3" id="4Yo-IG-Cix"/>
+                                            <constraint firstItem="Qsf-OJ-WFj" firstAttribute="leading" secondItem="WAv-an-XHa" secondAttribute="leading" constant="2" id="5EX-R7-H18"/>
                                             <constraint firstItem="Xiw-0D-LDI" firstAttribute="centerY" secondItem="tEM-oN-bu8" secondAttribute="centerY" constant="-105.5" id="5u8-0p-nng"/>
                                             <constraint firstItem="A5Z-nu-nsh" firstAttribute="bottom" secondItem="Xiw-0D-LDI" secondAttribute="bottom" id="9Sp-cZ-3D2"/>
                                             <constraint firstItem="TXn-kn-yJa" firstAttribute="centerX" secondItem="A5Z-nu-nsh" secondAttribute="centerX" id="JJX-f5-qiY"/>
                                             <constraint firstItem="A5Z-nu-nsh" firstAttribute="leading" secondItem="tEM-oN-bu8" secondAttribute="leading" id="Q5d-R4-HYh"/>
+                                            <constraint firstAttribute="bottom" secondItem="Qsf-OJ-WFj" secondAttribute="bottom" id="Qtw-eM-5HL"/>
                                             <constraint firstItem="A5Z-nu-nsh" firstAttribute="width" secondItem="tEM-oN-bu8" secondAttribute="width" id="Wkb-Xs-tPH"/>
+                                            <constraint firstItem="Qsf-OJ-WFj" firstAttribute="top" secondItem="TXn-kn-yJa" secondAttribute="bottom" constant="30" id="aX0-EV-PFm"/>
+                                            <constraint firstAttribute="trailing" secondItem="Qsf-OJ-WFj" secondAttribute="trailing" constant="3" id="eRW-3Z-Yws"/>
                                             <constraint firstItem="Xiw-0D-LDI" firstAttribute="centerX" secondItem="tEM-oN-bu8" secondAttribute="centerX" constant="1" id="o29-ob-ZgK"/>
                                             <constraint firstItem="tEM-oN-bu8" firstAttribute="leading" secondItem="WAv-an-XHa" secondAttribute="leading" constant="3" id="oGL-7C-h2J"/>
                                             <constraint firstItem="Xiw-0D-LDI" firstAttribute="centerX" secondItem="WAv-an-XHa" secondAttribute="centerX" constant="1" id="oaD-10-YTZ"/>
@@ -415,6 +464,7 @@
                                         <size key="customSize" width="330" height="280"/>
                                         <connections>
                                             <outlet property="addPlaceholderImage" destination="TXn-kn-yJa" id="l2V-ai-mPo"/>
+                                            <outlet property="footer" destination="Qsf-OJ-WFj" id="RGc-ye-SZh"/>
                                             <outlet property="picImage" destination="tEM-oN-bu8" id="dns-4X-Xvj"/>
                                             <outlet property="titleBackground" destination="A5Z-nu-nsh" id="G1U-oE-Ggb"/>
                                             <outlet property="titleLabel" destination="Xiw-0D-LDI" id="5jt-bi-ZWu"/>
