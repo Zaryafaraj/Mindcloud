@@ -1384,16 +1384,15 @@
     [popover presentPopoverFromRect:button.frame
                              inView:button.superview
            permittedArrowDirections:UIPopoverArrowDirectionAny
-                           animated:NO];
+                           animated:YES];
     
     [self.model shareCollection:collectionName];
     
 }
 
--(void) categorizedPressed:(UICollectionViewCell *) cell
+-(void) categorizedPressed:(UICollectionViewCell *) cell fromButton:(UIButton *)button
 {
     
-    [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
     [self dismissPopOver];
     
     CategorizationViewController * categorizationController = [self.storyboard instantiateViewControllerWithIdentifier:@"CategorizationView"];
@@ -1413,9 +1412,11 @@
     {
         popover.popoverContentSize = CGSizeMake(200, 400);
     }
-    [popover presentPopoverFromBarButtonItem:self.categorizeButton
-                    permittedArrowDirections:UIPopoverArrowDirectionAny
-                                    animated:YES];
+    
+    [popover presentPopoverFromRect:button.frame
+                             inView:button.superview
+           permittedArrowDirections:UIPopoverArrowDirectionAny
+                           animated:YES];
 }
 
 -(void) renamePressed:(UICollectionViewCell *) cell

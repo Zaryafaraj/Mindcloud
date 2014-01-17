@@ -17,7 +17,8 @@
 -(void) sharePressed:(UICollectionViewCell *) cell
           fromButton:(UIButton *) button;
 
--(void) categorizedPressed:(UICollectionViewCell *) cell;
+-(void) categorizedPressed:(UICollectionViewCell *) cell
+                fromButton:(UIButton *)button;
 
 -(void) renamePressed:(UICollectionViewCell *) cell;
 

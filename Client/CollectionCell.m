@@ -263,7 +263,7 @@
     id<CollectionCellDelegate> tempDel = self.delegate;
     if (tempDel)
     {
-        [tempDel categorizedPressed:self];
+        [tempDel categorizedPressed:self fromButton:sender];
     }
 }
 
