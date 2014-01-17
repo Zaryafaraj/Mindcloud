@@ -376,11 +376,11 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 </view>
                                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qsf-OJ-WFj" userLabel="footer">
-                                                    <rect key="frame" x="2" y="232" width="325" height="48"/>
+                                                    <rect key="frame" x="2" y="231" width="325" height="46"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M9I-eJ-ZCU">
-                                                            <rect key="frame" x="263" y="7" width="47" height="34"/>
+                                                            <rect key="frame" x="263" y="6" width="47" height="34"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <size key="titleShadowOffset" width="0.0" height="1"/>
@@ -393,7 +393,7 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R3P-ee-UYK">
-                                                            <rect key="frame" x="15" y="7" width="87" height="34"/>
+                                                            <rect key="frame" x="15" y="6" width="87" height="34"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <size key="titleShadowOffset" width="0.0" height="1"/>
@@ -406,7 +406,7 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zda-bd-OeE">
-                                                            <rect key="frame" x="118" y="7" width="67" height="34"/>
+                                                            <rect key="frame" x="118" y="6" width="67" height="34"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <size key="titleShadowOffset" width="0.0" height="1"/>
@@ -441,7 +441,7 @@
                                                     <size key="shadowOffset" width="0.0" height="1"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add-collection-round" translatesAutoresizingMaskIntoConstraints="NO" id="TXn-kn-yJa">
-                                                    <rect key="frame" x="103" y="77" width="125" height="125"/>
+                                                    <rect key="frame" x="103" y="78" width="125" height="125"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="125" id="bWg-GS-Feh"/>
@@ -460,9 +460,9 @@
                                             <constraint firstItem="A5Z-nu-nsh" firstAttribute="bottom" secondItem="Xiw-0D-LDI" secondAttribute="bottom" id="9Sp-cZ-3D2"/>
                                             <constraint firstItem="TXn-kn-yJa" firstAttribute="centerX" secondItem="A5Z-nu-nsh" secondAttribute="centerX" id="JJX-f5-qiY"/>
                                             <constraint firstItem="A5Z-nu-nsh" firstAttribute="leading" secondItem="tEM-oN-bu8" secondAttribute="leading" id="Q5d-R4-HYh"/>
-                                            <constraint firstAttribute="bottom" secondItem="Qsf-OJ-WFj" secondAttribute="bottom" id="Qtw-eM-5HL"/>
+                                            <constraint firstAttribute="bottom" secondItem="Qsf-OJ-WFj" secondAttribute="bottom" constant="3" id="Qtw-eM-5HL"/>
                                             <constraint firstItem="A5Z-nu-nsh" firstAttribute="width" secondItem="tEM-oN-bu8" secondAttribute="width" id="Wkb-Xs-tPH"/>
-                                            <constraint firstItem="Qsf-OJ-WFj" firstAttribute="top" secondItem="TXn-kn-yJa" secondAttribute="bottom" constant="30" id="aX0-EV-PFm"/>
+                                            <constraint firstItem="Qsf-OJ-WFj" firstAttribute="top" secondItem="TXn-kn-yJa" secondAttribute="bottom" constant="28" id="aX0-EV-PFm"/>
                                             <constraint firstAttribute="trailing" secondItem="Qsf-OJ-WFj" secondAttribute="trailing" constant="3" id="eRW-3Z-Yws"/>
                                             <constraint firstItem="Xiw-0D-LDI" firstAttribute="centerX" secondItem="tEM-oN-bu8" secondAttribute="centerX" constant="1" id="o29-ob-ZgK"/>
                                             <constraint firstItem="tEM-oN-bu8" firstAttribute="leading" secondItem="WAv-an-XHa" secondAttribute="leading" constant="3" id="oGL-7C-h2J"/>
