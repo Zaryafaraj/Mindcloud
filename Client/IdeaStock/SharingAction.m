@@ -43,6 +43,7 @@
         }
         
         NSDictionary * result = self.getDataAsDictionary;
+        NSLog(@"!!! \n %@", result);
         NSString * sharingSecret = result[@"sharing_secret"];
         self.postCallback(sharingSecret);
     }

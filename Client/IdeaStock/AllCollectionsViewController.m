@@ -1134,7 +1134,6 @@
     [self disableShareButtons];
     [self disableEditButtons];
     self.navigationItem.rightBarButtonItems = self.navigateToolbar;
-    self.isEditing = NO;
     self.isInSharingMode = NO;
     
 }
@@ -1359,6 +1358,7 @@
 -(void) sharePressed:(UICollectionViewCell *) cell fromButton:(UIButton *)button
 {
     
+    
     [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
     
     NSString * collectionName = nil;
@@ -1387,6 +1387,7 @@
                            animated:NO];
     
     [self.model shareCollection:collectionName];
+    
 }
 
 -(void) categorizedPressed:(UICollectionViewCell *) cell
