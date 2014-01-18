@@ -11,13 +11,13 @@
 #import "ThemeFactory.h"
 
 @interface CollectionCell()
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *picImage;
 @property (weak, nonatomic) IBOutlet UIImageView * addPlaceholderImage;
 @property (weak, nonatomic) IBOutlet UIView *titleBackground;
 @property BOOL isShrunken;
 @property (nonatomic) UIButton * deleteButton;
 @property (weak, nonatomic) IBOutlet UIView *footer;
+@property (weak, nonatomic) IBOutlet UITextField *titleLabel;
 
 @end
 @implementation CollectionCell
@@ -246,6 +246,11 @@
     self.deleteButton = nil;
     self.isShrunken = NO;
     self.transform = CGAffineTransformIdentity;
+    
+        self.titleLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.titleLabel.layer.shadowOffset = CGSizeMake(0, 1);
+        self.titleLabel.layer.shadowRadius = 2;
+        self.titleLabel.layer.shadowOpacity = 1;
 }
 
 - (IBAction)sharePressed:(id)sender
