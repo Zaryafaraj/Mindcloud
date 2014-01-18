@@ -316,19 +316,26 @@
 -(BOOL) textFieldShouldBeginEditing:(UITextField *)textField
 {
     id<CollectionCellDelegate> tempDel = self.delegate;
+    
     if (tempDel)
     {
         [tempDel becameFirstResponder:self];
     }
-    NSLog(@"ZZZ");
+    
     return YES;
 }
 -(void) textFieldDidEndEditing:(UITextField *)textField
 {
+    //if we didn't do change anything don't call the delegate
+    if ([_text isEqualToString:textField.text]) return;
+    
+    NSString * oldName = _text;
+    _text = textField.text;
     id<CollectionCellDelegate> tempDel = self.delegate;
     if (tempDel)
     {
-        [tempDel renamePressed:self];
+        [tempDel renamePressed:self
+                   fromOldName:oldName];
     }
 }
 

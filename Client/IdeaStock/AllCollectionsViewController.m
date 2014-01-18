@@ -179,6 +179,22 @@
     oldCell.text = actualNewName;
 }
 
+-(void) renameCollectionCell: (CollectionCell *) cell
+                 WithOldName:(NSString *) oldName
+                   toNewName:(NSString *) newName
+{
+    NSSet * allNames = [self.model getAllCollectionNames];
+    NSString * actualNewName = [NamingHelper validateCollectionName:newName amongAllNames:allNames];
+    
+    [self.model renameCollection:oldName
+                      inCategory:self.currentCategory
+                 toNewCollection:actualNewName];
+    
+    if (![cell.text isEqualToString:actualNewName])
+    {
+        cell.text = actualNewName;
+    }
+}
 -(void) deleteCollection:(CollectionCell *) cell
 {
     NSString * collectionName = cell.text;
@@ -285,6 +301,7 @@
 {
     
     [self makeEveryThingBigger];
+    [self resignAllResponders];
     double delayInSeconds = 0.2;
     
     //the reason that we run this code after a delay is that, when a touch ends two gesture recognizers recognize it simultanously.
@@ -553,16 +570,19 @@
     self.tgr = tgr;
 }
 
+-(void) resignAllResponders{
+    for(NSIndexPath * indx in [self.collectionView indexPathsForVisibleItems])
+    {
+        UICollectionViewCell * cell = [self.collectionView cellForItemAtIndexPath:indx];
+        [cell resignFirstResponder];
+    }
+}
 -(void) screenTapped:(UITapGestureRecognizer *) gr
 {
     if (gr.state == UIGestureRecognizerStateEnded)
     {
-        for(NSIndexPath * indx in [self.collectionView indexPathsForVisibleItems])
-        {
-            UICollectionViewCell * cell = [self.collectionView cellForItemAtIndexPath:indx];
-            [cell resignFirstResponder];
-        }
-        
+
+//        [self resignAllResponders];
         if(self.isEditing)
         {
             [self exitEditMode];
@@ -1420,9 +1440,8 @@
 }
 
 -(void) renamePressed:(UICollectionViewCell *) cell
+          fromOldName:(NSString *)oldName
 {
-    
-    return;
     
     [self dismissPopOver];
     
@@ -1431,7 +1450,9 @@
     {
         CollectionCell * colCell = (CollectionCell *) cell;
         NSString * newName = colCell.text;
-        [self renameSelectedCollectionsToNewName:newName];
+        [self renameCollectionCell:colCell
+                       WithOldName:oldName
+                         toNewName:newName];
         [self disableEditButtons];
         self.navigationItem.rightBarButtonItems = self.navigateToolbar;
         [self deselectAll];

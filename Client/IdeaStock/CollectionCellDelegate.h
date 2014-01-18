@@ -20,7 +20,8 @@
 -(void) categorizedPressed:(UICollectionViewCell *) cell
                 fromButton:(UIButton *)button;
 
--(void) renamePressed:(UICollectionViewCell *) cell;
+-(void) renamePressed:(UICollectionViewCell *) cell
+          fromOldName:(NSString *) oldName;
 
 -(void) becameFirstResponder:(UICollectionViewCell *) cell;
 
