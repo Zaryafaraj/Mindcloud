@@ -58,6 +58,7 @@
 
 @property (nonatomic, strong) NSString * workingCollectionName;
 @property (nonatomic, strong) UITapGestureRecognizer * tgr;
+
 @end
 
 @implementation AllCollectionsViewController
@@ -382,13 +383,6 @@
             if ([[alertView buttonTitleAtIndex:buttonIndex]
                       isEqualToString:RENAME_BUTTON_TITLE])
             {
-                NSString * newName = [[alertView textFieldAtIndex:0] text];
-                [self renameSelectedCollectionsToNewName:newName];
-                [self disableEditButtons];
-                self.navigationItem.rightBarButtonItems = self.navigateToolbar;
-                [self deselectAll];
-                self.isInSharingMode = NO;
-                self.isEditing = NO;
             }
             else if ([[alertView buttonTitleAtIndex:buttonIndex]
                       isEqualToString:CREATE_CATEGORY_BUTTON])
@@ -563,6 +557,12 @@
 {
     if (gr.state == UIGestureRecognizerStateEnded)
     {
+        for(NSIndexPath * indx in [self.collectionView indexPathsForVisibleItems])
+        {
+            UICollectionViewCell * cell = [self.collectionView cellForItemAtIndexPath:indx];
+            [cell resignFirstResponder];
+        }
+        
         if(self.isEditing)
         {
             [self exitEditMode];
@@ -1422,13 +1422,27 @@
 -(void) renamePressed:(UICollectionViewCell *) cell
 {
     
+    return;
+    
     [self dismissPopOver];
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The New Name of The Collection"
-                                                     message:nil
-                                                    delegate:self
-                                           cancelButtonTitle:@"Cancel"
-                                           otherButtonTitles:RENAME_BUTTON_TITLE,nil];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alert show];
+    
+    
+    if ([cell isKindOfClass:[CollectionCell class]])
+    {
+        CollectionCell * colCell = (CollectionCell *) cell;
+        NSString * newName = colCell.text;
+        [self renameSelectedCollectionsToNewName:newName];
+        [self disableEditButtons];
+        self.navigationItem.rightBarButtonItems = self.navigateToolbar;
+        [self deselectAll];
+    }
+}
+
+-(void) becameFirstResponder:(UICollectionViewCell *)cell
+{
+    if (!self.isEditing)
+    {
+        [self enterEditMode];
+    }
 }
 @end

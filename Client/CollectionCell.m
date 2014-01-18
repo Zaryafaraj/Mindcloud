@@ -242,16 +242,42 @@
 
 -(void) reset
 {
+    
+    [self resignFirstResponder];
     [self.deleteButton removeFromSuperview];
     self.deleteButton = nil;
     self.isShrunken = NO;
     self.transform = CGAffineTransformIdentity;
     
-        self.titleLabel.layer.shadowColor = [UIColor blackColor].CGColor;
-        self.titleLabel.layer.shadowOffset = CGSizeMake(0, 1);
-        self.titleLabel.layer.shadowRadius = 2;
-        self.titleLabel.layer.shadowOpacity = 1;
+    self.titleLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.titleLabel.layer.shadowOffset = CGSizeMake(0, 1);
+    self.titleLabel.layer.shadowRadius = 2;
+    self.titleLabel.layer.shadowOpacity = 1;
+    
+    self.titleLabel.delegate = self;
 }
+
+
+
+-(BOOL) becomeFirstResponder
+{
+    BOOL responder = [super becomeFirstResponder];
+    [self.titleLabel becomeFirstResponder];
+    return responder;
+}
+
+-(BOOL) resignFirstResponder
+{
+    [super resignFirstResponder];
+    if (self.titleLabel.isFirstResponder)
+    {
+        [self.titleLabel resignFirstResponder];
+        return YES;
+    }
+    
+    return NO;
+}
+
 
 - (IBAction)sharePressed:(id)sender
 {
@@ -274,12 +300,7 @@
 
 - (IBAction)renamePressed:(id)sender
 {
-    
-    id<CollectionCellDelegate> tempDel = self.delegate;
-    if (tempDel)
-    {
-        [tempDel renamePressed:self];
-    }
+    [self becomeFirstResponder];
 }
 
 -(void) deletePressed:(id)sender
@@ -291,13 +312,24 @@
         [tempDel deletePressed:self];
     }
 }
-/*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect
- {
- // Drawing code
- }
- */
+
+-(BOOL) textFieldShouldBeginEditing:(UITextField *)textField
+{
+    id<CollectionCellDelegate> tempDel = self.delegate;
+    if (tempDel)
+    {
+        [tempDel becameFirstResponder:self];
+    }
+    NSLog(@"ZZZ");
+    return YES;
+}
+-(void) textFieldDidEndEditing:(UITextField *)textField
+{
+    id<CollectionCellDelegate> tempDel = self.delegate;
+    if (tempDel)
+    {
+        [tempDel renamePressed:self];
+    }
+}
 
 @end

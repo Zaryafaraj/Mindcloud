@@ -22,4 +22,6 @@
 
 -(void) renamePressed:(UICollectionViewCell *) cell;
 
+-(void) becameFirstResponder:(UICollectionViewCell *) cell;
+
 @end

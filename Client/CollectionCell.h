@@ -10,7 +10,7 @@
 #import "CollectionCellDelegate.h"
 
 
-@interface CollectionCell : UICollectionViewCell
+@interface CollectionCell : UICollectionViewCell <UITextFieldDelegate>
 @property (nonatomic, strong) UIImage * img;
 @property (nonatomic, strong) NSString * text;
 @property (nonatomic, weak) id<CollectionCellDelegate> delegate;
@@ -22,5 +22,7 @@
 -(void) shrink:(BOOL) animated;
 -(void) unshrink:(BOOL) animated;
 -(void) reset;
+
+-(BOOL) becomeFirstResponder;
 
 @end
