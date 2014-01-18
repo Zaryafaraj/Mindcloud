@@ -25,4 +25,7 @@
 
 -(void) becameFirstResponder:(UICollectionViewCell *) cell;
 
+- (void)unsharePressed:(UICollectionViewCell *) cell
+            fromButton:(UIButton *) button;
+
 @end

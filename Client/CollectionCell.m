@@ -288,6 +288,15 @@
     }
 }
 
+- (IBAction)unsharePressed:(id)sender
+{
+    id<CollectionCellDelegate> tempDel = self.delegate;
+    if (tempDel)
+    {
+        [tempDel unsharePressed:self fromButton:sender];
+    }
+}
+
 - (IBAction)categorizedPressed:(id)sender
 {
     

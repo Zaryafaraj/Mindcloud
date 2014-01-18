@@ -59,6 +59,8 @@
 @property (nonatomic, strong) NSString * workingCollectionName;
 @property (nonatomic, strong) UITapGestureRecognizer * tgr;
 
+@property (nonatomic, strong) CollectionCell * selectedCell;
+
 @end
 
 @implementation AllCollectionsViewController
@@ -318,25 +320,6 @@
     });
 }
 
-- (IBAction)unsharePressed:(id)sender {
-    
-    [self dismissPopOver];
-    
-    UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil
-                                                         delegate:self
-                                                cancelButtonTitle:nil
-                                           destructiveButtonTitle:UNSHARE_ACTION
-                                                otherButtonTitles:nil,
-                              nil];
-    //make sure an actionsheet is not presented on top of another not dismissed one
-    if (self.activeSheet)
-    {
-        [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
-        self.activeSheet = nil;
-    }
-    [action showFromBarButtonItem:sender animated:NO];
-    self.activeSheet = action;
-}
 
 - (IBAction)subscribePressed:(id)sender {
     
@@ -1079,7 +1062,8 @@
     NSString * actionName = [actionSheet buttonTitleAtIndex:buttonIndex];
     if ([actionName isEqualToString:UNSHARE_ACTION])
     {
-        NSString * collectionName = [self getSelectedCollectionName];
+        CollectionCell * selectedCell = self.selectedCell;
+        NSString * collectionName = selectedCell.text;
         if (collectionName != nil)
         {
             [self.model unshareCollection:collectionName];
@@ -1459,6 +1443,32 @@
     }
 }
 
+- (void)unsharePressed:(UICollectionViewCell *) cell
+                fromButton:(UIButton *) button
+{
+    
+    [self dismissPopOver];
+    
+    
+    UIActionSheet * action = [[UIActionSheet alloc] initWithTitle:nil
+                                                         delegate:self
+                                                cancelButtonTitle:nil
+                                           destructiveButtonTitle:UNSHARE_ACTION
+                                                otherButtonTitles:nil,
+                              nil];
+    //make sure an actionsheet is not presented on top of another not dismissed one
+    if (self.activeSheet)
+    {
+        [self.activeSheet dismissWithClickedButtonIndex:-1 animated:NO];
+        self.activeSheet = nil;
+    }
+    self.selectedCell = (CollectionCell*) cell;
+    [action showFromRect:button.frame
+                  inView:button.superview
+                animated:YES];
+    self.activeSheet = action;
+    
+}
 -(void) becameFirstResponder:(UICollectionViewCell *)cell
 {
     if (!self.isEditing)

@@ -392,6 +392,20 @@
                                                                 <action selector="sharePressed:" destination="WAv-an-XHa" eventType="touchUpInside" id="5d4-aa-eWg"/>
                                                             </connections>
                                                         </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pch-KO-R1i">
+                                                            <rect key="frame" x="180" y="6" width="68" height="34"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                            <size key="titleShadowOffset" width="0.0" height="1"/>
+                                                            <state key="normal" title="Unshare">
+                                                                <color key="titleColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                                                <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="sharePressed:" destination="WAv-an-XHa" eventType="touchUpInside" id="FiW-Bl-XPf"/>
+                                                                <action selector="unsharePressed:" destination="WAv-an-XHa" eventType="touchUpInside" id="GP7-S3-BSz"/>
+                                                            </connections>
+                                                        </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R3P-ee-UYK">
                                                             <rect key="frame" x="15" y="6" width="87" height="34"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -423,7 +437,9 @@
                                                     <constraints>
                                                         <constraint firstAttribute="centerY" secondItem="R3P-ee-UYK" secondAttribute="centerY" id="KxH-wC-yld"/>
                                                         <constraint firstAttribute="trailing" secondItem="M9I-eJ-ZCU" secondAttribute="trailing" constant="15" id="YAq-oX-R23"/>
+                                                        <constraint firstItem="M9I-eJ-ZCU" firstAttribute="baseline" secondItem="pch-KO-R1i" secondAttribute="baseline" id="hys-nh-KfG"/>
                                                         <constraint firstAttribute="centerY" secondItem="Zda-bd-OeE" secondAttribute="centerY" id="iHB-Am-suE"/>
+                                                        <constraint firstItem="M9I-eJ-ZCU" firstAttribute="leading" secondItem="pch-KO-R1i" secondAttribute="trailing" constant="15" id="jUS-Ea-Mbc"/>
                                                         <constraint firstAttribute="centerY" secondItem="M9I-eJ-ZCU" secondAttribute="centerY" id="jhb-wH-kFT"/>
                                                         <constraint firstItem="Zda-bd-OeE" firstAttribute="leading" secondItem="R3P-ee-UYK" secondAttribute="trailing" constant="16" id="oMV-0Y-HF6"/>
                                                         <constraint firstItem="R3P-ee-UYK" firstAttribute="leading" secondItem="Qsf-OJ-WFj" secondAttribute="leading" constant="15" id="rsd-Co-cYF"/>
