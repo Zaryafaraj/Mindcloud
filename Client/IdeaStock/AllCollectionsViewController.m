@@ -28,9 +28,6 @@
 
 @property (weak, nonatomic) UIView * lastView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (strong, nonatomic) NSArray * editToolbar;
-@property (strong, nonatomic) NSArray * navigateToolbar;
-@property (strong, nonatomic) NSArray * cancelToolbar;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *categorizeButton;
 @property (strong, nonatomic) UIColor * lastCategorizeButtonColor;
@@ -70,13 +67,13 @@
 //TODO the spaces are used as a hack to create spacing in the UI
 //between the buttons. If we find a better way to do it we should remove this ugly hack
 #define DELETE_BUTTON @"Delete  "
-#define CANCEL_BUTTON @"Done  "
+#define CANCEL_BUTTON @"Done"
 #define RENAME_BUTTON @"Rename  "
-#define EDIT_BUTTON @"Select  "
+#define EDIT_BUTTON @"Edit"
 #define CATEGORIZE_BUTTON @"  Categorize  "
 #define SHARE_BUTTON @"Share  "
 #define UNSHARE_BUTTON @"Unshare  "
-#define SUBSCRIBE_BUTTON @"Subscribe  "
+#define SUBSCRIBE_BUTTON @"Subscribe"
 #define SHARING_MODE_BUTTON @"Sharing"
 #define UNSHARE_ACTION @"Unshare Collection"
 #define DELETE_ACTION @"Delete Collection"
@@ -109,20 +106,6 @@
 }
 
 #pragma mark - UI events
--(void) disableEditButtons
-{
-    for(UIBarButtonItem * button in self.editToolbar)
-    {
-        if ([button.title isEqual:DELETE_BUTTON] ||
-            [button.title isEqual:RENAME_BUTTON] ||
-            [button.title isEqual:CATEGORIZE_BUTTON] ||
-            [button.title isEqual:SHARE_BUTTON] ||
-            [button.title isEqual:UNSHARE_BUTTON])
-        {
-            button.enabled = NO;
-        }
-    }
-}
 
 -(void) disableShareButtons
 {
@@ -231,8 +214,6 @@
 {
     self.isEditing = NO;
     [self.collectionView setAllowsMultipleSelection:NO];
-    [self disableEditButtons];
-    self.navigationItem.rightBarButtonItems = self.navigateToolbar;
     [self.categoriesController exitEditMode];
 }
 
@@ -246,7 +227,6 @@
 
 -(void) swithToCategory:(NSString *) newCategoryName
 {
-    [self disableEditButtons];
     [self updateCollectionView:newCategoryName];
     self.currentCategory = newCategoryName;
     if (![self.currentCategory isEqualToString:ALL] &&
@@ -262,14 +242,12 @@
     self.isEditing = NO;
     self.isInSharingMode = NO;
     [self.collectionView setAllowsMultipleSelection:NO];
-    self.navigationItem.rightBarButtonItems = self.navigateToolbar;
     NSArray * selectedItem = [self.collectionView indexPathsForSelectedItems];
     for (NSIndexPath * selIndex in selectedItem)
     {
         [self.collectionView deselectItemAtIndexPath:selIndex animated:YES];
     }
     //make sure Delete and Rename buttons are in disabled state
-    [self disableEditButtons];
     [self disableShareButtons];
     
     [self dismissPopOver];
@@ -278,17 +256,7 @@
 
 - (IBAction)editPressed:(id)sender {
     
-    if(self.isEditing)
-    {
-        self.isEditing = NO;
-        [self exitEditMode];
-    }
-    else
-    {
-        self.isEditing = YES;
-        [self enterEditMode];
-    }
-    self.navigationItem.rightBarButtonItems = self.editToolbar;
+    
 }
 
 -(void) enterEditMode
@@ -513,10 +481,6 @@
 -(void) configureNavigationBar
 {
     
-    
-    //right button
-    self.navigationItem.rightBarButtonItems = self.navigateToolbar;
-    
     //left button
     UIImage * showPanelImg = [UIImage imageNamed:@"ButtonMenu"];
     UIBarButtonItem * showPanel = [[UIBarButtonItem alloc] initWithImage:showPanelImg
@@ -525,8 +489,33 @@
                                                                   action:@selector(showCategoriesPressed:)];
     showPanel.tintColor = [[ThemeFactory currentTheme] navigationBarButtonItemColor];
     self.navigationItem.leftBarButtonItem = showPanel;
+    
+    
+    UIBarButtonItem * edit = self.editButtonItem;
+    edit.tintColor = [[ThemeFactory currentTheme] navigationBarButtonItemColor];
+    //right buttons
+    UIBarButtonItem * fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                  target:self
+                                                  action:nil];
+    fixedSpace.width = 10;
+    self.navigationItem.rightBarButtonItems = @[edit, fixedSpace, self.SubscribeButton];
+    
 }
 
+-(void) setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+    if(self.isEditing)
+    {
+        self.isEditing = NO;
+        [self exitEditMode];
+    }
+    else
+    {
+        self.isEditing = YES;
+        [self enterEditMode];
+    }
+}
 #define SKIP_BUTTON_TITLE @"Continue without an account"
 #define LOGIN_BUTTON_TITLE @"Login with Dropbox"
 
@@ -565,11 +554,11 @@
     if (gr.state == UIGestureRecognizerStateEnded)
     {
 
+        
 //        [self resignAllResponders];
-        if(self.isEditing)
+        if (self.isEditing)
         {
-            [self exitEditMode];
-            self.isEditing = NO;
+            [self setEditing:NO animated:YES];
         }
     }
 }
@@ -591,7 +580,6 @@
     [super viewDidLoad];
     [self showIntroIfNeccessary];
     [self.collectionView setAllowsMultipleSelection:NO];
-    [self manageToolbars];
     self.isEditing = NO;
     self.isInSharingMode = NO;
     self.toolbar.hidden = YES;
@@ -626,47 +614,6 @@
         [self.categoriesController.table reloadData];
     }
 }
-
--(void) manageToolbars
-{
-    NSMutableArray *  editbar = [NSMutableArray array];
-    NSMutableArray *  navbar = [NSMutableArray array];
-    NSMutableArray *  cancelbar = [NSMutableArray array];
-    for (UIBarButtonItem * barButton in self.toolbar.items)
-    {
-        if ([barButton.title isEqualToString:CANCEL_BUTTON])
-        {
-            [cancelbar addObject:barButton];
-            [editbar addObject:barButton];
-        }
-        else if ([barButton.title isEqual: RENAME_BUTTON] ||
-                 [barButton.title isEqual: DELETE_BUTTON] ||
-                 [barButton.title isEqual: CATEGORIZE_BUTTON] ||
-                 [barButton.title isEqual:SHARE_BUTTON] ||
-                 [barButton.title isEqual:UNSHARE_BUTTON])
-        
-        {
-            [editbar addObject:barButton];
-        }
-        else if ([barButton.title isEqual:EDIT_BUTTON] ||
-                 [barButton.title isEqual:SHARING_MODE_BUTTON] ||
-                 [barButton.title isEqual:SUBSCRIBE_BUTTON] ||
-                 barButton == self.showSideMenuButton)
-        {
-            [navbar addObject:barButton];
-        }
-        else
-        {
-            [editbar addObject:barButton];
-            [navbar  addObject:barButton];
-            [cancelbar addObject:barButton];
-        }
-    }
-    self.editToolbar = [[editbar copy] reverseObjectEnumerator].allObjects;
-    self.navigateToolbar = [[navbar copy] reverseObjectEnumerator].allObjects;
-    self.cancelToolbar = [[cancelbar copy] reverseObjectEnumerator].allObjects;
-}
-
 
 -(void) viewDidUnload{
     
@@ -950,15 +897,6 @@
     }
 }
 
--(void) collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    //if nothing is selected disable edit buttons
-    if ([[self.collectionView indexPathsForSelectedItems] count] == 0)
-    {
-        [self disableEditButtons];
-    }
-}
-
 -(CGSize) collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -1082,7 +1020,6 @@
         }
         self.unshareButton.enabled = NO;
         self.shareButton.enabled = NO;
-        self.navigationItem.rightBarButtonItems = self.navigateToolbar;
         self.isEditing = NO;
         self.isInSharingMode = NO;
     }
@@ -1137,8 +1074,6 @@
 {
     [self deselectAll];
     [self disableShareButtons];
-    [self disableEditButtons];
-    self.navigationItem.rightBarButtonItems = self.navigateToolbar;
     self.isInSharingMode = NO;
     
 }
@@ -1278,7 +1213,6 @@
     [self swithToCategory:SHARED_COLLECTIONS_KEY];
     self.isInSharingMode = NO;
     self.isEditing = NO;
-    self.navigationItem.rightBarButtonItems = self.navigateToolbar;
 }
 
 -(void) alreadySubscribedToCollectionWithName:(NSString *) collectionName
@@ -1345,8 +1279,6 @@
         
         [self deleteCollection:colCell];
         //make sure after deletion DELETE and RENAME buttons are disabled
-        [self disableEditButtons];
-        self.navigationItem.rightBarButtonItems = self.navigateToolbar;
         self.isInSharingMode = NO;
         
     }
@@ -1431,8 +1363,6 @@
         [self renameCollectionCell:colCell
                        WithOldName:oldName
                          toNewName:newName];
-        [self disableEditButtons];
-        self.navigationItem.rightBarButtonItems = self.navigateToolbar;
         [self deselectAll];
     }
 }

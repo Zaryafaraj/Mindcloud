@@ -508,46 +508,16 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="1Wk-zS-ESI">
                                 <rect key="frame" x="0.0" y="916" width="768" height="44"/>
                                 <items>
-                                    <barButtonItem enabled="NO" title="  Categorize  " id="eOo-p7-RNb">
-                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
-                                        <connections>
-                                            <action selector="categorizedPressed:" destination="C4k-Gx-gPL" id="TxH-zD-qIF"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem enabled="NO" title="Rename  " id="0Q9-ix-kI4">
-                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
-                                        <connections>
-                                            <action selector="renamePressed:" destination="C4k-Gx-gPL" id="m7I-Ql-kIC"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem enabled="NO" title="Delete  " id="vdd-fp-afS">
-                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
-                                        <connections>
-                                            <action selector="deletePressed:" destination="C4k-Gx-gPL" id="DIA-V1-x5K"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem enabled="NO" title="Unshare  " id="VhD-cj-b6y">
-                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
-                                        <connections>
-                                            <action selector="unsharePressed:" destination="C4k-Gx-gPL" id="7Fn-HG-dnc"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem enabled="NO" title="Share  " id="1KY-yG-IgQ">
-                                        <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
-                                        <connections>
-                                            <action selector="sharePressed:" destination="C4k-Gx-gPL" id="hey-2h-zd3"/>
-                                        </connections>
-                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Eho-C9-EHr">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
-                                    <barButtonItem title="Subscribe  " id="fvF-6J-lfP">
+                                    <barButtonItem title="Subscribe" id="fvF-6J-lfP">
                                         <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
                                         <connections>
                                             <action selector="subscribePressed:" destination="C4k-Gx-gPL" id="jTL-ev-nCQ"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Done  " id="zGk-Ze-iMT">
+                                    <barButtonItem title="Done" id="zGk-Ze-iMT">
                                         <color key="tintColor" white="0.17999999999999999" alpha="1" colorSpace="deviceWhite"/>
                                         <connections>
                                             <action selector="cancelPressed:" destination="C4k-Gx-gPL" id="ca9-GR-NLv"/>
@@ -587,13 +557,10 @@
                     <connections>
                         <outlet property="SubscribeButton" destination="fvF-6J-lfP" id="2qG-yV-bLg"/>
                         <outlet property="cancelButton" destination="zGk-Ze-iMT" id="nFK-Uy-uXG"/>
-                        <outlet property="categorizeButton" destination="eOo-p7-RNb" id="Rhc-tu-pfP"/>
                         <outlet property="collectionView" destination="BzD-cR-F4A" id="MeN-iG-daM"/>
                         <outlet property="editButton" destination="04P-dP-H7k" id="vDd-so-Qwg"/>
                         <outlet property="pageTitle" destination="Qf1-Fk-LOz" id="2Ez-bT-ER4"/>
-                        <outlet property="shareButton" destination="1KY-yG-IgQ" id="8Xc-cz-akJ"/>
                         <outlet property="toolbar" destination="1Wk-zS-ESI" id="VrZ-Rg-ENb"/>
-                        <outlet property="unshareButton" destination="VhD-cj-b6y" id="KCs-Xn-wBT"/>
                         <segue destination="9HL-37-GHp" kind="push" identifier="CollectionViewSegue" id="dSN-V5-JSj"/>
                     </connections>
                 </viewController>
