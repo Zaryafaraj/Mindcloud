@@ -1063,6 +1063,7 @@
     if ([actionName isEqualToString:UNSHARE_ACTION])
     {
         CollectionCell * selectedCell = self.selectedCell;
+        self.selectedCell = nil;
         NSString * collectionName = selectedCell.text;
         if (collectionName != nil)
         {
@@ -1178,15 +1179,7 @@
         return;
     }
     
-    NSMutableArray * collectionsToMove = [NSMutableArray array];
-    for(NSIndexPath * index in [self.collectionView indexPathsForSelectedItems])
-    {
-        CollectionCell * collectionCell = (CollectionCell *)[self.collectionView cellForItemAtIndexPath:index];
-        NSString * collectionName = collectionCell.text;
-        [collectionsToMove addObject:collectionName];
-    }
-    
-    [self.model moveCollections:collectionsToMove
+    [self.model moveCollections:@[self.selectedCell.text]
                 fromCategory:self.currentCategory
                   toNewCategory:categoryName];
     
@@ -1417,6 +1410,7 @@
         popover.popoverContentSize = CGSizeMake(200, 400);
     }
     
+    self.selectedCell = (CollectionCell *)cell;
     [popover presentPopoverFromRect:button.frame
                              inView:button.superview
            permittedArrowDirections:UIPopoverArrowDirectionAny
