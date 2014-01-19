@@ -338,12 +338,6 @@
             if ([[alertView buttonTitleAtIndex:buttonIndex]
                  isEqualToString:RENAME_BUTTON_TITLE])
             {
-                NSIndexPath * indexPath = [self.categoriesController.table indexPathForSelectedRow];
-                UITableViewCell * selectedCell= [self.categoriesController.table cellForRowAtIndexPath:indexPath];
-                NSString * categoryName = selectedCell.textLabel.text;
-                NSString * newCategoryName = [[alertView textFieldAtIndex:0] text];
-                [self.model renameCategory:categoryName toNewCategory:newCategoryName];
-                selectedCell.textLabel.text = newCategoryName;
             }
         }
         else
@@ -1063,7 +1057,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 
--(void) tableView:(UITableView *)tableView renamePressedForItemAt: (NSIndexPath *) index
+-(void) tableView:(UITableView *)tableView
+          renamed:(UITableViewCell *) selectedCell
+      fromOldName:(NSString *) categoryName
+        toNewName:(NSString *) newCategoryName;
 {
 //    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The New Name of The Category"
 //                                                     message:nil
@@ -1074,6 +1071,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 //    self.didCategoriesPresentAlertView = YES;
 //    [alert show];
     
+    [self.model renameCategory:categoryName toNewCategory:newCategoryName];
+    selectedCell.textLabel.text = newCategoryName;
 }
 
 -(BOOL) shouldRenameCategory:(NSString *)categoryName

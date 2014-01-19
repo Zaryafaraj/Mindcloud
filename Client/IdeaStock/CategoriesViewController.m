@@ -140,11 +140,6 @@
     [cell.textLabel.superview addSubview:textField];
 }
 
-- (IBAction)renamePressed:(id)sender
-{
-    [self.delegate tableView:self.table renamePressedForItemAt:[self.table indexPathForSelectedRow]];
-}
-
 -(void) exitEditMode{
     for(UIBarButtonItem * button in self.viewToolbar.items)
     {
@@ -157,6 +152,22 @@
     }
     self.viewToolbar.items = self.navigateToolbarItems;
     [self.table setEditing:NO];
+}
+
+-(void) textFieldDidEndEditing:(UITextField *)textField
+{
+    //very hacky
+    UITableViewCell * cell = (UITableViewCell *)((UIView *)((UIView *)textField.superview).superview).superview;
+    NSString * beforeText = cell.textLabel.text;
+    NSString * newText = textField.text;
+    id<UIEditableTableViewDelegate> temp = self.delegate;
+    if (temp)
+    {
+        [temp tableView:self.table
+                renamed:cell
+            fromOldName:beforeText
+              toNewName:newText];
+    }
 }
 
 @end

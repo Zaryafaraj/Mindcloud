@@ -10,7 +10,10 @@
 
 @protocol UIEditableTableViewDelegate <NSObject, UITableViewDelegate>
 
--(void) tableView:(UITableView *)tableView renamePressedForItemAt: (NSIndexPath *) index;
+-(void) tableView:(UITableView *)tableView
+          renamed:(UITableViewCell *) selectedCell
+      fromOldName:(NSString *) categoryName
+        toNewName:(NSString *) newCategoryName;
 
 -(BOOL) shouldRenameCategory:(NSString *) categoryName;
 
