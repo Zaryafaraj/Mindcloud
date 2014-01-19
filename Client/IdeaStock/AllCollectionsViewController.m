@@ -349,16 +349,6 @@
         else
         {
             if ([[alertView buttonTitleAtIndex:buttonIndex]
-                      isEqualToString:RENAME_BUTTON_TITLE])
-            {
-            }
-            else if ([[alertView buttonTitleAtIndex:buttonIndex]
-                      isEqualToString:CREATE_CATEGORY_BUTTON])
-            {
-                NSString * newName = [[alertView textFieldAtIndex:0] text];
-                [self addNewCategory:newName];
-            }
-            else if ([[alertView buttonTitleAtIndex:buttonIndex]
                       isEqualToString:SUBSCRIBE_BUTTON_TITLE])
             {
                 NSString * sharingSecret =[[alertView textFieldAtIndex:0] text];
@@ -926,7 +916,8 @@
     return [self.model numberOfCategories] + 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"CategoryCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
@@ -958,14 +949,9 @@
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
     }
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The Name of The Category"
-                                                         message:nil
-                                                        delegate:self
-                                               cancelButtonTitle:@"Cancel"
-                                               otherButtonTitles:CREATE_CATEGORY_BUTTON, nil];
-        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-        [alert show];
+    else if (editingStyle == UITableViewCellEditingStyleInsert)
+    {
+        [self.categoriesController.table insertRowsAtIndexPaths:@[indexPath] withRowAnimation: UITableViewRowAnimationAutomatic];
     }
 }
 
