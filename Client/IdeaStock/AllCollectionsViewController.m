@@ -909,7 +909,8 @@
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section + 1 for add place holder
     //FIXME: a hack to add an empty cell below everything else so that the last cel won't get cut off
@@ -937,7 +938,9 @@
 
 
 // Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView
+commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
@@ -955,12 +958,14 @@
     }
 }
 
--(UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+-(UITableViewCellEditingStyle) tableView:(UITableView *)tableView
+           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UITableViewCell * cell = [self.categoriesController.table cellForRowAtIndexPath:indexPath];
+    NSString * selectedCellText = cell.textLabel.text;
     if (indexPath.item < [self.model numberOfCategories])
     {
         //its the edit place holder
-        NSString * selectedCellText = [self.categoriesController.table cellForRowAtIndexPath:indexPath].textLabel.text;
         //ALL and Uncategorized cateogires are uneditable
         if (![self.model isCategoryEditable:selectedCellText])
         {
@@ -973,7 +978,10 @@
         
     }
     else if (indexPath.item ==[self.model numberOfCategories] )
+    {
+        
         return UITableViewCellEditingStyleInsert;
+    }
     else
     {
         return UITableViewCellEditingStyleNone;

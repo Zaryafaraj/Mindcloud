@@ -75,6 +75,8 @@
 - (IBAction)editPressed:(id)sender {
     if (self.table.editing)
     {
+        
+        [self adjustCellsForEditMode:NO];
         [self.table setEditing:NO animated:YES];
         UIBarButtonItem * button = (UIBarButtonItem *) sender;
         button.style = UIBarButtonItemStyleBordered;
@@ -84,6 +86,7 @@
     }
     else
     {
+        [self adjustCellsForEditMode:YES];
         [self.table setEditing:YES animated:YES];
         UIBarButtonItem * button = (UIBarButtonItem *) sender;
         button.title = CANCEL_BUTTON_TITLE;
@@ -93,6 +96,40 @@
     }
 }
 
+-(void) adjustCellsForEditMode:(BOOL) isEditing
+{
+    for(UITableViewCell * cell in self.table.visibleCells)
+    {
+        if (isEditing)
+        {
+            cell.textLabel.hidden = YES;
+            [self addEditableTextFieldToTableCell:cell];
+        }
+        else
+        {
+            cell.textLabel.hidden = NO;
+            for(UIView * view in cell.textLabel.superview.subviews)
+            {
+                if([view isKindOfClass:[UITextField class]])
+                {
+                    [view removeFromSuperview];
+                }
+            }
+        }
+    }
+}
+
+-(void) addEditableTextFieldToTableCell:(UITableViewCell *) cell;
+{
+    
+    UITextField * textField = [[UITextField alloc] initWithFrame:cell.textLabel.frame];
+    textField.text = cell.textLabel.text;
+    textField.font = cell.textLabel.font;
+    textField.textColor = cell.textLabel.textColor;
+    textField.backgroundColor = cell.textLabel.backgroundColor;
+    textField.textAlignment = cell.textLabel.textAlignment;
+    [cell.textLabel.superview addSubview:textField];
+}
 - (IBAction)renamePressed:(id)sender
 {
     [self.delegate tableView:self.table renamePressedForItemAt:[self.table indexPathForSelectedRow]];
