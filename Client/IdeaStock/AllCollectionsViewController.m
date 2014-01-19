@@ -923,13 +923,14 @@
 {
     // Return the number of rows in the section + 1 for add place holder
     //FIXME: a hack to add an empty cell below everything else so that the last cel won't get cut off
-    return [self.model numberOfCategories] + 2;
+    return [self.model numberOfCategories] + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"CategoryCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    cell.backgroundColor = [[ThemeFactory currentTheme] colorForContainerBackground];
     if (indexPath.item < [self.model numberOfCategories])
     {
         //if its not the placeholder

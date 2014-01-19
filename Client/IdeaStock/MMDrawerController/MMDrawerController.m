@@ -21,7 +21,7 @@
 
 #import "MMDrawerController.h"
 #import "UIViewController+MMDrawerController.h"
-
+#import "ThemeFactory.h"
 #import <QuartzCore/QuartzCore.h>
 
 CGFloat const MMDrawerDefaultWidth = 280.0f;
@@ -639,7 +639,8 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
 - (void)viewDidLoad {
 	[super viewDidLoad];
 
-	[self.childControllerContainerView setBackgroundColor:[UIColor blackColor]];
+    UIColor * bgColor = [[ThemeFactory currentTheme] colorForContainerBackground];
+	[self.childControllerContainerView setBackgroundColor:bgColor];
 
 	[self setupGestureRecognizers];
 }

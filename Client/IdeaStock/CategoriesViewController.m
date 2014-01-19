@@ -53,8 +53,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.viewToolbar.layer.borderWidth = 1;
-    self.viewToolbar.layer.borderColor = [UIColor whiteColor].CGColor;
     
     self.table.dataSource = self.dataSource;
     self.table.delegate = self.delegate;

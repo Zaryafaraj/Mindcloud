@@ -70,4 +70,5 @@
 
 -(UIColor *) backgroundColorForEmptyCollectoinCell;
 
+-(UIColor *) colorForContainerBackground;
 @end

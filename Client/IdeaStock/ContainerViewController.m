@@ -27,7 +27,7 @@
         mainScreen.parent = self;
         CategoriesViewController * categoriesScreen = [storyboard instantiateViewControllerWithIdentifier:@"CategoriesViewController"];
         self.leftPanel = categoriesScreen;
-        
+        self.view.backgroundColor = [UIColor greenColor];
         //        mainScreen.categoriesController = categoriesScreen;
         self = [super initWithCenterViewController:mainScreen leftDrawerViewController:categoriesScreen];
         

@@ -189,4 +189,9 @@
     return aColor;
 }
 
+-(UIColor *) colorForContainerBackground
+{
+    UIColor * aColor = [UIColor colorWithWhite:0.1 alpha:1];
+    return aColor;
+}
 @end
