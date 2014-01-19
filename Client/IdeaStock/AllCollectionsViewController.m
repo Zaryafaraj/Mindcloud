@@ -973,6 +973,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         }
         else
         {
+            
             return UITableViewCellEditingStyleDelete;
         }
         
@@ -988,6 +989,17 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
+-(void) addEditableTextFieldToTableCell:(UITableViewCell *) cell;
+{
+    
+    UITextField * textField = [[UITextField alloc] initWithFrame:cell.textLabel.frame];
+    textField.text = cell.textLabel.text;
+    textField.font = cell.textLabel.font;
+    textField.textColor = cell.textLabel.textColor;
+    textField.backgroundColor = cell.textLabel.backgroundColor;
+    textField.textAlignment = cell.textLabel.textAlignment;
+    [cell addSubview:textField];
+}
 #pragma mark - action sheet delegate
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -1053,15 +1065,20 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 -(void) tableView:(UITableView *)tableView renamePressedForItemAt: (NSIndexPath *) index
 {
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The New Name of The Category"
-                                                     message:nil
-                                                    delegate:self
-                                           cancelButtonTitle:@"Cancel"
-                                           otherButtonTitles:RENAME_BUTTON_TITLE, nil];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    self.didCategoriesPresentAlertView = YES;
-    [alert show];
+//    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Enter The New Name of The Category"
+//                                                     message:nil
+//                                                    delegate:self
+//                                           cancelButtonTitle:@"Cancel"
+//                                           otherButtonTitles:RENAME_BUTTON_TITLE, nil];
+//    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+//    self.didCategoriesPresentAlertView = YES;
+//    [alert show];
     
+}
+
+-(BOOL) shouldRenameCategory:(NSString *)categoryName
+{
+    return [self.model isCategoryEditable:categoryName];
 }
 
 #pragma mark - pop over delegate

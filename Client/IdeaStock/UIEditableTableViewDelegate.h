@@ -12,4 +12,6 @@
 
 -(void) tableView:(UITableView *)tableView renamePressedForItemAt: (NSIndexPath *) index;
 
+-(BOOL) shouldRenameCategory:(NSString *) categoryName;
+
 @end

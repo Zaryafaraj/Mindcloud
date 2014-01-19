@@ -26,6 +26,7 @@
 
 -(void) setDelegate:(id<UIEditableTableViewDelegate>)delegate
 {
+    _delegate = delegate;
     self.table.delegate = delegate;
 }
 
@@ -100,7 +101,14 @@
 {
     for(UITableViewCell * cell in self.table.visibleCells)
     {
-        if (isEditing)
+        NSString * categoryName = cell.textLabel.text;
+        BOOL shouldRename = NO;
+        id<UIEditableTableViewDelegate> temp = self.delegate;
+        if (temp)
+        {
+            shouldRename = [temp shouldRenameCategory:categoryName];
+        }
+        if (isEditing && shouldRename)
         {
             cell.textLabel.hidden = YES;
             [self addEditableTextFieldToTableCell:cell];
@@ -128,8 +136,10 @@
     textField.textColor = cell.textLabel.textColor;
     textField.backgroundColor = cell.textLabel.backgroundColor;
     textField.textAlignment = cell.textLabel.textAlignment;
+    textField.delegate = self;
     [cell.textLabel.superview addSubview:textField];
 }
+
 - (IBAction)renamePressed:(id)sender
 {
     [self.delegate tableView:self.table renamePressedForItemAt:[self.table indexPathForSelectedRow]];

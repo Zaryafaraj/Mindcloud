@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UIEditableTableViewDelegate.h"
-@interface CategoriesViewController: UIViewController
+@interface CategoriesViewController: UIViewController <UITextFieldDelegate>
 
 @property (weak,nonatomic) id<UITableViewDataSource> dataSource;
 @property (weak, nonatomic) id<UIEditableTableViewDelegate> delegate;
