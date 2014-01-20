@@ -14,6 +14,8 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *viewToolbar;
 @property (strong, nonatomic) NSArray * editToolbarItems;
 @property (strong, nonatomic) NSArray * navigateToolbarItems;
+@property (strong, nonatomic) UITapGestureRecognizer * tgr;
+@property (weak, nonatomic) UITextField * activeTextField;
 
 @end
 
@@ -51,6 +53,14 @@
     return _renameMode;
 }
 
+-(void) screenTapped:(UITapGestureRecognizer *) gr
+{
+    if (self.table.editing)
+    {
+        [self resignFirstResponder];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -58,6 +68,10 @@
     self.table.dataSource = self.dataSource;
     self.table.delegate = self.delegate;
     
+    UITapGestureRecognizer * gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(screenTapped:)];
+    gestureRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:gestureRecognizer];
+    self.tgr = gestureRecognizer;
     self.editToolbarItems = [self.viewToolbar.items copy];
     NSMutableArray * tempToolbar = [self.viewToolbar.items mutableCopy];
     for(UIBarButtonItem * button in tempToolbar)
@@ -170,4 +184,16 @@
     }
 }
 
+-(void) textFieldDidBeginEditing:(UITextField *)textField
+{
+    self.tgr.cancelsTouchesInView = YES;
+    self.activeTextField = textField;
+}
+
+-(BOOL) resignFirstResponder
+{
+    [super resignFirstResponder];
+    [self.activeTextField resignFirstResponder];
+    return YES;
+}
 @end

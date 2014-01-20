@@ -190,12 +190,6 @@
                                             <action selector="editPressed:" destination="Qqu-fd-gph" id="hle-2W-qd5"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem enabled="NO" title="Rename" id="p9a-ai-bDc">
-                                        <color key="tintColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="renamePressed:" destination="Qqu-fd-gph" id="RY8-7B-VBf"/>
-                                        </connections>
-                                    </barButtonItem>
                                 </items>
                                 <color key="barTintColor" white="0.10000000000000001" alpha="1" colorSpace="calibratedWhite"/>
                             </toolbar>
