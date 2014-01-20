@@ -232,6 +232,7 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="gLP-Yc-r7I"/>
                     <connections>
+                        <outlet property="editButton" destination="DGJ-d8-OJF" id="kRg-xj-7t9"/>
                         <outlet property="table" destination="bN0-Hu-7hX" id="0fN-Gs-qGl"/>
                         <outlet property="viewToolbar" destination="F1S-Wy-gGz" id="GaF-Yh-xif"/>
                     </connections>

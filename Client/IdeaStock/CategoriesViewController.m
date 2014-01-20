@@ -16,6 +16,7 @@
 @property (strong, nonatomic) NSArray * navigateToolbarItems;
 @property (strong, nonatomic) UITapGestureRecognizer * tgr;
 @property (weak, nonatomic) UITextField * activeTextField;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
 
 @end
 
@@ -195,5 +196,12 @@
     [super resignFirstResponder];
     [self.activeTextField resignFirstResponder];
     return YES;
+}
+
+-(void) viewWillDisappear:(BOOL)animated
+{
+    [self resignFirstResponder];
+    [self editPressed:self.editButton];
+    self.tgr.cancelsTouchesInView = NO;
 }
 @end
