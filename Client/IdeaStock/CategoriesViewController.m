@@ -201,7 +201,10 @@
 -(void) viewWillDisappear:(BOOL)animated
 {
     [self resignFirstResponder];
-    [self editPressed:self.editButton];
+    if (self.table.editing)
+    {
+        [self editPressed:self.editButton];
+    }
     self.tgr.cancelsTouchesInView = NO;
 }
 @end
