@@ -957,6 +957,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [self.categoriesController.table cellForRowAtIndexPath:indexPath];
     NSString * selectedCellText = cell.textLabel.text;
+    int totalNumber = [self.categoriesController.table numberOfRowsInSection:0];
     if (indexPath.item < [self.model numberOfCategories])
     {
         //its the edit place holder
@@ -972,7 +973,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         }
         
     }
-    else if (indexPath.item ==[self.model numberOfCategories] )
+    else if (indexPath.item == totalNumber - 1)
     {
         
         return UITableViewCellEditingStyleInsert;

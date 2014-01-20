@@ -175,6 +175,9 @@
     UITableViewCell * cell = (UITableViewCell *)((UIView *)((UIView *)textField.superview).superview).superview;
     NSString * beforeText = cell.textLabel.text;
     NSString * newText = textField.text;
+    
+    if ([beforeText isEqualToString:newText]) return;
+    
     id<UIEditableTableViewDelegate> temp = self.delegate;
     if (temp)
     {
