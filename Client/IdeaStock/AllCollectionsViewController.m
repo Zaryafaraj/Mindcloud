@@ -948,7 +948,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert)
     {
-        [self.categoriesController.table insertRowsAtIndexPaths:@[indexPath] withRowAnimation: UITableViewRowAnimationAutomatic];
+        //[self.categoriesController enablePlacehoderForAdd];
     }
 }
 

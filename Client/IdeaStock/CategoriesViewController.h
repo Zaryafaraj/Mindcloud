@@ -12,7 +12,9 @@
 
 @property (weak,nonatomic) id<UITableViewDataSource> dataSource;
 @property (weak, nonatomic) id<UIEditableTableViewDelegate> delegate;
+
 @property (weak, nonatomic) IBOutlet UITableView *table;
+
 @property BOOL renameMode;
 -(void) exitEditMode;
 
