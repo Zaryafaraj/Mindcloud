@@ -11,8 +11,6 @@
 #import "PaperTableAnimator.h"
 #import "ExpandableCenteredTableLayoutManager.h"
 #import "NoteRow.h"
-#import "AwesomeMenu.h"
-#import "AwesomeMenuItem.h"
 #import "StubListTableViewDatasource.h"
 
 @interface CollectionViewController ()
@@ -65,22 +63,22 @@
     }
     
     UIView<ListRowProtocol> * row = [self addRowToTop];
-    AwesomeMenu * contextualMenu = [self createContextualMenu:row];
-    row.contextualMenu = contextualMenu;
+//    AwesomeMenu * contextualMenu = [self createContextualMenu:row];
+//    row.contextualMenu = contextualMenu;
 
-    NSDictionary * viewsDictionary = NSDictionaryOfVariableBindings(contextualMenu, row);
-    CGFloat distance = [self.layoutManager distanceFromRowToContextualMenu];
-    NSString * layoutFormat = [NSString stringWithFormat:@"[row]->=%f-[contextualMenu]", distance];
-    NSArray * constraints = [NSLayoutConstraint constraintsWithVisualFormat:layoutFormat
-                                                                    options:NSLayoutFormatAlignAllCenterY
-                                                                    metrics:nil
-                                                                      views:viewsDictionary];
-    
-    [self.scrollView addSubview:contextualMenu];
-    [contextualMenu setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraints:constraints];
-    [self.animationManager animateAdditionForContextualMenu:contextualMenu
-                                                inSuperView:self.scrollView];
+//    NSDictionary * viewsDictionary = NSDictionaryOfVariableBindings(contextualMenu, row);
+//    CGFloat distance = [self.layoutManager distanceFromRowToContextualMenu];
+//    NSString * layoutFormat = [NSString stringWithFormat:@"[row]->=%f-[contextualMenu]", distance];
+//    NSArray * constraints = [NSLayoutConstraint constraintsWithVisualFormat:layoutFormat
+//                                                                    options:NSLayoutFormatAlignAllCenterY
+//                                                                    metrics:nil
+//                                                                      views:viewsDictionary];
+//    
+//    [self.scrollView addSubview:contextualMenu];
+//    [contextualMenu setTranslatesAutoresizingMaskIntoConstraints:NO];
+//    [self.view addConstraints:constraints];
+//    [self.animationManager animateAdditionForContextualMenu:contextualMenu
+//                                                inSuperView:self.scrollView];
 }
 
 -(AwesomeMenu *) createContextualMenu:(UIView<ListRowProtocol> *) row
@@ -97,40 +95,41 @@
     UIImage * buttonContent = [theme getContextualMenuButtonContent];
     UIImage * buttonContentHighlighted = [theme getContextualMenuButtonContentHighlighted];
     
-    AwesomeMenuItem * doneItem = [[AwesomeMenuItem alloc] initWithImage:background
-                                                       highlightedImage:backgroundHighlighted
-                                                           ContentImage:doneContent
-                                                highlightedContentImage:nil];
-    
-    AwesomeMenuItem * expandItem = [[AwesomeMenuItem alloc] initWithImage:background
-                                                         highlightedImage:backgroundHighlighted
-                                                             ContentImage:expandContent
-                                                  highlightedContentImage:nil];
-    
-    AwesomeMenuItem * clockItem = [[AwesomeMenuItem alloc] initWithImage:background
-                                                        highlightedImage:backgroundHighlighted
-                                                            ContentImage:clockContent
-                                                 highlightedContentImage:nil];
-    
-    AwesomeMenuItem * startItem = [[AwesomeMenuItem alloc] initWithImage:background
-                                                        highlightedImage:backgroundHighlighted
-                                                            ContentImage:startContent
-                                                 highlightedContentImage:nil];
-    
-    CGRect contextualMenuFrame = [self.layoutManager frameForContextualMenuInRow:row];
-    AwesomeMenu * menu = [[AwesomeMenu alloc] initWithFrame:contextualMenuFrame
-                                                      menus:@[doneItem, expandItem, clockItem, startItem]
-                                            backgroundImage:buttonBackgroundImage
-                                 backgroundImageHighlighted:buttonBackgroundImageHighlighted
-                                               contentImage:buttonContent
-                                           highlightedImage:buttonContentHighlighted];
-    menu.endRadius = 50.0f;
-    menu.farRadius = 80.0f;
-    menu.nearRadius = 30.0f;
-    menu.frame = contextualMenuFrame;
-    menu.startPoint = CGPointMake(0, 0);
-    
-    return menu;
+//    AwesomeMenuItem * doneItem = [[AwesomeMenuItem alloc] initWithImage:background
+//                                                       highlightedImage:backgroundHighlighted
+//                                                           ContentImage:doneContent
+//                                                highlightedContentImage:nil];
+//    
+//    AwesomeMenuItem * expandItem = [[AwesomeMenuItem alloc] initWithImage:background
+//                                                         highlightedImage:backgroundHighlighted
+//                                                             ContentImage:expandContent
+//                                                  highlightedContentImage:nil];
+//    
+//    AwesomeMenuItem * clockItem = [[AwesomeMenuItem alloc] initWithImage:background
+//                                                        highlightedImage:backgroundHighlighted
+//                                                            ContentImage:clockContent
+//                                                 highlightedContentImage:nil];
+//    
+//    AwesomeMenuItem * startItem = [[AwesomeMenuItem alloc] initWithImage:background
+//                                                        highlightedImage:backgroundHighlighted
+//                                                            ContentImage:startContent
+//                                                 highlightedContentImage:nil];
+//    
+//    CGRect contextualMenuFrame = [self.layoutManager frameForContextualMenuInRow:row];
+//    AwesomeMenu * menu = [[AwesomeMenu alloc] initWithFrame:contextualMenuFrame
+//                                                      menus:@[doneItem, expandItem, clockItem, startItem]
+//                                            backgroundImage:buttonBackgroundImage
+//                                 backgroundImageHighlighted:buttonBackgroundImageHighlighted
+//                                               contentImage:buttonContent
+//                                           highlightedImage:buttonContentHighlighted];
+//    menu.endRadius = 50.0f;
+//    menu.farRadius = 80.0f;
+//    menu.nearRadius = 30.0f;
+//    menu.frame = contextualMenuFrame;
+//    menu.startPoint = CGPointMake(0, 0);
+//    
+//    return menu;
+    return nil;
 }
 
 -(void) scrollViewTapped:(UISwipeGestureRecognizer *) sender

@@ -10,31 +10,31 @@
 	<string>Mindcloud</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>E5B89BE1-CD76-47D2-889A-EA72C8AC4E37</key>
+		<key>3F230603B714D32CC90DEDA0AA3A75E79A71A5F8</key>
 		<string>https://github.com/Fathalian/Mindcloud.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Client/Mindcloud.xcodeproj/project.xcworkspace</string>
+	<string>Client/Mindcloud.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>E5B89BE1-CD76-47D2-889A-EA72C8AC4E37</key>
+		<key>3F230603B714D32CC90DEDA0AA3A75E79A71A5F8</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/Fathalian/Mindcloud.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>E5B89BE1-CD76-47D2-889A-EA72C8AC4E37</string>
+	<string>3F230603B714D32CC90DEDA0AA3A75E79A71A5F8</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>E5B89BE1-CD76-47D2-889A-EA72C8AC4E37</string>
+			<string>3F230603B714D32CC90DEDA0AA3A75E79A71A5F8</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Mindcloud</string>
+			<string>MindCloud</string>
 		</dict>
 	</array>
 </dict>

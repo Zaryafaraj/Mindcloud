@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define MINDCLOUD_BASE_URL @"http://192.168.1.6:8000/"
+#define MINDCLOUD_BASE_URL @"http://192.168.1.5:8000/"
 //@"http://192.168.1.6:8000/"
 //@"http://10.200.187.18:8000/"
 //@"http://192.168.1.57:8000/"

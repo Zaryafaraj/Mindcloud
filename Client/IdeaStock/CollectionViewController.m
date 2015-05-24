@@ -2384,16 +2384,24 @@ intoStackingWithMainView: (UIView *) mainView
         {
             
             imagePicker.modalPresentationCapturesStatusBarAppearance = NO;
-            [self presentViewController:imagePicker animated:YES completion:^{}];
-            imagePicker.delegate = self;
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self presentViewController:imagePicker animated:YES completion:^{}];
+                imagePicker.delegate = self;
+            }];
+
+
         }
     }
     else if (buttonIndex == 1)
     {
         imagePicker = [MultimediaHelper getLibraryController];
         imagePicker.delegate = self;
-        imagePicker.modalPresentationCapturesStatusBarAppearance = NO;
-        [self presentViewController:imagePicker animated:YES completion:^{}];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self presentViewController:imagePicker animated:YES completion:nil];
+        }];
+//        imagePicker.modalPresentationCapturesStatusBarAppearance = NO;
+//        [self presentViewController:imagePicker animated:YES completion:nil];
+
         //        UIPopoverController * presenter =
         //        [[UIPopoverController alloc] initWithContentViewController:imagePicker];
         // self.lastPopOver = presenter;

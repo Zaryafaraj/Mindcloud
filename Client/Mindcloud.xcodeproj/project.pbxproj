@@ -1151,7 +1151,7 @@
 			name = MindcloudTests;
 			productName = IdeaStockTests;
 			productReference = D7A53D0D1522F39500183CB6 /* MindcloudTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 

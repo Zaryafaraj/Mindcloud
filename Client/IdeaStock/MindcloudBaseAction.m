@@ -85,6 +85,7 @@
     //The default method for the request is GET
     //we expect to recieve JSON
     NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:self.request delegate:self];
+    [self.request setHTTPMethod:@"GET"];
     if (!theConnection)
     {
         NSLog(@"Failed to connect to %@", self.request.URL);

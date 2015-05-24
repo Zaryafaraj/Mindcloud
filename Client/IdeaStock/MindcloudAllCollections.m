@@ -207,11 +207,13 @@
         else if ([second isEqualToString:SHARED_COLLECTIONS_KEY])
         {
             return NSOrderedDescending;
+        } else {
+            return NSOrderedDescending;
         }
-        else
-        {
-            return (int)[[first lowercaseString] compare:[second lowercaseString]];
-        }
+//        else
+//        {
+//            //return (int)[[first lowercaseString] compare:[second lowercaseString]];
+//        }
     }];
     return answer;
 }
@@ -254,7 +256,7 @@
         }
         else
         {
-            return (int)[[first lowercaseString] compare:[second lowercaseString]];
+            return NSOrderedDescending;
         }
     }];
     return answer;
